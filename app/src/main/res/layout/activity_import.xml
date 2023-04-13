@@ -30,13 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            android:scaleX="3"
-            android:scaleY="3"
             android:visibility="gone"
+            app:indicatorSize="104dp"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintEnd_toEndOf="@id/image"
             app:layout_constraintStart_toStartOf="@id/image"
             app:layout_constraintTop_toTopOf="@id/image"
+            app:trackCornerRadius="4dp"
+            app:trackThickness="4dp"
             tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -57,10 +58,10 @@
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:paddingHorizontal="32dp"
             android:paddingVertical="24dp"
             android:text="@string/choose_account"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/welcome_text" />
