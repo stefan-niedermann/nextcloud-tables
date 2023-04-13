@@ -1,3 +1,7 @@
+# ⚠️⚠️⚠️ Early Alpha ⚠️⚠️⚠️
+
+***This app is currently under heavy development. It is not yet able to view or manage data. Use at your own risc!***
+
 # Nextcloud Tables for Android
 
 [![Android CI](https://github.com/stefan-niedermann/nextcloud-tables/workflows/Android%20CI/badge.svg)](https://github.com/stefan-niedermann/nextcloud-tables/actions)
