@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/simple_synchronization">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_baseline_network_wifi_24"
+            android:key="@string/pref_key_sync_only_wifi"
+            android:title="@string/pref_title_sync_only_wifi" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_baseline_sync_24"
+            android:key="@string/pref_key_sync_background"
+            android:title="@string/pref_title_sync_background" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/simple_appearance">
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/pref_values_theme"
+            android:icon="@drawable/baseline_brightness_2_24"
+            android:key="@string/pref_key_theme"
+            android:title="@string/pref_title_theme" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/edit_table"
+        android:orderInCategory="10"
+        android:title="@string/edit_table"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/share_table"
+        android:orderInCategory="20"
+        android:title="@string/share_table"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/edit_columns"
+        android:orderInCategory="30"
+        android:title="@string/edit_columns"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete_table"
+        android:orderInCategory="30"
+        android:title="@string/delete_table"
+        app:showAsAction="never" />
+</menu>
