@@ -128,4 +128,5 @@
     <string name="url_fragment_install_tables" translatable="false">/index.php/settings/apps/organization/tables</string>
     <string name="url_fragment_server_logs" translatable="false">/index.php/settings/admin/logging</string>
     <string name="simple_appearance">Appearance</string>
+    <string name="welcome_text">Welcome to Nextcloud Tables</string>
 </resources>

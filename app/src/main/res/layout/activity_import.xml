@@ -44,13 +44,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/spacer_3x"
             android:layout_marginBottom="48dp"
             android:gravity="center_horizontal"
+            android:text="@string/welcome_text"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image"
-            tools:text="Welcome to Nextcloud Tables" />
+            app:layout_constraintTop_toBottomOf="@id/image" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_button"
