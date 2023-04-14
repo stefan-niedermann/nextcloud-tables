@@ -4,6 +4,7 @@
     <dimen name="spacer_1x">8dp</dimen>
     <dimen name="spacer_2x">16dp</dimen>
     <dimen name="spacer_3x">24dp</dimen>
+    <dimen name="spacer_4x">32dp</dimen>
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

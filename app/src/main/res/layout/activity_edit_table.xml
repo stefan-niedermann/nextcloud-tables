@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/spacer_1x"
+        android:enabled="false"
         android:maxLength="2"
         android:text="🙂"
         app:layout_constraintBottom_toBottomOf="@id/titleWrapper"
@@ -38,10 +39,11 @@
         android:id="@+id/titleWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:hint="@string/simple_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/emoji"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/appbar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/title"
@@ -53,6 +55,7 @@
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/simple_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleWrapper" />
