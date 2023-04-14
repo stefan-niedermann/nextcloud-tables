@@ -129,4 +129,8 @@
     <string name="url_fragment_server_logs" translatable="false">/index.php/settings/admin/logging</string>
     <string name="simple_appearance">Appearance</string>
     <string name="welcome_text">Welcome to Nextcloud Tables</string>
+    <string name="importing_account">Importing account %1$s</string>
+    <string name="account_already_imported">Account is already imported</string>
+    <string name="import_state_import_account">Importing account</string>
+    <string name="import_state_import_tables">Importing tables. This may take several minutes.</string>
 </resources>

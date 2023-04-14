@@ -5,6 +5,7 @@ import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
@@ -48,6 +48,10 @@ public class ImportAccountActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            binding.image.setClipToOutline(true);
+        }
+
         importAccountViewModel.getImportState().observe(this, this::applyImportState);
         binding.addButton.setOnClickListener(this::onAddButtonClicked);
     }
@@ -68,7 +72,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 setAvatar(state.account);
                 binding.progressCircular.setVisibility(View.VISIBLE);
                 binding.progressText.setVisibility(View.VISIBLE);
-                binding.progressText.setText("Importing account");
+                binding.progressText.setText(R.string.import_state_import_account);
                 binding.addButton.setEnabled(false);
                 break;
             }
@@ -76,7 +80,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 setAvatar(state.account);
                 binding.progressCircular.setVisibility(View.VISIBLE);
                 binding.progressText.setVisibility(View.VISIBLE);
-                binding.progressText.setText("Importing tables. This may take several minutes.");
+                binding.progressText.setText(R.string.import_state_import_tables);
                 binding.addButton.setEnabled(false);
                 break;
             }
@@ -96,10 +100,15 @@ public class ImportAccountActivity extends AppCompatActivity {
                 binding.addButton.setEnabled(true);
 
                 if (state.error instanceof SQLiteConstraintException) {
-                    binding.progressText.setText("Account is already imported");
+                    binding.progressText.setText(R.string.account_already_imported);
                 } else {
-                    binding.progressText.setText(state.error.getMessage());
-                    state.error.printStackTrace();
+                    if (state.error != null) {
+                        binding.progressText.setText(state.error.getMessage());
+                        state.error.printStackTrace();
+                    } else {
+                        binding.progressText.setText(R.string.hint_error_appeared);
+                        new IllegalStateException("Received error state while importing, but exception was null").printStackTrace();
+                    }
                 }
                 break;
             }
@@ -112,13 +121,11 @@ public class ImportAccountActivity extends AppCompatActivity {
         if (account == null) {
             throw new NullPointerException();
         }
-        binding.progressText.setText("Importing account" + account.getDisplayName());
+        binding.progressText.setText(getString(R.string.importing_account, account.getDisplayName()));
         Glide.with(binding.image)
                 .load(account.getAvatarUrl(binding.image.getWidth()))
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
-                .apply(RequestOptions.centerCropTransform())
-                .apply(RequestOptions.circleCropTransform())
                 .into(binding.image);
     }
 
