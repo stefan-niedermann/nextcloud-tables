@@ -35,6 +35,7 @@ import java.util.List;
 import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
@@ -69,7 +70,33 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
     }
 
     public void setThrowable(@NonNull Context context, @Nullable Account account, @NonNull Throwable throwable) {
-        if (throwable instanceof TokenMismatchException) {
+        if (throwable instanceof ServerNotAvailableException) {
+            switch (((ServerNotAvailableException) throwable).getReason()) {
+                case NOT_INSTALLED:
+
+                    break;
+                case NOT_ENABLED:
+
+                    break;
+                case MAINTENANCE_MODE:
+
+                    break;
+                case SERVER_ERROR:
+
+                    break;
+                case TABLES_NOT_SUPPORTED:
+
+                    break;
+                case NEXTCLOUD_NOT_SUPPORTED:
+
+                    break;
+                case UNKNOWN:
+                default:
+                    add(R.string.error_dialog_tip_clear_storage_might_help);
+                    add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
+                    break;
+            }
+        } else if (throwable instanceof TokenMismatchException) {
             add(R.string.error_dialog_tip_token_mismatch_retry);
             add(R.string.error_dialog_tip_clear_storage_might_help);
             add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
