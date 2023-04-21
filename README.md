@@ -29,6 +29,15 @@ height="80">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_
 alt="Donate using Liberapay"
 height="80">](https://liberapay.com/stefan-niedermann/donate)
 
+## ⛔ Limitations
+
+- Viewing cell data is not possible yet
+- Can still handle 1000 rows at most
+- No write access
+- Sync only on Wi-Fi has no effect yet
+- Does not yet apply the theme of the used Nextcloud instance
+- Visual glitches like wrong colors
+
 ## 👀 Screenshots
 
 | List View                                                                                  | Card View                                                                             |
