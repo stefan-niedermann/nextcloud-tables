@@ -20,7 +20,7 @@
             android:defaultValue="-1"
             android:entries="@array/theme_entries"
             android:entryValues="@array/pref_values_theme"
-            android:icon="@drawable/baseline_brightness_2_24"
+            android:icon="@drawable/ic_baseline_brightness_2_24"
             android:key="@string/pref_key_theme"
             android:title="@string/pref_title_theme" />
     </PreferenceCategory>
