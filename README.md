@@ -2,6 +2,15 @@
 
 ***This app is currently under heavy development. It is not yet able to view or manage data. Use at your own risc!***
 
+## ⛔ Limitations
+
+- Viewing cell data is not possible yet
+- Can still handle 1000 rows at most
+- No write access
+- Sync only on Wi-Fi has no effect yet
+- Does not yet apply the theme of the used Nextcloud instance
+- Visual glitches like wrong colors
+
 # Nextcloud Tables for Android
 
 [![Android CI](https://github.com/stefan-niedermann/nextcloud-tables/workflows/Android%20CI/badge.svg)](https://github.com/stefan-niedermann/nextcloud-tables/actions)
@@ -28,15 +37,6 @@ height="80">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_
 [<img src="https://raw.githubusercontent.com/stefan-niedermann/DonateButtons/master/LiberaPay.png"
 alt="Donate using Liberapay"
 height="80">](https://liberapay.com/stefan-niedermann/donate)
-
-## ⛔ Limitations
-
-- Viewing cell data is not possible yet
-- Can still handle 1000 rows at most
-- No write access
-- Sync only on Wi-Fi has no effect yet
-- Does not yet apply the theme of the used Nextcloud instance
-- Visual glitches like wrong colors
 
 ## 👀 Screenshots
 
