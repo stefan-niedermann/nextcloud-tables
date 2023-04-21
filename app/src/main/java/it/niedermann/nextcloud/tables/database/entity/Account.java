@@ -13,13 +13,13 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
 
 import java.util.Objects;
 
 import it.niedermann.nextcloud.sso.glide.SingleSignOnUrl;
 import it.niedermann.nextcloud.tables.model.NextcloudVersion;
 import it.niedermann.nextcloud.tables.model.TablesVersion;
-import it.niedermann.nextcloud.tables.model.Version;
 
 @Entity(
         inheritSuperIndices = true,
@@ -78,14 +78,14 @@ public class Account extends AbstractEntity {
     /**
      * @return The {@link #getAvatarUrl(int, String)} of this {@link Account}
      */
-    public SingleSignOnUrl getAvatarUrl(@Px int size) {
+    public GlideUrl getAvatarUrl(@Px int size) {
         return getAvatarUrl(size, getUserName());
     }
 
     /**
-     * @return a {@link SingleSignOnUrl} to fetch the avatar of the given <code>userName</code> from the instance of this {@link Account} via {@link Glide}.
+     * @return a {@link GlideUrl} to fetch the avatar of the given <code>userName</code> from the instance of this {@link Account} via {@link Glide}.
      */
-    public SingleSignOnUrl getAvatarUrl(@Px int size, @NonNull String userName) {
+    public GlideUrl getAvatarUrl(@Px int size, @NonNull String userName) {
         return new SingleSignOnUrl(getAccountName(), getUrl() + "/index.php/avatar/" + Uri.encode(userName) + "/" + size);
     }
 

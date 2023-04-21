@@ -32,6 +32,8 @@ public class Column extends AbstractRemoteEntity {
     @SerializedName("tableId")
     private long remoteTableId;
     @ColumnInfo(defaultValue = "")
+    private String title = "";
+    @ColumnInfo(defaultValue = "")
     private String createdBy;
     private Instant createdAt;
     @ColumnInfo(defaultValue = "")
@@ -54,8 +56,8 @@ public class Column extends AbstractRemoteEntity {
     private String textDefault;
     private String textAllowedPattern;
     private Integer textMaxLength;
-    private String selectionOptions;
-    private Integer selectionDefault;
+    //    private List<String> selectionOptions;
+    private String selectionDefault;
     private String datetimeDefault;
 
     public Column() {
@@ -76,6 +78,14 @@ public class Column extends AbstractRemoteEntity {
 
     public void setRemoteTableId(long remoteTableId) {
         this.remoteTableId = remoteTableId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getCreatedBy() {
@@ -222,19 +232,19 @@ public class Column extends AbstractRemoteEntity {
         this.textMaxLength = textMaxLength;
     }
 
-    public String getSelectionOptions() {
-        return selectionOptions;
-    }
+//    public List<String> getSelectionOptions() {
+//        return selectionOptions;
+//    }
+//
+//    public void setSelectionOptions(List<String> selectionOptions) {
+//        this.selectionOptions = selectionOptions;
+//    }
 
-    public void setSelectionOptions(String selectionOptions) {
-        this.selectionOptions = selectionOptions;
-    }
-
-    public Integer getSelectionDefault() {
+    public String getSelectionDefault() {
         return selectionDefault;
     }
 
-    public void setSelectionDefault(Integer selectionDefault) {
+    public void setSelectionDefault(String selectionDefault) {
         this.selectionDefault = selectionDefault;
     }
 
@@ -252,11 +262,11 @@ public class Column extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Column column = (Column) o;
-        return tableId == column.tableId && remoteTableId == column.remoteTableId && mandatory == column.mandatory && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && Objects.equals(type, column.type) && Objects.equals(subtype, column.subtype) && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(numberDefault, column.numberDefault) && Objects.equals(numberMin, column.numberMin) && Objects.equals(numberMax, column.numberMax) && Objects.equals(numberDecimals, column.numberDecimals) && Objects.equals(numberPrefix, column.numberPrefix) && Objects.equals(numberSuffix, column.numberSuffix) && Objects.equals(textDefault, column.textDefault) && Objects.equals(textAllowedPattern, column.textAllowedPattern) && Objects.equals(textMaxLength, column.textMaxLength) && Objects.equals(selectionOptions, column.selectionOptions) && Objects.equals(selectionDefault, column.selectionDefault) && Objects.equals(datetimeDefault, column.datetimeDefault);
+        return tableId == column.tableId && remoteTableId == column.remoteTableId && mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && Objects.equals(type, column.type) && Objects.equals(subtype, column.subtype) && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(numberDefault, column.numberDefault) && Objects.equals(numberMin, column.numberMin) && Objects.equals(numberMax, column.numberMax) && Objects.equals(numberDecimals, column.numberDecimals) && Objects.equals(numberPrefix, column.numberPrefix) && Objects.equals(numberSuffix, column.numberSuffix) && Objects.equals(textDefault, column.textDefault) && Objects.equals(textAllowedPattern, column.textAllowedPattern) && Objects.equals(textMaxLength, column.textMaxLength) && Objects.equals(selectionDefault, column.selectionDefault) && Objects.equals(datetimeDefault, column.datetimeDefault);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tableId, remoteTableId, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionOptions, selectionDefault, datetimeDefault);
+        return Objects.hash(super.hashCode(), tableId, remoteTableId, title, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionDefault, datetimeDefault);
     }
 }

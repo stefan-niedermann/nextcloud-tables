@@ -23,6 +23,8 @@ public class ServerNotAvailableException extends Exception {
         NOT_ENABLED,
         MAINTENANCE_MODE,
         SERVER_ERROR,
+        TABLES_NOT_SUPPORTED,
+        NEXTCLOUD_NOT_SUPPORTED,
         UNKNOWN
     }
 }

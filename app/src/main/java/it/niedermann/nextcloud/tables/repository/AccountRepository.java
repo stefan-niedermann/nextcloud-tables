@@ -115,18 +115,26 @@ public class AccountRepository {
                         break;
                 }
 
-                // TODO https://github.com/nextcloud/tables/issues/7#issuecomment-1495462049
-                // final var tablesNode = body.ocs.data.capabilities.tables;
-                // if (tablesNode == null) {
-                //     throw new ServerNotAvailableException(ServerNotAvailableException.Reason.NOT_INSTALLED);
-                // }
-                // if (!tablesNode.enabled) {
-                //     throw new ServerNotAvailableException(ServerNotAvailableException.Reason.NOT_ENABLED);
-                // }
-                // account.setTablesVersion(TablesVersion.parse(tablesNode.version));
-                account.setTablesVersion(TablesVersion.of(body.ocs.data.version));
+                final var nextcloudVersion = NextcloudVersion.of(body.ocs.data.version);
+                if (!nextcloudVersion.isSupported()) {
+                    throw new ServerNotAvailableException(ServerNotAvailableException.Reason.TABLES_NOT_SUPPORTED);
+                }
 
-                account.setNextcloudVersion(NextcloudVersion.of(body.ocs.data.version));
+                final var tablesNode = body.ocs.data.capabilities.tables;
+                if (tablesNode == null) {
+                    throw new ServerNotAvailableException(ServerNotAvailableException.Reason.NOT_INSTALLED);
+                }
+                if (!tablesNode.enabled) {
+                    throw new ServerNotAvailableException(ServerNotAvailableException.Reason.NOT_ENABLED);
+                }
+
+                final var tablesVersion = TablesVersion.parse(tablesNode.version);
+                if (!tablesVersion.isSupported()) {
+                    throw new ServerNotAvailableException(ServerNotAvailableException.Reason.TABLES_NOT_SUPPORTED);
+                }
+
+                account.setTablesVersion(tablesVersion);
+                account.setNextcloudVersion(nextcloudVersion);
                 account.setETag(response.headers().get("ETag"));
                 account.setColor(Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(body.ocs.data.capabilities.theming.color)));
                 break;
@@ -138,7 +146,7 @@ public class AccountRepository {
             }
 
             default: {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException(response.message()));
             }
         }
     }

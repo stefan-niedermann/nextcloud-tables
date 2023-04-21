@@ -9,10 +9,12 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import it.niedermann.nextcloud.tables.database.converter.DBStatusConverter;
+import it.niedermann.nextcloud.tables.database.converter.DataConverter;
 import it.niedermann.nextcloud.tables.database.converter.InstantConverter;
 import it.niedermann.nextcloud.tables.database.converter.VersionConverter;
 import it.niedermann.nextcloud.tables.database.dao.AccountDao;
 import it.niedermann.nextcloud.tables.database.dao.ColumnDao;
+import it.niedermann.nextcloud.tables.database.dao.DataDao;
 import it.niedermann.nextcloud.tables.database.dao.RowDao;
 import it.niedermann.nextcloud.tables.database.dao.TableDao;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -33,7 +35,8 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 @TypeConverters({
         InstantConverter.class,
         DBStatusConverter.class,
-        VersionConverter.class
+        VersionConverter.class,
+        DataConverter.class
 })
 public abstract class TablesDatabase extends RoomDatabase {
 
@@ -65,4 +68,6 @@ public abstract class TablesDatabase extends RoomDatabase {
     public abstract ColumnDao getColumnDao();
 
     public abstract RowDao getRowDao();
+
+    public abstract DataDao getDataDao();
 }

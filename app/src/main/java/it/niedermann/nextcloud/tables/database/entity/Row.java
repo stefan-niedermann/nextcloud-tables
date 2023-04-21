@@ -1,16 +1,15 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
 
 @Entity(
@@ -39,6 +38,8 @@ public class Row extends AbstractRemoteEntity {
     @ColumnInfo(defaultValue = "")
     private String lastEditBy;
     private Instant lastEditAt;
+    @Ignore
+    private Data[] data;
 
     public Row() {
         // Default constructor
@@ -90,6 +91,16 @@ public class Row extends AbstractRemoteEntity {
 
     public void setLastEditAt(Instant lastEditAt) {
         this.lastEditAt = lastEditAt;
+    }
+
+    @Ignore
+    public Data[] getData() {
+        return data;
+    }
+
+    @Ignore
+    public void setData(Data[] data) {
+        this.data = data;
     }
 
     @Override

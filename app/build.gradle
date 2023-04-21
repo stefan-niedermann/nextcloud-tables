@@ -86,7 +86,7 @@ dependencies {
     // Nextcloud SSO
     implementation 'com.github.nextcloud.android-common:ui:0.8.0'
     implementation 'com.github.nextcloud:Android-SingleSignOn:0.7.0'
-    implementation 'com.github.stefan-niedermann:android-commons:0.2.9'
+    implementation 'com.github.stefan-niedermann:android-commons:0.3.1'
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$version_nextcloud_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$version_nextcloud_commons"
     implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$version_nextcloud_commons") {
@@ -103,6 +103,9 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$version_glide"
+
+    // TableView
+    implementation 'com.github.evrencoskun:TableView:v0.8.9.4'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

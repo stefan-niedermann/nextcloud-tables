@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/spacer_2x"
             android:layout_marginBottom="@dimen/spacer_2x"
             android:layout_weight="1"
-            android:background="@color/bg_highlighted">
+            android:background="?attr/colorSecondaryContainer">
 
             <TextView
                 android:id="@+id/stacktrace"
@@ -44,6 +44,7 @@
                 android:padding="@dimen/spacer_1x"
                 android:textIsSelectable="true"
                 android:typeface="monospace"
+                android:textColor="?attr/colorOnSecondaryContainer"
                 tools:text="@string/android_get_accounts_permission_not_granted_exception_message" />
         </HorizontalScrollView>
     </LinearLayout>

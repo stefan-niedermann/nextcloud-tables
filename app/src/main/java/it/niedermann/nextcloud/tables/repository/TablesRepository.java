@@ -16,6 +16,8 @@ import java.util.List;
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
@@ -85,6 +87,7 @@ public class TablesRepository {
                     table.setAccountId(account.getId());
                     table.setETag(response.headers().get(HEADER_ETAG));
                     final var createdTable = db.getTableDao().getTable(db.getTableDao().insert(table));
+                    pullRemoteColumns(tablesApi, createdTable);
                     pullRemoteRows(tablesApi, createdTable);
                 }
                 break;
@@ -155,9 +158,14 @@ public class TablesRepository {
                 }
 
                 for (final var row : body) {
+                    row.setAccountId(table.getAccountId());
                     row.setTableId(table.getId());
                     table.setETag(response.headers().get(HEADER_ETAG));
-                    db.getRowDao().insert(row);
+                    final var insertedRow = db.getRowDao().insert(row);
+                    for (final var data : row.getData()) {
+                        data.setAccountId(table.getAccountId());
+//                        db.getDataDao().insert(data);
+                    }
                 }
                 break;
             }
@@ -216,5 +224,13 @@ public class TablesRepository {
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
             pushLocalTables(apiProvider.getApi(), account);
         }
+    }
+
+    public LiveData<List<Column>> getColumns(@NonNull Table table) {
+        return db.getColumnDao().getNotDeletedColumns$(table.getId());
+    }
+
+    public LiveData<List<Data>> getData(@NonNull Table table, List<Long> remoteColumnIds) {
+        return db.getDataDao().getData(table.getId(), remoteColumnIds);
     }
 }

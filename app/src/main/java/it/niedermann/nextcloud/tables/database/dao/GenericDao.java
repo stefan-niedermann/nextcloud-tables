@@ -5,9 +5,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Update;
 
-import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
-
-public interface GenericDao<T extends AbstractEntity> {
+public interface GenericDao<T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(T entity);

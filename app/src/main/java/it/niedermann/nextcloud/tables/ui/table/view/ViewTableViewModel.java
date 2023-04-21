@@ -19,6 +19,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
@@ -53,5 +55,13 @@ public class ViewTableViewModel extends AndroidViewModel {
 
     public LiveData<List<Row>> getRows(@NonNull Table table) {
         return tablesRepository.getRows(table);
+    }
+
+    public LiveData<List<Column>> getColumns(@NonNull Table table) {
+        return tablesRepository.getColumns(table);
+    }
+
+    public LiveData<List<Data>> getData(@NonNull Table table, List<Long> remoteColumnIds) {
+        return tablesRepository.getData(table, remoteColumnIds);
     }
 }

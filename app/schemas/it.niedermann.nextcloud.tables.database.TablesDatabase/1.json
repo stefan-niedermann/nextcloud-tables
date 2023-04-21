@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8385155acb17fd3c113bc760b032b533",
+    "identityHash": "4e881eef8b966f034b760fae46fcbefe",
     "entities": [
       {
         "tableName": "Account",
@@ -306,7 +306,7 @@
       },
       {
         "tableName": "Column",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `remoteTableId` INTEGER NOT NULL, `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `type` TEXT DEFAULT '', `subtype` TEXT DEFAULT '', `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `numberDefault` INTEGER, `numberMin` INTEGER, `numberMax` INTEGER, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textDefault` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `selectionOptions` TEXT, `selectionDefault` INTEGER, `datetimeDefault` TEXT, `remoteId` INTEGER NOT NULL, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `remoteTableId` INTEGER NOT NULL, `title` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `type` TEXT DEFAULT '', `subtype` TEXT DEFAULT '', `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `numberDefault` INTEGER, `numberMin` INTEGER, `numberMax` INTEGER, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textDefault` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `selectionDefault` TEXT, `datetimeDefault` TEXT, `remoteId` INTEGER NOT NULL, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "tableId",
@@ -319,6 +319,13 @@
             "columnName": "remoteTableId",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
           },
           {
             "fieldPath": "createdBy",
@@ -434,15 +441,9 @@
             "notNull": false
           },
           {
-            "fieldPath": "selectionOptions",
-            "columnName": "selectionOptions",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "selectionDefault",
             "columnName": "selectionDefault",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -681,20 +682,8 @@
       },
       {
         "tableName": "Data",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `value` TEXT, PRIMARY KEY(`columnId`, `rowId`), FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`rowId`) REFERENCES `Row`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`remoteColumnId` INTEGER NOT NULL, `value` TEXT, `remoteId` INTEGER NOT NULL, `accountId` INTEGER NOT NULL, `id` INTEGER NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, PRIMARY KEY(`accountId`, `remoteColumnId`), FOREIGN KEY(`accountId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
-          {
-            "fieldPath": "columnId",
-            "columnName": "columnId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rowId",
-            "columnName": "rowId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "remoteColumnId",
             "columnName": "remoteColumnId",
@@ -706,56 +695,58 @@
             "columnName": "value",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "columnId",
-            "rowId"
+            "accountId",
+            "remoteColumnId"
           ]
         },
-        "indices": [
-          {
-            "name": "IDX_DATA_COLUMN_ID",
-            "unique": false,
-            "columnNames": [
-              "columnId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_DATA_COLUMN_ID` ON `${TABLE_NAME}` (`columnId`)"
-          },
-          {
-            "name": "IDX_DATA_ROW_ID",
-            "unique": false,
-            "columnNames": [
-              "rowId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_DATA_ROW_ID` ON `${TABLE_NAME}` (`rowId`)"
-          }
-        ],
+        "indices": [],
         "foreignKeys": [
           {
             "table": "Column",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "columnId"
+              "accountId",
+              "remoteColumnId"
             ],
             "referencedColumns": [
-              "id"
-            ]
-          },
-          {
-            "table": "Row",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "rowId"
-            ],
-            "referencedColumns": [
-              "id"
+              "accountId",
+              "remoteId"
             ]
           }
         ]
@@ -764,7 +755,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8385155acb17fd3c113bc760b032b533')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4e881eef8b966f034b760fae46fcbefe')"
     ]
   }
 }

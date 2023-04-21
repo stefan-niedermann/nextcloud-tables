@@ -38,7 +38,7 @@ public interface TablesAPI {
     /**
      * @since 0.4.0
      */
-    @GET("table/{tableId}")
+    @GET("tables/{tableId}")
     Call<Table> getTable(@Path("tableId") long tableId);
 
     /**
@@ -52,13 +52,13 @@ public interface TablesAPI {
     /**
      * @since 0.4.0
      */
-    @DELETE("table/{tableId}")
+    @DELETE("tables/{tableId}")
     Call<Table> deleteTable(@Path("tableId") long tableId);
 
     /**
      * @since 0.4.0
      */
-    @PUT("table/{tableId}")
+    @PUT("tables/{tableId}")
     Call<Table> updateTable(@Path("tableId") long tableId,
                             @Query("title") @NonNull String title,
                             @Query("emoji") @NonNull String emoji,
@@ -67,7 +67,7 @@ public interface TablesAPI {
     /**
      * @since 0.4.0
      */
-    @PUT("table/{tableId}")
+    @PUT("tables/{tableId}")
     Call<Table> updateTable(@Path("tableId") long tableId,
                             @Query("title") @NonNull String title,
                             @Query("emoji") @NonNull String emoji);
@@ -75,13 +75,13 @@ public interface TablesAPI {
     /**
      * @since 0.4.0
      */
-    @GET("table/{tableId}/columns")
+    @GET("tables/{tableId}/columns")
     Call<List<Column>> getColumns(@Path("tableId") long tableId);
 
     /**
      * @since 0.4.0
      */
-    @POST("table/{tableId}/columns")
+    @POST("tables/{tableId}/columns")
     Call<Column> createColumn(@Path("tableId") long tableId,
                               @Query("values") @NonNull Column column);
 
@@ -107,13 +107,13 @@ public interface TablesAPI {
     /**
      * @since 0.3.0
      */
-    @GET("table/{tableId}/rows")
+    @GET("tables/{tableId}/rows")
     Call<List<Row>> getRows(@Path("tableId") long tableId);
 
     /**
      * @since 0.3.0
      */
-    @GET("table/{tableId}/rows")
+    @GET("tables/{tableId}/rows")
     Call<List<Row>> getRows(@Path("tableId") long tableId,
                             @Query("limit") int limit,
                             @Query("offset") int offset);
@@ -121,7 +121,7 @@ public interface TablesAPI {
     /**
      * @since 0.4.0
      */
-    @POST("table/{tableId}/rows")
+    @POST("tables/{tableId}/rows")
     Call<Row> createRow(@Path("tableId") long tableId,
                         @Query("data") @NonNull Row data);
 
