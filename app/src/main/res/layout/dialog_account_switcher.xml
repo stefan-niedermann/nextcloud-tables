@@ -23,7 +23,7 @@
             android:contentDescription="@null"
             android:focusable="false"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_baseline_person_24" />
+            app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="middle"
                 android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                 tools:text="@tools:sample/full_names" />
 
             <TextView
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="middle"
                 android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
                 tools:text="@tools:sample/full_names" />
         </LinearLayout>
 
@@ -63,7 +65,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        android:background="@color/outline" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/accounts_list"
@@ -103,7 +106,7 @@
             android:ellipsize="middle"
             android:singleLine="true"
             android:text="@string/add_account"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
             android:textColor="?android:textColorPrimary" />
 
     </LinearLayout>
@@ -135,7 +138,8 @@
             android:layout_marginStart="@dimen/spacer_2x"
             android:ellipsize="middle"
             android:singleLine="true"
-            android:text="@string/manage_accounts" />
+            android:text="@string/manage_accounts"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium" />
 
     </LinearLayout>
 </LinearLayout>
