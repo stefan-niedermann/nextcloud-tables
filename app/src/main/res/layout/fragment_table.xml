@@ -11,6 +11,10 @@
 
         <com.evrencoskun.tableview.TableView
             android:id="@+id/tableView"
+            app:separator_color="?attr/colorOutlineVariant"
+            app:unselected_color="?android:attr/windowBackground"
+            app:selected_color="?attr/colorSecondaryContainer"
+            app:shadow_color="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
