@@ -32,4 +32,11 @@
     <color name="surfaceVariant">#DEE3EB</color>
     <color name="tertiary">#68587A</color>
     <color name="tertiaryContainer">#EEDBFF</color>
+
+    <!-- TableView -->
+
+    <color name="table_view_default_separator_color">@color/secondary</color>
+    <color name="table_view_default_unselected_background_color">@color/bg_default</color>
+    <color name="table_view_default_selected_background_color">@color/secondaryContainer</color>
+    <color name="table_view_default_shadow_background_color">@color/bg_default</color>
 </resources>
