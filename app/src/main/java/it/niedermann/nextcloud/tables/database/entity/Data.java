@@ -14,16 +14,21 @@ import java.util.Objects;
         foreignKeys = {
                 @ForeignKey(
                         entity = Column.class,
-                        parentColumns = {"accountId", "remoteId"},
-                        childColumns = {"accountId", "remoteColumnId"},
+                        parentColumns = {"accountId", "id", "remoteId"},
+                        childColumns = {"accountId", "columnId", "remoteColumnId"},
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Row.class,
+                        parentColumns = {"accountId", "id"},
+                        childColumns = {"accountId", "rowId"},
                         onDelete = ForeignKey.CASCADE
                 )
         },
         indices = {
                 @Index(name = "IDX_DATA_COLUMN_ID", value = "columnId"),
                 @Index(name = "IDX_DATA_ROW_ID", value = "rowId")
-        },
-        primaryKeys = {"accountId", "remoteColumnId"}
+        }
 )
 public class Data extends AbstractAccountRelatedEntity {
 

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "38f0af29cc6076088ea3df4ea4d46808",
+    "identityHash": "2e93bac070b563118a7b51b51f71ba12",
     "entities": [
       {
         "tableName": "Account",
@@ -682,7 +682,7 @@
       },
       {
         "tableName": "Data",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `value` TEXT, `accountId` INTEGER NOT NULL, `id` INTEGER NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, PRIMARY KEY(`accountId`, `remoteColumnId`), FOREIGN KEY(`accountId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `value` TEXT, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`, `columnId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `id`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `rowId`) REFERENCES `Row`(`accountId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "columnId",
@@ -734,10 +734,9 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
-            "accountId",
-            "remoteColumnId"
+            "id"
           ]
         },
         "indices": [
@@ -777,11 +776,26 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "accountId",
+              "columnId",
               "remoteColumnId"
             ],
             "referencedColumns": [
               "accountId",
+              "id",
               "remoteId"
+            ]
+          },
+          {
+            "table": "Row",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId",
+              "rowId"
+            ],
+            "referencedColumns": [
+              "accountId",
+              "id"
             ]
           }
         ]
@@ -790,7 +804,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '38f0af29cc6076088ea3df4ea4d46808')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2e93bac070b563118a7b51b51f71ba12')"
     ]
   }
 }
