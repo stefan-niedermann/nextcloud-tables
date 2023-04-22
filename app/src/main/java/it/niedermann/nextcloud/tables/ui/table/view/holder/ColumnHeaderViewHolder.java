@@ -9,7 +9,7 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewH
 import com.evrencoskun.tableview.sort.SortState;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderLayoutBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 
 /**
  * Created by evrencoskun on 1.12.2017.
@@ -17,9 +17,9 @@ import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderLayoutBin
 
 public class ColumnHeaderViewHolder extends AbstractSorterViewHolder {
 
-    private final TableviewColumnHeaderLayoutBinding binding;
+    private final TableviewColumnHeaderBinding binding;
 
-    public ColumnHeaderViewHolder(@NonNull TableviewColumnHeaderLayoutBinding binding) {
+    public ColumnHeaderViewHolder(@NonNull TableviewColumnHeaderBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }

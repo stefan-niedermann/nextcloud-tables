@@ -8,12 +8,12 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Row;
-import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderLayoutBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
 
 public class RowHeaderViewHolder extends AbstractViewHolder {
-    public final TableviewRowHeaderLayoutBinding binding;
+    public final TableviewRowHeaderBinding binding;
 
-    public RowHeaderViewHolder(@NonNull TableviewRowHeaderLayoutBinding binding) {
+    public RowHeaderViewHolder(@NonNull TableviewRowHeaderBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }

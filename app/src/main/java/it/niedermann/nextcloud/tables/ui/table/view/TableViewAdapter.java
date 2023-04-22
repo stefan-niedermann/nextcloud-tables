@@ -13,24 +13,29 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
-import it.niedermann.nextcloud.tables.databinding.TableviewCellLayoutBinding;
-import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderLayoutBinding;
-import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderLayoutBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.ColumnHeaderViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.ColumnViewType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.RowHeaderViewHolder;
 
 public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
+    @Override
+    public int getCellItemViewType(int columnPosition) {
+        return ColumnViewType.findByColumn(getColumnHeaderItem(columnPosition)).getId();
+    }
+
     @NonNull
     @Override
     public AbstractViewHolder onCreateCellViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CellViewHolder(TableviewCellLayoutBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return ColumnViewType.findById(viewType).inflate(parent.getContext());
     }
 
     @Override
     public void onBindCellViewHolder(@NonNull AbstractViewHolder holder, @Nullable Data cellItemModel, int columnPosition, int rowPosition) {
-        if(holder instanceof CellViewHolder) {
+        if (holder instanceof CellViewHolder) {
             ((CellViewHolder) holder).bind(cellItemModel, getColumnHeaderItem(columnPosition));
         } else {
             throw new IllegalArgumentException("Unknown view holder type " + holder);
@@ -40,12 +45,12 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public AbstractViewHolder onCreateColumnHeaderViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ColumnHeaderViewHolder(TableviewColumnHeaderLayoutBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return new ColumnHeaderViewHolder(TableviewColumnHeaderBinding.inflate(LayoutInflater.from(parent.getContext())));
     }
 
     @Override
     public void onBindColumnHeaderViewHolder(@NonNull AbstractViewHolder holder, @Nullable Column columnHeaderItemModel, int columnPosition) {
-        if(holder instanceof ColumnHeaderViewHolder) {
+        if (holder instanceof ColumnHeaderViewHolder) {
             ((ColumnHeaderViewHolder) holder).bind(columnHeaderItemModel, columnPosition);
         } else {
             throw new IllegalArgumentException("Unknown view holder type " + holder);
@@ -55,12 +60,12 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public AbstractViewHolder onCreateRowHeaderViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RowHeaderViewHolder(TableviewRowHeaderLayoutBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return new RowHeaderViewHolder(TableviewRowHeaderBinding.inflate(LayoutInflater.from(parent.getContext())));
     }
 
     @Override
     public void onBindRowHeaderViewHolder(@NonNull AbstractViewHolder holder, @NonNull Row rowHeaderItemModel, int rowPosition) {
-        if(holder instanceof RowHeaderViewHolder) {
+        if (holder instanceof RowHeaderViewHolder) {
             ((RowHeaderViewHolder) holder).bind(rowHeaderItemModel);
         } else {
             throw new IllegalArgumentException("Unknown view holder type " + holder);
