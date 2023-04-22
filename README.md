@@ -4,7 +4,6 @@
 
 ## ⛔ Limitations
 
-- Viewing cell data is not possible yet
 - Can still handle 1000 rows at most
 - No write access
 - Sync only on Wi-Fi has no effect yet

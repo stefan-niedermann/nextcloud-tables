@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -14,14 +15,20 @@ import java.util.Objects;
         foreignKeys = {
                 @ForeignKey(
                         entity = Column.class,
-                        parentColumns = {"accountId", "id", "remoteId"},
-                        childColumns = {"accountId", "columnId", "remoteColumnId"},
+                        parentColumns = {"accountId", "tableId", "id", "remoteId"},
+                        childColumns = {"accountId", "tableId", "columnId", "remoteColumnId"},
                         onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
                         entity = Row.class,
+                        parentColumns = {"accountId", "tableId", "id"},
+                        childColumns = {"accountId", "tableId", "rowId"},
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Table.class,
                         parentColumns = {"accountId", "id"},
-                        childColumns = {"accountId", "rowId"},
+                        childColumns = {"accountId", "tableId"},
                         onDelete = ForeignKey.CASCADE
                 )
         },
@@ -38,6 +45,9 @@ public class Data extends AbstractAccountRelatedEntity {
     @SerializedName("localRowId")
     @Expose(deserialize = false, serialize = false)
     private long rowId;
+    @SerializedName("localTableId")
+    @Expose(deserialize = false, serialize = false)
+    private long tableId;
     @SerializedName("columnId")
     private long remoteColumnId;
     private Object value;
@@ -62,6 +72,14 @@ public class Data extends AbstractAccountRelatedEntity {
         this.rowId = rowId;
     }
 
+    public long getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(long tableId) {
+        this.tableId = tableId;
+    }
+
     public long getRemoteColumnId() {
         return remoteColumnId;
     }
@@ -84,11 +102,17 @@ public class Data extends AbstractAccountRelatedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Data data = (Data) o;
-        return columnId == data.columnId && rowId == data.rowId && remoteColumnId == data.remoteColumnId && Objects.equals(value, data.value);
+        return columnId == data.columnId && rowId == data.rowId && tableId == data.tableId && remoteColumnId == data.remoteColumnId && Objects.equals(value, data.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), columnId, rowId, remoteColumnId, value);
+        return Objects.hash(super.hashCode(), columnId, rowId, tableId, remoteColumnId, value);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getValue() + " in Table " + getTableId() + ", Row: " + getRowId() + ", Column: " + getColumnId();
     }
 }

@@ -22,6 +22,7 @@ import java.util.Objects;
                 )
         },
         indices = {
+                @Index(value = {"accountId", "tableId", "id", "remoteId"}, unique = true),
                 @Index(name = "IDX_COLUMN_TABLE_ID", value = "tableId")
         }
 )

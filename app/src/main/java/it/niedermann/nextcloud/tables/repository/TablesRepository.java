@@ -165,6 +165,7 @@ public class TablesRepository {
                     final var insertedRow = db.getRowDao().insert(row);
                     for (final var data : row.getData()) {
                         data.setAccountId(table.getAccountId());
+                        data.setTableId(table.getId());
                         data.setRowId(insertedRow);
                         data.setColumnId(db.getColumnDao().getColumnId(table.getAccountId(), data.getRemoteColumnId()));
                         db.getDataDao().insert(data);
@@ -233,7 +234,7 @@ public class TablesRepository {
         return db.getColumnDao().getNotDeletedColumns$(table.getId());
     }
 
-    public LiveData<List<Data>> getData(@NonNull Table table, List<Long> remoteColumnIds) {
-        return db.getDataDao().getData(table.getId(), remoteColumnIds);
+    public LiveData<List<Data>> getData(@NonNull Table table) {
+        return db.getDataDao().getData(table.getAccountId(), table.getId());
     }
 }

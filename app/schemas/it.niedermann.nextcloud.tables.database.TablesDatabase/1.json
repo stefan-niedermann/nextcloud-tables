@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2e93bac070b563118a7b51b51f71ba12",
+    "identityHash": "ae84cc9faabac97c0680e86136533922",
     "entities": [
       {
         "tableName": "Account",
@@ -491,6 +491,18 @@
         },
         "indices": [
           {
+            "name": "index_Column_accountId_tableId_id_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "tableId",
+              "id",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Column_accountId_tableId_id_remoteId` ON `${TABLE_NAME}` (`accountId`, `tableId`, `id`, `remoteId`)"
+          },
+          {
             "name": "IDX_COLUMN_TABLE_ID",
             "unique": false,
             "columnNames": [
@@ -626,6 +638,17 @@
         },
         "indices": [
           {
+            "name": "index_Row_accountId_tableId_id",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "tableId",
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Row_accountId_tableId_id` ON `${TABLE_NAME}` (`accountId`, `tableId`, `id`)"
+          },
+          {
             "name": "IDX_ROW_TABLE_ID",
             "unique": false,
             "columnNames": [
@@ -682,7 +705,7 @@
       },
       {
         "tableName": "Data",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `value` TEXT, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`, `columnId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `id`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `rowId`) REFERENCES `Row`(`accountId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `tableId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `value` TEXT, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`, `tableId`, `columnId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `tableId`, `id`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `tableId`, `rowId`) REFERENCES `Row`(`accountId`, `tableId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `tableId`) REFERENCES `Table`(`accountId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "columnId",
@@ -693,6 +716,12 @@
           {
             "fieldPath": "rowId",
             "columnName": "rowId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tableId",
+            "columnName": "tableId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -776,11 +805,13 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "accountId",
+              "tableId",
               "columnId",
               "remoteColumnId"
             ],
             "referencedColumns": [
               "accountId",
+              "tableId",
               "id",
               "remoteId"
             ]
@@ -791,7 +822,22 @@
             "onUpdate": "NO ACTION",
             "columns": [
               "accountId",
+              "tableId",
               "rowId"
+            ],
+            "referencedColumns": [
+              "accountId",
+              "tableId",
+              "id"
+            ]
+          },
+          {
+            "table": "Table",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId",
+              "tableId"
             ],
             "referencedColumns": [
               "accountId",
@@ -804,7 +850,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2e93bac070b563118a7b51b51f71ba12')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae84cc9faabac97c0680e86136533922')"
     ]
   }
 }

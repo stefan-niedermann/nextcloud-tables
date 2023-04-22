@@ -9,12 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.stream.Collectors;
-
-import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
@@ -51,21 +47,9 @@ public class ViewTableFragment extends Fragment {
         adapter = new TableViewAdapter();
         binding.tableView.setAdapter(adapter);
 
-        viewTableViewModel.getRows(table).observe(getViewLifecycleOwner(), rows -> {
-            adapter.setRowHeaderItems(rows);
-        });
-
-        viewTableViewModel.getColumns(table).observe(getViewLifecycleOwner(), columns -> {
-            adapter.setColumnHeaderItems(columns);
-        });
-
-        Transformations.switchMap(viewTableViewModel.getColumns(table), columns -> viewTableViewModel
-                        .getData(table, columns.stream()
-                                .map(AbstractRemoteEntity::getRemoteId)
-                                .collect(Collectors.toUnmodifiableList())))
-                .observe(getViewLifecycleOwner(), data -> {
-//                adapter.setCellItems(data);
-                });
+        viewTableViewModel.getRows(table).observe(getViewLifecycleOwner(), rows -> adapter.setRowHeaderItems(rows));
+        viewTableViewModel.getColumns(table).observe(getViewLifecycleOwner(), columns -> adapter.setColumnHeaderItems(columns));
+        viewTableViewModel.getData(table).observe(getViewLifecycleOwner(), data -> adapter.setCellItems(data));
 
         binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account)));
         binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {

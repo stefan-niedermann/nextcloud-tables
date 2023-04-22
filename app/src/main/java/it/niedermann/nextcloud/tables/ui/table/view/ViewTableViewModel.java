@@ -7,16 +7,20 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -61,7 +65,22 @@ public class ViewTableViewModel extends AndroidViewModel {
         return tablesRepository.getColumns(table);
     }
 
-    public LiveData<List<Data>> getData(@NonNull Table table, List<Long> remoteColumnIds) {
-        return tablesRepository.getData(table, remoteColumnIds);
+    public LiveData<List<List<Data>>> getData(@NonNull Table table) {
+        return Transformations.map(tablesRepository.getData(table), data -> new ArrayList<>(data.stream()
+                .collect(Collectors.groupingBy(Data::getRowId, Collectors.groupingBy(Data::getColumnId)))
+                .values())
+                .stream()
+                .map(Map::values)
+                .map(ArrayList::new)
+                .collect(Collectors.toUnmodifiableList())
+                .stream()
+                .map(cols -> cols.stream().map(col -> {
+                    if (col.size() > 1) {
+                        throw new RuntimeException("");
+                    } else {
+                        return col.iterator().next();
+                    }
+                }).collect(Collectors.toUnmodifiableList()))
+                .collect(Collectors.toUnmodifiableList()));
     }
 }
