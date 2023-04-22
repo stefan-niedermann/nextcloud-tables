@@ -14,6 +14,7 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -74,13 +75,17 @@ public class ViewTableViewModel extends AndroidViewModel {
                 .map(ArrayList::new)
                 .collect(Collectors.toUnmodifiableList())
                 .stream()
-                .map(cols -> cols.stream().map(col -> {
-                    if (col.size() > 1) {
-                        throw new RuntimeException("");
-                    } else {
-                        return col.iterator().next();
-                    }
-                }).collect(Collectors.toUnmodifiableList()))
+                .map(cols -> cols
+                        .stream()
+                        .map(col -> {
+                            if (col.size() > 1) {
+                                throw new RuntimeException("");
+                            } else {
+                                return col.iterator().next();
+                            }
+                        })
+                        .sorted(Comparator.comparingLong(Data::getRemoteColumnId))
+                        .collect(Collectors.toUnmodifiableList()))
                 .collect(Collectors.toUnmodifiableList()));
     }
 }

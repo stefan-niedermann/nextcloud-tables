@@ -1,9 +1,12 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
+import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderLayoutBinding;
 
@@ -16,6 +19,7 @@ public class RowHeaderViewHolder extends AbstractViewHolder {
     }
 
     public void bind(@NonNull Row row) {
-        this.binding.rowHeaderTextview.setText(String.valueOf(row.getRemoteId()));
+        this.binding.sync.setVisibility(row.getStatus() == DBStatus.VOID ? View.INVISIBLE : View.VISIBLE);
+        itemView.requestLayout();
     }
 }

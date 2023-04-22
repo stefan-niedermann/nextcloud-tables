@@ -31,7 +31,7 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @Override
     public void onBindCellViewHolder(@NonNull AbstractViewHolder holder, @Nullable Data cellItemModel, int columnPosition, int rowPosition) {
         if(holder instanceof CellViewHolder) {
-            ((CellViewHolder) holder).bind(cellItemModel, columnPosition);
+            ((CellViewHolder) holder).bind(cellItemModel, getColumnHeaderItem(columnPosition));
         } else {
             throw new IllegalArgumentException("Unknown view holder type " + holder);
         }

@@ -162,11 +162,12 @@ public class TablesRepository {
                     row.setAccountId(table.getAccountId());
                     row.setTableId(table.getId());
                     row.setETag(response.headers().get(HEADER_ETAG));
-                    final var insertedRow = db.getRowDao().insert(row);
+                    final var insertedRow = db.getRowDao().get(db.getRowDao().insert(row));
                     for (final var data : row.getData()) {
                         data.setAccountId(table.getAccountId());
                         data.setTableId(table.getId());
-                        data.setRowId(insertedRow);
+                        data.setRemoteRowId(insertedRow.getRemoteId());
+                        data.setRowId(insertedRow.getId());
                         data.setColumnId(db.getColumnDao().getColumnId(table.getAccountId(), data.getRemoteColumnId()));
                         db.getDataDao().insert(data);
                     }

@@ -13,6 +13,6 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 public interface DataDao extends GenericDao<Data> {
 
     @MapInfo(keyColumn = "id")
-    @Query("SELECT * FROM Data d WHERE d.accountId = :accountId AND d.tableId = :tableId ORDER BY d.rowId, d.columnId")
+    @Query("SELECT * FROM Data d WHERE d.accountId = :accountId AND d.tableId = :tableId ORDER BY d.remoteRowId, d.remoteColumnId")
     LiveData<List<Data>> getData(long accountId, long tableId);
 }

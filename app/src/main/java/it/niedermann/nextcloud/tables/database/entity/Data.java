@@ -21,8 +21,8 @@ import java.util.Objects;
                 ),
                 @ForeignKey(
                         entity = Row.class,
-                        parentColumns = {"accountId", "tableId", "id"},
-                        childColumns = {"accountId", "tableId", "rowId"},
+                        parentColumns = {"accountId", "tableId", "id", "remoteId"},
+                        childColumns = {"accountId", "tableId", "rowId", "remoteRowId"},
                         onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
@@ -50,6 +50,9 @@ public class Data extends AbstractAccountRelatedEntity {
     private long tableId;
     @SerializedName("columnId")
     private long remoteColumnId;
+    @SerializedName("rowId")
+    @Expose(deserialize = false, serialize = false)
+    private long remoteRowId;
     private Object value;
 
     public Data() {
@@ -88,6 +91,14 @@ public class Data extends AbstractAccountRelatedEntity {
         this.remoteColumnId = remoteColumnId;
     }
 
+    public long getRemoteRowId() {
+        return remoteRowId;
+    }
+
+    public void setRemoteRowId(long remoteRowId) {
+        this.remoteRowId = remoteRowId;
+    }
+
     public Object getValue() {
         return value;
     }
@@ -102,12 +113,12 @@ public class Data extends AbstractAccountRelatedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Data data = (Data) o;
-        return columnId == data.columnId && rowId == data.rowId && tableId == data.tableId && remoteColumnId == data.remoteColumnId && Objects.equals(value, data.value);
+        return columnId == data.columnId && rowId == data.rowId && tableId == data.tableId && remoteColumnId == data.remoteColumnId && remoteRowId == data.remoteRowId && Objects.equals(value, data.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), columnId, rowId, tableId, remoteColumnId, value);
+        return Objects.hash(super.hashCode(), columnId, rowId, tableId, remoteColumnId, remoteRowId, value);
     }
 
     @NonNull
