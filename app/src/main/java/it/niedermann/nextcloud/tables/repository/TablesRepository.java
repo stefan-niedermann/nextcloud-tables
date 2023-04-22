@@ -119,6 +119,7 @@ public class TablesRepository {
                 }
 
                 for (final var column : body) {
+                    column.setAccountId(table.getAccountId());
                     column.setTableId(table.getId());
                     table.setETag(response.headers().get(HEADER_ETAG));
                     db.getColumnDao().insert(column);
@@ -160,11 +161,13 @@ public class TablesRepository {
                 for (final var row : body) {
                     row.setAccountId(table.getAccountId());
                     row.setTableId(table.getId());
-                    table.setETag(response.headers().get(HEADER_ETAG));
+                    row.setETag(response.headers().get(HEADER_ETAG));
                     final var insertedRow = db.getRowDao().insert(row);
                     for (final var data : row.getData()) {
                         data.setAccountId(table.getAccountId());
-//                        db.getDataDao().insert(data);
+                        data.setRowId(insertedRow);
+                        data.setColumnId(db.getColumnDao().getColumnId(table.getAccountId(), data.getRemoteColumnId()));
+                        db.getDataDao().insert(data);
                     }
                 }
                 break;
