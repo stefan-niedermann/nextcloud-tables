@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,40 +27,43 @@ public class DateTimeCellViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull Data data, @NonNull Column column) {
-        binding.data.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-
-        if (TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())) {
-            binding.data.setText("");
-            return;
-        }
-
-        final var subtype = column.getSubtype();
-        switch (subtype) {
-            case "": {
+    public void bind(@Nullable Data data, @NonNull Column column) {
+        if (data == null) {
+            binding.data.setText(null);
+        } else {
+            if (TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())) {
                 binding.data.setText("");
-                break;
+                return;
             }
-            case "datetime": {
-                final var date = LocalDate.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_DATE_TIME);
-                binding.data.setText(date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
-                break;
-            }
-            case "date": {
-                final var date = LocalDate.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_DATE);
-                binding.data.setText(date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
-                break;
-            }
-            case "time": {
-                final var date = LocalTime.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_TIME);
-                binding.data.setText(date.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
-                break;
-            }
-            default: {
-                // TODO
-                break;
+
+            final var subtype = column.getSubtype();
+            switch (subtype) {
+                case "": {
+                    binding.data.setText("");
+                    break;
+                }
+                case "datetime": {
+                    final var date = LocalDate.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_DATE_TIME);
+                    binding.data.setText(date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
+                    break;
+                }
+                case "date": {
+                    final var date = LocalDate.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_DATE);
+                    binding.data.setText(date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+                    break;
+                }
+                case "time": {
+                    final var date = LocalTime.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_TIME);
+                    binding.data.setText(date.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
+                    break;
+                }
+                default: {
+                    // TODO
+                    break;
+                }
             }
         }
+        binding.data.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.data.requestLayout();
     }

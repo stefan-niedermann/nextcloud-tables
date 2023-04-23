@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.ui.table.view.holder;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
@@ -15,5 +16,5 @@ public abstract class CellViewHolder extends AbstractViewHolder {
         super(itemView);
     }
 
-    public abstract void bind(@NonNull Data data, @NonNull Column column);
+    public abstract void bind(@Nullable Data data, @NonNull Column column);
 }

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -22,23 +23,27 @@ public class SelectionCellViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull Data data, @NonNull Column column) {
-        final var subtype = column.getSubtype();
-        //noinspection SwitchStatementWithTooFewBranches
-        switch (subtype) {
-            case "check": {
-                if (SELECTION_CHECK_TRUE.equals(data.getValue())) {
-                    binding.check.setSelected(true);
-                } else if (SELECTION_CHECK_FALSE.equals(data.getValue())) {
-                    binding.check.setSelected(false);
-                } else {
-                    binding.check.setSelected(false);
+    public void bind(@Nullable Data data, @NonNull Column column) {
+        if (data == null) {
+            binding.check.setSelected(false);
+        } else {
+            final var subtype = column.getSubtype();
+            //noinspection SwitchStatementWithTooFewBranches
+            switch (subtype) {
+                case "check": {
+                    if (SELECTION_CHECK_TRUE.equals(data.getValue())) {
+                        binding.check.setSelected(true);
+                    } else if (SELECTION_CHECK_FALSE.equals(data.getValue())) {
+                        binding.check.setSelected(false);
+                    } else {
+                        binding.check.setSelected(false);
+                    }
+                    break;
                 }
-                break;
-            }
-            default: {
-                // TODO
-                break;
+                default: {
+                    // TODO
+                    break;
+                }
             }
         }
         binding.check.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
