@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
+package it.niedermann.nextcloud.tables.ui.table.view.holder.type.number;
 
 import android.widget.ImageView;
 

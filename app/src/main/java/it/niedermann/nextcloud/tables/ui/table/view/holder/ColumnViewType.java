@@ -11,25 +11,34 @@ import java.util.function.Function;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewCellCheckBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
-import it.niedermann.nextcloud.tables.databinding.TableviewCellSelectionBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellStarsBinding;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.DateTimeCellViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.NumberCellViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.ProgressCellViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.SelectionCellViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.StarsCellViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.TextCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.DateCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.DateTimeCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.TimeCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.NumberCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.ProgressCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.StarsCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.CheckCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LineCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LongCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.TextCellViewHolder;
 
 public enum ColumnViewType {
-    UNKNOWN(-1_000, "", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
-    TEXT(0, "text", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
-    DATETIME(1_000, "datetime", "", layoutInflater -> new DateTimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
-    SELECTION(2_000, "selection", "", layoutInflater -> new SelectionCellViewHolder(TableviewCellSelectionBinding.inflate(layoutInflater))),
-    CHECK(2_001, "selection", "check", layoutInflater -> new SelectionCellViewHolder(TableviewCellSelectionBinding.inflate(layoutInflater))),
-    NUMBER(3_000, "number", "", layoutInflater -> new NumberCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
-    PROGRESS(3_001, "number", "progress", layoutInflater -> new ProgressCellViewHolder(TableviewCellProgressBinding.inflate(layoutInflater))),
-    STARS(3_002, "number", "stars", layoutInflater -> new StarsCellViewHolder(TableviewCellStarsBinding.inflate(layoutInflater))),
+    UNKNOWN(0, "", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    TEXT(1_000, "text", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    TEXT_LONG(1_001, "text", "long", layoutInflater -> new LongCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    TEXT_LINE(1_002, "text", "line", layoutInflater -> new LineCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    DATETIME(2_000, "datetime", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    DATETIME_DATETIME(2_001, "datetime", "datetime", layoutInflater -> new DateTimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    DATETIME_DATE(2_002, "datetime", "date", layoutInflater -> new DateCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    DATETIME_TIME(2_003, "datetime", "time", layoutInflater -> new TimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    SELECTION(3_000, "selection", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    SELECTION_CHECK(3_001, "selection", "check", layoutInflater -> new CheckCellViewHolder(TableviewCellCheckBinding.inflate(layoutInflater))),
+    NUMBER(4_000, "number", "", layoutInflater -> new NumberCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    NUMBER_PROGRESS(4_001, "number", "progress", layoutInflater -> new ProgressCellViewHolder(TableviewCellProgressBinding.inflate(layoutInflater))),
+    NUMBER_STARS(4_002, "number", "stars", layoutInflater -> new StarsCellViewHolder(TableviewCellStarsBinding.inflate(layoutInflater))),
     ;
     private final int id;
     private final String type;

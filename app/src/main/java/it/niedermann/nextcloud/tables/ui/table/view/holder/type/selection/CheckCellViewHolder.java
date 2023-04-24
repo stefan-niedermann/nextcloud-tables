@@ -1,18 +1,18 @@
-package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
+package it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
-import it.niedermann.nextcloud.tables.databinding.TableviewCellSelectionBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewCellCheckBinding;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
-public class SelectionCellViewHolder extends CellViewHolder {
+public class CheckCellViewHolder extends CellViewHolder {
 
-    private final TableviewCellSelectionBinding binding;
+    private final TableviewCellCheckBinding binding;
 
-    public SelectionCellViewHolder(@NonNull TableviewCellSelectionBinding binding) {
+    public CheckCellViewHolder(@NonNull TableviewCellCheckBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }

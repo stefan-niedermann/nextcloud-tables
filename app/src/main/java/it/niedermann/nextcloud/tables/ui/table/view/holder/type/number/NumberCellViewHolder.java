@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
+package it.niedermann.nextcloud.tables.ui.table.view.holder.type.number;
 
 import android.annotation.SuppressLint;
 import android.view.Gravity;
@@ -23,6 +23,7 @@ public class NumberCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
+            // TODO DEFAULT
             binding.data.setText(null);
         } else {
             try {

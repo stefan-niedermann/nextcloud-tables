@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
+package it.niedermann.nextcloud.tables.ui.table.view.holder.type.number;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +20,7 @@ public class ProgressCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
+            // TODO DEFAULT
             binding.progress.setProgressCompat(0, false);
         } else {
             try {
