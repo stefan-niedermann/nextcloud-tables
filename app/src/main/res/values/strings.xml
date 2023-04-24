@@ -134,6 +134,4 @@
     <string name="import_state_import_account">Importing account</string>
     <string name="import_state_import_tables">Importing tables. This may take several minutes.</string>
     <string name="not_yet_synchronized">Not yet synchronized</string>
-
-    <string name="type_text_ellipsised">%1$s…</string>
 </resources>

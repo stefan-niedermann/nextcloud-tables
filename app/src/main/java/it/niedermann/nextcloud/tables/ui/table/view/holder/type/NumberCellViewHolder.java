@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
 
 import android.annotation.SuppressLint;
 import android.view.Gravity;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,34 +25,17 @@ public class NumberCellViewHolder extends CellViewHolder {
         if (data == null) {
             binding.data.setText(null);
         } else {
-            final var subtype = column.getSubtype();
-
-            //noinspection SwitchStatementWithTooFewBranches
-            switch (subtype) {
-                case "progress": {
-                    try {
-                        setText(column, String.valueOf(Long.parseLong(String.valueOf(data.getValue()))));
-                    } catch (NumberFormatException noLongException) {
-                        setText(column, String.valueOf(data.getValue()));
-                    }
-                    break;
-                }
-                default: {
-                    try {
-                        setText(column, String.valueOf(Long.parseLong(String.valueOf(data.getValue()))));
-                    } catch (NumberFormatException noLongException) {
-                        try {
-                            setText(column, String.valueOf(Double.parseDouble(String.valueOf(data.getValue()))));
-                        } catch (NumberFormatException noDoubleException) {
-                            setText(column, String.valueOf(data.getValue()));
-                        }
-                    }
-                    break;
+            try {
+                setText(column, String.valueOf(Long.parseLong(String.valueOf(data.getValue()))));
+            } catch (NumberFormatException noLongException) {
+                try {
+                    setText(column, String.valueOf(Double.parseDouble(String.valueOf(data.getValue()))));
+                } catch (NumberFormatException noDoubleException) {
+                    setText(column, String.valueOf(data.getValue()));
                 }
             }
         }
-        binding.data.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-        binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        binding.data.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         binding.data.requestLayout();
     }
 

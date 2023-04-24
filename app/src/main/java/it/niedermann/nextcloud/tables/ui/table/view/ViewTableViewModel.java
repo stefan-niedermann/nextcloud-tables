@@ -9,6 +9,7 @@ import static java.util.stream.Collectors.toUnmodifiableList;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -74,6 +75,7 @@ public class ViewTableViewModel extends AndroidViewModel {
     public LiveData<List<List<Data>>> getData(@NonNull Table table) {
         return Transformations.map(tablesRepository.getData(table), data -> {
             final var allPresentColumnIds = data.stream().map(Data::getColumnId).collect(toUnmodifiableSet());
+            Log.i("Foo", "Table "+ table.getTitle() + " - columnIds: " + allPresentColumnIds);
             final var rowColumnMap = data.stream().collect(groupingBy(Data::getRowId, groupingBy(Data::getColumnId)));
             final var rowColumnList = normalizeRowColumnMap(rowColumnMap, allPresentColumnIds);
             return unwrapData(rowColumnList);

@@ -1,8 +1,6 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
 
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,10 +36,6 @@ public class DateTimeCellViewHolder extends CellViewHolder {
 
             final var subtype = column.getSubtype();
             switch (subtype) {
-                case "": {
-                    binding.data.setText("");
-                    break;
-                }
                 case "datetime": {
                     final var date = LocalDate.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_DATE_TIME);
                     binding.data.setText(date.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)));
@@ -57,14 +51,13 @@ public class DateTimeCellViewHolder extends CellViewHolder {
                     binding.data.setText(date.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
                     break;
                 }
+                case "":
                 default: {
                     // TODO
+                    binding.data.setText("");
                     break;
                 }
             }
         }
-        binding.data.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-        binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        binding.data.requestLayout();
     }
 }

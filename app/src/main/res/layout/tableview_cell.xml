@@ -4,16 +4,17 @@
     android:id="@+id/cell_container"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/table_view_cell_height"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/spacer_1x">
 
     <TextView
         android:id="@+id/data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="center"
+        android:gravity="start|center_vertical"
+        android:maxWidth="200dp"
+        android:ellipsize="end"
         android:maxLines="1"
         tools:text="Cell Data" />
 

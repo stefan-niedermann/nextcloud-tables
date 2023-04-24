@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type;
 
-import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -11,9 +9,6 @@ import it.niedermann.nextcloud.tables.databinding.TableviewCellSelectionBinding;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
 public class SelectionCellViewHolder extends CellViewHolder {
-
-    private static final String SELECTION_CHECK_TRUE = "true";
-    private static final String SELECTION_CHECK_FALSE = "false";
 
     private final TableviewCellSelectionBinding binding;
 
@@ -25,28 +20,10 @@ public class SelectionCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
-            binding.check.setSelected(false);
+            binding.check.setChecked(false);
         } else {
-            final var subtype = column.getSubtype();
-            //noinspection SwitchStatementWithTooFewBranches
-            switch (subtype) {
-                case "check": {
-                    if (SELECTION_CHECK_TRUE.equals(data.getValue())) {
-                        binding.check.setSelected(true);
-                    } else if (SELECTION_CHECK_FALSE.equals(data.getValue())) {
-                        binding.check.setSelected(false);
-                    } else {
-                        binding.check.setSelected(false);
-                    }
-                    break;
-                }
-                default: {
-                    // TODO
-                    break;
-                }
-            }
+            final var checked = Boolean.parseBoolean(String.valueOf(data.getValue()));
+            binding.check.setChecked(checked);
         }
-        binding.check.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        binding.check.requestLayout();
     }
 }

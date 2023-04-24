@@ -11,13 +11,15 @@
 
         <com.evrencoskun.tableview.TableView
             android:id="@+id/tableView"
-            app:separator_color="?attr/colorOutlineVariant"
-            app:unselected_color="?android:attr/windowBackground"
-            app:selected_color="?attr/colorSecondaryContainer"
-            app:shadow_color="?android:attr/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            app:column_header_height="@dimen/table_view_cell_height"
+            app:row_header_width="@dimen/table_view_row_header_width"
+            app:selected_color="?attr/colorSecondaryContainer"
+            app:separator_color="?attr/colorOutlineVariant"
+            app:shadow_color="?android:attr/windowBackground"
+            app:unselected_color="?android:attr/windowBackground" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
