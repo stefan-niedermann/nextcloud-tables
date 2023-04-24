@@ -13,10 +13,12 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellSelectionBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewCellStarsBinding;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.DateTimeCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.NumberCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.ProgressCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.SelectionCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.StarsCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.TextCellViewHolder;
 
 public enum ColumnViewType {
@@ -27,6 +29,7 @@ public enum ColumnViewType {
     CHECK(2_001, "selection", "check", layoutInflater -> new SelectionCellViewHolder(TableviewCellSelectionBinding.inflate(layoutInflater))),
     NUMBER(3_000, "number", "", layoutInflater -> new NumberCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
     PROGRESS(3_001, "number", "progress", layoutInflater -> new ProgressCellViewHolder(TableviewCellProgressBinding.inflate(layoutInflater))),
+    STARS(3_002, "number", "stars", layoutInflater -> new StarsCellViewHolder(TableviewCellStarsBinding.inflate(layoutInflater))),
     ;
     private final int id;
     private final String type;

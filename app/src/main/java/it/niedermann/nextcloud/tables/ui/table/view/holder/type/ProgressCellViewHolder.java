@@ -29,5 +29,6 @@ public class ProgressCellViewHolder extends CellViewHolder {
                 binding.progress.setProgressCompat(0, false);
             }
         }
+        binding.progress.requestLayout();
     }
 }

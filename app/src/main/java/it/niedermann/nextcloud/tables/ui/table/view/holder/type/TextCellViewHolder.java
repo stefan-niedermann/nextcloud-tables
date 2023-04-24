@@ -36,5 +36,6 @@ public class TextCellViewHolder extends CellViewHolder {
                 }
             }
         }
+        binding.data.requestLayout();
     }
 }

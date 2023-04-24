@@ -26,14 +26,9 @@ public class DateTimeCellViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
-        if (data == null) {
-            binding.data.setText(null);
+        if (data == null || TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())) {
+            binding.data.setText("");
         } else {
-            if (TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())) {
-                binding.data.setText("");
-                return;
-            }
-
             final var subtype = column.getSubtype();
             switch (subtype) {
                 case "datetime": {
@@ -59,5 +54,6 @@ public class DateTimeCellViewHolder extends CellViewHolder {
                 }
             }
         }
+        binding.data.requestLayout();
     }
 }

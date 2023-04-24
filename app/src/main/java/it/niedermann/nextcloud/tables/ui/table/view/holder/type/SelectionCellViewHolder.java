@@ -25,5 +25,6 @@ public class SelectionCellViewHolder extends CellViewHolder {
             final var checked = Boolean.parseBoolean(String.valueOf(data.getValue()));
             binding.check.setChecked(checked);
         }
+        binding.check.requestLayout();
     }
 }
