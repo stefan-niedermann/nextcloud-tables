@@ -89,10 +89,6 @@ public class Account extends AbstractEntity {
         return new SingleSignOnUrl(getAccountName(), getUrl() + "/index.php/avatar/" + Uri.encode(userName) + "/" + size);
     }
 
-    public boolean isSupported() {
-        return tablesVersion != null && tablesVersion.getMinor() >= 3;
-    }
-
     @NonNull
     public String getUrl() {
         return url;

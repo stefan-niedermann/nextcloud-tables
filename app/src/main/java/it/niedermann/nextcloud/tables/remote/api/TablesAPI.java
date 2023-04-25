@@ -17,15 +17,24 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * @link <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/nextcloud/tables/enh/api/APIv1.yaml#/">Tables REST API</a>
+ * @link <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/nextcloud/tables/master/APIv1.yaml#/">Tables REST API</a>
  */
 public interface TablesAPI {
+
+    int DEFAULT_LIMIT = 1_000;
 
     /**
      * @since 0.3.0
      */
     @GET("tables")
     Call<List<Table>> getTables();
+
+    /**
+     * @since 0.3.0
+     */
+    @GET("tables")
+    Call<List<Table>> getTables(@Query("limit") int limit,
+                                @Query("offset") int offset);
 
     /**
      * @since 0.3.0
@@ -105,13 +114,13 @@ public interface TablesAPI {
     Call<Column> deleteColumn(@Path("columnId") long columnId);
 
     /**
-     * @since 0.3.0
+     * @since 0.4.0
      */
     @GET("tables/{tableId}/rows")
     Call<List<Row>> getRows(@Path("tableId") long tableId);
 
     /**
-     * @since 0.3.0
+     * @since 0.4.0
      */
     @GET("tables/{tableId}/rows")
     Call<List<Row>> getRows(@Path("tableId") long tableId,

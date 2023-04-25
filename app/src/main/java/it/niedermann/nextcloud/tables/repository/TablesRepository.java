@@ -71,35 +71,47 @@ public class TablesRepository {
     }
 
     private void pullRemoteTables(@NonNull TablesAPI tablesApi, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
-        Log.v(TAG, "Pulling remote changes for " + account.getAccountName());
-        final var request = tablesApi.getTables();
-        final var response = request.execute();
-        switch (response.code()) {
-            case 200: {
-                final var tables = response.body();
-                if (tables == null) {
-                    throw new RuntimeException("Response body is null");
+        int offset = 0;
+
+        fetchTablesLoop:
+        while (true) {
+            Log.v(TAG, "Pulling remote changes for " + account.getAccountName() + " (offset: " + offset + ")");
+            final var request = tablesApi.getTables(TablesAPI.DEFAULT_LIMIT, offset);
+            final var response = request.execute();
+            switch (response.code()) {
+                case 200: {
+                    final var tables = response.body();
+                    if (tables == null) {
+                        throw new RuntimeException("Response body is null");
+                    }
+
+                    for (final var table : tables) {
+                        Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
+                        table.setStatus(DBStatus.VOID);
+                        table.setAccountId(account.getId());
+                        table.setETag(response.headers().get(HEADER_ETAG));
+                        final var createdTable = db.getTableDao().getTable(db.getTableDao().insert(table));
+                        pullRemoteColumns(tablesApi, createdTable);
+                        pullRemoteRows(tablesApi, createdTable);
+                    }
+
+                    if (tables.size() != TablesAPI.DEFAULT_LIMIT) {
+                        break fetchTablesLoop;
+                    }
+
+                    offset += tables.size();
+
+                    break;
                 }
 
-                for (final var table : tables) {
-                    Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
-                    table.setStatus(DBStatus.VOID);
-                    table.setAccountId(account.getId());
-                    table.setETag(response.headers().get(HEADER_ETAG));
-                    final var createdTable = db.getTableDao().getTable(db.getTableDao().insert(table));
-                    pullRemoteColumns(tablesApi, createdTable);
-                    pullRemoteRows(tablesApi, createdTable);
+                case 304: {
+                    Log.v(TAG, "→ HTTP " + response.code() + " Not Modified");
+                    break;
                 }
-                break;
-            }
 
-            case 304: {
-                Log.v(TAG, "→ HTTP " + response.code() + " Not Modified");
-                break;
-            }
-
-            default: {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                default: {
+                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                }
             }
         }
     }
@@ -132,12 +144,6 @@ public class TablesRepository {
                 break;
             }
 
-            case 405: {
-                // TODO https://github.com/nextcloud/tables/pull/170/files#r1151644073
-                Log.w(TAG, "Pull remote columns: HTTP " + response.code());
-                break;
-            }
-
             default: {
                 throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
             }
@@ -149,45 +155,51 @@ public class TablesRepository {
     }
 
     public void pullRemoteRows(@NonNull TablesAPI tablesApi, @NonNull Table table) throws IOException, NextcloudHttpRequestFailedException {
-        final var request = tablesApi.getRows(table.getRemoteId());
-        final var response = request.execute();
-        switch (response.code()) {
-            case 200: {
-                final var body = response.body();
-                if (body == null) {
-                    throw new RuntimeException("Response body is null");
-                }
+        int offset = 0;
 
-                for (final var row : body) {
-                    row.setAccountId(table.getAccountId());
-                    row.setTableId(table.getId());
-                    row.setETag(response.headers().get(HEADER_ETAG));
-                    final var insertedRow = db.getRowDao().get(db.getRowDao().insert(row));
-                    for (final var data : row.getData()) {
-                        data.setAccountId(table.getAccountId());
-                        data.setTableId(table.getId());
-                        data.setRemoteRowId(insertedRow.getRemoteId());
-                        data.setRowId(insertedRow.getId());
-                        data.setColumnId(db.getColumnDao().getColumnId(table.getAccountId(), data.getRemoteColumnId()));
-                        db.getDataDao().insert(data);
+        fetchRowsLoop:
+        while (true) {
+            final var request = tablesApi.getRows(table.getRemoteId(), TablesAPI.DEFAULT_LIMIT, offset);
+            final var response = request.execute();
+            switch (response.code()) {
+                case 200: {
+                    final var rows = response.body();
+                    if (rows == null) {
+                        throw new RuntimeException("Response body is null");
                     }
+
+                    for (final var row : rows) {
+                        row.setAccountId(table.getAccountId());
+                        row.setTableId(table.getId());
+                        row.setETag(response.headers().get(HEADER_ETAG));
+                        final var insertedRow = db.getRowDao().get(db.getRowDao().insert(row));
+                        for (final var data : row.getData()) {
+                            data.setAccountId(table.getAccountId());
+                            data.setTableId(table.getId());
+                            data.setRemoteRowId(insertedRow.getRemoteId());
+                            data.setRowId(insertedRow.getId());
+                            data.setColumnId(db.getColumnDao().getColumnId(table.getAccountId(), data.getRemoteColumnId()));
+                            db.getDataDao().insert(data);
+                        }
+                    }
+
+                    if (rows.size() != TablesAPI.DEFAULT_LIMIT) {
+                        break fetchRowsLoop;
+                    }
+
+                    offset += rows.size();
+
+                    break;
                 }
-                break;
-            }
 
-            case 304: {
-                Log.v(TAG, "Pull remote rows: HTTP " + response.code() + " Not Modified");
-                break;
-            }
+                case 304: {
+                    Log.v(TAG, "Pull remote rows: HTTP " + response.code() + " Not Modified");
+                    break;
+                }
 
-            case 405: {
-                // TODO https://github.com/nextcloud/tables/pull/170/files#r1151644073
-                Log.w(TAG, "Pull remote rows: HTTP " + response.code());
-                break;
-            }
-
-            default: {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                default: {
+                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                }
             }
         }
     }

@@ -4,7 +4,6 @@
 
 ## ⛔ Limitations
 
-- Can still handle 1000 rows at most
 - No write access
 - Sync only on Wi-Fi has no effect yet
 - Does not yet apply the theme of the used Nextcloud instance
