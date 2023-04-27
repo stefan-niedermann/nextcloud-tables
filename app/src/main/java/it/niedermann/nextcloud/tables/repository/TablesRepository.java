@@ -215,6 +215,7 @@ public class TablesRepository {
 
         fetchRowsLoop:
         while (true) {
+            Log.v(TAG, "Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")");
             final var request = tablesApi.getRows(table.getRemoteId(), TablesAPI.DEFAULT_LIMIT, offset);
             final var response = request.execute();
             switch (response.code()) {
@@ -232,10 +233,9 @@ public class TablesRepository {
                         final var columnRemoteIds = Arrays.stream(row.getData()).map(Data::getRemoteColumnId).collect(toUnmodifiableSet());
                         final var columnIds = db.getColumnDao().getColumnIds(table.getAccountId(), columnRemoteIds);
                         for (final var data : row.getData()) {
-                            // TODO query as map to reduce database load
-                            final long columnId = db.getColumnDao().getColumnId(table.getAccountId(), data.getRemoteColumnId());
-                            if (columnId == 0) {
-                                Log.w(TAG, "Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted (See https://github.com/nextcloud/tables/issues/257)");
+                            final var columnId = columnIds.get(data.getRemoteColumnId());
+                            if (columnId == null) {
+                                Log.w(TAG, "Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
                             } else {
                                 data.setAccountId(table.getAccountId());
                                 data.setRowId(insertedRow.getId());

@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.database.dao;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.MapInfo;
@@ -17,15 +16,12 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 public interface ColumnDao extends GenericDao<Column> {
 
     @Query("SELECT * FROM `Column` c WHERE c.tableId = :tableId AND c.status = :status")
-    List<Column> getColumns(long tableId, @NonNull DBStatus status);
+    List<Column> getColumns(long tableId, DBStatus status);
 
     @Query("SELECT * FROM `Column` c WHERE c.tableId = :tableId AND c.status != 'LOCAL_DELETED' ORDER BY c.remoteId")
     LiveData<List<Column>> getNotDeletedColumns$(long tableId);
 
-    @Query("SELECT c.id FROM `Column` c WHERE c.accountId = :accountId AND c.remoteId = :remoteColumnId")
-    long getColumnId(long accountId, long remoteColumnId);
-
-    @MapInfo(keyColumn = "c.remoteId", valueColumn = "c.id")
-    @Query("SELECT c.id, c.remoteId FROM `Column` c WHERE c.accountId = :accountId AND c.remoteId = :remoteColumnId")
+    @MapInfo(keyColumn = "remoteId", valueColumn = "id")
+    @Query("SELECT c.remoteId, c.id FROM `Column` c WHERE c.accountId = :accountId AND c.remoteId IN (:remoteColumnId)")
     Map<Long, Long> getColumnIds(long accountId, Collection<Long> remoteColumnId);
 }
