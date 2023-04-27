@@ -15,17 +15,14 @@ import it.niedermann.nextcloud.tables.database.entity.Row;
 @Dao
 public interface RowDao extends GenericDao<Row> {
 
-    @Query("SELECT * FROM `Row` r WHERE r.tableId = :tableId AND r.status = :status")
-    List<Row> getRows(long tableId, DBStatus status);
+    @Query("SELECT * FROM `Row` r WHERE r.accountId = :accountId AND r.status = :status")
+    List<Row> getRows(long accountId, DBStatus status);
 
     @Query("SELECT * FROM `Row` r WHERE r.tableId = :tableId AND r.status != 'LOCAL_DELETED' ORDER BY r.remoteId")
     LiveData<List<Row>> getNotDeletedRows$(long tableId);
 
     @Query("SELECT * FROM `Row` WHERE id = :id")
     Row get(long id);
-
-    @Query("UPDATE `Row` SET status = :status WHERE id = :id")
-    void updateStatus(long id, DBStatus status);
 
     @MapInfo(keyColumn = "remoteId", valueColumn = "id")
     @Query("SELECT r.remoteId, r.id FROM `Row` r WHERE r.accountId = :accountId AND r.remoteId IN (:remoteIds)")

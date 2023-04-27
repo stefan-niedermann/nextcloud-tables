@@ -21,7 +21,9 @@ import retrofit2.http.Query;
  */
 public interface TablesAPI {
 
-    int DEFAULT_LIMIT = 1_000;
+    int API_LIMIT_DEFAULT = 1_000;
+    int API_LIMIT_TABLES = API_LIMIT_DEFAULT;
+    int API_LIMIT_ROWS = API_LIMIT_DEFAULT;
 
     /**
      * @since 0.3.0

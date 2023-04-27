@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -171,11 +172,18 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(EditColumnActivity.createIntent(this, account));
                             return true;
                         } else if (id == R.id.delete_table) {
-                            mainViewModel.deleteTable(table).whenCompleteAsync((result, exception) -> {
-                                if (exception != null) {
-                                    ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                }
-                            }, ContextCompat.getMainExecutor(this));
+                            new MaterialAlertDialogBuilder(this)
+                                    .setTitle(getString(R.string.delete_item, table.getTitle()))
+                                    .setMessage(getString(R.string.delete_item_message, table.getTitle()))
+                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
+                                        mainViewModel.deleteTable(table).whenCompleteAsync((result, exception) -> {
+                                            if (exception != null) {
+                                                ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                            }
+                                        }, ContextCompat.getMainExecutor(this));
+                                    })
+                                    .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                    .show();
                             return true;
                         }
                         return false;

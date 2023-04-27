@@ -15,6 +15,9 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 @Dao
 public interface TableDao extends GenericDao<Table> {
 
+    @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId")
+    List<Table> getTables(long accountId);
+
     @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId AND t.status = :status")
     List<Table> getTables(long accountId, DBStatus status);
 
@@ -29,9 +32,6 @@ public interface TableDao extends GenericDao<Table> {
 
     @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId AND t.isShared = :isShared AND t.status != 'LOCAL_DELETED' ORDER by t.title")
     LiveData<List<Table>> getNotDeletedTables$(long accountId, boolean isShared);
-
-    @Query("UPDATE `Table` SET status = :status WHERE id = :id")
-    void updateStatus(long id, DBStatus status);
 
     @MapInfo(keyColumn = "remoteId", valueColumn = "id")
     @Query("SELECT t.remoteId, t.id FROM `Table` t WHERE t.accountId = :accountId AND t.remoteId IN (:remoteIds)")

@@ -1,26 +1,19 @@
 package it.niedermann.nextcloud.tables.ui.table.edit;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
-import it.niedermann.nextcloud.tables.databinding.ActivityEditTableBinding;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
 public class EditTableViewModel extends AndroidViewModel {
