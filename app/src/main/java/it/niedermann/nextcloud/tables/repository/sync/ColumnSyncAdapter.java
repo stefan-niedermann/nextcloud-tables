@@ -41,11 +41,14 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
         final var columnsToUpdate = db.getColumnDao().getColumns(account.getId(), DBStatus.LOCAL_EDITED);
         for (final var column : columnsToUpdate) {
-            Log.i(TAG, "→ PUT: " + column.getTitle());
-            final var response = api.updateColumn(column.getRemoteId(), column).execute();
+            Log.i(TAG, "→ PUT/POST: " + column.getTitle());
+            final var response = column.getRemoteId() == null
+                    ? api.createColumn(db.getTableDao().getTable(column.getTableId()).getRemoteId(), column).execute()
+                    : api.updateColumn(column.getRemoteId(), column).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 column.setStatus(DBStatus.VOID);
+                column.setRemoteId(response.body().getRemoteId());
                 db.getColumnDao().update(column);
             } else {
                 throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for table " + column.getTitle()));

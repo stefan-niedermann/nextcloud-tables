@@ -46,12 +46,15 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
         final var rowsToUpdate = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_EDITED);
         Log.v(TAG, "Pushing " + rowsToDelete.size() + " local row changes for " + account.getAccountName());
         for (final var row : rowsToUpdate) {
-            Log.i(TAG, "→ PUT: " + row.getRemoteId());
+            Log.i(TAG, "→ PUT/POSt: " + row.getRemoteId());
             row.setData(db.getDataDao().getDataForRow(row.getId()));
-            final var response = api.updateRow(row.getRemoteId(), row).execute();
+            final var response = row.getRemoteId() == null
+                    ? api.createRow(db.getTableDao().getTable(row.getTableId()).getRemoteId(), row).execute()
+                    : api.updateRow(row.getRemoteId(), row).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 row.setStatus(DBStatus.VOID);
+                row.setRemoteId(response.body().getRemoteId());
                 db.getRowDao().update(row);
             } else {
                 throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for table " + row.getRemoteId()));

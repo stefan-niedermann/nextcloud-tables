@@ -43,11 +43,14 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
 
         final var changedTables = db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_EDITED);
         for (final var table : changedTables) {
-            Log.i(TAG, "→ PUT: " + table.getTitle());
-            final var response = api.updateTable(table.getRemoteId(), table.getTitle(), table.getEmoji()).execute();
+            Log.i(TAG, "→ PUT/POST: " + table.getTitle());
+            final var response = table.getRemoteId() == null
+                    ? api.createTable(table.getTitle(), table.getEmoji()).execute()
+                    : api.updateTable(table.getRemoteId(), table.getTitle(), table.getEmoji()).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 table.setStatus(DBStatus.VOID);
+                table.setRemoteId(response.body().getRemoteId());
                 db.getTableDao().update(table);
             } else {
                 throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for table " + table.getTitle()));

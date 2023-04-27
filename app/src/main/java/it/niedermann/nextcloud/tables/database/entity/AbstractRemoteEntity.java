@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Index;
 
@@ -16,18 +17,20 @@ import java.util.Objects;
 )
 public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity {
 
+    @Nullable
     @SerializedName("id")
-    protected long remoteId;
+    protected Long remoteId;
 
     public AbstractRemoteEntity() {
         // Default constructor
     }
 
-    public long getRemoteId() {
+    @Nullable
+    public Long getRemoteId() {
         return remoteId;
     }
 
-    public void setRemoteId(long remoteId) {
+    public void setRemoteId(@Nullable Long remoteId) {
         this.remoteId = remoteId;
     }
 
@@ -37,7 +40,7 @@ public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity 
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         AbstractRemoteEntity that = (AbstractRemoteEntity) o;
-        return remoteId == that.remoteId;
+        return Objects.equals(remoteId, that.remoteId);
     }
 
     @Override

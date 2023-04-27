@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -52,8 +53,9 @@ public class Data extends AbstractAccountRelatedEntity {
     @SerializedName("localRowId")
     @Expose(deserialize = false, serialize = false)
     private long rowId;
+    @Nullable
     @SerializedName("columnId")
-    private long remoteColumnId;
+    private Long remoteColumnId;
     private Object value;
 
     public Data() {
@@ -76,11 +78,12 @@ public class Data extends AbstractAccountRelatedEntity {
         this.rowId = rowId;
     }
 
-    public long getRemoteColumnId() {
+    @Nullable
+    public Long getRemoteColumnId() {
         return remoteColumnId;
     }
 
-    public void setRemoteColumnId(long remoteColumnId) {
+    public void setRemoteColumnId(@Nullable Long remoteColumnId) {
         this.remoteColumnId = remoteColumnId;
     }
 
@@ -98,12 +101,12 @@ public class Data extends AbstractAccountRelatedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Data data = (Data) o;
-        return columnId == data.columnId && rowId == data.rowId && Objects.equals(value, data.value);
+        return columnId == data.columnId && rowId == data.rowId && Objects.equals(remoteColumnId, data.remoteColumnId) && Objects.equals(value, data.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), columnId, rowId, value);
+        return Objects.hash(super.hashCode(), columnId, rowId, remoteColumnId, value);
     }
 
     @NonNull

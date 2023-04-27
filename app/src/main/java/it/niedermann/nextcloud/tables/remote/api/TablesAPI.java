@@ -57,6 +57,13 @@ public interface TablesAPI {
      */
     @POST("table")
     Call<Table> createTable(@Query("title") @NonNull String title,
+                            @Query("emoji") @NonNull String emoji);
+
+    /**
+     * @since 0.4.0
+     */
+    @POST("table")
+    Call<Table> createTable(@Query("title") @NonNull String title,
                             @Query("emoji") @NonNull String emoji,
                             @Query("template") @NonNull String template);
 

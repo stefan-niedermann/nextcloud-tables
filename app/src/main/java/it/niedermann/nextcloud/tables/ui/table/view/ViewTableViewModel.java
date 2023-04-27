@@ -63,7 +63,7 @@ public class ViewTableViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Column>> getColumns(@NonNull Table table) {
-        return tablesRepository.getColumns(table);
+        return tablesRepository.getNotDeletedColumns$(table);
     }
 
     public LiveData<List<List<Data>>> getData(@NonNull Table table) {

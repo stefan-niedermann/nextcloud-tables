@@ -51,7 +51,7 @@ public class ViewTableFragment extends Fragment {
         viewTableViewModel.getColumns(table).observe(getViewLifecycleOwner(), columns -> adapter.setColumnHeaderItems(columns));
         viewTableViewModel.getData(table).observe(getViewLifecycleOwner(), data -> adapter.setCellItems(data));
 
-        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account)));
+        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, table)));
         binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
             binding.swipeRefreshLayout.setRefreshing(false);
             if (exception != null) {
