@@ -16,6 +16,12 @@ import java.util.Objects;
         inheritSuperIndices = true,
         foreignKeys = {
                 @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
                         entity = Table.class,
                         parentColumns = "id",
                         childColumns = "tableId",
@@ -23,7 +29,7 @@ import java.util.Objects;
                 )
         },
         indices = {
-                @Index(value = {"accountId", "tableId", "id", "remoteId"}, unique = true),
+                @Index(name = "IDX_ROW_ACCOUNT_ID_REMOTE_ID", value = {"accountId", "remoteId"}, unique = true),
                 @Index(name = "IDX_ROW_TABLE_ID", value = "tableId")
         }
 )

@@ -15,6 +15,12 @@ import java.util.Objects;
         inheritSuperIndices = true,
         foreignKeys = {
                 @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
                         entity = Table.class,
                         parentColumns = "id",
                         childColumns = "tableId",
@@ -22,7 +28,7 @@ import java.util.Objects;
                 )
         },
         indices = {
-                @Index(value = {"accountId", "tableId", "id", "remoteId"}, unique = true),
+                @Index(name = "IDX_COLUMN_ACCOUNT_ID_REMOTE_D", value = {"accountId", "remoteId"}, unique = true),
                 @Index(name = "IDX_COLUMN_TABLE_ID", value = "tableId")
         }
 )
@@ -30,8 +36,6 @@ public class Column extends AbstractRemoteEntity {
     @SerializedName("localTableId")
     @Expose(deserialize = false, serialize = false)
     private long tableId;
-    @SerializedName("tableId")
-    private long remoteTableId;
     @ColumnInfo(defaultValue = "")
     private String title = "";
     @ColumnInfo(defaultValue = "")
@@ -71,14 +75,6 @@ public class Column extends AbstractRemoteEntity {
 
     public void setTableId(long tableId) {
         this.tableId = tableId;
-    }
-
-    public long getRemoteTableId() {
-        return remoteTableId;
-    }
-
-    public void setRemoteTableId(long remoteTableId) {
-        this.remoteTableId = remoteTableId;
     }
 
     public String getTitle() {
@@ -263,11 +259,11 @@ public class Column extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Column column = (Column) o;
-        return tableId == column.tableId && remoteTableId == column.remoteTableId && mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && Objects.equals(type, column.type) && Objects.equals(subtype, column.subtype) && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(numberDefault, column.numberDefault) && Objects.equals(numberMin, column.numberMin) && Objects.equals(numberMax, column.numberMax) && Objects.equals(numberDecimals, column.numberDecimals) && Objects.equals(numberPrefix, column.numberPrefix) && Objects.equals(numberSuffix, column.numberSuffix) && Objects.equals(textDefault, column.textDefault) && Objects.equals(textAllowedPattern, column.textAllowedPattern) && Objects.equals(textMaxLength, column.textMaxLength) && Objects.equals(selectionDefault, column.selectionDefault) && Objects.equals(datetimeDefault, column.datetimeDefault);
+        return tableId == column.tableId && mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && Objects.equals(type, column.type) && Objects.equals(subtype, column.subtype) && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(numberDefault, column.numberDefault) && Objects.equals(numberMin, column.numberMin) && Objects.equals(numberMax, column.numberMax) && Objects.equals(numberDecimals, column.numberDecimals) && Objects.equals(numberPrefix, column.numberPrefix) && Objects.equals(numberSuffix, column.numberSuffix) && Objects.equals(textDefault, column.textDefault) && Objects.equals(textAllowedPattern, column.textAllowedPattern) && Objects.equals(textMaxLength, column.textMaxLength) && Objects.equals(selectionDefault, column.selectionDefault) && Objects.equals(datetimeDefault, column.datetimeDefault);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tableId, remoteTableId, title, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionDefault, datetimeDefault);
+        return Objects.hash(super.hashCode(), tableId, title, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionDefault, datetimeDefault);
     }
 }

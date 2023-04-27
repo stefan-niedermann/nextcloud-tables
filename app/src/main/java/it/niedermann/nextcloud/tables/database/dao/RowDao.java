@@ -21,4 +21,7 @@ public interface RowDao extends GenericDao<Row> {
 
     @Query("SELECT * FROM `Row` WHERE id = :id")
     Row get(long id);
+
+    @Query("UPDATE `Row` SET status = :status WHERE id = :id")
+    void updateStatus(long id, DBStatus status);
 }

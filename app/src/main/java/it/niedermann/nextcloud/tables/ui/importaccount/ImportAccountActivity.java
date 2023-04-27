@@ -101,6 +101,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 binding.addButton.setEnabled(true);
 
                 if (state.error instanceof SQLiteConstraintException) {
+                    ExceptionDialogFragment.newInstance(state.error, state.account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     binding.progressText.setText(R.string.account_already_imported);
                 } else {
                     if (state.error != null) {

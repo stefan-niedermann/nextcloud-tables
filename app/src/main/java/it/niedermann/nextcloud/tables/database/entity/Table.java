@@ -1,25 +1,26 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.Index;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import it.niedermann.nextcloud.tables.database.DBStatus;
-
 @Entity(
-        inheritSuperIndices = true
+        inheritSuperIndices = true,
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class Table extends AbstractRemoteEntity {
     @NonNull

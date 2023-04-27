@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 import com.google.gson.annotations.Expose;
@@ -10,14 +9,6 @@ import java.util.Objects;
 
 @Entity(
         inheritSuperIndices = true,
-        foreignKeys = {
-                @ForeignKey(
-                        entity = Account.class,
-                        parentColumns = "id",
-                        childColumns = "accountId",
-                        onDelete = ForeignKey.CASCADE
-                )
-        },
         indices = {
                 @Index(value = {"accountId", "id"}, unique = true)
         }
