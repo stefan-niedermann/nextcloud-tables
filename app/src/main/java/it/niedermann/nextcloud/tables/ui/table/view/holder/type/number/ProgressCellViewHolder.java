@@ -20,8 +20,7 @@ public class ProgressCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
-            // TODO DEFAULT
-            binding.progress.setProgressCompat(0, false);
+            binding.progress.setProgressCompat(column.getNumberDefault().intValue(), false);
         } else {
             try {
                 final var progress = Double.parseDouble(String.valueOf(data.getValue()));

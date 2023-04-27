@@ -17,7 +17,7 @@ public class LongCellViewHolder extends TextCellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
-            binding.data.setText(null);
+            binding.data.setText(HtmlCompat.fromHtml(column.getTextDefault(), 0));
         } else {
             binding.data.setText(HtmlCompat.fromHtml(String.valueOf(data.getValue()), 0));
         }

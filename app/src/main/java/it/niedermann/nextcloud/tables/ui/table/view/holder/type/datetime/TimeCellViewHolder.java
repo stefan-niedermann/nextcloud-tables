@@ -22,11 +22,12 @@ public class TimeCellViewHolder extends AbstractDateTimeCellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null || TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())) {
-            binding.data.setText("");
-            return;
+            final var time = LocalTime.parse(String.valueOf(column.getDatetimeDefault()), DateTimeFormatter.ISO_TIME);
+            binding.data.setText(time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
+        } else {
+            final var time = LocalTime.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_TIME);
+            binding.data.setText(time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
         }
-        final var time = LocalTime.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_TIME);
-        binding.data.setText(time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)));
         binding.data.requestLayout();
     }
 }

@@ -23,18 +23,9 @@ public class NumberCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
-            // TODO DEFAULT
-            binding.data.setText(null);
+            setText(column, String.valueOf(column.getNumberDefault()));
         } else {
-            try {
-                setText(column, String.valueOf(Long.parseLong(String.valueOf(data.getValue()))));
-            } catch (NumberFormatException noLongException) {
-                try {
-                    setText(column, String.valueOf(Double.parseDouble(String.valueOf(data.getValue()))));
-                } catch (NumberFormatException noDoubleException) {
-                    setText(column, String.valueOf(data.getValue()));
-                }
-            }
+            setText(column, String.valueOf(data.getValue()));
         }
         binding.data.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
         binding.data.requestLayout();
@@ -42,6 +33,20 @@ public class NumberCellViewHolder extends CellViewHolder {
 
     @SuppressLint("SetTextI18n")
     private void setText(@NonNull Column column, String number) {
-        binding.data.setText(column.getNumberPrefix() + number + column.getNumberSuffix());
+        String parsedNumber;
+
+        // TODO respect {@link Column#getNumberDecimals()}
+
+        try {
+            parsedNumber = String.valueOf(Long.parseLong(number));
+        } catch (NumberFormatException noLongException) {
+            try {
+                parsedNumber = String.valueOf(Double.parseDouble(number));
+            } catch (NumberFormatException noDoubleException) {
+                parsedNumber = number;
+            }
+        }
+
+        binding.data.setText(column.getNumberPrefix() + parsedNumber + column.getNumberSuffix());
     }
 }
