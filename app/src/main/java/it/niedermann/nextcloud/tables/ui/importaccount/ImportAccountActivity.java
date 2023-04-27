@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
 import it.niedermann.nextcloud.tables.remote.SyncWorker;
 import it.niedermann.nextcloud.tables.remote.exception.AccountAlreadyImportedException;
+import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
@@ -104,9 +105,14 @@ public class ImportAccountActivity extends AppCompatActivity {
                     binding.progressText.setText(R.string.account_already_imported);
                 } else {
                     if (state.error != null) {
-                        ExceptionDialogFragment.newInstance(state.error, state.account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                        binding.progressText.setText(state.error.getMessage());
                         state.error.printStackTrace();
+                        ExceptionDialogFragment.newInstance(state.error, state.account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+
+                        if(state.error instanceof ServerNotAvailableException) {
+                            binding.progressText.setText(((ServerNotAvailableException) state.error).getReason().messageRes);
+                        } else {
+                            binding.progressText.setText(state.error.getMessage());
+                        }
                     } else {
                         binding.progressText.setText(R.string.hint_error_appeared);
                         new IllegalStateException("Received error state while importing, but exception was null").printStackTrace();

@@ -139,4 +139,12 @@
     <string name="import_state_import_account">Importing account</string>
     <string name="import_state_import_tables">Importing tables. This may take several minutes.</string>
     <string name="not_yet_synchronized">Not yet synchronized</string>
+
+    <string name="reason_not_installed">Nextcloud Tables is not installed</string>
+    <string name="reason_not_enabled">Nextcloud Tables is not enabled</string>
+    <string name="reason_maintenance_mode">Your Nextcloud instance is currently in maintenance mode</string>
+    <string name="reason_server_error">Your server responded with an invalid response</string>
+    <string name="reason_tables_not_supported">Your Nextcloud Tables app version is not supported</string>
+    <string name="reason_nextcloud_not_supported">Your Nextcloud version is not supported</string>
+    <string name="reason_unknown">An unknown error occured</string>
 </resources>

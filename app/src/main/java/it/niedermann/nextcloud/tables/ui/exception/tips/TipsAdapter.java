@@ -71,6 +71,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
     public void setThrowable(@NonNull Context context, @Nullable Account account, @NonNull Throwable throwable) {
         if (throwable instanceof ServerNotAvailableException) {
+            add(((ServerNotAvailableException) throwable).getReason().messageRes);
+
             switch (((ServerNotAvailableException) throwable).getReason()) {
                 case NOT_INSTALLED:
 
