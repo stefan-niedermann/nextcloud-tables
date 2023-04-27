@@ -14,19 +14,19 @@ public interface DataDao extends GenericDao<Data> {
     @Query("SELECT * FROM Data d " +
             "INNER JOIN `Row` r ON d.rowId = r.id " +
             "INNER JOIN `Column` c ON d.columnId = c.id " +
-            "WHERE d.accountId = :accountId " +
-            "AND d.rowId = :rowId " +
-            "AND r.tableId = :tableId " +
-            "AND c.tableId = :tableId " +
+            "WHERE d.rowId = :rowId " +
             "ORDER BY r.remoteId, c.remoteId")
-    Data[] getData(long accountId, long tableId, long rowId);
+    Data[] getDataForRow(long rowId);
 
     @Query("SELECT * FROM Data d " +
             "INNER JOIN `Row` r ON d.rowId = r.id " +
             "INNER JOIN `Column` c ON d.columnId = c.id " +
-            "WHERE d.accountId = :accountId " +
-            "AND r.tableId = :tableId " +
+            "WHERE r.tableId = :tableId " +
             "AND c.tableId = :tableId " +
             "ORDER BY r.remoteId, c.remoteId")
-    LiveData<List<Data>> getData(long accountId, long tableId);
+    LiveData<List<Data>> getData(long tableId);
+
+    @Query("SELECT * FROM Data d WHERE d.columnId = :columnId AND d.rowId = :rowId")
+    Data getDataForCoordinates(long columnId, long rowId);
+
 }

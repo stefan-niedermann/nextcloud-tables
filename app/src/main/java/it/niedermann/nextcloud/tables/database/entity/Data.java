@@ -21,19 +21,25 @@ import java.util.Objects;
                 ),
                 @ForeignKey(
                         entity = Column.class,
-                        parentColumns = {"accountId", "id", "remoteId"},
-                        childColumns = {"accountId", "columnId", "remoteColumnId"},
+                        parentColumns = "id",
+                        childColumns = "columnId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Column.class,
+                        parentColumns = {"accountId", "remoteId"},
+                        childColumns = {"accountId", "remoteColumnId"},
                         onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
                         entity = Row.class,
-                        parentColumns = {"accountId", "id"},
-                        childColumns = {"accountId", "rowId"},
+                        parentColumns = "id",
+                        childColumns = "rowId",
                         onDelete = ForeignKey.CASCADE
                 )
         },
         indices = {
-                @Index(name = "IDX_DATA_ACCOUNT_ID_COLUMN_ID_ROW_ID", value = {"accountId", "columnId", "rowId"}, unique = true),
+                @Index(name = "IDX_DATA_COLUMN_ID_ROW_ID", value = {"columnId", "rowId"}, unique = true),
                 @Index(name = "IDX_DATA_COLUMN_ID", value = "columnId"),
                 @Index(name = "IDX_DATA_ROW_ID", value = "rowId")
         }

@@ -2,9 +2,12 @@ package it.niedermann.nextcloud.tables.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.MapInfo;
 import androidx.room.Query;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Table;
@@ -29,4 +32,11 @@ public interface TableDao extends GenericDao<Table> {
 
     @Query("UPDATE `Table` SET status = :status WHERE id = :id")
     void updateStatus(long id, DBStatus status);
+
+    @MapInfo(keyColumn = "remoteId", valueColumn = "id")
+    @Query("SELECT t.remoteId, t.id FROM `Table` t WHERE t.accountId = :accountId AND t.remoteId IN (:remoteIds)")
+    Map<Long, Long> getTableRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);
+
+    @Query("DELETE FROM `Table` WHERE accountId = :accountId AND remoteId NOT IN (:remoteIds)")
+    void deleteExcept(long accountId, Collection<Long> remoteIds);
 }

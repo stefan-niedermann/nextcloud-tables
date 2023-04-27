@@ -16,10 +16,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +30,6 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
-import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
@@ -56,8 +51,7 @@ public class ViewTableViewModel extends AndroidViewModel {
             try {
                 this.accountRepository.synchronizeAccount(account);
                 this.tablesRepository.synchronizeTables(account);
-            } catch (NextcloudFilesAppAccountNotFoundException | IOException |
-                     NextcloudHttpRequestFailedException | ServerNotAvailableException e) {
+            } catch (Exception e) {
                 throw new CompletionException(e);
             }
             return null;

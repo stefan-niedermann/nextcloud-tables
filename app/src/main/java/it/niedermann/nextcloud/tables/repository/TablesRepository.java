@@ -14,10 +14,12 @@ import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
+import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -74,6 +76,7 @@ public class TablesRepository {
     }
 
     private void pullRemoteTables(@NonNull TablesAPI tablesApi, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+        final var fetchedTables = new HashSet<Table>();
         int offset = 0;
 
         fetchTablesLoop:
@@ -89,19 +92,12 @@ public class TablesRepository {
                     }
 
                     for (final var table : tables) {
-                        Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
                         table.setStatus(DBStatus.VOID);
                         table.setAccountId(account.getId());
                         table.setETag(response.headers().get(HEADER_ETAG));
-
-                        final var createdTable = db.getTableDao().getTable(db.getTableDao().insert(table));
-
-                        pushLocalColumns(tablesApi, account, createdTable);
-                        pullRemoteColumns(tablesApi, createdTable);
-
-                        pushLocalRows(tablesApi, account, createdTable);
-                        pullRemoteRows(tablesApi, createdTable);
                     }
+
+                    fetchedTables.addAll(tables);
 
                     if (tables.size() != TablesAPI.DEFAULT_LIMIT) {
                         break fetchTablesLoop;
@@ -122,6 +118,29 @@ public class TablesRepository {
                 }
             }
         }
+
+        final var tableRemoteIds = fetchedTables.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+        final var tableIds = db.getTableDao().getTableRemoteAndLocalIds(account.getId(), tableRemoteIds);
+        for (final var table : fetchedTables) {
+            final var tableId = tableIds.get(table.getRemoteId());
+            if (tableId == null) {
+                Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
+                table.setId(db.getTableDao().insert(table));
+            } else {
+                table.setId(tableId);
+                Log.i(TAG, "→ Updating " + table.getTitle() + " in database");
+                db.getTableDao().update(table);
+            }
+
+            pushLocalColumns(tablesApi, account, table);
+            pullRemoteColumns(tablesApi, table);
+
+            pushLocalRows(tablesApi, account, table);
+            pullRemoteRows(tablesApi, table);
+        }
+
+        Log.i(TAG, "→ Delete all tables except remoteId " + tableRemoteIds);
+        db.getTableDao().deleteExcept(account.getId(), tableRemoteIds);
     }
 
     public void pushLocalColumns(@NonNull TablesAPI tablesApi, @NonNull Account account, @NonNull Table table) throws IOException, NextcloudHttpRequestFailedException {
@@ -156,17 +175,32 @@ public class TablesRepository {
         final var response = request.execute();
         switch (response.code()) {
             case 200: {
-                final var body = response.body();
-                if (body == null) {
+                final var columns = response.body();
+                if (columns == null) {
                     throw new RuntimeException("Response body is null");
                 }
 
-                for (final var column : body) {
+                final var columnRemoteIds = columns.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+                final var columnIds = db.getColumnDao().getColumnRemoteAndLocalIds(table.getAccountId(), columnRemoteIds);
+
+                for (final var column : columns) {
                     column.setAccountId(table.getAccountId());
                     column.setTableId(table.getId());
                     table.setETag(response.headers().get(HEADER_ETAG));
-                    db.getColumnDao().insert(column);
+
+                    final var columnId = columnIds.get(column.getRemoteId());
+                    if (columnId == null) {
+                        Log.i(TAG, "→ Adding column " + column.getTitle() + " to database");
+                        db.getColumnDao().insert(column);
+                    } else {
+                        column.setId(columnId);
+                        Log.i(TAG, "→ Updating column " + column.getTitle() + " in database");
+                        db.getColumnDao().update(column);
+                    }
                 }
+
+                Log.i(TAG, "→ Delete all columns except remoteId " + columnRemoteIds);
+                db.getColumnDao().deleteExcept(table.getId(), columnRemoteIds);
                 break;
             }
 
@@ -199,7 +233,7 @@ public class TablesRepository {
         Log.v(TAG, "Pushing " + rowsToDelete.size() + " local row changes for " + account.getAccountName() + ", table " + table.getRemoteId());
         for (final var row : rowsToChange) {
             Log.i(TAG, "→ PUT: " + row.getRemoteId());
-            row.setData(db.getDataDao().getData(account.getId(), table.getId(), row.getId()));
+            row.setData(db.getDataDao().getDataForRow(row.getId()));
             final var response = tablesAPI.updateRow(table.getRemoteId(), row).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
@@ -211,6 +245,7 @@ public class TablesRepository {
     }
 
     public void pullRemoteRows(@NonNull TablesAPI tablesApi, @NonNull Table table) throws IOException, NextcloudHttpRequestFailedException {
+        final var fetchedRows = new HashSet<Row>();
         int offset = 0;
 
         fetchRowsLoop:
@@ -229,21 +264,9 @@ public class TablesRepository {
                         row.setAccountId(table.getAccountId());
                         row.setTableId(table.getId());
                         row.setETag(response.headers().get(HEADER_ETAG));
-                        final var insertedRow = db.getRowDao().get(db.getRowDao().insert(row));
-                        final var columnRemoteIds = Arrays.stream(row.getData()).map(Data::getRemoteColumnId).collect(toUnmodifiableSet());
-                        final var columnIds = db.getColumnDao().getColumnIds(table.getAccountId(), columnRemoteIds);
-                        for (final var data : row.getData()) {
-                            final var columnId = columnIds.get(data.getRemoteColumnId());
-                            if (columnId == null) {
-                                Log.w(TAG, "Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
-                            } else {
-                                data.setAccountId(table.getAccountId());
-                                data.setRowId(insertedRow.getId());
-                                data.setColumnId(columnId);
-                                db.getDataDao().insert(data);
-                            }
-                        }
                     }
+
+                    fetchedRows.addAll(rows);
 
                     if (rows.size() != TablesAPI.DEFAULT_LIMIT) {
                         break fetchRowsLoop;
@@ -264,6 +287,49 @@ public class TablesRepository {
                 }
             }
         }
+
+        final var rowRemoteIds = fetchedRows.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+        final var rowIds = db.getRowDao().getRowRemoteAndLocalIds(table.getAccountId(), rowRemoteIds);
+        for (final var row : fetchedRows) {
+
+            final var rowId = rowIds.get(row.getRemoteId());
+            if (rowId == null) {
+                Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
+                row.setId(db.getRowDao().insert(row));
+            } else {
+                row.setId(rowId);
+                Log.i(TAG, "→ Updating row " + row.getRemoteId() + " in database");
+                db.getRowDao().update(row);
+            }
+
+            final var columnRemoteIds = Arrays.stream(row.getData()).map(Data::getRemoteColumnId).collect(toUnmodifiableSet());
+            final var columnIds = db.getColumnDao().getColumnRemoteAndLocalIds(table.getAccountId(), columnRemoteIds);
+            for (final var data : row.getData()) {
+                final var columnId = columnIds.get(data.getRemoteColumnId());
+                if (columnId == null) {
+                    Log.w(TAG, "Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
+                } else {
+                    data.setAccountId(table.getAccountId());
+                    data.setRowId(row.getId());
+                    data.setColumnId(columnId);
+
+                    final var existingData = db.getDataDao().getDataForCoordinates(data.getColumnId(), data.getRowId());
+                    if (existingData == null) {
+                        Log.i(TAG, "→ Adding data " + data + " to database");
+                        db.getDataDao().insert(data);
+                    } else {
+                        data.setId(existingData.getId());
+                        Log.i(TAG, "→ Updating data " + row.getRemoteId() + " in database");
+                        db.getDataDao().update(data);
+                    }
+
+                    // Data deletion is handled by database constraints
+                }
+            }
+        }
+
+        Log.i(TAG, "→ Delete all rows except remoteId " + rowRemoteIds);
+        db.getRowDao().deleteExcept(table.getId(), rowRemoteIds);
     }
 
     public LiveData<List<Table>> getNotDeletedTables$(@NonNull Account account, boolean isShared) {
@@ -310,6 +376,6 @@ public class TablesRepository {
     }
 
     public LiveData<List<Data>> getData(@NonNull Table table) {
-        return db.getDataDao().getData(table.getAccountId(), table.getId());
+        return db.getDataDao().getData(table.getId());
     }
 }

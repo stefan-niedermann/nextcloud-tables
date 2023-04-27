@@ -2,14 +2,13 @@ package it.niedermann.nextcloud.tables.database.dao;
 
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Update;
 
 import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
 
 public interface GenericDao<T extends AbstractEntity> {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     long insert(T entity);
 
     @SuppressWarnings("unchecked")

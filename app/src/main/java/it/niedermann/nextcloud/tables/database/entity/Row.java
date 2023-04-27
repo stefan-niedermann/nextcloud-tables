@@ -37,8 +37,6 @@ public class Row extends AbstractRemoteEntity {
     @SerializedName("localTableId")
     @Expose(deserialize = false, serialize = false)
     private long tableId;
-    @SerializedName("tableId")
-    private long tableRemoteId;
     @ColumnInfo(defaultValue = "")
     private String createdBy;
     private Instant createdAt;
@@ -58,14 +56,6 @@ public class Row extends AbstractRemoteEntity {
 
     public void setTableId(long tableId) {
         this.tableId = tableId;
-    }
-
-    public long getTableRemoteId() {
-        return tableRemoteId;
-    }
-
-    public void setTableRemoteId(long tableRemoteId) {
-        this.tableRemoteId = tableRemoteId;
     }
 
     public String getCreatedBy() {
@@ -116,11 +106,11 @@ public class Row extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Row row = (Row) o;
-        return tableId == row.tableId && tableRemoteId == row.tableRemoteId && Objects.equals(createdBy, row.createdBy) && Objects.equals(createdAt, row.createdAt) && Objects.equals(lastEditBy, row.lastEditBy) && Objects.equals(lastEditAt, row.lastEditAt);
+        return tableId == row.tableId && Objects.equals(createdBy, row.createdBy) && Objects.equals(createdAt, row.createdAt) && Objects.equals(lastEditBy, row.lastEditBy) && Objects.equals(lastEditAt, row.lastEditAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tableId, tableRemoteId, createdBy, createdAt, lastEditBy, lastEditAt);
+        return Objects.hash(super.hashCode(), tableId, createdBy, createdAt, lastEditBy, lastEditAt);
     }
 }

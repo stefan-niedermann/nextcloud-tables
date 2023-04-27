@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.importaccount;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteConstraintException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.remote.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
@@ -33,7 +35,12 @@ public class ImportAccountViewModel extends AndroidViewModel {
         executor.submit(() -> {
             Account account = null;
             try {
-                account = accountRepository.createAccount(accountToCreate);
+                try {
+                    account = accountRepository.createAccount(accountToCreate);
+                } catch (SQLiteConstraintException e) {
+                    importState$.postValue(new ImportState(null, new AccountAlreadyImportedException(e)));
+                    return;
+                }
 
                 importState$.postValue(new ImportState(accountToCreate));
                 accountRepository.synchronizeAccount(account);

@@ -4,7 +4,6 @@ import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +26,7 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
 import it.niedermann.nextcloud.tables.remote.SyncWorker;
+import it.niedermann.nextcloud.tables.remote.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
@@ -100,8 +100,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                 binding.progressText.setVisibility(View.VISIBLE);
                 binding.addButton.setEnabled(true);
 
-                if (state.error instanceof SQLiteConstraintException) {
-                    ExceptionDialogFragment.newInstance(state.error, state.account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                if (state.error instanceof AccountAlreadyImportedException) {
                     binding.progressText.setText(R.string.account_already_imported);
                 } else {
                     if (state.error != null) {

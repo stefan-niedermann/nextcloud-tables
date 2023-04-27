@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0295b2c2a499341a85a7d87a23928e19",
+    "identityHash": "14a1feb5b96c4dfd3d958ee8d5b4b157",
     "entities": [
       {
         "tableName": "Account",
@@ -574,17 +574,11 @@
       },
       {
         "tableName": "Row",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `tableRemoteId` INTEGER NOT NULL, `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `remoteId` INTEGER NOT NULL, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `remoteId` INTEGER NOT NULL, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "tableId",
             "columnName": "tableId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "tableRemoteId",
-            "columnName": "tableRemoteId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -730,7 +724,7 @@
       },
       {
         "tableName": "Data",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `value` TEXT, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `columnId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `id`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `rowId`) REFERENCES `Row`(`accountId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `value` TEXT, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`rowId`) REFERENCES `Row`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "columnId",
@@ -789,15 +783,14 @@
         },
         "indices": [
           {
-            "name": "IDX_DATA_ACCOUNT_ID_COLUMN_ID_ROW_ID",
+            "name": "IDX_DATA_COLUMN_ID_ROW_ID",
             "unique": true,
             "columnNames": [
-              "accountId",
               "columnId",
               "rowId"
             ],
             "orders": [],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `IDX_DATA_ACCOUNT_ID_COLUMN_ID_ROW_ID` ON `${TABLE_NAME}` (`accountId`, `columnId`, `rowId`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `IDX_DATA_COLUMN_ID_ROW_ID` ON `${TABLE_NAME}` (`columnId`, `rowId`)"
           },
           {
             "name": "IDX_DATA_COLUMN_ID",
@@ -845,13 +838,22 @@
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Column",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
               "accountId",
-              "columnId",
               "remoteColumnId"
             ],
             "referencedColumns": [
               "accountId",
-              "id",
               "remoteId"
             ]
           },
@@ -860,11 +862,9 @@
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "accountId",
               "rowId"
             ],
             "referencedColumns": [
-              "accountId",
               "id"
             ]
           }
@@ -874,7 +874,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0295b2c2a499341a85a7d87a23928e19')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '14a1feb5b96c4dfd3d958ee8d5b4b157')"
     ]
   }
 }
