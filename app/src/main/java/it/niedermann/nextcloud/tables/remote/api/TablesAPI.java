@@ -3,11 +3,17 @@ package it.niedermann.nextcloud.tables.remote.api;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializationContext;
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.remote.adapter.DataAdapter;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -137,11 +143,22 @@ public interface TablesAPI {
                             @Query("offset") int offset);
 
     /**
+     * Expected format:
+     * <code>
+     * {
+     * "1": "Foo",
+     * "2": "Bar",
+     * "…": "…",
+     * "remoteColumnId": "value"
+     * }
+     * </code>
+     *
+     * @see DataAdapter#serialize(Data[], Type, JsonSerializationContext)
      * @since 0.4.0
      */
     @POST("tables/{tableId}/rows")
     Call<Row> createRow(@Path("tableId") long tableId,
-                        @Query("data") @NonNull Row data);
+                        @Query("data") @NonNull JsonElement data);
 
     /**
      * @since 0.4.0

@@ -43,7 +43,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
         for (final var column : columnsToUpdate) {
             Log.i(TAG, "→ PUT/POST: " + column.getTitle());
             final var response = column.getRemoteId() == null
-                    ? api.createColumn(db.getTableDao().getTable(column.getTableId()).getRemoteId(), column).execute()
+                    ? api.createColumn(db.getTableDao().getRemoteId(column.getTableId()), column).execute()
                     : api.updateColumn(column.getRemoteId(), column).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.JsonSerializer;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.IOException;
@@ -18,14 +19,17 @@ import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.remote.adapter.DataAdapter;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 
 public class RowSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
+    private final JsonSerializer<Data[]> dataSerializer;
 
     public RowSyncAdapter(@NonNull TablesDatabase db) {
         super(db);
+        this.dataSerializer = new DataAdapter();
     }
 
     @Override
@@ -49,7 +53,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             Log.i(TAG, "→ PUT/POSt: " + row.getRemoteId());
             row.setData(db.getDataDao().getDataForRow(row.getId()));
             final var response = row.getRemoteId() == null
-                    ? api.createRow(db.getTableDao().getTable(row.getTableId()).getRemoteId(), row).execute()
+                    ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataSerializer.serialize(row.getData(), null, null)).execute()
                     : api.updateRow(row.getRemoteId(), row).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {

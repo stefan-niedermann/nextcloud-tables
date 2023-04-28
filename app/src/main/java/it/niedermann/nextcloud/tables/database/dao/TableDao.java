@@ -24,6 +24,9 @@ public interface TableDao extends GenericDao<Table> {
     @Query("SELECT * FROM `Table` t WHERE t.id = :id")
     Table getTable(long id);
 
+    @Query("SELECT remoteId FROM `Table` WHERE id = :id")
+    Long getRemoteId(long id);
+
     @Query("SELECT * FROM `Table` t WHERE t.id = :id AND t.status != 'LOCAL_DELETED' ORDER by t.title")
     LiveData<Table> getNotDeletedTable$(long id);
 
