@@ -21,12 +21,17 @@ public class DateCellViewHolder extends AbstractDateTimeCellViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
-        if (data == null || TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())) {
-            final var date = LocalDate.parse(String.valueOf(column.getDatetimeDefault()), DateTimeFormatter.ISO_DATE);
+        try {
+            final LocalDate date;
+            if (data == null || TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())) {
+                date = LocalDate.parse(column.getDatetimeDefault(), DateTimeFormatter.ISO_DATE);
+            } else {
+                date = LocalDate.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_DATE);
+            }
             binding.data.setText(date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
-        } else {
-            final var date = LocalDate.parse(String.valueOf(data.getValue()), DateTimeFormatter.ISO_DATE);
-            binding.data.setText(date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            binding.data.setText(column.getDatetimeDefault());
         }
         binding.data.requestLayout();
     }
