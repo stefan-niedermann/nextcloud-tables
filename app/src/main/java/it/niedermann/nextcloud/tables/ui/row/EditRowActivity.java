@@ -55,7 +55,7 @@ public class EditRowActivity extends AppCompatActivity {
             for (final var column : columns) {
                 final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
                 final var editor = type.inflate(this, column);
-                binding.columns.addView(editor.getView());
+                binding.columns.addView(editor);
                 editors.add(editor);
             }
         });

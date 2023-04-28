@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.row.type.text;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
@@ -10,30 +10,36 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.R;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Optional;
+
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 import it.niedermann.nextcloud.tables.ui.row.OnTextChangedListener;
 
-@SuppressLint("ViewConstructor")
-public class TextEditor extends TextInputLayout implements ColumnEditView, OnTextChangedListener {
+public class TextEditor extends ColumnEditView implements OnTextChangedListener {
 
-    protected final Column column;
-    protected final EditText editText;
+    protected TextInputLayout textInputLayout;
+    protected EditText editText;
+
+    public TextEditor(@NonNull Context context) {
+        super(context);
+    }
+
+    public TextEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     public TextEditor(@NonNull Context context, @NonNull Column column) {
-        this(context, null, column);
+        super(context, column);
     }
 
-    protected TextEditor(@NonNull Context context, @Nullable AttributeSet attrs, @NonNull Column column) {
-        this(context, attrs, R.attr.textInputStyle, column);
-    }
-
-    protected TextEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, @NonNull Column column) {
-        super(context, attrs, defStyleAttr);
-        this.column = column;
+    @NonNull
+    @Override
+    protected View onCreate(@NonNull Context context) {
+        textInputLayout = new TextInputLayout(context);
         editText = new EditText(context);
         editText.addTextChangedListener(this);
         final var editTextParams = new LinearLayout.LayoutParams(
@@ -44,23 +50,14 @@ public class TextEditor extends TextInputLayout implements ColumnEditView, OnTex
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        setLayoutParams(textInputLayoutParams);
-        addView(editText, editTextParams);
-        setHint(column.getTitle());
+        textInputLayout.setLayoutParams(textInputLayoutParams);
+        textInputLayout.addView(editText, editTextParams);
+        textInputLayout.setHint(column.getTitle());
         if (column.getTextMaxLength() != null) {
-            setCounterMaxLength(column.getTextMaxLength());
+            textInputLayout.setCounterMaxLength(column.getTextMaxLength());
         }
-    }
 
-    @Override
-    public View getView() {
-        return this;
-    }
-
-    @NonNull
-    @Override
-    public Column getColumn() {
-        return column;
+        return textInputLayout;
     }
 
     @Nullable
@@ -70,7 +67,24 @@ public class TextEditor extends TextInputLayout implements ColumnEditView, OnTex
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    protected void setErrorMessage(@Nullable String message) {
+        textInputLayout.setError(message);
+    }
 
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        onValueChanged();
+    }
+
+    @NonNull
+    @Override
+    public Optional<String> validate() {
+        if (column.isMandatory()) {
+            return TextUtils.isEmpty(editText.getText())
+                    ? Optional.of(getContext().getString(R.string.validation_mandatory))
+                    : Optional.empty();
+        }
+        
+        return super.validate();
     }
 }

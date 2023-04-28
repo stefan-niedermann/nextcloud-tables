@@ -1,31 +1,33 @@
 package it.niedermann.nextcloud.tables.ui.row.type.text;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 
-@SuppressLint("ViewConstructor")
 public class TextLineEditor extends TextEditor {
 
+    public TextLineEditor(@NonNull Context context) {
+        super(context);
+    }
+
+    public TextLineEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
+
     public TextLineEditor(@NonNull Context context, @NonNull Column column) {
-        this(context, null, column);
+        super(context, column);
     }
 
-    private TextLineEditor(@NonNull Context context, @Nullable AttributeSet attrs, @NonNull Column column) {
-        this(context, attrs, 0, column);
-    }
-
-    protected TextLineEditor(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, @NonNull Column column) {
-        super(context, attrs, defStyleAttr, column);
-        final var editText = getEditText();
-        if (editText == null) {
-            throw new IllegalStateException("Expected editText to be set by super class");
-        }
+    @NonNull
+    @Override
+    protected View onCreate(@NonNull Context context) {
+        final var view = super.onCreate(context);
         editText.setMaxLines(1);
+        return view;
     }
 }
