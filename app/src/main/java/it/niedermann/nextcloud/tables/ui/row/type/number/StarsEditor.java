@@ -1,35 +1,34 @@
 package it.niedermann.nextcloud.tables.ui.row.type.number;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.databinding.EditNumberStarsBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
 public class StarsEditor extends ColumnEditView {
 
     @IntRange(from = 0, to = 5)
     protected int value = 0;
-    protected LinearLayout linearLayout;
-    protected Drawable starFilled;
-    protected Drawable starBorder;
+    protected EditNumberStarsBinding binding;
 
     public StarsEditor(@NonNull Context context) {
         super(context);
+        binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
     }
 
     public StarsEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
     }
 
     public StarsEditor(@NonNull Context context, @NonNull Column column) {
@@ -39,31 +38,26 @@ public class StarsEditor extends ColumnEditView {
     @NonNull
     @Override
     protected View onCreate(@NonNull Context context) {
-        linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        starFilled = ContextCompat.getDrawable(context, R.drawable.baseline_star_24);
-        starBorder = ContextCompat.getDrawable(context, R.drawable.baseline_star_border_24);
+        binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < binding.getRoot().getChildCount(); i++) {
             final var value = i;
-            final var imageButton = new ImageButton(context);
-            imageButton.setBackground(null);
-            imageButton.setOnClickListener(v -> setValue(value));
-            linearLayout.addView(imageButton);
+            ((ImageButton) binding.getRoot().getChildAt(i)).setOnClickListener(v -> setValue(value));
         }
 
         final var defaultValue = column.getNumberDefault();
         setValue(defaultValue == null ? 0 : defaultValue.intValue());
 
-        return linearLayout;
+        return binding.getRoot();
     }
 
     private void setValue(@IntRange(from = 0, to = 5) int value) {
         this.value = value;
-        for (int i = 0; i < 5; i++) {
-            final var imageButton = (ImageButton) linearLayout.getChildAt(i);
-            imageButton.setImageDrawable(i <= value ? starFilled : starBorder);
+        for (int i = 0; i < binding.getRoot().getChildCount(); i++) {
+            final var imageButton = (ImageButton) binding.getRoot().getChildAt(i);
+            imageButton.setImageResource(i <= value ? R.drawable.baseline_star_24 : R.drawable.baseline_star_border_24);
         }
+        invalidate();
     }
 
     @Nullable

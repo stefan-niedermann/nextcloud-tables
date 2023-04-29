@@ -35,14 +35,14 @@ public class NumberEditor extends TextEditor {
     protected View onCreate(@NonNull Context context) {
         final var view = super.onCreate(context);
 
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        binding.editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         if (column.getNumberDefault() != null) {
-            editText.setText(String.valueOf(column.getNumberDefault()));
+            binding.editText.setText(String.valueOf(column.getNumberDefault()));
         }
 
-        textInputLayout.setPrefixText(column.getNumberPrefix());
-        textInputLayout.setSuffixText(column.getNumberSuffix());
+        binding.getRoot().setPrefixText(column.getNumberPrefix());
+        binding.getRoot().setSuffixText(column.getNumberSuffix());
 
         return view;
     }
@@ -51,7 +51,7 @@ public class NumberEditor extends TextEditor {
     @Override
     public Optional<String> validate() {
         try {
-            final var stringVal = String.valueOf(editText.getText());
+            final var stringVal = String.valueOf(binding.editText.getText());
 
             // TODO check decimals
             // TODO check required?

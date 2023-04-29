@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.ui.row;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Space;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,6 +57,7 @@ public class EditRowActivity extends AppCompatActivity {
                 final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
                 final var editor = type.inflate(this, column);
                 binding.columns.addView(editor);
+                binding.columns.addView(new Space(this));
                 editors.add(editor);
             }
         });
