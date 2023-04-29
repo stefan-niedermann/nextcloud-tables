@@ -50,19 +50,18 @@ public class EditRowActivity extends AppCompatActivity {
 
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
         final var editors = new ArrayList<ColumnEditView>();
-        editRowViewModel.getNotDeletedColumns(table)
-                .thenAcceptAsync(columns -> {
-                    binding.columns.removeAllViews();
-                    editors.clear();
-                    for (final var column : columns) {
-                        final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
-                        editRowViewModel.getValuesByColumnId(row).thenAcceptAsync(values -> {
-                            final var editor = type.inflate(this, column, values.get(column.getId()));
-                            binding.columns.addView(editor);
-                            editors.add(editor);
-                        }, ContextCompat.getMainExecutor(this));
-                    }
-                }, ContextCompat.getMainExecutor(this));
+        editRowViewModel.getNotDeletedColumns(table).thenAcceptAsync(columns -> {
+            binding.columns.removeAllViews();
+            editors.clear();
+            editRowViewModel.getValuesByColumnId(row).thenAcceptAsync(values -> {
+                for (final var column : columns) {
+                    final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
+                    final var editor = type.inflate(this, column, values.get(column.getId()));
+                    binding.columns.addView(editor);
+                    editors.add(editor);
+                }
+            }, ContextCompat.getMainExecutor(this));
+        }, ContextCompat.getMainExecutor(this));
 
         binding.save.setOnClickListener(v -> {
             if (row == null) {
