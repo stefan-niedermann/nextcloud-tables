@@ -26,8 +26,8 @@ public class NumberEditor extends TextEditor {
         super(context, attrs);
     }
 
-    public NumberEditor(@NonNull Context context, @NonNull Column column) {
-        super(context, column);
+    public NumberEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
+        super(context, column, value);
     }
 
     @NonNull
@@ -43,6 +43,7 @@ public class NumberEditor extends TextEditor {
 
         binding.getRoot().setPrefixText(column.getNumberPrefix());
         binding.getRoot().setSuffixText(column.getNumberSuffix());
+        binding.getRoot().setStartIconDrawable(R.drawable.baseline_numbers_24);
 
         return view;
     }

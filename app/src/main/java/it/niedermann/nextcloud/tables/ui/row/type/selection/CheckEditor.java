@@ -26,8 +26,8 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
     }
 
-    public CheckEditor(@NonNull Context context, @NonNull Column column) {
-        super(context, column);
+    public CheckEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
+        super(context, column, value);
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
     }
 
@@ -37,7 +37,7 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
         binding.getRoot().setText(column.getTitle());
         binding.getRoot().setHint(column.getDescription());
-        binding.getRoot().setChecked(Boolean.parseBoolean(column.getSelectionDefault()));
+        setValue(column.getSelectionDefault());
         binding.getRoot().setOnCheckedChangeListener(this);
         return binding.getRoot();
     }
@@ -46,6 +46,15 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
     @Override
     public Object getValue() {
         return String.valueOf(binding.getRoot().isChecked());
+    }
+
+    @Override
+    protected void setValue(@Nullable Object value) {
+        if (value == null) {
+            binding.getRoot().setChecked(false);
+        } else {
+            binding.getRoot().setChecked(Boolean.parseBoolean(String.valueOf(value)));
+        }
     }
 
     @Override

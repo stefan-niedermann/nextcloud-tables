@@ -25,8 +25,8 @@ public class TextLinkEditor extends TextEditor {
         super(context, attrs);
     }
 
-    public TextLinkEditor(@NonNull Context context, @NonNull Column column) {
-        super(context, column);
+    public TextLinkEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
+        super(context, column, value);
     }
 
     @NonNull
@@ -35,6 +35,7 @@ public class TextLinkEditor extends TextEditor {
         final var view = super.onCreate(context);
         binding.editText.setMaxLines(1);
         binding.editText.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
+        binding.getRoot().setStartIconDrawable(R.drawable.baseline_link_24);
         return view;
     }
 

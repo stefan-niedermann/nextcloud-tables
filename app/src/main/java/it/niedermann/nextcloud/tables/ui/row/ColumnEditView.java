@@ -26,17 +26,17 @@ public abstract class ColumnEditView extends FrameLayout {
         super(context, attrs);
     }
 
-    public ColumnEditView(@NonNull Context context, @NonNull Column column) {
+    public ColumnEditView(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
         this(context);
         this.column = column;
 
-        final var params = new FrameLayout.LayoutParams(
+        setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        setLayoutParams(params);
+        ));
         addView(onCreate(context));
+        setValue(value);
+
         invalidate();
     }
 
@@ -64,6 +64,8 @@ public abstract class ColumnEditView extends FrameLayout {
     @Nullable
     protected abstract Object getValue();
 
+    protected abstract void setValue(@Nullable Object value);
+
     protected abstract void setErrorMessage(@Nullable String message);
 
     /**
@@ -72,5 +74,10 @@ public abstract class ColumnEditView extends FrameLayout {
     @NonNull
     public Optional<String> validate() {
         return Optional.empty();
+    }
+
+    @FunctionalInterface
+    interface Factory {
+        ColumnEditView create(@NonNull Context context, @NonNull Column column, @Nullable Object value);
     }
 }

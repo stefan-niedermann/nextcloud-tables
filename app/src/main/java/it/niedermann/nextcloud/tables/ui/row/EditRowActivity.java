@@ -3,11 +3,11 @@ package it.niedermann.nextcloud.tables.ui.row;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Space;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -50,21 +50,26 @@ public class EditRowActivity extends AppCompatActivity {
 
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
         final var editors = new ArrayList<ColumnEditView>();
-        editRowViewModel.getNotDeletedColumns$(table).observe(this, columns -> {
-            binding.columns.removeAllViews();
-            editors.clear();
-            for (final var column : columns) {
-                final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
-                final var editor = type.inflate(this, column);
-                binding.columns.addView(editor);
-                binding.columns.addView(new Space(this));
-                editors.add(editor);
-            }
-        });
-
+        editRowViewModel.getNotDeletedColumns(table)
+                .thenAcceptAsync(columns -> {
+                    binding.columns.removeAllViews();
+                    editors.clear();
+                    for (final var column : columns) {
+                        final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
+                        editRowViewModel.getValuesByColumnId(row).thenAcceptAsync(values -> {
+                            final var editor = type.inflate(this, column, values.get(column.getId()));
+                            binding.columns.addView(editor);
+                            editors.add(editor);
+                        }, ContextCompat.getMainExecutor(this));
+                    }
+                }, ContextCompat.getMainExecutor(this));
 
         binding.save.setOnClickListener(v -> {
-            editRowViewModel.createRow(account, table, editors);
+            if (row == null) {
+                editRowViewModel.createRow(account, table, editors);
+            } else {
+                editRowViewModel.updateRow(account, row, editors);
+            }
             finish();
         });
     }

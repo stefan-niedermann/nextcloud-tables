@@ -6,8 +6,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.function.BiFunction;
-
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.ui.row.type.number.NumberEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.number.ProgressEditor;
@@ -30,16 +28,20 @@ public enum ColumnEditType {
     private final int id;
     private final String type;
     private final String subType;
-    private final BiFunction<Context, Column, ColumnEditView> inflater;
+    private final ColumnEditView.Factory factory;
 
-    ColumnEditType(int id, @NonNull String type, @NonNull String subType, @NonNull BiFunction<Context, Column, ColumnEditView> inflater) {
+    ColumnEditType(int id,
+                   @NonNull String type,
+                   @NonNull String subType,
+                   @NonNull ColumnEditView.Factory factory) {
         this.type = type;
         this.subType = subType;
         this.id = id;
-        this.inflater = inflater;
+        this.factory = factory;
     }
 
-    public static ColumnEditType findByType(@NonNull String type, @NonNull String subType) {
+    public static ColumnEditType findByType(@NonNull String type,
+                                            @NonNull String subType) {
         for (final var entry : ColumnEditType.values()) {
             if (entry.type.equals(type) && entry.subType.equals(subType)) {
                 return entry;
@@ -55,26 +57,15 @@ public enum ColumnEditType {
         return ColumnEditType.UNKNOWN;
     }
 
-    public static ColumnEditType findById(int id) {
-        for (final var entry : ColumnEditType.values()) {
-            if (entry.id == id) {
-                return entry;
-            }
-        }
-
-        return ColumnEditType.UNKNOWN;
+    public ColumnEditView inflate(@NonNull Context context,
+                                  @NonNull Column column) {
+        return factory.create(context, column, null);
     }
 
-    public static ColumnEditType findByColumn(@Nullable Column column) {
-        if (column == null) {
-            return ColumnEditType.UNKNOWN;
-        }
-
-        return ColumnEditType.findByType(column.getType(), column.getSubtype());
-    }
-
-    public ColumnEditView inflate(@NonNull Context context, @NonNull Column column) {
-        return inflater.apply(context, column);
+    public ColumnEditView inflate(@NonNull Context context,
+                                  @NonNull Column column,
+                                  @Nullable Object value) {
+        return factory.create(context, column, value == null ? column.getDefaultValueByType() : value);
     }
 
     public int getId() {

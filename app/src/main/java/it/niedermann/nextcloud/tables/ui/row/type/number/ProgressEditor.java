@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -17,8 +16,6 @@ import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
 public class ProgressEditor extends ColumnEditView implements Slider.OnChangeListener {
 
-    @IntRange(from = 0, to = 5)
-    protected int value = 0;
     protected EditNumberProgressBinding binding;
 
     public ProgressEditor(@NonNull Context context) {
@@ -31,21 +28,21 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
         binding = EditNumberProgressBinding.inflate(LayoutInflater.from(context));
     }
 
-    public ProgressEditor(@NonNull Context context, @NonNull Column column) {
-        super(context, column);
+    public ProgressEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
+        super(context, column, value);
     }
 
     @NonNull
     @Override
     protected View onCreate(@NonNull Context context) {
         binding = EditNumberProgressBinding.inflate(LayoutInflater.from(context));
-        binding.getRoot().setValueFrom(0f);
-        binding.getRoot().setValueTo(100f);
-        binding.getRoot().setStepSize(1f);
-        binding.getRoot().addOnChangeListener(this);
+        binding.title.setText(column.getTitle());
+        binding.progress.setValueFrom(0f);
+        binding.progress.setValueTo(100f);
+        binding.progress.setStepSize(1f);
+        binding.progress.addOnChangeListener(this);
 
-        final var defaultValue = column.getNumberDefault();
-        binding.getRoot().setValue(defaultValue == null ? 0 : defaultValue.intValue());
+        setValue(column.getNumberDefault());
 
         return binding.getRoot();
     }
@@ -53,7 +50,20 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
     @Nullable
     @Override
     protected Object getValue() {
-        return (int) binding.getRoot().getValue();
+        return (int) binding.progress.getValue();
+    }
+
+    @Override
+    protected void setValue(@Nullable Object value) {
+        if (value == null) {
+            binding.progress.setValue(0);
+        } else {
+            try {
+                binding.progress.setValue(Integer.parseInt(String.valueOf(value)));
+            } catch (NumberFormatException e) {
+                binding.progress.setValue(0);
+            }
+        }
     }
 
     @Override

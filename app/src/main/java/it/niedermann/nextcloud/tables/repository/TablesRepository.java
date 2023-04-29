@@ -131,6 +131,19 @@ public class TablesRepository {
         }
     }
 
+    public void updateRow(@NonNull Account account, @NonNull Row row, @NonNull Data[] data) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+        row.setStatus(DBStatus.LOCAL_EDITED);
+        row.setAccountId(account.getId());
+        db.getRowDao().update(row);
+        for (final var d : data) {
+            d.setRowId(row.getId());
+            db.getDataDao().update(d);
+        }
+        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
+            rowSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+        }
+    }
+
     public void deleteRow(@NonNull Row row) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
         row.setStatus(DBStatus.LOCAL_DELETED);
         db.getRowDao().update(row);
@@ -144,7 +157,15 @@ public class TablesRepository {
         return db.getColumnDao().getNotDeletedColumns$(table.getId());
     }
 
+    public List<Column> getNotDeletedColumns(@NonNull Table table) {
+        return db.getColumnDao().getNotDeletedColumns(table.getId());
+    }
+
     public LiveData<List<Data>> getData(@NonNull Table table) {
         return db.getDataDao().getData(table.getId());
+    }
+
+    public Data[] getRawData(long rowId) {
+        return db.getDataDao().getDataForRow(rowId);
     }
 }

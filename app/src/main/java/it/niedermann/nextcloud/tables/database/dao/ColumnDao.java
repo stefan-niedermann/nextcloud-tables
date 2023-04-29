@@ -21,6 +21,9 @@ public interface ColumnDao extends GenericDao<Column> {
     @Query("SELECT * FROM `Column` c WHERE c.tableId = :tableId AND c.status != 'LOCAL_DELETED' ORDER BY c.remoteId")
     LiveData<List<Column>> getNotDeletedColumns$(long tableId);
 
+    @Query("SELECT * FROM `Column` c WHERE c.tableId = :tableId AND c.status != 'LOCAL_DELETED' ORDER BY c.orderWeight")
+    List<Column> getNotDeletedColumns(long tableId);
+
     @MapInfo(keyColumn = "remoteId", valueColumn = "id")
     @Query("SELECT c.remoteId, c.id FROM `Column` c WHERE c.accountId = :accountId AND c.remoteId IN (:remoteIds)")
     Map<Long, Long> getColumnRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);

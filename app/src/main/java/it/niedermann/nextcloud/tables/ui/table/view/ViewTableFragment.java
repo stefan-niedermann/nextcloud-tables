@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.evrencoskun.tableview.listener.ITableViewListener;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
@@ -48,7 +51,56 @@ public class ViewTableFragment extends Fragment {
         binding.tableView.setAdapter(adapter);
 
         viewTableViewModel.getRows(table).observe(getViewLifecycleOwner(), rows -> adapter.setRowHeaderItems(rows));
-        viewTableViewModel.getColumns(table).observe(getViewLifecycleOwner(), columns -> adapter.setColumnHeaderItems(columns));
+        viewTableViewModel.getColumns(table).observe(getViewLifecycleOwner(), columns -> {
+            adapter.setColumnHeaderItems(columns);
+
+            binding.tableView.setTableViewListener(new ITableViewListener() {
+                @Override
+                public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int column, int row) {
+                    startActivity(EditRowActivity.createIntent(requireContext(), account, table, adapter.getRowHeaderItem(row)));
+                }
+
+                @Override
+                public void onCellDoubleClicked(@NonNull RecyclerView.ViewHolder cellView, int column, int row) {
+
+                }
+
+                @Override
+                public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int column, int row) {
+
+                }
+
+                @Override
+                public void onColumnHeaderClicked(@NonNull RecyclerView.ViewHolder columnHeaderView, int column) {
+
+                }
+
+                @Override
+                public void onColumnHeaderDoubleClicked(@NonNull RecyclerView.ViewHolder columnHeaderView, int column) {
+
+                }
+
+                @Override
+                public void onColumnHeaderLongPressed(@NonNull RecyclerView.ViewHolder columnHeaderView, int column) {
+
+                }
+
+                @Override
+                public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
+
+                }
+
+                @Override
+                public void onRowHeaderDoubleClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
+
+                }
+
+                @Override
+                public void onRowHeaderLongPressed(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
+
+                }
+            });
+        });
         viewTableViewModel.getData(table).observe(getViewLifecycleOwner(), data -> adapter.setCellItems(data));
 
         binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, table)));

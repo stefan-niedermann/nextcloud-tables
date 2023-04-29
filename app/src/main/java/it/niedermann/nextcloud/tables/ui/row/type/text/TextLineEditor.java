@@ -19,8 +19,8 @@ public class TextLineEditor extends TextEditor {
         super(context, attrs);
     }
 
-    public TextLineEditor(@NonNull Context context, @NonNull Column column) {
-        super(context, column);
+    public TextLineEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
+        super(context, column, value);
     }
 
     @NonNull

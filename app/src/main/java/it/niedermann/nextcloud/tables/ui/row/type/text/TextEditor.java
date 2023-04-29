@@ -31,8 +31,8 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
         binding = EditTextviewBinding.inflate(LayoutInflater.from(context));
     }
 
-    public TextEditor(@NonNull Context context, @NonNull Column column) {
-        super(context, column);
+    public TextEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
+        super(context, column, value);
     }
 
     @NonNull
@@ -41,6 +41,7 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
         binding = EditTextviewBinding.inflate(LayoutInflater.from(context));
         binding.editText.addTextChangedListener(this);
         binding.getRoot().setHint(column.getTitle());
+        binding.getRoot().setStartIconDrawable(R.drawable.baseline_short_text_24);
 
         if (column.getTextMaxLength() != null) {
             binding.getRoot().setCounterMaxLength(column.getTextMaxLength());
@@ -53,6 +54,15 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
     @Override
     public Object getValue() {
         return binding.editText.getText();
+    }
+
+    @Override
+    protected void setValue(@Nullable Object value) {
+        if (value == null) {
+            binding.editText.setText(null);
+        } else {
+            binding.editText.setText(String.valueOf(value));
+        }
     }
 
     @Override
