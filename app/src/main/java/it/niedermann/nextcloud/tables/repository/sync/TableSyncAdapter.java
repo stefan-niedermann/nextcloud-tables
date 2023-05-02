@@ -18,6 +18,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 
+
 public class TableSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = TableSyncAdapter.class.getSimpleName();
@@ -32,12 +33,17 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
         final var deletedTables = db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED);
         for (final var table : deletedTables) {
             Log.i(TAG, "→ DELETE: " + table.getTitle());
-            final var response = api.deleteTable(table.getRemoteId()).execute();
-            Log.i(TAG, "-→ HTTP " + response.code());
-            if (response.isSuccessful()) {
+            final var remoteId = table.getRemoteId();
+            if (remoteId == null) {
                 db.getTableDao().delete(table);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete table " + table.getTitle()));
+                final var response = api.deleteTable(table.getRemoteId()).execute();
+                Log.i(TAG, "-→ HTTP " + response.code());
+                if (response.isSuccessful()) {
+                    db.getTableDao().delete(table);
+                } else {
+                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete table " + table.getTitle()));
+                }
             }
         }
 

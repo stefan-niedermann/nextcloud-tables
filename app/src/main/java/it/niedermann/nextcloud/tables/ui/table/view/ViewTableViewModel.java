@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.model.FullTable;
@@ -62,6 +63,18 @@ public class ViewTableViewModel extends AndroidViewModel {
         executor.submit(() -> {
             try {
                 tablesRepository.deleteRow(row);
+            } catch (NextcloudFilesAppAccountNotFoundException |
+                     NextcloudHttpRequestFailedException | IOException e) {
+                // TODO propagate?
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void deleteColumn(@NonNull Column column) {
+        executor.submit(() -> {
+            try {
+                tablesRepository.deleteColumn(column);
             } catch (NextcloudFilesAppAccountNotFoundException |
                      NextcloudHttpRequestFailedException | IOException e) {
                 // TODO propagate?

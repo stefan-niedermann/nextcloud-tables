@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:allow_click_inside_cell="true"
+            app:allow_click_inside_column_header="true"
             app:column_header_height="@dimen/table_view_cell_height"
             app:row_header_width="@dimen/table_view_row_header_width"
             app:selected_color="?attr/colorSecondaryContainer"

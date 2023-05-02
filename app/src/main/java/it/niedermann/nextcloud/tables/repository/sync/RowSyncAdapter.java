@@ -38,12 +38,17 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
         Log.v(TAG, "Pushing " + rowsToDelete.size() + " local row deletions for " + account.getAccountName());
         for (final var row : rowsToDelete) {
             Log.i(TAG, "→ DELETE: " + row.getRemoteId());
-            final var response = api.deleteRow(row.getRemoteId()).execute();
-            Log.i(TAG, "-→ HTTP " + response.code());
-            if (response.isSuccessful()) {
+            final var remoteId = row.getRemoteId();
+            if (remoteId == null) {
                 db.getRowDao().delete(row);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete row " + row.getRemoteId()));
+                final var response = api.deleteRow(row.getRemoteId()).execute();
+                Log.i(TAG, "-→ HTTP " + response.code());
+                if (response.isSuccessful()) {
+                    db.getRowDao().delete(row);
+                } else {
+                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete row " + row.getRemoteId()));
+                }
             }
         }
 

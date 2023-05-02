@@ -30,12 +30,17 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
         final var columnsToDelete = db.getColumnDao().getColumns(account.getId(), DBStatus.LOCAL_DELETED);
         for (final var column : columnsToDelete) {
             Log.i(TAG, "→ DELETE: " + column.getTitle());
-            final var response = api.deleteColumn(column.getRemoteId()).execute();
-            Log.i(TAG, "-→ HTTP " + response.code());
-            if (response.isSuccessful()) {
+            final var remoteId = column.getRemoteId();
+            if (remoteId == null) {
                 db.getColumnDao().delete(column);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete column " + column.getTitle()));
+                final var response = api.deleteColumn(column.getRemoteId()).execute();
+                Log.i(TAG, "-→ HTTP " + response.code());
+                if (response.isSuccessful()) {
+                    db.getColumnDao().delete(column);
+                } else {
+                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete column " + column.getTitle()));
+                }
             }
         }
 

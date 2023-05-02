@@ -22,6 +22,7 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
+import it.niedermann.nextcloud.tables.ui.column.EditColumnActivity;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.EditRowActivity;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
@@ -129,8 +130,36 @@ public class ViewTableFragment extends Fragment {
                 }
 
                 @Override
-                public void onColumnHeaderLongPressed(@NonNull RecyclerView.ViewHolder columnHeaderView, int column) {
+                public void onColumnHeaderLongPressed(@NonNull RecyclerView.ViewHolder columnHeaderView, int columnPosition) {
+                    final var column = adapter.getColumnHeaderItem(columnPosition);
+                    if (column == null) {
+                        ExceptionDialogFragment.newInstance(new IllegalStateException("No column header at position " + columnPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        return;
+                    }
 
+                    final var popup = new PopupMenu(requireContext(), columnHeaderView.itemView);
+                    popup.inflate(R.menu.context_menu_column);
+                    Optional.ofNullable(popup.getMenu().findItem(R.id.delete_column))
+                            .ifPresent(item -> item.setTitle(getString(R.string.delete_item, column.getTitle())));
+                    popup.setOnMenuItemClickListener(item -> {
+
+                        if (item.getItemId() == R.id.edit_columns) {
+                            startActivity(EditColumnActivity.createIntent(requireContext(), account, column));
+                        } else if (item.getItemId() == R.id.delete_column) {
+                            new MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(getString(R.string.delete_item, column.getTitle()))
+                                    .setMessage(getString(R.string.delete_item_message, column.getTitle()))
+                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> viewTableViewModel.deleteColumn(column))
+                                    .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                    .show();
+                        } else {
+                            ExceptionDialogFragment.newInstance(new IllegalStateException("Unexpected menu item ID in column context menu: " + item.getItemId()), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            return false;
+                        }
+
+                        return true;
+                    });
+                    popup.show();
                 }
 
                 @Override

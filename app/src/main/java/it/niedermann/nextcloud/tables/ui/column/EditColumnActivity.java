@@ -10,16 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditColumnBinding;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
 public class EditColumnActivity extends AppCompatActivity {
 
     private static final String KEY_ACCOUNT = "account";
-    private static final String KEY_ROW = "row";
+    private static final String KEY_COLUMN = "column";
     private Account account;
-    private Row row;
+    private Column column;
     private EditColumnViewModel editColumnViewModel;
     private ActivityEditColumnBinding binding;
 
@@ -36,7 +36,7 @@ public class EditColumnActivity extends AppCompatActivity {
         }
 
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
-        this.row = (Row) intent.getSerializableExtra(KEY_ROW);
+        this.column = (Column) intent.getSerializableExtra(KEY_COLUMN);
 
         binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -53,8 +53,8 @@ public class EditColumnActivity extends AppCompatActivity {
                 .putExtra(KEY_ACCOUNT, account);
     }
 
-    public static Intent createIntent(@NonNull Context context, @NonNull Account account, @NonNull Row row) {
+    public static Intent createIntent(@NonNull Context context, @NonNull Account account, @NonNull Column column) {
         return createIntent(context, account)
-                .putExtra(KEY_ROW, row);
+                .putExtra(KEY_COLUMN, column);
     }
 }
