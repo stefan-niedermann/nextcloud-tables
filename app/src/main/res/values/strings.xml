@@ -35,6 +35,8 @@
 
     <string name="delete_item">Delete %1$s</string>
     <string name="delete_item_message">This will permanently delete %1$s.</string>
+    <string name="delete_row">Delete row</string>
+    <string name="delete_row_message">This will permanently delete this row.</string>
 
     <string name="pref_title_sync_only_wifi">Sync only on Wi-Fi</string>
     <string name="pref_title_sync_background">Background synchronization</string>

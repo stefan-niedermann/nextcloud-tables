@@ -7,18 +7,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.evrencoskun.tableview.listener.ITableViewListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.Optional;
+
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.EditRowActivity;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
 public class ViewTableFragment extends Fragment {
 
@@ -64,13 +70,52 @@ public class ViewTableFragment extends Fragment {
                 }
 
                 @Override
-                public void onCellDoubleClicked(@NonNull RecyclerView.ViewHolder cellView, int column, int row) {
+                public void onCellDoubleClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
 
                 }
 
                 @Override
-                public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int column, int row) {
+                public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
+                    final var popup = new PopupMenu(requireContext(), cellView.itemView);
+                    popup.inflate(R.menu.context_menu_cell);
+                    Optional.ofNullable(popup.getMenu().findItem(R.id.quick_action))
+                            .ifPresent(quickActionMenuItem -> {
+                                if (cellView instanceof CellViewHolder) {
+                                    ((CellViewHolder) cellView).getQuickActionProvider().ifPresentOrElse(
+                                            quickActionProvider -> {
+                                                quickActionMenuItem.setVisible(true);
+                                                quickActionMenuItem.setTitle(quickActionProvider.getTitle());
+                                            },
+                                            () -> quickActionMenuItem.setVisible(false)
+                                    );
+                                } else {
+                                    quickActionMenuItem.setVisible(false);
+                                }
+                            });
+                    popup.setOnMenuItemClickListener(item -> {
+                        final var row = adapter.getRowHeaderItem(rowPosition);
+                        if (row == null) {
+                            ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            return false;
+                        }
 
+                        if (item.getItemId() == R.id.edit_row) {
+                            startActivity(EditRowActivity.createIntent(requireContext(), account, table, row));
+                        } else if (item.getItemId() == R.id.delete_row) {
+                            new MaterialAlertDialogBuilder(requireContext())
+                                    .setTitle(R.string.delete_row)
+                                    .setMessage(R.string.delete_row_message)
+                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> viewTableViewModel.deleteRow(row))
+                                    .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                    .show();
+                        } else {
+                            ExceptionDialogFragment.newInstance(new IllegalStateException("Unexpected menu item ID in row context menu: " + item.getItemId()), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            return false;
+                        }
+
+                        return true;
+                    });
+                    popup.show();
                 }
 
                 @Override

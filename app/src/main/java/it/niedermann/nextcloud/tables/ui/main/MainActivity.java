@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 contextMenu.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_menu));
                 contextMenu.setOnClickListener((v) -> {
                     final var popup = new PopupMenu(this, contextMenu);
-                    popup.getMenuInflater().inflate(R.menu.navigation_context_menu, popup.getMenu());
+                    popup.getMenuInflater().inflate(R.menu.context_menu_table, popup.getMenu());
                     popup.setOnMenuItemClickListener(item -> {
                         final var id = item.getItemId();
                         if (id == R.id.edit_table) {
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }
 

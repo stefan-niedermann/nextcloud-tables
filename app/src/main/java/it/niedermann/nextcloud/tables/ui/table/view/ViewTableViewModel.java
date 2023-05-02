@@ -8,12 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
+import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
+
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.model.FullTable;
 import it.niedermann.nextcloud.tables.model.FullTableLiveData;
@@ -51,5 +56,17 @@ public class ViewTableViewModel extends AndroidViewModel {
                 tablesRepository.getNotDeletedColumns$(table),
                 tablesRepository.getData(table)
         );
+    }
+
+    public void deleteRow(@NonNull Row row) {
+        executor.submit(() -> {
+            try {
+                tablesRepository.deleteRow(row);
+            } catch (NextcloudFilesAppAccountNotFoundException |
+                     NextcloudHttpRequestFailedException | IOException e) {
+                // TODO propagate?
+                e.printStackTrace();
+            }
+        });
     }
 }
