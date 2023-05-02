@@ -56,6 +56,13 @@ public class ViewTableFragment extends Fragment {
 
         adapter = new TableViewAdapter();
         binding.tableView.setAdapter(adapter);
+        binding.tableView.getCellRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition() == 0);
+            }
+        });
 
         viewTableViewModel.getFullTable(table).observe(getViewLifecycleOwner(), data -> {
             adapter.setAllItems(data.getColumns(), data.getRows(), data.getData());
