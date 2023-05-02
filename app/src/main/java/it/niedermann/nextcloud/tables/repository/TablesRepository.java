@@ -20,37 +20,37 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
+import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 import it.niedermann.nextcloud.tables.repository.sync.AbstractSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.ColumnSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.RowSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.TableSyncAdapter;
 
 @WorkerThread
-public class TablesRepository {
+public class TablesRepository extends AbstractSyncAdapter {
 
     private static final String TAG = TablesRepository.class.getSimpleName();
     private final Context context;
-    private final TablesDatabase db;
     private final AbstractSyncAdapter tableSyncAdapter;
     private final AbstractSyncAdapter columnSyncAdapter;
     private final AbstractSyncAdapter rowSyncAdapter;
 
     public TablesRepository(@NonNull Context context) {
-        this(context, TablesDatabase.getInstance(context));
+        this(TablesDatabase.getInstance(context), context);
     }
 
-    private TablesRepository(@NonNull Context context,
-                             @NonNull TablesDatabase db) {
-        this(context, db, new TableSyncAdapter(db), new ColumnSyncAdapter(db), new RowSyncAdapter(db));
+    private TablesRepository(@NonNull TablesDatabase db,
+                             @NonNull Context context) {
+        this(db, context, new TableSyncAdapter(db), new ColumnSyncAdapter(db), new RowSyncAdapter(db));
     }
 
-    private TablesRepository(@NonNull Context context,
-                             @NonNull TablesDatabase db,
+    private TablesRepository(@NonNull TablesDatabase db,
+                             @NonNull Context context,
                              @NonNull AbstractSyncAdapter tableSyncAdapter,
                              @NonNull AbstractSyncAdapter columnSyncAdapter,
                              @NonNull AbstractSyncAdapter rowSyncAdapter) {
+        super(db);
         this.context = context;
-        this.db = db;
         this.tableSyncAdapter = tableSyncAdapter;
         this.columnSyncAdapter = columnSyncAdapter;
         this.rowSyncAdapter = rowSyncAdapter;
@@ -60,25 +60,34 @@ public class TablesRepository {
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
             final var api = apiProvider.getApi();
 
-            tableSyncAdapter.pushLocalChanges(api, account);
-            columnSyncAdapter.pushLocalChanges(api, account);
-            rowSyncAdapter.pushLocalChanges(api, account);
-
-            tableSyncAdapter.pullRemoteChanges(api, account);
-            columnSyncAdapter.pullRemoteChanges(api, account);
-            rowSyncAdapter.pullRemoteChanges(api, account);
+            pushLocalChanges(api, account);
+            pullRemoteChanges(api, account);
         }
+    }
+
+    @Override
+    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+        tableSyncAdapter.pushLocalChanges(api, account);
+        columnSyncAdapter.pushLocalChanges(api, account);
+        rowSyncAdapter.pushLocalChanges(api, account);
+    }
+
+    @Override
+    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+        tableSyncAdapter.pullRemoteChanges(api, account);
+        columnSyncAdapter.pullRemoteChanges(api, account);
+        rowSyncAdapter.pullRemoteChanges(api, account);
     }
 
     public LiveData<List<Table>> getNotDeletedTables$(@NonNull Account account, boolean isShared) {
         return db.getTableDao().getNotDeletedTables$(account.getId(), isShared);
     }
 
-    public LiveData<Table> getTable(long id) {
+    public LiveData<Table> getNotDeletedTables$(long id) {
         return db.getTableDao().getNotDeletedTable$(id);
     }
 
-    public LiveData<List<Row>> getRows(@NonNull Table table) {
+    public LiveData<List<Row>> getNotDeletedRows$(@NonNull Table table) {
         return db.getRowDao().getNotDeletedRows$(table.getId());
     }
 

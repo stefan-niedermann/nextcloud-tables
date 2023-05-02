@@ -37,22 +37,22 @@ public class FullTableLiveData extends MediatorLiveData<FullTable> {
             this.value.addAll(newValues);
 
             if (!rowEmitter.firstEmit && !columnEmitter.firstEmit && !dataEmitter.firstEmit) {
-
                 final var rows = new ArrayList<List<Data>>(Collections.nCopies(rowEmitter.value.size(), null));
 
                 for (int rowPosition = 0; rowPosition < rowEmitter.value.size(); rowPosition++) {
-                    final var finalRowPosition = rowPosition;
-
                     final var columnsForCurrentRow = new ArrayList<Data>(Collections.nCopies(columnEmitter.value.size(), null));
-                    rows.set(finalRowPosition, columnsForCurrentRow);
+                    rows.set(rowPosition, columnsForCurrentRow);
 
                     for (int columnPosition = 0; columnPosition < columnEmitter.value.size(); columnPosition++) {
+                        final var targetRowId = rowEmitter.value.get(rowPosition).getId();
+                        final var targetColumnId = columnEmitter.value.get(columnPosition).getId();
 
                         final var finalColumnPosition = columnPosition;
+
                         dataEmitter.value
                                 .stream()
-                                .filter(data -> data.getRowId() == rowEmitter.value.get(finalRowPosition).getId())
-                                .filter(data -> data.getColumnId() == columnEmitter.value.get(finalColumnPosition).getId())
+                                .filter(data -> data.getRowId() == targetRowId)
+                                .filter(data -> data.getColumnId() == targetColumnId)
                                 .findAny()
                                 .ifPresentOrElse(
                                         data -> columnsForCurrentRow.set(finalColumnPosition, data),
@@ -60,7 +60,7 @@ public class FullTableLiveData extends MediatorLiveData<FullTable> {
                                 );
 
                     }
-                    rows.set(finalRowPosition, columnsForCurrentRow);
+                    rows.set(rowPosition, columnsForCurrentRow);
                 }
 
                 postValue(new FullTable(rowEmitter.value, columnEmitter.value, rows));

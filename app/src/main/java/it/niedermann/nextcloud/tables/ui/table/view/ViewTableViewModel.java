@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.ui.table.view;
 
+import static androidx.lifecycle.Transformations.distinctUntilChanged;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.app.Application;
@@ -52,10 +53,12 @@ public class ViewTableViewModel extends AndroidViewModel {
     }
 
     public LiveData<FullTable> getFullTable(@NonNull Table table) {
-        return new FullTableLiveData(
-                tablesRepository.getRows(table),
-                tablesRepository.getNotDeletedColumns$(table),
-                tablesRepository.getData(table)
+        return distinctUntilChanged(
+                new FullTableLiveData(
+                        tablesRepository.getNotDeletedRows$(table),
+                        tablesRepository.getNotDeletedColumns$(table),
+                        tablesRepository.getData(table)
+                )
         );
     }
 

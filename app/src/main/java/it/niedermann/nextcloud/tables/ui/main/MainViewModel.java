@@ -57,7 +57,7 @@ public class MainViewModel extends AndroidViewModel {
                 return new MutableLiveData<>(new Pair<>(account, null));
             }
 
-            return map(tablesRepository.getTable(account.getCurrentTable()), table -> new Pair<>(account, table));
+            return map(tablesRepository.getNotDeletedTables$(account.getCurrentTable()), table -> new Pair<>(account, table));
         });
     }
 
