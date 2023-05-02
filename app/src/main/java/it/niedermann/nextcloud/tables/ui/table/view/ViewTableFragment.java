@@ -50,14 +50,17 @@ public class ViewTableFragment extends Fragment {
         adapter = new TableViewAdapter();
         binding.tableView.setAdapter(adapter);
 
-        viewTableViewModel.getRows(table).observe(getViewLifecycleOwner(), rows -> adapter.setRowHeaderItems(rows));
-        viewTableViewModel.getColumns(table).observe(getViewLifecycleOwner(), columns -> {
-            adapter.setColumnHeaderItems(columns);
-
+        viewTableViewModel.getFullTable(table).observe(getViewLifecycleOwner(), data -> {
+            adapter.setAllItems(data.getColumns(), data.getRows(), data.getData());
             binding.tableView.setTableViewListener(new ITableViewListener() {
                 @Override
-                public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int column, int row) {
-                    startActivity(EditRowActivity.createIntent(requireContext(), account, table, adapter.getRowHeaderItem(row)));
+                public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
+                    final var row = adapter.getRowHeaderItem(rowPosition);
+                    if (row == null) {
+                        ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    } else {
+                        startActivity(EditRowActivity.createIntent(requireContext(), account, table, row));
+                    }
                 }
 
                 @Override
@@ -101,7 +104,6 @@ public class ViewTableFragment extends Fragment {
                 }
             });
         });
-        viewTableViewModel.getData(table).observe(getViewLifecycleOwner(), data -> adapter.setCellItems(data));
 
         binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, table)));
         binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {

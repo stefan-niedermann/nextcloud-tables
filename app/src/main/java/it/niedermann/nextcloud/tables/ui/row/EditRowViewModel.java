@@ -69,6 +69,7 @@ public class EditRowViewModel extends AndroidViewModel {
         executor.submit(() -> {
             final var data = editors.stream().map(ColumnEditView::toData).toArray(Data[]::new);
             try {
+                // TODO check data already exists?
                 tablesRepository.updateRow(account, row, data);
             } catch (NextcloudFilesAppAccountNotFoundException |
                      NextcloudHttpRequestFailedException | IOException e) {
@@ -78,7 +79,7 @@ public class EditRowViewModel extends AndroidViewModel {
         });
     }
 
-    public CompletableFuture<Map<Long, Object>> getValuesByColumnId(@Nullable Row row) {
+    public CompletableFuture<Map<Long, Object>> getValues(@Nullable Row row) {
         if (row == null) {
             return completedFuture(emptyMap());
         }

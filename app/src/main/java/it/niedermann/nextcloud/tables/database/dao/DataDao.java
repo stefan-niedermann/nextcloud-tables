@@ -23,7 +23,7 @@ public interface DataDao extends GenericDao<Data> {
             "INNER JOIN `Column` c ON d.columnId = c.id " +
             "WHERE r.tableId = :tableId " +
             "AND c.tableId = :tableId " +
-            "ORDER BY r.remoteId, c.remoteId")
+            "ORDER BY r.remoteId, c.orderWeight")
     LiveData<List<Data>> getData(long tableId);
 
     @Query("SELECT * FROM Data d WHERE d.columnId = :columnId AND d.rowId = :rowId")

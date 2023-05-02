@@ -75,6 +75,6 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public View onCreateCornerView(@NonNull ViewGroup parent) {
-        return null;
+        return new View(parent.getContext());
     }
 }
