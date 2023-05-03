@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.tables.ui.row;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,7 +13,9 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
@@ -28,6 +32,7 @@ public class EditRowActivity extends AppCompatActivity {
     private Row row;
     private EditRowViewModel editRowViewModel;
     private ActivityEditRowBinding binding;
+    private final Collection<ColumnEditView> editors = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +52,12 @@ public class EditRowActivity extends AppCompatActivity {
 
         binding = ActivityEditRowBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+
+        binding.toolbar.setTitle(row == null ? R.string.add_row : R.string.edit_row);
+        binding.toolbar.setSubtitle(table.getTitleWithEmoji());
 
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
-        final var editors = new ArrayList<ColumnEditView>();
         editRowViewModel.getNotDeletedColumns(table).thenAcceptAsync(columns -> {
             binding.columns.removeAllViews();
             editors.clear();
@@ -62,15 +70,26 @@ public class EditRowActivity extends AppCompatActivity {
                 }
             }, ContextCompat.getMainExecutor(this));
         }, ContextCompat.getMainExecutor(this));
+    }
 
-        binding.save.setOnClickListener(v -> {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_row, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.save) {
             if (row == null) {
                 editRowViewModel.createRow(account, table, editors);
             } else {
                 editRowViewModel.updateRow(account, row, editors);
             }
             finish();
-        });
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static Intent createIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table) {

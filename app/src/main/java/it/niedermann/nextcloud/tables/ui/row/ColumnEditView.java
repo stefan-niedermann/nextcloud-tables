@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 import java.util.Optional;
 
+import it.niedermann.android.util.DimensionUtil;
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 
@@ -30,13 +32,16 @@ public abstract class ColumnEditView extends FrameLayout {
         this(context);
         this.column = column;
 
-        setLayoutParams(new FrameLayout.LayoutParams(
+        final var layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
-        ));
+        );
+        layoutParams.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x));
+        setLayoutParams(layoutParams);
         addView(onCreate(context));
         setValue(value);
 
+        requestLayout();
         invalidate();
     }
 

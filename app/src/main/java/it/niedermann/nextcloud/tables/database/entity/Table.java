@@ -9,6 +9,7 @@ import androidx.room.ForeignKey;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity(
@@ -46,6 +47,11 @@ public class Table extends AbstractRemoteEntity {
 
     public Table() {
         // Default constructor
+    }
+
+    @NonNull
+    public String getTitleWithEmoji() {
+        return String.format(Locale.getDefault(), "%s %s", getEmoji(), getTitle()).trim();
     }
 
     @NonNull

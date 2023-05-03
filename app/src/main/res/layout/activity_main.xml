@@ -26,7 +26,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:menu="@menu/menu_toolbar" />
+                    app:menu="@menu/menu_main_toolbar" />
 
             </com.google.android.material.appbar.AppBarLayout>
 
