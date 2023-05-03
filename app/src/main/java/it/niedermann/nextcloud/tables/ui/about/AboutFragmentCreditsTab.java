@@ -37,7 +37,7 @@ public class AboutFragmentCreditsTab extends Fragment {
         final var args = getArguments();
         if (args != null && args.containsKey(BUNDLE_KEY_ACCOUNT)) {
             final var account = (Account) requireArguments().getSerializable(BUNDLE_KEY_ACCOUNT);
-            binding.aboutServerAppVersion.setText(account == null ? getString(R.string.simple_exception) : account.getNextcloudVersion().toString());
+            binding.aboutServerAppVersion.setText(account == null ? getString(R.string.simple_exception) : account.getTablesVersion().toString());
         } else {
             binding.aboutServerAppVersionContainer.setVisibility(View.GONE);
         }
