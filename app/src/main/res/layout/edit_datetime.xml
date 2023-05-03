@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <it.niedermann.nextcloud.tables.ui.row.type.datetime.DateEditor
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="@dimen/spacer_1x"
+        android:layout_weight="1" />
+
+    <it.niedermann.nextcloud.tables.ui.row.type.datetime.TimeEditor
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacer_1x"
+        android:layout_marginEnd="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

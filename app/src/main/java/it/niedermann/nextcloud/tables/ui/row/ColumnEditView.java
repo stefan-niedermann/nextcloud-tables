@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 public abstract class ColumnEditView extends FrameLayout {
 
     protected Column column;
+    protected FragmentManager fragmentManager;
 
     public ColumnEditView(@NonNull Context context) {
         super(context);
@@ -28,9 +30,13 @@ public abstract class ColumnEditView extends FrameLayout {
         super(context, attrs);
     }
 
-    public ColumnEditView(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
+    public ColumnEditView(@NonNull Context context,
+                          @Nullable FragmentManager fragmentManager,
+                          @NonNull Column column,
+                          @Nullable Object value) {
         this(context);
         this.column = column;
+        this.fragmentManager = fragmentManager;
 
         final var layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -83,6 +89,6 @@ public abstract class ColumnEditView extends FrameLayout {
 
     @FunctionalInterface
     interface Factory {
-        ColumnEditView create(@NonNull Context context, @NonNull Column column, @Nullable Object value);
+        ColumnEditView create(@NonNull Context context, @Nullable FragmentManager fragmentManager, @NonNull Column column, @Nullable Object value);
     }
 }

@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
 
     private static final String TAG = AbstractDateTimeCellViewHolder.class.getSimpleName();
-    private static final String DATETIME_NONE = "none";
+    public static final String DATETIME_NONE = "none";
     private final TableviewCellBinding binding;
 
     public AbstractDateTimeCellViewHolder(@NonNull TableviewCellBinding binding) {

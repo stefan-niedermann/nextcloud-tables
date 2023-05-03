@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 
@@ -19,8 +20,11 @@ public class TextLineEditor extends TextEditor {
         super(context, attrs);
     }
 
-    public TextLineEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
-        super(context, column, value);
+    public TextLineEditor(@NonNull Context context,
+                          @Nullable FragmentManager fragmentManager,
+                          @NonNull Column column,
+                          @Nullable Object value) {
+        super(context, fragmentManager, column, value);
     }
 
     @NonNull

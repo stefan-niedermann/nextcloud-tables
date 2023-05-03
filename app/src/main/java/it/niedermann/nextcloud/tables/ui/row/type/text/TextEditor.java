@@ -8,6 +8,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.Optional;
 
@@ -24,15 +25,20 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
     public TextEditor(@NonNull Context context) {
         super(context);
         binding = EditTextviewBinding.inflate(LayoutInflater.from(context));
+        addView(binding.getRoot());
     }
 
     public TextEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         binding = EditTextviewBinding.inflate(LayoutInflater.from(context));
+        addView(binding.getRoot());
     }
 
-    public TextEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
-        super(context, column, value);
+    public TextEditor(@NonNull Context context,
+                      @Nullable FragmentManager fragmentManager,
+                      @NonNull Column column,
+                      @Nullable Object value) {
+        super(context, fragmentManager, column, value);
     }
 
     @NonNull

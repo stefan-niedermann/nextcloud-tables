@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -31,8 +32,11 @@ public class StarsEditor extends ColumnEditView {
         binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
     }
 
-    public StarsEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
-        super(context, column, value);
+    public StarsEditor(@NonNull Context context,
+                       @Nullable FragmentManager fragmentManager,
+                       @NonNull Column column,
+                       @Nullable Object value) {
+        super(context, fragmentManager, column, value);
     }
 
     @NonNull

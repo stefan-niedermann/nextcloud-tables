@@ -5,8 +5,12 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.TimeEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.number.NumberEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.number.ProgressEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.number.StarsEditor;
@@ -20,10 +24,14 @@ public enum ColumnEditType {
     TEXT(1_000, "text", "", TextEditor::new),
     TEXT_LINE(1_001, "text", "line", TextLineEditor::new),
     TEXT_LINK(1_002, "text", "link", TextLinkEditor::new),
-    NUMBER(4_000, "number", "", NumberEditor::new),
-    NUMBER_STAR(4_001, "number", "stars", StarsEditor::new),
-    NUMBER_PROGRESS(4_002, "number", "progress", ProgressEditor::new),
     SELECTION_CHECK(3_001, "selection", "check", CheckEditor::new),
+    DATETIME(4_000, "datetime", "", DateTimeEditor::new),
+    DATETIME_DATETIME(4_001, "datetime", "datetime", DateTimeEditor::new),
+    DATETIME_DATE(4_002, "datetime", "date", DateEditor::new),
+    DATETIME_TIME(4_003, "datetime", "time", TimeEditor::new),
+    NUMBER(5_000, "number", "", NumberEditor::new),
+    NUMBER_STAR(5_001, "number", "stars", StarsEditor::new),
+    NUMBER_PROGRESS(5_002, "number", "progress", ProgressEditor::new),
     ;
     private final int id;
     private final String type;
@@ -58,14 +66,10 @@ public enum ColumnEditType {
     }
 
     public ColumnEditView inflate(@NonNull Context context,
-                                  @NonNull Column column) {
-        return factory.create(context, column, null);
-    }
-
-    public ColumnEditView inflate(@NonNull Context context,
+                                  @Nullable FragmentManager fragmentManager,
                                   @NonNull Column column,
                                   @Nullable Object value) {
-        return factory.create(context, column, value == null ? column.getDefaultValueByType() : value);
+        return factory.create(context, fragmentManager, column, value == null ? column.getDefaultValueByType() : value);
     }
 
     public int getId() {

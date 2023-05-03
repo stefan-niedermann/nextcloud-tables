@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.Optional;
 
@@ -25,8 +26,11 @@ public class TextLinkEditor extends TextEditor {
         super(context, attrs);
     }
 
-    public TextLinkEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
-        super(context, column, value);
+    public TextLinkEditor(@NonNull Context context,
+                          @Nullable FragmentManager fragmentManager,
+                          @NonNull Column column,
+                          @Nullable Object value) {
+        super(context, fragmentManager, column, value);
     }
 
     @NonNull

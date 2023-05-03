@@ -64,7 +64,7 @@ public class EditRowActivity extends AppCompatActivity {
             editRowViewModel.getValues(row).thenAcceptAsync(values -> {
                 for (final var column : columns) {
                     final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
-                    final var editor = type.inflate(this, column, values.get(column.getId()));
+                    final var editor = type.inflate(this, getSupportFragmentManager(), column, values.get(column.getId()));
                     binding.columns.addView(editor);
                     editors.add(editor);
                 }

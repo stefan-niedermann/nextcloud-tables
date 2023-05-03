@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.EditSelectionCheckBinding;
@@ -26,8 +27,11 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
     }
 
-    public CheckEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
-        super(context, column, value);
+    public CheckEditor(@NonNull Context context,
+                       @Nullable FragmentManager fragmentManager,
+                       @NonNull Column column,
+                       @Nullable Object value) {
+        super(context, fragmentManager, column, value);
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
     }
 

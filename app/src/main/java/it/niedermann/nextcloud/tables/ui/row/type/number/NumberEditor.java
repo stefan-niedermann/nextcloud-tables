@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.Optional;
 
@@ -26,8 +27,11 @@ public class NumberEditor extends TextEditor {
         super(context, attrs);
     }
 
-    public NumberEditor(@NonNull Context context, @NonNull Column column, @Nullable Object value) {
-        super(context, column, value);
+    public NumberEditor(@NonNull Context context,
+                        @Nullable FragmentManager fragmentManager,
+                        @NonNull Column column,
+                        @Nullable Object value) {
+        super(context, fragmentManager, column, value);
     }
 
     @NonNull
