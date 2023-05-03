@@ -80,7 +80,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             fetchRowsLoop:
             while (true) {
                 Log.v(TAG, "Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")");
-                final var request = api.getRows(table.getRemoteId(), TablesAPI.API_LIMIT_ROWS, offset);
+                final var request = api.getRows(table.getRemoteId(), TablesAPI.DEFAULT_API_LIMIT_ROWS, offset);
                 final var response = request.execute();
                 switch (response.code()) {
                     case 200: {
@@ -97,7 +97,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
                         fetchedRows.addAll(rows);
 
-                        if (rows.size() != TablesAPI.API_LIMIT_ROWS) {
+                        if (rows.size() != TablesAPI.DEFAULT_API_LIMIT_ROWS) {
                             break fetchRowsLoop;
                         }
 

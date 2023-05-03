@@ -27,9 +27,10 @@ import retrofit2.http.Query;
  */
 public interface TablesAPI {
 
-    int API_LIMIT_DEFAULT = 1_000;
-    int API_LIMIT_TABLES = API_LIMIT_DEFAULT;
-    int API_LIMIT_ROWS = API_LIMIT_DEFAULT;
+    int DEFAULT_API_LIMIT = 1_000;
+    int DEFAULT_API_LIMIT_TABLES = DEFAULT_API_LIMIT;
+    int DEFAULT_API_LIMIT_ROWS = DEFAULT_API_LIMIT;
+    String DEFAULT_TABLES_TEMPLATE = "custom";
 
     /**
      * @since 0.3.0
@@ -61,14 +62,7 @@ public interface TablesAPI {
     /**
      * @since 0.4.0
      */
-    @POST("table")
-    Call<Table> createTable(@Query("title") @NonNull String title,
-                            @Query("emoji") @NonNull String emoji);
-
-    /**
-     * @since 0.4.0
-     */
-    @POST("table")
+    @POST("tables")
     Call<Table> createTable(@Query("title") @NonNull String title,
                             @Query("emoji") @NonNull String emoji,
                             @Query("template") @NonNull String template);

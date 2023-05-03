@@ -39,10 +39,10 @@ public class EditTableViewModel extends AndroidViewModel {
         });
     }
 
-    public void updateTable(@NonNull Table table) {
+    public void updateTable(@NonNull Account account, @NonNull Table table) {
         executor.submit(() -> {
             try {
-                tablesRepository.updateTable(table);
+                tablesRepository.updateTable(account, table);
             } catch (NextcloudHttpRequestFailedException | IOException |
                      NextcloudFilesAppAccountNotFoundException e) {
                 // TODO escalate?

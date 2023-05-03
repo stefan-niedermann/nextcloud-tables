@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.database.dao;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.MapInfo;
@@ -19,7 +18,6 @@ public interface RowDao extends GenericDao<Row> {
     @Query("SELECT * FROM `Row` r WHERE r.accountId = :accountId AND r.status = :status")
     List<Row> getRows(long accountId, DBStatus status);
 
-    @RequiresApi(33)
     @Query("SELECT * FROM `Row` r WHERE r.tableId = :tableId AND r.status != 'LOCAL_DELETED' ORDER BY r.remoteId IS NULL OR r.remoteId = ''")
     LiveData<List<Row>> getNotDeletedRows$(long tableId);
 

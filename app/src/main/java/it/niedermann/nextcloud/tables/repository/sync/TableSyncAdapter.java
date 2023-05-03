@@ -51,7 +51,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
         for (final var table : changedTables) {
             Log.i(TAG, "→ PUT/POST: " + table.getTitle());
             final var response = table.getRemoteId() == null
-                    ? api.createTable(table.getTitle(), table.getEmoji()).execute()
+                    ? api.createTable(table.getTitle(), table.getEmoji(), TablesAPI.DEFAULT_TABLES_TEMPLATE).execute()
                     : api.updateTable(table.getRemoteId(), table.getTitle(), table.getEmoji()).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
@@ -72,7 +72,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
         fetchTablesLoop:
         while (true) {
             Log.v(TAG, "Pulling remote changes for " + account.getAccountName() + " (offset: " + offset + ")");
-            final var request = api.getTables(TablesAPI.API_LIMIT_TABLES, offset);
+            final var request = api.getTables(TablesAPI.DEFAULT_API_LIMIT_TABLES, offset);
             final var response = request.execute();
             switch (response.code()) {
                 case 200: {
@@ -89,7 +89,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
 
                     fetchedTables.addAll(tables);
 
-                    if (tables.size() != TablesAPI.API_LIMIT_TABLES) {
+                    if (tables.size() != TablesAPI.DEFAULT_API_LIMIT_TABLES) {
                         break fetchTablesLoop;
                     }
 

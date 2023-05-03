@@ -21,28 +21,37 @@
             app:title="@string/edit_table" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.emoji2.widget.EmojiEditText
-        android:id="@+id/emoji"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emojiWrapper"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/spacer_1x"
-        android:enabled="false"
-        android:maxLength="2"
-        android:text="🙂"
+        android:layout_marginHorizontal="@dimen/spacer_2x"
+        android:hint="@string/simple_emoji"
         app:layout_constraintBottom_toBottomOf="@id/titleWrapper"
         app:layout_constraintEnd_toStartOf="@id/titleWrapper"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/titleWrapper"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toTopOf="@id/titleWrapper">
+
+        <androidx.emoji2.widget.EmojiEditText
+            android:id="@+id/emoji"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:enabled="false"
+            android:gravity="center"
+            android:maxLength="2"
+            android:text="🙂"
+            tools:ignore="HardcodedText" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleWrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:enabled="false"
+        android:layout_marginHorizontal="@dimen/spacer_2x"
+        android:layout_marginTop="@dimen/spacer_2x"
         android:hint="@string/simple_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/emoji"
+        app:layout_constraintStart_toEndOf="@id/emojiWrapper"
         app:layout_constraintTop_toBottomOf="@id/appbar">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -50,14 +59,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/simple_save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleWrapper" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

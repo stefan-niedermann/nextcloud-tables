@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.tables.ui.table.edit;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ public class EditTableActivity extends AppCompatActivity {
     @Nullable
     private Table table;
     private Account account;
+    private ActivityEditTableBinding binding;
     private EditTableViewModel editTableViewModel;
 
     @Override
@@ -38,33 +41,52 @@ public class EditTableActivity extends AppCompatActivity {
 
         account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         table = (Table) intent.getSerializableExtra(KEY_TABLE);
-
-        if (table == null) {
-            table = new Table();
-        }
-
-        final var binding = ActivityEditTableBinding.inflate(getLayoutInflater());
+        binding = ActivityEditTableBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+
+        if (table != null) {
+            binding.emoji.setText(table.getEmoji());
+            binding.title.setText(table.getTitle());
+        }
+
         editTableViewModel = new ViewModelProvider(this).get(EditTableViewModel.class);
 
-        if (table == null) {
-            binding.toolbar.setTitle(R.string.add_table);
-            binding.save.setOnClickListener(v -> {
-                final var newTitle = binding.title.getText();
-                table.setTitle(newTitle == null ? "" : newTitle.toString());
+        binding.toolbar.setTitle(table == null
+                ? getString(R.string.add_table)
+                : getString(R.string.edit_item, table.getTitleWithEmoji())
+        );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_table, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.save) {
+            if (table == null) {
+                table = new Table();
+            }
+
+            final var newTitle = binding.title.getText();
+            final var newEmoji = binding.emoji.getText();
+
+            table.setTitle(newTitle == null ? "" : newTitle.toString());
+            table.setEmoji(newEmoji == null ? "" : newEmoji.toString());
+
+            if (table.getRemoteId() == null) {
                 editTableViewModel.createTable(account, table);
-                finish();
-            });
-        } else {
-            binding.title.setText(table.getTitle());
-            binding.save.setOnClickListener(v -> {
-                final var newTitle = binding.title.getText();
-                table.setTitle(newTitle == null ? "" : newTitle.toString());
-                editTableViewModel.updateTable(table);
-                finish();
-            });
+            } else {
+                editTableViewModel.updateTable(account, table);
+            }
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     public static Intent createIntent(@NonNull Context context, @NonNull Account account, @Nullable Table table) {

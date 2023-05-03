@@ -100,10 +100,9 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void updateTable(@NonNull Table table) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
+    public void updateTable(@NonNull Account account, @NonNull Table table) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
         table.setStatus(DBStatus.LOCAL_EDITED);
         db.getTableDao().update(table);
-        final var account = db.getAccountDao().getAccountById(table.getAccountId());
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
             tableSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
         }
