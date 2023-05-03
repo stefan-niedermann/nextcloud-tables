@@ -60,7 +60,7 @@ public class ViewTableFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition() == 0);
+                binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstCompletelyVisibleItemPosition() == 0);
             }
         });
 
