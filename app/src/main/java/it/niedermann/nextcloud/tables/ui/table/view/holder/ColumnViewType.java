@@ -30,7 +30,7 @@ public enum ColumnViewType {
     TEXT(1_000, "text", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
     TEXT_LONG(1_001, "text", "long", layoutInflater -> new LongCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
     TEXT_LINE(1_002, "text", "line", layoutInflater -> new LineCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
-    DATETIME(2_000, "datetime", "", layoutInflater -> new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
+    DATETIME(2_000, "datetime", "", layoutInflater -> new DateTimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
     DATETIME_DATETIME(2_001, "datetime", "datetime", layoutInflater -> new DateTimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
     DATETIME_DATE(2_002, "datetime", "date", layoutInflater -> new DateCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),
     DATETIME_TIME(2_003, "datetime", "time", layoutInflater -> new TimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater))),

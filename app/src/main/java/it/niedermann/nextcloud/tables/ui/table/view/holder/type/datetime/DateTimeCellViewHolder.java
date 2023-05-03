@@ -1,12 +1,23 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime;
 
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
+
 import androidx.annotation.NonNull;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
 
 public class DateTimeCellViewHolder extends AbstractDateTimeCellViewHolder {
+
+    private static final DateTimeFormatter TABLES_LOCAL_DATE_TIME = new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .append(ISO_LOCAL_DATE)
+            .appendLiteral(' ')
+            .append(ISO_LOCAL_TIME)
+            .toFormatter();
 
     public DateTimeCellViewHolder(@NonNull TableviewCellBinding binding) {
         super(binding);
@@ -14,11 +25,11 @@ public class DateTimeCellViewHolder extends AbstractDateTimeCellViewHolder {
 
     @Override
     protected DateTimeFormatter getParseFormatter() {
-        return DateTimeFormatter.ISO_DATE_TIME;
+        return TABLES_LOCAL_DATE_TIME;
     }
 
     @Override
     protected DateTimeFormatter getRenderFormatter() {
-        return DateTimeFormatter.ofLocalizedDateTime(DEFAULT_RENDER_FORMAT_STYLE);
+        return DateTimeFormatter.ofLocalizedDateTime(getRenderFormatStyle());
     }
 }

@@ -19,6 +19,6 @@ public class DateCellViewHolder extends AbstractDateTimeCellViewHolder {
 
     @Override
     protected DateTimeFormatter getRenderFormatter() {
-        return DateTimeFormatter.ofLocalizedDate(DEFAULT_RENDER_FORMAT_STYLE);
+        return DateTimeFormatter.ofLocalizedDate(getRenderFormatStyle());
     }
 }

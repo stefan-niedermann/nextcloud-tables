@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -20,7 +21,6 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
     private static final String TAG = AbstractDateTimeCellViewHolder.class.getSimpleName();
     private static final String DATETIME_NONE = "none";
     private final TableviewCellBinding binding;
-    protected final FormatStyle DEFAULT_RENDER_FORMAT_STYLE = FormatStyle.MEDIUM;
 
     public AbstractDateTimeCellViewHolder(@NonNull TableviewCellBinding binding) {
         super(binding.getRoot());
@@ -34,7 +34,7 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
                     ? column.getDatetimeDefault()
                     : String.valueOf(data.getValue());
             binding.data.setText(LocalDateTime.parse(value, getParseFormatter()).format(getRenderFormatter()));
-        } catch (Exception e) {
+        } catch (DateTimeParseException e) {
             Log.i(TAG, e.getMessage());
             binding.data.setText(column.getDatetimeDefault());
         }
@@ -44,4 +44,8 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
     protected abstract DateTimeFormatter getParseFormatter();
 
     protected abstract DateTimeFormatter getRenderFormatter();
+
+    protected FormatStyle getRenderFormatStyle() {
+        return FormatStyle.MEDIUM;
+    }
 }
