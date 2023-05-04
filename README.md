@@ -1,13 +1,30 @@
-# ⚠️⚠️⚠️ Early Alpha ⚠️⚠️⚠️
+# ⚠️ Early Alpha ⚠️
 
-***This app is currently under heavy development. It is not yet able to view or manage data. Use at your own risc!***
+***This app is currently under heavy development. It is not yet able to view or manage data in a production environment. Use at your own risc!***
 
 ## ⛔ Limitations
 
-- No write access
+### Tables
+
+- Emoji can not be changed
+
+### Columns
+
+- Only simple text columns can be created, no other type or parameters are supported yet
+- Updating existing columns is not yet supported
+
+### Data
+
+- Some editors (for example `DateTime` and `Selection`) are not yet supported
+
+### General
+
+- Much UI polishing is needed, for example:
+  - Drag & Drop columns
+  - Sorting
+  - Filtering
 - Sync only on Wi-Fi has no effect yet
 - Does not yet apply the theme of the used Nextcloud instance
-- Visual glitches like wrong colors
 
 # Nextcloud Tables for Android
 

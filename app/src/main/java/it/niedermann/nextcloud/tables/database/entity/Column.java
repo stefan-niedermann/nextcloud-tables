@@ -9,6 +9,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Entity(
@@ -285,5 +287,30 @@ public class Column extends AbstractRemoteEntity {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), tableId, title, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionDefault, datetimeDefault);
+    }
+
+    public Map<String, String> toQueryMap() {
+        final var properties = new HashMap<String, String>();
+
+            properties.put("tableId", String.valueOf(getTableId()));
+            properties.put("title", getTitle());
+            properties.put("type", getType());
+            properties.put("subtype", getSubtype());
+            properties.put("mandatory", String.valueOf(isMandatory()));
+            properties.put("description", getDescription());
+            properties.put("orderWeight", String.valueOf(getOrderWeight()));
+            properties.put("numberPrefix", getNumberPrefix());
+            properties.put("numberSuffix", getNumberSuffix());
+            properties.put("numberDefault", String.valueOf(getNumberDefault()));
+            properties.put("numberMin", String.valueOf(getNumberMin()));
+            properties.put("numberMax", String.valueOf(getNumberMax()));
+            properties.put("numberDecimals", String.valueOf(getNumberDecimals()));
+            properties.put("textDefault", getTextDefault());
+            properties.put("textAllowedPattern", getTextAllowedPattern());
+            properties.put("textMaxLength", String.valueOf(getTextMaxLength()));
+//            properties.put("selectionOptions", getSelectionOptions());
+            properties.put("selectionDefault", getSelectionDefault());
+            properties.put("datetimeDefault", getDatetimeDefault());
+        return properties;
     }
 }

@@ -100,8 +100,27 @@ public interface TablesAPI {
      * @since 0.4.0
      */
     @POST("tables/{tableId}/columns")
-    Call<Column> createColumn(@Path("tableId") long tableId,
-                              @Query("values") @NonNull Column column);
+    Call<Column> createColumn(@Path("tableId")
+                              @Query("tableId") long tableId,
+                              @Query("title") String title,
+                              @Query("type") String type,
+                              @Query("subtype") String subtype,
+                              @Query("mandatory") boolean mandatory,
+                              @Query("description") String description,
+                              @Query("orderWeight") long orderWeight,
+                              @Query("numberPrefix") String numberPrefix,
+                              @Query("numberSuffix") String numberSuffix,
+                              @Query("numberDefault") long numberDefault,
+                              @Query("numberMin") long numberMin,
+                              @Query("numberMax") long numberMax,
+                              @Query("numberDecimals") long numberDecimals,
+                              @Query("textDefault") String textDefault,
+                              @Query("textAllowedPattern") String textAllowedPattern,
+                              @Query("textMaxLength") long textMaxLength,
+                              // @Query("selectionOptions") String selectionOptions,
+                              @Query("selectionDefault") String selectionDefault,
+                              @Query("datetimeDefault") String datetimeDefault
+    );
 
     /**
      * @since 0.4.0
@@ -114,7 +133,22 @@ public interface TablesAPI {
      */
     @PUT("column/{columnId}")
     Call<Column> updateColumn(@Path("columnId") long columnId,
-                              @Query("values") @NonNull Column column);
+                              @Query("title") String title,
+                              @Query("mandatory") boolean mandatory,
+                              @Query("description") String description,
+                              @Query("orderWeight") long orderWeight,
+                              @Query("numberPrefix") String numberPrefix,
+                              @Query("numberSuffix") String numberSuffix,
+                              @Query("numberDefault") long numberDefault,
+                              @Query("numberMin") long numberMin,
+                              @Query("numberMax") long numberMax,
+                              @Query("numberDecimals") long numberDecimals,
+                              @Query("textDefault") String textDefault,
+                              @Query("textAllowedPattern") String textAllowedPattern,
+                              @Query("textMaxLength") long textMaxLength,
+                              // @Query("selectionOptions") String selectionOptions,
+                              @Query("selectionDefault") String selectionDefault,
+                              @Query("datetimeDefault") String datetimeDefault);
 
     /**
      * @since 0.4.0

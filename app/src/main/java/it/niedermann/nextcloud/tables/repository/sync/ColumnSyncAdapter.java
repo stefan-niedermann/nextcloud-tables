@@ -48,8 +48,43 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
         for (final var column : columnsToUpdate) {
             Log.i(TAG, "→ PUT/POST: " + column.getTitle());
             final var response = column.getRemoteId() == null
-                    ? api.createColumn(db.getTableDao().getRemoteId(column.getTableId()), column).execute()
-                    : api.updateColumn(column.getRemoteId(), column).execute();
+                    ? api.createColumn(db.getTableDao().getRemoteId(column.getTableId()),
+                    column.getTitle(),
+                    column.getType(),
+                    column.getSubtype(),
+                    column.isMandatory(),
+                    column.getDescription(),
+                    column.getOrderWeight(),
+                    column.getNumberPrefix(),
+                    column.getNumberSuffix(),
+                    column.getNumberDefault(),
+                    column.getNumberMin(),
+                    column.getNumberMax(),
+                    column.getNumberDecimals(),
+                    column.getTextDefault(),
+                    column.getTextAllowedPattern(),
+                    column.getTextMaxLength(),
+//                    column.getSelectionOptions(),
+                    column.getSelectionDefault(),
+                    column.getDatetimeDefault()
+            ).execute()
+                    : api.updateColumn(column.getRemoteId(),
+                    column.getTitle(),
+                    column.isMandatory(),
+                    column.getDescription(),
+                    column.getOrderWeight(),
+                    column.getNumberPrefix(),
+                    column.getNumberSuffix(),
+                    column.getNumberDefault(),
+                    column.getNumberMin(),
+                    column.getNumberMax(),
+                    column.getNumberDecimals(),
+                    column.getTextDefault(),
+                    column.getTextAllowedPattern(),
+                    column.getTextMaxLength(),
+//                    column.getSelectionOptions(),
+                    column.getSelectionDefault(),
+                    column.getDatetimeDefault()).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 column.setStatus(DBStatus.VOID);
