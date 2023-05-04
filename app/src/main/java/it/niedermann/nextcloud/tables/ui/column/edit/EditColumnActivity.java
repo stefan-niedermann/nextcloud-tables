@@ -78,6 +78,7 @@ public class EditColumnActivity extends AppCompatActivity {
             if (this.column == null) {
                 this.column = new Column();
                 this.column.setType("text");
+                this.column.setSubtype("line");
                 this.column.setTableId(table.getId());
             }
 
