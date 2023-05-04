@@ -29,7 +29,6 @@
     <string name="edit_table">Edit table</string>
     <string name="edit_item">Edit %1$s</string>
     <string name="share_table">Share table</string>
-    <string name="edit_columns">Edit columns</string>
     <string name="not_implemented">This feature has not been implemented yet</string>
     <string name="delete_table">Delete table</string>
     <string name="hint_error_appeared">An error appeared</string>
@@ -156,4 +155,9 @@
     <string name="validation_text_link">The value is not a link</string>
     <string name="validation_mandatory">This is a mandatory field</string>
     <string name="simple_emoji">Emoji</string>
+    <string name="manage_columns">Manage columns</string>
+    <string name="simple_mandatory">Mandatory</string>
+    <string name="simple_description">Description</string>
+    <string name="order_weight">Order weight</string>
+    <string name="add_column">Add column</string>
 </resources>

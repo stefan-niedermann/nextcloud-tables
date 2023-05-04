@@ -8,17 +8,24 @@ import java.util.Objects;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.Table;
 
 public class FullTable {
 
+    private final Table table;
     private final List<Row> rows;
     private final List<Column> columns;
     private final List<List<Data>> data;
 
-    public FullTable(@NonNull List<Row> rows, @NonNull List<Column> columns, @NonNull List<List<Data>> data) {
+    public FullTable(@NonNull Table table, @NonNull List<Row> rows, @NonNull List<Column> columns, @NonNull List<List<Data>> data) {
+        this.table = table;
         this.rows = rows;
         this.columns = columns;
         this.data = data;
+    }
+
+    public Table getTable() {
+        return table;
     }
 
     public List<Row> getRows() {
@@ -38,11 +45,11 @@ public class FullTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FullTable fullTable = (FullTable) o;
-        return Objects.equals(rows, fullTable.rows) && Objects.equals(columns, fullTable.columns) && Objects.equals(data, fullTable.data);
+        return Objects.equals(table, fullTable.table) && Objects.equals(rows, fullTable.rows) && Objects.equals(columns, fullTable.columns) && Objects.equals(data, fullTable.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rows, columns, data);
+        return Objects.hash(table, rows, columns, data);
     }
 }

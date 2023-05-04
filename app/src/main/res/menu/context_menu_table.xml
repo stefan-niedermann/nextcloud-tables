@@ -13,9 +13,9 @@
         android:title="@string/share_table"
         app:showAsAction="never" />
     <item
-        android:id="@+id/edit_columns"
+        android:id="@+id/manage_columns"
         android:orderInCategory="30"
-        android:title="@string/edit_columns"
+        android:title="@string/manage_columns"
         app:showAsAction="never" />
     <item
         android:id="@+id/delete_table"

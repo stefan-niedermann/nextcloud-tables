@@ -83,7 +83,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         return db.getTableDao().getNotDeletedTables$(account.getId(), isShared);
     }
 
-    public LiveData<Table> getNotDeletedTables$(long id) {
+    public LiveData<Table> getNotDeletedTable$(long id) {
         return db.getTableDao().getNotDeletedTable$(id);
     }
 
@@ -96,7 +96,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         table.setAccountId(account.getId());
         db.getTableDao().insert(table);
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            tableSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
@@ -104,7 +104,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         table.setStatus(DBStatus.LOCAL_EDITED);
         db.getTableDao().update(table);
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            tableSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
@@ -113,7 +113,24 @@ public class TablesRepository extends AbstractSyncAdapter {
         db.getTableDao().update(table);
         final var account = db.getAccountDao().getAccountById(table.getAccountId());
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            tableSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+            pushLocalChanges(apiProvider.getApi(), account);
+        }
+    }
+
+    public void createColumn(@NonNull Account account, @NonNull Column column) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
+        column.setStatus(DBStatus.LOCAL_EDITED);
+        column.setAccountId(account.getId());
+        db.getColumnDao().insert(column);
+        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
+            pushLocalChanges(apiProvider.getApi(), account);
+        }
+    }
+
+    public void updateColumn(@NonNull Account account, @NonNull Column column) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
+        column.setStatus(DBStatus.LOCAL_EDITED);
+        db.getColumnDao().update(column);
+        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
@@ -122,7 +139,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         db.getColumnDao().update(column);
         final var account = db.getAccountDao().getAccountById(column.getAccountId());
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            columnSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
@@ -135,7 +152,7 @@ public class TablesRepository extends AbstractSyncAdapter {
             db.getDataDao().insert(d);
         }
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            rowSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
@@ -148,7 +165,7 @@ public class TablesRepository extends AbstractSyncAdapter {
             db.getDataDao().update(d);
         }
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            rowSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
@@ -157,7 +174,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         db.getRowDao().update(row);
         final var account = db.getAccountDao().getAccountById(row.getAccountId());
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            rowSyncAdapter.pushLocalChanges(apiProvider.getApi(), account);
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 

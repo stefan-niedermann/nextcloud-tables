@@ -7,7 +7,6 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -46,18 +45,18 @@ public class MainViewModel extends AndroidViewModel {
         return accountRepository.getCurrentAccount();
     }
 
-    public LiveData<Pair<Account, Table>> getCurrentTable() {
+    public LiveData<Table> getCurrentTable() {
         return switchMap(getCurrentAccount(), account -> {
             if (account == null) {
-                return new MutableLiveData<>();
+                return new MutableLiveData<>(null);
             }
 
             if (account.getCurrentTable() == null) {
                 executor.submit(() -> accountRepository.guessCurrentBoard(account));
-                return new MutableLiveData<>(new Pair<>(account, null));
+                return new MutableLiveData<>(null);
             }
 
-            return map(tablesRepository.getNotDeletedTables$(account.getCurrentTable()), table -> new Pair<>(account, table));
+            return tablesRepository.getNotDeletedTable$(account.getCurrentTable());
         });
     }
 

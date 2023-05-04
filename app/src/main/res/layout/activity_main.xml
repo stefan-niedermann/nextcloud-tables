@@ -32,6 +32,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment"
+                android:name="it.niedermann.nextcloud.tables.ui.table.view.ViewTableFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:tag="activity_main_fragment" />

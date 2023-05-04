@@ -1,13 +1,17 @@
 package it.niedermann.nextcloud.tables.ui.table.view;
 
 import static androidx.lifecycle.Transformations.distinctUntilChanged;
+import static androidx.lifecycle.Transformations.map;
+import static androidx.lifecycle.Transformations.switchMap;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
@@ -52,9 +56,29 @@ public class ViewTableViewModel extends AndroidViewModel {
         }, executor);
     }
 
+    public LiveData<Account> getCurrentAccount() {
+        return accountRepository.getCurrentAccount();
+    }
+
+    public LiveData<Pair<Account, FullTable>> getCurrentFullTable() {
+        return switchMap(getCurrentAccount(), account -> {
+            if (account == null) {
+                return new MutableLiveData<>();
+            }
+
+            if (account.getCurrentTable() == null) {
+                executor.submit(() -> accountRepository.guessCurrentBoard(account));
+                return new MutableLiveData<>(new Pair<>(account, null));
+            }
+
+            return map(switchMap(tablesRepository.getNotDeletedTable$(account.getCurrentTable()), this::getFullTable), fullTable -> new Pair<>(account, fullTable));
+        });
+    }
+
     public LiveData<FullTable> getFullTable(@NonNull Table table) {
         return distinctUntilChanged(
                 new FullTableLiveData(
+                        table,
                         tablesRepository.getNotDeletedRows$(table),
                         tablesRepository.getNotDeletedColumns$(table),
                         tablesRepository.getData(table)

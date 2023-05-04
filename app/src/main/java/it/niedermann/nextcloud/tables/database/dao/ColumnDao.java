@@ -15,8 +15,8 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 @Dao
 public interface ColumnDao extends GenericDao<Column> {
 
-    @Query("SELECT * FROM `Column` c WHERE c.tableId = :tableId AND c.status = :status")
-    List<Column> getColumns(long tableId, DBStatus status);
+    @Query("SELECT * FROM `Column` c WHERE c.accountId = :accountId AND c.status = :status")
+    List<Column> getColumns(long accountId, DBStatus status);
 
     @Query("SELECT * FROM `Column` c WHERE c.tableId = :tableId AND c.status != 'LOCAL_DELETED' ORDER BY c.orderWeight")
     LiveData<List<Column>> getNotDeletedColumns$(long tableId);

@@ -23,10 +23,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -34,13 +32,12 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityMainBinding;
 import it.niedermann.nextcloud.tables.ui.about.AboutActivity;
 import it.niedermann.nextcloud.tables.ui.accountswitcher.AccountSwitcherDialog;
-import it.niedermann.nextcloud.tables.ui.column.EditColumnActivity;
+import it.niedermann.nextcloud.tables.ui.column.manage.ManageColumnsActivity;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.ui.importaccount.ImportAccountActivity;
 import it.niedermann.nextcloud.tables.ui.settings.PreferencesActivity;
 import it.niedermann.nextcloud.tables.ui.table.edit.EditTableActivity;
-import it.niedermann.nextcloud.tables.ui.table.view.ViewTableFragment;
 import it.niedermann.nextcloud.tables.ui.util.EmojiDrawable;
 
 public class MainActivity extends AppCompatActivity {
@@ -94,26 +91,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mainViewModel.getTables().observe(this, this::updateSidebarMenu);
-        mainViewModel.getCurrentTable().observe(this, pair -> applyCurrentTable(pair.first, pair.second));
+        mainViewModel.getCurrentTable().observe(this, this::applyCurrentTable);
 
-        binding.fab.setOnClickListener(view -> Snackbar.make(view, "Creating rows is not yet supported.", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        binding.fab.setOnClickListener(view -> Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show());
+        binding.toolbar.setOnClickListener(view -> Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show());
     }
 
-    private void applyCurrentTable(@NonNull Account account, @Nullable Table table) {
-        if (table == null) {
-            binding.toolbar.setHint("Choose table from the sidebar");
-            Optional.ofNullable(getSupportFragmentManager().findFragmentByTag("activity_main_fragment"))
-                    .ifPresent(fragment -> getSupportFragmentManager()
-                            .beginTransaction()
-                            .remove(fragment)
-                            .commit());
-        } else {
-            binding.toolbar.setHint("Search in " + table.getTitle());
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment, ViewTableFragment.newInstance(account, table))
-                    .commit();
-        }
+    private void applyCurrentTable(@Nullable Table table) {
+        binding.toolbar.setHint(table == null
+                ? "Choose table from the sidebar"
+                : table.getTitleWithEmoji());
     }
 
     private void updateSidebarMenu(@Nullable MainViewModel.TablesPerAccount tables) {
@@ -168,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
                         } else if (id == R.id.share_table) {
                             Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
                             return true;
-                        } else if (id == R.id.edit_columns) {
-                            startActivity(EditColumnActivity.createIntent(this, account));
+                        } else if (id == R.id.manage_columns) {
+                            startActivity(ManageColumnsActivity.createIntent(this, account, table));
                             return true;
                         } else if (id == R.id.delete_table) {
                             new MaterialAlertDialogBuilder(this)

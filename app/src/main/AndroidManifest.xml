@@ -50,9 +50,13 @@
             android:exported="false"
             android:label="@string/edit_table" />
         <activity
-            android:name=".ui.column.EditColumnActivity"
+            android:name=".ui.column.edit.EditColumnActivity"
             android:exported="false"
             android:label="@string/edit_column" />
+        <activity
+            android:name=".ui.column.manage.ManageColumnsActivity"
+            android:exported="false"
+            android:label="@string/manage_columns" />
         <activity
             android:name=".ui.row.EditRowActivity"
             android:exported="false"
