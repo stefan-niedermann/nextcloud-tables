@@ -43,7 +43,7 @@ public class EditRowViewModel extends AndroidViewModel {
     }
 
     public CompletableFuture<List<Column>> getNotDeletedColumns(@NonNull Table table) {
-        return supplyAsync(() -> tablesRepository.getNotDeletedColumns(table));
+        return supplyAsync(() -> tablesRepository.getNotDeletedColumns(table), executor);
     }
 
     public void createRow(@NonNull Account account, @NonNull Table table, @NonNull Collection<ColumnEditView> editors) {
@@ -92,6 +92,6 @@ public class EditRowViewModel extends AndroidViewModel {
             }
 
             return Arrays.stream(data).collect(toUnmodifiableMap(Data::getColumnId, Data::getValue));
-        });
+        }, executor);
     }
 }

@@ -27,7 +27,7 @@ public class ManageColumnsAdapter extends RecyclerView.Adapter<ManageColumnsView
     @NonNull
     @Override
     public ManageColumnsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ManageColumnsViewHolder(ItemColumnBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return new ManageColumnsViewHolder(ItemColumnBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override

@@ -3,15 +3,12 @@ package it.niedermann.nextcloud.tables.ui.column.manage;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityManageColumnsBinding;
@@ -52,21 +49,7 @@ public class ManageColumnsActivity extends AppCompatActivity {
 
         binding.recyclerView.setAdapter(adapter);
         manageColumnsViewModel.getNotDeletedColumns$(table).observe(this, adapter::setItems);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_manage_columns, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.add) {
-            startActivity(EditColumnActivity.createIntent(this, account, table));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        binding.fab.setOnClickListener(v -> startActivity(EditColumnActivity.createIntent(this, account, table)));
     }
 
     public static Intent createIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table) {
