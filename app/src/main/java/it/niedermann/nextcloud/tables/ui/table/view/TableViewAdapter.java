@@ -15,22 +15,22 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
+import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.ColumnHeaderViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.ColumnViewType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.RowHeaderViewHolder;
 
 public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
     @Override
     public int getCellItemViewType(int columnPosition) {
-        return ColumnViewType.findByColumn(getColumnHeaderItem(columnPosition)).getId();
+        return EDataType.findByColumn(getColumnHeaderItem(columnPosition)).getId();
     }
 
     @NonNull
     @Override
     public AbstractViewHolder onCreateCellViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return ColumnViewType.findById(viewType).inflate(parent.getContext());
+        return EDataType.findById(viewType).createViewHolder(parent.getContext());
     }
 
     @Override

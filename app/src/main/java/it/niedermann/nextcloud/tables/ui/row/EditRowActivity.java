@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditRowBinding;
+import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
 public class EditRowActivity extends AppCompatActivity {
@@ -63,8 +64,8 @@ public class EditRowActivity extends AppCompatActivity {
             editors.clear();
             editRowViewModel.getData(row).thenAcceptAsync(values -> {
                 for (final var column : columns) {
-                    final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
-                    final var editor = type.inflate(this, getSupportFragmentManager(), column, values.get(column.getId()));
+                    final var type = EDataType.findByType(column.getType(), column.getSubtype());
+                    final var editor = type.createEditor(this, column, values.get(column.getId()), getSupportFragmentManager());
                     binding.columns.addView(editor);
                     editors.add(editor);
                 }
