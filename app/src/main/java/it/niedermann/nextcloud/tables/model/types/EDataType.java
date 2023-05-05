@@ -44,9 +44,12 @@ public enum EDataType {
     UNKNOWN(0, "", ""),
 
     TEXT(1_000, "text", ""),
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    @Deprecated(since = "0.5.0")
     TEXT_LONG(1_001, "text", "long"),
     TEXT_LINE(1_002, "text", "line"),
     TEXT_LINK(1_003, "text", "link"),
+    TEXT_RICH(1_004, "text", "link"),
 
     DATETIME(2_000, "datetime", ""),
     DATETIME_DATETIME(2_001, "datetime", "datetime"),
@@ -109,6 +112,7 @@ public enum EDataType {
     public CellViewHolder createViewHolder(@NonNull Context context) {
         final var layoutInflater = LayoutInflater.from(context);
         switch (this) {
+            case TEXT_RICH:
             case TEXT_LONG:
                 return new LongCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
             case TEXT_LINE:
@@ -168,6 +172,7 @@ public enum EDataType {
                 return new CheckEditor(context, fragmentManager, column, dataToPass);
             case UNKNOWN:
             case TEXT:
+            case TEXT_RICH:
             default:
                 return new TextEditor(context, fragmentManager, column, dataToPass);
         }
