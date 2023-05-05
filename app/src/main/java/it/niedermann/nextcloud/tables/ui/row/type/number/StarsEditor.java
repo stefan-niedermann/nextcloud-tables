@@ -41,17 +41,16 @@ public class StarsEditor extends ColumnEditView {
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context) {
+    protected View onCreate(@NonNull Context context, @Nullable Object value) {
         binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
 
         binding.title.setText(column.getTitle());
         for (int i = 0; i < binding.stars.getChildCount(); i++) {
-            final var value = i;
-            ((ImageButton) binding.stars.getChildAt(i)).setOnClickListener(v -> setValue(value));
+            final var star = i;
+            binding.stars.getChildAt(i).setOnClickListener(v -> setValue(star));
         }
 
-        final var defaultValue = column.getNumberDefault();
-        setValue(defaultValue == null ? 0 : defaultValue.intValue());
+        setValue(value);
 
         return binding.getRoot();
     }

@@ -38,7 +38,7 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context) {
+    protected View onCreate(@NonNull Context context, @Nullable Object value) {
         binding = EditNumberProgressBinding.inflate(LayoutInflater.from(context));
         binding.title.setText(column.getTitle());
         binding.progress.setValueFrom(0f);
@@ -46,7 +46,7 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
         binding.progress.setStepSize(1f);
         binding.progress.addOnChangeListener(this);
 
-        setValue(column.getNumberDefault());
+        setValue(value);
 
         return binding.getRoot();
     }

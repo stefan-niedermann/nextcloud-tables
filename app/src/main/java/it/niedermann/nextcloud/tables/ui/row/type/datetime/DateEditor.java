@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -46,8 +47,8 @@ public class DateEditor extends TextEditor {
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context) {
-        final var view = super.onCreate(context);
+    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+        final var view = super.onCreate(context, value);
 
         if (column.getDatetimeDefault() != null) {
             binding.editText.setText(String.valueOf(column.getDatetimeDefault()));
@@ -57,10 +58,17 @@ public class DateEditor extends TextEditor {
         binding.editText.setOnClickListener(v -> {
             final var picker = MaterialDatePicker.Builder
                     .datePicker()
+                    .setTitleText(column.getTitle())
                     .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                     .build();
             picker.addOnPositiveButtonClickListener(this::setValue);
             picker.show(fragmentManager, DateEditor.class.getSimpleName());
+        });
+
+        binding.editText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                binding.editText.callOnClick();
+            }
         });
 
         return view;
@@ -92,7 +100,7 @@ public class DateEditor extends TextEditor {
         if (this.value == null) {
             binding.editText.setText("");
         } else {
-            final var renderedText = this.value.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_DATE);
+            final var renderedText = this.value.atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
             binding.editText.setText(renderedText);
         }
     }

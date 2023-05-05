@@ -37,11 +37,11 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context) {
+    protected View onCreate(@NonNull Context context, @Nullable Object value) {
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
         binding.getRoot().setText(column.getTitle());
         binding.getRoot().setHint(column.getDescription());
-        setValue(column.getSelectionDefault());
+        setValue(value);
         binding.getRoot().setOnCheckedChangeListener(this);
         return binding.getRoot();
     }

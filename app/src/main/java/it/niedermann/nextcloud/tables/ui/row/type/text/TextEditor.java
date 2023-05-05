@@ -43,7 +43,7 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context) {
+    protected View onCreate(@NonNull Context context, @Nullable Object value) {
         binding = EditTextviewBinding.inflate(LayoutInflater.from(context));
         binding.editText.addTextChangedListener(this);
         binding.getRoot().setHint(column.getTitle());
@@ -52,6 +52,8 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
         if (column.getTextMaxLength() != null) {
             binding.getRoot().setCounterMaxLength(column.getTextMaxLength());
         }
+
+        setValue(value);
 
         return binding.getRoot();
     }

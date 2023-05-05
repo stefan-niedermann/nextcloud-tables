@@ -44,8 +44,7 @@ public abstract class ColumnEditView extends FrameLayout {
         );
         layoutParams.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x));
         setLayoutParams(layoutParams);
-        addView(onCreate(context));
-        setValue(value);
+        addView(onCreate(context, value));
 
         requestLayout();
         invalidate();
@@ -70,7 +69,7 @@ public abstract class ColumnEditView extends FrameLayout {
     }
 
     @NonNull
-    protected abstract View onCreate(@NonNull Context context);
+    protected abstract View onCreate(@NonNull Context context, @Nullable Object value);
 
     @Nullable
     protected abstract Object getValue();

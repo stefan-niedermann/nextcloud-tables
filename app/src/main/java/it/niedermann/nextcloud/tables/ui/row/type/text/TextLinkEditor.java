@@ -35,8 +35,8 @@ public class TextLinkEditor extends TextEditor {
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context) {
-        final var view = super.onCreate(context);
+    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+        final var view = super.onCreate(context, value);
         binding.editText.setMaxLines(1);
         binding.editText.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_link_24);

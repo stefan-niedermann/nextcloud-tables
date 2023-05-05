@@ -29,8 +29,8 @@ public class TextLineEditor extends TextEditor {
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context) {
-        final var view = super.onCreate(context);
+    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+        final var view = super.onCreate(context, value);
         binding.editText.setMaxLines(1);
         return view;
     }
