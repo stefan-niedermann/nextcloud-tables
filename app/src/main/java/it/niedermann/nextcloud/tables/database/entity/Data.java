@@ -40,6 +40,7 @@ import java.util.Objects;
                 )
         },
         indices = {
+                @Index(name = "IDX_DATA_ACCOUNT_ID_REMOTE_COLUMN_ID", value = {"accountId", "remoteColumnId"}),
                 @Index(name = "IDX_DATA_COLUMN_ID_ROW_ID", value = {"columnId", "rowId"}, unique = true),
                 @Index(name = "IDX_DATA_COLUMN_ID", value = "columnId"),
                 @Index(name = "IDX_DATA_ROW_ID", value = "rowId")
