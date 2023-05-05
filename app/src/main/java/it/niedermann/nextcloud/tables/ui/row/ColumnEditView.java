@@ -4,10 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -16,6 +20,7 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 
 public abstract class ColumnEditView extends FrameLayout {
 
@@ -44,10 +49,17 @@ public abstract class ColumnEditView extends FrameLayout {
         );
         layoutParams.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x));
         setLayoutParams(layoutParams);
-        addView(onCreate(context, value));
 
-        requestLayout();
-        invalidate();
+
+        try {
+            addView(onCreate(context, value));
+
+            requestLayout();
+            invalidate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showExceptionView(context, e);
+        }
     }
 
     @NonNull
@@ -84,6 +96,22 @@ public abstract class ColumnEditView extends FrameLayout {
     @NonNull
     public Optional<String> validate() {
         return Optional.empty();
+    }
+
+    private void showExceptionView(@NonNull Context context, @NonNull Exception e) {
+        removeAllViews();
+        final var layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        final var errorMessage = new TextView(context);
+        errorMessage.setText(column.getTitle() + " could not be displayed.");
+        layout.addView(errorMessage);
+        if (fragmentManager != null) {
+            final var btn = new MaterialButton(context);
+            btn.setText(R.string.simple_exception);
+            btn.setOnClickListener(v -> ExceptionDialogFragment.newInstance(e, null).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
+            layout.addView(btn);
+        }
+        addView(layout);
     }
 
     @FunctionalInterface

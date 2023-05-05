@@ -183,7 +183,13 @@ public class TablesRepository extends AbstractSyncAdapter {
     }
 
     public List<Column> getNotDeletedColumns(@NonNull Table table) {
-        return db.getColumnDao().getNotDeletedColumns(table.getId());
+        final var columns = db.getColumnDao().getNotDeletedColumns(table.getId());
+        for (final var column : columns) {
+            // TODO perf: move to one query?
+            final var selectionOptions = db.getSelectionOptionDao().getSelectionOptions(column.getId());
+            column.setSelectionOptions(selectionOptions);
+        }
+        return columns;
     }
 
     public LiveData<List<Data>> getData(@NonNull Table table) {
