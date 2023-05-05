@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
 
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
 
@@ -20,16 +21,6 @@ public class DateTimeCellViewHolder extends AbstractDateTimeCellViewHolder {
             .toFormatter();
 
     public DateTimeCellViewHolder(@NonNull TableviewCellBinding binding) {
-        super(binding);
-    }
-
-    @Override
-    protected DateTimeFormatter getParseFormatter() {
-        return TABLES_LOCAL_DATE_TIME;
-    }
-
-    @Override
-    protected DateTimeFormatter getRenderFormatter() {
-        return DateTimeFormatter.ofLocalizedDateTime(getRenderFormatStyle());
+        super(binding, TABLES_LOCAL_DATE_TIME, DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 }

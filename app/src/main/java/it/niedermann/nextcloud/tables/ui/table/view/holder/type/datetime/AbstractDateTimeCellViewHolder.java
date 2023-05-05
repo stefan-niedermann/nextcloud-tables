@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +10,6 @@ import androidx.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.format.FormatStyle;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -21,10 +21,17 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
     private static final String TAG = AbstractDateTimeCellViewHolder.class.getSimpleName();
     public static final String DATETIME_NONE = "none";
     private final TableviewCellBinding binding;
+    private final DateTimeFormatter parseFormatter;
+    private final DateTimeFormatter renderFormatter;
 
-    public AbstractDateTimeCellViewHolder(@NonNull TableviewCellBinding binding) {
+    public AbstractDateTimeCellViewHolder(@NonNull TableviewCellBinding binding,
+                                          @NonNull DateTimeFormatter parseFormatter,
+                                          @NonNull DateTimeFormatter renderFormatter) {
         super(binding.getRoot());
+
         this.binding = binding;
+        this.parseFormatter = parseFormatter;
+        this.renderFormatter = renderFormatter;
     }
 
     @Override
@@ -33,19 +40,12 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
             final var value = data == null || TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())
                     ? column.getDatetimeDefault()
                     : String.valueOf(data.getValue());
-            binding.data.setText(LocalDateTime.parse(value, getParseFormatter()).format(getRenderFormatter()));
+            binding.data.setText(LocalDateTime.parse(value, parseFormatter).format(renderFormatter));
         } catch (DateTimeParseException e) {
             Log.i(TAG, e.getMessage());
             binding.data.setText(column.getDatetimeDefault());
         }
-        binding.data.requestLayout();
-    }
-
-    protected abstract DateTimeFormatter getParseFormatter();
-
-    protected abstract DateTimeFormatter getRenderFormatter();
-
-    protected FormatStyle getRenderFormatStyle() {
-        return FormatStyle.MEDIUM;
+        binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        binding.getRoot().requestLayout();
     }
 }
