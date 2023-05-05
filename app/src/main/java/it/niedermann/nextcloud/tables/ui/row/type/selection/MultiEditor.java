@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,23 +12,18 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
-import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.databinding.EditSelectionMultiBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
-public class MultiEditor extends ColumnEditView implements CompoundButton.OnCheckedChangeListener {
+public class MultiEditor extends ColumnEditView {
 
     protected EditSelectionMultiBinding binding;
-    protected Map<CompoundButton, SelectionOption> checkboxes = new HashMap<>();
     protected Set<Long> selectedRemoteIds = new HashSet<>();
 
     public MultiEditor(Context context) {
@@ -53,18 +47,25 @@ public class MultiEditor extends ColumnEditView implements CompoundButton.OnChec
     @Override
     protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditSelectionMultiBinding.inflate(LayoutInflater.from(context));
-        checkboxes = new HashMap<>();
         selectedRemoteIds = new HashSet<>();
+
+        setValue(data.getValue());
 
         for (final var selectionOption : column.getSelectionOptions()) {
             final var checkbox = new MaterialCheckBox(context);
             checkbox.setText(selectionOption.getLabel());
+            checkbox.setChecked(selectedRemoteIds.contains(selectionOption.getRemoteId()));
+            checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedRemoteIds.add(selectionOption.getRemoteId());
+                } else {
+                    selectedRemoteIds.remove(selectionOption.getRemoteId());
+                }
+            });
             binding.getRoot().addView(checkbox);
-            checkboxes.put(checkbox, selectionOption);
         }
 
         binding.title.setText(column.getTitle());
-        setValue(data.getValue());
 
         return binding.getRoot();
     }
@@ -72,39 +73,6 @@ public class MultiEditor extends ColumnEditView implements CompoundButton.OnChec
     @Nullable
     @Override
     public Object getValue() {
-        return serializeSelectedRemoteIds();
-    }
-
-    @Override
-    protected void setValue(@Nullable Object value) {
-        this.selectedRemoteIds.clear();
-
-        if (value == null) {
-            return;
-        }
-
-        this.selectedRemoteIds.addAll(deserializeSelectedRemoteIds(value));
-        for (final var entry : checkboxes.entrySet()) {
-            entry.getKey().setChecked(this.selectedRemoteIds.contains(entry.getValue().getRemoteId()));
-        }
-    }
-
-    private Set<Long> deserializeSelectedRemoteIds(@Nullable Object value) {
-        if (value instanceof String) {
-            final var numbers = ((String) value)
-                    .replace("[", "")
-                    .replace("]", "");
-
-            if (numbers.isBlank()) {
-                return Collections.emptySet();
-            }
-
-            return Arrays.stream(numbers.split(",")).map(Double::parseDouble).map(Double::longValue).collect(Collectors.toUnmodifiableSet());
-        }
-        throw new IllegalArgumentException(value + " can not be parsed");
-    }
-
-    private String serializeSelectedRemoteIds() {
         return selectedRemoteIds.isEmpty()
                 ? "" :
                 "[" + selectedRemoteIds
@@ -115,13 +83,32 @@ public class MultiEditor extends ColumnEditView implements CompoundButton.OnChec
     }
 
     @Override
-    protected void setErrorMessage(@Nullable String message) {
+    protected void setValue(@Nullable Object value) {
+        this.selectedRemoteIds.clear();
+
+        if (value == null) {
+            return;
+        }
+
+
+        if (value instanceof String) {
+            final var numbers = ((String) value)
+                    .replace("[", "")
+                    .replace("]", "");
+
+            if (numbers.isBlank()) {
+                this.selectedRemoteIds.clear();
+                return;
+            }
+
+            this.selectedRemoteIds.addAll(Arrays.stream(numbers.split(",")).map(Double::parseDouble).map(Double::longValue).collect(Collectors.toUnmodifiableSet()));
+            return;
+        }
+
+        throw new IllegalArgumentException(value + " can not be parsed");
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        final var selectionOption = checkboxes.get(buttonView);
-        checkboxes.put(buttonView, selectionOption);
-        onValueChanged();
+    protected void setErrorMessage(@Nullable String message) {
     }
 }
