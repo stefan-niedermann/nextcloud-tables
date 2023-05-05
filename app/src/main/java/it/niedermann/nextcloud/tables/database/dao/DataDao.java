@@ -11,14 +11,14 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 @Dao
 public interface DataDao extends GenericDao<Data> {
 
-    @Query("SELECT * FROM Data d " +
+    @Query("SELECT d.* FROM Data d " +
             "INNER JOIN `Row` r ON d.rowId = r.id " +
             "INNER JOIN `Column` c ON d.columnId = c.id " +
             "WHERE d.rowId = :rowId " +
             "ORDER BY r.remoteId, c.remoteId")
     Data[] getDataForRow(long rowId);
 
-    @Query("SELECT * FROM Data d " +
+    @Query("SELECT d.* FROM Data d " +
             "INNER JOIN `Row` r ON d.rowId = r.id " +
             "INNER JOIN `Column` c ON d.columnId = c.id " +
             "WHERE r.tableId = :tableId " +
