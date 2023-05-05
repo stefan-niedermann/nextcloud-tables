@@ -27,8 +27,9 @@ public class ColumnHeaderViewHolder extends AbstractSorterViewHolder {
     public void bind(Column columnHeaderModel, int columnPosition) {
         binding.columnHeaderTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         binding.columnHeaderTextView.setText(columnHeaderModel.getTitle());
-//        binding.columnHeaderContainer.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        binding.columnHeaderTextView.requestLayout();
+
+        binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        binding.getRoot().requestLayout();
     }
 
     @Override

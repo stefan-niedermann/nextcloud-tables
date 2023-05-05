@@ -45,6 +45,10 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
             Log.i(TAG, e.getMessage());
             binding.data.setText(column.getDatetimeDefault());
         }
+
+        binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        binding.data.requestLayout();
+
         binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.getRoot().requestLayout();
     }

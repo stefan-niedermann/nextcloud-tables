@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.ui.table.view.holder.type.number;
 
 import android.annotation.SuppressLint;
 import android.view.Gravity;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,12 @@ public class NumberCellViewHolder extends CellViewHolder {
             setText(column, String.valueOf(data.getValue()));
         }
         binding.data.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
+
+        binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.data.requestLayout();
+
+        binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        binding.getRoot().requestLayout();
     }
 
     @SuppressLint("SetTextI18n")

@@ -37,7 +37,6 @@ public class StarsCellViewHolder extends CellViewHolder {
                 setStars(0);
             }
         }
-        binding.cellContainer.requestLayout();
     }
 
     private void setStars(int count) {

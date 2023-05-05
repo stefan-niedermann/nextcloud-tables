@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type.text;
 
+import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -20,6 +22,11 @@ public class LineCellViewHolder extends TextCellViewHolder {
         } else {
             binding.data.setText(String.valueOf(data.getValue()));
         }
+
+        binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.data.requestLayout();
+
+        binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        binding.getRoot().requestLayout();
     }
 }
