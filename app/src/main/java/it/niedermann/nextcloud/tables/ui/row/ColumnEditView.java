@@ -109,9 +109,4 @@ public abstract class ColumnEditView extends FrameLayout {
         }
         addView(layout);
     }
-
-    @FunctionalInterface
-    interface Factory {
-        ColumnEditView create(@NonNull Context context, @Nullable FragmentManager fragmentManager, @NonNull Column column, @NonNull Data data);
-    }
 }

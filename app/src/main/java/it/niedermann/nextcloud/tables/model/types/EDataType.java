@@ -42,17 +42,21 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.TextCellVie
 public enum EDataType {
 
     UNKNOWN(0, "", ""),
+
     TEXT(1_000, "text", ""),
     TEXT_LONG(1_001, "text", "long"),
     TEXT_LINE(1_002, "text", "line"),
     TEXT_LINK(1_003, "text", "link"),
+
     DATETIME(2_000, "datetime", ""),
     DATETIME_DATETIME(2_001, "datetime", "datetime"),
     DATETIME_DATE(2_002, "datetime", "date"),
     DATETIME_TIME(2_003, "datetime", "time"),
+
     SELECTION(3_000, "selection", ""),
     SELECTION_MULTI(3_001, "selection", "multi"),
     SELECTION_CHECK(3_002, "selection", "check"),
+
     NUMBER(4_000, "number", ""),
     NUMBER_PROGRESS(4_001, "number", "progress"),
     NUMBER_STARS(4_002, "number", "stars"),
