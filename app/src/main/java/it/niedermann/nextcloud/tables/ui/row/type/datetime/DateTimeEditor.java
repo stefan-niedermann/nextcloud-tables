@@ -70,8 +70,9 @@ public class DateTimeEditor extends ColumnEditView {
         date.setLayoutParams(dateLayoutParams);
         time.setLayoutParams(timeLayoutParams);
 
-        binding.getRoot().addView(date);
-        binding.getRoot().addView(time);
+        binding.title.setText(column.getTitle());
+        binding.dateAndTimePickers.addView(date);
+        binding.dateAndTimePickers.addView(time);
 
         return binding.getRoot();
     }
@@ -94,7 +95,8 @@ public class DateTimeEditor extends ColumnEditView {
 
     @Override
     protected void setValue(@Nullable Object value) {
-
+        date.setValue(value);
+        time.setValue(value);
     }
 
     @Override
