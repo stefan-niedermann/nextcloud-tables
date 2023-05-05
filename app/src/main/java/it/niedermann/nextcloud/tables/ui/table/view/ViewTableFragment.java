@@ -55,7 +55,11 @@ public class ViewTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
-        viewTableViewModel.getCurrentFullTable().observe(getViewLifecycleOwner(), pair -> applyCurrentTable(pair.first, pair.second));
+        viewTableViewModel.getCurrentFullTable().observe(getViewLifecycleOwner(), pair -> {
+            binding.tableView.getScrollHandler().scrollToRowPosition(0);
+            binding.tableView.getScrollHandler().scrollToColumnPosition(0);
+            applyCurrentTable(pair.first, pair.second);
+        });
     }
 
     private void applyCurrentTable(@NonNull Account account, @Nullable FullTable fullTable) {
