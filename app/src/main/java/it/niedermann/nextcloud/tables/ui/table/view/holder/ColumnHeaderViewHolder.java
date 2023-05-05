@@ -10,6 +10,7 @@ import com.evrencoskun.tableview.sort.SortState;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
+import it.niedermann.nextcloud.tables.model.types.EDataType;
 
 /**
  * Created by evrencoskun on 1.12.2017.
@@ -24,12 +25,25 @@ public class ColumnHeaderViewHolder extends AbstractSorterViewHolder {
         this.binding = binding;
     }
 
-    public void bind(Column columnHeaderModel, int columnPosition) {
-        binding.columnHeaderTextView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-        binding.columnHeaderTextView.setText(columnHeaderModel.getTitle());
+    public void bind(@NonNull Column column) {
+        binding.columnHeaderTextView.setGravity(getGravity(column));
+        binding.columnHeaderTextView.setText(column.getTitle());
 
         binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.getRoot().requestLayout();
+    }
+
+    private int getGravity(@NonNull Column column) {
+        final var type = EDataType.findByColumn(column);
+
+        switch (type) {
+            case NUMBER:
+                return Gravity.CENTER_VERTICAL | Gravity.END;
+            case SELECTION_CHECK:
+                return Gravity.CENTER;
+            default:
+                return Gravity.CENTER_VERTICAL | Gravity.START;
+        }
     }
 
     @Override

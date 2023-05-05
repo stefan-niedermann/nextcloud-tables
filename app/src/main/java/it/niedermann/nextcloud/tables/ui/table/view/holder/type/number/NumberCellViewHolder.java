@@ -28,6 +28,7 @@ public class NumberCellViewHolder extends CellViewHolder {
         } else {
             setText(column, String.valueOf(data.getValue()));
         }
+
         binding.data.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;

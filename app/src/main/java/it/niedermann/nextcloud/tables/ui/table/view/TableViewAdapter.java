@@ -14,6 +14,7 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewCornerBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
 import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
@@ -51,7 +52,7 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @Override
     public void onBindColumnHeaderViewHolder(@NonNull AbstractViewHolder holder, @Nullable Column columnHeaderItemModel, int columnPosition) {
         if (holder instanceof ColumnHeaderViewHolder) {
-            ((ColumnHeaderViewHolder) holder).bind(columnHeaderItemModel, columnPosition);
+            ((ColumnHeaderViewHolder) holder).bind(columnHeaderItemModel);
         } else {
             throw new IllegalArgumentException("Unknown view holder type " + holder);
         }
@@ -75,6 +76,6 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public View onCreateCornerView(@NonNull ViewGroup parent) {
-        return new View(parent.getContext());
+        return TableviewCornerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false).getRoot();
     }
 }

@@ -20,9 +20,9 @@
             app:row_header_width="@dimen/table_view_row_header_width"
             app:selected_color="?attr/colorSecondaryContainer"
             app:separator_color="?attr/colorOutlineVariant"
-            app:shadow_color="?android:attr/windowBackground"
+            app:shadow_color="?attr/colorSurface"
             app:show_horizontal_separator="false"
-            app:unselected_color="?android:attr/windowBackground" />
+            app:unselected_color="?attr/colorSurface" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
