@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.model.types;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,35 +110,35 @@ public enum EDataType {
     }
 
     @NonNull
-    public CellViewHolder createViewHolder(@NonNull Context context) {
-        final var layoutInflater = LayoutInflater.from(context);
+    public CellViewHolder createViewHolder(@NonNull ViewGroup parent) {
+        final var layoutInflater = LayoutInflater.from(parent.getContext());
         switch (this) {
             case TEXT_RICH:
             case TEXT_LONG:
-                return new LongCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
+                return new LongCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case TEXT_LINE:
-                return new LineCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
+                return new LineCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case DATETIME:
             case DATETIME_DATETIME:
-                return new DateTimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
+                return new DateTimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case DATETIME_DATE:
-                return new DateCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
+                return new DateCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case DATETIME_TIME:
-                return new TimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
+                return new TimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case SELECTION_CHECK:
-                return new CheckCellViewHolder(TableviewCellCheckBinding.inflate(layoutInflater));
+                return new CheckCellViewHolder(TableviewCellCheckBinding.inflate(layoutInflater, parent, false));
             case NUMBER:
-                return new NumberCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
+                return new NumberCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case NUMBER_PROGRESS:
-                return new ProgressCellViewHolder(TableviewCellProgressBinding.inflate(layoutInflater));
+                return new ProgressCellViewHolder(TableviewCellProgressBinding.inflate(layoutInflater, parent, false));
             case NUMBER_STARS:
-                return new StarsCellViewHolder(TableviewCellStarsBinding.inflate(layoutInflater));
+                return new StarsCellViewHolder(TableviewCellStarsBinding.inflate(layoutInflater, parent, false));
             case TEXT:
             case TEXT_LINK:
             case SELECTION:
             case UNKNOWN:
             default:
-                return new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater));
+                return new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
         }
     }
 

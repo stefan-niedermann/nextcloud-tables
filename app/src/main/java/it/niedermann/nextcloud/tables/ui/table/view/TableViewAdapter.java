@@ -30,7 +30,7 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public AbstractViewHolder onCreateCellViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return EDataType.findById(viewType).createViewHolder(parent.getContext());
+        return EDataType.findById(viewType).createViewHolder(parent);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public AbstractViewHolder onCreateColumnHeaderViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ColumnHeaderViewHolder(TableviewColumnHeaderBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return new ColumnHeaderViewHolder(TableviewColumnHeaderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public AbstractViewHolder onCreateRowHeaderViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RowHeaderViewHolder(TableviewRowHeaderBinding.inflate(LayoutInflater.from(parent.getContext())));
+        return new RowHeaderViewHolder(TableviewRowHeaderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
