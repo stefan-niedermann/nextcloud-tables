@@ -14,8 +14,4 @@
         android:src="@drawable/ic_baseline_sync_24"
         android:visibility="invisible"
         tools:visibility="visible" />
-
-    <View
-        android:layout_width="1px"
-        android:layout_height="match_parent" />
 </LinearLayout>

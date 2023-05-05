@@ -3,14 +3,14 @@ package it.niedermann.nextcloud.tables.database.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(
@@ -63,7 +63,8 @@ public class Column extends AbstractRemoteEntity {
     private String textDefault;
     private String textAllowedPattern;
     private Integer textMaxLength;
-    //    private List<String> selectionOptions;
+    @Ignore
+    private List<SelectionOption> selectionOptions;
     private String selectionDefault;
     private String datetimeDefault;
 
@@ -251,13 +252,13 @@ public class Column extends AbstractRemoteEntity {
         this.textMaxLength = textMaxLength;
     }
 
-//    public List<String> getSelectionOptions() {
-//        return selectionOptions;
-//    }
-//
-//    public void setSelectionOptions(List<String> selectionOptions) {
-//        this.selectionOptions = selectionOptions;
-//    }
+    public List<SelectionOption> getSelectionOptions() {
+        return selectionOptions;
+    }
+
+    public void setSelectionOptions(List<SelectionOption> selectionOptions) {
+        this.selectionOptions = selectionOptions;
+    }
 
     public String getSelectionDefault() {
         return selectionDefault;
@@ -281,36 +282,11 @@ public class Column extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Column column = (Column) o;
-        return tableId == column.tableId && mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && Objects.equals(type, column.type) && Objects.equals(subtype, column.subtype) && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(numberDefault, column.numberDefault) && Objects.equals(numberMin, column.numberMin) && Objects.equals(numberMax, column.numberMax) && Objects.equals(numberDecimals, column.numberDecimals) && Objects.equals(numberPrefix, column.numberPrefix) && Objects.equals(numberSuffix, column.numberSuffix) && Objects.equals(textDefault, column.textDefault) && Objects.equals(textAllowedPattern, column.textAllowedPattern) && Objects.equals(textMaxLength, column.textMaxLength) && Objects.equals(selectionDefault, column.selectionDefault) && Objects.equals(datetimeDefault, column.datetimeDefault);
+        return tableId == column.tableId && mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && Objects.equals(type, column.type) && Objects.equals(subtype, column.subtype) && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(numberDefault, column.numberDefault) && Objects.equals(numberMin, column.numberMin) && Objects.equals(numberMax, column.numberMax) && Objects.equals(numberDecimals, column.numberDecimals) && Objects.equals(numberPrefix, column.numberPrefix) && Objects.equals(numberSuffix, column.numberSuffix) && Objects.equals(textDefault, column.textDefault) && Objects.equals(textAllowedPattern, column.textAllowedPattern) && Objects.equals(textMaxLength, column.textMaxLength) && Objects.equals(selectionOptions, column.selectionOptions) && Objects.equals(selectionDefault, column.selectionDefault) && Objects.equals(datetimeDefault, column.datetimeDefault);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tableId, title, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionDefault, datetimeDefault);
-    }
-
-    public Map<String, String> toQueryMap() {
-        final var properties = new HashMap<String, String>();
-
-            properties.put("tableId", String.valueOf(getTableId()));
-            properties.put("title", getTitle());
-            properties.put("type", getType());
-            properties.put("subtype", getSubtype());
-            properties.put("mandatory", String.valueOf(isMandatory()));
-            properties.put("description", getDescription());
-            properties.put("orderWeight", String.valueOf(getOrderWeight()));
-            properties.put("numberPrefix", getNumberPrefix());
-            properties.put("numberSuffix", getNumberSuffix());
-            properties.put("numberDefault", String.valueOf(getNumberDefault()));
-            properties.put("numberMin", String.valueOf(getNumberMin()));
-            properties.put("numberMax", String.valueOf(getNumberMax()));
-            properties.put("numberDecimals", String.valueOf(getNumberDecimals()));
-            properties.put("textDefault", getTextDefault());
-            properties.put("textAllowedPattern", getTextAllowedPattern());
-            properties.put("textMaxLength", String.valueOf(getTextMaxLength()));
-//            properties.put("selectionOptions", getSelectionOptions());
-            properties.put("selectionDefault", getSelectionDefault());
-            properties.put("datetimeDefault", getDatetimeDefault());
-        return properties;
+        return Objects.hash(super.hashCode(), tableId, title, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionOptions, selectionDefault, datetimeDefault);
     }
 }

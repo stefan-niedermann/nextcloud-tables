@@ -46,6 +46,9 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
         final var columnsToUpdate = db.getColumnDao().getColumns(account.getId(), DBStatus.LOCAL_EDITED);
         for (final var column : columnsToUpdate) {
+            // TODO maybe this can be queried only once using MultiMap
+            column.setSelectionOptions(db.getSelectionOptionDao().getSelectionOptions(column.getId()));
+
             Log.i(TAG, "→ PUT/POST: " + column.getTitle());
             final var response = column.getRemoteId() == null
                     ? api.createColumn(db.getTableDao().getRemoteId(column.getTableId()),
@@ -64,7 +67,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     column.getTextDefault(),
                     column.getTextAllowedPattern(),
                     column.getTextMaxLength(),
-//                    column.getSelectionOptions(),
+                    column.getSelectionOptions(),
                     column.getSelectionDefault(),
                     column.getDatetimeDefault()
             ).execute()
@@ -82,7 +85,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     column.getTextDefault(),
                     column.getTextAllowedPattern(),
                     column.getTextMaxLength(),
-//                    column.getSelectionOptions(),
+                    column.getSelectionOptions(),
                     column.getSelectionDefault(),
                     column.getDatetimeDefault()).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
@@ -119,12 +122,35 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                         final var columnId = columnIds.get(column.getRemoteId());
                         if (columnId == null) {
                             Log.i(TAG, "→ Adding column " + column.getTitle() + " to database");
-                            db.getColumnDao().insert(column);
+                            column.setId(db.getColumnDao().insert(column));
                         } else {
                             column.setId(columnId);
                             Log.i(TAG, "→ Updating column " + column.getTitle() + " in database");
                             db.getColumnDao().update(column);
                         }
+
+                        final var selectionOptions = column.getSelectionOptions();
+
+                        final var selectionOptionRemoteIds = selectionOptions.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+                        final var selectionOptionIds = db.getSelectionOptionDao().getSelectionOptionRemoteAndLocalIds(column.getId(), selectionOptionRemoteIds);
+
+                        for (final var selectionOption : selectionOptions) {
+                            selectionOption.setColumnId(column.getId());
+                            selectionOption.setAccountId(column.getAccountId());
+
+                            final var selectionOptionId = selectionOptionIds.get(selectionOption.getRemoteId());
+                            if (selectionOptionId == null) {
+                                Log.i(TAG, "→ Adding selection option " + selectionOption.getLabel() + " to database");
+                                db.getSelectionOptionDao().insert(selectionOption);
+                            } else {
+                                selectionOption.setId(selectionOptionId);
+                                Log.i(TAG, "→ Updating selection option " + selectionOption.getLabel() + " in database");
+                                db.getSelectionOptionDao().update(selectionOption);
+                            }
+                        }
+
+                        Log.i(TAG, "→ Delete all selection options except remoteId " + selectionOptionRemoteIds);
+                        db.getSelectionOptionDao().deleteExcept(table.getId(), selectionOptionRemoteIds);
                     }
 
                     Log.i(TAG, "→ Delete all columns except remoteId " + columnRemoteIds);

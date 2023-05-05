@@ -16,11 +16,13 @@ import it.niedermann.nextcloud.tables.database.dao.AccountDao;
 import it.niedermann.nextcloud.tables.database.dao.ColumnDao;
 import it.niedermann.nextcloud.tables.database.dao.DataDao;
 import it.niedermann.nextcloud.tables.database.dao.RowDao;
+import it.niedermann.nextcloud.tables.database.dao.SelectionOptionDao;
 import it.niedermann.nextcloud.tables.database.dao.TableDao;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 
 @Database(
@@ -29,7 +31,8 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
                 Table.class,
                 Column.class,
                 Row.class,
-                Data.class
+                Data.class,
+                SelectionOption.class
         }, version = 1
 )
 @TypeConverters({
@@ -66,6 +69,7 @@ public abstract class TablesDatabase extends RoomDatabase {
     public abstract TableDao getTableDao();
 
     public abstract ColumnDao getColumnDao();
+    public abstract SelectionOptionDao getSelectionOptionDao();
 
     public abstract RowDao getRowDao();
 

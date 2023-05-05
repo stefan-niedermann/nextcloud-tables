@@ -12,6 +12,7 @@ import java.util.List;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.adapter.DataAdapter;
 import retrofit2.Call;
@@ -117,7 +118,7 @@ public interface TablesAPI {
                               @Query("textDefault") String textDefault,
                               @Query("textAllowedPattern") String textAllowedPattern,
                               @Query("textMaxLength") long textMaxLength,
-                              // @Query("selectionOptions") String selectionOptions,
+                              @Query("selectionOptions") List<SelectionOption> selectionOptions,
                               @Query("selectionDefault") String selectionDefault,
                               @Query("datetimeDefault") String datetimeDefault
     );
@@ -146,7 +147,7 @@ public interface TablesAPI {
                               @Query("textDefault") String textDefault,
                               @Query("textAllowedPattern") String textAllowedPattern,
                               @Query("textMaxLength") long textMaxLength,
-                              // @Query("selectionOptions") String selectionOptions,
+                              @Query("selectionOptions") List<SelectionOption> selectionOptions,
                               @Query("selectionDefault") String selectionDefault,
                               @Query("datetimeDefault") String datetimeDefault);
 
