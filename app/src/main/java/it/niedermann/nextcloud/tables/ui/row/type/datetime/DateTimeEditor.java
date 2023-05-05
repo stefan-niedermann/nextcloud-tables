@@ -17,6 +17,7 @@ import java.time.ZoneId;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditDatetimeBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
@@ -41,17 +42,17 @@ public class DateTimeEditor extends ColumnEditView {
     public DateTimeEditor(@NonNull Context context,
                           @Nullable FragmentManager fragmentManager,
                           @NonNull Column column,
-                          @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                          @NonNull Data data) {
+        super(context, fragmentManager, column, data);
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditDatetimeBinding.inflate(LayoutInflater.from(context));
 
-        date = new DateEditor(context, fragmentManager, column, value);
-        time = new TimeEditor(context, fragmentManager, column, value);
+        date = new DateEditor(context, fragmentManager, column, data);
+        time = new TimeEditor(context, fragmentManager, column, data);
 
         final var dateLayoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,

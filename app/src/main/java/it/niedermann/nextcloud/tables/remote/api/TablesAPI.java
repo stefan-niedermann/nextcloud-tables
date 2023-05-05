@@ -199,8 +199,9 @@ public interface TablesAPI {
      * @since 0.4.0
      */
     @PUT("rows/{rowId}")
-    Call<Row> updateRow(@Path("rowId") long rowId,
-                        @Query("data") @NonNull Row data);
+    Call<Row> updateRow(@Path("rowId")
+                        @Query("id") long rowId,
+                        @Query("data") @NonNull JsonElement data);
 
     /**
      * @since 0.4.0

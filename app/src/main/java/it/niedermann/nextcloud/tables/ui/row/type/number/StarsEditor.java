@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditNumberStarsBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
@@ -35,13 +36,13 @@ public class StarsEditor extends ColumnEditView {
     public StarsEditor(@NonNull Context context,
                        @Nullable FragmentManager fragmentManager,
                        @NonNull Column column,
-                       @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                       @NonNull Data data) {
+        super(context, fragmentManager, column, data);
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
 
         binding.title.setText(column.getTitle());
@@ -50,7 +51,7 @@ public class StarsEditor extends ColumnEditView {
             binding.stars.getChildAt(i).setOnClickListener(v -> setValue(star));
         }
 
-        setValue(value);
+        setValue(data.getValue());
 
         return binding.getRoot();
     }

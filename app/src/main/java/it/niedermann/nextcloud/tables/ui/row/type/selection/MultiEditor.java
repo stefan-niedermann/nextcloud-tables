@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.databinding.EditSelectionMultiBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
@@ -43,14 +44,14 @@ public class MultiEditor extends ColumnEditView implements CompoundButton.OnChec
     public MultiEditor(@NonNull Context context,
                        @Nullable FragmentManager fragmentManager,
                        @NonNull Column column,
-                       @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                       @NonNull Data data) {
+        super(context, fragmentManager, column, data);
         binding = EditSelectionMultiBinding.inflate(LayoutInflater.from(context));
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditSelectionMultiBinding.inflate(LayoutInflater.from(context));
         checkboxes = new HashMap<>();
         selectedRemoteIds = new HashSet<>();
@@ -63,7 +64,7 @@ public class MultiEditor extends ColumnEditView implements CompoundButton.OnChec
         }
 
         binding.title.setText(column.getTitle());
-        setValue(value);
+        setValue(data.getValue());
 
         return binding.getRoot();
     }

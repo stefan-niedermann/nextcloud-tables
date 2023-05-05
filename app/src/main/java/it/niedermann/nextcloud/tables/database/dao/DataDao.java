@@ -29,4 +29,6 @@ public interface DataDao extends GenericDao<Data> {
     @Query("SELECT * FROM Data d WHERE d.columnId = :columnId AND d.rowId = :rowId")
     Data getDataForCoordinates(long columnId, long rowId);
 
+    @Query("SELECT EXISTS(SELECT id FROM Data WHERE columnId = :columnId AND rowId = :rowId)")
+    boolean exists(long columnId, long rowId);
 }

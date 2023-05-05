@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextEditor;
 
 public class NumberEditor extends TextEditor {
@@ -30,14 +31,14 @@ public class NumberEditor extends TextEditor {
     public NumberEditor(@NonNull Context context,
                         @Nullable FragmentManager fragmentManager,
                         @NonNull Column column,
-                        @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                        @NonNull Data data) {
+        super(context, fragmentManager, column, data);
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
-        final var view = super.onCreate(context, value);
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
+        final var view = super.onCreate(context, data);
 
         binding.editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 

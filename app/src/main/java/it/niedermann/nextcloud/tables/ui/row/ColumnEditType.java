@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.TimeEditor;
@@ -63,8 +64,26 @@ public enum ColumnEditType {
     public ColumnEditView inflate(@NonNull Context context,
                                   @Nullable FragmentManager fragmentManager,
                                   @NonNull Column column,
-                                  @Nullable Object value) {
-        return factory.create(context, fragmentManager, column, value == null ? column.getDefaultValueByType() : value);
+                                  @Nullable Data data) {
+        final Data dataToPass;
+
+        if (data != null) {
+            dataToPass = data;
+
+            final var value = data.getValue();
+            if (value == null) {
+                dataToPass.setValue(column.getDefaultValueByType());
+            }
+
+        } else {
+            dataToPass = new Data();
+            dataToPass.setAccountId(column.getAccountId());
+            dataToPass.setColumnId(column.getId());
+            dataToPass.setRemoteColumnId(column.getRemoteId());
+            dataToPass.setValue(column.getDefaultValueByType());
+        }
+
+        return factory.create(context, fragmentManager, column, dataToPass);
     }
 
     public int getId() {

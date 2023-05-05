@@ -162,7 +162,12 @@ public class TablesRepository extends AbstractSyncAdapter {
         db.getRowDao().update(row);
         for (final var d : data) {
             d.setRowId(row.getId());
-            db.getDataDao().update(d);
+            final var exists = db.getDataDao().exists(d.getColumnId(), d.getRowId());
+            if (exists) {
+                db.getDataDao().update(d);
+            } else {
+                d.setId(db.getDataDao().insert(d));
+            }
         }
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
             pushLocalChanges(apiProvider.getApi(), account);

@@ -61,7 +61,7 @@ public class EditRowActivity extends AppCompatActivity {
         editRowViewModel.getNotDeletedColumns(table).thenAcceptAsync(columns -> {
             binding.columns.removeAllViews();
             editors.clear();
-            editRowViewModel.getValues(row).thenAcceptAsync(values -> {
+            editRowViewModel.getData(row).thenAcceptAsync(values -> {
                 for (final var column : columns) {
                     final var type = ColumnEditType.findByType(column.getType(), column.getSubtype());
                     final var editor = type.inflate(this, getSupportFragmentManager(), column, values.get(column.getId()));

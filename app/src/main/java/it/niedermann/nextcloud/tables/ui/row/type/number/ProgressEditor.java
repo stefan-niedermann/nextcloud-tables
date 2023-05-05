@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.slider.Slider;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditNumberProgressBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
@@ -32,13 +33,13 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
     public ProgressEditor(@NonNull Context context,
                           @Nullable FragmentManager fragmentManager,
                           @NonNull Column column,
-                          @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                          @NonNull Data data) {
+        super(context, fragmentManager, column, data);
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditNumberProgressBinding.inflate(LayoutInflater.from(context));
         binding.title.setText(column.getTitle());
         binding.progress.setValueFrom(0f);
@@ -46,7 +47,7 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
         binding.progress.setStepSize(1f);
         binding.progress.addOnChangeListener(this);
 
-        setValue(value);
+        setValue(data.getValue());
 
         return binding.getRoot();
     }

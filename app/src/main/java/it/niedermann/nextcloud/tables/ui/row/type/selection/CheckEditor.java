@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditSelectionCheckBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
@@ -30,18 +31,18 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
     public CheckEditor(@NonNull Context context,
                        @Nullable FragmentManager fragmentManager,
                        @NonNull Column column,
-                       @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                       @NonNull Data data) {
+        super(context, fragmentManager, column, data);
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
         binding.getRoot().setText(column.getTitle());
         binding.getRoot().setHint(column.getDescription());
-        setValue(value);
+        setValue(data.getValue());
         binding.getRoot().setOnCheckedChangeListener(this);
         return binding.getRoot();
     }

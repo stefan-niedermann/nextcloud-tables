@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditTextviewBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 import it.niedermann.nextcloud.tables.ui.row.OnTextChangedListener;
@@ -37,13 +38,13 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
     public TextEditor(@NonNull Context context,
                       @Nullable FragmentManager fragmentManager,
                       @NonNull Column column,
-                      @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                      @NonNull Data data) {
+        super(context, fragmentManager, column, data);
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditTextviewBinding.inflate(LayoutInflater.from(context));
         binding.editText.addTextChangedListener(this);
         binding.getRoot().setHint(column.getTitle());
@@ -53,7 +54,7 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
             binding.getRoot().setCounterMaxLength(column.getTextMaxLength());
         }
 
-        setValue(value);
+        setValue(data.getValue());
 
         return binding.getRoot();
     }

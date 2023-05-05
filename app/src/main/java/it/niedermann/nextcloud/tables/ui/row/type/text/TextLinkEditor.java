@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 
 public class TextLinkEditor extends TextEditor {
 
@@ -29,14 +30,14 @@ public class TextLinkEditor extends TextEditor {
     public TextLinkEditor(@NonNull Context context,
                           @Nullable FragmentManager fragmentManager,
                           @NonNull Column column,
-                          @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                          @NonNull Data data) {
+        super(context, fragmentManager, column, data);
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
-        final var view = super.onCreate(context, value);
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
+        final var view = super.onCreate(context, data);
         binding.editText.setMaxLines(1);
         binding.editText.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT);
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_link_24);

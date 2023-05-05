@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 
 public class TextLineEditor extends TextEditor {
 
@@ -23,14 +24,14 @@ public class TextLineEditor extends TextEditor {
     public TextLineEditor(@NonNull Context context,
                           @Nullable FragmentManager fragmentManager,
                           @NonNull Column column,
-                          @Nullable Object value) {
-        super(context, fragmentManager, column, value);
+                          @NonNull Data data) {
+        super(context, fragmentManager, column, data);
     }
 
     @NonNull
     @Override
-    protected View onCreate(@NonNull Context context, @Nullable Object value) {
-        final var view = super.onCreate(context, value);
+    protected View onCreate(@NonNull Context context, @NonNull Data data) {
+        final var view = super.onCreate(context, data);
         binding.editText.setMaxLines(1);
         return view;
     }

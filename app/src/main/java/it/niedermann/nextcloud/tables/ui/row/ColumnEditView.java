@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import it.niedermann.android.util.DimensionUtil;
@@ -26,6 +25,7 @@ public abstract class ColumnEditView extends FrameLayout {
 
     protected Column column;
     protected FragmentManager fragmentManager;
+    protected Data data;
 
     public ColumnEditView(@NonNull Context context) {
         super(context);
@@ -38,10 +38,11 @@ public abstract class ColumnEditView extends FrameLayout {
     public ColumnEditView(@NonNull Context context,
                           @Nullable FragmentManager fragmentManager,
                           @NonNull Column column,
-                          @Nullable Object value) {
+                          @NonNull Data data) {
         this(context);
         this.column = column;
         this.fragmentManager = fragmentManager;
+        this.data = data;
 
         final var layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -52,7 +53,7 @@ public abstract class ColumnEditView extends FrameLayout {
 
 
         try {
-            addView(onCreate(context, value));
+            addView(onCreate(context, data));
 
             requestLayout();
             invalidate();
@@ -64,11 +65,6 @@ public abstract class ColumnEditView extends FrameLayout {
 
     @NonNull
     public Data toData() {
-        Objects.requireNonNull(column, "This is only available after setting the column.");
-        final var data = new Data();
-        data.setAccountId(column.getAccountId());
-        data.setColumnId(column.getId());
-        data.setRemoteColumnId(column.getRemoteId());
         data.setValue(getValue());
         return data;
     }
@@ -81,7 +77,7 @@ public abstract class ColumnEditView extends FrameLayout {
     }
 
     @NonNull
-    protected abstract View onCreate(@NonNull Context context, @Nullable Object value);
+    protected abstract View onCreate(@NonNull Context context, @NonNull Data data);
 
     @Nullable
     protected abstract Object getValue();
@@ -116,6 +112,6 @@ public abstract class ColumnEditView extends FrameLayout {
 
     @FunctionalInterface
     interface Factory {
-        ColumnEditView create(@NonNull Context context, @Nullable FragmentManager fragmentManager, @NonNull Column column, @Nullable Object value);
+        ColumnEditView create(@NonNull Context context, @Nullable FragmentManager fragmentManager, @NonNull Column column, @NonNull Data data);
     }
 }

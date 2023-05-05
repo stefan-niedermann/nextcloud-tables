@@ -55,11 +55,11 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
         final var rowsToUpdate = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_EDITED);
         Log.v(TAG, "Pushing " + rowsToDelete.size() + " local row changes for " + account.getAccountName());
         for (final var row : rowsToUpdate) {
-            Log.i(TAG, "→ PUT/POSt: " + row.getRemoteId());
+            Log.i(TAG, "→ PUT/POST: " + row.getRemoteId());
             row.setData(db.getDataDao().getDataForRow(row.getId()));
             final var response = row.getRemoteId() == null
                     ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataSerializer.serialize(row.getData(), null, null)).execute()
-                    : api.updateRow(row.getRemoteId(), row).execute();
+                    : api.updateRow(row.getRemoteId(), dataSerializer.serialize(row.getData(), null, null)).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 row.setStatus(DBStatus.VOID);
@@ -144,11 +144,9 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
                         final var existingData = db.getDataDao().getDataForCoordinates(data.getColumnId(), data.getRowId());
                         if (existingData == null) {
-                            Log.i(TAG, "→ Adding data " + data + " to database");
                             db.getDataDao().insert(data);
                         } else {
                             data.setId(existingData.getId());
-                            Log.i(TAG, "→ Updating data " + row.getRemoteId() + " in database");
                             db.getDataDao().update(data);
                         }
 
