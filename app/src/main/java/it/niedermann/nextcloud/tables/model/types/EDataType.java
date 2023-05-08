@@ -36,6 +36,7 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.NumberCel
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.ProgressCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.StarsCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.CheckCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.SelectionViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LineCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LongCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.TextCellViewHolder;
@@ -125,6 +126,8 @@ public enum EDataType {
                 return new DateCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case DATETIME_TIME:
                 return new TimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
+            case SELECTION:
+                return new SelectionViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
             case SELECTION_CHECK:
                 return new CheckCellViewHolder(TableviewCellCheckBinding.inflate(layoutInflater, parent, false));
             case NUMBER:
@@ -135,7 +138,6 @@ public enum EDataType {
                 return new StarsCellViewHolder(TableviewCellStarsBinding.inflate(layoutInflater, parent, false));
             case TEXT:
             case TEXT_LINK:
-            case SELECTION:
             case UNKNOWN:
             default:
                 return new TextCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
