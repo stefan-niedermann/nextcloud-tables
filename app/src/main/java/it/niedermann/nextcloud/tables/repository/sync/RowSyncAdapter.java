@@ -66,7 +66,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                 row.setRemoteId(response.body().getRemoteId());
                 db.getRowDao().update(row);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for table " + row.getRemoteId()));
+                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for row " + row.getRemoteId()));
             }
         }
     }

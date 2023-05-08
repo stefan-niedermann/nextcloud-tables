@@ -94,7 +94,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                 column.setRemoteId(response.body().getRemoteId());
                 db.getColumnDao().update(column);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for table " + column.getTitle()));
+                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for column " + column.getTitle()));
             }
         }
     }
