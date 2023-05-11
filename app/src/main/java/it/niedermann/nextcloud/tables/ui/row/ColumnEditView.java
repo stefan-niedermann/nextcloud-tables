@@ -19,7 +19,19 @@ import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.TimeEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.number.NumberEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.number.ProgressEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.number.StarsEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.selection.CheckEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.selection.MultiEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.text.TextEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.text.TextLineEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.text.TextLinkEditor;
 
 public abstract class ColumnEditView extends FrameLayout {
 
@@ -108,5 +120,72 @@ public abstract class ColumnEditView extends FrameLayout {
             layout.addView(btn);
         }
         addView(layout);
+    }
+
+    public static class Factory {
+        @NonNull
+        public ColumnEditView create(@NonNull EDataType dataType,
+                                     @NonNull Context context,
+                                     @NonNull Column column,
+                                     @Nullable Data data,
+                                     @Nullable FragmentManager fragmentManager) {
+            final Data dataToPass = ensureDataObjectPresent(column, data);
+
+            switch (dataType) {
+                case TEXT_LINE:
+                    return new TextLineEditor(context, fragmentManager, column, dataToPass);
+                case TEXT_LINK:
+                    return new TextLinkEditor(context, fragmentManager, column, dataToPass);
+                case DATETIME_DATETIME:
+                case DATETIME:
+                    return new DateTimeEditor(context, fragmentManager, column, dataToPass);
+                case DATETIME_DATE:
+                    return new DateEditor(context, fragmentManager, column, dataToPass);
+                case DATETIME_TIME:
+                    return new TimeEditor(context, fragmentManager, column, dataToPass);
+                case NUMBER:
+                    return new NumberEditor(context, fragmentManager, column, dataToPass);
+                case NUMBER_STARS:
+                    return new StarsEditor(context, fragmentManager, column, dataToPass);
+                case NUMBER_PROGRESS:
+                    return new ProgressEditor(context, fragmentManager, column, dataToPass);
+                case SELECTION_MULTI:
+                    return new MultiEditor(context, fragmentManager, column, dataToPass);
+                case SELECTION_CHECK:
+                    return new CheckEditor(context, fragmentManager, column, dataToPass);
+                case UNKNOWN:
+                case TEXT:
+                case TEXT_RICH:
+                default:
+                    return new TextEditor(context, fragmentManager, column, dataToPass);
+            }
+        }
+
+        /**
+         * Ensures the given data property is not null. In case its value is null, the value will be
+         * initialized with the default value according the given column.
+         */
+        @NonNull
+        private Data ensureDataObjectPresent(@NonNull Column column, @Nullable Data data) {
+            final Data dataToPass;
+
+            if (data != null) {
+                dataToPass = data;
+
+                final var value = data.getValue();
+                if (value == null) {
+                    dataToPass.setValue(column.getDefaultValueByType());
+                }
+
+            } else {
+                dataToPass = new Data();
+                dataToPass.setAccountId(column.getAccountId());
+                dataToPass.setColumnId(column.getId());
+                dataToPass.setRemoteColumnId(column.getRemoteId());
+                dataToPass.setValue(column.getDefaultValueByType());
+            }
+
+            return dataToPass;
+        }
     }
 }

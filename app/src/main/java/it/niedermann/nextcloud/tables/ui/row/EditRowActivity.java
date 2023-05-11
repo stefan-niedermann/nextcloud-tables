@@ -59,13 +59,18 @@ public class EditRowActivity extends AppCompatActivity {
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
 
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
+
+        final var editViewFactory = new ColumnEditView.Factory();
         editRowViewModel.getNotDeletedColumns(table).thenAcceptAsync(columns -> {
             binding.columns.removeAllViews();
             editors.clear();
             editRowViewModel.getData(row).thenAcceptAsync(values -> {
                 for (final var column : columns) {
-                    final var type = EDataType.findByType(column.getType(), column.getSubtype());
-                    final var editor = type.createEditor(this, column, values.get(column.getId()), getSupportFragmentManager());
+                    final var editor = editViewFactory.create(EDataType.findByColumn(column),
+                            this,
+                            column,
+                            values.get(column.getId()),
+                            getSupportFragmentManager());
                     binding.columns.addView(editor);
                     editors.add(editor);
                 }
@@ -81,7 +86,7 @@ public class EditRowActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.save) {
+        if (item.getItemId() == R.id.save) {
             if (row == null) {
                 editRowViewModel.createRow(account, table, editors);
             } else {

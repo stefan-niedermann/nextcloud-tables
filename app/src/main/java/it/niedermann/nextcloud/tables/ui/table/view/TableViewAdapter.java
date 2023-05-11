@@ -23,6 +23,16 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.RowHeaderViewHolder;
 
 public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
+    private final CellViewHolder.Factory cellViewHolderFactory;
+
+    public TableViewAdapter() {
+        this(new CellViewHolder.Factory());
+    }
+
+    private TableViewAdapter(@NonNull CellViewHolder.Factory cellViewHolderFactory) {
+        this.cellViewHolderFactory = cellViewHolderFactory;
+    }
+
     @Override
     public int getCellItemViewType(int columnPosition) {
         return EDataType.findByColumn(getColumnHeaderItem(columnPosition)).getId();
@@ -31,7 +41,7 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @NonNull
     @Override
     public AbstractViewHolder onCreateCellViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return EDataType.findById(viewType).createViewHolder(parent);
+        return cellViewHolderFactory.create(EDataType.findById(viewType), parent);
     }
 
     @Override
