@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.remote.adapter;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -15,7 +17,11 @@ import java.time.format.DateTimeFormatter;
 
 public class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("uuuu-M-d HH:mm:ss");
+    private final DateTimeFormatter dateTimeFormatter;
+
+    public InstantAdapter(@NonNull String patternDateTime) {
+        dateTimeFormatter = DateTimeFormatter.ofPattern(patternDateTime);
+    }
 
     @Override
     public synchronized JsonElement serialize(Instant date, Type type, JsonSerializationContext jsonSerializationContext) {

@@ -26,12 +26,19 @@ import retrofit2.http.Query;
 /**
  * @link <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/nextcloud/tables/master/APIv1.yaml#/">Tables REST API</a>
  */
+@SuppressWarnings("unused")
 public interface TablesAPI {
 
     int DEFAULT_API_LIMIT = 1_000;
     int DEFAULT_API_LIMIT_TABLES = DEFAULT_API_LIMIT;
     int DEFAULT_API_LIMIT_ROWS = DEFAULT_API_LIMIT;
+
     String DEFAULT_TABLES_TEMPLATE = "custom";
+
+    /**
+     * Pattern used for parsing and serializing Date properties like {@link Row#getCreatedAt()}, {@link Row#getLastEditAt()}, {@link Column#getLastEditAt()} or {@link Column#getLastEditAt()}
+     */
+    String PATTERN_DATE_TIME = "uuuu-M-d HH:mm:ss";
 
     /**
      * @since 0.3.0
