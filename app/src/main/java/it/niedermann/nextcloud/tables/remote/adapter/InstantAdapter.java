@@ -15,12 +15,18 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Row;
+
+/**
+ * Used for parsing and serializing non-user content like {@link Row#getCreatedAt()}, {@link Row#getLastEditAt()}, {@link Column#getLastEditAt()} or {@link Column#getLastEditAt()}
+ */
 public class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
     private final DateTimeFormatter dateTimeFormatter;
 
-    public InstantAdapter(@NonNull String patternDateTime) {
-        dateTimeFormatter = DateTimeFormatter.ofPattern(patternDateTime);
+    public InstantAdapter(@NonNull DateTimeFormatter dateTimeFormatter) {
+        this.dateTimeFormatter = dateTimeFormatter;
     }
 
     @Override

@@ -19,7 +19,9 @@ import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.remote.adapter.DataAdapter;
+import it.niedermann.nextcloud.tables.remote.adapter.DataFormatter;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 
 public class RowSyncAdapter extends AbstractSyncAdapter {
@@ -54,9 +56,20 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
         final var rowsToUpdate = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_EDITED);
         Log.v(TAG, "Pushing " + rowsToDelete.size() + " local row changes for " + account.getAccountName());
+
         for (final var row : rowsToUpdate) {
             Log.i(TAG, "→ PUT/POST: " + row.getRemoteId());
-            row.setData(db.getDataDao().getDataForRow(row.getId()));
+            final var columns = db.getColumnDao().getColumnsByRemoteId(account.getId(), Arrays.stream(row.getData()).map(Data::getColumnId).collect(toUnmodifiableSet()));
+
+            final var data = db.getDataDao().getDataForRow(row.getId());
+            for (final var d : data) {
+                columns.stream().filter(column -> column.getId() == d.getColumnId()).findAny().ifPresentOrElse(column -> {
+                    final var dataFormatter = new DataFormatter(EDataType.findByColumn(column));
+                    d.setValue(dataFormatter.serializeValue(d.getValue()));
+                }, () -> d.setValue(d.getValue()));
+            }
+            row.setData(data);
+
             final var response = row.getRemoteId() == null
                     ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataSerializer.serialize(row.getData(), null, null)).execute()
                     : api.updateRow(row.getRemoteId(), dataSerializer.serialize(row.getData(), null, null)).execute();
@@ -141,6 +154,13 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         data.setAccountId(table.getAccountId());
                         data.setRowId(row.getId());
                         data.setColumnId(columnId);
+
+                        final var columns = db.getColumnDao().getColumnsByRemoteId(account.getId(), Arrays.stream(row.getData()).map(Data::getColumnId).collect(toUnmodifiableSet()));
+
+                        columns.stream().filter(column -> column.getId() == data.getColumnId()).findAny().ifPresentOrElse(column -> {
+                            final var dataFormatter = new DataFormatter(EDataType.findByColumn(column));
+                            data.setValue(dataFormatter.deserializeValue(data.getValue()));
+                        }, () -> data.setValue(data.getValue()));
 
                         final var existingData = db.getDataDao().getDataForCoordinates(data.getColumnId(), data.getRowId());
                         if (existingData == null) {

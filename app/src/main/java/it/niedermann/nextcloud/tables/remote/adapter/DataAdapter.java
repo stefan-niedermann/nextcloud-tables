@@ -24,7 +24,7 @@ public class DataAdapter implements JsonSerializer<Data[]> {
     public JsonElement serialize(@Nullable Data[] data, @Nullable Type typeOfSrc, @Nullable JsonSerializationContext context) {
         final var properties = new JsonObject();
         if (data != null) {
-            Arrays.stream(data).forEach(d -> properties.addProperty(valueOf(d.getRemoteColumnId()), valueOf(d.getValue())));
+            Arrays.stream(data).forEach(d -> properties.addProperty(valueOf(d.getRemoteColumnId()), String.valueOf(d.getValue())));
         }
         return properties;
     }

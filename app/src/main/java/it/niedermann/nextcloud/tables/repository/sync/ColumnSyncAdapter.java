@@ -164,7 +164,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                 }
 
                 default: {
-                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("At table remote ID: " + table.getRemoteId()));
                 }
             }
         }

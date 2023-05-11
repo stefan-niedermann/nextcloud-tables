@@ -28,6 +28,9 @@ public interface ColumnDao extends GenericDao<Column> {
     @Query("SELECT c.remoteId, c.id FROM `Column` c WHERE c.accountId = :accountId AND c.remoteId IN (:remoteIds)")
     Map<Long, Long> getColumnRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);
 
+    @Query("SELECT c.* FROM `Column` c WHERE c.accountId = :accountId AND c.id IN (:ids)")
+    List<Column> getColumnsByRemoteId(long accountId, Collection<Long> ids);
+
     @Query("DELETE FROM `Column` WHERE tableId = :tableId AND remoteId NOT IN (:remoteIds)")
     void deleteExcept(long tableId, Collection<Long> remoteIds);
 }

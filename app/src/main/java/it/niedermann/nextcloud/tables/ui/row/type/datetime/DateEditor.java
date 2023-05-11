@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.tables.ui.row.type.datetime;
 
-import static it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.AbstractDateTimeCellViewHolder.DATETIME_NONE;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -85,7 +83,7 @@ public class DateEditor extends TextEditor {
             this.value = Instant.ofEpochMilli((Long) value);
         } else if (value instanceof String) {
             try {
-                final var v = TextUtils.isEmpty((String) value) || DATETIME_NONE.equals(value)
+                final var v = TextUtils.isEmpty((String) value)
                         ? column.getDatetimeDefault()
                         : (String) value;
                 this.value = LocalDateTime.parse(v, DateTimeFormatter.ISO_DATE).atZone(ZoneId.systemDefault()).toInstant();

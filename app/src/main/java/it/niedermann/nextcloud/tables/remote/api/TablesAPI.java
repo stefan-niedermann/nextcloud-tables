@@ -1,12 +1,21 @@
 package it.niedermann.nextcloud.tables.remote.api;
 
 
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoField.HOUR_OF_DAY;
+import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import static java.time.temporal.ChronoField.YEAR;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 
 import java.lang.reflect.Type;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.SignStyle;
 import java.util.List;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -35,10 +44,33 @@ public interface TablesAPI {
 
     String DEFAULT_TABLES_TEMPLATE = "custom";
 
-    /**
-     * Pattern used for parsing and serializing Date properties like {@link Row#getCreatedAt()}, {@link Row#getLastEditAt()}, {@link Column#getLastEditAt()} or {@link Column#getLastEditAt()}
-     */
-    String PATTERN_DATE_TIME = "uuuu-M-d HH:mm:ss";
+    DateTimeFormatter FORMATTER_PROPERTIES_DATE = DateTimeFormatter.ISO_LOCAL_DATE;
+    DateTimeFormatter FORMATTER_PROPERTIES_TIME = DateTimeFormatter.ISO_LOCAL_TIME;
+    DateTimeFormatter FORMATTER_PROPERTIES_DATE_TIME = new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .append(FORMATTER_PROPERTIES_DATE)
+            .appendLiteral(' ')
+            .append(FORMATTER_PROPERTIES_TIME)
+            .toFormatter();
+
+    DateTimeFormatter FORMATTER_DATA_DATE = new DateTimeFormatterBuilder()
+            .appendValue(YEAR, 4, 4, SignStyle.EXCEEDS_PAD)
+            .appendLiteral('-')
+            .appendValue(MONTH_OF_YEAR, 2)
+            .appendLiteral('-')
+            .appendValue(DAY_OF_MONTH, 2)
+            .toFormatter();
+    DateTimeFormatter FORMATTER_DATA_TIME = new DateTimeFormatterBuilder()
+            .appendValue(HOUR_OF_DAY, 2)
+            .appendLiteral(':')
+            .appendValue(MINUTE_OF_HOUR, 2)
+            .toFormatter();
+    DateTimeFormatter FORMATTER_DATA_DATE_TIME = new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .append(FORMATTER_PROPERTIES_DATE)
+            .appendLiteral(' ')
+            .append(FORMATTER_PROPERTIES_TIME)
+            .toFormatter();
 
     /**
      * @since 0.3.0

@@ -19,7 +19,6 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
 
     private static final String TAG = AbstractDateTimeCellViewHolder.class.getSimpleName();
-    public static final String DATETIME_NONE = "none";
     private final TableviewCellBinding binding;
     private final DateTimeFormatter parseFormatter;
     private final DateTimeFormatter renderFormatter;
@@ -37,7 +36,7 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         try {
-            final var value = data == null || TextUtils.isEmpty(String.valueOf(data.getValue())) || DATETIME_NONE.equals(data.getValue())
+            final var value = data == null || TextUtils.isEmpty(String.valueOf(data.getValue()))
                     ? column.getDatetimeDefault()
                     : String.valueOf(data.getValue());
             binding.data.setText(LocalDateTime.parse(value, parseFormatter).format(renderFormatter));

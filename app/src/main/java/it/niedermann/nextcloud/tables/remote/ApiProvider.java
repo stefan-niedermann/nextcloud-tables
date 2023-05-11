@@ -31,7 +31,7 @@ public class ApiProvider<T> implements AutoCloseable {
                 context,
                 AccountImporter.getSingleSignOnAccount(context, account.getAccountName()),
                 new GsonBuilder()
-                        .registerTypeAdapter(Instant.class, new InstantAdapter(TablesAPI.PATTERN_DATE_TIME))
+                        .registerTypeAdapter(Instant.class, new InstantAdapter(TablesAPI.FORMATTER_PROPERTIES_DATE_TIME))
                         .create(),
                 Throwable::printStackTrace
         );
