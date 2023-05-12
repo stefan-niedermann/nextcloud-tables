@@ -48,7 +48,7 @@ public class StarsEditor extends ColumnEditView {
         binding.title.setText(column.getTitle());
         for (int i = 0; i < binding.stars.getChildCount(); i++) {
             final var star = i;
-            binding.stars.getChildAt(i).setOnClickListener(v -> setValue(star));
+            binding.stars.getChildAt(i).setOnClickListener(v -> setValue(String.valueOf(star)));
         }
 
         setValue(data.getValue());
@@ -58,17 +58,17 @@ public class StarsEditor extends ColumnEditView {
 
     @Nullable
     @Override
-    protected Object getValue() {
-        return value;
+    protected String getValue() {
+        return String.valueOf(value);
     }
 
     @Override
-    protected void setValue(@Nullable Object value) {
+    protected void setValue(@Nullable String value) {
         if (value == null) {
             this.value = 0;
         } else {
             try {
-                this.value = Integer.parseInt(String.valueOf(value));
+                this.value = Integer.parseInt(value);
             } catch (NumberFormatException e) {
                 this.value = 0;
             }

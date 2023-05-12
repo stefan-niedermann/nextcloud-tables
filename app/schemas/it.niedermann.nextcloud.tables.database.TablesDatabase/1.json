@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5b39ba827b71f87cd90b51348a619677",
+    "identityHash": "b016d832e1f56d3620bfcc202c4462ef",
     "entities": [
       {
         "tableName": "Account",
@@ -318,7 +318,7 @@
       },
       {
         "tableName": "Column",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `title` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `type` TEXT DEFAULT '', `subtype` TEXT DEFAULT '', `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `numberDefault` INTEGER, `numberMin` INTEGER, `numberMax` INTEGER, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textDefault` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `selectionDefault` TEXT, `datetimeDefault` TEXT, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `title` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `type` TEXT DEFAULT '', `subtype` TEXT DEFAULT '', `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `numberDefault` REAL, `numberMin` REAL, `numberMax` REAL, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textDefault` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `selectionDefault` TEXT, `datetimeDefault` TEXT, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "tableId",
@@ -395,19 +395,19 @@
           {
             "fieldPath": "numberDefault",
             "columnName": "numberDefault",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": false
           },
           {
             "fieldPath": "numberMin",
             "columnName": "numberMin",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": false
           },
           {
             "fieldPath": "numberMax",
             "columnName": "numberMax",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": false
           },
           {
@@ -994,7 +994,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5b39ba827b71f87cd90b51348a619677')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b016d832e1f56d3620bfcc202c4462ef')"
     ]
   }
 }

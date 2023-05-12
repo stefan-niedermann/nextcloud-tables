@@ -61,17 +61,14 @@ public class TextEditor extends ColumnEditView implements OnTextChangedListener 
 
     @Nullable
     @Override
-    public Object getValue() {
-        return binding.editText.getText();
+    public String getValue() {
+        final var text = binding.editText.getText();
+        return text == null ? null : text.toString();
     }
 
     @Override
-    protected void setValue(@Nullable Object value) {
-        if (value == null) {
-            binding.editText.setText(null);
-        } else {
-            binding.editText.setText(String.valueOf(value));
-        }
+    protected void setValue(@Nullable String value) {
+        binding.editText.setText(value);
     }
 
     @Override

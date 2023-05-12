@@ -54,17 +54,17 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
 
     @Nullable
     @Override
-    protected Object getValue() {
-        return (int) binding.progress.getValue();
+    protected String getValue() {
+        return String.valueOf((int) binding.progress.getValue());
     }
 
     @Override
-    protected void setValue(@Nullable Object value) {
+    protected void setValue(@Nullable String value) {
         if (value == null) {
             binding.progress.setValue(0);
         } else {
             try {
-                binding.progress.setValue(Integer.parseInt(String.valueOf(value)));
+                binding.progress.setValue(Integer.parseInt(value));
             } catch (NumberFormatException e) {
                 binding.progress.setValue(0);
             }

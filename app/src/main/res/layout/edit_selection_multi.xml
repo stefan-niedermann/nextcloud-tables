@@ -13,10 +13,4 @@
         android:layout_marginBottom="@dimen/spacer_1x"
         tools:text="@tools:sample/lorem" />
 
-    <LinearLayout
-        android:id="@+id/options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:text="@tools:sample/lorem" />
 </LinearLayout>

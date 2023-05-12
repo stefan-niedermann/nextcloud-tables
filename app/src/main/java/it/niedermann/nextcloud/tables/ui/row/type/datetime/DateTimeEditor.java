@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import java.time.Instant;
-import java.time.ZoneId;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
@@ -74,12 +76,14 @@ public class DateTimeEditor extends ColumnEditView {
         binding.dateAndTimePickers.addView(date);
         binding.dateAndTimePickers.addView(time);
 
+        setValue(data.getValue());
+
         return binding.getRoot();
     }
 
     @Nullable
     @Override
-    protected Instant getValue() {
+    protected String getValue() {
         final var date = this.date.getValue();
         final var time = this.time.getValue();
 
@@ -87,16 +91,26 @@ public class DateTimeEditor extends ColumnEditView {
             return null;
         }
 
-        final var localDate = date.atZone(ZoneId.systemDefault()).toLocalDate();
-        final var localTime = time.atZone(ZoneId.systemDefault()).toLocalTime();
+        final var localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+        final var localTime = LocalTime.parse(time, DateTimeFormatter.ISO_TIME);
 
-        return Instant.from(localDate.atTime(localTime));
+        return localDate.atTime(localTime).format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
     @Override
-    protected void setValue(@Nullable Object value) {
-        date.setValue(value);
-        time.setValue(value);
+    protected void setValue(@Nullable String value) {
+        if (value == null) {
+            date.setValue(null);
+            time.setValue(null);
+        } else if(value.isBlank()) {
+            date.setValue("");
+            time.setValue("");
+        } else {
+            final var dateTime = LocalDateTime.parse(value, DateTimeFormatter.ISO_DATE_TIME);
+
+            date.setValue(dateTime.format(DateTimeFormatter.ISO_DATE));
+            time.setValue(dateTime.format(DateTimeFormatter.ISO_TIME));
+        }
     }
 
     @Override

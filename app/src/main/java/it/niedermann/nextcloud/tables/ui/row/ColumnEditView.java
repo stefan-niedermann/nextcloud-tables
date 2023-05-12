@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.tables.ui.row;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -34,6 +36,8 @@ import it.niedermann.nextcloud.tables.ui.row.type.text.TextLineEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextLinkEditor;
 
 public abstract class ColumnEditView extends FrameLayout {
+
+    protected static final String KEY_DATA = "data";
 
     protected Column column;
     protected FragmentManager fragmentManager;
@@ -81,6 +85,38 @@ public abstract class ColumnEditView extends FrameLayout {
         return data;
     }
 
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final var state = super.onSaveInstanceState();
+        final Bundle bundle;
+
+        if (state instanceof Bundle) {
+            bundle = (Bundle) state;
+        } else if (state == null) {
+            bundle = new Bundle();
+        } else {
+            throw new IllegalStateException("Expected super state being null or " + Bundle.class.getSimpleName() + " but was " + state.getClass().getSimpleName());
+        }
+
+        bundle.putSerializable(KEY_DATA, toData());
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+
+        if (state instanceof Bundle) {
+            final var bundle = (Bundle) state;
+
+            if (bundle.containsKey(KEY_DATA)) {
+                this.data = (Data) bundle.getSerializable(KEY_DATA);
+                setValue(this.data.getValue());
+            }
+        }
+    }
+
     protected void onValueChanged() {
         validate().ifPresentOrElse(
                 this::setErrorMessage,
@@ -92,9 +128,9 @@ public abstract class ColumnEditView extends FrameLayout {
     protected abstract View onCreate(@NonNull Context context, @NonNull Data data);
 
     @Nullable
-    protected abstract Object getValue();
+    protected abstract String getValue();
 
-    protected abstract void setValue(@Nullable Object value);
+    protected abstract void setValue(@Nullable String value);
 
     protected abstract void setErrorMessage(@Nullable String message);
 

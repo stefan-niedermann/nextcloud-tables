@@ -61,7 +61,7 @@ public class NumberEditor extends TextEditor {
                 return Optional.empty();
             }
 
-            final var val = Long.parseLong(stringVal);
+            final var val = Double.parseDouble(stringVal);
             return Range.create(column.getNumberMin(), column.getNumberMax()).contains(val)
                     ? Optional.empty()
                     : Optional.of(getContext().getString(R.string.validation_number_range, column.getNumberMin(), column.getNumberMax()));

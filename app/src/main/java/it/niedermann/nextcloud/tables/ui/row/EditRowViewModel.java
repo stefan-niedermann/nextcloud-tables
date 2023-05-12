@@ -85,13 +85,13 @@ public class EditRowViewModel extends AndroidViewModel {
 
         return supplyAsync(() -> {
             // TODO perf: maybe we can query a map directly from the database
-            final var data = tablesRepository.getRawData(row.getId());
+            final var dataset = tablesRepository.getRawData(row.getId());
 
-            if (data == null) {
+            if (dataset == null) {
                 return emptyMap();
             }
 
-            return Arrays.stream(data).collect(toUnmodifiableMap(Data::getColumnId, d -> d));
+            return Arrays.stream(dataset).collect(toUnmodifiableMap(Data::getColumnId, data -> data));
         }, executor);
     }
 }

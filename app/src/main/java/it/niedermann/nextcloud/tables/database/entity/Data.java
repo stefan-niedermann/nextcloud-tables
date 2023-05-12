@@ -57,7 +57,8 @@ public class Data extends AbstractAccountRelatedEntity {
     @Nullable
     @SerializedName("columnId")
     private Long remoteColumnId;
-    private Object value;
+    @Nullable
+    private String value;
 
     public Data() {
         // Default constructor
@@ -88,11 +89,12 @@ public class Data extends AbstractAccountRelatedEntity {
         this.remoteColumnId = remoteColumnId;
     }
 
-    public Object getValue() {
+    @Nullable
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Object value) {
+    public void setValue(@Nullable String value) {
         this.value = value;
     }
 

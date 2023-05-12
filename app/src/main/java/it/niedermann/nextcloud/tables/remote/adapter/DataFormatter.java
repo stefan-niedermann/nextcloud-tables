@@ -16,19 +16,12 @@ import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 public class DataFormatter {
 
     private static final String TAG = DataFormatter.class.getSimpleName();
-    private final EDataType type;
-
-    public DataFormatter(@NonNull EDataType type) {
-        this.type = type;
-    }
 
     @Nullable
-    public String serializeValue(@Nullable Object rawValue) {
-        if (rawValue == null) {
+    public String serializeValue(@NonNull EDataType type, @Nullable String value) {
+        if (value == null) {
             return null;
         }
-
-        final var value = String.valueOf(rawValue);
 
         switch (type) {
             case DATETIME:
@@ -38,18 +31,18 @@ public class DataFormatter {
                 return TextUtils.isEmpty(value) ? null : TablesAPI.FORMATTER_DATA_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE.parse(value));
             case DATETIME_TIME:
                 return TextUtils.isEmpty(value) ? null : TablesAPI.FORMATTER_DATA_TIME.format(DateTimeFormatter.ISO_LOCAL_TIME.parse(value));
+            case SELECTION_MULTI:
+                return TextUtils.isEmpty(value) ? "[]" : "[" + value + "]";
             default:
                 return value;
         }
     }
 
     @Nullable
-    public String deserializeValue(@Nullable Object rawValue) {
-        if (rawValue == null) {
+    public String deserializeValue(@NonNull EDataType type, @Nullable String value) {
+        if (value == null) {
             return null;
         }
-
-        final var value = String.valueOf(rawValue);
 
         switch (type) {
             case DATETIME:
@@ -59,7 +52,6 @@ public class DataFormatter {
                 return TextUtils.isEmpty(value) ? null : DateTimeFormatter.ISO_DATE.format(TablesAPI.FORMATTER_DATA_DATE.parse(value));
             case DATETIME_TIME:
                 return TextUtils.isEmpty(value) ? null : DateTimeFormatter.ISO_TIME.format(TablesAPI.FORMATTER_DATA_TIME.parse(value));
-            case SELECTION:
             case NUMBER:
             case NUMBER_PROGRESS:
             case NUMBER_STARS: {
@@ -74,23 +66,20 @@ public class DataFormatter {
                     }
                 }
             }
+            case SELECTION:
+                return value.isBlank() ? null : String.valueOf((long) Double.parseDouble(value));
             case SELECTION_MULTI: {
-                final var numbers = value
-                        .replace("[", "")
-                        .replace("]", "");
+                final var valueWithoutJsonArrayBrackets = value.replace("[", "").replace("]", "");
 
-                if (numbers.isBlank()) {
+                if (valueWithoutJsonArrayBrackets.isBlank()) {
                     return null;
                 }
 
-
-                final var optionIds = Arrays.stream(numbers.split(",")).map(Double::parseDouble).map(Double::longValue).collect(Collectors.toUnmodifiableSet());
-
-                return "[" + optionIds
-                        .stream()
+                return Arrays.stream(valueWithoutJsonArrayBrackets.replace("[", "").replace("]", "").split(","))
+                        .map(Double::parseDouble)
+                        .map(Double::longValue)
                         .map(String::valueOf)
-                        .collect(Collectors.joining(","))
-                        + "]";
+                        .collect(Collectors.joining(","));
             }
             default:
                 return value;

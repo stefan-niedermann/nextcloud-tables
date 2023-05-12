@@ -49,17 +49,13 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
 
     @Nullable
     @Override
-    public Object getValue() {
+    public String getValue() {
         return String.valueOf(binding.getRoot().isChecked());
     }
 
     @Override
-    protected void setValue(@Nullable Object value) {
-        if (value == null) {
-            binding.getRoot().setChecked(false);
-        } else {
-            binding.getRoot().setChecked(Boolean.parseBoolean(String.valueOf(value)));
-        }
+    protected void setValue(@Nullable String value) {
+        binding.getRoot().setChecked(Boolean.parseBoolean(value));
     }
 
     @Override

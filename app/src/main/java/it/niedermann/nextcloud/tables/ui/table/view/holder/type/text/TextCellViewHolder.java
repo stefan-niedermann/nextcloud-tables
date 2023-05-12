@@ -23,7 +23,7 @@ public class TextCellViewHolder extends CellViewHolder {
         if (data == null) {
             binding.data.setText(column.getTextDefault());
         } else {
-            binding.data.setText(String.valueOf(data.getValue()));
+            binding.data.setText(data.getValue());
         }
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;

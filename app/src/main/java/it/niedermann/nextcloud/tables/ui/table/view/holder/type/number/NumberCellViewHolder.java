@@ -26,7 +26,7 @@ public class NumberCellViewHolder extends CellViewHolder {
         if (data == null) {
             setText(column, String.valueOf(column.getNumberDefault()));
         } else {
-            setText(column, String.valueOf(data.getValue()));
+            setText(column, data.getValue());
         }
 
         binding.data.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);

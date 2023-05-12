@@ -73,7 +73,7 @@ public class ViewTableFragment extends Fragment {
             binding.tableView.setTableViewListener(new ITableViewListener() {
                 @Override
                 public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
-                    final var row = adapter.getRowHeaderItem(rowPosition);
+                    final var row = fullTable.getRows().get(rowPosition);
                     if (row == null) {
                         ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     } else {

@@ -170,7 +170,7 @@ public class AccountRepository {
             }
 
             default: {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not fetch user " + account.getUserName()));
             }
         }
     }

@@ -143,30 +143,30 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void createRow(@NonNull Account account, @NonNull Row row, @NonNull Data[] data) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+    public void createRow(@NonNull Account account, @NonNull Row row, @NonNull Data[] dataset) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
         row.setStatus(DBStatus.LOCAL_EDITED);
         row.setAccountId(account.getId());
         final var insertedRowId = db.getRowDao().insert(row);
-        for (final var d : data) {
-            d.setRowId(insertedRowId);
-            db.getDataDao().insert(d);
+        for (final var data : dataset) {
+            data.setRowId(insertedRowId);
+            db.getDataDao().insert(data);
         }
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
             pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
-    public void updateRow(@NonNull Account account, @NonNull Row row, @NonNull Data[] data) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+    public void updateRow(@NonNull Account account, @NonNull Row row, @NonNull Data[] dataset) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
         row.setStatus(DBStatus.LOCAL_EDITED);
         row.setAccountId(account.getId());
         db.getRowDao().update(row);
-        for (final var d : data) {
-            d.setRowId(row.getId());
-            final var exists = db.getDataDao().exists(d.getColumnId(), d.getRowId());
+        for (final var data : dataset) {
+            data.setRowId(row.getId());
+            final var exists = db.getDataDao().exists(data.getColumnId(), data.getRowId());
             if (exists) {
-                db.getDataDao().update(d);
+                db.getDataDao().update(data);
             } else {
-                d.setId(db.getDataDao().insert(d));
+                data.setId(db.getDataDao().insert(data));
             }
         }
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {

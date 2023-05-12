@@ -27,10 +27,12 @@ import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 public class RowSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
+    private final DataFormatter dataFormatter;
     private final JsonSerializer<Data[]> dataSerializer;
 
     public RowSyncAdapter(@NonNull TablesDatabase db) {
         super(db);
+        this.dataFormatter = new DataFormatter();
         this.dataSerializer = new DataAdapter();
     }
 
@@ -59,16 +61,19 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
         for (final var row : rowsToUpdate) {
             Log.i(TAG, "→ PUT/POST: " + row.getRemoteId());
-            final var columns = db.getColumnDao().getColumnsByRemoteId(account.getId(), Arrays.stream(row.getData()).map(Data::getColumnId).collect(toUnmodifiableSet()));
+            final var dataset = db.getDataDao().getDataForRow(row.getId());
+            final var columns = db.getColumnDao().getColumnsByRemoteId(account.getId(), Arrays.stream(dataset).map(Data::getColumnId).collect(toUnmodifiableSet()));
 
-            final var data = db.getDataDao().getDataForRow(row.getId());
-            for (final var d : data) {
-                columns.stream().filter(column -> column.getId() == d.getColumnId()).findAny().ifPresentOrElse(column -> {
-                    final var dataFormatter = new DataFormatter(EDataType.findByColumn(column));
-                    d.setValue(dataFormatter.serializeValue(d.getValue()));
-                }, () -> d.setValue(d.getValue()));
+            for (final var data : dataset) {
+                columns
+                        .stream()
+                        .filter(column -> column.getId() == data.getColumnId())
+                        .findAny().
+                        ifPresentOrElse(
+                                column -> data.setValue(dataFormatter.serializeValue(EDataType.findByColumn(column), data.getValue())),
+                                () -> data.setValue(data.getValue()));
             }
-            row.setData(data);
+            row.setData(dataset);
 
             final var response = row.getRemoteId() == null
                     ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataSerializer.serialize(row.getData(), null, null)).execute()
@@ -125,7 +130,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                     }
 
                     default: {
-                        throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                        throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not fetch rows for table with remote ID " + table.getRemoteId()));
                     }
                 }
             }
@@ -157,10 +162,14 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
                         final var columns = db.getColumnDao().getColumnsByRemoteId(account.getId(), Arrays.stream(row.getData()).map(Data::getColumnId).collect(toUnmodifiableSet()));
 
-                        columns.stream().filter(column -> column.getId() == data.getColumnId()).findAny().ifPresentOrElse(column -> {
-                            final var dataFormatter = new DataFormatter(EDataType.findByColumn(column));
-                            data.setValue(dataFormatter.deserializeValue(data.getValue()));
-                        }, () -> data.setValue(data.getValue()));
+                        columns
+                                .stream()
+                                .filter(column -> column.getId() == data.getColumnId())
+                                .findAny()
+                                .ifPresentOrElse(
+                                        column -> data.setValue(dataFormatter.deserializeValue(EDataType.findByColumn(column), data.getValue())),
+                                        () -> data.setValue(data.getValue())
+                                );
 
                         final var existingData = db.getDataDao().getDataForCoordinates(data.getColumnId(), data.getRowId());
                         if (existingData == null) {

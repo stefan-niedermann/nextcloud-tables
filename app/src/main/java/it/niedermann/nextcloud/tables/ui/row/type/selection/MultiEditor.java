@@ -72,40 +72,26 @@ public class MultiEditor extends ColumnEditView {
 
     @Nullable
     @Override
-    public Object getValue() {
-        return selectedRemoteIds.isEmpty()
-                ? "" :
-                "[" + selectedRemoteIds
+    public String getValue() {
+        return selectedRemoteIds.isEmpty() ? "" :
+                selectedRemoteIds
                         .stream()
                         .map(String::valueOf)
-                        .collect(Collectors.joining(","))
-                        + "]";
+                        .collect(Collectors.joining(","));
     }
 
     @Override
-    protected void setValue(@Nullable Object value) {
+    protected void setValue(@Nullable String value) {
         this.selectedRemoteIds.clear();
 
-        if (value == null) {
+        if (value == null || value.isBlank()) {
             return;
         }
 
-
-        if (value instanceof String) {
-            final var numbers = ((String) value)
-                    .replace("[", "")
-                    .replace("]", "");
-
-            if (numbers.isBlank()) {
-                this.selectedRemoteIds.clear();
-                return;
-            }
-
-            this.selectedRemoteIds.addAll(Arrays.stream(numbers.split(",")).map(Double::parseDouble).map(Double::longValue).collect(Collectors.toUnmodifiableSet()));
-            return;
-        }
-
-        throw new IllegalArgumentException(value + " can not be parsed");
+        final var optionIDs = Arrays.stream(value.split(","))
+                .map(Long::parseLong)
+                .collect(Collectors.toUnmodifiableSet());
+        this.selectedRemoteIds.addAll(optionIDs);
     }
 
     @Override

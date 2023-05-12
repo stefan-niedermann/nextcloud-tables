@@ -54,9 +54,9 @@ public class Column extends AbstractRemoteEntity {
     @ColumnInfo(defaultValue = "")
     private String description;
     private Integer orderWeight;
-    private Long numberDefault;
-    private Long numberMin;
-    private Long numberMax;
+    private Double numberDefault;
+    private Double numberMin;
+    private Double numberMax;
     private Integer numberDecimals;
     private String numberPrefix;
     private String numberSuffix;
@@ -72,13 +72,14 @@ public class Column extends AbstractRemoteEntity {
         // Default constructor
     }
 
-    public Object getDefaultValueByType() {
+    public String getDefaultValueByType() {
         switch (type) {
             case "text": {
                 return getTextDefault();
             }
             case "number": {
-                return getNumberDefault();
+                final var numberDefault = getNumberDefault();
+                return numberDefault == null ? null : String.valueOf(numberDefault);
             }
             case "selection": {
                 return getSelectionDefault();
@@ -180,27 +181,27 @@ public class Column extends AbstractRemoteEntity {
         this.orderWeight = orderWeight;
     }
 
-    public Long getNumberDefault() {
+    public Double getNumberDefault() {
         return numberDefault;
     }
 
-    public void setNumberDefault(Long numberDefault) {
+    public void setNumberDefault(Double numberDefault) {
         this.numberDefault = numberDefault;
     }
 
-    public Long getNumberMin() {
+    public Double getNumberMin() {
         return numberMin;
     }
 
-    public void setNumberMin(Long numberMin) {
+    public void setNumberMin(Double numberMin) {
         this.numberMin = numberMin;
     }
 
-    public Long getNumberMax() {
+    public Double getNumberMax() {
         return numberMax;
     }
 
-    public void setNumberMax(Long numberMax) {
+    public void setNumberMax(Double numberMax) {
         this.numberMax = numberMax;
     }
 
