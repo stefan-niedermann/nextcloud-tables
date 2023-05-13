@@ -40,31 +40,38 @@
         <activity
             android:name=".ui.settings.PreferencesActivity"
             android:exported="false"
-            android:label="@string/preferences" />
+            android:label="@string/preferences"
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.about.AboutActivity"
             android:exported="false"
-            android:label="@string/about" />
+            android:label="@string/about"
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.table.edit.EditTableActivity"
             android:exported="false"
-            android:label="@string/edit_table" />
+            android:label="@string/edit_table"
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.column.edit.EditColumnActivity"
             android:exported="false"
-            android:label="@string/edit_column" />
+            android:label="@string/edit_column"
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.column.manage.ManageColumnsActivity"
             android:exported="false"
-            android:label="@string/manage_columns" />
+            android:label="@string/manage_columns"
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.row.EditRowActivity"
             android:exported="false"
-            android:label="@string/edit_row" />
+            android:label="@string/edit_row"
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.manageaccounts.ManageAccountsActivity"
             android:exported="false"
-            android:label="@string/manage_accounts" />
+            android:label="@string/manage_accounts"
+            android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.exception.ExceptionActivity"
             android:exported="false"
