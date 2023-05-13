@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="?attr/colorSurface"
             app:allow_click_inside_cell="true"
             app:allow_click_inside_column_header="true"
             app:column_header_height="@dimen/table_view_cell_height"
