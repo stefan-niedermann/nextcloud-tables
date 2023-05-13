@@ -63,6 +63,7 @@ public class CheckEditor extends ColumnEditView implements CompoundButton.OnChec
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        setValue(String.valueOf(isChecked));
         onValueChanged();
     }
 }

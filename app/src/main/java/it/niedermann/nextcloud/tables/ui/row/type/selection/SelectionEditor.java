@@ -68,7 +68,7 @@ public class SelectionEditor extends ColumnEditView implements CompoundButton.On
     @Nullable
     @Override
     public String getValue() {
-        return String.valueOf(this.value);
+        return value == null ? null : String.valueOf(this.value);
     }
 
     @Override

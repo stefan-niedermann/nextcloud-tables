@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.row.type.selection;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,7 @@ public class MultiEditor extends ColumnEditView {
         for (final var selectionOption : column.getSelectionOptions()) {
             final var checkbox = new MaterialCheckBox(context);
             checkbox.setText(selectionOption.getLabel());
+            checkbox.setId(View.generateViewId());
             checkbox.setChecked(selectedRemoteIds.contains(selectionOption.getRemoteId()));
             checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
@@ -71,7 +73,7 @@ public class MultiEditor extends ColumnEditView {
     @Nullable
     @Override
     public String getValue() {
-        return selectedRemoteIds.isEmpty() ? "" :
+        return selectedRemoteIds.isEmpty() ? null :
                 selectedRemoteIds
                         .stream()
                         .map(String::valueOf)
@@ -82,7 +84,7 @@ public class MultiEditor extends ColumnEditView {
     protected void setValue(@Nullable String value) {
         this.selectedRemoteIds.clear();
 
-        if (value == null || value.isBlank()) {
+        if (TextUtils.isEmpty(value)) {
             return;
         }
 
