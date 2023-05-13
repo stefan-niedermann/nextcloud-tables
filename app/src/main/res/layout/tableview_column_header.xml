@@ -8,11 +8,10 @@
 
     <TextView
         android:id="@+id/column_header_textView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/spacer_1x"
-        android:layout_weight="4"
         android:gravity="center"
         tools:text="Header Data" />
 </LinearLayout>
