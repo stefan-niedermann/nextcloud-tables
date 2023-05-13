@@ -14,14 +14,17 @@ import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.remote.adapter.ColumnAdapter;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 
 public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = ColumnSyncAdapter.class.getSimpleName();
+    private final ColumnAdapter columnAdapter;
 
     public ColumnSyncAdapter(@NonNull TablesDatabase db) {
         super(db);
+        this.columnAdapter = new ColumnAdapter();
     }
 
     @Override
@@ -68,7 +71,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     column.getTextAllowedPattern(),
                     column.getTextMaxLength(),
                     column.getSelectionOptions(),
-                    column.getSelectionDefault(),
+                    columnAdapter.serializeSelectionDefault(column),
                     column.getDatetimeDefault()
             ).execute()
                     : api.updateColumn(column.getRemoteId(),
@@ -86,7 +89,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     column.getTextAllowedPattern(),
                     column.getTextMaxLength(),
                     column.getSelectionOptions(),
-                    column.getSelectionDefault(),
+                    columnAdapter.serializeSelectionDefault(column),
                     column.getDatetimeDefault()).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
@@ -118,6 +121,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                         column.setAccountId(account.getId());
                         column.setTableId(table.getId());
                         column.setETag(response.headers().get(HEADER_ETAG));
+                        column.setSelectionDefault(columnAdapter.deserializeSelectionDefault(column));
 
                         final var columnId = columnIds.get(column.getRemoteId());
                         if (columnId == null) {

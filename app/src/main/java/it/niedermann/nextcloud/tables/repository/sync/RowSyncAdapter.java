@@ -21,19 +21,25 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.remote.adapter.DataAdapter;
-import it.niedermann.nextcloud.tables.remote.adapter.DataFormatter;
+import it.niedermann.nextcloud.tables.remote.adapter.DataArrayAdapter;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 
 public class RowSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
-    private final DataFormatter dataFormatter;
-    private final JsonSerializer<Data[]> dataSerializer;
+    private final DataAdapter dataAdapter;
+    private final JsonSerializer<Data[]> dataArrayAdapter;
 
     public RowSyncAdapter(@NonNull TablesDatabase db) {
+        this(db, new DataAdapter(), new DataArrayAdapter());
+    }
+
+    private RowSyncAdapter(@NonNull TablesDatabase db,
+                           @NonNull DataAdapter dataAdapter,
+                           @NonNull DataArrayAdapter dataArrayAdapter) {
         super(db);
-        this.dataFormatter = new DataFormatter();
-        this.dataSerializer = new DataAdapter();
+        this.dataAdapter = dataAdapter;
+        this.dataArrayAdapter = dataArrayAdapter;
     }
 
     @Override
@@ -70,14 +76,14 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         .filter(column -> column.getId() == data.getColumnId())
                         .findAny().
                         ifPresentOrElse(
-                                column -> data.setValue(dataFormatter.serializeValue(EDataType.findByColumn(column), data.getValue())),
+                                column -> data.setValue(dataAdapter.serializeValue(EDataType.findByColumn(column), data.getValue())),
                                 () -> data.setValue(data.getValue()));
             }
             row.setData(dataset);
 
             final var response = row.getRemoteId() == null
-                    ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataSerializer.serialize(row.getData(), null, null)).execute()
-                    : api.updateRow(row.getRemoteId(), dataSerializer.serialize(row.getData(), null, null)).execute();
+                    ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataArrayAdapter.serialize(row.getData(), null, null)).execute()
+                    : api.updateRow(row.getRemoteId(), dataArrayAdapter.serialize(row.getData(), null, null)).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 row.setStatus(DBStatus.VOID);
@@ -167,7 +173,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                                 .filter(column -> column.getId() == data.getColumnId())
                                 .findAny()
                                 .ifPresentOrElse(
-                                        column -> data.setValue(dataFormatter.deserializeValue(EDataType.findByColumn(column), data.getValue())),
+                                        column -> data.setValue(dataAdapter.deserializeValue(EDataType.findByColumn(column), data.getValue())),
                                         () -> data.setValue(data.getValue())
                                 );
 

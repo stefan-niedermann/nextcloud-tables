@@ -23,7 +23,7 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
-import it.niedermann.nextcloud.tables.remote.adapter.DataAdapter;
+import it.niedermann.nextcloud.tables.remote.adapter.DataArrayAdapter;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -221,7 +221,7 @@ public interface TablesAPI {
      * }
      * </code>
      *
-     * @see DataAdapter#serialize(Data[], Type, JsonSerializationContext)
+     * @see DataArrayAdapter#serialize(Data[], Type, JsonSerializationContext)
      * @since 0.4.0
      */
     @POST("tables/{tableId}/rows")
