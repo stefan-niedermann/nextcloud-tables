@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.evrencoskun.tableview.listener.ITableViewListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Collections;
@@ -32,8 +31,6 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
 public class ViewTableFragment extends Fragment {
 
-    private static final String KEY_ACCOUNT = "account";
-    private static final String KEY_TABLE = "table";
     private FragmentTableBinding binding;
     private ViewTableViewModel viewTableViewModel;
     private TableViewAdapter adapter;
@@ -70,147 +67,125 @@ public class ViewTableFragment extends Fragment {
             binding.tableView.setTableViewListener(null);
             binding.fab.setOnClickListener(null);
             binding.swipeRefreshLayout.setOnRefreshListener(null);
-        } else {
-            adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), fullTable.getData());
-            binding.tableView.setTableViewListener(new ITableViewListener() {
-                @Override
-                public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
-                    final var row = fullTable.getRows().get(rowPosition);
+            return;
+        }
+        final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
+        final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
+
+        adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), fullTable.getData());
+
+        binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);
+        binding.tableView.getRowHeaderLayoutManager().scrollToPosition(rowPosition);
+        binding.tableView.getColumnHeaderLayoutManager().scrollToPosition(columnPosition);
+
+        binding.tableView.setTableViewListener(new DefaultTableViewListener() {
+            @Override
+            public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
+                final var row = fullTable.getRows().get(rowPosition);
+                if (row == null) {
+                    ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                } else {
+                    startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable(), row));
+                }
+            }
+
+            @Override
+            public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
+                final var popup = new PopupMenu(requireContext(), cellView.itemView);
+                popup.inflate(R.menu.context_menu_cell);
+                Optional.ofNullable(popup.getMenu().findItem(R.id.quick_action))
+                        .ifPresent(quickActionMenuItem -> {
+                            if (cellView instanceof CellViewHolder) {
+                                ((CellViewHolder) cellView).getQuickActionProvider().ifPresentOrElse(
+                                        quickActionProvider -> {
+                                            quickActionMenuItem.setVisible(true);
+                                            quickActionMenuItem.setTitle(quickActionProvider.getTitle());
+                                        },
+                                        () -> quickActionMenuItem.setVisible(false)
+                                );
+                            } else {
+                                quickActionMenuItem.setVisible(false);
+                            }
+                        });
+                popup.setOnMenuItemClickListener(item -> {
+                    final var row = adapter.getRowHeaderItem(rowPosition);
                     if (row == null) {
                         ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                    } else {
+                        return false;
+                    }
+
+                    if (item.getItemId() == R.id.edit_row) {
                         startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable(), row));
-                    }
-                }
-
-                @Override
-                public void onCellDoubleClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
-
-                }
-
-                @Override
-                public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
-                    final var popup = new PopupMenu(requireContext(), cellView.itemView);
-                    popup.inflate(R.menu.context_menu_cell);
-                    Optional.ofNullable(popup.getMenu().findItem(R.id.quick_action))
-                            .ifPresent(quickActionMenuItem -> {
-                                if (cellView instanceof CellViewHolder) {
-                                    ((CellViewHolder) cellView).getQuickActionProvider().ifPresentOrElse(
-                                            quickActionProvider -> {
-                                                quickActionMenuItem.setVisible(true);
-                                                quickActionMenuItem.setTitle(quickActionProvider.getTitle());
-                                            },
-                                            () -> quickActionMenuItem.setVisible(false)
-                                    );
-                                } else {
-                                    quickActionMenuItem.setVisible(false);
-                                }
-                            });
-                    popup.setOnMenuItemClickListener(item -> {
-                        final var row = adapter.getRowHeaderItem(rowPosition);
-                        if (row == null) {
-                            ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                            return false;
-                        }
-
-                        if (item.getItemId() == R.id.edit_row) {
-                            startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable(), row));
-                        } else if (item.getItemId() == R.id.delete_row) {
-                            new MaterialAlertDialogBuilder(requireContext())
-                                    .setTitle(R.string.delete_row)
-                                    .setMessage(R.string.delete_row_message)
-                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> viewTableViewModel.deleteRow(row))
-                                    .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                                    .show();
-                        } else {
-                            ExceptionDialogFragment.newInstance(new IllegalStateException("Unexpected menu item ID in row context menu: " + item.getItemId()), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                            return false;
-                        }
-
-                        return true;
-                    });
-                    popup.show();
-                }
-
-                @Override
-                public void onColumnHeaderClicked(@NonNull RecyclerView.ViewHolder columnHeaderView, int column) {
-
-                }
-
-                @Override
-                public void onColumnHeaderDoubleClicked(@NonNull RecyclerView.ViewHolder columnHeaderView, int column) {
-
-                }
-
-                @Override
-                public void onColumnHeaderLongPressed(@NonNull RecyclerView.ViewHolder columnHeaderView, int columnPosition) {
-                    final var column = adapter.getColumnHeaderItem(columnPosition);
-                    if (column == null) {
-                        ExceptionDialogFragment.newInstance(new IllegalStateException("No column header at position " + columnPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                        return;
+                    } else if (item.getItemId() == R.id.delete_row) {
+                        new MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(R.string.delete_row)
+                                .setMessage(R.string.delete_row_message)
+                                .setPositiveButton(R.string.simple_delete, (dialog, which) -> viewTableViewModel.deleteRow(row))
+                                .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                .show();
+                    } else {
+                        ExceptionDialogFragment.newInstance(new IllegalStateException("Unexpected menu item ID in row context menu: " + item.getItemId()), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        return false;
                     }
 
-                    final var popup = new PopupMenu(requireContext(), columnHeaderView.itemView);
-                    popup.inflate(R.menu.context_menu_column);
-                    Optional.ofNullable(popup.getMenu().findItem(R.id.delete_column))
-                            .ifPresent(item -> item.setTitle(getString(R.string.delete_item, column.getTitle())));
-                    popup.setOnMenuItemClickListener(item -> {
+                    return true;
+                });
+                popup.show();
+            }
 
-                        if (item.getItemId() == R.id.edit_column) {
-                            if (FeatureToggles.EDIT_COLUMN.enabled) {
-                                startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.getTable(), column));
-                            } else {
-                                Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
-                            }
+            @Override
+            public void onColumnHeaderLongPressed(@NonNull RecyclerView.ViewHolder columnHeaderView, int columnPosition) {
+                final var column = adapter.getColumnHeaderItem(columnPosition);
+                if (column == null) {
+                    ExceptionDialogFragment.newInstance(new IllegalStateException("No column header at position " + columnPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    return;
+                }
 
-                        } else if (item.getItemId() == R.id.delete_column) {
-                            new MaterialAlertDialogBuilder(requireContext())
-                                    .setTitle(getString(R.string.delete_item, column.getTitle()))
-                                    .setMessage(getString(R.string.delete_item_message, column.getTitle()))
-                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
-                                        if (FeatureToggles.DELETE_COLUMN.enabled) {
-                                            viewTableViewModel.deleteColumn(column);
-                                        } else {
-                                            Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                                    .show();
+                final var popup = new PopupMenu(requireContext(), columnHeaderView.itemView);
+                popup.inflate(R.menu.context_menu_column);
+                Optional.ofNullable(popup.getMenu().findItem(R.id.delete_column))
+                        .ifPresent(item -> item.setTitle(getString(R.string.delete_item, column.getTitle())));
+                popup.setOnMenuItemClickListener(item -> {
+
+                    if (item.getItemId() == R.id.edit_column) {
+                        if (FeatureToggles.EDIT_COLUMN.enabled) {
+                            startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.getTable(), column));
                         } else {
-                            ExceptionDialogFragment.newInstance(new IllegalStateException("Unexpected menu item ID in column context menu: " + item.getItemId()), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                            return false;
+                            Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
                         }
 
-                        return true;
-                    });
-                    popup.show();
-                }
+                    } else if (item.getItemId() == R.id.delete_column) {
+                        new MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(getString(R.string.delete_item, column.getTitle()))
+                                .setMessage(getString(R.string.delete_item_message, column.getTitle()))
+                                .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
+                                    if (FeatureToggles.DELETE_COLUMN.enabled) {
+                                        viewTableViewModel.deleteColumn(column);
+                                    } else {
+                                        Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                .show();
+                    } else {
+                        ExceptionDialogFragment.newInstance(new IllegalStateException("Unexpected menu item ID in column context menu: " + item.getItemId()), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                        return false;
+                    }
 
-                @Override
-                public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
+                    return true;
+                });
+                popup.show();
+            }
+        });
 
-                }
-
-                @Override
-                public void onRowHeaderDoubleClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
-
-                }
-
-                @Override
-                public void onRowHeaderLongPressed(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
-
-                }
-            });
-
-            binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable())));
-            binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
-                // TODO fragment gets detached by MainActivity, this code will fail.
-                binding.swipeRefreshLayout.setRefreshing(false);
-                if (exception != null) {
-                    ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-            }, ContextCompat.getMainExecutor(requireContext())));
-        }
+        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable())));
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
+            // TODO fragment gets detached by MainActivity, this code will fail.
+            binding.swipeRefreshLayout.setRefreshing(false);
+            if (exception != null) {
+                ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        }, ContextCompat.getMainExecutor(requireContext())));
     }
 
     @Override
