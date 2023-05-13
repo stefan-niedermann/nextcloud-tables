@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.tables.ui.row.type.number.ProgressEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.number.StarsEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.selection.CheckEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.selection.MultiEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.selection.SelectionEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextLineEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextLinkEditor;
@@ -185,6 +186,8 @@ public abstract class ColumnEditView extends FrameLayout {
                     return new StarsEditor(context, fragmentManager, column, dataToPass);
                 case NUMBER_PROGRESS:
                     return new ProgressEditor(context, fragmentManager, column, dataToPass);
+                case SELECTION:
+                    return new SelectionEditor(context, fragmentManager, column, dataToPass);
                 case SELECTION_MULTI:
                     return new MultiEditor(context, fragmentManager, column, dataToPass);
                 case SELECTION_CHECK:
