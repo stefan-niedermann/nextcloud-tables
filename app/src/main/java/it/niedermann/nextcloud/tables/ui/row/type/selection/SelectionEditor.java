@@ -9,7 +9,6 @@ import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.radiobutton.MaterialRadioButton;
 
@@ -35,10 +34,9 @@ public class SelectionEditor extends ColumnEditView implements CompoundButton.On
     }
 
     public SelectionEditor(@NonNull Context context,
-                           @Nullable FragmentManager fragmentManager,
                            @NonNull Column column,
                            @NonNull Data data) {
-        super(context, fragmentManager, column, data);
+        super(context, null, column, data);
         binding = EditSelectionBinding.inflate(LayoutInflater.from(context));
     }
 

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 
 import java.util.NoSuchElementException;
 
+import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 
 public enum EDataType {
@@ -59,6 +60,10 @@ public enum EDataType {
             if (entry.type.equals(type) && entry.subType.equals(subType)) {
                 return entry;
             }
+        }
+
+        if (BuildConfig.DEBUG) {
+            throw new UnsupportedOperationException("Unknown column type: " + column.getType() + "/" + column.getSubtype());
         }
 
         return EDataType.UNKNOWN;

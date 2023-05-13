@@ -15,9 +15,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import it.niedermann.android.util.DimensionUtil;
+import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -160,6 +165,10 @@ public abstract class ColumnEditView extends FrameLayout {
     }
 
     public static class Factory {
+
+        private static final String DEFAULT_NOW = "now";
+        private static final String DEFAULT_TODAY = "today";
+
         @NonNull
         public ColumnEditView create(@NonNull EDataType dataType,
                                      @NonNull Context context,
@@ -170,9 +179,9 @@ public abstract class ColumnEditView extends FrameLayout {
 
             switch (dataType) {
                 case TEXT_LINE:
-                    return new TextLineEditor(context, fragmentManager, column, dataToPass);
+                    return new TextLineEditor(context, column, dataToPass);
                 case TEXT_LINK:
-                    return new TextLinkEditor(context, fragmentManager, column, dataToPass);
+                    return new TextLinkEditor(context, column, dataToPass);
                 case DATETIME_DATETIME:
                 case DATETIME:
                     return new DateTimeEditor(context, fragmentManager, column, dataToPass);
@@ -181,22 +190,22 @@ public abstract class ColumnEditView extends FrameLayout {
                 case DATETIME_TIME:
                     return new TimeEditor(context, fragmentManager, column, dataToPass);
                 case NUMBER:
-                    return new NumberEditor(context, fragmentManager, column, dataToPass);
+                    return new NumberEditor(context, column, dataToPass);
                 case NUMBER_STARS:
-                    return new StarsEditor(context, fragmentManager, column, dataToPass);
+                    return new StarsEditor(context, column, dataToPass);
                 case NUMBER_PROGRESS:
-                    return new ProgressEditor(context, fragmentManager, column, dataToPass);
+                    return new ProgressEditor(context, column, dataToPass);
                 case SELECTION:
-                    return new SelectionEditor(context, fragmentManager, column, dataToPass);
+                    return new SelectionEditor(context, column, dataToPass);
                 case SELECTION_MULTI:
-                    return new MultiEditor(context, fragmentManager, column, dataToPass);
+                    return new MultiEditor(context, column, dataToPass);
                 case SELECTION_CHECK:
-                    return new CheckEditor(context, fragmentManager, column, dataToPass);
+                    return new CheckEditor(context, column, dataToPass);
                 case UNKNOWN:
                 case TEXT:
                 case TEXT_RICH:
                 default:
-                    return new TextEditor(context, fragmentManager, column, dataToPass);
+                    return new TextEditor(context, null, column, dataToPass);
             }
         }
 
@@ -213,7 +222,7 @@ public abstract class ColumnEditView extends FrameLayout {
 
                 final var value = data.getValue();
                 if (value == null) {
-                    dataToPass.setValue(column.getDefaultValueByType());
+                    dataToPass.setValue(getDefaultValueByType(column));
                 }
 
             } else {
@@ -221,10 +230,53 @@ public abstract class ColumnEditView extends FrameLayout {
                 dataToPass.setAccountId(column.getAccountId());
                 dataToPass.setColumnId(column.getId());
                 dataToPass.setRemoteColumnId(column.getRemoteId());
-                dataToPass.setValue(column.getDefaultValueByType());
+                dataToPass.setValue(getDefaultValueByType(column));
             }
 
             return dataToPass;
+        }
+
+        @Nullable
+        private String getDefaultValueByType(@NonNull Column column) {
+            switch (column.getType()) {
+                case "text":
+                    return column.getTextDefault();
+                case "number": {
+                    final var numberDefault = column.getNumberDefault();
+                    return numberDefault == null ? null : String.valueOf(numberDefault);
+                }
+                case "selection":
+                    return column.getSelectionDefault();
+                case "datetime": {
+                    final var dateTimeDefault = column.getDatetimeDefault();
+                    switch (column.getSubtype()) {
+                        case "":
+                        case "datetime":
+                            return DEFAULT_NOW.equals(dateTimeDefault)
+                                    ? LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) : null;
+                        case "date":
+                            return DEFAULT_TODAY.equals(dateTimeDefault)
+                                    ? LocalDate.now().format(DateTimeFormatter.ISO_DATE) : null;
+                        case "time":
+                            return DEFAULT_NOW.equals(dateTimeDefault)
+                                    ? LocalTime.now().format(DateTimeFormatter.ISO_TIME) : null;
+                        default: {
+                            if (BuildConfig.DEBUG) {
+                                throw new UnsupportedOperationException("Unexpected column datetime subtype " + column.getSubtype());
+                            }
+
+                            return column.getDatetimeDefault();
+                        }
+                    }
+                }
+                default: {
+                    if (BuildConfig.DEBUG) {
+                        throw new UnsupportedOperationException("Unexpected column type " + column.getType());
+                    }
+
+                    return null;
+                }
+            }
         }
     }
 }

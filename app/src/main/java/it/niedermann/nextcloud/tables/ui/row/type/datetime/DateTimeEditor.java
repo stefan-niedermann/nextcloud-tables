@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.row.type.datetime;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.FragmentManager;
 
 import java.time.LocalDate;
@@ -53,8 +55,16 @@ public class DateTimeEditor extends ColumnEditView {
     protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditDatetimeBinding.inflate(LayoutInflater.from(context));
 
-        date = new DateEditor(context, fragmentManager, column, data);
-        time = new TimeEditor(context, fragmentManager, column, data);
+        final var values = extractValues(data.getValue());
+
+        final var dateData = new Data(data);
+        final var timeData = new Data(data);
+
+        dateData.setValue(values.first == null ? null : values.first.format(DateTimeFormatter.ISO_DATE));
+        timeData.setValue(values.second == null ? null : values.second.format(DateTimeFormatter.ISO_TIME));
+
+        date = new DateEditor(context, fragmentManager, column, dateData);
+        time = new TimeEditor(context, fragmentManager, column, timeData);
 
         final var dateLayoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -99,17 +109,17 @@ public class DateTimeEditor extends ColumnEditView {
 
     @Override
     protected void setValue(@Nullable String value) {
-        if (value == null) {
-            date.setValue(null);
-            time.setValue(null);
-        } else if(value.isBlank()) {
-            date.setValue("");
-            time.setValue("");
+        final var values = extractValues(value);
+        date.setValue(values.first == null ? null : values.first.format(DateTimeFormatter.ISO_DATE));
+        time.setValue(values.second == null ? null : values.second.format(DateTimeFormatter.ISO_TIME));
+    }
+
+    private Pair<LocalDate, LocalTime> extractValues(@Nullable String value) {
+        if (TextUtils.isEmpty(value)) {
+            return new Pair<>(null, null);
         } else {
             final var dateTime = LocalDateTime.parse(value, DateTimeFormatter.ISO_DATE_TIME);
-
-            date.setValue(dateTime.format(DateTimeFormatter.ISO_DATE));
-            time.setValue(dateTime.format(DateTimeFormatter.ISO_TIME));
+            return new Pair<>(dateTime.toLocalDate(), dateTime.toLocalTime());
         }
     }
 

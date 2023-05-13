@@ -72,27 +72,6 @@ public class Column extends AbstractRemoteEntity {
         // Default constructor
     }
 
-    public String getDefaultValueByType() {
-        switch (type) {
-            case "text": {
-                return getTextDefault();
-            }
-            case "number": {
-                final var numberDefault = getNumberDefault();
-                return numberDefault == null ? null : String.valueOf(numberDefault);
-            }
-            case "selection": {
-                return getSelectionDefault();
-            }
-            case "datetime": {
-                return getDatetimeDefault();
-            }
-            default: {
-                return null;
-            }
-        }
-    }
-
     public long getTableId() {
         return tableId;
     }

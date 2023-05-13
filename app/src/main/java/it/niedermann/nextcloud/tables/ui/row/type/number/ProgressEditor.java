@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.slider.Slider;
 
@@ -31,10 +30,9 @@ public class ProgressEditor extends ColumnEditView implements Slider.OnChangeLis
     }
 
     public ProgressEditor(@NonNull Context context,
-                          @Nullable FragmentManager fragmentManager,
                           @NonNull Column column,
                           @NonNull Data data) {
-        super(context, fragmentManager, column, data);
+        super(context, null, column, data);
     }
 
     @NonNull

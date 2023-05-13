@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.tables.ui.row.type.datetime;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -14,8 +14,8 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 
 import it.niedermann.nextcloud.tables.R;
@@ -25,8 +25,7 @@ import it.niedermann.nextcloud.tables.ui.row.type.text.TextEditor;
 
 public class DateEditor extends TextEditor {
 
-    private static final String TAG = DateEditor.class.getSimpleName();
-    private LocalDate value = LocalDate.now();
+    private LocalDate value;
 
     public DateEditor(@NonNull Context context) {
         super(context);
@@ -52,10 +51,14 @@ public class DateEditor extends TextEditor {
 
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_calendar_today_24);
         binding.editText.setOnClickListener(v -> {
+            final var selection = value == null
+                    ? MaterialDatePicker.todayInUtcMilliseconds()
+                    : value.atTime(0, 0).atOffset(ZoneOffset.UTC).toInstant().toEpochMilli();
+
             final var picker = MaterialDatePicker.Builder
                     .datePicker()
                     .setTitleText(column.getTitle())
-                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .setSelection(selection)
                     .build();
             picker.addOnPositiveButtonClickListener(utcMilliseconds -> setValue(Instant.ofEpochMilli((Long) utcMilliseconds).atZone(ZoneId.systemDefault()).toLocalDateTime().format(DateTimeFormatter.ISO_DATE)));
             picker.show(fragmentManager, DateEditor.class.getSimpleName());
@@ -72,31 +75,18 @@ public class DateEditor extends TextEditor {
 
     @Override
     protected void setValue(@Nullable String value) {
-        if (value == null) {
+        if (TextUtils.isEmpty(value)) {
             this.value = null;
         } else {
-            try {
-                final var v = value.isBlank()
-                        ? column.getDatetimeDefault()
-                        : value;
-                this.value = LocalDate.parse(v, DateTimeFormatter.ISO_DATE);
-            } catch (DateTimeParseException e) {
-                Log.i(TAG, e.getMessage());
-                this.value = null;
-            }
+            this.value = LocalDate.parse(value, DateTimeFormatter.ISO_DATE);
         }
 
-        if (this.value == null) {
-            binding.editText.setText("");
-        } else {
-            final var renderedText = this.value.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
-            binding.editText.setText(renderedText);
-        }
+        binding.editText.setText(this.value == null ? null : this.value.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
     }
 
     @Nullable
     @Override
     public String getValue() {
-        return value.format(DateTimeFormatter.ISO_DATE);
+        return value == null ? null : value.format(DateTimeFormatter.ISO_DATE);
     }
 }

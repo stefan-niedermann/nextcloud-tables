@@ -1,8 +1,8 @@
 package it.niedermann.nextcloud.tables.ui.row.type.datetime;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -13,7 +13,6 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 
 import it.niedermann.nextcloud.tables.R;
@@ -23,8 +22,7 @@ import it.niedermann.nextcloud.tables.ui.row.type.text.TextEditor;
 
 public class TimeEditor extends TextEditor {
 
-    private static final String TAG = TimeEditor.class.getSimpleName();
-    private LocalTime value = LocalTime.now();
+    private LocalTime value;
 
     public TimeEditor(@NonNull Context context) {
         super(context);
@@ -50,10 +48,12 @@ public class TimeEditor extends TextEditor {
 
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_calendar_today_24);
         binding.editText.setOnClickListener(v -> {
+            final var selection = value == null ? LocalTime.now() : value;
+
             final var picker = new MaterialTimePicker.Builder()
                     .setTitleText(column.getTitle())
-                    .setHour(value.getHour())
-                    .setMinute(value.getMinute())
+                    .setHour(selection.getHour())
+                    .setMinute(selection.getMinute())
                     .build();
             picker.addOnPositiveButtonClickListener(v1 -> setValue(LocalTime.of(picker.getHour(), picker.getMinute()).format(DateTimeFormatter.ISO_TIME)));
             picker.show(fragmentManager, DateEditor.class.getSimpleName());
@@ -72,31 +72,18 @@ public class TimeEditor extends TextEditor {
 
     @Override
     protected void setValue(@Nullable String value) {
-        if (value == null) {
+        if (TextUtils.isEmpty(value)) {
             this.value = null;
         } else {
-            try {
-                final var v = value.isBlank()
-                        ? column.getDatetimeDefault()
-                        : value;
-                this.value = LocalTime.parse(v, DateTimeFormatter.ISO_TIME);
-            } catch (DateTimeParseException e) {
-                Log.i(TAG, e.getMessage());
-                this.value = null;
-            }
+            this.value = LocalTime.parse(value, DateTimeFormatter.ISO_TIME);
         }
 
-        if (this.value == null) {
-            binding.editText.setText("");
-        } else {
-            final var renderedText = this.value.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT));
-            binding.editText.setText(renderedText);
-        }
+        binding.editText.setText(this.value == null ? null : this.value.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)));
     }
 
     @Nullable
     @Override
     public String getValue() {
-        return value.format(DateTimeFormatter.ISO_TIME);
+        return value == null ? null : value.format(DateTimeFormatter.ISO_TIME);
     }
 }
