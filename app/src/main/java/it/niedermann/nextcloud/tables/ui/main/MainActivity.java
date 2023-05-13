@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +26,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.List;
 
 import it.niedermann.nextcloud.tables.R;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggles;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityMainBinding;
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        mainViewModel.currentAccountHasTables().observe(this, hasTables -> binding.fab.setVisibility(hasTables ? View.GONE : View.VISIBLE));
         mainViewModel.getCurrentAccount().observe(this, account -> {
             if (account == null) {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
@@ -93,8 +92,13 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getTables().observe(this, this::updateSidebarMenu);
         mainViewModel.getCurrentTable().observe(this, this::applyCurrentTable);
 
-        binding.fab.setOnClickListener(view -> Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show());
-        binding.toolbar.setOnClickListener(view -> Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show());
+        binding.toolbar.setOnClickListener(view -> {
+            if (FeatureToggles.SEARCH_IN_TABLE.enabled) {
+                throw new UnsupportedOperationException();
+            } else {
+                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void applyCurrentTable(@Nullable Table table) {
@@ -153,7 +157,11 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(EditTableActivity.createIntent(MainActivity.this, account, table));
                             return true;
                         } else if (id == R.id.share_table) {
-                            Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                            if (FeatureToggles.SHARE_TABLE.enabled) {
+                                throw new UnsupportedOperationException();
+                            } else {
+                                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                            }
                             return true;
                         } else if (id == R.id.manage_columns) {
                             startActivity(ManageColumnsActivity.createIntent(this, account, table));

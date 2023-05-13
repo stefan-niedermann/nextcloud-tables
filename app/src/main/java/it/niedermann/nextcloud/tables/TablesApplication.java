@@ -45,4 +45,19 @@ public class TablesApplication extends Application {
                 .penaltyLog()
                 .build());
     }
+
+    public enum FeatureToggles {
+        EDIT_COLUMN(BuildConfig.DEBUG),
+        CREATE_COLUMN(BuildConfig.DEBUG),
+        DELETE_COLUMN(BuildConfig.DEBUG),
+        SHARE_TABLE(BuildConfig.DEBUG),
+        SEARCH_IN_TABLE(false),
+        ;
+
+        public final boolean enabled;
+
+        FeatureToggles(boolean enabled) {
+            this.enabled = enabled;
+        }
+    }
 }

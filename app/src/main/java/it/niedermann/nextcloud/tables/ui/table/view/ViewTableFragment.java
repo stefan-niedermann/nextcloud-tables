@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggles;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.model.FullTable;
@@ -155,13 +157,23 @@ public class ViewTableFragment extends Fragment {
                     popup.setOnMenuItemClickListener(item -> {
 
                         if (item.getItemId() == R.id.edit_column) {
-                            startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.getTable(), column));
+                            if (FeatureToggles.EDIT_COLUMN.enabled) {
+                                startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.getTable(), column));
+                            } else {
+                                Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                            }
 
                         } else if (item.getItemId() == R.id.delete_column) {
                             new MaterialAlertDialogBuilder(requireContext())
                                     .setTitle(getString(R.string.delete_item, column.getTitle()))
                                     .setMessage(getString(R.string.delete_item_message, column.getTitle()))
-                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> viewTableViewModel.deleteColumn(column))
+                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
+                                        if (FeatureToggles.DELETE_COLUMN.enabled) {
+                                            viewTableViewModel.deleteColumn(column);
+                                        } else {
+                                            Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
                                     .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
                                     .show();
                         } else {

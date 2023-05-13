@@ -3,12 +3,15 @@ package it.niedermann.nextcloud.tables.ui.column.manage;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import it.niedermann.nextcloud.tables.R;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggles;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityManageColumnsBinding;
@@ -45,11 +48,23 @@ public class ManageColumnsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        final var adapter = new ManageColumnsAdapter(column -> startActivity(EditColumnActivity.createIntent(this, account, table, column)));
+        final var adapter = new ManageColumnsAdapter(column -> {
+            if (FeatureToggles.EDIT_COLUMN.enabled) {
+                startActivity(EditColumnActivity.createIntent(this, account, table, column));
+            } else {
+                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         binding.recyclerView.setAdapter(adapter);
         manageColumnsViewModel.getNotDeletedColumns$(table).observe(this, adapter::setItems);
-        binding.fab.setOnClickListener(v -> startActivity(EditColumnActivity.createIntent(this, account, table)));
+        binding.fab.setOnClickListener(v -> {
+            if (FeatureToggles.CREATE_COLUMN.enabled) {
+                startActivity(EditColumnActivity.createIntent(this, account, table));
+            } else {
+                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public static Intent createIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table) {
