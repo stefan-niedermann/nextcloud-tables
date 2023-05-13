@@ -10,10 +10,10 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
-public class SelectionViewHolder extends CellViewHolder {
+public class SelectionMultiViewHolder extends CellViewHolder {
     protected final TableviewCellBinding binding;
 
-    public SelectionViewHolder(@NonNull TableviewCellBinding binding) {
+    public SelectionMultiViewHolder(@NonNull TableviewCellBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }

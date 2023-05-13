@@ -23,7 +23,7 @@ public class NumberCellViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
-        if (data == null) {
+        if (data == null || data.getValue() == null) {
             setText(column, String.valueOf(column.getNumberDefault()));
         } else {
             setText(column, data.getValue());

@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.NumberCel
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.ProgressCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.number.StarsCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.CheckCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.SelectionMultiViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.SelectionViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LineCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LongCellViewHolder;
@@ -79,6 +80,8 @@ public abstract class CellViewHolder extends AbstractViewHolder {
                     return new TimeCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
                 case SELECTION:
                     return new SelectionViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
+                case SELECTION_MULTI:
+                    return new SelectionMultiViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
                 case SELECTION_CHECK:
                     return new CheckCellViewHolder(TableviewCellCheckBinding.inflate(layoutInflater, parent, false));
                 case NUMBER:
