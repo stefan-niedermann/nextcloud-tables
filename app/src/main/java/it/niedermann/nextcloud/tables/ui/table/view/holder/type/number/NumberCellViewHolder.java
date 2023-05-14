@@ -1,12 +1,13 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type.number;
 
-import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
@@ -23,11 +24,28 @@ public class NumberCellViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
-        if (data == null || data.getValue() == null) {
-            setText(column, String.valueOf(column.getNumberDefault()));
+        Number value;
+
+        if (data == null || TextUtils.isEmpty(data.getValue())) {
+            value = column.getNumberDefault();
         } else {
-            setText(column, data.getValue());
+            try {
+                value = Long.parseLong(data.getValue());
+            } catch (NumberFormatException noLongException) {
+                try {
+                    value = Double.parseDouble(data.getValue());
+                } catch (NumberFormatException noDoubleException) {
+                    if (BuildConfig.DEBUG) {
+                        throw new IllegalArgumentException("Could not parse number " + data.getValue());
+                    }
+                    value = null;
+                }
+            }
+
         }
+
+        // TODO respect {@link Column#getNumberDecimals()}
+        binding.data.setText(value == null ? null : column.getNumberPrefix() + value + column.getNumberSuffix());
 
         binding.data.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
 
@@ -36,24 +54,5 @@ public class NumberCellViewHolder extends CellViewHolder {
 
         binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.getRoot().requestLayout();
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void setText(@NonNull Column column, String number) {
-        String parsedNumber;
-
-        // TODO respect {@link Column#getNumberDecimals()}
-
-        try {
-            parsedNumber = String.valueOf(Long.parseLong(number));
-        } catch (NumberFormatException noLongException) {
-            try {
-                parsedNumber = String.valueOf(Double.parseDouble(number));
-            } catch (NumberFormatException noDoubleException) {
-                parsedNumber = number;
-            }
-        }
-
-        binding.data.setText(column.getNumberPrefix() + parsedNumber + column.getNumberSuffix());
     }
 }
