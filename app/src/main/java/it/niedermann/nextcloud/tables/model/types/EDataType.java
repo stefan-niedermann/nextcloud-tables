@@ -18,7 +18,7 @@ public enum EDataType {
     TEXT_LONG(1_001, "text", "long"),
     TEXT_LINE(1_002, "text", "line"),
     TEXT_LINK(1_003, "text", "link"),
-    TEXT_RICH(1_004, "text", "link"),
+    TEXT_RICH(1_004, "text", "rich"),
 
     DATETIME(2_000, "datetime", ""),
     DATETIME_DATETIME(2_001, "datetime", "datetime"),

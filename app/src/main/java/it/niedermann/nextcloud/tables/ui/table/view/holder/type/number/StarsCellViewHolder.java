@@ -1,10 +1,12 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type.number;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -23,18 +25,17 @@ public class StarsCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
-            final var def = column.getNumberDefault();
-            if (def == null) {
-                setStars(0);
-            } else {
-                setStars(def.intValue());
-            }
+            setStars(0);
         } else {
+            final var value = data.getValue();
             try {
-                final var stars = Double.parseDouble(String.valueOf(data.getValue()));
-                setStars((int) stars);
-            } catch (NumberFormatException noDoubleException) {
+                final var stars = TextUtils.isEmpty(value) ? 0 : Integer.parseInt(data.getValue());
+                setStars(stars);
+            } catch (NumberFormatException e) {
                 setStars(0);
+                if (BuildConfig.DEBUG) {
+                    throw new IllegalArgumentException("Could not parse stars: " + value);
+                }
             }
         }
     }

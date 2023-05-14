@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type.number;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
@@ -20,13 +23,20 @@ public class ProgressCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
         if (data == null) {
-            binding.progress.setProgressCompat(column.getNumberDefault().intValue(), false);
+            binding.progress.setProgressCompat(0, false);
         } else {
+            final var value = data.getValue();
             try {
-                final var progress = Double.parseDouble(String.valueOf(data.getValue()));
-                binding.progress.setProgressCompat((int) progress, false);
-            } catch (NumberFormatException noDoubleException) {
+                final var progress = TextUtils.isEmpty(value) ? 0 : Integer.parseInt(data.getValue());
+                binding.progress.setProgressCompat(progress, false);
+            } catch (NumberFormatException e) {
                 binding.progress.setProgressCompat(0, false);
+
+                if (BuildConfig.DEBUG) {
+                    throw new IllegalArgumentException("Could not parse progress: " + value, e);
+                } else {
+                    e.printStackTrace();
+                }
             }
         }
     }

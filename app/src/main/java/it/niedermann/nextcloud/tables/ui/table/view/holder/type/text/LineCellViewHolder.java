@@ -17,11 +17,7 @@ public class LineCellViewHolder extends TextCellViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
-        if (data == null) {
-            binding.data.setText(column.getTextDefault());
-        } else {
-            binding.data.setText(data.getValue());
-        }
+        binding.data.setText(data == null ? null : data.getValue());
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.data.requestLayout();

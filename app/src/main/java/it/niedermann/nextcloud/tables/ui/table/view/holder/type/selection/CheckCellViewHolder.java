@@ -19,11 +19,6 @@ public class CheckCellViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
-        if (data == null) {
-            binding.check.setChecked(Boolean.parseBoolean(column.getSelectionDefault()));
-        } else {
-            final var checked = Boolean.parseBoolean(String.valueOf(data.getValue()));
-            binding.check.setChecked(checked);
-        }
+        binding.check.setChecked(data != null && Boolean.parseBoolean(data.getValue()));
     }
 }

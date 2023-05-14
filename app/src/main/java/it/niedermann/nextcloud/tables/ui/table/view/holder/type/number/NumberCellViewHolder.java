@@ -35,10 +35,12 @@ public class NumberCellViewHolder extends CellViewHolder {
                 try {
                     value = Double.parseDouble(data.getValue());
                 } catch (NumberFormatException noDoubleException) {
-                    if (BuildConfig.DEBUG) {
-                        throw new IllegalArgumentException("Could not parse number " + data.getValue());
-                    }
                     value = null;
+                    if (BuildConfig.DEBUG) {
+                        throw new IllegalArgumentException("Could not parse number " + data.getValue(), noDoubleException);
+                    } else {
+                        noDoubleException.printStackTrace();
+                    }
                 }
             }
 

@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -9,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import java.time.format.DateTimeParseException;
 
+import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
@@ -26,14 +26,20 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column) {
-        try {
-            final var value = data == null || TextUtils.isEmpty(data.getValue())
-                    ? column.getDatetimeDefault()
-                    : data.getValue();
-            binding.data.setText(formatValue(value));
-        } catch (DateTimeParseException e) {
-            Log.i(TAG, e.getMessage());
-            binding.data.setText(column.getDatetimeDefault());
+        if (data == null) {
+            binding.data.setText(null);
+        } else {
+            final var value = data.getValue();
+            try {
+                binding.data.setText(TextUtils.isEmpty(value) ? null : formatValue(value));
+            } catch (DateTimeParseException e) {
+                binding.data.setText(null);
+                if (BuildConfig.DEBUG) {
+                    throw new IllegalArgumentException("Could not parse number " + value, e);
+                } else {
+                    e.printStackTrace();
+                }
+            }
         }
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
