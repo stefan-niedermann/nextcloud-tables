@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.tables.ui.row.type.UnknownEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.TimeEditor;
@@ -178,6 +179,8 @@ public abstract class ColumnEditView extends FrameLayout {
             final Data dataToPass = ensureDataObjectPresent(column, data);
 
             switch (dataType) {
+                case UNKNOWN:
+                    return new UnknownEditor(context, fragmentManager, column, dataToPass);
                 case TEXT_LINE:
                     return new TextLineEditor(context, column, dataToPass);
                 case TEXT_LINK:
@@ -201,9 +204,9 @@ public abstract class ColumnEditView extends FrameLayout {
                     return new MultiEditor(context, column, dataToPass);
                 case SELECTION_CHECK:
                     return new CheckEditor(context, column, dataToPass);
-                case UNKNOWN:
                 case TEXT:
                 case TEXT_RICH:
+                case TEXT_LONG:
                 default:
                     return new TextEditor(context, null, column, dataToPass);
             }
@@ -262,10 +265,10 @@ public abstract class ColumnEditView extends FrameLayout {
                                     ? LocalTime.now().format(DateTimeFormatter.ISO_TIME) : null;
                         default: {
                             if (BuildConfig.DEBUG) {
-                                throw new UnsupportedOperationException("Unexpected column datetime subtype " + column.getSubtype());
+                                throw new UnsupportedOperationException("Unexpected column " + column.getType() + " subtype: " + column.getSubtype());
                             }
 
-                            return column.getDatetimeDefault();
+                            return null;
                         }
                     }
                 }

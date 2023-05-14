@@ -160,4 +160,5 @@
     <string name="simple_description">Description</string>
     <string name="order_weight">Order weight</string>
     <string name="add_column">Add column</string>
+    <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
 </resources>
