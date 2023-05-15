@@ -6,7 +6,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.JsonSerializer;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.IOException;
@@ -19,27 +18,22 @@ import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.remote.adapter.DataAdapter;
-import it.niedermann.nextcloud.tables.remote.adapter.DataArrayAdapter;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 
 public class RowSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
     private final DataAdapter dataAdapter;
-    private final JsonSerializer<Data[]> dataArrayAdapter;
 
     public RowSyncAdapter(@NonNull TablesDatabase db) {
-        this(db, new DataAdapter(), new DataArrayAdapter());
+        this(db, new DataAdapter());
     }
 
     private RowSyncAdapter(@NonNull TablesDatabase db,
-                           @NonNull DataAdapter dataAdapter,
-                           @NonNull DataArrayAdapter dataArrayAdapter) {
+                           @NonNull DataAdapter dataAdapter) {
         super(db);
         this.dataAdapter = dataAdapter;
-        this.dataArrayAdapter = dataArrayAdapter;
     }
 
     @Override
@@ -68,22 +62,14 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
         for (final var row : rowsToUpdate) {
             Log.i(TAG, "→ PUT/POST: " + row.getRemoteId());
             final var dataset = db.getDataDao().getDataForRow(row.getId());
-            final var columns = db.getColumnDao().getColumnsByRemoteId(account.getId(), Arrays.stream(dataset).map(Data::getColumnId).collect(toUnmodifiableSet()));
+            final var columns = db.getColumnDao().getColumns(account.getId(), Arrays.stream(dataset).map(Data::getColumnId).collect(toUnmodifiableSet()));
 
-            for (final var data : dataset) {
-                columns
-                        .stream()
-                        .filter(column -> column.getId() == data.getColumnId())
-                        .findAny().
-                        ifPresentOrElse(
-                                column -> data.setValue(dataAdapter.serializeValue(EDataType.findByColumn(column), data.getValue())),
-                                () -> data.setValue(data.getValue()));
-            }
             row.setData(dataset);
 
             final var response = row.getRemoteId() == null
-                    ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataArrayAdapter.serialize(row.getData(), null, null)).execute()
-                    : api.updateRow(row.getRemoteId(), dataArrayAdapter.serialize(row.getData(), null, null)).execute();
+                    // TODO perf: fetch all remoteIds at once
+                    ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataAdapter.serialize(columns, row.getData())).execute()
+                    : api.updateRow(row.getRemoteId(), dataAdapter.serialize(columns, row.getData())).execute();
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 row.setStatus(DBStatus.VOID);
@@ -143,8 +129,8 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
             final var rowRemoteIds = fetchedRows.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
             final var rowIds = db.getRowDao().getRowRemoteAndLocalIds(table.getAccountId(), rowRemoteIds);
-            for (final var row : fetchedRows) {
 
+            for (final var row : fetchedRows) {
                 final var rowId = rowIds.get(row.getRemoteId());
                 if (rowId == null) {
                     Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
@@ -157,6 +143,8 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
                 final var columnRemoteIds = Arrays.stream(row.getData()).map(Data::getRemoteColumnId).collect(toUnmodifiableSet());
                 final var columnIds = db.getColumnDao().getColumnRemoteAndLocalIds(table.getAccountId(), columnRemoteIds);
+                final var columns = db.getColumnDao().getColumns(account.getId(), columnIds.values());
+
                 for (final var data : row.getData()) {
                     final var columnId = columnIds.get(data.getRemoteColumnId());
                     if (columnId == null) {
@@ -166,16 +154,8 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         data.setRowId(row.getId());
                         data.setColumnId(columnId);
 
-                        final var columns = db.getColumnDao().getColumnsByRemoteId(account.getId(), Arrays.stream(row.getData()).map(Data::getColumnId).collect(toUnmodifiableSet()));
-
-                        columns
-                                .stream()
-                                .filter(column -> column.getId() == data.getColumnId())
-                                .findAny()
-                                .ifPresentOrElse(
-                                        column -> data.setValue(dataAdapter.deserializeValue(EDataType.findByColumn(column), data.getValue())),
-                                        () -> data.setValue(data.getValue())
-                                );
+                        final var type = dataAdapter.getTypeForData(columns, data);
+                        data.setValue(dataAdapter.deserialize(type, data.getValue()));
 
                         final var existingData = db.getDataDao().getDataForCoordinates(data.getColumnId(), data.getRowId());
                         if (existingData == null) {

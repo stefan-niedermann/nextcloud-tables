@@ -154,7 +154,7 @@ public abstract class ColumnEditView extends FrameLayout {
         final var layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
         final var errorMessage = new TextView(context);
-        errorMessage.setText(column.getTitle() + " could not be displayed.");
+        errorMessage.setText(getContext().getString(R.string.could_not_display_column_editor, column.getTitle()));
         layout.addView(errorMessage);
         if (fragmentManager != null) {
             final var btn = new MaterialButton(context);

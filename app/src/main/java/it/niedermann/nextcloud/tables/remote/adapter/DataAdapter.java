@@ -6,19 +6,29 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.time.format.DateTimeFormatter;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import it.niedermann.nextcloud.tables.BuildConfig;
+import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 import it.niedermann.nextcloud.tables.remote.util.TablesSerializationUtil;
 
-/**
- * Handles value formatting differences between remote and local database
- */
 public class DataAdapter {
 
     private static final String TAG = DataAdapter.class.getSimpleName();
     private final TablesSerializationUtil util;
+
 
     public DataAdapter() {
         this(new TablesSerializationUtil());
@@ -28,30 +38,77 @@ public class DataAdapter {
         this.util = util;
     }
 
-    @Nullable
-    public String serializeValue(@NonNull EDataType type, @Nullable String value) {
-        if (value == null) {
-            return null;
+    /**
+     * @see TablesAPI#createRow(long, JsonElement)
+     */
+    @NonNull
+    public JsonElement serialize(@NonNull List<Column> columns, @NonNull Data[] dataset) {
+        final var properties = new JsonObject();
+
+        for (final var data : dataset) {
+            final var value = data.getValue();
+
+            if (value != null) {
+                properties.add(String.valueOf(data.getRemoteColumnId()), serialize(getTypeForData(columns, data), data));
+            }
+        }
+
+        return properties;
+    }
+
+    /**
+     * @return {@link JsonElement} representing the {@link Data#getValue()}
+     */
+    @NonNull
+    public JsonElement serialize(@NonNull EDataType type, @NonNull Data data) {
+        final var value = data.getValue();
+
+        if (TextUtils.isEmpty(value)) {
+            return JsonNull.INSTANCE;
         }
 
         switch (type) {
             case DATETIME:
-            case DATETIME_DATETIME:
-                return TextUtils.isEmpty(value) ? null : TablesAPI.FORMATTER_DATA_DATE_TIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.parse(value));
-            case DATETIME_DATE:
-                return TextUtils.isEmpty(value) ? null : TablesAPI.FORMATTER_DATA_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE.parse(value));
-            case DATETIME_TIME:
-                return TextUtils.isEmpty(value) ? null : TablesAPI.FORMATTER_DATA_TIME.format(DateTimeFormatter.ISO_LOCAL_TIME.parse(value));
-            case SELECTION_MULTI:
-                return util.serializeArray(value);
+            case DATETIME_DATETIME: {
+                return new JsonPrimitive(TablesAPI.FORMATTER_DATA_DATE_TIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME.parse(value)));
+            }
+            case DATETIME_DATE: {
+                return new JsonPrimitive(TablesAPI.FORMATTER_DATA_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE.parse(value)));
+            }
+            case DATETIME_TIME: {
+                return new JsonPrimitive(TablesAPI.FORMATTER_DATA_TIME.format(DateTimeFormatter.ISO_LOCAL_TIME.parse(value)));
+            }
+            case SELECTION_MULTI: {
+                final var jsonArray = new JsonArray();
+                Arrays.stream(value.split(",")).forEach(jsonArray::add);
+                return jsonArray;
+            }
             default:
-                return value;
+                return new JsonPrimitive(value);
         }
     }
 
+    @NonNull
+    public Data[] deserialize(@NonNull List<Column> columns, @NonNull Data[] dataset) {
+        final var result = new ArrayList<Data>(dataset.length);
+
+        for (final var data : dataset) {
+            result.add(deserialize(getTypeForData(columns, data), data));
+        }
+
+        return result.toArray(Data[]::new);
+    }
+
+    @NonNull
+    public Data deserialize(@NonNull EDataType type, @NonNull Data originalData) {
+        final var data = new Data(originalData);
+        data.setValue(deserialize(type, data.getValue()));
+        return originalData;
+    }
+
     @Nullable
-    public String deserializeValue(@NonNull EDataType type, @Nullable String value) {
-        if (value == null) {
+    public String deserialize(@NonNull EDataType type, @Nullable String value) {
+        if (TextUtils.isEmpty(value)) {
             return null;
         }
 
@@ -78,11 +135,25 @@ public class DataAdapter {
                 }
             }
             case SELECTION:
-                return value.isBlank() ? null : String.valueOf((long) Double.parseDouble(value));
+                return value.isBlank() ? null : String.valueOf(Long.parseLong(value.trim()));
             case SELECTION_MULTI:
                 return util.deserializeArray(value);
             default:
                 return value;
+        }
+    }
+
+    public EDataType getTypeForData(@NonNull List<Column> columns, @NonNull Data data) {
+        for (final var column : columns) {
+            if (column.getId() == data.getColumnId()) {
+                return EDataType.findByColumn(column);
+            }
+        }
+
+        if (BuildConfig.DEBUG) {
+            throw new IllegalStateException("Failed to find column for " + data + " (remoteColumnId: " + data.getRemoteColumnId() + ")");
+        } else {
+            return EDataType.UNKNOWN;
         }
     }
 }

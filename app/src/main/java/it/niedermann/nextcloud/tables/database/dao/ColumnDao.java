@@ -18,6 +18,9 @@ public interface ColumnDao extends GenericDao<Column> {
     @Query("SELECT * FROM `Column` c WHERE c.accountId = :accountId AND c.status = :status")
     List<Column> getColumns(long accountId, DBStatus status);
 
+    @Query("SELECT c.* FROM `Column` c WHERE c.id IN (:ids)")
+    List<Column> getColumns(long accountId, Collection<Long> ids);
+
     @Query("SELECT * FROM `Column` c WHERE c.tableId = :tableId AND c.status != 'LOCAL_DELETED' ORDER BY c.orderWeight")
     LiveData<List<Column>> getNotDeletedColumns$(long tableId);
 
@@ -27,9 +30,6 @@ public interface ColumnDao extends GenericDao<Column> {
     @MapInfo(keyColumn = "remoteId", valueColumn = "id")
     @Query("SELECT c.remoteId, c.id FROM `Column` c WHERE c.accountId = :accountId AND c.remoteId IN (:remoteIds)")
     Map<Long, Long> getColumnRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);
-
-    @Query("SELECT c.* FROM `Column` c WHERE c.accountId = :accountId AND c.id IN (:ids)")
-    List<Column> getColumnsByRemoteId(long accountId, Collection<Long> ids);
 
     @Query("DELETE FROM `Column` WHERE tableId = :tableId AND remoteId NOT IN (:remoteIds)")
     void deleteExcept(long tableId, Collection<Long> remoteIds);

@@ -17,6 +17,7 @@ public class ValueTypeAdapter extends TypeAdapter<String> {
     @Override
     public String read(JsonReader in) throws IOException {
         final var token = in.peek();
+
         //noinspection SwitchStatementWithTooFewBranches
         switch (token) {
             case BEGIN_ARRAY: {

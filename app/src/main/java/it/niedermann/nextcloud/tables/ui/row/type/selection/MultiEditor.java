@@ -82,7 +82,7 @@ public class MultiEditor extends ColumnEditView {
 
     @Override
     protected void setValue(@Nullable String value) {
-        this.selectedRemoteIds.clear();
+        selectedRemoteIds.clear();
 
         if (TextUtils.isEmpty(value)) {
             return;
@@ -91,7 +91,7 @@ public class MultiEditor extends ColumnEditView {
         final var optionIDs = Arrays.stream(value.split(","))
                 .map(Long::parseLong)
                 .collect(Collectors.toUnmodifiableSet());
-        this.selectedRemoteIds.addAll(optionIDs);
+        selectedRemoteIds.addAll(optionIDs);
     }
 
     @Override
