@@ -54,7 +54,11 @@ public class SelectionEditor extends ColumnEditView implements CompoundButton.On
             radio.setId(View.generateViewId());
             radio.setText(selectionOption.getLabel());
             radio.setChecked(Objects.equals(selectionOption.getRemoteId(), this.value));
-            radio.setOnCheckedChangeListener((buttonView, isChecked) -> setValue(String.valueOf(selectionOption.getRemoteId())));
+            radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    setValue(String.valueOf(selectionOption.getRemoteId()));
+                }
+            });
             group.addView(radio);
         }
 
