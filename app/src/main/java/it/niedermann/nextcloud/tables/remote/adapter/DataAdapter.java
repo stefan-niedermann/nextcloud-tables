@@ -46,11 +46,7 @@ public class DataAdapter {
         final var properties = new JsonObject();
 
         for (final var data : dataset) {
-            final var value = data.getValue();
-
-            if (value != null) {
-                properties.add(String.valueOf(data.getRemoteColumnId()), serialize(getTypeForData(columns, data), data));
-            }
+            properties.add(String.valueOf(data.getRemoteColumnId()), serialize(getTypeForData(columns, data), data));
         }
 
         return properties;

@@ -162,6 +162,9 @@ public class TablesRepository extends AbstractSyncAdapter {
         db.getRowDao().update(row);
         for (final var data : dataset) {
             data.setRowId(row.getId());
+            if(data.getValue() == null) {
+                db.getDataDao().delete(data);
+            }
             final var exists = db.getDataDao().exists(data.getColumnId(), data.getRowId());
             if (exists) {
                 db.getDataDao().update(data);

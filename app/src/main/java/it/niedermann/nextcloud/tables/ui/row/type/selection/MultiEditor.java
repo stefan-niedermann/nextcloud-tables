@@ -24,7 +24,7 @@ import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 public class MultiEditor extends ColumnEditView {
 
     protected EditSelectionMultiBinding binding;
-    protected Set<Long> selectedRemoteIds = new HashSet<>();
+    protected Set<Long> selectedRemoteIds;
 
     public MultiEditor(Context context) {
         super(context);
