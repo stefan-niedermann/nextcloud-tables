@@ -201,7 +201,9 @@ public abstract class ColumnEditView extends FrameLayout {
                 case SELECTION:
                     return new SelectionEditor(context, column, dataToPass);
                 case SELECTION_MULTI:
-                    return new MultiEditor(context, column, dataToPass);
+                    return BuildConfig.DEBUG
+                            ? new MultiEditor(context, column, dataToPass)
+                            : new UnknownEditor(context, fragmentManager, column, dataToPass);
                 case SELECTION_CHECK:
                     return new CheckEditor(context, column, dataToPass);
                 case TEXT:
