@@ -94,7 +94,12 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
             Log.i(TAG, "--- → HTTP " + response.code());
             if (response.isSuccessful()) {
                 column.setStatus(DBStatus.VOID);
-                column.setRemoteId(response.body().getRemoteId());
+                final var body = response.body();
+                if (body == null) {
+                    throw new NullPointerException("Pushing changes for column " + column.getTitle() + " was successfull, but response body was empty");
+                }
+
+                column.setRemoteId(body.getRemoteId());
                 db.getColumnDao().update(column);
             } else {
                 throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for column " + column.getTitle()));
@@ -105,7 +110,12 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
     @Override
     public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
         for (final var table : db.getTableDao().getTables(account.getId())) {
-            final var request = api.getColumns(table.getRemoteId());
+            final var tableRemoteId = table.getRemoteId();
+            if (tableRemoteId == null) {
+                throw new IllegalStateException("Expected table remote ID to be present when pushing column changes, but was null");
+            }
+
+            final var request = api.getColumns(tableRemoteId);
             final var response = request.execute();
             switch (response.code()) {
                 case 200: {

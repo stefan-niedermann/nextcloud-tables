@@ -56,7 +56,12 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
             Log.i(TAG, "-→ HTTP " + response.code());
             if (response.isSuccessful()) {
                 table.setStatus(DBStatus.VOID);
-                table.setRemoteId(response.body().getRemoteId());
+                final var body = response.body();
+                if (body == null) {
+                    throw new NullPointerException("Pushing changes for table " + table.getTitle() + " was successfull, but response body was empty");
+                }
+
+                table.setRemoteId(body.getRemoteId());
                 db.getTableDao().update(table);
             } else {
                 throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for table " + table.getTitle()));

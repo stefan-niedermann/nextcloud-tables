@@ -73,7 +73,12 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             Log.i(TAG, "------ → HTTP " + response.code());
             if (response.isSuccessful()) {
                 row.setStatus(DBStatus.VOID);
-                row.setRemoteId(response.body().getRemoteId());
+                final var body = response.body();
+                if (body == null) {
+                    throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfull, but response body was empty");
+                }
+
+                row.setRemoteId(body.getRemoteId());
                 db.getRowDao().update(row);
             } else {
                 throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for row " + row.getRemoteId()));
@@ -90,7 +95,12 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             fetchRowsLoop:
             while (true) {
                 Log.v(TAG, "------ Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")");
-                final var request = api.getRows(table.getRemoteId(), TablesAPI.DEFAULT_API_LIMIT_ROWS, offset);
+                final var tableRemoteId = table.getRemoteId();
+                if (tableRemoteId == null) {
+                    throw new IllegalStateException("Expected table remote ID to be present when pushing row changes, but was null");
+                }
+
+                final var request = api.getRows(tableRemoteId, TablesAPI.DEFAULT_API_LIMIT_ROWS, offset);
                 final var response = request.execute();
                 switch (response.code()) {
                     case 200: {
