@@ -97,14 +97,18 @@ public class DateTimeEditor extends ColumnEditView {
         final var date = this.date.getValue();
         final var time = this.time.getValue();
 
-        if (date == null || time == null) {
+        if (date == null) {
             return null;
+
+        } else if (time == null) {
+            final var localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+            return localDate.atTime(0, 0).format(DateTimeFormatter.ISO_DATE_TIME);
+
+        } else {
+            final var localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
+            final var localTime = LocalTime.parse(time, DateTimeFormatter.ISO_TIME);
+            return localDate.atTime(localTime).format(DateTimeFormatter.ISO_DATE_TIME);
         }
-
-        final var localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
-        final var localTime = LocalTime.parse(time, DateTimeFormatter.ISO_TIME);
-
-        return localDate.atTime(localTime).format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
     @Override

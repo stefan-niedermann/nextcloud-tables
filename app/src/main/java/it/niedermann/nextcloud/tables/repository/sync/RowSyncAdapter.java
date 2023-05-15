@@ -62,7 +62,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
         for (final var row : rowsToUpdate) {
             Log.i(TAG, "→ PUT/POST: " + row.getRemoteId());
             final var dataset = db.getDataDao().getDataForRow(row.getId());
-            final var columns = db.getColumnDao().getColumns(account.getId(), Arrays.stream(dataset).map(Data::getColumnId).collect(toUnmodifiableSet()));
+            final var columns = db.getColumnDao().getColumns(Arrays.stream(dataset).map(Data::getColumnId).collect(toUnmodifiableSet()));
 
             row.setData(dataset);
 
@@ -143,7 +143,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
                 final var columnRemoteIds = Arrays.stream(row.getData()).map(Data::getRemoteColumnId).collect(toUnmodifiableSet());
                 final var columnIds = db.getColumnDao().getColumnRemoteAndLocalIds(table.getAccountId(), columnRemoteIds);
-                final var columns = db.getColumnDao().getColumns(account.getId(), columnIds.values());
+                final var columns = db.getColumnDao().getColumns(columnIds.values());
 
                 for (final var data : row.getData()) {
                     final var columnId = columnIds.get(data.getRemoteColumnId());
