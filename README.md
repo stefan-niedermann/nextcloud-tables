@@ -7,6 +7,7 @@
 - Table emoji can not be changed
 - Managing columns is not yet possible
 - Editing data of type `selection/multi` is not yet possible
+- Values of type `selection` and `selection/multi` are currently only displayed as ID
 - Sorting & Filtering is not yet possible
 
 # Nextcloud Tables for Android
