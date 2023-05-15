@@ -39,15 +39,15 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
     @Override
     public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
         final var rowsToDelete = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_DELETED);
-        Log.v(TAG, "Pushing " + rowsToDelete.size() + " local row deletions for " + account.getAccountName());
+        Log.v(TAG, "------ Pushing " + rowsToDelete.size() + " local row deletions for " + account.getAccountName());
         for (final var row : rowsToDelete) {
-            Log.i(TAG, "→ DELETE: " + row.getRemoteId());
+            Log.i(TAG, "------ → DELETE: " + row.getRemoteId());
             final var remoteId = row.getRemoteId();
             if (remoteId == null) {
                 db.getRowDao().delete(row);
             } else {
                 final var response = api.deleteRow(row.getRemoteId()).execute();
-                Log.i(TAG, "-→ HTTP " + response.code());
+                Log.i(TAG, "------ → HTTP " + response.code());
                 if (response.isSuccessful()) {
                     db.getRowDao().delete(row);
                 } else {
@@ -57,10 +57,10 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
         }
 
         final var rowsToUpdate = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_EDITED);
-        Log.v(TAG, "Pushing " + rowsToDelete.size() + " local row changes for " + account.getAccountName());
+        Log.v(TAG, "------ Pushing " + rowsToDelete.size() + " local row changes for " + account.getAccountName());
 
         for (final var row : rowsToUpdate) {
-            Log.i(TAG, "→ PUT/POST: " + row.getRemoteId());
+            Log.i(TAG, "------ → PUT/POST: " + row.getRemoteId());
             final var dataset = db.getDataDao().getDataForRow(row.getId());
             final var columns = db.getColumnDao().getColumns(Arrays.stream(dataset).map(Data::getColumnId).collect(toUnmodifiableSet()));
 
@@ -70,7 +70,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                     // TODO perf: fetch all remoteIds at once
                     ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), dataAdapter.serialize(columns, row.getData())).execute()
                     : api.updateRow(row.getRemoteId(), dataAdapter.serialize(columns, row.getData())).execute();
-            Log.i(TAG, "-→ HTTP " + response.code());
+            Log.i(TAG, "------ → HTTP " + response.code());
             if (response.isSuccessful()) {
                 row.setStatus(DBStatus.VOID);
                 row.setRemoteId(response.body().getRemoteId());
@@ -89,7 +89,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
             fetchRowsLoop:
             while (true) {
-                Log.v(TAG, "Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")");
+                Log.v(TAG, "------ Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")");
                 final var request = api.getRows(table.getRemoteId(), TablesAPI.DEFAULT_API_LIMIT_ROWS, offset);
                 final var response = request.execute();
                 switch (response.code()) {
@@ -117,7 +117,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                     }
 
                     case 304: {
-                        Log.v(TAG, "Pull remote rows: HTTP " + response.code() + " Not Modified");
+                        Log.v(TAG, "------ Pull remote rows: HTTP " + response.code() + " Not Modified");
                         break;
                     }
 
@@ -133,11 +133,11 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             for (final var row : fetchedRows) {
                 final var rowId = rowIds.get(row.getRemoteId());
                 if (rowId == null) {
-                    Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
+                    Log.i(TAG, "------ ← Adding " + table.getTitle() + " to database");
                     row.setId(db.getRowDao().insert(row));
                 } else {
                     row.setId(rowId);
-                    Log.i(TAG, "→ Updating row " + row.getRemoteId() + " in database");
+                    Log.i(TAG, "------ ← Updating row " + row.getRemoteId() + " in database");
                     db.getRowDao().update(row);
                 }
 
@@ -148,7 +148,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                 for (final var data : row.getData()) {
                     final var columnId = columnIds.get(data.getRemoteColumnId());
                     if (columnId == null) {
-                        Log.w(TAG, "Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
+                        Log.w(TAG, "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
                     } else {
                         data.setAccountId(table.getAccountId());
                         data.setRowId(row.getId());
@@ -170,7 +170,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                 }
             }
 
-            Log.i(TAG, "→ Delete all rows except remoteId " + rowRemoteIds);
+            Log.i(TAG, "------ ← Delete all rows except remoteId " + rowRemoteIds);
             db.getRowDao().deleteExcept(table.getId(), rowRemoteIds);
         }
     }

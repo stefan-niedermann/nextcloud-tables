@@ -29,16 +29,16 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
     @Override
     public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
-        Log.v(TAG, "Pushing local columns for " + account.getAccountName());
+        Log.v(TAG, "--- Pushing local columns for " + account.getAccountName());
         final var columnsToDelete = db.getColumnDao().getColumns(account.getId(), DBStatus.LOCAL_DELETED);
         for (final var column : columnsToDelete) {
-            Log.i(TAG, "→ DELETE: " + column.getTitle());
+            Log.i(TAG, "--- → DELETE: " + column.getTitle());
             final var remoteId = column.getRemoteId();
             if (remoteId == null) {
                 db.getColumnDao().delete(column);
             } else {
                 final var response = api.deleteColumn(column.getRemoteId()).execute();
-                Log.i(TAG, "-→ HTTP " + response.code());
+                Log.i(TAG, "--- → HTTP " + response.code());
                 if (response.isSuccessful()) {
                     db.getColumnDao().delete(column);
                 } else {
@@ -52,7 +52,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
             // TODO maybe this can be queried only once using MultiMap
             column.setSelectionOptions(db.getSelectionOptionDao().getSelectionOptions(column.getId()));
 
-            Log.i(TAG, "→ PUT/POST: " + column.getTitle());
+            Log.i(TAG, "--- → PUT/POST: " + column.getTitle());
             final var response = column.getRemoteId() == null
                     ? api.createColumn(db.getTableDao().getRemoteId(column.getTableId()),
                     column.getTitle(),
@@ -91,7 +91,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     column.getSelectionOptions(),
                     columnAdapter.serializeSelectionDefault(column),
                     column.getDatetimeDefault()).execute();
-            Log.i(TAG, "-→ HTTP " + response.code());
+            Log.i(TAG, "--- → HTTP " + response.code());
             if (response.isSuccessful()) {
                 column.setStatus(DBStatus.VOID);
                 column.setRemoteId(response.body().getRemoteId());
@@ -125,11 +125,11 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
                         final var columnId = columnIds.get(column.getRemoteId());
                         if (columnId == null) {
-                            Log.i(TAG, "→ Adding column " + column.getTitle() + " to database");
+                            Log.i(TAG, "--- ← Adding column " + column.getTitle() + " to database");
                             column.setId(db.getColumnDao().insert(column));
                         } else {
                             column.setId(columnId);
-                            Log.i(TAG, "→ Updating column " + column.getTitle() + " in database");
+                            Log.i(TAG, "--- ← Updating column " + column.getTitle() + " in database");
                             db.getColumnDao().update(column);
                         }
 
@@ -144,26 +144,26 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
                             final var selectionOptionId = selectionOptionIds.get(selectionOption.getRemoteId());
                             if (selectionOptionId == null) {
-                                Log.i(TAG, "→ Adding selection option " + selectionOption.getLabel() + " to database");
+                                Log.i(TAG, "--- ← Adding selection option " + selectionOption.getLabel() + " to database");
                                 db.getSelectionOptionDao().insert(selectionOption);
                             } else {
                                 selectionOption.setId(selectionOptionId);
-                                Log.i(TAG, "→ Updating selection option " + selectionOption.getLabel() + " in database");
+                                Log.i(TAG, "--- ← Updating selection option " + selectionOption.getLabel() + " in database");
                                 db.getSelectionOptionDao().update(selectionOption);
                             }
                         }
 
-                        Log.i(TAG, "→ Delete all selection options except remoteId " + selectionOptionRemoteIds);
+                        Log.i(TAG, "--- ← Delete all selection options except remoteId " + selectionOptionRemoteIds);
                         db.getSelectionOptionDao().deleteExcept(table.getId(), selectionOptionRemoteIds);
                     }
 
-                    Log.i(TAG, "→ Delete all columns except remoteId " + columnRemoteIds);
+                    Log.i(TAG, "--- ← Delete all columns except remoteId " + columnRemoteIds);
                     db.getColumnDao().deleteExcept(table.getId(), columnRemoteIds);
                     break;
                 }
 
                 case 304: {
-                    Log.v(TAG, "Pull remote columns: HTTP " + response.code() + " Not Modified");
+                    Log.v(TAG, "--- Pull remote columns: HTTP " + response.code() + " Not Modified");
                     break;
                 }
 
