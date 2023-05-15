@@ -8,9 +8,12 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
+
+import it.niedermann.nextcloud.tables.remote.adapter.ValueTypeAdapter;
 
 @Entity(
         inheritSuperIndices = true,
@@ -59,6 +62,7 @@ public class Data extends AbstractAccountRelatedEntity {
     @SerializedName("columnId")
     private Long remoteColumnId;
     @Nullable
+    @JsonAdapter(ValueTypeAdapter.class)
     private String value;
 
     public Data() {
