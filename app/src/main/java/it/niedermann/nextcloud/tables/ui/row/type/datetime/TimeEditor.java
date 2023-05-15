@@ -14,6 +14,7 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -85,5 +86,20 @@ public class TimeEditor extends TextEditor {
     @Override
     public String getValue() {
         return value == null ? null : value.format(DateTimeFormatter.ISO_TIME);
+    }
+
+    @NonNull
+    @Override
+    public Optional<String> validate() {
+        if (column.isMandatory() && getValue() == null) {
+            return Optional.of(getContext().getString(R.string.validation_mandatory));
+        }
+
+        return super.validate();
+    }
+
+    @Override
+    protected void setErrorMessage(@Nullable String message) {
+        binding.getRoot().setError(message);
     }
 }

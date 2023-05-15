@@ -14,10 +14,14 @@
     <string name="simple_about">About</string>
     <string name="simple_synchronization">Synchronisation</string>
     <string name="simple_appearance">Appearance</string>
+    <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">Mandatory</string>
+    <string name="simple_description">Description</string>
 
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>
     <string name="edit_row">Edit row</string>
+    <string name="manage_columns">Manage columns</string>
     <string name="edit_column">Edit column</string>
     <string name="preferences">Preferences</string>
     <string name="import_account">Import account</string>
@@ -154,10 +158,8 @@
     <string name="validation_number_range">The value must be between %1$d %2$d</string>
     <string name="validation_text_link">The value is not a link</string>
     <string name="validation_mandatory">This is a mandatory field</string>
-    <string name="simple_emoji">Emoji</string>
-    <string name="manage_columns">Manage columns</string>
-    <string name="simple_mandatory">Mandatory</string>
-    <string name="simple_description">Description</string>
+    <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
+
     <string name="order_weight">Order weight</string>
     <string name="add_column">Add column</string>
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>

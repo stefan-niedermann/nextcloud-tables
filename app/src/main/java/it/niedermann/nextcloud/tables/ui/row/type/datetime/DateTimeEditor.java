@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
@@ -127,8 +128,22 @@ public class DateTimeEditor extends ColumnEditView {
         }
     }
 
+    @NonNull
+    @Override
+    public Optional<String> validate() {
+        if (this.time.getValue() == null) {
+            return Optional.of(getContext().getString(R.string.validation_time_missing));
+
+        } else if (column.isMandatory() && getValue() == null) {
+            return Optional.of(getContext().getString(R.string.validation_mandatory));
+
+        }
+
+        return Optional.empty();
+    }
+
     @Override
     protected void setErrorMessage(@Nullable String message) {
-
+        this.time.setErrorMessage(message);
     }
 }

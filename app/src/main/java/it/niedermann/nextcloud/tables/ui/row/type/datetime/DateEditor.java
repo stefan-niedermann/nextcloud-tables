@@ -17,6 +17,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -88,5 +89,20 @@ public class DateEditor extends TextEditor {
     @Override
     public String getValue() {
         return value == null ? null : value.format(DateTimeFormatter.ISO_DATE);
+    }
+
+    @NonNull
+    @Override
+    public Optional<String> validate() {
+        if (column.isMandatory() && getValue() == null) {
+            return Optional.of(getContext().getString(R.string.validation_mandatory));
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    protected void setErrorMessage(@Nullable String message) {
+        binding.getRoot().setError(message);
     }
 }

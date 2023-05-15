@@ -53,16 +53,21 @@ public class NumberEditor extends TextEditor {
         try {
             final var stringVal = String.valueOf(binding.editText.getText());
 
-            // TODO check decimals
-            // TODO check required?
+            if (column.isMandatory() && TextUtils.isEmpty(stringVal)) {
+                return Optional.of(getContext().getString(R.string.validation_mandatory));
+            }
+
             if (TextUtils.isEmpty(stringVal)) {
                 return Optional.empty();
             }
+
+            // TODO check decimals
 
             final var val = Double.parseDouble(stringVal);
             return Range.create(column.getNumberMin(), column.getNumberMax()).contains(val)
                     ? Optional.empty()
                     : Optional.of(getContext().getString(R.string.validation_number_range, column.getNumberMin(), column.getNumberMax()));
+
         } catch (NumberFormatException e) {
             return Optional.of(getContext().getString(R.string.validation_number_not_parsable));
         }
