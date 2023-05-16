@@ -18,6 +18,7 @@ public enum EDataType {
     TEXT_LONG(1_001, "text", "long"),
     TEXT_LINE(1_002, "text", "line"),
     TEXT_LINK(1_003, "text", "link"),
+    /** @since 0.5.0 */
     TEXT_RICH(1_004, "text", "rich"),
 
     DATETIME(2_000, "datetime", ""),
@@ -26,6 +27,7 @@ public enum EDataType {
     DATETIME_TIME(2_003, "datetime", "time"),
 
     SELECTION(3_000, "selection", ""),
+    /** @since 0.5.0 */
     SELECTION_MULTI(3_001, "selection", "multi"),
     SELECTION_CHECK(3_002, "selection", "check"),
 

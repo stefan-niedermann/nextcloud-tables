@@ -1,5 +1,9 @@
 An Android client for Nextcloud Tables App¹.
 
+⚠️ Warning ⚠️
+This app is currently under heavy development. It is not yet ready to view or manage data in a production environment. Data loss may be possible. Use at your own risc!
+For limitations see https://github.com/stefan-niedermann/nextcloud-tables/#readme
+
 🚀 Features
 * Multiple accounts 👥
 * Works offline 🔌
@@ -10,7 +14,7 @@ An Android client for Nextcloud Tables App¹.
 🔗 Requirements
 * Nextcloud¹ instance running
 * Nextcloud Android² app installed (version 3.2.2 or later)
-* Nextcloud Tables app enabled (version 0.4.0 or later)
+* Nextcloud Tables app enabled (version 0.5.0 or later)
 
 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).

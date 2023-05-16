@@ -1,13 +1,14 @@
 # ⚠️ Early Alpha ⚠️
 
-***This app is currently under heavy development. It is not yet able to view or manage data in a production environment. Use at your own risc!***
+***This app is currently under heavy development. It is not yet able to view or manage data in a production environment. Data loss may be possible. Use at your own risc!***
 
 ## ⛔ Limitations
 
 - Table emoji can not be changed
 - Managing columns is not yet possible
-- Editing data of type `selection/multi` is not yet possible
 - Values of type `selection` and `selection/multi` are currently only displayed as ID
+- Validations are not enforced
+- Network state is not considered when synchronizing
 - Sorting & Filtering is not yet possible
 
 # Nextcloud Tables for Android
@@ -65,7 +66,7 @@ height="80">](https://liberapay.com/stefan-niedermann/donate)
 ## 🔗 Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
 * [Nextcloud Android](https://github.com/nextcloud/android) app installed (≥ 3.9.0)
-* [Nextcloud Tables](https://github.com/nextcloud/tables) app enabled (≥ 0.4.0)
+* [Nextcloud Tables](https://github.com/nextcloud/tables) app enabled (≥ 0.5.0)
 
 ## 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).

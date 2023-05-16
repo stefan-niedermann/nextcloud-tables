@@ -6,7 +6,7 @@ import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
 
 public class TablesVersion extends Version {
 
-    private static final Version V_0_4_0 = new Version("0.4.0", 0, 4, 0);
+    private static final Version V_0_5_0 = new Version("0.5.0", 0, 5, 0);
 
     public TablesVersion(@NonNull String version, int major, int minor, int patch) {
         super(version, major, minor, patch);
@@ -25,6 +25,6 @@ public class TablesVersion extends Version {
     }
 
     public boolean isSupported() {
-        return isGreaterThanOrEqual(V_0_4_0);
+        return isGreaterThanOrEqual(V_0_5_0);
     }
 }
