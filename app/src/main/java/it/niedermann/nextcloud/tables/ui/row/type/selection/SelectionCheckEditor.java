@@ -14,22 +14,22 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditSelectionCheckBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
-public class CheckEditor extends ColumnEditView implements CompoundButton.OnCheckedChangeListener {
+public class SelectionCheckEditor extends ColumnEditView implements CompoundButton.OnCheckedChangeListener {
 
     protected EditSelectionCheckBinding binding;
 
-    public CheckEditor(Context context) {
+    public SelectionCheckEditor(Context context) {
         super(context);
     }
 
-    public CheckEditor(Context context, @Nullable AttributeSet attrs) {
+    public SelectionCheckEditor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
     }
 
-    public CheckEditor(@NonNull Context context,
-                       @NonNull Column column,
-                       @NonNull Data data) {
+    public SelectionCheckEditor(@NonNull Context context,
+                                @NonNull Column column,
+                                @NonNull Data data) {
         super(context, null, column, data);
         binding = EditSelectionCheckBinding.inflate(LayoutInflater.from(context));
     }

@@ -24,23 +24,25 @@ import java.util.Optional;
 import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
+import it.niedermann.nextcloud.tables.TablesApplication;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.type.UnknownEditor;
-import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeDateEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeEditor;
-import it.niedermann.nextcloud.tables.ui.row.type.datetime.TimeEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeTimeEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.number.NumberEditor;
-import it.niedermann.nextcloud.tables.ui.row.type.number.ProgressEditor;
-import it.niedermann.nextcloud.tables.ui.row.type.number.StarsEditor;
-import it.niedermann.nextcloud.tables.ui.row.type.selection.CheckEditor;
-import it.niedermann.nextcloud.tables.ui.row.type.selection.MultiEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.number.NumberProgressEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.number.NumberStarsEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.selection.SelectionCheckEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.selection.SelectionEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.selection.SelectionMultiEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextLineEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextLinkEditor;
+import it.niedermann.nextcloud.tables.ui.row.type.text.TextRichEditor;
 
 public abstract class ColumnEditView extends FrameLayout {
 
@@ -189,26 +191,27 @@ public abstract class ColumnEditView extends FrameLayout {
                 case DATETIME:
                     return new DateTimeEditor(context, fragmentManager, column, dataToPass);
                 case DATETIME_DATE:
-                    return new DateEditor(context, fragmentManager, column, dataToPass);
+                    return new DateTimeDateEditor(context, fragmentManager, column, dataToPass);
                 case DATETIME_TIME:
-                    return new TimeEditor(context, fragmentManager, column, dataToPass);
+                    return new DateTimeTimeEditor(context, fragmentManager, column, dataToPass);
                 case NUMBER:
                     return new NumberEditor(context, column, dataToPass);
                 case NUMBER_STARS:
-                    return new StarsEditor(context, column, dataToPass);
+                    return new NumberStarsEditor(context, column, dataToPass);
                 case NUMBER_PROGRESS:
-                    return new ProgressEditor(context, column, dataToPass);
+                    return new NumberProgressEditor(context, column, dataToPass);
                 case SELECTION:
                     return new SelectionEditor(context, column, dataToPass);
                 case SELECTION_MULTI:
-                    return BuildConfig.DEBUG
-                            ? new MultiEditor(context, column, dataToPass)
-                            : new UnknownEditor(context, fragmentManager, column, dataToPass);
+                    return new SelectionMultiEditor(context, column, dataToPass);
                 case SELECTION_CHECK:
-                    return new CheckEditor(context, column, dataToPass);
-                case TEXT:
+                    return new SelectionCheckEditor(context, column, dataToPass);
                 case TEXT_RICH:
                 case TEXT_LONG:
+                    return TablesApplication.FeatureToggles.RICH_EDITOR.enabled
+                            ? new TextRichEditor(context, column, dataToPass)
+                            : new TextEditor(context, null, column, dataToPass);
+                case TEXT:
                 default:
                     return new TextEditor(context, null, column, dataToPass);
             }

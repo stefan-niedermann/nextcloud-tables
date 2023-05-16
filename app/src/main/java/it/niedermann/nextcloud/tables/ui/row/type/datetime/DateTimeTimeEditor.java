@@ -21,22 +21,22 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.ui.row.type.text.TextEditor;
 
-public class TimeEditor extends TextEditor {
+public class DateTimeTimeEditor extends TextEditor {
 
     private LocalTime value;
 
-    public TimeEditor(@NonNull Context context) {
+    public DateTimeTimeEditor(@NonNull Context context) {
         super(context);
     }
 
-    public TimeEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public DateTimeTimeEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TimeEditor(@NonNull Context context,
-                      @Nullable FragmentManager fragmentManager,
-                      @NonNull Column column,
-                      @NonNull Data data) {
+    public DateTimeTimeEditor(@NonNull Context context,
+                              @Nullable FragmentManager fragmentManager,
+                              @NonNull Column column,
+                              @NonNull Data data) {
         super(context, fragmentManager, column, data);
     }
 
@@ -57,7 +57,7 @@ public class TimeEditor extends TextEditor {
                     .setMinute(selection.getMinute())
                     .build();
             picker.addOnPositiveButtonClickListener(v1 -> setValue(LocalTime.of(picker.getHour(), picker.getMinute()).format(DateTimeFormatter.ISO_TIME)));
-            picker.show(fragmentManager, DateEditor.class.getSimpleName());
+            picker.show(fragmentManager, DateTimeDateEditor.class.getSimpleName());
         });
 
         binding.editText.setOnFocusChangeListener((v, hasFocus) -> {

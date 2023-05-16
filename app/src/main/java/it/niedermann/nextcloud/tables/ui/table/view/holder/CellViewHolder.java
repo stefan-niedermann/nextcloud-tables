@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellCheckBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
+import it.niedermann.nextcloud.tables.databinding.TableviewCellRichBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellStarsBinding;
 import it.niedermann.nextcloud.tables.model.types.EDataType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.DateCellViewHolder;
@@ -29,7 +30,7 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.CheckC
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.SelectionMultiViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.SelectionViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LineCellViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.LongCellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.RichViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.text.TextCellViewHolder;
 
 public abstract class CellViewHolder extends AbstractViewHolder {
@@ -68,7 +69,7 @@ public abstract class CellViewHolder extends AbstractViewHolder {
             switch (dataType) {
                 case TEXT_RICH:
                 case TEXT_LONG:
-                    return new LongCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
+                    return new RichViewHolder(TableviewCellRichBinding.inflate(layoutInflater, parent, false));
                 case TEXT_LINE:
                     return new LineCellViewHolder(TableviewCellBinding.inflate(layoutInflater, parent, false));
                 case DATETIME:

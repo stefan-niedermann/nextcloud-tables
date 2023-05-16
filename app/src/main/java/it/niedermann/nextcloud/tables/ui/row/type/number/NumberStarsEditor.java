@@ -16,25 +16,25 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditNumberStarsBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
-public class StarsEditor extends ColumnEditView {
+public class NumberStarsEditor extends ColumnEditView {
 
     @IntRange(from = 0, to = 5)
     protected int value = 0;
     protected EditNumberStarsBinding binding;
 
-    public StarsEditor(@NonNull Context context) {
+    public NumberStarsEditor(@NonNull Context context) {
         super(context);
         binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
     }
 
-    public StarsEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public NumberStarsEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         binding = EditNumberStarsBinding.inflate(LayoutInflater.from(context));
     }
 
-    public StarsEditor(@NonNull Context context,
-                       @NonNull Column column,
-                       @NonNull Data data) {
+    public NumberStarsEditor(@NonNull Context context,
+                             @NonNull Column column,
+                             @NonNull Data data) {
         super(context, null, column, data);
     }
 

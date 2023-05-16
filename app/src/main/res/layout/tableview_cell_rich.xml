@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cell_container"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/table_view_cell_height"
+    android:paddingHorizontal="@dimen/spacer_1x">
+
+    <it.niedermann.android.markdown.MarkdownViewerImpl
+        android:id="@+id/rich"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:layout_gravity="center"
+        android:gravity="center" />
+
+</FrameLayout>

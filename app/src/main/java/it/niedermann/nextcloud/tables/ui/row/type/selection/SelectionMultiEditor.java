@@ -21,23 +21,23 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditSelectionMultiBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
-public class MultiEditor extends ColumnEditView {
+public class SelectionMultiEditor extends ColumnEditView {
 
     protected EditSelectionMultiBinding binding;
     protected Set<Long> selectedRemoteIds;
 
-    public MultiEditor(Context context) {
+    public SelectionMultiEditor(Context context) {
         super(context);
     }
 
-    public MultiEditor(Context context, @Nullable AttributeSet attrs) {
+    public SelectionMultiEditor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         binding = EditSelectionMultiBinding.inflate(LayoutInflater.from(context));
     }
 
-    public MultiEditor(@NonNull Context context,
-                       @NonNull Column column,
-                       @NonNull Data data) {
+    public SelectionMultiEditor(@NonNull Context context,
+                                @NonNull Column column,
+                                @NonNull Data data) {
         super(context, null, column, data);
         binding = EditSelectionMultiBinding.inflate(LayoutInflater.from(context));
     }

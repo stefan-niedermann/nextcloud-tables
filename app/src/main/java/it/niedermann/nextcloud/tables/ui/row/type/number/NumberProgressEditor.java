@@ -15,23 +15,23 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.EditNumberProgressBinding;
 import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 
-public class ProgressEditor extends ColumnEditView implements Slider.OnChangeListener {
+public class NumberProgressEditor extends ColumnEditView implements Slider.OnChangeListener {
 
     protected EditNumberProgressBinding binding;
 
-    public ProgressEditor(@NonNull Context context) {
+    public NumberProgressEditor(@NonNull Context context) {
         super(context);
         binding = EditNumberProgressBinding.inflate(LayoutInflater.from(context));
     }
 
-    public ProgressEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public NumberProgressEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         binding = EditNumberProgressBinding.inflate(LayoutInflater.from(context));
     }
 
-    public ProgressEditor(@NonNull Context context,
-                          @NonNull Column column,
-                          @NonNull Data data) {
+    public NumberProgressEditor(@NonNull Context context,
+                                @NonNull Column column,
+                                @NonNull Data data) {
         super(context, null, column, data);
     }
 

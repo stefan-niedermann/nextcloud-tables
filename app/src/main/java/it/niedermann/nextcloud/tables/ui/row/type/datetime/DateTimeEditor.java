@@ -29,8 +29,8 @@ import it.niedermann.nextcloud.tables.ui.row.ColumnEditView;
 public class DateTimeEditor extends ColumnEditView {
 
     protected EditDatetimeBinding binding;
-    protected DateEditor date;
-    protected TimeEditor time;
+    protected DateTimeDateEditor date;
+    protected DateTimeTimeEditor time;
 
     public DateTimeEditor(@NonNull Context context) {
         super(context);
@@ -64,8 +64,8 @@ public class DateTimeEditor extends ColumnEditView {
         dateData.setValue(values.first == null ? null : values.first.format(DateTimeFormatter.ISO_DATE));
         timeData.setValue(values.second == null ? null : values.second.format(DateTimeFormatter.ISO_TIME));
 
-        date = new DateEditor(context, fragmentManager, column, dateData);
-        time = new TimeEditor(context, fragmentManager, column, timeData);
+        date = new DateTimeDateEditor(context, fragmentManager, column, dateData);
+        time = new DateTimeTimeEditor(context, fragmentManager, column, timeData);
 
         final var dateLayoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
