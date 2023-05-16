@@ -33,7 +33,7 @@ alt="Get it on F-Droid"
 height="80">](https://f-droid.org/repository/browse/?fdid=it.niedermann.nextcloud.tables)
 [<img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png"
 alt="Donate with PayPal"
-height="80">](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZD39ZE7MGEGBL&source=url)
+height="80">](https://www.paypal.com/donate/?hosted_button_id=8ERCNEZ6CQ666)
 [<img src="https://raw.githubusercontent.com/stefan-niedermann/DonateButtons/master/LiberaPay.png"
 alt="Donate using Liberapay"
 height="80">](https://liberapay.com/stefan-niedermann/donate)
