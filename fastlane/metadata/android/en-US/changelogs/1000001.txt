@@ -1,0 +1,2 @@
+- feat: Enable selection editor
+- feat: Rich text viewer
