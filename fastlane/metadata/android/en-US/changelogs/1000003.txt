@@ -1,0 +1,14 @@
+# 1.0.3
+
+- feat: Rich text editor
+- fix: Make row editor scrollable
+- fix: Preserve state when rotating device while editing row
+
+# 1.0.2
+
+- i18n: Add translations from transifex
+
+# 1.0.1
+
+- feat: Enable selection editor
+- feat: Rich text viewer
