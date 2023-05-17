@@ -52,7 +52,7 @@ public class TablesApplication extends Application {
         DELETE_COLUMN(BuildConfig.DEBUG),
         SHARE_TABLE(BuildConfig.DEBUG),
         SEARCH_IN_TABLE(false),
-        RICH_EDITOR(BuildConfig.DEBUG),
+        RICH_EDITOR(true),
         ;
 
         public final boolean enabled;
