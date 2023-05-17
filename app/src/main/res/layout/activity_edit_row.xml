@@ -18,12 +18,17 @@
             app:title="@string/edit_row" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
-        android:id="@+id/columns"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/spacer_2x"
-        android:paddingVertical="@dimen/spacer_1x" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/columns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacer_2x"
+            android:paddingVertical="@dimen/spacer_1x" />
+    </ScrollView>
 
 </LinearLayout>
