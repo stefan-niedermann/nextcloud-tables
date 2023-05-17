@@ -1,8 +1,1 @@
-# 1.0.2
-
 - i18n: Add translations from transifex
-
-# 1.0.1
-
-- feat: Enable selection editor
-- feat: Rich text viewer
