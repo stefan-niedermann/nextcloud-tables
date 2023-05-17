@@ -1,0 +1,103 @@
+<resources>
+    <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
+    <string name="navigation_drawer_close">Stäng navigeringslådan</string>
+    <string name="action_settings">Inställningar</string>
+
+    <string name="simple_title">Titel</string>
+    <string name="simple_exception">Undantag</string>
+    <string name="simple_save">Spara</string>
+    <string name="simple_close">Stäng</string>
+    <string name="simple_copy">Kopiera</string>
+    <string name="simple_delete">Radera</string>
+    <string name="simple_settings">Inställningar</string>
+    <string name="simple_about">Om</string>
+    <string name="simple_appearance">Utseende</string>
+    <string name="simple_mandatory">Obligatorisk</string>
+    <string name="edit_row">Redigera rad</string>
+    <string name="preferences">Inställningar</string>
+    <string name="import_account">Importera konto</string>
+    <string name="choose_account">Välj konto</string>
+    <string name="app_logo">Appens logotyp</string>
+    <string name="app_name_short">Tabeller</string>
+    <string name="manage_accounts">Hantera konton</string>
+    <string name="add_account">Lägg till konto</string>
+    <string name="edit_table">Redigera tabell</string>
+    <string name="edit_item">Redigera %1$s</string>
+    <string name="delete_table">Ta bort tabell</string>
+    <string name="hint_error_appeared">Ett fel uppstod</string>
+
+    <string name="delete_item">Ta bort %1$s</string>
+    <string name="delete_row">Ta bort rad</string>
+    <string name="pref_title_sync_only_wifi">Synkronisera endast med Wi-Fi</string>
+    <string name="pref_title_sync_background">Bakgrundssynkronisering</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>Systemstandard</item>
+        <item>Ljust</item>
+        <item>Mörkt</item>
+    </string-array>
+
+    <string name="about">Om</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version">Du använder %1$s för närvarande</string>
+    <string name="about_maintainer_title">Underhållare</string>
+    <string name="about_developers_title">Utvecklare</string>
+    <string name="about_translators_title">Översättare</string>
+    <string name="about_translators_transifex">Nextcloud community på %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Källkod</string>
+    <string name="about_source">Detta projekt finns på GitHub: %1$s</string>
+    <string name="about_issues_title">Problem</string>
+    <string name="about_issues">Du kan rapportera fel, förbättringsförslag och funktionsönskningar på GitHub- problemhanteraren: %1$s</string>
+    <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: %1$s</string>
+    <string name="about_app_license_title">Applicens</string>
+    <string name="about_app_license">Denna app är licensierad under GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Visa licens</string>
+    <string name="about_icons_disclaimer_title">Ikoner</string>
+    <string name="about_icons_disclaimer_app_icon">Se %1$sför originalikonen</string>
+    <string name="about_icons_disclaimer_mdi_icons">Alla ytterligare ikoner som används i appen är %1$s från Google Inc. och licensierade under Apache 2.0-licensen.</string>
+    <string name="about_icons_disclaimer_mdi">Ikoner i Material Design</string>
+    <string name="about_credits_tab_title">Tack</string>
+    <string name="about_contribution_tab_title">Bidrag</string>
+    <string name="about_license_tab_title">Licens</string>
+    <string name="about_server_app_version_text">Server appversion:</string>
+
+    <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
+    <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
+    <string name="error_dialog_tip_offline_no_internet">Det verkar som att du startade en synkronisering utan en internetanslutning.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Anslutningen nekades, kontrollera att din server är nåbar i en webbläsare.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Anslutningen tog för lång tid, kontrollera om du är ansluten till internet. Detta kan också hända när din server är upptagen.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Om du har aktiverat \"Synkronisera enbart med Wi-Fi\" kan du bara synkronisera när du är ansluten till Wi-Fi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
+    <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
+    <string name="error_dialog_timeout_toggle">Kontrollera din nätverksanslutning. Ibland kan det hjälpa att slå av och på mobildata eller Wi-Fi.</string>
+    <string name="error_dialog_check_server_logs">Det finns problem med din Nextcloud-installation. Ta gärna en titt i serverns loggfiler. </string>
+    <string name="error_dialog_check_maintenance">Kontrollera att underhållsläge inte är aktivt på Nextcloud-installation.</string>
+    <string name="error_dialog_insufficient_storage">Din Nextcloud-installation har slut på diskutrymme. Ta bort några filer för att kunna synkronisera ändringar till ditt moln.</string>
+    <string name="error_dialog_we_need_info">Vi behöver följande teknisk information för att kunna hjälpa dig:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
+    <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
+    <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Vänligen säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om det här felet.</string>
+    <string name="error_dialog_certificate">Något är fel med certifikatet på servern. Kontrollera alla konton i Nextcloud-appen för mer information.</string>
+    <string name="error_dialog_unknown_error">Det går inte att nå din Nextcloud-instans. Kontrollera din internetanslutning och om du kan nå din instans via en webbläsare.</string>
+    <string name="error_action_open_app_info">Öppna appinformation</string>
+    <string name="error_action_open_nextcloud_app">Öppna Nextcloud-appen</string>
+    <string name="error_action_open_network">Nätverksinställningar</string>
+    <string name="error_action_server_logs">Serverloggar</string>
+    <string name="error_action_open_in_browser">Öppna i webbläsare</string>
+    <string name="error_action_install">Installera</string>
+    <string name="error_action_report_issue">Rapport</string>
+    <string name="error_action_update_files_app">Uppdatera</string>
+    <string name="error_action_open_battery_settings">Batteriinställningar</string>
+
+    <string name="reason_unknown">Ett okänt fel uppstod</string>
+
+    <string name="order_weight">Beställningsvikt</string>
+    <string name="add_column">Lägg till kolumn</string>
+    <string name="navigation_my_tables">Mina tabeller</string>
+    <string name="navigation_shared_tables">Delade tabeller</string>
+    </resources>

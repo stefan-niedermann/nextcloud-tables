@@ -1,0 +1,104 @@
+<resources>
+    <string name="navigation_drawer_open">Odpri bočno okno</string>
+    <string name="navigation_drawer_close">Zapri bočno okno</string>
+    <string name="action_settings">Nastavitve</string>
+
+    <string name="simple_title">Naslov</string>
+    <string name="simple_exception">Izjema</string>
+    <string name="simple_save">Shrani</string>
+    <string name="simple_close">Zapri</string>
+    <string name="simple_copy">Kopiraj</string>
+    <string name="simple_delete">Izbriši</string>
+    <string name="simple_settings">Nastavitve</string>
+    <string name="simple_about">O programu</string>
+    <string name="simple_appearance">Videz</string>
+    <string name="simple_mandatory">Obvezno polje</string>
+    <string name="simple_description">pis</string>
+
+    <string name="edit_row">Uredi vrstico</string>
+    <string name="preferences">Nastavitve</string>
+    <string name="import_account">Uvozi račun</string>
+    <string name="choose_account">Izbor računa</string>
+    <string name="app_logo">Logo programa</string>
+    <string name="app_name_short">Razpredelnice</string>
+    <string name="manage_accounts">Upravljanje z računi</string>
+    <string name="add_account">Dodaj račun</string>
+    <string name="edit_table">Uredi razpredelnico</string>
+    <string name="edit_item">Uredi %1$s</string>
+    <string name="delete_table">Izbriši razpredelnico</string>
+    <string name="hint_error_appeared">Prišlo je do napake</string>
+
+    <string name="delete_item">Izbriši %1$s</string>
+    <string name="delete_row">Izbriši vrstico</string>
+    <string name="pref_title_sync_only_wifi">Usklajuj le na Wi-Fi</string>
+    <string name="pref_title_sync_background"> Usklajevanje v ozadju</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>Sistemsko privzeto</item>
+        <item>Svetla</item>
+        <item>Temna</item>
+    </string-array>
+
+    <string name="about">O programu</string>
+    <string name="about_version_title">Različica</string>
+    <string name="about_version">Trenutno je v uporabi %1$s</string>
+    <string name="about_maintainer_title">Vzdrževalec</string>
+    <string name="about_developers_title">Razvijalci</string>
+    <string name="about_translators_title">Prevajalci</string>
+    <string name="about_translators_transifex">Skupnost Nextcloud na %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Izvorna koda</string>
+    <string name="about_source">Projekt gostuje na GitHub: %1$s</string>
+    <string name="about_issues_title">Odzivi</string>
+    <string name="about_issues">Poročila o hroščih, predloge za izboljšave in prošnje za nove programske zmožnosti je mogoče objaviti na sledilniku GitHub: %1$s</string>
+    <string name="about_translate_title">Prevodi</string>
+    <string name="about_translate">Pridružite se skupini Nextcloud na spletišču Transifex in pomagajte pri prevodu programa: %1$s</string>
+    <string name="about_app_license_title">Dovoljenje za uporabo</string>
+    <string name="about_app_license">Program je objavljen pod pogoji Splošnega javnega dovoljenja (GNU GPL) različice 3 ali novejše.</string>
+    <string name="about_app_license_button">Podrobno besedilo dovoljenja</string>
+    <string name="about_icons_disclaimer_title">Ikone</string>
+    <string name="about_icons_disclaimer_app_icon">Za izvorno ikono si oglejte %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Vse ostale ikone, uporabljene v programu, so del zbirke %1$s, ki jo je pod pogoji dovoljenja Apache 2.0 objavilo podjetje Google Inc..</string>
+    <string name="about_icons_disclaimer_mdi">Ikone Material Design</string>
+    <string name="about_credits_tab_title">Zasluge</string>
+    <string name="about_contribution_tab_title">Skupnost</string>
+    <string name="about_license_tab_title">Dovoljenje</string>
+    <string name="about_server_app_version_text">Različica programa na strežniku:</string>
+
+    <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Nadgradnja podatkovne zbirke je spodletela. Pošljite poročilo o napaki in nato počistite shrambo za normalno uporabo programa.</string>
+    <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
+    <string name="error_dialog_tip_offline_no_internet">Kaže, da ste sprožili usklajevanje brez ustrezno vzpostavljene povezave z omrežjem.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Povezava je bila zavrnjena, preverite, ali je strežnik dosegljiv v spletnem brskalniku.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Povezava je časovno potekla, preverite, ali ste povezani v omrežje. Težave se pojavijo tudi, kadar je strežnik preobremenjen.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Če je izbrana možnost »Usklajuj le prek povezave Wi-Fi«, je usklajevanje mogoče izključno ob uporabi povezave Wi-Fi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>
+    <string name="error_dialog_timeout_instance">V podanem času program ni pridobil ustreznega odziva strežnika. Prepričajte se, da program deluje pravilno.</string>
+    <string name="error_dialog_timeout_toggle">Preverite omrežno povezavo. Včasih preklapljanje med mobilnimi in Wi-Fi podatki razreši težavo.</string>
+    <string name="error_dialog_check_server_logs">Prišlo je do napake z namestitvijo Nextcloud. Preverite zapis dnevnika na strežniku.</string>
+    <string name="error_dialog_check_maintenance">Preverite, ali je morda namestitev Nextcloud trenutno v vzdrževalnem načinu.</string>
+    <string name="error_dialog_insufficient_storage">V shrambi ni več prostora. Za nadaljevanje usklajevanja z oblakom je treba Izbrisati nekaj krajevnih datotek.</string>
+    <string name="error_dialog_we_need_info">Z ustrezno pomoč potrebujemo nekaj tehničnih podrobnosti sistema:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Račun v programu Nextcloud morda ni več overjen.</string>
+    <string name="error_dialog_user_not_found_in_database">Trenutno izbrani uporabnik nima ustreznih dovoljenj. Če uporabljate LDAP ima morda progam Nextcloud shranjen star ID uporabnika.</string>
+    <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
+    <string name="error_dialog_certificate">Prišlo je do napake pri branju potrdila strežnika. Preverite vse račune v programu Nextcloud za več podrobnosti.</string>
+    <string name="error_dialog_unknown_error">Kaže, da dostop do okolja Nextcloud ni mogoče. Preverite omrežno povezavo in ali se lahko v okolje povežete preko spletnega brskalnika.</string>
+    <string name="error_action_open_app_info">Odpri podrobnosti programa</string>
+    <string name="error_action_open_nextcloud_app">Odpri program Nextcloud</string>
+    <string name="error_action_open_network">Nastavitve omrežja</string>
+    <string name="error_action_server_logs">Dnevniki strežnika</string>
+    <string name="error_action_open_in_browser">Odpri v brskalniku</string>
+    <string name="error_action_install">Namesti</string>
+    <string name="error_action_report_issue">Poročilo</string>
+    <string name="error_action_update_files_app">Posodobi</string>
+    <string name="error_action_open_battery_settings">Nastavitve baterije</string>
+
+    <string name="order_weight">Razvrstilnik</string>
+    <string name="add_column">Dodaj paket</string>
+    <string name="navigation_my_tables">Moje razpredelnice</string>
+    <string name="navigation_shared_tables">Razpredelnice v souporabi</string>
+    </resources>

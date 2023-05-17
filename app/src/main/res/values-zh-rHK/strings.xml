@@ -1,0 +1,101 @@
+<resources>
+    <string name="navigation_drawer_open">開啟導覽列</string>
+    <string name="navigation_drawer_close">關閉導覽列</string>
+    <string name="action_settings">設定</string>
+
+    <string name="simple_title">標題</string>
+    <string name="simple_exception">例外</string>
+    <string name="simple_save">保存</string>
+    <string name="simple_close">關閉</string>
+    <string name="simple_copy">複製</string>
+    <string name="simple_delete">刪除</string>
+    <string name="simple_settings">設定</string>
+    <string name="simple_about">關於</string>
+    <string name="simple_appearance">外觀</string>
+    <string name="simple_mandatory">必填項</string>
+    <string name="add_table">添加數據庫表</string>
+    <string name="edit_row">編輯列</string>
+    <string name="preferences">設定</string>
+    <string name="import_account">匯入賬戶</string>
+    <string name="choose_account">選擇賬戶</string>
+    <string name="app_logo">應用程式標識</string>
+    <string name="app_name_short">數據庫表</string>
+    <string name="manage_accounts">管理賬戶</string>
+    <string name="add_account">新增賬戶</string>
+    <string name="edit_table">編輯數據庫表</string>
+    <string name="edit_item">編輯 %1$s</string>
+    <string name="delete_table">刪除數據庫表</string>
+    <string name="hint_error_appeared">發生錯誤</string>
+
+    <string name="delete_item">刪除 %1$s</string>
+    <string name="pref_title_sync_only_wifi">只在有 Wi-Fi 時同步</string>
+    <string name="pref_title_sync_background">背景同步</string>
+    <string name="pref_title_theme">主題</string>
+
+    <string-array name="theme_entries">
+        <item>系統默認值</item>
+        <item>淺色</item>
+        <item>深色</item>
+    </string-array>
+
+    <string name="about">關於</string>
+    <string name="about_version_title">版本</string>
+    <string name="about_version">你目前使用 %1$s</string>
+    <string name="about_maintainer_title">維護員</string>
+    <string name="about_developers_title">開發員</string>
+    <string name="about_translators_title">翻譯員</string>
+    <string name="about_translators_transifex">%1$s 上的 Nextcloud 社群</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">原始碼</string>
+    <string name="about_source">本項目寄存於 GitHub 上：%1$s</string>
+    <string name="about_issues_title">問題</string>
+    <string name="about_issues">您可以在 GitHub 問題舉報系統舉報錯誤、改善建議及功能需求：%1$s</string>
+    <string name="about_translate_title">翻譯</string>
+    <string name="about_translate">歡迎加入 Transifex 的 Nextcloud 團隊並協助翻譯此應用程式：%1$s</string>
+    <string name="about_app_license_title">程式授權條款</string>
+    <string name="about_app_license">此程式依照 GNU GENERAL PUBLIC LICENSE v3+ 方式授權使用</string>
+    <string name="about_app_license_button">檢視授權條款</string>
+    <string name="about_icons_disclaimer_title">圖示</string>
+    <string name="about_icons_disclaimer_app_icon">原始圖示請見%1$s</string>
+    <string name="about_icons_disclaimer_mdi_icons">此應用程序使用的所有其他圖標 %1$s 均由Google Inc. 製造，並根據Apache 2.0許可獲得許可。</string>
+    <string name="about_icons_disclaimer_mdi">Material Design 圖示</string>
+    <string name="about_credits_tab_title">致謝</string>
+    <string name="about_contribution_tab_title">貢獻</string>
+    <string name="about_license_tab_title">授權</string>
+    <string name="about_server_app_version_text">伺服器 App 版本：</string>
+
+    <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該應用，然後重新啟動。與 Nextcloud 應用的連接可能不正確。</string>
+    <string name="error_dialog_tip_database_upgrade_failed">數據庫升級失敗。請報告問題，並清除存儲空間以正常使用該應用程序。</string>
+    <string name="error_dialog_tip_clear_storage">您可以通過打開應用程式信息並選擇 存儲→清除存儲 來清除存儲。</string>
+    <string name="error_dialog_tip_offline_no_internet">似乎您試圖在沒有 Internet 連接的情況下觸發同步。</string>
+    <string name="error_dialog_tip_offline_connection_refused">連接被拒絕，請檢查您的伺服器是否可以通過網絡瀏覽器訪問。</string>
+    <string name="error_dialog_tip_offline_connection_timeout">連接超時，請檢查您是否已連接到互聯網。 當您的伺服器繁忙時，也可能發生這種情況。</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">如果啟用了“僅在Wi-Fi上同步”設置，則只能在連接到Wi-Fi時進行同步。</string>
+    <string name="error_dialog_tip_files_delete_storage">如果強行停止它們沒有幫助，則可以嘗試清除兩個應用程式的存儲。</string>
+    <string name="error_dialog_timeout_instance">在指定的時間內，您的伺服器沒有響應。請確保您的 Nextcloud 運行良好。</string>
+    <string name="error_dialog_timeout_toggle">檢查您的網絡連接。有時候，切換流動數據或Wi-Fi可能會有所幫助。</string>
+    <string name="error_dialog_check_server_logs">您的Nextcloud設置存在問題。請查看伺服器記錄檔案。</string>
+    <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 當前是否在維護模式。</string>
+    <string name="error_dialog_insufficient_storage">您的 Nextcloud 沒有剩餘可用的存儲空間。請刪除一些檔案，以將近端更改同步到雲中。</string>
+    <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
+    <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序賬戶可能不再被授權。</string>
+    <string name="error_dialog_user_not_found_in_database">當前用戶與我們數據庫中的用戶不匹配。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
+    <string name="error_dialog_capabilities_not_parsable">我們無法獲取您的伺服器功能。請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問Nextcloud。</string>
+    <string name="error_dialog_attachment_upload_failed">無法上傳附件。請嘗試以其他方式共享它，並讓我們知道此錯誤。</string>
+    <string name="error_dialog_certificate">伺服器的證書似乎有問題。請檢查 Nextcloud 應用程式中的所有賬戶，以獲取更多資訊。</string>
+    <string name="error_dialog_unknown_error">您的 Nextcloud 實例似乎無法訪問。 請檢查您的互聯網連接以及您是否能夠通過瀏覽器連接到您的實例。</string>
+    <string name="error_action_open_app_info">開啟 App 資訊</string>
+    <string name="error_action_open_nextcloud_app">打開 Nextcloud 應用程式</string>
+    <string name="error_action_open_network">網路設定</string>
+    <string name="error_action_server_logs">伺服器記錄</string>
+    <string name="error_action_open_in_browser">用瀏覽器開啟</string>
+    <string name="error_action_install">安裝</string>
+    <string name="error_action_report_issue">報告</string>
+    <string name="error_action_update_files_app">更新</string>
+    <string name="error_action_open_battery_settings">電池設定</string>
+
+    <string name="order_weight">順序權重</string>
+    <string name="navigation_my_tables">我的數據庫表</string>
+    <string name="navigation_shared_tables">共享數據庫表</string>
+    </resources>

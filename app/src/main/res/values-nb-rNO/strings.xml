@@ -1,0 +1,97 @@
+<resources>
+    <string name="navigation_drawer_open">Åpne navigasjonsskuff</string>
+    <string name="navigation_drawer_close">Lukk navigasjonsskuff</string>
+    <string name="action_settings">Innstillinger</string>
+
+    <string name="simple_title">Navn</string>
+    <string name="simple_exception">Avbrudd</string>
+    <string name="simple_save">Lagre</string>
+    <string name="simple_close">Lukk</string>
+    <string name="simple_copy">Kopi</string>
+    <string name="simple_delete">Slett</string>
+    <string name="simple_settings">Innstillinger</string>
+    <string name="simple_appearance">Utseende</string>
+    <string name="simple_mandatory">Obligatorisk</string>
+    <string name="simple_description">Beskrivelse</string>
+
+    <string name="edit_row">Rediger rad</string>
+    <string name="preferences">Innstillinger</string>
+    <string name="import_account">Importer konto</string>
+    <string name="choose_account">Velg konto</string>
+    <string name="app_logo">App-logo</string>
+    <string name="app_name_short">Tabeller</string>
+    <string name="manage_accounts">Håndter kontoer</string>
+    <string name="edit_item">Rediger %1$s</string>
+    <string name="delete_table">Slett tabell</string>
+    <string name="hint_error_appeared">En feil oppsto</string>
+
+    <string name="delete_item">Slett %1$s</string>
+    <string name="pref_title_sync_only_wifi">Synkroniser kun med WiFi</string>
+    <string name="pref_title_sync_background">Synkronisering i bakgrunnen</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>System standard</item>
+        <item>Lys</item>
+        <item>Mørk</item>
+    </string-array>
+
+    <string name="about_version_title">Versjon</string>
+    <string name="about_version">Du bruker forøyeblikket %1$s</string>
+    <string name="about_maintainer_title">Vedlikeholder</string>
+    <string name="about_developers_title">Utviklere</string>
+    <string name="about_translators_title">Oversettere</string>
+    <string name="about_translators_transifex">Nextcloud-fellesskapet på %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Kildekode</string>
+    <string name="about_source">Dette prosjektet er på GitHub: %1$s</string>
+    <string name="about_issues_title">Problemer</string>
+    <string name="about_issues">Du kan rapportere inn feil, forbedringsforslag og funksjonsforespørsler på GitHub issue tracker: %1$s</string>
+    <string name="about_translate">Bli med og hjelp oss å oversette Nextcloud på vår Transifex side: %1$s </string>
+    <string name="about_app_license_title">App-lisens</string>
+    <string name="about_app_license">Denne appen er lisensiert under GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Se lisens</string>
+    <string name="about_icons_disclaimer_title">Ikoner</string>
+    <string name="about_icons_disclaimer_app_icon">For original ikon se%1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Alle øvrige ikoner brukt i denne appen er %1$s laget av Google Inc. og lisensiert under Apache 2.0-lisens.</string>
+    <string name="about_icons_disclaimer_mdi">Materialdesignikoner</string>
+    <string name="about_credits_tab_title">Bidragsytere</string>
+    <string name="about_contribution_tab_title">Bidrag</string>
+    <string name="about_license_tab_title">Lisens</string>
+    <string name="about_server_app_version_text">Tjenerversjon:</string>
+
+    <string name="error_dialog_title">Å nei - Hva nå? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Prøv å tvinge avslutning av appen og start den på nytt. Det kan ha vært en feiltilkobling til Nextcloud-appen.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Oppgraderingen av databasen mislyktes. Vennligst rapporter problemet og tøm lageret for å bruke appen normalt.</string>
+    <string name="error_dialog_tip_clear_storage">Du kan tømme lageret ved å åpne App info og velge Lagring og buffer → Tøm lagring.</string>
+    <string name="error_dialog_tip_offline_no_internet">Det ser ut til at du forsøkte å sette igang en synkronisering uten en internettilkobling.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Tilkobling ble nektet, sjekk at serveren din kan nås via nettleseren.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Tilkoblingen fikk tidsavbrudd, sjekk at internettilkoblingen fungerer. Dette kan også skjer hvis serveren din er opptatt.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Hvis du har aktivert innstillingen \"Synkroniser på Wi-Fi\", kan du bare synkronisere når du er koblet til et trådløst nettverk.</string>
+    <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjelper med tving avslutt, så kan du prøve å tømme lageret for begge appene.</string>
+    <string name="error_dialog_timeout_instance">Serveren svarer ikke innen en gitt tid. Vennligst påse at serveren er tilgjengelig.</string>
+    <string name="error_dialog_timeout_toggle">Sjekk nettverkstilkoblingen. Noen ganger hjelper det å skru av og på mobil data eller WI-FI tilkoblingen.</string>
+    <string name="error_dialog_check_server_logs">Det er et problem med Nextcloud oppsettet ditt. Vennligst ta en titt i loggfilene til serveren.</string>
+    <string name="error_dialog_check_maintenance">Vennligst sjekk at Nextcloud instansen ikke er i vedlikeholdsmodus for øyeblikket.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud instansen har ikke mer ledig lagringsplass. Vennligst slett noen filer for å synkronisere de lokale endringen til skyen din.</string>
+    <string name="error_dialog_we_need_info">Vi trenger følgende teknisk informasjon for å kunne hjelpe deg:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Kontoen til Nextcloud-appen din er kanskje ikke lenger autorisert.</string>
+    <string name="error_dialog_user_not_found_in_database">Den nåværende brukeren samsvarer ikke med brukeren vi har i databasen vår. Hvis du bruker LDAP i Nextcloud-instansen, kan det hende at Nextcloud-appen din har lagret en gammel bruker-ID.</string>
+    <string name="error_dialog_capabilities_not_parsable">Vi kunne ikke hente funksjonene til serveren din. Forsikre deg om at serveren din kjører bra, og at andre klientapper har tilgang til Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Et vedlegg kunne ikke lastes opp. Prøv å dele den på en annen måte og gi oss beskjed om denne feilen.</string>
+    <string name="error_dialog_certificate">Det ser ut til å være noe feil med sertifikatet til serveren. Sjekk alle kontoene i Nextcloud-appen for mer informasjon.</string>
+    <string name="error_dialog_unknown_error">Din Nextcloud-forekomst ser ikke ut til å være tilgjengelig. Sjekk din internettilkobling og om du når forekomsten din via nettleseren.</string>
+    <string name="error_action_open_app_info">Åpne App info</string>
+    <string name="error_action_open_nextcloud_app">Åpne Nextcloud-app</string>
+    <string name="error_action_open_network">Nettverksinnstillinger</string>
+    <string name="error_action_server_logs">Serverlogger</string>
+    <string name="error_action_open_in_browser">Åpne i nettleser</string>
+    <string name="error_action_install">Installer</string>
+    <string name="error_action_report_issue">Rapport</string>
+    <string name="error_action_update_files_app">Oppdater</string>
+    <string name="error_action_open_battery_settings">Batteri innstillinger</string>
+
+    <string name="reason_unknown">En ukjent feil oppstod</string>
+
+    <string name="order_weight">Rekkefølge-vekting</string>
+    </resources>

@@ -1,0 +1,89 @@
+<resources>
+    <string name="navigation_drawer_open">Deschideți sertarul de navigare</string>
+    <string name="navigation_drawer_close">Închideți sertarul de navigare</string>
+    <string name="action_settings">Setări</string>
+
+    <string name="simple_exception">Excepție </string>
+    <string name="simple_save">Salvează</string>
+    <string name="simple_close">Închide</string>
+    <string name="simple_delete">Șterge</string>
+    <string name="simple_settings">Setări</string>
+    <string name="simple_appearance">Aspect</string>
+    <string name="simple_description">Descriere</string>
+
+    <string name="preferences">Preferințe</string>
+    <string name="choose_account">Alege contul</string>
+    <string name="app_logo">Logo-ul aplicației </string>
+    <string name="app_name_short">Tabele</string>
+    <string name="manage_accounts">Administrează conturi</string>
+    <string name="edit_item">Editează %1$s</string>
+    <string name="hint_error_appeared">A apărut o eroare</string>
+
+    <string name="delete_item">Șterge %1$s</string>
+    <string name="pref_title_sync_only_wifi">Sincronizare doare pe Wi-Fi</string>
+    <string name="pref_title_sync_background">Sincronizare de fundal</string>
+    <string name="pref_title_theme">Temă</string>
+
+    <string-array name="theme_entries">
+        <item>Setare implicită a sistemului</item>
+        <item>Deschis</item>
+        <item>Întunecat</item>
+    </string-array>
+
+    <string name="about_version_title">Versiune</string>
+    <string name="about_version">În momentul de față folosești %1$s</string>
+    <string name="about_maintainer_title">Gestionar</string>
+    <string name="about_developers_title">Dezvoltatori</string>
+    <string name="about_translators_title">Traducători</string>
+    <string name="about_translators_transifex">Comunitatea Nextcloud pe %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Cod sursă</string>
+    <string name="about_source">Acest proiect este găzduit pe GitHub: %1$s</string>
+    <string name="about_issues_title">Probleme</string>
+    <string name="about_issues">Puteți raporta erori, propuneri de îmbunătățiri și cereri de caracteristici noi în tracker-ul de probleme GitHub: %1$s</string>
+    <string name="about_translate_title">Tradu</string>
+    <string name="about_translate">Alăturați-vă echipei Nextcloud de pe Transifex și ajutați-ne să traducem această aplicație:%1$s</string>
+    <string name="about_app_license_title">Licența aplicației</string>
+    <string name="about_app_license">Această aplicație este licențiată sub GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Vezi licența</string>
+    <string name="about_icons_disclaimer_title">Pictograme</string>
+    <string name="about_icons_disclaimer_app_icon">Pentru pictograma originală vezi %1$s</string>
+    <string name="about_icons_disclaimer_mdi_icons">Toate pictogramele utilizate de această aplicație sunt%1$s realizate de Google Inc. și licențiate sub licența Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Pictograme Material Design</string>
+    <string name="about_credits_tab_title">Realizatori</string>
+    <string name="about_contribution_tab_title">Contribuții</string>
+    <string name="about_license_tab_title">Licență</string>
+    <string name="about_server_app_version_text">Versiunea aplicației de pe server</string>
+
+    <string name="error_dialog_title">Ooo nu - Acum ce? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Vă rugăm să închideţi forţat alicaţia şi să o reporniţi. Este posibil să existe o conexiune setată incorect către aplicaţia Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Actualizarea bazei de date a eșuat. Vă rugăm să raportați problema și să goliți spațiul de stocare pentru a utiliza aplicația în mod normal.</string>
+    <string name="error_dialog_tip_clear_storage">Puteți șterge spațiul de stocare deschizând informațiile despre aplicație și selectând Stocare → Ștergeți spațiul de stocare.</string>
+    <string name="error_dialog_tip_offline_no_internet">Se pare ca ai incercat sa pornesti o sincronizare fara o conexiune la internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Conexiunea a fost refuzată, vă rugăm să verificați dacă serverul dvs. este accesibil prin intermediul browserului web.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Conexiunea a fost întreruptă, vă rugăm să verificați dacă sunteți conectat la internet. Acest lucru se poate întâmpla și atunci când serverul este ocupat.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Daca ai activat optiunea de \"Sincronizare doar prin Wi-Fi\", atunci iti poti sincroniza fiserele doar cand esti conectat la o retea Wi-Fi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Dacă inchiderea forțată nu este de folos, atunci puteți încerca ștergerea stocării celor două aplicații.</string>
+    <string name="error_dialog_timeout_instance">Nu există un răsouns de la serverul dumneavoastră în timpul alocat. Vă rugăm să vă asigurați că serverul este funcțional și corect setat.</string>
+    <string name="error_dialog_timeout_toggle">Verificați conexiunea la rețea. Uneori, dezactivarea și activarea datelor mobile sau a rețelei Wi-Fi poate ajuta.</string>
+    <string name="error_dialog_check_server_logs">Există o problemă cu setările serverului Nexcloud. Vă rugăm să verificaţi fişierele log de pe server.</string>
+    <string name="error_dialog_check_maintenance">Vă rugăm să verificaţi dacă instanţa dumneavoastră nu se află în modul de mentenanţă.</string>
+    <string name="error_dialog_insufficient_storage">Instanţa dumneavoastră Nextcloud nu mai are spaţiu liber. Vă rugăm să ştergeţi nişte nişte fişiere pentru a începe sincronizarea.</string>
+    <string name="error_dialog_we_need_info">Avem nevoie de următoarele informații pentru a te putea ajuta:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Este posibil ca contul aplicației dvs. Nextcloud să nu mai fie autorizat.</string>
+    <string name="error_dialog_user_not_found_in_database">Utilizatorul actual nu se potrivește cu cel pe care îl avem în baza noastră de date. Dacă utilizați LDAP în instanța dvs. Nextcloud, este posibil ca aplicația dvs. Nextcloud să fi stocat un vechi ID de utilizator.</string>
+    <string name="error_dialog_capabilities_not_parsable">Nu am putut prelua capacitățile serverului dvs. Vă rugăm să vă asigurați că serverul dvs. funcționează bine și că alte aplicații client pot accesa Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Un atașament nu a putut fi încărcat. Vă rugăm să încercați să îl partajați într-un alt mod și să ne informați despre această eroare.</string>
+    <string name="error_dialog_certificate">Ceva pare să fie în neregulă cu certificatul serverului. Te rog verifică toate conturile de Nextcloud app pentru mai multe informații.</string>
+    <string name="error_dialog_unknown_error">Se pare că instanța Nextcloud nu este accesibilă. Vă rugăm să verificați conexiunea dvs. la internet și dacă vă puteți conecta la instanța dvs. prin intermediul browserului.</string>
+    <string name="error_action_open_app_info">Deschide info-ul aplicației </string>
+    <string name="error_action_open_nextcloud_app">Deschide app-ul Nextcolud</string>
+    <string name="error_action_open_network">Setări de rețea </string>
+    <string name="error_action_server_logs">Log-urile serverului</string>
+    <string name="error_action_open_in_browser">Deschide în Browser</string>
+    <string name="error_action_install">Instalează</string>
+    <string name="error_action_report_issue">Raport</string>
+    <string name="error_action_update_files_app">Actualizare</string>
+    <string name="error_action_open_battery_settings">Setări baterie</string>
+
+    </resources>

@@ -1,0 +1,95 @@
+<resources>
+    <string name="navigation_drawer_open">Avaa hakuvalikko</string>
+    <string name="navigation_drawer_close">Sulje hakuvalikko</string>
+    <string name="action_settings">Asetukset</string>
+
+    <string name="simple_title">Nimeke</string>
+    <string name="simple_exception">Poikkeus</string>
+    <string name="simple_save">Tallenna</string>
+    <string name="simple_close">Sulje</string>
+    <string name="simple_delete">Poista</string>
+    <string name="simple_settings">Asetukset</string>
+    <string name="simple_about">Tietoja</string>
+    <string name="simple_appearance">Ulkoasu</string>
+    <string name="simple_mandatory">Pakollinen</string>
+    <string name="edit_row">Muokkaa riviä</string>
+    <string name="preferences">Asetukset</string>
+    <string name="import_account">Tuo tili</string>
+    <string name="choose_account">Valitse tili</string>
+    <string name="app_name_short">Taulukot</string>
+    <string name="manage_accounts">Tilien hallinta</string>
+    <string name="add_account">Lisää tili</string>
+    <string name="edit_table">Muokkaa taulukkoa</string>
+    <string name="edit_item">Muokkaa tunnistetta %1$s</string>
+    <string name="delete_table">Poista taulukko</string>
+    <string name="hint_error_appeared">Tapahtui virhe</string>
+
+    <string name="delete_item">Poista %1$s</string>
+    <string name="delete_row">Poista rivi</string>
+    <string name="pref_title_sync_only_wifi">Synkronoi vain wifi-yhteydellä</string>
+    <string name="pref_title_sync_background">Taustasynkronointi</string>
+    <string name="pref_title_theme">Teema</string>
+
+    <string-array name="theme_entries">
+        <item>Järjestelmän oletus</item>
+        <item>Vaalea</item>
+        <item>Tumma</item>
+    </string-array>
+
+    <string name="about">Tietoja</string>
+    <string name="about_version_title">Versio</string>
+    <string name="about_version">Käytössäsi on %1$s</string>
+    <string name="about_maintainer_title">Ylläpitäjä</string>
+    <string name="about_developers_title">Kehittäjät</string>
+    <string name="about_translators_title">Kääntäjät</string>
+    <string name="about_translators_transifex">Nextcloud-yhteisö paikassa %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Lähdekoodi</string>
+    <string name="about_source">Tämä projekti on GitHubissa: %1$s</string>
+    <string name="about_issues_title">Ongelmat</string>
+    <string name="about_issues">Voit raportoida virheitä ja ehdottaa parannuksia ja uusia tomintoja GitHub:n ongelmien seuraaja toiminnolla: %1$s</string>
+    <string name="about_translate_title">Käännä</string>
+    <string name="about_translate">Liity Nextcloud joukkoon Transflex:ssa ja auta meitä tämän sovelluksen käännöstyössä: %1$s</string>
+    <string name="about_app_license_title">Sovelluslisenssi</string>
+    <string name="about_app_license">Tämä sovellus on GNU GENERAL PUBLIC LICENSE v3+ -lisensoitu.</string>
+    <string name="about_app_license_button">Näytä lisenssi</string>
+    <string name="about_icons_disclaimer_title">Kuvakkeet</string>
+    <string name="about_icons_disclaimer_app_icon">Katso alkuperäinen kuvake %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Kaikki muut tämän sovelluksen kuvakkeet on %1$s tehnyt Google Inc. ja ne on lisensoitu Apache 2.0 lisenssillä.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design-kuvakkeet</string>
+    <string name="about_credits_tab_title">Tekijät</string>
+    <string name="about_contribution_tab_title">Kontribuutio</string>
+    <string name="about_license_tab_title">Lisenssi</string>
+    <string name="about_server_app_version_text">Palvelimen sovelluksen versio:</string>
+
+    <string name="error_dialog_title">Voi ei - Mitä nyt? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Yritä pakottaa sovelluksen sulkeminen ja käynnistä se uudelleen. Nextcloud-sovellukseen on saattanut olla virheellinen yhteys.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Tietokannan päivittäminen epäonnistui. Ole hyvä ja raportoi ongelmasta ja tyhjennä tallennustila käyttääksesi sovellusta normaalisti.</string>
+    <string name="error_dialog_tip_clear_storage">Voit tyhjentää tallennustilan avaamalla sovelluksen tiedot ja valitsemalla Tallennustila → Tyhjennä tallennustila.</string>
+    <string name="error_dialog_tip_files_delete_storage">Jos pakotettu lopettaminen ei auta, voit yrittää tyhjentää sovelluksien tallennustilan.</string>
+    <string name="error_dialog_timeout_instance">Palvelimen aikakatkaisu. Varmista, että se on toiminnassa.</string>
+    <string name="error_dialog_timeout_toggle">Tarkista verkkoyhteytesi. Joskus mobiilidatan tai Wi-Fin kytkeminen pois päältä ja päälle saattaa ratkaista ongelman.</string>
+    <string name="error_dialog_check_server_logs">Nextcloud-asennuksessasi on ongelma. Katso lisätietoja palvelimen lokitiedostoista.</string>
+    <string name="error_dialog_check_maintenance">Varmista, ettei Nextcloud-palvelin ole ylläpitotilassa.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud-palvelimellasi ei ole vapaata tallennustilaa. Poista tiedostoja, jotta paikallisten muutosten synkronointi pilveen onnistuu.</string>
+    <string name="error_dialog_we_need_info">Tarvitsemme seuraavat tekniset tiedot auttaaksemme sinua:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Tilisi valtuutus Nextcloud-sovellukseen saattaa olla päättynyt.</string>
+    <string name="error_dialog_user_not_found_in_database">Käyttäjää ei löydy tietokannastamme. Jos  LDAP on käytössä Nextcloudissa, Nextcloud-sovellksessa saattaa olla tallennettuna vanha käyttäjän tunnus.</string>
+    <string name="error_dialog_capabilities_not_parsable">Palvelimesi ominaisuuksia ei voitu hakea. Varmista, että palvelin on käynnissä ja muut asiakasohjelmat saavat yhteyden Nextcloudiin.</string>
+    <string name="error_dialog_attachment_upload_failed">Liitettä ei voitu lähettää. Yritä jakaa se toista kautta ja kerro meille tästä bugista.</string>
+    <string name="error_action_open_app_info">Avaa sovelluksen tiedot</string>
+    <string name="error_action_open_nextcloud_app">Avaa Nextcloud-sovellus</string>
+    <string name="error_action_open_network">Verkkoasetukset</string>
+    <string name="error_action_server_logs">Palvelimen lokit</string>
+    <string name="error_action_open_in_browser">Avaa selaimessa</string>
+    <string name="error_action_install">Asenna</string>
+    <string name="error_action_report_issue">Raportti</string>
+    <string name="error_action_update_files_app">Päivitä</string>
+    <string name="error_action_open_battery_settings">Akkuasetukset</string>
+
+    <string name="reason_unknown">Tapahtui tuntematon virhe</string>
+
+    <string name="add_column">Lisää sarake</string>
+    <string name="navigation_my_tables">Omat taulukot</string>
+    <string name="navigation_shared_tables">Jaetut taulukot</string>
+    </resources>

@@ -1,0 +1,107 @@
+<resources>
+    <string name="navigation_drawer_open">Ireki nabigatzeko menu lerrakorra</string>
+    <string name="navigation_drawer_close">Itxi nabigatzeko menu lerrakorra</string>
+    <string name="action_settings">Ezarpenak</string>
+
+    <string name="simple_title">Izenburua</string>
+    <string name="simple_exception">Salbuespena</string>
+    <string name="simple_save">Gorde</string>
+    <string name="simple_close">Itxi</string>
+    <string name="simple_copy">Kopiatu</string>
+    <string name="simple_delete">Ezabatu</string>
+    <string name="simple_settings">Ezarpenak</string>
+    <string name="simple_about">Honi buruz</string>
+    <string name="simple_appearance">Itxura</string>
+    <string name="simple_mandatory">Nahitaezkoa</string>
+    <string name="simple_description">Deskripzioa</string>
+
+    <string name="add_table">Gehitu taula</string>
+    <string name="edit_row">Editatu errenkada</string>
+    <string name="preferences">Hobespenak</string>
+    <string name="import_account">Inportatu kontua</string>
+    <string name="choose_account">Aukeratu kontua</string>
+    <string name="app_logo">Aplikazioaren logotipoa</string>
+    <string name="app_name_short">Taulak</string>
+    <string name="manage_accounts">Kudeatu kontuak</string>
+    <string name="add_account">Gehitu kontua</string>
+    <string name="edit_table">Editatu taula</string>
+    <string name="edit_item">Editatu %1$s</string>
+    <string name="delete_table">Ezabatu taula</string>
+    <string name="hint_error_appeared">Errore bat agertu da</string>
+
+    <string name="delete_item">Ezabatu %1$s</string>
+    <string name="delete_row">Ezabatu errenkada</string>
+    <string name="pref_title_sync_only_wifi">Sinkronizatu Wi-Fiarekin soilik</string>
+    <string name="pref_title_sync_background">Atzeko planoko sinkronizazioa</string>
+    <string name="pref_title_theme">Gaia</string>
+
+    <string-array name="theme_entries">
+        <item>Sistemaren ezarpen lehenetsiak</item>
+        <item>Argia</item>
+        <item>Iluna</item>
+    </string-array>
+
+    <string name="about">Honi buruz</string>
+    <string name="about_version_title">Bertsioa</string>
+    <string name="about_version">%1$s erabiltzen ari zara</string>
+    <string name="about_maintainer_title">Mantentzailea</string>
+    <string name="about_developers_title">Garatzaileak</string>
+    <string name="about_translators_title">Itzultzaileak</string>
+    <string name="about_translators_transifex">%1$s Nextcloud komunitatea</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Iturburu-kodea</string>
+    <string name="about_source">Proiektu hau GitHub-en du ostatu: %1$s</string>
+    <string name="about_issues_title">Arazoak</string>
+    <string name="about_issues">Akatsen berri eman, hobekuntzak proposatu eta ezaugarri berriak eska ditzakezu GitHub arazo kontrolatzailean: %1$s</string>
+    <string name="about_translate_title">Itzuli</string>
+    <string name="about_translate">Elkartu Nextcloud taldera Transifexen eta lagundu app hau itzultzen: %1$s</string>
+    <string name="about_app_license_title">Aplikazio lizentzia</string>
+    <string name="about_app_license">Aplikazio hau GNU GENERAL PUBLIC LICENSE v3+ lizentziapean dago.</string>
+    <string name="about_app_license_button">Ikusi lizentzia</string>
+    <string name="about_icons_disclaimer_title">Ikonoak</string>
+    <string name="about_icons_disclaimer_app_icon">Jatorrizko ikonora jotzeko ikusi %1$s. </string>
+    <string name="about_icons_disclaimer_mdi_icons">App honetan erabilitako gainontzeko ikonoen egilea %1$s Google Inc. da eta Apache 2.0 lizentzia daukate. </string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
+    <string name="about_credits_tab_title">Kredituak</string>
+    <string name="about_contribution_tab_title">Kontribuzioak</string>
+    <string name="about_license_tab_title">Lizentzia</string>
+    <string name="about_server_app_version_text">Zerbitzariaren app bertsioa:</string>
+
+    <string name="error_dialog_title">Oh ez - Eta orain zer? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Saia zaitez aplikazioa itxi eta berrabiarazten. Agian Nextcloud aplikazioarekin gaizki konektatzea gertatu da.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Datu-basearen bertsio-berritzeak huts egin du. Eman arazoaren berri eta biltegia garbitu aplikazioa normaltasunez erabiltzeko.</string>
+    <string name="error_dialog_tip_clear_storage">Biltegia garbi dezakezu aplikazioaren informazioa ireki eta hautatuz: Biltegia → Garbitu biltegia.</string>
+    <string name="error_dialog_tip_offline_no_internet">Badirudi internet konexiorik gabe saiatu zarela sinkronizatzen.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Konexioa ukatu egin da. Egiaztatu ea zerbitzaria eskuragarri dagoen nabigatzaile bidez, mesedez. </string>
+    <string name="error_dialog_tip_offline_connection_timeout">Konexioaren denbora-muga gainditu egin da, egiaztatu ea internetera konektatuta zauden, mesedez. Zerbitzaria lanpetuegi dagoenean ere gertatzen da.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">\"Sinkronizatu soilik Wi-Fi konexioarekin\" ezarpena gaituta baduzu, Wi-Fi batera konektatuta zaudenean soilik sinkronizatu ahal izango duzu.</string>
+    <string name="error_dialog_tip_files_delete_storage">Geldiarazteak ez badu arazoa konpontzen, bi biltegiak garbitzen saia zaitezke.</string>
+    <string name="error_dialog_timeout_instance">Ez da zerbitzariaren erantzunik jaso emandako denboran. Ziurta ezazu zure instantzia ondo dabilela.</string>
+    <string name="error_dialog_timeout_toggle">Egiaztatu zure datu konexioa. Batzuetan mugikorraren datuak edo WI-FI konexioa itzali eta piztea lagungarri da.</string>
+    <string name="error_dialog_check_server_logs">Arazo bat dago zure Nextcloud ezarpenekin. Eman begiratu bat zerbitzariko egunkari-fitxategiei.</string>
+    <string name="error_dialog_check_maintenance">Egiazta ezazu zure Nextcloud instantzia ez dagoela mantentze moduan une honetan.</string>
+    <string name="error_dialog_insufficient_storage">Zure Nextcloud instantziak ez du biltegiratze leku libre gehiagorik. Ezabatu fitxategi batzuk, aldaketa lokalak hodeiarekin sinkroniza daitezen.</string>
+    <string name="error_dialog_we_need_info">Zuri laguntzeko hurrengo informazio teknikoa behar dugu:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Baliteke Nextcloud aplikazioaren kontua baimenduta ez egotea.</string>
+    <string name="error_dialog_user_not_found_in_database">Egungo erabiltzailea ez dator bat gure datu-basean daukagun erabiltzailearekin. Zure Nextcloud instantzian LDAP erabiltzen ari bazara, baliteke zure Nextcloud aplikazioak erabiltzaile-ID zahar bat biltegiratu izana.</string>
+    <string name="error_dialog_capabilities_not_parsable">Ezin izan ditugu zure zerbitzariko gaitasunak eskuratu. Ziurtatu zure zerbitzaria badabilela eta beste bezero aplikazioak Nexcloud atzitzeko gai direla.</string>
+    <string name="error_dialog_attachment_upload_failed">Eranskin bat ezin izan da igo. Parteka ezazu beste bide batetik eta emaiguzu akats honen berri, mesedez.</string>
+    <string name="error_dialog_certificate">Badirudi zerbait gaizki dagoela zerbitzariaren ziurtagirian. Informazio gehiagorako, egiaztatu Nextcloud aplikazioko kontu guztiak.</string>
+    <string name="error_dialog_unknown_error">Badirudi ezin dela zure Nextcloud instantzia atzitu. Mesedez, egiaztatu zure internet konexioa eta zure instantziara nabigatzailearen bidez konektatu ahal zarela.</string>
+    <string name="error_action_open_app_info">Ireki aplikazioaren informazioa</string>
+    <string name="error_action_open_nextcloud_app">Ireki Nextcloud aplikazioa</string>
+    <string name="error_action_open_network">Sareko ezarpenak</string>
+    <string name="error_action_server_logs">Zerbitzariaren egunkariak</string>
+    <string name="error_action_open_in_browser">Ireki nabigatzailean</string>
+    <string name="error_action_install">Instalatu</string>
+    <string name="error_action_report_issue">Txostena</string>
+    <string name="error_action_update_files_app">Eguneratu</string>
+    <string name="error_action_open_battery_settings">Bateria ezarpenak</string>
+
+    <string name="reason_unknown">Akats ezezagun bat gertatu da</string>
+
+    <string name="order_weight">Eskaeraren pisua</string>
+    <string name="add_column">Gehitu zutabea</string>
+    <string name="navigation_my_tables">Nire taulak</string>
+    <string name="navigation_shared_tables">Partekatutako taulak</string>
+    </resources>

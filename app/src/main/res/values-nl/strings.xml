@@ -1,0 +1,103 @@
+<resources>
+    <string name="navigation_drawer_open">Open navigatie</string>
+    <string name="navigation_drawer_close">Sluit navigatie</string>
+    <string name="action_settings">Instellingen</string>
+
+    <string name="simple_title">Titel</string>
+    <string name="simple_exception">Uitzondering</string>
+    <string name="simple_save">Opslaan</string>
+    <string name="simple_close">Sluit</string>
+    <string name="simple_copy">Kopiëren</string>
+    <string name="simple_delete">Verwijder</string>
+    <string name="simple_settings">Instellingen</string>
+    <string name="simple_about">Over</string>
+    <string name="simple_appearance">Uiterlijk</string>
+    <string name="simple_mandatory">Verplicht</string>
+    <string name="simple_description">Omschrijving</string>
+
+    <string name="add_table">Voeg een tabel toe</string>
+    <string name="preferences">Voorkeuren</string>
+    <string name="import_account">Importeer account</string>
+    <string name="choose_account">Kies account</string>
+    <string name="app_logo">App logo</string>
+    <string name="app_name_short">Tabellen</string>
+    <string name="manage_accounts">Accounts beheren </string>
+    <string name="add_account">Toevoegen account </string>
+    <string name="edit_item">Bewerk%1$s</string>
+    <string name="delete_table">Verwijder tabel</string>
+    <string name="hint_error_appeared">Er is een fout verschenen</string>
+
+    <string name="delete_item">Verwijder %1$s</string>
+    <string name="pref_title_sync_only_wifi">Alleen met Wi-Fi synchroniseren</string>
+    <string name="pref_title_sync_background">Achtergrondsynchronisatie</string>
+    <string name="pref_title_theme">Thema</string>
+
+    <string-array name="theme_entries">
+        <item>Systeem Standaard</item>
+        <item>Licht</item>
+        <item>Donker</item>
+    </string-array>
+
+    <string name="about">Over</string>
+    <string name="about_version_title">Versie</string>
+    <string name="about_version">Je gebruikt nu %1$s</string>
+    <string name="about_maintainer_title">Projectleider</string>
+    <string name="about_developers_title">Ontwikkerlaars</string>
+    <string name="about_translators_title">Vertalers</string>
+    <string name="about_translators_transifex">Nextcloud-gemeenschap op %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Broncode</string>
+    <string name="about_source">Dit project wordt gehost op GitHub: %1$s</string>
+    <string name="about_issues_title">Problemen</string>
+    <string name="about_issues">Je kunt bugs rapporteren, verbeteringen voorstellen en functionele aanpassingen aanvragen via de issue-tracker op GitHub: %1$s</string>
+    <string name="about_translate">Word lid van het Nextcloud-team op Transifex en help ons deze app te vertalen: %1$s </string>
+    <string name="about_app_license_title">App licentie</string>
+    <string name="about_app_license">Deze applicatie valt onder de GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Licentie weergeven</string>
+    <string name="about_icons_disclaimer_title">Pictogrammen</string>
+    <string name="about_icons_disclaimer_app_icon">Voor het originele icoon zie %1$s</string>
+    <string name="about_icons_disclaimer_mdi_icons">Alle andere pictogrammen in deze app zijn %1$s gemaakt door Google Inc. en zijn gelicenseerd onder de Apache 2.0 Licensie.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design iconen</string>
+    <string name="about_credits_tab_title">Verantwoording</string>
+    <string name="about_contribution_tab_title">Bijdrage</string>
+    <string name="about_license_tab_title">Licentie</string>
+    <string name="about_server_app_version_text">Server app versie:</string>
+
+    <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Het upgraden van de database is mislukt. Gelieve het probleem te melden en opslagruimte vrij te maken om de app naar behoren te kunnen gebruiken.</string>
+    <string name="error_dialog_tip_clear_storage">Je kunt de opslag leegmaken door in Android de app info te openen en kies dan Opslag →  Gegevens verwijderen.</string>
+    <string name="error_dialog_tip_offline_no_internet">Het lijkt erop dat u een synchronisatie probeerde te starten zonder internetverbinding.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Verbinding werd geweigerd, controleer of uw server bereikbaar is via de webbrowser.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Verbinding verbroken, controleer of u verbonden bent met het internet. Dit kan ook gebeuren als uw server bezet is.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Als je de instelling \"Alleen synchroniseren via Wi-Fi\" hebt ingeschakeld, kun je alleen synchroniseren als je met Wi-Fi bent verbonden.</string>
+    <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
+    <string name="error_dialog_timeout_instance">Er is binnen de gestelde tijd geen reactie ontvangen van je server. Controleer alstublieft of je Nextcloud-instantie wel goed loopt.</string>
+    <string name="error_dialog_timeout_toggle">Controleer je netwerk verbinding. Het kan ook helpen de dataverbinding of WIFI uit en weer aan te zetten.</string>
+    <string name="error_dialog_check_server_logs">Er is iets mis met je Nextcloud instellingen. Controleer alstublieft de server log bestanden.</string>
+    <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
+    <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alsjeblieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
+    <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
+    <string name="error_dialog_account_might_not_be_authorized">Het account van je Nextcloud-app is mogelijk niet langer geautoriseerd.</string>
+    <string name="error_dialog_user_not_found_in_database">De huidige gebruiker komt niet overeen met de gebruiker die we in onze database hebben. Als je LDAP gebruikt op je Nextcloud-instantie, heeft je Nextcloud-app mogelijk een oude gebruikers-ID opgeslagen.</string>
+    <string name="error_dialog_capabilities_not_parsable">We kunnen de mogelijkheden van je server niet vaststellen. Zorg ervoor dat je server goed werkt en dat andere client-apps toegang hebben tot Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
+    <string name="error_dialog_certificate">Er lijkt iets mis te zijn met het certificaat van de server. Controleer alle accounts in de Nextcloud-app voor meer informatie.</string>
+    <string name="error_dialog_unknown_error">Uw Nextcloud inrichting lijkt niet bereikbaar.
+Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te maken met uw inrichting via de web browser.</string>
+    <string name="error_action_open_app_info">Open app-informatie</string>
+    <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
+    <string name="error_action_open_network">Netwerk instellingen</string>
+    <string name="error_action_server_logs">Server logbestanden</string>
+    <string name="error_action_open_in_browser">Openen in webbrowser</string>
+    <string name="error_action_install">Installeren</string>
+    <string name="error_action_report_issue">Rapport</string>
+    <string name="error_action_update_files_app">Update</string>
+    <string name="error_action_open_battery_settings">Batterij instellingen</string>
+
+    <string name="reason_unknown">Een onbekend probleem vond plaats</string>
+
+    <string name="add_column">Toevoegen kolom</string>
+    <string name="navigation_my_tables">Mijn tabellen</string>
+    <string name="navigation_shared_tables">Gedeelde tabellen</string>
+    </resources>

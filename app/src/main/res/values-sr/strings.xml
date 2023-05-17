@@ -1,0 +1,106 @@
+<resources>
+    <string name="navigation_drawer_open">Отвори навигациону фиоку</string>
+    <string name="navigation_drawer_close">Затвори навигациону фиоку</string>
+    <string name="action_settings">Поставке</string>
+
+    <string name="simple_title">Наслов</string>
+    <string name="simple_exception">Изузетак</string>
+    <string name="simple_save">Сачувај</string>
+    <string name="simple_close">Затвори</string>
+    <string name="simple_copy">Копирај</string>
+    <string name="simple_delete">Избриши</string>
+    <string name="simple_settings">Поставке</string>
+    <string name="simple_about">О програму</string>
+    <string name="simple_appearance">Изглед</string>
+    <string name="simple_mandatory">Обавезно</string>
+    <string name="simple_description">Опис</string>
+
+    <string name="edit_row">Уреди ред</string>
+    <string name="preferences">Поставке</string>
+    <string name="import_account">Увези налог</string>
+    <string name="choose_account">Одаберите налог</string>
+    <string name="app_logo">Лого апликације</string>
+    <string name="app_name_short">Табеле</string>
+    <string name="manage_accounts">Управљање налозима</string>
+    <string name="add_account">Додај рачун</string>
+    <string name="edit_table">Уреди табелу</string>
+    <string name="edit_item">Измени %1$s</string>
+    <string name="delete_table">Обриши таблу</string>
+    <string name="hint_error_appeared">Дошло је до грешке</string>
+
+    <string name="delete_item">Обриши %1$s</string>
+    <string name="delete_row">Брисање реда</string>
+    <string name="pref_title_sync_only_wifi">Синхронизуј само преко бежичне везе</string>
+    <string name="pref_title_sync_background">Позадинска синхронизација</string>
+    <string name="pref_title_theme">Тема</string>
+
+    <string-array name="theme_entries">
+        <item>системска</item>
+        <item>светла</item>
+        <item>тамна</item>
+    </string-array>
+
+    <string name="about">О програму</string>
+    <string name="about_version_title">Верзија</string>
+    <string name="about_version">Тренутно користите %1$s</string>
+    <string name="about_maintainer_title">Одржаваоц</string>
+    <string name="about_developers_title">Програмери</string>
+    <string name="about_translators_title">Преводиоци</string>
+    <string name="about_translators_transifex">Некстклауд заједница на %1$s</string>
+    <string name="about_translators_transifex_label">Трансифекс</string>
+    <string name="about_source_title">Изворни кôд</string>
+    <string name="about_source">Овај пројекат се налази на Гитхабу: %1$s</string>
+    <string name="about_issues_title">Проблеми</string>
+    <string name="about_issues">Можете пријавити грешке, предложити побољшања и нове функционалности на Гитхабовом пратиоцу грешака: %1$s</string>
+    <string name="about_translate_title">Превођење</string>
+    <string name="about_translate">Придружите се Некстклауд тиму на Трансифексу и помозите нам да преведемо ову апликацију: %1$s</string>
+    <string name="about_app_license_title">Лиценца апликације</string>
+    <string name="about_app_license">Ова апликација је лиценцирана под ГНУовом општом јавном лиценцом в3+.</string>
+    <string name="about_app_license_button">Прикажи лиценцу</string>
+    <string name="about_icons_disclaimer_title">Иконе</string>
+    <string name="about_icons_disclaimer_app_icon">За оригиналну икону, погледајте %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Све остале иконе коришћене у овој апликацији су %1$s које је направио Гугл и лиценциране су под Апач 2.0 лиценцом.</string>
+    <string name="about_icons_disclaimer_mdi">Иконе у Материјал дизајну</string>
+    <string name="about_credits_tab_title">Заслуге</string>
+    <string name="about_contribution_tab_title">Допринос</string>
+    <string name="about_license_tab_title">Лиценца</string>
+    <string name="about_server_app_version_text">Верзија апликације на серверу:</string>
+
+    <string name="error_dialog_title">О, не - шта сад? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Покушајте да форсирано затворите апликацију и стартујете је поново. Можда је била неисправна конекција ка Некстклауд апликацији.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Ажурирање базе није успело. Пријавите овај проблем и очистите складиште да користите апликацију нормално.</string>
+    <string name="error_dialog_tip_clear_storage">Складиште можете очистити ако отворите информације о апликацији и бирањем Меморија → Обриши податке.</string>
+    <string name="error_dialog_tip_offline_no_internet">Изгледа да сте покушали да покренете синхронизацију без везе са интернетом.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Веза је одбијена, молимо вас проверите да ли ваш сервер доступан из интернет прегледача.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Повезивање је истекло, молимо вас проверите да ли сте повезани на интернет. Ово може да се догоди и када је ваш сервер заузет.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ако сте укључили подешавање „Сингронизуј само на Wi-Fi”, синхорнизацију можете да покренете само ако сте повезани на Wi-Fi мрежу.</string>
+    <string name="error_dialog_tip_files_delete_storage">Ако ово заустављање не помогне, очистите податке за обе апликације.</string>
+    <string name="error_dialog_timeout_instance">Није било одговора са сервера у задатом времену. Проверите да ли вам инстанца ради добро.</string>
+    <string name="error_dialog_timeout_toggle">Проверите конекцију. Некад укључивање и иксључивање мобилних података или Wi-Fi-а може да помогне.</string>
+    <string name="error_dialog_check_server_logs">Постоји проблема са поставкама Вашег Некстклауда. Погледаје дневник у фајловима са сервера.</string>
+    <string name="error_dialog_check_maintenance">Проверите да ли Вам инстанца можда тренутно ради у режиму одржавања.</string>
+    <string name="error_dialog_insufficient_storage">На Некстклауд инстанци више нема простора. Обришите неке фајлове да синхронизујете локалне измене на облак.</string>
+    <string name="error_dialog_we_need_info">Потребне су нам следеће техничке информација да бисмо Вам помогли:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ваш налог од Некстклауд апликације можда више није ауторизован.</string>
+    <string name="error_dialog_user_not_found_in_database">Тренутни корисник се не поклапа са корисником у нашој бази података. Ако користите LDAP у тренутној Некстклауд сесији, вероватно Вам је Некстклауд апликација сачувала стари кориснички ИД.</string>
+    <string name="error_dialog_capabilities_not_parsable">Не можемо да дохватимо могућности Вашег сервера. Проверите да Вам сервер ради добро и да ли друге клијентске апликације могу да му приступе.</string>
+    <string name="error_dialog_attachment_upload_failed">Прилог није могао бити отпремљен. Молимо пробајте да га поделите на други начин и пријавите нам ову грешку.</string>
+    <string name="error_dialog_certificate">Изгледа да нешто није у реду са сертификатом сервера. За више информација, молимо вас да проверите све налоге у Nextcloud апликацији.</string>
+    <string name="error_dialog_unknown_error">Изгледа да ваша Nextcloud инстанца није доступна. Молимо вас да проверите своју везу са интернетом и могућност повезивања на инстанцу из веб прегледача.</string>
+    <string name="error_action_open_app_info">Отвори инфо о апликацији</string>
+    <string name="error_action_open_nextcloud_app">Отвори Nextcloud апликацију</string>
+    <string name="error_action_open_network">Поставке мреже</string>
+    <string name="error_action_server_logs">Дневник са сервера</string>
+    <string name="error_action_open_in_browser">Отвори у прегледачу</string>
+    <string name="error_action_install">Инсталирај</string>
+    <string name="error_action_report_issue">Пријави</string>
+    <string name="error_action_update_files_app">Ажурирај</string>
+    <string name="error_action_open_battery_settings">Подешавања батерије</string>
+
+    <string name="reason_unknown">Десила се непозната грешка</string>
+
+    <string name="order_weight">Тежина наруџбине</string>
+    <string name="add_column">Додај колону</string>
+    <string name="navigation_my_tables">Моје табеле</string>
+    <string name="navigation_shared_tables">Дељене табеле</string>
+    </resources>

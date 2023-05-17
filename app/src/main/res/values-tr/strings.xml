@@ -1,0 +1,105 @@
+<resources>
+    <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
+    <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
+    <string name="action_settings">Ayarlar</string>
+
+    <string name="simple_title">Başlık</string>
+    <string name="simple_exception">İstisna</string>
+    <string name="simple_save">Kaydet</string>
+    <string name="simple_close">Kapat</string>
+    <string name="simple_copy">Kopyala</string>
+    <string name="simple_delete">Sil</string>
+    <string name="simple_settings">Ayarlar</string>
+    <string name="simple_about">Hakkında</string>
+    <string name="simple_appearance">Görünüm</string>
+    <string name="simple_mandatory">Zorunlu</string>
+    <string name="add_table">Tablo ekle</string>
+    <string name="edit_row">Satırı düzenle</string>
+    <string name="preferences">Ayarlar</string>
+    <string name="import_account">Hesabı içe aktar</string>
+    <string name="choose_account">Hesap seçin</string>
+    <string name="app_logo">Uygulama logosu</string>
+    <string name="app_name_short">Tablolar</string>
+    <string name="manage_accounts">Hesap yönetimi</string>
+    <string name="add_account">Hesap ekle</string>
+    <string name="edit_table">Tabloyu düzenle</string>
+    <string name="edit_item">%1$s düzenle</string>
+    <string name="delete_table">Tabloyu sil</string>
+    <string name="hint_error_appeared">Bir sorun çıktı</string>
+
+    <string name="delete_item">%1$s sil</string>
+    <string name="delete_row">Satırı sil</string>
+    <string name="pref_title_sync_only_wifi">Yalnızca Wi-Fi ile eşitlensin</string>
+    <string name="pref_title_sync_background">Arka planda eşitleme</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>Sistem varsayılanı</item>
+        <item>Açık</item>
+        <item>Koyu</item>
+    </string-array>
+
+    <string name="about">Hakkında</string>
+    <string name="about_version_title">Sürüm</string>
+    <string name="about_version">Şu anda %1$s kullanıyorsunuz</string>
+    <string name="about_maintainer_title">Destekleyen</string>
+    <string name="about_developers_title">Geliştiriciler</string>
+    <string name="about_translators_title">Çevirmenler</string>
+    <string name="about_translators_transifex">%1$s üzerindeki Nextcloud topluluğu</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Kaynak kodu</string>
+    <string name="about_source">Bu proje GitHub üzerinde barındırılmaktadır: %1$s</string>
+    <string name="about_issues_title">Sorunlar</string>
+    <string name="about_issues">Sorun, istek ve önerilerinizi GitHub sorun izleyiciye yazabilirsiniz: %1$s</string>
+    <string name="about_translate_title">Çevir</string>
+    <string name="about_translate">Transifex üzerindeki Nextcloud takımına katılarak uygulamayı çevirmemize yardımcı olabilirsiniz: %1$s</string>
+    <string name="about_app_license_title">Uygulama lisansı</string>
+    <string name="about_app_license">Bu uygulama GNU GENEL KAMU LİSANSI 3 sürüm ve üzeri koşulları altında dağıtılmaktadır.</string>
+    <string name="about_app_license_button">Lisansı görüntüle</string>
+    <string name="about_icons_disclaimer_title">Simgeler</string>
+    <string name="about_icons_disclaimer_app_icon">Özgün simge için %1$s üzerine bakın.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Bu uygulama tarafından kullanılan tüm simgeler %1$s Google Inc. tarafından oluşturulmuştur ve Apache 2.0 Lisansı koşullarına göre lisanslanmıştır.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
+    <string name="about_credits_tab_title">Emeği geçenler</string>
+    <string name="about_contribution_tab_title">Katkıda bulunanlar</string>
+    <string name="about_license_tab_title">Lisans</string>
+    <string name="about_server_app_version_text">Sunucu uygulaması sürümü:</string>
+
+    <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı kapanmaya zorlayıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Veri tabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
+    <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
+    <string name="error_dialog_tip_offline_no_internet">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Bağlantı reddedildi. Lütfen sunucunuza tarayıcı üzerinden erişilebildiğinden emin olun.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Bağlantı zaman aşımına uğradı. Lütfen internete bağlı olup olmadığınızı denetleyin. Bu sorun, sunucunuz meşgul olduğunda da ortaya çıkabilir.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnızca Wi-Fi ile eşitlensin\" seçeneğini etkinleştirdiyseniz, yalnızca Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
+    <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
+    <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>
+    <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Bazen mobil veriye geçmek ya da Wi-Fi bağlantısını kapatıp açmak yardımcı olabilir.</string>
+    <string name="error_dialog_check_server_logs">Nextcloud kurulumunuz ile ilgili bir sorun var. Lütfen sunucu günlük dosyalarını inceleyin.</string>
+    <string name="error_dialog_check_maintenance">Nextcloud kopyanızın bakım kipinde olmadığından emin olun.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud kopyanızda boş depolama alanı kalmamış. Lütfen yerel değişikliklerinizi bulut ile eşitlemek için bazı dosyaları silerek yer açın.</string>
+    <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Nextcloud uygulamanızın hesabına artık izin verilmiyor olabilir.</string>
+    <string name="error_dialog_user_not_found_in_database">Geçerli kullanıcı veri tabanımızdaki kullanıcı ile eşleşmiyor. Nextcloud kopyanızda LDAP kullanıyorsanız, Nextcloud uygulamanızda eski bir kullanıcı kodu kayıtlı olabilir.</string>
+    <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
+    <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
+    <string name="error_dialog_certificate">Sunucu sertifikasında bir sorun var gibi görünüyor. Lütfen ayrıntılı bilgi almak için Nextcloud uygulamasındaki tüm hesaplara bakın.</string>
+    <string name="error_dialog_unknown_error">Nextcloud kopyanıza ulaşılamıyor gibi görünüyor. Lütfen internet bağlantınızın çalıştığından ve kopyanıza tarayıcı ile bağlanabildiğinizden emin olun.</string>
+    <string name="error_action_open_app_info">Uygulama bilgilerini aç</string>
+    <string name="error_action_open_nextcloud_app">Nextcloud uygulamasını aç</string>
+    <string name="error_action_open_network">Ağ ayarları</string>
+    <string name="error_action_server_logs">Sunucu günlükleri</string>
+    <string name="error_action_open_in_browser">Tarayıcıda aç</string>
+    <string name="error_action_install">Kur</string>
+    <string name="error_action_report_issue">Rapor</string>
+    <string name="error_action_update_files_app">Güncelle</string>
+    <string name="error_action_open_battery_settings">Pil ayarları</string>
+
+    <string name="reason_unknown">Bilinmeyen bir sorun çıktı</string>
+
+    <string name="order_weight">Sıralama</string>
+    <string name="add_column">Sütun ekle</string>
+    <string name="navigation_my_tables">Tablolarım</string>
+    <string name="navigation_shared_tables">Paylaşılmış tablolar</string>
+    </resources>

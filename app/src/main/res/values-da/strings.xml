@@ -1,0 +1,90 @@
+<resources>
+    <string name="navigation_drawer_open">Åbn navigationsskuffe</string>
+    <string name="navigation_drawer_close">Luk navigationsskuffe</string>
+    <string name="action_settings">Indstillinger</string>
+
+    <string name="simple_title">Titel</string>
+    <string name="simple_exception">Undtagelse</string>
+    <string name="simple_save">Gem</string>
+    <string name="simple_close">Luk</string>
+    <string name="simple_copy">Kopiér</string>
+    <string name="simple_delete">Slet</string>
+    <string name="simple_settings">Indstillinger</string>
+    <string name="simple_about">Om</string>
+    <string name="simple_appearance">Udseende</string>
+    <string name="simple_mandatory">Obligatorisk</string>
+    <string name="edit_row">Rediger række</string>
+    <string name="preferences">Indstillinger</string>
+    <string name="import_account">Importer konto</string>
+    <string name="choose_account">Vælg konto</string>
+    <string name="app_logo">App logo</string>
+    <string name="app_name_short">Tabeller</string>
+    <string name="manage_accounts">Administrér konti</string>
+    <string name="edit_table">Rediger tabel</string>
+    <string name="edit_item">Rediger %1$s</string>
+    <string name="delete_table">Slet tabel</string>
+    <string name="hint_error_appeared">En fejl opstod</string>
+
+    <string name="delete_item">Slet %1$s</string>
+    <string name="delete_row">Slet række</string>
+    <string name="pref_title_sync_only_wifi">Synkronisér kun på Wi-Fi</string>
+    <string name="pref_title_sync_background">Synkronisering i baggrunden</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>System Standard</item>
+        <item>Lys</item>
+        <item>Mørk</item>
+    </string-array>
+
+    <string name="about">Om</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_version">Du bruger lige nu %1$s</string>
+    <string name="about_maintainer_title">Vedligeholder</string>
+    <string name="about_developers_title">Udviklere</string>
+    <string name="about_translators_title">Oversættere</string>
+    <string name="about_translators_transifex">Nextcloud fællesskabet på %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Kildekode</string>
+    <string name="about_source">Dette projekt hostes på GitHub: %1$s</string>
+    <string name="about_issues_title">Problemer</string>
+    <string name="about_issues">Du kan rapportere fejl, foreslå forbedringer og ønske nye funktioner på Github: %1$s</string>
+    <string name="about_translate_title">Oversæt</string>
+    <string name="about_translate">Bliv en dal af Nextcloudholdet på Transifex, og hjælp os med at oversætte denne app: %1$s</string>
+    <string name="about_app_license_title">Applicens</string>
+    <string name="about_app_license">Denne app er udgivet under licensen GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Se licens</string>
+    <string name="about_icons_disclaimer_title">Ikoner</string>
+    <string name="about_icons_disclaimer_app_icon">For det oprindelige ikon, se %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Alle andre ikoner som anvendes af app\'en er %1$s lavet med Google Inc. og licensieret under et Apache 2.0-licens.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design ikoner</string>
+    <string name="about_credits_tab_title">Credits</string>
+    <string name="about_contribution_tab_title">Bidrag</string>
+    <string name="about_license_tab_title">Licens</string>
+    <string name="about_server_app_version_text">Server version</string>
+
+    <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
+    <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
+    <string name="error_dialog_timeout_instance">Der var intet svar fra din server på nuværende tidspunkt. Sørg venligst for at sikre, at din instans kører rigtigt. </string>
+    <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
+    <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
+    <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
+    <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
+    <string name="error_action_open_app_info">Åbn App info</string>
+    <string name="error_action_open_nextcloud_app">Åbn Nextcloud app</string>
+    <string name="error_action_open_network">Netværksindstillinger</string>
+    <string name="error_action_server_logs">Server logs</string>
+    <string name="error_action_open_in_browser">Åbn i browser</string>
+    <string name="error_action_install">Installer</string>
+    <string name="error_action_report_issue">Rapport</string>
+    <string name="error_action_update_files_app">Opdatér</string>
+    <string name="error_action_open_battery_settings">Batteriindstillinger</string>
+
+    <string name="reason_unknown">En ukendt fejl er opstået</string>
+
+    <string name="order_weight">Rækkefølge orden</string>
+    <string name="add_column">Tilføj kolonne</string>
+    <string name="navigation_my_tables">Mine tabeller</string>
+    <string name="navigation_shared_tables">Fælles tabeller</string>
+    </resources>

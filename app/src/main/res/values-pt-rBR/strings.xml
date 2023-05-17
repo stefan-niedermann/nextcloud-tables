@@ -1,0 +1,105 @@
+<resources>
+    <string name="navigation_drawer_open">Abra a gaveta de navegação</string>
+    <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
+    <string name="action_settings">Configurações</string>
+
+    <string name="simple_title">Título</string>
+    <string name="simple_exception">Exceção</string>
+    <string name="simple_save">Salvar</string>
+    <string name="simple_close">Fechar</string>
+    <string name="simple_copy">Copiar</string>
+    <string name="simple_delete">Excluir</string>
+    <string name="simple_settings">Configurações</string>
+    <string name="simple_about">Sobre</string>
+    <string name="simple_appearance">Aparência</string>
+    <string name="simple_mandatory">Obrigatório</string>
+    <string name="add_table">Adicionar tabela</string>
+    <string name="edit_row">Editar linha</string>
+    <string name="preferences">Preferências</string>
+    <string name="import_account">Importar conta</string>
+    <string name="choose_account">Escolha a conta </string>
+    <string name="app_logo">Logo do aplicativo</string>
+    <string name="app_name_short">Tabelas</string>
+    <string name="manage_accounts">Gerenciar contas</string>
+    <string name="add_account">Adicionar Conta</string>
+    <string name="edit_table">Edit table</string>
+    <string name="edit_item">Editar %1$s</string>
+    <string name="delete_table">Excluir tabela</string>
+    <string name="hint_error_appeared">Um erro apareceu </string>
+
+    <string name="delete_item">Excluir %1$s</string>
+    <string name="delete_row">Excluir linha</string>
+    <string name="pref_title_sync_only_wifi">Sincronizar apenas por Wi-Fi</string>
+    <string name="pref_title_sync_background">Sincronização em segundo plano</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>Sistema Padrão</item>
+        <item>Claro</item>
+        <item>Escuro</item>
+    </string-array>
+
+    <string name="about">Sobre</string>
+    <string name="about_version_title">Versão</string>
+    <string name="about_version">Você  está atualmente usando %1$s</string>
+    <string name="about_maintainer_title">Mantenedor</string>
+    <string name="about_developers_title">Desenvolvedores</string>
+    <string name="about_translators_title">Tradutores</string>
+    <string name="about_translators_transifex">Comunidade Nextcloud em %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Código-fonte</string>
+    <string name="about_source">Este projeto está hospedado no GitHub: %1$s</string>
+    <string name="about_issues_title">Problemas</string>
+    <string name="about_issues">Você pode relatar bugs, propostas de melhorias e solicitações de recursos no rastreador de problemas do GitHub:%1$s</string>
+    <string name="about_translate_title">Traduzir</string>
+    <string name="about_translate">Junte-se à equipe Nextcloud no Transifex e nos ajude a traduzir este aplicativo: %1$s</string>
+    <string name="about_app_license_title">Licença do aplicativo</string>
+    <string name="about_app_license">Este aplicativo está licenciado sob a GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Ver licença</string>
+    <string name="about_icons_disclaimer_title">Ícones</string>
+    <string name="about_icons_disclaimer_app_icon">Para o ícone original, veja %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Todos os outros ícones usados por este aplicativo %1$s são feitos pela Google Inc. e licenciados sob a Licença Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Ícones do Material Design</string>
+    <string name="about_credits_tab_title">Créditos</string>
+    <string name="about_contribution_tab_title">Contribuição</string>
+    <string name="about_license_tab_title">Licença</string>
+    <string name="about_server_app_version_text">Versão do aplicativo do servidor:</string>
+
+    <string name="error_dialog_title">Oh não - E agora? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
+    <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Conexão recusada, por favor verifique se o servidor pode ser conectado via navegador de internet</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Conexão pausada, por favor verifique se você está conectado à internet. Isso também pode ocorrer quando seu servidor está muito ocupado</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas em Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
+    <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
+    <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
+    <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
+    <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
+    <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
+    <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudá-lo:</string>
+    <string name="error_dialog_account_might_not_be_authorized">A conta do seu aplicativo Nextcloud pode não estar mais autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">O usuário atual não corresponde ao usuário que temos em nosso banco de dados. Se você estiver usando LDAP na sua instância do Nextcloud, seu aplicativo Nextcloud pode ter armazenado um ID do usuário antigo.</string>
+    <string name="error_dialog_capabilities_not_parsable">Não foi possível buscar os recursos do seu servidor. Verifique se o servidor está funcionando bem e se outros aplicativos clientes podem acessar o Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Não foi possível carregar um anexo. Tente compartilhá-lo de outra maneira e informe-nos sobre esse bug.</string>
+    <string name="error_dialog_certificate">Algo parece estar errado com o certificado do servidor. Por favor, verifique todas as contas no aplicativo Nextcloud para maiores informações.</string>
+    <string name="error_dialog_unknown_error">Sua instância Nextcloud parece estar inacessível. Verifique sua conexão com a Internet e se você consegue se conectar à sua instância por meio do navegador. </string>
+    <string name="error_action_open_app_info">Abra as informações do Aplicativo</string>
+    <string name="error_action_open_nextcloud_app">Abrir o aplicativo Nextcloud</string>
+    <string name="error_action_open_network">Configurações da rede</string>
+    <string name="error_action_server_logs">Logs do servidor</string>
+    <string name="error_action_open_in_browser">Abra no navegador</string>
+    <string name="error_action_install">Instalar</string>
+    <string name="error_action_report_issue">Relatório</string>
+    <string name="error_action_update_files_app">Atualizar</string>
+    <string name="error_action_open_battery_settings">Configurações da bateria</string>
+
+    <string name="reason_unknown">Ocorreu um erro desconhecido</string>
+
+    <string name="order_weight">Peso do pedido</string>
+    <string name="add_column">Adicionar coluna</string>
+    <string name="navigation_my_tables">Minhas tabelas</string>
+    <string name="navigation_shared_tables">Tabelas compartilhadas</string>
+    </resources>

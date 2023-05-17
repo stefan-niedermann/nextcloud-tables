@@ -1,0 +1,94 @@
+<resources>
+    <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
+    <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
+    <string name="action_settings">Cài đặt</string>
+
+    <string name="simple_title">Tên</string>
+    <string name="simple_exception">Ngoại lệ</string>
+    <string name="simple_save">Lưu</string>
+    <string name="simple_close">Đóng</string>
+    <string name="simple_delete">Xóa</string>
+    <string name="simple_settings">Cài đặt</string>
+    <string name="simple_about">Giới thiệu</string>
+    <string name="simple_appearance">Ngoại hình</string>
+    <string name="simple_description">Mô tả</string>
+
+    <string name="preferences">Cài đặt</string>
+    <string name="import_account">Thêm tài khoản</string>
+    <string name="choose_account">Chọn tài khoản</string>
+    <string name="app_logo">Logo ứng dụng</string>
+    <string name="app_name_short">Bảng</string>
+    <string name="manage_accounts">Quản lý tài khoản</string>
+    <string name="add_account">Thêm tài khoản</string>
+    <string name="edit_item">Chỉnh sửa %1$s</string>
+    <string name="hint_error_appeared">Có lỗi xuất hiện</string>
+
+    <string name="delete_item">Xoá %1$s</string>
+    <string name="pref_title_sync_only_wifi">Đồng bộ chỉ khi có Wi-Fi</string>
+    <string name="pref_title_sync_background">Đồng bộ hoá trong nền</string>
+    <string name="pref_title_theme">Chủ đề</string>
+
+    <string-array name="theme_entries">
+        <item>Mặc định hệ thống</item>
+        <item>Sáng</item>
+        <item>Tối</item>
+    </string-array>
+
+    <string name="about">Giới thiệu</string>
+    <string name="about_version_title">Phiên bản</string>
+    <string name="about_version">Hiện tại bạn đang sử dụng %1$s</string>
+    <string name="about_maintainer_title">Người duy trì</string>
+    <string name="about_developers_title">Nhà phát triển</string>
+    <string name="about_translators_title">Người phiên dịch</string>
+    <string name="about_translators_transifex">Cộng đồng Nextcloud trên %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Mã nguồn</string>
+    <string name="about_source">Dự án này được lưu trữ trên GitHub: %1$s</string>
+    <string name="about_issues_title">Vấn đề</string>
+    <string name="about_issues">Bạn có thể báo cáo lỗi, đề nghị cải thiện và yêu cầu tính năng tại trình theo dõi vấn đề của GitHub: %1$s</string>
+    <string name="about_translate_title">Dịch</string>
+    <string name="about_translate">Tham gia nhóm Nextcloud trên Transifex và giúp chúng tôi dịch ứng dụng này: %1$s</string>
+    <string name="about_app_license_title">Giấy phép ứng dụng</string>
+    <string name="about_app_license">Ứng dụng này được cấp phép dưới GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Xem giấy phép</string>
+    <string name="about_icons_disclaimer_title">Biểu tượng</string>
+    <string name="about_icons_disclaimer_app_icon">Để tìm biểu tượng ban đầu hãy xem %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Tất cả biểu tượng mới hơn được ứng dụng này sử dụng được %1$s tạo bởi Google Inc. và được cấp phép dưới Apache 2.0 License.</string>
+    <string name="about_icons_disclaimer_mdi">Biểu tượng Thiết kế Material</string>
+    <string name="about_credits_tab_title">Ghi nhận</string>
+    <string name="about_contribution_tab_title">Đóng góp</string>
+    <string name="about_license_tab_title">Giấy phép</string>
+    <string name="about_server_app_version_text">Phiên bản ứng dụng máy chủ:</string>
+
+    <string name="error_dialog_title">Ôi không - Làm gì bây giờ? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Vui lòng cố gắng buộc dừng và khởi động lại ứng dụng. Có thể đã có một kết nối không chính xác đến ứng dụng Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Nâng cấp cơ sở dữ liệu thất bại. Vui lòng báo cáo vấn đề và xoá bộ nhớ để sử dụng ứng dụng bình thường.</string>
+    <string name="error_dialog_tip_clear_storage">Bạn có thể xoá bộ nhớ bằng cách mở thông tin ứng dụng và chọn Bộ nhớ → Xoá bộ nhớ.</string>
+    <string name="error_dialog_tip_offline_no_internet">Có vẻ như bạn đã cố đồng bộ hoá mà không có kết nối internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Kết nối bị từ chối, vui lòng kiểm tra xem máy chủ của bạn có kết nối đến được bằng trình duyệt web không.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Kết nối hết thời hạn, vui lòng kiểm tra xem bạn có kết nối Internet không. Việc này cũng có thể xảy ra nếu máy chủ bị bận.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Nếu bạn đã bật cài đặt \"Chỉ đồng bộ khi có Wi-Fi\", bạn chỉ có thể đồng bộ hoá khi bạn có kết nối mạng Wi-Fi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Nếu việc buộc dừng chúng không giúp gì được, bạn có thể cố gắng xoá bộ nhớ của cả hai ứng dụng.</string>
+    <string name="error_dialog_timeout_instance">Không có phản hồi từ máy chủ của bạn trong thời gian được đưa ra. Vui lòng chắc chắn rằng bản sao của bạn đang chạy tốt.</string>
+    <string name="error_dialog_timeout_toggle">Hãy kiểm tra kết nối mạng của bạn. Đôi khi việc tắt và bật lại dữ liệu di động hoặc Wi-Fi có thể giúp.</string>
+    <string name="error_dialog_check_server_logs">Có vấn đề với thiết lập Nextcloud của bạn. Vui lòng xem các tệp nhật ký của máy chủ.</string>
+    <string name="error_dialog_check_maintenance">Vui lòng kiểm tra xem bản sao Nextcloud của bạn hiện tại có đang không ở trong chế độ bảo trì không.</string>
+    <string name="error_dialog_insufficient_storage">Bản sao Nextcloud của bạn không còn bộ nhớ trống. Vui lòng xoá một số tệp để đồng bộ các thay đổi cục bộ của bạn vào đám mây của bạn.</string>
+    <string name="error_dialog_we_need_info">Chúng tôi cần thông tin kỹ thuật sau đây để giúp bạn:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Tài khoản của ứng dụng Nextcloud của bạn có thể không được uỷ quyền nữa.</string>
+    <string name="error_dialog_user_not_found_in_database">Người dùng hiện tại không khớp với người dùng mà chúng tôi có trong cơ sở dữ liệu của chúng tôi. Nếu bạn đang sử dụng LDAP trên bản sao Nextcloud của bạn, ứng dụng Nextcloud của bạn có thể đã lưu trữ một ID người dùng cũ.</string>
+    <string name="error_dialog_capabilities_not_parsable">Chúng tôi không thể lấy những khả năng của máy chủ của bạn. Vui lòng chắc chắn rằng máy chủ của bạn đang chạy tốt và các ứng dụng khách khác có thể truy cập Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Không thể tải tệp đính kèm lên. Vui lòng cố gắng chia sẻ nó bằng cách khác và cho chúng tôi biết về lỗi này.</string>
+    <string name="error_dialog_certificate">Có gì đó có vẻ sai với chứng chỉ của máy chủ. Vui lòng kiểm tra tất cả tài khoản trong ứng dụng Nextcloud để biết thêm thông tin.</string>
+    <string name="error_dialog_unknown_error">Bản sao Nextcloud của bạn có vẻ không kết nối đến được. Vui lòng kiểm tra kết nối internet và kiểm tra xem bạn có thể kết nối đến bản sao của bạn qua trình duyệt không.</string>
+    <string name="error_action_open_app_info">Mở Thông tin ứng dụng</string>
+    <string name="error_action_open_nextcloud_app">Mở ứng dụng Nextcloud</string>
+    <string name="error_action_open_network">Cài đặt mạng</string>
+    <string name="error_action_server_logs">Nhật ký máy chủ</string>
+    <string name="error_action_open_in_browser">Mở trong trình duyệt</string>
+    <string name="error_action_install">Cài đặt</string>
+    <string name="error_action_report_issue">Báo cáo</string>
+    <string name="error_action_update_files_app">Cập nhật</string>
+    <string name="error_action_open_battery_settings">Cài đặt pin</string>
+
+    </resources>
