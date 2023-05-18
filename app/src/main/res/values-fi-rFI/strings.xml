@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud-taulukot</string>
     <string name="navigation_drawer_open">Avaa hakuvalikko</string>
     <string name="navigation_drawer_close">Sulje hakuvalikko</string>
     <string name="action_settings">Asetukset</string>
@@ -7,20 +8,30 @@
     <string name="simple_exception">Poikkeus</string>
     <string name="simple_save">Tallenna</string>
     <string name="simple_close">Sulje</string>
+    <string name="simple_copy">Kopioi</string>
     <string name="simple_delete">Poista</string>
     <string name="simple_settings">Asetukset</string>
     <string name="simple_about">Tietoja</string>
+    <string name="simple_synchronization">Synkronointi</string>
     <string name="simple_appearance">Ulkoasu</string>
     <string name="simple_mandatory">Pakollinen</string>
+    <string name="simple_description">Kuvaus</string>
+
+    <string name="add_table">Lisää taulukko</string>
+    <string name="add_row">Lisää sarake</string>
     <string name="edit_row">Muokkaa riviä</string>
+    <string name="manage_columns">Hallitse sarakkeita</string>
+    <string name="edit_column">Muokkaa saraketta</string>
     <string name="preferences">Asetukset</string>
     <string name="import_account">Tuo tili</string>
     <string name="choose_account">Valitse tili</string>
+    <string name="app_logo">Sovelluksen logo</string>
     <string name="app_name_short">Taulukot</string>
     <string name="manage_accounts">Tilien hallinta</string>
     <string name="add_account">Lisää tili</string>
     <string name="edit_table">Muokkaa taulukkoa</string>
     <string name="edit_item">Muokkaa tunnistetta %1$s</string>
+    <string name="share_table">Jaa taulukko</string>
     <string name="delete_table">Poista taulukko</string>
     <string name="hint_error_appeared">Tapahtui virhe</string>
 
@@ -87,8 +98,17 @@
     <string name="error_action_update_files_app">Päivitä</string>
     <string name="error_action_open_battery_settings">Akkuasetukset</string>
 
+    <string name="account_already_imported">Tili on jo tuotu</string>
+    <string name="import_state_import_account">Tuodaan tiliä</string>
+    <string name="import_state_import_tables">Tuodaan taulukoita. Tämä saattaa kestää useita minuutteja.</string>
+    <string name="not_yet_synchronized">Ei vielä synkronoitu</string>
+
+    <string name="reason_nextcloud_not_supported">Käyttämäsi Nextcloud-versio ei ole tuettu</string>
     <string name="reason_unknown">Tapahtui tuntematon virhe</string>
 
+    <string name="validation_number_not_parsable">Arvo ei vaikuta olevan numero</string>
+    <string name="validation_text_link">Arvo ei ole linkki</string>
+    <string name="validation_mandatory">Tämä on pakollinen kenttä</string>
     <string name="add_column">Lisää sarake</string>
     <string name="navigation_my_tables">Omat taulukot</string>
     <string name="navigation_shared_tables">Jaetut taulukot</string>

@@ -11,8 +11,14 @@
     <string name="simple_delete">Elimina</string>
     <string name="simple_settings">Impostazioni</string>
     <string name="simple_about">Informazioni</string>
+    <string name="simple_synchronization">Sincronizzazione</string>
     <string name="simple_appearance">Aspetto</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obbligatorio</string>
+    <string name="simple_description">Descrizione</string>
+
+    <string name="add_table">Aggiungi tabella</string>
+    <string name="add_row">Aggiungi riga</string>
     <string name="edit_row">Modifica riga</string>
     <string name="preferences">Preferenze</string>
     <string name="import_account">Importa account</string>

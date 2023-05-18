@@ -11,12 +11,17 @@
     <string name="simple_delete">Supprimer</string>
     <string name="simple_settings">Paramètres</string>
     <string name="simple_about">À propos</string>
+    <string name="simple_synchronization">Synchronisation</string>
     <string name="simple_appearance">Apparence</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatoire</string>
     <string name="simple_description">Description</string>
 
     <string name="add_table">Ajouter un tableau</string>
+    <string name="add_row">Ajouter une ligne</string>
     <string name="edit_row">Modifier la ligne</string>
+    <string name="manage_columns">Gérer les colonnes</string>
+    <string name="edit_column">Modifier la colonne</string>
     <string name="preferences">Préférences</string>
     <string name="import_account">Importer le compte</string>
     <string name="choose_account">Sélectionnez un compte</string>
@@ -26,11 +31,16 @@
     <string name="add_account">Ajouter un compte</string>
     <string name="edit_table">Modifier le tableau</string>
     <string name="edit_item">Modifier %1$s</string>
+    <string name="share_table">Partager le tableau</string>
+    <string name="not_implemented">Cette fonctionnalité n\'est pas encore disponible</string>
     <string name="delete_table">Supprimer le tableau</string>
     <string name="hint_error_appeared">Une erreur est survenue</string>
 
     <string name="delete_item">Supprimer %1$s</string>
+    <string name="delete_item_message">Cette action supprimera définitivement %1$s.</string>
     <string name="delete_row">Supprimer la ligne</string>
+    <string name="delete_row_message">Cette action supprimera définitivement la ligne.</string>
+
     <string name="pref_title_sync_only_wifi">Synchroniser uniquement en Wi-Fi</string>
     <string name="pref_title_sync_background">Synchronisation en tâche de fond</string>
     <string name="pref_title_theme">Thème</string>
@@ -98,10 +108,21 @@
     <string name="error_action_update_files_app">Mise à jour</string>
     <string name="error_action_open_battery_settings">Paramètres pour la batterie</string>
 
+    <string name="importing_account">Import du compte %1$s en cours</string>
+    <string name="import_state_import_account">Import du compte en cours</string>
+    <string name="not_yet_synchronized">Non synchronisé actuellement</string>
+
+    <string name="reason_maintenance_mode">Votre instance de Nextcloud est actuellement en mode maintenance.</string>
+    <string name="reason_nextcloud_not_supported">Votre version Nextcloud n\'est pas prise en charge</string>
     <string name="reason_unknown">Une erreur inconnue est survenue</string>
 
+    <string name="validation_number_not_parsable">La valeur n\'est pas un nombre</string>
+    <string name="validation_number_range">La valeur doit être entre  %1$d et %2$d</string>
+    <string name="validation_text_link">La valeur n\'est pas un lien</string>
+    <string name="validation_mandatory">Ce champ est obligatoire</string>
     <string name="order_weight">Poids de la commande</string>
     <string name="add_column"> Ajouter une colonne</string>
     <string name="navigation_my_tables">Mes tableaux</string>
     <string name="navigation_shared_tables">Tableaux partagés</string>
-    </resources>
+    <string name="could_not_display_column_editor"> %1$s ne peut pas être affiché.</string>
+</resources>
