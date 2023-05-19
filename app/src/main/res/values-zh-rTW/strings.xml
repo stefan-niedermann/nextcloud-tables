@@ -139,6 +139,8 @@
 
     <string name="order_weight">順序權重</string>
     <string name="add_column">新增欄位</string>
+    <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
     <string name="navigation_my_tables">我的表格</string>
     <string name="navigation_shared_tables">已分享的表格</string>
-    </resources>
+    <string name="could_not_display_column_editor">%1$s 無法顯示。</string>
+</resources>
