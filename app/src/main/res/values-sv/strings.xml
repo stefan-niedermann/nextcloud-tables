@@ -50,6 +50,7 @@
     <string name="about_source">Detta projekt finns på GitHub: %1$s</string>
     <string name="about_issues_title">Problem</string>
     <string name="about_issues">Du kan rapportera fel, förbättringsförslag och funktionsönskningar på GitHub- problemhanteraren: %1$s</string>
+    <string name="about_translate_title">Översätt</string>
     <string name="about_translate">Gå med i Nextcloud-gruppen på Transifex och hjälp oss översätta denna app: %1$s</string>
     <string name="about_app_license_title">Applicens</string>
     <string name="about_app_license">Denna app är licensierad under GNU GENERAL PUBLIC LICENSE v3+.</string>

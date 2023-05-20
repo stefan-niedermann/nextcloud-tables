@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud 表格</string>
     <string name="navigation_drawer_open">開啟導覽列</string>
     <string name="navigation_drawer_close">關閉導覽列</string>
     <string name="action_settings">設定</string>
@@ -11,10 +12,17 @@
     <string name="simple_delete">刪除</string>
     <string name="simple_settings">設定</string>
     <string name="simple_about">關於</string>
+    <string name="simple_synchronization">同步</string>
     <string name="simple_appearance">外觀</string>
+    <string name="simple_emoji">表情符號</string>
     <string name="simple_mandatory">必填項</string>
+    <string name="simple_description">描述</string>
+
     <string name="add_table">添加數據庫表</string>
+    <string name="add_row">添加一列</string>
     <string name="edit_row">編輯列</string>
+    <string name="manage_columns">管理縱列</string>
+    <string name="edit_column">編輯縱列</string>
     <string name="preferences">設定</string>
     <string name="import_account">匯入賬戶</string>
     <string name="choose_account">選擇賬戶</string>
@@ -24,10 +32,16 @@
     <string name="add_account">新增賬戶</string>
     <string name="edit_table">編輯數據庫表</string>
     <string name="edit_item">編輯 %1$s</string>
+    <string name="share_table">分享數據庫表</string>
+    <string name="not_implemented">此功能尚未實做</string>
     <string name="delete_table">刪除數據庫表</string>
     <string name="hint_error_appeared">發生錯誤</string>
 
     <string name="delete_item">刪除 %1$s</string>
+    <string name="delete_item_message">這將會永久刪除 %1$s。</string>
+    <string name="delete_row">刪除一列</string>
+    <string name="delete_row_message">這將會永久刪除此列。</string>
+
     <string name="pref_title_sync_only_wifi">只在有 Wi-Fi 時同步</string>
     <string name="pref_title_sync_background">背景同步</string>
     <string name="pref_title_theme">主題</string>
@@ -66,25 +80,32 @@
 
     <string name="error_dialog_title">喔不 - 現在怎麼辦？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">請嘗試強制關閉該應用，然後重新啟動。與 Nextcloud 應用的連接可能不正確。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果問題持續，請嘗試清除 Nextcloud 以及 Nextcloud 表格這兩個應用程式的儲存空間來解決。</string>
     <string name="error_dialog_tip_database_upgrade_failed">數據庫升級失敗。請報告問題，並清除存儲空間以正常使用該應用程序。</string>
     <string name="error_dialog_tip_clear_storage">您可以通過打開應用程式信息並選擇 存儲→清除存儲 來清除存儲。</string>
     <string name="error_dialog_tip_offline_no_internet">似乎您試圖在沒有 Internet 連接的情況下觸發同步。</string>
     <string name="error_dialog_tip_offline_connection_refused">連接被拒絕，請檢查您的伺服器是否可以通過網絡瀏覽器訪問。</string>
     <string name="error_dialog_tip_offline_connection_timeout">連接超時，請檢查您是否已連接到互聯網。 當您的伺服器繁忙時，也可能發生這種情況。</string>
     <string name="error_dialog_tip_sync_only_on_wifi">如果啟用了“僅在Wi-Fi上同步”設置，則只能在連接到Wi-Fi時進行同步。</string>
+    <string name="error_dialog_tip_files_force_stop">您的 Nextcloud 應用程式似乎出了些問題。請試著強制停止 Nextcloud 以及 Nextcloud 表格這兩個應用程式。</string>
     <string name="error_dialog_tip_files_delete_storage">如果強行停止它們沒有幫助，則可以嘗試清除兩個應用程式的存儲。</string>
     <string name="error_dialog_timeout_instance">在指定的時間內，您的伺服器沒有響應。請確保您的 Nextcloud 運行良好。</string>
     <string name="error_dialog_timeout_toggle">檢查您的網絡連接。有時候，切換流動數據或Wi-Fi可能會有所幫助。</string>
+    <string name="error_dialog_check_server">您伺服器的回應不正確。請檢查您是否可以通過網頁界面存取表格應用程式。</string>
     <string name="error_dialog_check_server_logs">您的Nextcloud設置存在問題。請查看伺服器記錄檔案。</string>
     <string name="error_dialog_check_maintenance">請檢查您的 Nextcloud 當前是否在維護模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 沒有剩餘可用的存儲空間。請刪除一些檔案，以將近端更改同步到雲中。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
+    <string name="error_dialog_redirect">您的伺服器回應了 HTTP 302 狀態碼，這表示您尚未在伺服器上安裝表格應用程式或設定錯誤。這可能是因為 .htaccess 檔案或 Nextcloud 應用程式（如 OID 客戶端）中的自訂覆寫引起的。</string>
+    <string name="error_dialog_version_not_parsable">我們無法確認伺服器端表格應用程式的版本。請確保其已安裝並啟用。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的Nextcloud應用程序賬戶可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">當前用戶與我們數據庫中的用戶不匹配。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud應用程式可能已存儲了舊的用戶ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我們無法獲取您的伺服器功能。請確保您的伺服器運行良好，並且其他客戶端應用程式能夠訪問Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">無法上傳附件。請嘗試以其他方式共享它，並讓我們知道此錯誤。</string>
     <string name="error_dialog_certificate">伺服器的證書似乎有問題。請檢查 Nextcloud 應用程式中的所有賬戶，以獲取更多資訊。</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">請停用 Nextcloud 與表格應用程式的所有電池最佳化。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 實例似乎無法訪問。 請檢查您的互聯網連接以及您是否能夠通過瀏覽器連接到您的實例。</string>
+    <string name="error_dialog_min_version">表格 Android 應用程式要求 Nextcloud Android 應用程式最低版本為 3.18。</string>
     <string name="error_action_open_app_info">開啟 App 資訊</string>
     <string name="error_action_open_nextcloud_app">打開 Nextcloud 應用程式</string>
     <string name="error_action_open_network">網路設定</string>
@@ -95,7 +116,31 @@
     <string name="error_action_update_files_app">更新</string>
     <string name="error_action_open_battery_settings">電池設定</string>
 
+    <string name="welcome_text">歡迎使用 Nextcloud 表格</string>
+    <string name="importing_account">正在匯入賬戶 %1$s</string>
+    <string name="account_already_imported">已成功匯入賬戶</string>
+    <string name="import_state_import_account">正在匯入帳號</string>
+    <string name="import_state_import_tables">正在匯入表格。這可能需要幾分鐘。</string>
+    <string name="not_yet_synchronized">尚未同步</string>
+
+    <string name="reason_not_installed">Nextcloud 表格未安裝</string>
+    <string name="reason_not_enabled">Nextcloud 表格未啟用</string>
+    <string name="reason_maintenance_mode">您的 Nextcloud 站台目前處於維護模式</string>
+    <string name="reason_server_error">您的伺服器回應了無效的回應</string>
+    <string name="reason_tables_not_supported">您的 Nextcloud 表格應用程式版本不受支援</string>
+    <string name="reason_nextcloud_not_supported">您的 Nextcloud 版本不受支援</string>
+    <string name="reason_unknown">發生了未知的錯誤</string>
+
+    <string name="validation_number_not_parsable">值似乎不是數字</string>
+    <string name="validation_number_range">值必須在 %1$d 到 %2$d 間</string>
+    <string name="validation_text_link">值不是連結</string>
+    <string name="validation_mandatory">此為必填欄位</string>
+    <string name="validation_time_missing">DateTime 欄位必須提供時間。</string>
+
     <string name="order_weight">順序權重</string>
+    <string name="add_column">添加縱列</string>
+    <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
     <string name="navigation_my_tables">我的數據庫表</string>
     <string name="navigation_shared_tables">共享數據庫表</string>
-    </resources>
+    <string name="could_not_display_column_editor">%1$s 無法顯示。</string>
+</resources>

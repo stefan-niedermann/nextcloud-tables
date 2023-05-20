@@ -1,8 +1,10 @@
 <resources>
-    <string name="navigation_drawer_open">فتح التنقل </string>
-    <string name="navigation_drawer_close">إقفال التنقل </string>
+    <string name="app_name">جداول نكست كلاود</string>
+    <string name="navigation_drawer_open">فتح دُرْج التنقل </string>
+    <string name="navigation_drawer_close">إقفال دُرْج التنقل </string>
     <string name="action_settings">الإعدادات</string>
 
+    <string name="simple_title">العنوان</string>
     <string name="simple_exception">استثناء</string>
     <string name="simple_save">حفظ</string>
     <string name="simple_close">إغلاق</string>
@@ -10,20 +12,36 @@
     <string name="simple_delete">إزالة</string>
     <string name="simple_settings">الإعدادات</string>
     <string name="simple_about">حول</string>
+    <string name="simple_synchronization">المزامنة</string>
     <string name="simple_appearance">المظهر</string>
+    <string name="simple_emoji">ايموجي</string>
+    <string name="simple_mandatory">إلزامي</string>
     <string name="simple_description">الوصف</string>
 
+    <string name="add_table">إضافة جدول</string>
+    <string name="add_row">إضافة صف</string>
+    <string name="edit_row">تعديل صف</string>
+    <string name="manage_columns">إدارة الأعمدة</string>
+    <string name="edit_column">تعديل عمود</string>
     <string name="preferences">الخيارات</string>
-    <string name="import_account">استيراد حساب</string>
+    <string name="import_account">إستيراد حساب</string>
     <string name="choose_account">اختر حسابًا</string>
     <string name="app_logo">شعار التطبيق</string>
     <string name="app_name_short">الجداول</string>
     <string name="manage_accounts">إدارة الحسابات</string>
     <string name="add_account">أضف حساباً</string>
+    <string name="edit_table">تعديل جدول</string>
     <string name="edit_item">تعديل %1$s</string>
+    <string name="share_table">مشاركة جدول</string>
+    <string name="not_implemented">هذه الخاصية لم يتم تطبيقها بعد</string>
+    <string name="delete_table">حذف جدول</string>
     <string name="hint_error_appeared">حدث خطأ</string>
 
     <string name="delete_item">حذف %1$s</string>
+    <string name="delete_item_message">هذا سيؤدي إلى الحذف نهائيّاً %1$s.</string>
+    <string name="delete_row">حذف صف</string>
+    <string name="delete_row_message">هذا سيؤدي إلى حذف هذا الصف نهائيّاً</string>
+
     <string name="pref_title_sync_only_wifi">المزامنة فقط على الوايفاي</string>
     <string name="pref_title_sync_background">مزامنة في خلفية النظام</string>
     <string name="pref_title_theme">المظهر</string>
@@ -55,32 +73,39 @@
     <string name="about_icons_disclaimer_app_icon">لرؤية الأيقونة الأصلية %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">جميع الأيقونات الأخرى التي يستخدمها هذا  التطبيق  %1$s من صنع  Google Inc. ومرخصة بموجب ترخيص Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">مادة تصميم الأيقونات </string>
-    <string name="about_credits_tab_title">الشكر ل</string>
+    <string name="about_credits_tab_title">شكرٌ</string>
     <string name="about_contribution_tab_title">المساهمة</string>
     <string name="about_license_tab_title">الرخصة</string>
-    <string name="about_server_app_version_text">إصدار خادم التطبيق:</string>
+    <string name="about_server_app_version_text">إصدار خادوم التطبيق:</string>
 
     <string name="error_dialog_title">آه لا، ماذا الان؟🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">الرجاء محاولة إغلاق التطبيق وإعادة تشغيله، ربما هنالك خطأ في الإتصال مع تطبيق نيكست كلاود nextcloud</string>
+    <string name="error_dialog_tip_clear_storage_might_help">إذا استمر الإشكال، حاول إخلاء التخزين لكليْ التطبيقين: نكست كلاود، و جداول نكست كلاود لحل المشكل.</string>
     <string name="error_dialog_tip_database_upgrade_failed">فشلت ترقية قاعدة البيانات. يرجى الإبلاغ عن المشكلة ومسح التخزين لاستخدام التطبيق مجددًا.</string>
     <string name="error_dialog_tip_clear_storage">يمكنك مسح التخزين عن طريق فتح معلومات التطبيق واختيار التخزين ← مسح التخزين.</string>
     <string name="error_dialog_tip_offline_no_internet">يبدو أنك حاولت البدء بالمزامنة بدون اتصال بالإنترنت.</string>
-    <string name="error_dialog_tip_offline_connection_refused">تم رفض الاتصال, يُرجى التأكد من إمكانية الوصول إلى الخادم عبر المستعرض</string>
-    <string name="error_dialog_tip_offline_connection_timeout">إنتهت مهلة الاتصال، يُرجى التأكد من أنك متصل بالإنترنت. يمكن أن يكون انشغال الخادم سبباً في ذلك.</string>
+    <string name="error_dialog_tip_offline_connection_refused">تم رفض الاتصال, يُرجى التأكد من إمكانية الوصول إلى الخادوم عبر المستعرض</string>
+    <string name="error_dialog_tip_offline_connection_timeout">إنتهت مهلة الاتصال، يُرجى التأكد من أنك متصل بالإنترنت. يمكن أن يكون انشغال الخادوم سبباً في ذلك.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">إذا قمت بتعطيل إعدادات \"التزامن فقط على شبكة الإنترنت Wi-Fi \" سيمكنك التزامن فقط عندما تكون متصلًا بشبكة الإنترنت. </string>
+    <string name="error_dialog_tip_files_force_stop">يبدو أن هنالك خطأً في تطبيق نكست كلاود الذي تعمل عليه. يُرجى إيقاف كِليْ التطبيقين: نكست كلاود، و جداول نكست كلاود.</string>
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
-    <string name="error_dialog_timeout_instance">لم يكن هناك استجابة من الخادم الخاص بك في الوقت المحدد. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد.</string>
+    <string name="error_dialog_timeout_instance">لم يكن هناك استجابة من الخادوم الخاص بك في الوقت المحدد. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد.</string>
     <string name="error_dialog_timeout_toggle">تحقق من اتصالك بالشبكة. يمكن أن يساعد إيقاف بيانات الهاتف المحمول أو إيقاف تشغيل Wi-Fi وتشغيله مرة أخرى أحيانا.</string>
-    <string name="error_dialog_check_server_logs">هناك مشكلة في إعداد Nextcloud الخاص بك. يرجى إلقاء نظرة على ملفات سجل الخادم.</string>
-    <string name="error_dialog_check_maintenance">يرجى التحقق مما إذا كان خادم Nextcloud الخاص بك ليس في وضع الصيانة حاليًا.</string>
+    <string name="error_dialog_check_server">الاستجابة من خادومك ليست صحيحة. يُرجى التأكد من إمكانية تشغيل تطبيق الجداول عبر واجهة الوب.</string>
+    <string name="error_dialog_check_server_logs">هناك مشكلة في إعداد Nextcloud الخاص بك. يرجى إلقاء نظرة على ملفات سجل الخادوم.</string>
+    <string name="error_dialog_check_maintenance">يرجى التحقق مما إذا كان خادوم Nextcloud الخاص بك ليس في وضع الصيانة حاليًا.</string>
     <string name="error_dialog_insufficient_storage">خادم Nextcloud الخاص بك ليس لديه مساحة تخزين فارغة متبقية. يرجى حذف بعض الملفات لمزامنة التغييرات المحلية الخاصة بك في السحابة الخاصة بك.</string>
     <string name="error_dialog_we_need_info">نحتاج إلى المعلومات الفنية التالية لمساعدتك:</string>
+    <string name="error_dialog_redirect">كان ردّ خادومك هو الكود HTTP 302، و الذي يعني أن تطبيق الجداول لم يتم تنصيبه أو لم تتم تهيئته كما يجب. يمكن أن يرجع ذلك إلى تخصيصات مُقدّمة في الملف .htaccess-file أو بسب تطبيق آخر لنكست كلاود مثل عميل OID Client.</string>
+    <string name="error_dialog_version_not_parsable">لم نتمكن من تحديد رقم الإصدار لتطبيق الجداول على الخادوم. يُرجى التأكد من كونه مُنصّباً و مُفعّلاً.</string>
     <string name="error_dialog_account_might_not_be_authorized">ربما حسابك في نكست كلاود لم يعد مصرحًا به </string>
     <string name="error_dialog_user_not_found_in_database">لا يتطابق المستخدم الحالي مع المستخدم الموجود لدينا في قاعدة البيانات. إذا كنت تستخدم بروتوكول الوصول الخفيف إلى الدليل (LDAP) على حالة نكست كلاود الخاص بك، فربما قام تطبيق نكست كلاود بتخزين معرف مستخدم قديم.</string>
     <string name="error_dialog_capabilities_not_parsable">لم نتمكن من جلب إمكانيات الخادم الخاص بك. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد وأن تطبيقات العميل الأخرى قادرة على الوصول إلى نكست كلاود.</string>
     <string name="error_dialog_attachment_upload_failed">لا يمكن رفع المرفق، يرجى محاولة مشاركته بطريقة أخرى وإخبارنا بهذا الخطأ.</string>
     <string name="error_dialog_certificate">يبدو أن هناك خطأ ما في شهادة الخادم، من فضلك قم بمراجعة جميع الحسابات في تطبيق نكست كلاود لمزيد من المعلومات.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">يُرجى إيقاف كل موفرات البطارية للتطبيقين: نكست كلاود، و جداول نكست كلاود.</string>
     <string name="error_dialog_unknown_error">يبدو أن مثيل Nextcloud الخاص بك لا يمكن الوصول إليه . يرجى التحقق من اتصالك بالإنترنت وما إذا كنت قادرًا على الاتصال بالمثيل الخاص بك عبر المتصفح.</string>
+    <string name="error_dialog_min_version">تطبيق الجداول على أندرويد يستلزم ألّا يقل رقم إصدار تطبيق نكست كلاود على الأندرويد عن 3.18. </string>
     <string name="error_action_open_app_info">افتح معلومات التطبيق</string>
     <string name="error_action_open_nextcloud_app">فتح تطبيق نكست كلاود</string>
     <string name="error_action_open_network">إعدادات الشبكة</string>
@@ -91,6 +116,31 @@
     <string name="error_action_update_files_app">تحديث</string>
     <string name="error_action_open_battery_settings">إعدادات البطارية</string>
 
+    <string name="welcome_text">أهلا بكم في جداول نكست كلاود</string>
+    <string name="importing_account">إستيراد الحساب %1$s</string>
+    <string name="account_already_imported">الحساب تم إستيراده مسبقاً</string>
+    <string name="import_state_import_account">إستيراد حساب</string>
+    <string name="import_state_import_tables">استيراد جداول. هذا يمكن أن يستغرق بضعة دقائق.</string>
+    <string name="not_yet_synchronized">لم تتم المزامنة بعدُ</string>
+
+    <string name="reason_not_installed">تطبيق جداول نكست كلاود لم يتم تنصيبه</string>
+    <string name="reason_not_enabled">تطبيق جداول نكست كلاود غير مفعّل</string>
+    <string name="reason_maintenance_mode">هذه التشغيلة من نكست كلاود تحت الصيانة الآن</string>
+    <string name="reason_server_error">استجابة خادومك غير صحيحة</string>
+    <string name="reason_tables_not_supported">هذا الإصدار من تطبيق جداول نكست كلاود غير مدعوم</string>
+    <string name="reason_nextcloud_not_supported">هذا الإصدار من نكست كلاود غير مدعوم</string>
     <string name="reason_unknown">حدث خلل غير معروف</string>
 
-    </resources>
+    <string name="validation_number_not_parsable">يبدو أن القيمة ليست رقماً</string>
+    <string name="validation_number_range">القيمة يجب أن تكون بين %1$d و %2$d</string>
+    <string name="validation_text_link">القيمة ليست رابطاً</string>
+    <string name="validation_mandatory">هذا حقل إلزامي</string>
+    <string name="validation_time_missing">يجب تعيين الوقت في خانة الوقت و التاريخ DataTime.</string>
+
+    <string name="order_weight">وزن الترتيب</string>
+    <string name="add_column">إضافة عمود</string>
+    <string name="unsupported_column_type">تعديل أعمدة من النوع %1$s غير مدعومة بعد.</string>
+    <string name="navigation_my_tables">جداولي</string>
+    <string name="navigation_shared_tables">جداول مشتركة</string>
+    <string name="could_not_display_column_editor"> %1$s لا يمكن عرضها.</string>
+</resources>
