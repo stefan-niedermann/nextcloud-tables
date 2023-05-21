@@ -44,7 +44,7 @@
     <string name="about_source_title">源代码</string>
     <string name="about_source">此项目托管在 Github 上：%1$s</string>
     <string name="about_issues_title">问题</string>
-    <string name="about_issues">你可以通过 GitHub 问题跟踪器报告 bug、提议增强已有功能和请求新功能：%1$s</string>
+    <string name="about_issues">你可以通过GitHub议题跟踪器报告bug、提议增强已有功能和请求新功能：%1$s</string>
     <string name="about_translate_title">翻译</string>
     <string name="about_translate">加入 Transifex 上的 Nextcloud 团队，帮助我们翻译这个应用程序：%1$s</string>
     <string name="about_app_license_title">应用许可证</string>
@@ -61,6 +61,7 @@
 
     <string name="error_dialog_title">哦，糟糕。所以会怎么样？🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">请尝试强行关闭应用并重新打开。可能与 Nextcloud 应用的连接不正确。</string>
+    <string name="error_dialog_tip_clear_storage_might_help">如果问题持续存在，尝试通过清除Nextcloud和Nextcloud表格两个应用的缓存来解决问题。</string>
     <string name="error_dialog_tip_database_upgrade_failed">数据库升级失败。请报告问题并清除应用存储来正常使用此应用。</string>
     <string name="error_dialog_tip_clear_storage">您可以通过打开应用信息，选择“存储>清除存储”来清除存储。</string>
     <string name="error_dialog_tip_offline_no_internet">看起来您试图在没有互联网连接的情况下触发同步。 </string>
@@ -70,7 +71,7 @@
     <string name="error_dialog_tip_files_delete_storage">如果强行停止没有效果，您可以尝试清除两个应用的存储空间。</string>
     <string name="error_dialog_timeout_instance">服务器没有在规定的时间内回答。请确保您的服务器实例在正常运行。</string>
     <string name="error_dialog_timeout_toggle">检查您的网络连接。有时候关闭并重新开启移动数据或 Wi-Fi 有帮助。</string>
-    <string name="error_dialog_check_server_logs">您的 Nextcloud 配置有一些问题。请查看服务器日志。</string>
+    <string name="error_dialog_check_server_logs">您的Nextcloud配置有一些问题。请查看服务器日志。</string>
     <string name="error_dialog_check_maintenance">请检查您的 Nextcloud 实例是否处于维护模式。</string>
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 实例已经没有可用的存储空间了。请删除一些文件来允许本地的变更同步到云。</string>
     <string name="error_dialog_we_need_info">我们需要以下技术信息来帮助您：</string>
