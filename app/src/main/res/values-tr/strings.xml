@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud tabloları</string>
     <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
     <string name="navigation_drawer_close">Gezinme çekmecesini kapat</string>
     <string name="action_settings">Ayarlar</string>
@@ -11,10 +12,17 @@
     <string name="simple_delete">Sil</string>
     <string name="simple_settings">Ayarlar</string>
     <string name="simple_about">Hakkında</string>
+    <string name="simple_synchronization">Eşitleme</string>
     <string name="simple_appearance">Görünüm</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Zorunlu</string>
+    <string name="simple_description">Açıklama</string>
+
     <string name="add_table">Tablo ekle</string>
+    <string name="add_row">Satır ekle</string>
     <string name="edit_row">Satırı düzenle</string>
+    <string name="manage_columns">Sütun yönetimi</string>
+    <string name="edit_column">Sütunu düzenle</string>
     <string name="preferences">Ayarlar</string>
     <string name="import_account">Hesabı içe aktar</string>
     <string name="choose_account">Hesap seçin</string>
@@ -24,11 +32,16 @@
     <string name="add_account">Hesap ekle</string>
     <string name="edit_table">Tabloyu düzenle</string>
     <string name="edit_item">%1$s düzenle</string>
+    <string name="share_table">Tabloyu paylaş</string>
+    <string name="not_implemented">Bu özellik henüz kullanılmıyor</string>
     <string name="delete_table">Tabloyu sil</string>
     <string name="hint_error_appeared">Bir sorun çıktı</string>
 
     <string name="delete_item">%1$s sil</string>
+    <string name="delete_item_message">Bu işlem %1$s ögesini kalıcı olarak silecek.</string>
     <string name="delete_row">Satırı sil</string>
+    <string name="delete_row_message">Bu işlem bu satırı kalıcı olarak silecek.</string>
+
     <string name="pref_title_sync_only_wifi">Yalnızca Wi-Fi ile eşitlensin</string>
     <string name="pref_title_sync_background">Arka planda eşitleme</string>
     <string name="pref_title_theme">Tema</string>
@@ -42,7 +55,7 @@
     <string name="about">Hakkında</string>
     <string name="about_version_title">Sürüm</string>
     <string name="about_version">Şu anda %1$s kullanıyorsunuz</string>
-    <string name="about_maintainer_title">Destekleyen</string>
+    <string name="about_maintainer_title">Sorumlu</string>
     <string name="about_developers_title">Geliştiriciler</string>
     <string name="about_translators_title">Çevirmenler</string>
     <string name="about_translators_transifex">%1$s üzerindeki Nextcloud topluluğu</string>
@@ -66,26 +79,33 @@
     <string name="about_server_app_version_text">Sunucu uygulaması sürümü:</string>
 
     <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı kapanmaya zorlayıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı zorla kapatıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tablolar uygulamasının depolamalarını temizlemeyi deneyin.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Veri tabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
     <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
     <string name="error_dialog_tip_offline_no_internet">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
     <string name="error_dialog_tip_offline_connection_refused">Bağlantı reddedildi. Lütfen sunucunuza tarayıcı üzerinden erişilebildiğinden emin olun.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Bağlantı zaman aşımına uğradı. Lütfen internete bağlı olup olmadığınızı denetleyin. Bu sorun, sunucunuz meşgul olduğunda da ortaya çıkabilir.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnızca Wi-Fi ile eşitlensin\" seçeneğini etkinleştirdiyseniz, yalnızca Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
+    <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tablolar uygulamasını zorla kapatmayı deneyin.</string>
     <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
     <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>
     <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Bazen mobil veriye geçmek ya da Wi-Fi bağlantısını kapatıp açmak yardımcı olabilir.</string>
+    <string name="error_dialog_check_server">Sunucunuz doğru şekilde yanıt vermedi. Lütfen Tablolar uygulamasına site arayüzü üzerinden erişebiliyor musunuz diye bakın.</string>
     <string name="error_dialog_check_server_logs">Nextcloud kurulumunuz ile ilgili bir sorun var. Lütfen sunucu günlük dosyalarını inceleyin.</string>
     <string name="error_dialog_check_maintenance">Nextcloud kopyanızın bakım kipinde olmadığından emin olun.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud kopyanızda boş depolama alanı kalmamış. Lütfen yerel değişikliklerinizi bulut ile eşitlemek için bazı dosyaları silerek yer açın.</string>
     <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
+    <string name="error_dialog_redirect">Sunucunuz, üzerine Tablolar uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
+    <string name="error_dialog_version_not_parsable">Sunucu tarafındaki Tablolar uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
     <string name="error_dialog_account_might_not_be_authorized">Nextcloud uygulamanızın hesabına artık izin verilmiyor olabilir.</string>
     <string name="error_dialog_user_not_found_in_database">Geçerli kullanıcı veri tabanımızdaki kullanıcı ile eşleşmiyor. Nextcloud kopyanızda LDAP kullanıyorsanız, Nextcloud uygulamanızda eski bir kullanıcı kodu kayıtlı olabilir.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
-    <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu hatayı bize bildirin.</string>
+    <string name="error_dialog_attachment_upload_failed">Bir ek dosya yüklenemedi. Lütfen dosyayı başka bir şekilde paylaşın ve bu sorunu bize bildirin.</string>
     <string name="error_dialog_certificate">Sunucu sertifikasında bir sorun var gibi görünüyor. Lütfen ayrıntılı bilgi almak için Nextcloud uygulamasındaki tüm hesaplara bakın.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Lütfen Nextcloud ve Tablolar uygulaması için tüm pil iyileştirmelerini devre dışı bırakın.</string>
     <string name="error_dialog_unknown_error">Nextcloud kopyanıza ulaşılamıyor gibi görünüyor. Lütfen internet bağlantınızın çalıştığından ve kopyanıza tarayıcı ile bağlanabildiğinizden emin olun.</string>
+    <string name="error_dialog_min_version">Tablolar Android uygulamasının çalışması için Nextcloud Android uygulamasının en az 3.18 sürümü gereklidir</string>
     <string name="error_action_open_app_info">Uygulama bilgilerini aç</string>
     <string name="error_action_open_nextcloud_app">Nextcloud uygulamasını aç</string>
     <string name="error_action_open_network">Ağ ayarları</string>
@@ -96,10 +116,31 @@
     <string name="error_action_update_files_app">Güncelle</string>
     <string name="error_action_open_battery_settings">Pil ayarları</string>
 
+    <string name="welcome_text">Nextcloud Tablolar uygulamasına hoş geldiniz!</string>
+    <string name="importing_account">%1$s hesabı içe aktarılıyor</string>
+    <string name="account_already_imported">Hesap zaten içe aktarılmış</string>
+    <string name="import_state_import_account">Hesap içe aktarılıyor</string>
+    <string name="import_state_import_tables">Tablolar içe aktarılıyor. Tamamlanması bir kaç dakika alabilir.</string>
+    <string name="not_yet_synchronized">Henüz eşitlenmemiş</string>
+
+    <string name="reason_not_installed">Nextcloud Tablolar uygulaması kurulu değil</string>
+    <string name="reason_not_enabled">Nextcloud Tablolar uygulaması etkinleştirilmemiş</string>
+    <string name="reason_maintenance_mode">Bu Nextcloud kopyası şu anda bakım kipinde.</string>
+    <string name="reason_server_error">Sunucunuzun verdiği yanıt geçersiz</string>
+    <string name="reason_tables_not_supported">Nextcloud Tablolar uygulamasının sürümü desteklenmiyor</string>
+    <string name="reason_nextcloud_not_supported">Bu Nextcloud sürümü desteklenmiyor</string>
     <string name="reason_unknown">Bilinmeyen bir sorun çıktı</string>
+
+    <string name="validation_number_not_parsable">Değer bir sayı değil gibi görünüyor</string>
+    <string name="validation_number_range">Değer %1$d ile %2$d arasında olmalıdır</string>
+    <string name="validation_text_link">Değer bir bağlantı değil</string>
+    <string name="validation_mandatory">Bu alanın doldurulması zorunludur</string>
+    <string name="validation_time_missing">Bir TarihSaat alanı için saat belirtilmelidir.</string>
 
     <string name="order_weight">Sıralama</string>
     <string name="add_column">Sütun ekle</string>
+    <string name="unsupported_column_type">%1$s türündeki sütunların düzenlenmesi henüz desteklenmiyor.</string>
     <string name="navigation_my_tables">Tablolarım</string>
     <string name="navigation_shared_tables">Paylaşılmış tablolar</string>
-    </resources>
+    <string name="could_not_display_column_editor">%1$s görüntülenemedi.</string>
+</resources>
