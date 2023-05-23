@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Razpredelnice Nextcloud</string>
     <string name="navigation_drawer_open">Odpri bočno okno</string>
     <string name="navigation_drawer_close">Zapri bočno okno</string>
     <string name="action_settings">Nastavitve</string>
@@ -11,11 +12,17 @@
     <string name="simple_delete">Izbriši</string>
     <string name="simple_settings">Nastavitve</string>
     <string name="simple_about">O programu</string>
+    <string name="simple_synchronization">Usklajevanje</string>
     <string name="simple_appearance">Videz</string>
+    <string name="simple_emoji">Izrazne ikone</string>
     <string name="simple_mandatory">Obvezno polje</string>
-    <string name="simple_description">pis</string>
+    <string name="simple_description">Opis</string>
 
+    <string name="add_table">Dodaj razpredelnico</string>
+    <string name="add_row">Dodaj vrstico</string>
     <string name="edit_row">Uredi vrstico</string>
+    <string name="manage_columns">Upravljanje s stolpci</string>
+    <string name="edit_column">Uredi stolpec</string>
     <string name="preferences">Nastavitve</string>
     <string name="import_account">Uvozi račun</string>
     <string name="choose_account">Izbor računa</string>
@@ -25,12 +32,17 @@
     <string name="add_account">Dodaj račun</string>
     <string name="edit_table">Uredi razpredelnico</string>
     <string name="edit_item">Uredi %1$s</string>
+    <string name="share_table">Omogoči souporabo</string>
+    <string name="not_implemented">Programska zmožnost še ni omogočena</string>
     <string name="delete_table">Izbriši razpredelnico</string>
     <string name="hint_error_appeared">Prišlo je do napake</string>
 
     <string name="delete_item">Izbriši %1$s</string>
+    <string name="delete_item_message">S tem boste trajno izbrisali %1$s.</string>
     <string name="delete_row">Izbriši vrstico</string>
-    <string name="pref_title_sync_only_wifi">Usklajuj le na Wi-Fi</string>
+    <string name="delete_row_message">S tem boste trajno izbrisali to vrstico.</string>
+
+    <string name="pref_title_sync_only_wifi">Uskladi le na Wi-Fi</string>
     <string name="pref_title_sync_background"> Usklajevanje v ozadju</string>
     <string name="pref_title_theme">Tema</string>
 
@@ -68,12 +80,14 @@
 
     <string name="error_dialog_title">Ojoj, kaj pa zdaj? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Poskusite vsiliti končanje programa in ga ponovno zagnati. Morda je težava v neustrezni povezavi z okoljem Nextcloud</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Če se težava še naprej pojavlja, poskusite počistiti podatke programa Nextcloud in Razpredelnic Nextcloud.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Nadgradnja podatkovne zbirke je spodletela. Pošljite poročilo o napaki in nato počistite shrambo za normalno uporabo programa.</string>
     <string name="error_dialog_tip_clear_storage">Shrambo je mogoče počistiti med podrobnostmi programa Shramba → Počisti shrambo.</string>
     <string name="error_dialog_tip_offline_no_internet">Kaže, da ste sprožili usklajevanje brez ustrezno vzpostavljene povezave z omrežjem.</string>
     <string name="error_dialog_tip_offline_connection_refused">Povezava je bila zavrnjena, preverite, ali je strežnik dosegljiv v spletnem brskalniku.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Povezava je časovno potekla, preverite, ali ste povezani v omrežje. Težave se pojavijo tudi, kadar je strežnik preobremenjen.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Če je izbrana možnost »Usklajuj le prek povezave Wi-Fi«, je usklajevanje mogoče izključno ob uporabi povezave Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Kaže, da je nekaj narobe s programom Nextcloud. Poskusite vsiljeno zaustaviti programa Nextcloud in Razpredelnice Nextcloud.</string>
     <string name="error_dialog_tip_files_delete_storage">Vsiljeno zaustavljanje ni imelo ustreznega učinka. Poskusite lahko še počistiti podatke shrambe obeh programov.</string>
     <string name="error_dialog_timeout_instance">V podanem času program ni pridobil ustreznega odziva strežnika. Prepričajte se, da program deluje pravilno.</string>
     <string name="error_dialog_timeout_toggle">Preverite omrežno povezavo. Včasih preklapljanje med mobilnimi in Wi-Fi podatki razreši težavo.</string>
@@ -81,12 +95,16 @@
     <string name="error_dialog_check_maintenance">Preverite, ali je morda namestitev Nextcloud trenutno v vzdrževalnem načinu.</string>
     <string name="error_dialog_insufficient_storage">V shrambi ni več prostora. Za nadaljevanje usklajevanja z oblakom je treba Izbrisati nekaj krajevnih datotek.</string>
     <string name="error_dialog_we_need_info">Z ustrezno pomoč potrebujemo nekaj tehničnih podrobnosti sistema:</string>
+    <string name="error_dialog_redirect">S strežnika je prejet odziv s kodo stanja HTTP 302, kar kaže na to, da program Razpredelnice ni nameščen, ali pa je napačno nastavljen. Napaka se pojavi tudi pri nekaterih določilih v datoteki .htaccess oziroma programih, kot je odjemalec OID.</string>
+    <string name="error_dialog_version_not_parsable">Ni mogoče določiti različice strežnika, povezanega s programom Razpredelnice. Prepričajte se, da je nameščen in omogočen.</string>
     <string name="error_dialog_account_might_not_be_authorized">Račun v programu Nextcloud morda ni več overjen.</string>
     <string name="error_dialog_user_not_found_in_database">Trenutno izbrani uporabnik nima ustreznih dovoljenj. Če uporabljate LDAP ima morda progam Nextcloud shranjen star ID uporabnika.</string>
     <string name="error_dialog_capabilities_not_parsable">Ni mogoče pridobiti podatkov o zmožnostih strežnika. Prepričajte se, da strežnik teče in da imajo programi dostop do okolja Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Priloge ni mogoče poslati. Souporabo omogočite na nek drug način, nam pa posredujte poročilo o hrošču.</string>
     <string name="error_dialog_certificate">Prišlo je do napake pri branju potrdila strežnika. Preverite vse račune v programu Nextcloud za več podrobnosti.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Onemogočite vso optimizacijo porabe baterije za programa Nextcloud in Razpredelnice.</string>
     <string name="error_dialog_unknown_error">Kaže, da dostop do okolja Nextcloud ni mogoče. Preverite omrežno povezavo in ali se lahko v okolje povežete preko spletnega brskalnika.</string>
+    <string name="error_dialog_min_version">Program Razpredelnice za okolje Android zahteva vsaj različico Nextcloud 3.18.</string>
     <string name="error_action_open_app_info">Odpri podrobnosti programa</string>
     <string name="error_action_open_nextcloud_app">Odpri program Nextcloud</string>
     <string name="error_action_open_network">Nastavitve omrežja</string>
@@ -97,8 +115,15 @@
     <string name="error_action_update_files_app">Posodobi</string>
     <string name="error_action_open_battery_settings">Nastavitve baterije</string>
 
+    <string name="welcome_text">Dobrodošli v programu Razpredelnice</string>
+    <string name="importing_account">Poteka uvažanje računa %1$s</string>
+    <string name="account_already_imported">Račun je že bil uvožen</string>
+    <string name="import_state_import_account">Poteka uvažanje računa</string>
+    <string name="import_state_import_tables">Poteka uvažanje razpredelnic. Opravilo je lahko dolgotrajno.</string>
+    <string name="not_yet_synchronized">Podatki še niso usklajeni</string>
+
     <string name="order_weight">Razvrstilnik</string>
-    <string name="add_column">Dodaj paket</string>
+    <string name="add_column">Dodaj stolpec</string>
     <string name="navigation_my_tables">Moje razpredelnice</string>
     <string name="navigation_shared_tables">Razpredelnice v souporabi</string>
     </resources>
