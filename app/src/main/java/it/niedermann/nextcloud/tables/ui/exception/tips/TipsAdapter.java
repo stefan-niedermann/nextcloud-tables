@@ -35,6 +35,7 @@ import java.util.List;
 import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.remote.exception.InsufficientPermissionException;
 import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
@@ -69,34 +70,49 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         return tips.size();
     }
 
-    public void setThrowable(@NonNull Context context, @Nullable Account account, @NonNull Throwable throwable) {
+    public void setThrowable(@NonNull Context context, @Nullable Account account, @NonNull Throwable rawThrowable) {
+        final var throwable = unwrapThrowable(rawThrowable);
+
         if (throwable instanceof ServerNotAvailableException) {
             add(((ServerNotAvailableException) throwable).getReason().messageRes);
 
             switch (((ServerNotAvailableException) throwable).getReason()) {
                 case NOT_INSTALLED:
-
                     break;
                 case NOT_ENABLED:
-
                     break;
                 case MAINTENANCE_MODE:
-
                     break;
                 case SERVER_ERROR:
-
+                    break;
+                case DEVICE_OFFLINE:
                     break;
                 case TABLES_NOT_SUPPORTED:
-
                     break;
                 case NEXTCLOUD_NOT_SUPPORTED:
-
                     break;
                 case UNKNOWN:
                 default:
                     add(R.string.error_dialog_tip_clear_storage_might_help);
                     add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
                     break;
+            }
+        } else if (throwable instanceof InsufficientPermissionException) {
+            switch (((InsufficientPermissionException) throwable).getMissingPermission()) {
+                case READ:
+                    add(R.string.missing_permission_read);
+                case CREATE:
+                    add(R.string.missing_permission_create);
+                case UPDATE:
+                    add(R.string.missing_permission_update);
+                case DELETE:
+                    add(R.string.missing_permission_delete);
+                case MANAGE:
+                    add(R.string.missing_permission_manage);
+                default:
+                    add(R.string.reason_unknown);
+                    add(R.string.error_dialog_tip_clear_storage_might_help);
+                    add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
             }
         } else if (throwable instanceof TokenMismatchException) {
             add(R.string.error_dialog_tip_token_mismatch_retry);
@@ -174,6 +190,20 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                     add(R.string.error_dialog_unknown_error);
                 }
             }
+        }
+    }
+
+    @NonNull
+    private Throwable unwrapThrowable(@NonNull Throwable throwable) {
+        if (throwable instanceof RuntimeException) {
+            final var cause = throwable.getCause();
+            if (cause == null) {
+                return throwable;
+            } else {
+                return unwrapThrowable(cause);
+            }
+        } else {
+            return throwable;
         }
     }
 

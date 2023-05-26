@@ -20,7 +20,8 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditRowBinding;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
+import it.niedermann.nextcloud.tables.model.EDataType;
+import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
 public class EditRowActivity extends AppCompatActivity {
@@ -87,11 +88,16 @@ public class EditRowActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            if (row == null) {
-                editRowViewModel.createRow(account, table, editors);
-            } else {
-                editRowViewModel.updateRow(account, row, editors);
-            }
+            final var futureResult = row == null
+                    ? editRowViewModel.createRow(account, table, editors)
+                    : editRowViewModel.updateRow(account, table, row, editors);
+
+            futureResult.whenCompleteAsync((result, exception) -> {
+                if (exception != null) {
+                    ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            }, ContextCompat.getMainExecutor(this));
+
             finish();
             return true;
         }

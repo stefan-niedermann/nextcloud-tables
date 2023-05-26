@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
             if (account == null) {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
             } else {
+
+                mainViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
+                    if (exception != null) {
+                        exception.printStackTrace();
+                    }
+                }, ContextCompat.getMainExecutor(this));
+
                 Glide
                         .with(binding.toolbar.getContext())
                         .load(account.getAvatarUrl(binding.toolbar.getMenu().findItem(R.id.account_switcher).getIcon().getIntrinsicWidth()))
@@ -145,46 +152,51 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < tables.size(); i++) {
                 final var table = tables.get(i);
 
-                final var contextMenu = new AppCompatImageButton(this);
-                contextMenu.setBackgroundDrawable(null);
-                contextMenu.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_menu));
-                contextMenu.setOnClickListener((v) -> {
-                    final var popup = new PopupMenu(this, contextMenu);
-                    popup.getMenuInflater().inflate(R.menu.context_menu_table, popup.getMenu());
-                    popup.setOnMenuItemClickListener(item -> {
-                        final var id = item.getItemId();
-                        if (id == R.id.edit_table) {
-                            startActivity(EditTableActivity.createIntent(MainActivity.this, account, table));
-                            return true;
-                        } else if (id == R.id.share_table) {
-                            if (FeatureToggles.SHARE_TABLE.enabled) {
-                                throw new UnsupportedOperationException();
-                            } else {
-                                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                final AppCompatImageButton contextMenu;
+                if (table.hasManagePermission()) {
+                    contextMenu = new AppCompatImageButton(this);
+                    contextMenu.setBackgroundDrawable(null);
+                    contextMenu.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_menu));
+                    contextMenu.setOnClickListener((v) -> {
+                        final var popup = new PopupMenu(this, contextMenu);
+                        popup.getMenuInflater().inflate(R.menu.context_menu_table, popup.getMenu());
+                        popup.setOnMenuItemClickListener(item -> {
+                            final var id = item.getItemId();
+                            if (id == R.id.edit_table) {
+                                startActivity(EditTableActivity.createIntent(MainActivity.this, account, table));
+                                return true;
+                            } else if (id == R.id.share_table) {
+                                if (FeatureToggles.SHARE_TABLE.enabled) {
+                                    throw new UnsupportedOperationException();
+                                } else {
+                                    Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
+                                }
+                                return true;
+                            } else if (id == R.id.manage_columns) {
+                                startActivity(ManageColumnsActivity.createIntent(this, account, table));
+                                return true;
+                            } else if (id == R.id.delete_table) {
+                                new MaterialAlertDialogBuilder(this)
+                                        .setTitle(getString(R.string.delete_item, table.getTitle()))
+                                        .setMessage(getString(R.string.delete_item_message, table.getTitle()))
+                                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
+                                            mainViewModel.deleteTable(table).whenCompleteAsync((result, exception) -> {
+                                                if (exception != null) {
+                                                    ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                                }
+                                            }, ContextCompat.getMainExecutor(this));
+                                        })
+                                        .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                        .show();
+                                return true;
                             }
-                            return true;
-                        } else if (id == R.id.manage_columns) {
-                            startActivity(ManageColumnsActivity.createIntent(this, account, table));
-                            return true;
-                        } else if (id == R.id.delete_table) {
-                            new MaterialAlertDialogBuilder(this)
-                                    .setTitle(getString(R.string.delete_item, table.getTitle()))
-                                    .setMessage(getString(R.string.delete_item_message, table.getTitle()))
-                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
-                                        mainViewModel.deleteTable(table).whenCompleteAsync((result, exception) -> {
-                                            if (exception != null) {
-                                                ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                            }
-                                        }, ContextCompat.getMainExecutor(this));
-                                    })
-                                    .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                                    .show();
-                            return true;
-                        }
-                        return false;
+                            return false;
+                        });
+                        popup.show();
                     });
-                    popup.show();
-                });
+                } else {
+                    contextMenu = null;
+                }
 
                 sharedTables.add(Menu.NONE, i, Menu.NONE, table.getTitle())
                         .setCheckable(true)

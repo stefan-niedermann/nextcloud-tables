@@ -13,10 +13,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
@@ -49,10 +45,10 @@ public class ViewTableViewModel extends AndroidViewModel {
             try {
                 this.accountRepository.synchronizeAccount(account);
                 this.tablesRepository.synchronizeTables(account);
+                return null;
             } catch (Exception e) {
                 throw new CompletionException(e);
             }
-            return null;
         }, executor);
     }
 
@@ -86,27 +82,25 @@ public class ViewTableViewModel extends AndroidViewModel {
         );
     }
 
-    public void deleteRow(@NonNull Row row) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> deleteRow(@NonNull Table table, @NonNull Row row) {
+        return supplyAsync(() -> {
             try {
-                tablesRepository.deleteRow(row);
-            } catch (NextcloudFilesAppAccountNotFoundException |
-                     NextcloudHttpRequestFailedException | IOException e) {
-                // TODO propagate?
-                e.printStackTrace();
+                tablesRepository.deleteRow(table, row);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 
-    public void deleteColumn(@NonNull Column column) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> deleteColumn(@NonNull Table table, @NonNull Column column) {
+        return supplyAsync(() -> {
             try {
-                tablesRepository.deleteColumn(column);
-            } catch (NextcloudFilesAppAccountNotFoundException |
-                     NextcloudHttpRequestFailedException | IOException e) {
-                // TODO propagate?
-                e.printStackTrace();
+                tablesRepository.deleteColumn(table, column);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 }

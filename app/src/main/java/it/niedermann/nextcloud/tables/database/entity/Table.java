@@ -54,6 +54,28 @@ public class Table extends AbstractRemoteEntity {
         return String.format(Locale.getDefault(), "%s %s", getEmoji(), getTitle()).trim();
     }
 
+    public boolean hasReadPermission() {
+        return !isShared || getOnSharePermission().isManage() || getOnSharePermission().isRead();
+    }
+
+    public boolean hasCreatePermission() {
+        return !isShared || getOnSharePermission().isManage() || getOnSharePermission().isCreate();
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean hasUpdatePermission() {
+        return !isShared || getOnSharePermission().isManage() || getOnSharePermission().isUpdate();
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean hasDeletePermission() {
+        return !isShared || getOnSharePermission().isManage() || getOnSharePermission().isDelete();
+    }
+
+    public boolean hasManagePermission() {
+        return !isShared || getOnSharePermission().isManage();
+    }
+
     @NonNull
     public String getTitle() {
         return title;

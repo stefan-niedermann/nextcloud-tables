@@ -2,13 +2,11 @@ package it.niedermann.nextcloud.tables.repository.sync;
 
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.util.HashSet;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
@@ -23,12 +21,12 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = TableSyncAdapter.class.getSimpleName();
 
-    public TableSyncAdapter(@NonNull TablesDatabase db) {
-        super(db);
+    public TableSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
+        super(db, context);
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         Log.v(TAG, "Pushing local changes for " + account.getAccountName());
         final var deletedTables = db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED);
         for (final var table : deletedTables) {
@@ -42,7 +40,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
                 if (response.isSuccessful()) {
                     db.getTableDao().delete(table);
                 } else {
-                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete table " + table.getTitle()));
+                    serverErrorHandler.handle(response, "Could not delete table " + table.getTitle());
                 }
             }
         }
@@ -64,13 +62,13 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
                 table.setRemoteId(body.getRemoteId());
                 db.getTableDao().update(table);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for table " + table.getTitle()));
+                serverErrorHandler.handle(response, "Could not push local changes for table " + table.getTitle());
             }
         }
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         final var fetchedTables = new HashSet<Table>();
         int offset = 0;
 
@@ -109,7 +107,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
                 }
 
                 default: {
-                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException());
+                    serverErrorHandler.handle(response);
                 }
             }
         }

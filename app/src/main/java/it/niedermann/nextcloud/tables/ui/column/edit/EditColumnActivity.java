@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.tables.R;
@@ -96,11 +97,15 @@ public class EditColumnActivity extends AppCompatActivity {
                 return true;
             }
 
-            if (this.column.getRemoteId() == null) {
-                editColumnViewModel.createColumn(account, column);
-            } else {
-                editColumnViewModel.updateColumn(account, column);
-            }
+            final var futureResult = this.column.getRemoteId() == null
+                    ? editColumnViewModel.createColumn(account, table, column)
+                    : editColumnViewModel.updateColumn(account, table, column);
+
+            futureResult.whenCompleteAsync((result, exception) -> {
+                if (exception != null) {
+                    ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            }, ContextCompat.getMainExecutor(this));
 
             finish();
             return true;

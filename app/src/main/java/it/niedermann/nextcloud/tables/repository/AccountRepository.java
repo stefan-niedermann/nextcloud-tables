@@ -14,9 +14,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +35,7 @@ public class AccountRepository {
     private static final String SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT = "it.niedermann.nextcloud.tables.current_account";
     private final Context context;
     private final TablesDatabase db;
+    private final ServerErrorHandler serverErrorHandler;
     private final SharedPreferences sharedPreferences;
     private final LiveData<Long> currentAccountId$;
     private final LiveData<Account> currentAccount$;
@@ -46,6 +44,7 @@ public class AccountRepository {
     public AccountRepository(@NonNull Context context) {
         this.context = context;
         this.db = TablesDatabase.getInstance(context);
+        this.serverErrorHandler = new ServerErrorHandler(context);
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.currentAccountId$ = new SharedPreferenceLongLiveData(sharedPreferences, SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT, -1L);
         this.currentAccount$ = Transformations.switchMap(currentAccountId$, currentAccountId -> (currentAccountId < 0)
@@ -89,7 +88,7 @@ public class AccountRepository {
         db.getAccountDao().updateCurrentTable(accountId, tableId);
     }
 
-    public void synchronizeAccount(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException, ServerNotAvailableException {
+    public void synchronizeAccount(@NonNull Account account) throws Exception {
         try (final var apiProvider = ApiProvider.getOcsApiProvider(context, account)) {
             synchronizeCapabilities(apiProvider.getApi(), account);
             synchronizeUser(apiProvider.getApi(), account);
@@ -97,8 +96,9 @@ public class AccountRepository {
         }
     }
 
-    private void synchronizeCapabilities(@NonNull OcsAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException, ServerNotAvailableException {
+    private void synchronizeCapabilities(@NonNull OcsAPI api, @NonNull Account account) throws Exception {
         final var response = api.getCapabilities(account.getETag()).execute();
+        //noinspection SwitchStatementWithTooFewBranches
         switch (response.code()) {
             case 200: {
                 final var body = response.body();
@@ -140,19 +140,16 @@ public class AccountRepository {
                 break;
             }
 
-            case 304: {
-                Log.i(TAG, "HTTP " + response.code() + " Not Modified");
-                break;
-            }
-
             default: {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException(response.message()));
+                serverErrorHandler.handle(response);
+                break;
             }
         }
     }
 
-    private void synchronizeUser(@NonNull OcsAPI api, @NonNull Account account) throws NextcloudHttpRequestFailedException, IOException {
+    private void synchronizeUser(@NonNull OcsAPI api, @NonNull Account account) throws Exception {
         final var response = api.getUser(account.getUserName()).execute();
+        //noinspection SwitchStatementWithTooFewBranches
         switch (response.code()) {
             case 200: {
                 final var body = response.body();
@@ -164,13 +161,9 @@ public class AccountRepository {
                 break;
             }
 
-            case 304: {
-                Log.i(TAG, "HTTP " + response.code() + " Not Modified");
-                break;
-            }
-
             default: {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not fetch user " + account.getUserName()));
+                serverErrorHandler.handle(response, "Could not fetch user " + account.getUserName());
+                break;
             }
         }
     }

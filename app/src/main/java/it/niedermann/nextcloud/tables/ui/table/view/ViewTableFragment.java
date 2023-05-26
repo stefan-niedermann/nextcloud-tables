@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.table.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggles;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
+import it.niedermann.nextcloud.tables.model.EPermission;
 import it.niedermann.nextcloud.tables.model.FullTable;
 import it.niedermann.nextcloud.tables.ui.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
@@ -31,6 +33,7 @@ import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
 public class ViewTableFragment extends Fragment {
 
+    private static final String TAG = ViewTableFragment.class.getSimpleName();
     private FragmentTableBinding binding;
     private ViewTableViewModel viewTableViewModel;
     private TableViewAdapter adapter;
@@ -65,10 +68,13 @@ public class ViewTableFragment extends Fragment {
         if (fullTable == null) {
             adapter.setAllItems(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
             binding.tableView.setTableViewListener(null);
-            binding.fab.setOnClickListener(null);
+            binding.fab.setVisibility(View.GONE);
             binding.swipeRefreshLayout.setOnRefreshListener(null);
             return;
         }
+
+        binding.fab.setVisibility(fullTable.getTable().hasCreatePermission() ? View.VISIBLE : View.GONE);
+
         final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
         final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
 
@@ -91,6 +97,11 @@ public class ViewTableFragment extends Fragment {
 
             @Override
             public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
+                if (!fullTable.getTable().hasUpdatePermission() && !fullTable.getTable().hasDeletePermission()) {
+                    Log.i(TAG, "Insufficient permissions: " + EPermission.UPDATE + ", " + EPermission.DELETE);
+                    return;
+                }
+
                 final var popup = new PopupMenu(requireContext(), cellView.itemView);
                 popup.inflate(R.menu.context_menu_cell);
                 Optional.ofNullable(popup.getMenu().findItem(R.id.quick_action))
@@ -120,7 +131,13 @@ public class ViewTableFragment extends Fragment {
                         new MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(R.string.delete_row)
                                 .setMessage(R.string.delete_row_message)
-                                .setPositiveButton(R.string.simple_delete, (dialog, which) -> viewTableViewModel.deleteRow(row))
+                                .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
+                                    viewTableViewModel.deleteRow(fullTable.getTable(), row).whenCompleteAsync((result, exception) -> {
+                                        if (exception != null) {
+                                            ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                        }
+                                    }, ContextCompat.getMainExecutor(requireContext()));
+                                })
                                 .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
                                 .show();
                     } else {
@@ -138,6 +155,11 @@ public class ViewTableFragment extends Fragment {
                 final var column = adapter.getColumnHeaderItem(columnPosition);
                 if (column == null) {
                     ExceptionDialogFragment.newInstance(new IllegalStateException("No column header at position " + columnPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    return;
+                }
+
+                if (!fullTable.getTable().hasManagePermission()) {
+                    Log.i(TAG, "Insufficient permissions: " + EPermission.MANAGE);
                     return;
                 }
 
@@ -160,7 +182,11 @@ public class ViewTableFragment extends Fragment {
                                 .setMessage(getString(R.string.delete_item_message, column.getTitle()))
                                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
                                     if (FeatureToggles.DELETE_COLUMN.enabled) {
-                                        viewTableViewModel.deleteColumn(column);
+                                        viewTableViewModel.deleteColumn(fullTable.getTable(), column).whenCompleteAsync((result, exception) -> {
+                                            if (exception != null) {
+                                                ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                            }
+                                        }, ContextCompat.getMainExecutor(requireContext()));
                                     } else {
                                         Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
                                     }

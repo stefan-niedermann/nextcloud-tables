@@ -20,7 +20,7 @@ import java.util.List;
 import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
+import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 import it.niedermann.nextcloud.tables.remote.util.TablesSerializationUtil;
 

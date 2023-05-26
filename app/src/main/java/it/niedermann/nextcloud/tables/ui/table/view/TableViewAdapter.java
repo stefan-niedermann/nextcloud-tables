@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCornerBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
+import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.ColumnHeaderViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.RowHeaderViewHolder;

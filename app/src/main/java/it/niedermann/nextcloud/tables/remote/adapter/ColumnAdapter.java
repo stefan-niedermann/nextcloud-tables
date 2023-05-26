@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
+import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.remote.util.TablesSerializationUtil;
 
 public class ColumnAdapter {

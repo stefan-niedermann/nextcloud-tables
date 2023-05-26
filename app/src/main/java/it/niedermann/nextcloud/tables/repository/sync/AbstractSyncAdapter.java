@@ -1,25 +1,26 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
-
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
+import it.niedermann.nextcloud.tables.repository.ServerErrorHandler;
 
 public abstract class AbstractSyncAdapter {
 
     protected static final String HEADER_ETAG = "ETag";
     protected final TablesDatabase db;
+    protected final ServerErrorHandler serverErrorHandler;
 
-    protected AbstractSyncAdapter(@NonNull TablesDatabase db) {
+    protected AbstractSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
         this.db = db;
+        this.serverErrorHandler = new ServerErrorHandler(context);
     }
 
-    public abstract void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException;
+    public abstract void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception;
 
-    public abstract void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException;
+    public abstract void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception;
 }

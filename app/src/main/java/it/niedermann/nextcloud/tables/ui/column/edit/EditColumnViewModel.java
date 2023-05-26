@@ -1,19 +1,20 @@
 package it.niedermann.nextcloud.tables.ui.column.edit;
 
+import static java.util.concurrent.CompletableFuture.supplyAsync;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
 public class EditColumnViewModel extends AndroidViewModel {
@@ -28,28 +29,26 @@ public class EditColumnViewModel extends AndroidViewModel {
     }
 
 
-    public void createColumn(@NonNull Account account, @NonNull Column column) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> createColumn(@NonNull Account account, @NonNull Table table, @NonNull Column column) {
+        return supplyAsync(() -> {
             try {
-                tablesRepository.createColumn(account, column);
-            } catch (NextcloudHttpRequestFailedException | IOException |
-                     NextcloudFilesAppAccountNotFoundException e) {
-                // TODO escalate?
-                e.printStackTrace();
+                tablesRepository.createColumn(account, table, column);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 
-    public void updateColumn(@NonNull Account account, @NonNull Column column) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> updateColumn(@NonNull Account account, @NonNull Table table, @NonNull Column column) {
+        return supplyAsync(() -> {
             try {
-                tablesRepository.updateColumn(account, column);
-            } catch (NextcloudHttpRequestFailedException | IOException |
-                     NextcloudFilesAppAccountNotFoundException e) {
-                // TODO escalate?
-                e.printStackTrace();
+                tablesRepository.updateColumn(account, table, column);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 
 }

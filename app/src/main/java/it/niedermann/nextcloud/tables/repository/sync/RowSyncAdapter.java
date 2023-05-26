@@ -2,13 +2,11 @@ package it.niedermann.nextcloud.tables.repository.sync;
 
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -26,18 +24,19 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
     private final DataAdapter dataAdapter;
 
-    public RowSyncAdapter(@NonNull TablesDatabase db) {
-        this(db, new DataAdapter());
+    public RowSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
+        this(db, new DataAdapter(), context);
     }
 
     private RowSyncAdapter(@NonNull TablesDatabase db,
-                           @NonNull DataAdapter dataAdapter) {
-        super(db);
+                           @NonNull DataAdapter dataAdapter,
+                           @NonNull Context context) {
+        super(db, context);
         this.dataAdapter = dataAdapter;
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         final var rowsToDelete = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_DELETED);
         Log.v(TAG, "------ Pushing " + rowsToDelete.size() + " local row deletions for " + account.getAccountName());
         for (final var row : rowsToDelete) {
@@ -51,7 +50,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                 if (response.isSuccessful()) {
                     db.getRowDao().delete(row);
                 } else {
-                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete row " + row.getRemoteId()));
+                    serverErrorHandler.handle(response, "Could not delete row " + row.getRemoteId());
                 }
             }
         }
@@ -75,19 +74,19 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                 row.setStatus(DBStatus.VOID);
                 final var body = response.body();
                 if (body == null) {
-                    throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfull, but response body was empty");
+                    throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfully, but response body was empty");
                 }
 
                 row.setRemoteId(body.getRemoteId());
                 db.getRowDao().update(row);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for row " + row.getRemoteId()));
+                serverErrorHandler.handle(response, "Could not push local changes for row " + row.getRemoteId());
             }
         }
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         for (final var table : db.getTableDao().getTables(account.getId())) {
             final var fetchedRows = new HashSet<Row>();
             int offset = 0;
@@ -102,6 +101,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
                 final var request = api.getRows(tableRemoteId, TablesAPI.DEFAULT_API_LIMIT_ROWS, offset);
                 final var response = request.execute();
+                //noinspection SwitchStatementWithTooFewBranches
                 switch (response.code()) {
                     case 200: {
                         final var rows = response.body();
@@ -126,13 +126,8 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         break;
                     }
 
-                    case 304: {
-                        Log.v(TAG, "------ Pull remote rows: HTTP " + response.code() + " Not Modified");
-                        break;
-                    }
-
                     default: {
-                        throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not fetch rows for table with remote ID " + table.getRemoteId()));
+                        serverErrorHandler.handle(response, "Could not fetch rows for table with remote ID " + table.getRemoteId());
                     }
                 }
             }

@@ -2,13 +2,10 @@ package it.niedermann.nextcloud.tables.repository.sync;
 
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
@@ -22,13 +19,13 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
     private static final String TAG = ColumnSyncAdapter.class.getSimpleName();
     private final ColumnAdapter columnAdapter;
 
-    public ColumnSyncAdapter(@NonNull TablesDatabase db) {
-        super(db);
+    public ColumnSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
+        super(db, context);
         this.columnAdapter = new ColumnAdapter();
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         Log.v(TAG, "--- Pushing local columns for " + account.getAccountName());
         final var columnsToDelete = db.getColumnDao().getColumns(account.getId(), DBStatus.LOCAL_DELETED);
         for (final var column : columnsToDelete) {
@@ -42,7 +39,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                 if (response.isSuccessful()) {
                     db.getColumnDao().delete(column);
                 } else {
-                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not delete column " + column.getTitle()));
+                    serverErrorHandler.handle(response, "Could not delete column " + column.getTitle());
                 }
             }
         }
@@ -102,13 +99,13 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                 column.setRemoteId(body.getRemoteId());
                 db.getColumnDao().update(column);
             } else {
-                throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("Could not push local changes for column " + column.getTitle()));
+                serverErrorHandler.handle(response, "Could not push local changes for column " + column.getTitle());
             }
         }
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         for (final var table : db.getTableDao().getTables(account.getId())) {
             final var tableRemoteId = table.getRemoteId();
             if (tableRemoteId == null) {
@@ -117,6 +114,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
             final var request = api.getColumns(tableRemoteId);
             final var response = request.execute();
+            //noinspection SwitchStatementWithTooFewBranches
             switch (response.code()) {
                 case 200: {
                     final var columns = response.body();
@@ -172,13 +170,8 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     break;
                 }
 
-                case 304: {
-                    Log.v(TAG, "--- Pull remote columns: HTTP " + response.code() + " Not Modified");
-                    break;
-                }
-
                 default: {
-                    throw new NextcloudHttpRequestFailedException(response.code(), new RuntimeException("At table remote ID: " + table.getRemoteId()));
+                    serverErrorHandler.handle(response, "At table remote ID: " + table.getRemoteId());
                 }
             }
         }

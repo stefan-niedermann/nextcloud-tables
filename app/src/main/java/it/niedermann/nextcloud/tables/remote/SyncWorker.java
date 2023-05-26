@@ -12,16 +12,11 @@ import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.time.Instant;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
@@ -63,8 +58,7 @@ public class SyncWorker extends Worker {
                     accountRepository.synchronizeAccount(account);
                     tablesRepository.synchronizeTables(account);
                     latch.await();
-                } catch (InterruptedException | NextcloudHttpRequestFailedException | IOException |
-                         NextcloudFilesAppAccountNotFoundException | ServerNotAvailableException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     success.set(Result.failure());
                 }

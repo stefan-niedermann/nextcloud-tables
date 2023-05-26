@@ -11,16 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -46,8 +43,8 @@ public class EditRowViewModel extends AndroidViewModel {
         return supplyAsync(() -> tablesRepository.getNotDeletedColumns(table), executor);
     }
 
-    public void createRow(@NonNull Account account, @NonNull Table table, @NonNull Collection<ColumnEditView> editors) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> createRow(@NonNull Account account, @NonNull Table table, @NonNull Collection<ColumnEditView> editors) {
+        return supplyAsync(() -> {
             final var data = editors.stream().map(ColumnEditView::toData).toArray(Data[]::new);
             final var row = new Row();
             row.setCreatedBy(account.getUserName());
@@ -56,26 +53,24 @@ public class EditRowViewModel extends AndroidViewModel {
             row.setLastEditAt(row.getCreatedAt());
             row.setTableId(table.getId());
             try {
-                tablesRepository.createRow(account, row, data);
-            } catch (NextcloudFilesAppAccountNotFoundException |
-                     NextcloudHttpRequestFailedException | IOException e) {
-                // TODO escalate?
-                e.printStackTrace();
+                tablesRepository.createRow(account, table, row, data);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 
-    public void updateRow(@NonNull Account account, @NonNull Row row, @NonNull Collection<ColumnEditView> editors) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> updateRow(@NonNull Account account, @NonNull Table table, @NonNull Row row, @NonNull Collection<ColumnEditView> editors) {
+        return supplyAsync(() -> {
             final var data = editors.stream().map(ColumnEditView::toData).toArray(Data[]::new);
             try {
-                tablesRepository.updateRow(account, row, data);
-            } catch (NextcloudFilesAppAccountNotFoundException |
-                     NextcloudHttpRequestFailedException | IOException e) {
-                // TODO escalate?
-                e.printStackTrace();
+                tablesRepository.updateRow(account, table, row, data);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 
     public CompletableFuture<Map<Long, Data>> getData(@Nullable Row row) {

@@ -33,6 +33,7 @@ public class ServerNotAvailableException extends Exception {
         NOT_ENABLED(R.string.reason_not_enabled),
         MAINTENANCE_MODE(R.string.reason_maintenance_mode),
         SERVER_ERROR(R.string.reason_server_error),
+        DEVICE_OFFLINE(R.string.reason_offline),
         TABLES_NOT_SUPPORTED(R.string.reason_tables_not_supported),
         NEXTCLOUD_NOT_SUPPORTED(R.string.reason_nextcloud_not_supported),
         UNKNOWN(R.string.reason_unknown),

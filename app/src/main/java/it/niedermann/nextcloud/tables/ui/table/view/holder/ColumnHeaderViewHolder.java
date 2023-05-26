@@ -10,7 +10,7 @@ import com.evrencoskun.tableview.sort.SortState;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
+import it.niedermann.nextcloud.tables.model.EDataType;
 
 /**
  * Created by evrencoskun on 1.12.2017.

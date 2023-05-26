@@ -153,6 +153,13 @@
     <string name="reason_tables_not_supported">Your Nextcloud Tables app version is not supported</string>
     <string name="reason_nextcloud_not_supported">Your Nextcloud version is not supported</string>
     <string name="reason_unknown">An unknown error occurred</string>
+    <string name="reason_offline">You are currently offline. </string>
+
+    <string name="missing_permission_read">Missing read permission</string>
+    <string name="missing_permission_create">Missing create permission</string>
+    <string name="missing_permission_update">Missing update permission</string>
+    <string name="missing_permission_delete">Missing delete permission</string>
+    <string name="missing_permission_manage">Missing manage permission</string>
 
     <string name="validation_number_not_parsable">The value seems not to be a number</string>
     <string name="validation_number_range">The value must be between %1$d %2$d</string>

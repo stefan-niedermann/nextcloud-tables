@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.tables.databinding.TableviewCellCheckBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellRichBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellStarsBinding;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
+import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.DateCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.DateTimeCellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.type.datetime.TimeCellViewHolder;

@@ -27,7 +27,7 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.TablesApplication;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
-import it.niedermann.nextcloud.tables.model.types.EDataType;
+import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.type.UnknownEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeDateEditor;

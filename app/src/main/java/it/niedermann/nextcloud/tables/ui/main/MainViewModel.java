@@ -12,10 +12,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -39,6 +35,18 @@ public class MainViewModel extends AndroidViewModel {
         this.accountRepository = new AccountRepository(application);
         this.tablesRepository = new TablesRepository(application);
         this.executor = Executors.newSingleThreadExecutor();
+    }
+
+    public CompletableFuture<Void> synchronizeAccountAndTables(@NonNull Account account) {
+        return supplyAsync(() -> {
+            try {
+                this.accountRepository.synchronizeAccount(account);
+                this.tablesRepository.synchronizeTables(account);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
+            }
+        }, executor);
     }
 
     public LiveData<Account> getCurrentAccount() {
@@ -96,11 +104,10 @@ public class MainViewModel extends AndroidViewModel {
         return supplyAsync(() -> {
             try {
                 tablesRepository.deleteTable(table);
-            } catch (NextcloudFilesAppAccountNotFoundException |
-                     NextcloudHttpRequestFailedException | IOException e) {
+                return null;
+            } catch (Exception e) {
                 throw new CompletionException(e);
             }
-            return null;
         }, executor);
     }
 

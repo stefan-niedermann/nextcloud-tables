@@ -6,10 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
 import java.util.List;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
@@ -19,8 +15,10 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.model.EPermission;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
+import it.niedermann.nextcloud.tables.remote.exception.InsufficientPermissionException;
 import it.niedermann.nextcloud.tables.repository.sync.AbstractSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.ColumnSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.RowSyncAdapter;
@@ -41,7 +39,11 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     private TablesRepository(@NonNull TablesDatabase db,
                              @NonNull Context context) {
-        this(db, context, new TableSyncAdapter(db), new ColumnSyncAdapter(db), new RowSyncAdapter(db));
+        this(db,
+                context,
+                new TableSyncAdapter(db, context),
+                new ColumnSyncAdapter(db, context),
+                new RowSyncAdapter(db, context));
     }
 
     private TablesRepository(@NonNull TablesDatabase db,
@@ -49,14 +51,14 @@ public class TablesRepository extends AbstractSyncAdapter {
                              @NonNull AbstractSyncAdapter tableSyncAdapter,
                              @NonNull AbstractSyncAdapter columnSyncAdapter,
                              @NonNull AbstractSyncAdapter rowSyncAdapter) {
-        super(db);
+        super(db, context);
         this.context = context;
         this.tableSyncAdapter = tableSyncAdapter;
         this.columnSyncAdapter = columnSyncAdapter;
         this.rowSyncAdapter = rowSyncAdapter;
     }
 
-    public void synchronizeTables(@NonNull Account account) throws NextcloudFilesAppAccountNotFoundException, IOException, NextcloudHttpRequestFailedException {
+    public void synchronizeTables(@NonNull Account account) throws Exception {
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
             final var api = apiProvider.getApi();
 
@@ -66,14 +68,14 @@ public class TablesRepository extends AbstractSyncAdapter {
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         tableSyncAdapter.pushLocalChanges(api, account);
         columnSyncAdapter.pushLocalChanges(api, account);
         rowSyncAdapter.pushLocalChanges(api, account);
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws IOException, NextcloudHttpRequestFailedException {
+    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
         tableSyncAdapter.pullRemoteChanges(api, account);
         columnSyncAdapter.pullRemoteChanges(api, account);
         rowSyncAdapter.pullRemoteChanges(api, account);
@@ -91,7 +93,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         return db.getRowDao().getNotDeletedRows$(table.getId());
     }
 
-    public void createTable(@NonNull Account account, @NonNull Table table) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
+    public void createTable(@NonNull Account account, @NonNull Table table) throws Exception {
         table.setStatus(DBStatus.LOCAL_EDITED);
         table.setAccountId(account.getId());
         db.getTableDao().insert(table);
@@ -100,7 +102,10 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void updateTable(@NonNull Account account, @NonNull Table table) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
+    public void updateTable(@NonNull Account account, @NonNull Table table) throws Exception {
+        if (!table.hasManagePermission()) {
+            throw new InsufficientPermissionException(EPermission.MANAGE);
+        }
         table.setStatus(DBStatus.LOCAL_EDITED);
         db.getTableDao().update(table);
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
@@ -108,7 +113,10 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void deleteTable(@NonNull Table table) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+    public void deleteTable(@NonNull Table table) throws Exception {
+        if (!table.hasManagePermission()) {
+            throw new InsufficientPermissionException(EPermission.MANAGE);
+        }
         table.setStatus(DBStatus.LOCAL_DELETED);
         db.getTableDao().update(table);
         final var account = db.getAccountDao().getAccountById(table.getAccountId());
@@ -117,7 +125,10 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void createColumn(@NonNull Account account, @NonNull Column column) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
+    public void createColumn(@NonNull Account account, @NonNull Table table, @NonNull Column column) throws Exception {
+        if (!table.hasManagePermission()) {
+            throw new InsufficientPermissionException(EPermission.MANAGE);
+        }
         column.setStatus(DBStatus.LOCAL_EDITED);
         column.setAccountId(account.getId());
         db.getColumnDao().insert(column);
@@ -126,7 +137,10 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void updateColumn(@NonNull Account account, @NonNull Column column) throws NextcloudHttpRequestFailedException, IOException, NextcloudFilesAppAccountNotFoundException {
+    public void updateColumn(@NonNull Account account, @NonNull Table table, @NonNull Column column) throws Exception {
+        if (!table.hasManagePermission()) {
+            throw new InsufficientPermissionException(EPermission.MANAGE);
+        }
         column.setStatus(DBStatus.LOCAL_EDITED);
         db.getColumnDao().update(column);
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
@@ -134,7 +148,10 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void deleteColumn(@NonNull Column column) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+    public void deleteColumn(@NonNull Table table, @NonNull Column column) throws Exception {
+        if (!table.hasManagePermission()) {
+            throw new InsufficientPermissionException(EPermission.MANAGE);
+        }
         column.setStatus(DBStatus.LOCAL_DELETED);
         db.getColumnDao().update(column);
         final var account = db.getAccountDao().getAccountById(column.getAccountId());
@@ -143,7 +160,10 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void createRow(@NonNull Account account, @NonNull Row row, @NonNull Data[] dataset) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+    public void createRow(@NonNull Account account, @NonNull Table table, @NonNull Row row, @NonNull Data[] dataset) throws Exception {
+        if (!table.hasCreatePermission()) {
+            throw new InsufficientPermissionException(EPermission.CREATE);
+        }
         row.setStatus(DBStatus.LOCAL_EDITED);
         row.setAccountId(account.getId());
         final var insertedRowId = db.getRowDao().insert(row);
@@ -156,13 +176,16 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void updateRow(@NonNull Account account, @NonNull Row row, @NonNull Data[] dataset) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+    public void updateRow(@NonNull Account account, @NonNull Table table, @NonNull Row row, @NonNull Data[] dataset) throws Exception {
+        if (!table.hasUpdatePermission()) {
+            throw new InsufficientPermissionException(EPermission.UPDATE);
+        }
         row.setStatus(DBStatus.LOCAL_EDITED);
         row.setAccountId(account.getId());
         db.getRowDao().update(row);
         for (final var data : dataset) {
             data.setRowId(row.getId());
-            if(data.getValue() == null) {
+            if (data.getValue() == null) {
                 db.getDataDao().delete(data);
             }
             final var exists = db.getDataDao().exists(data.getColumnId(), data.getRowId());
@@ -177,7 +200,10 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void deleteRow(@NonNull Row row) throws NextcloudFilesAppAccountNotFoundException, NextcloudHttpRequestFailedException, IOException {
+    public void deleteRow(@NonNull Table table, @NonNull Row row) throws Exception {
+        if (!table.hasDeletePermission()) {
+            throw new InsufficientPermissionException(EPermission.DELETE);
+        }
         row.setStatus(DBStatus.LOCAL_DELETED);
         db.getRowDao().update(row);
         final var account = db.getAccountDao().getAccountById(row.getAccountId());

@@ -1,14 +1,14 @@
 package it.niedermann.nextcloud.tables.ui.table.edit;
 
+import static java.util.concurrent.CompletableFuture.supplyAsync;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
-import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
-
-import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,27 +27,25 @@ public class EditTableViewModel extends AndroidViewModel {
         this.executor = Executors.newSingleThreadExecutor();
     }
 
-    public void createTable(@NonNull Account account, @NonNull Table table) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> createTable(@NonNull Account account, @NonNull Table table) {
+        return supplyAsync(() -> {
             try {
                 tablesRepository.createTable(account, table);
-            } catch (NextcloudHttpRequestFailedException | IOException |
-                     NextcloudFilesAppAccountNotFoundException e) {
-                // TODO escalate?
-                e.printStackTrace();
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 
-    public void updateTable(@NonNull Account account, @NonNull Table table) {
-        executor.submit(() -> {
+    public CompletableFuture<Void> updateTable(@NonNull Account account, @NonNull Table table) {
+        return supplyAsync(() -> {
             try {
                 tablesRepository.updateTable(account, table);
-            } catch (NextcloudHttpRequestFailedException | IOException |
-                     NextcloudFilesAppAccountNotFoundException e) {
-                // TODO escalate?
-                e.printStackTrace();
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
             }
-        });
+        }, executor);
     }
 }

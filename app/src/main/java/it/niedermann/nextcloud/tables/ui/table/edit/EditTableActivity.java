@@ -9,12 +9,14 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditTableBinding;
+import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
 public class EditTableActivity extends AppCompatActivity {
@@ -78,11 +80,16 @@ public class EditTableActivity extends AppCompatActivity {
             table.setTitle(newTitle == null ? "" : newTitle.toString());
             table.setEmoji(newEmoji == null ? "" : newEmoji.toString());
 
-            if (table.getRemoteId() == null) {
-                editTableViewModel.createTable(account, table);
-            } else {
-                editTableViewModel.updateTable(account, table);
-            }
+            final var futureResult = table.getRemoteId() == null
+                    ? editTableViewModel.createTable(account, table)
+                    : editTableViewModel.updateTable(account, table);
+
+            futureResult.whenCompleteAsync((result, exception) -> {
+                if (exception != null) {
+                    ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
+            }, ContextCompat.getMainExecutor(this));
+
             finish();
             return true;
         }

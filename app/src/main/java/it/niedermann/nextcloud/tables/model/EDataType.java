@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.model.types;
+package it.niedermann.nextcloud.tables.model;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
