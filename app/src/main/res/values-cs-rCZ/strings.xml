@@ -130,7 +130,6 @@
     <string name="reason_tables_not_supported">Vámi využívaná verze aplikace Nextcloud Tabulky není podporována</string>
     <string name="reason_nextcloud_not_supported">Verze vámi využívaného Nextcloud není podporována</string>
     <string name="reason_unknown">Nastala neznámá chyba</string>
-
     <string name="validation_number_not_parsable">Zdá se, že hodnota není číslem</string>
     <string name="validation_number_range">Je třeba, aby hodnota byla z rozmezí %1$d %2$d</string>
     <string name="validation_text_link">Hodnota není odkazem</string>

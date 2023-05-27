@@ -92,6 +92,5 @@
     <string name="error_action_open_battery_settings">电池设置</string>
 
     <string name="reason_unknown">遇到未知错误</string>
-
     <string name="add_column">添加列</string>
     </resources>

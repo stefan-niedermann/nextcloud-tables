@@ -130,7 +130,6 @@
     <string name="reason_tables_not_supported">Верзија Ваше апликације Nextcloud Табеле није подржана</string>
     <string name="reason_nextcloud_not_supported">Верзија Ваше Nextcloud апликације није подржана</string>
     <string name="reason_unknown">Десила се непозната грешка</string>
-
     <string name="validation_number_not_parsable">Изгледа да вредност није број</string>
     <string name="validation_number_range">Вредност мора да буде између %1$d %2$d</string>
     <string name="validation_text_link">Вредност није линк</string>

@@ -105,7 +105,6 @@
 
     <string name="reason_nextcloud_not_supported">Käyttämäsi Nextcloud-versio ei ole tuettu</string>
     <string name="reason_unknown">Tapahtui tuntematon virhe</string>
-
     <string name="validation_number_not_parsable">Arvo ei vaikuta olevan numero</string>
     <string name="validation_text_link">Arvo ei ole linkki</string>
     <string name="validation_mandatory">Tämä on pakollinen kenttä</string>

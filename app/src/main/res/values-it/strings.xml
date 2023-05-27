@@ -100,7 +100,6 @@
     <string name="error_action_open_battery_settings">Impostazioni batteria</string>
 
     <string name="reason_unknown">Si è verificato un errore sconosciuto</string>
-
     <string name="order_weight">Peso normale</string>
     <string name="add_column">Aggiungi colonna</string>
     </resources>

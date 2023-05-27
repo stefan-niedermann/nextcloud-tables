@@ -130,7 +130,6 @@
     <string name="reason_tables_not_supported">您的 Nextcloud 表格應用程式版本不受支援</string>
     <string name="reason_nextcloud_not_supported">您的 Nextcloud 版本不受支援</string>
     <string name="reason_unknown">發生未知的錯誤</string>
-
     <string name="validation_number_not_parsable">值似乎不是數字</string>
     <string name="validation_number_range">值必須在 %1$d 到 %2$d 間</string>
     <string name="validation_text_link">值不是連結</string>

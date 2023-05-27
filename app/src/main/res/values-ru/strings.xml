@@ -130,7 +130,6 @@
     <string name="reason_tables_not_supported">Ваша версия приложения Nextcloud Tables не поддерживается</string>
     <string name="reason_nextcloud_not_supported">Ваша версия Nextcloud не поддерживается</string>
     <string name="reason_unknown">Произошла неизвестная ошибка</string>
-
     <string name="validation_number_not_parsable">Значение не является числом</string>
     <string name="validation_number_range">Значение должно быть между %1$d и %2$d</string>
     <string name="validation_text_link">Значение не является ссылкой</string>

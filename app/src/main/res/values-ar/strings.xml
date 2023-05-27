@@ -130,7 +130,6 @@
     <string name="reason_tables_not_supported">هذا الإصدار من تطبيق جداول نكست كلاود غير مدعوم</string>
     <string name="reason_nextcloud_not_supported">هذا الإصدار من نكست كلاود غير مدعوم</string>
     <string name="reason_unknown">حدث خلل غير معروف</string>
-
     <string name="validation_number_not_parsable">يبدو أن القيمة ليست رقماً</string>
     <string name="validation_number_range">القيمة يجب أن تكون بين %1$d و %2$d</string>
     <string name="validation_text_link">القيمة ليست رابطاً</string>

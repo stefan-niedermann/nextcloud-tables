@@ -131,7 +131,6 @@
     <string name="reason_tables_not_supported">この Nextcloud Tables アプリのバージョンはサポートされていません</string>
     <string name="reason_nextcloud_not_supported">この Nextcloud のバージョンはサポートされていません</string>
     <string name="reason_unknown">不明なエラーが発生しました</string>
-
     <string name="validation_number_not_parsable">内容が数値では無いようです</string>
     <string name="validation_number_range">%1$dと%2$dの間の値が必要です</string>
     <string name="validation_text_link">値がリンクではありません</string>

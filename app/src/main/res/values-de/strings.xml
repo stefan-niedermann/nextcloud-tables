@@ -130,7 +130,6 @@
     <string name="reason_tables_not_supported">Die Version Ihrer Nextcloud-Tabellen-App wird nicht unterstützt</string>
     <string name="reason_nextcloud_not_supported">Ihre Nextcloud-Version wird nicht unterstützt</string>
     <string name="reason_unknown">Unbekannter Fehler aufgetreten</string>
-
     <string name="validation_number_not_parsable">Der Wert scheint keine Zahl zu sein</string>
     <string name="validation_number_range">Der wet muss zwischen %1$d und %2$d liegen</string>
     <string name="validation_text_link">Der Wert ist kein Link</string>
