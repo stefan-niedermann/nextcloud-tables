@@ -130,6 +130,14 @@
     <string name="reason_tables_not_supported">您的 Nextcloud 表格應用程式版本不受支援</string>
     <string name="reason_nextcloud_not_supported">您的 Nextcloud 版本不受支援</string>
     <string name="reason_unknown">發生未知的錯誤</string>
+    <string name="reason_offline">目前離線中。</string>
+
+    <string name="missing_permission_read">缺少讀取權限</string>
+    <string name="missing_permission_create">缺少建立權限</string>
+    <string name="missing_permission_update">缺少更新權限</string>
+    <string name="missing_permission_delete">缺少刪除權限</string>
+    <string name="missing_permission_manage">缺少管理權限</string>
+
     <string name="validation_number_not_parsable">值似乎不是數字</string>
     <string name="validation_number_range">值必須在 %1$d 到 %2$d 間</string>
     <string name="validation_text_link">值不是連結</string>
