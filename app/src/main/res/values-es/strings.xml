@@ -130,6 +130,14 @@
     <string name="reason_tables_not_supported">Su versión de la app Tablas de Nextcloud no está soportada todavía</string>
     <string name="reason_nextcloud_not_supported">Su versión de Nextcloud no es compatible</string>
     <string name="reason_unknown">Se ha producido un error desconocido</string>
+    <string name="reason_offline">Actualmente estás fuera de línea</string>
+
+    <string name="missing_permission_read">Sin permisos de lectura</string>
+    <string name="missing_permission_create">Sin permisos de creación</string>
+    <string name="missing_permission_update">Sin permisos de actualización</string>
+    <string name="missing_permission_delete">Sin permisos de eliminación</string>
+    <string name="missing_permission_manage">Sin permisos de gestión</string>
+
     <string name="validation_number_not_parsable">El valor no parece ser un número.</string>
     <string name="validation_number_range">El valor debe estar entre %1$d %2$d</string>
     <string name="validation_text_link">El valor no es un enlace</string>
