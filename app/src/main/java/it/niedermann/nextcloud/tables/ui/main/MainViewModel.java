@@ -5,8 +5,10 @@ import static androidx.lifecycle.Transformations.switchMap;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.app.Application;
+import android.net.NetworkRequest;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -22,6 +24,7 @@ import java.util.concurrent.Executors;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
+import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
 public class MainViewModel extends AndroidViewModel {
@@ -29,11 +32,13 @@ public class MainViewModel extends AndroidViewModel {
     private final ExecutorService executor;
     private final AccountRepository accountRepository;
     private final TablesRepository tablesRepository;
+    private final PreferencesRepository preferencesRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.accountRepository = new AccountRepository(application);
         this.tablesRepository = new TablesRepository(application);
+        this.preferencesRepository = new PreferencesRepository(application);
         this.executor = Executors.newSingleThreadExecutor();
     }
 
@@ -109,6 +114,17 @@ public class MainViewModel extends AndroidViewModel {
                 throw new CompletionException(e);
             }
         }, executor);
+    }
+
+    @NonNull
+    public LiveData<Pair<Account, NetworkRequest>> getAccountAndNetworkRequest() {
+        return switchMap(getCurrentAccount(), account -> {
+            if (account != null) {
+                return map(preferencesRepository.getNetworkRequest$(), parameter -> new Pair<>(account, parameter));
+            } else {
+                return new MutableLiveData<>();
+            }
+        });
     }
 
     static class TablesPerAccount {

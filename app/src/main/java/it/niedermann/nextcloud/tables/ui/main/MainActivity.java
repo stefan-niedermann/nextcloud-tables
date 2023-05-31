@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.tables.ui.main;
 
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.Network;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +26,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggles;
@@ -70,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
             } else {
                 Log.i(TAG, "New account set: " + account);
-                mainViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
-                    if (exception != null) {
-                        exception.printStackTrace();
-                    }
-                }, ContextCompat.getMainExecutor(this));
 
                 Glide
                         .with(binding.toolbar.getContext())
@@ -105,6 +103,27 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
             }
+        });
+
+        final var connectivityManager = (ConnectivityManager) getSystemService(ConnectivityManager.class);
+        final var networkCallbackReference = new AtomicReference<ConnectivityManager.NetworkCallback>();
+        mainViewModel.getAccountAndNetworkRequest().observe(this, accountAndNetworkRequest -> {
+            if (networkCallbackReference.get() != null) {
+                connectivityManager.unregisterNetworkCallback(networkCallbackReference.get());
+            }
+            networkCallbackReference.set(new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onAvailable(@NonNull Network network) {
+                    super.onAvailable(network);
+                    Log.i(TAG, "Network available, trigger synchronization for " + accountAndNetworkRequest.first);
+                    mainViewModel.synchronizeAccountAndTables(accountAndNetworkRequest.first).whenCompleteAsync((result, exception) -> {
+                        if (exception != null) {
+                            exception.printStackTrace();
+                        }
+                    }, ContextCompat.getMainExecutor(MainActivity.this));
+                }
+            });
+            connectivityManager.requestNetwork(accountAndNetworkRequest.second, networkCallbackReference.get());
         });
     }
 

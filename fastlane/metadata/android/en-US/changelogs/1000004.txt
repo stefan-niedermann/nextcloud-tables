@@ -1,3 +1,4 @@
-- feat: Respect permissions for shared tables
-- feat: Synchronize account on app start
-- enh: Better handling of network errors
+- feat(permissions): Respect permissions for shared tables
+- feat(sync): Synchronize account on app start
+- feat(preferences): Allow synchronizing on Wi-Fi only
+- enh(sync): Better handling of network errors

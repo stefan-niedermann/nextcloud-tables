@@ -2,9 +2,11 @@ package it.niedermann.nextcloud.tables.repository;
 
 import android.content.Context;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.List;
 
@@ -85,12 +87,14 @@ public class TablesRepository extends AbstractSyncAdapter {
         return db.getTableDao().getNotDeletedTables$(account.getId(), isShared);
     }
 
+    @MainThread
     public LiveData<Table> getNotDeletedTable$(long id) {
-        return db.getTableDao().getNotDeletedTable$(id);
+        return Transformations.distinctUntilChanged(db.getTableDao().getNotDeletedTable$(id));
     }
 
+    @MainThread
     public LiveData<List<Row>> getNotDeletedRows$(@NonNull Table table) {
-        return db.getRowDao().getNotDeletedRows$(table.getId());
+        return Transformations.distinctUntilChanged(db.getRowDao().getNotDeletedRows$(table.getId()));
     }
 
     public void createTable(@NonNull Account account, @NonNull Table table) throws Exception {
@@ -212,8 +216,9 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
+    @MainThread
     public LiveData<List<Column>> getNotDeletedColumns$(@NonNull Table table) {
-        return db.getColumnDao().getNotDeletedColumns$(table.getId());
+        return Transformations.distinctUntilChanged(db.getColumnDao().getNotDeletedColumns$(table.getId()));
     }
 
     public List<Column> getNotDeletedColumns(@NonNull Table table) {
@@ -226,8 +231,9 @@ public class TablesRepository extends AbstractSyncAdapter {
         return columns;
     }
 
+    @MainThread
     public LiveData<List<Data>> getData(@NonNull Table table) {
-        return db.getDataDao().getData(table.getId());
+        return Transformations.distinctUntilChanged(db.getDataDao().getData(table.getId()));
     }
 
     public Data[] getRawData(long rowId) {
