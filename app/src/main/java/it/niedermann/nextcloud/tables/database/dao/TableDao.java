@@ -18,7 +18,7 @@ public interface TableDao extends GenericDao<Table> {
     @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId")
     List<Table> getTables(long accountId);
 
-    @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId AND (t.isShared == 0 OR t.read == 1)")
+    @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId AND (t.isShared == 0 OR t.manage == 1 OR t.read == 1)")
     List<Table> getTablesWithReadPermission(long accountId);
 
     @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId AND t.status = :status")
