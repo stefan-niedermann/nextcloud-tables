@@ -37,7 +37,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
     @Override
     public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
-        final var rowsToDelete = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_DELETED);
+        final var rowsToDelete = db.getRowDao().getLocallyDeletedRows(account.getId());
         Log.v(TAG, "------ Pushing " + rowsToDelete.size() + " local row deletions for " + account.getAccountName());
         for (final var row : rowsToDelete) {
             Log.i(TAG, "------ → DELETE: " + row.getRemoteId());
@@ -55,7 +55,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             }
         }
 
-        final var rowsToUpdate = db.getRowDao().getRows(account.getId(), DBStatus.LOCAL_EDITED);
+        final var rowsToUpdate = db.getRowDao().getLocallyEditedRows(account.getId());
         Log.v(TAG, "------ Pushing " + rowsToDelete.size() + " local row changes for " + account.getAccountName());
 
         for (final var row : rowsToUpdate) {
