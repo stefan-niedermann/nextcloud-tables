@@ -87,6 +87,11 @@ public class ViewTableFragment extends Fragment {
         binding.tableView.setTableViewListener(new DefaultTableViewListener() {
             @Override
             public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
+                if (!fullTable.getTable().hasUpdatePermission()) {
+                    Log.i(TAG, "Insufficient permissions: " + EPermission.UPDATE);
+                    return;
+                }
+
                 final var row = fullTable.getRows().get(rowPosition);
                 if (row == null) {
                     ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
