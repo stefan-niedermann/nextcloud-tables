@@ -67,6 +67,7 @@ public class SyncWorker extends Worker {
             return success.get();
         } finally {
             Log.i(TAG, "Finishing background synchronization.");
+            preferencesRepository.setLastBackgroundSync(Instant.now());
         }
     }
 
@@ -74,12 +75,20 @@ public class SyncWorker extends Worker {
      * Removes existing {@link SyncWorker} instances and, if background sync is enabled according to the user preferences, it will add a {@link SyncWorker} instance again.
      */
     public static void update(@NonNull Context context) {
+        final var preferencesRepository = new PreferencesRepository(context);
+        update(context, preferencesRepository.isBackgroundSyncEnabled());
+    }
+
+    /**
+     * Removes existing {@link SyncWorker} instances and, if background sync is enabled according to the given preferenceValue, it will add a {@link SyncWorker} instance again.
+     */
+    public static void update(@NonNull Context context, boolean preferenceValue) {
         Log.i(TAG, "Deregistering all " + SyncWorker.class.getSimpleName() + " with tag " + WORKER_TAG);
         WorkManager.getInstance(context.getApplicationContext()).cancelAllWorkByTag(WORKER_TAG);
 
         final var preferencesRepository = new PreferencesRepository(context);
 
-        if (!preferencesRepository.isBackgroundSyncEnabled()) {
+        if (!preferenceValue) {
             preferencesRepository.setLastBackgroundSync(null);
             return;
         }
@@ -102,6 +111,6 @@ public class SyncWorker extends Worker {
 
         WorkManager
                 .getInstance(context.getApplicationContext())
-                .enqueueUniquePeriodicWork(SyncWorker.WORKER_TAG, ExistingPeriodicWorkPolicy.UPDATE, periodicWorkRequest);
+                .enqueueUniquePeriodicWork(SyncWorker.WORKER_TAG, ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE, periodicWorkRequest);
     }
 }

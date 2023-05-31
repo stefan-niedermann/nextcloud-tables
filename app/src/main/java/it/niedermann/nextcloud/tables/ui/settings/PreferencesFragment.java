@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.ui.settings;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -44,7 +45,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
 
         final Preference prefSyncBackground = Objects.requireNonNull(findPreference(getString(R.string.pref_key_sync_background)));
         prefSyncBackground.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-            SyncWorker.update(requireContext().getApplicationContext());
+            Log.i(TAG, "newValue: " + Boolean.TRUE.equals(newValue));
+            SyncWorker.update(requireContext().getApplicationContext(), Boolean.TRUE.equals(newValue));
             return true;
         });
     }

@@ -4,6 +4,7 @@ import static it.niedermann.nextcloud.tables.ui.util.SpannableUtil.setTextWithUR
 import static it.niedermann.nextcloud.tables.ui.util.SpannableUtil.url;
 
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,11 @@ public class AboutFragmentCreditsTab extends Fragment {
         }
 
         preferencesRepository.getLastBackgroundSync$().observe(getViewLifecycleOwner(), lastBackgroundSync -> {
-            // TODO show last background sync in UI
+            if (lastBackgroundSync == null) {
+                binding.lastBackgroundSync.setText(R.string.simple_disabled);
+            } else {
+                binding.lastBackgroundSync.setText(DateUtils.getRelativeTimeSpanString(lastBackgroundSync.toEpochMilli()));
+            }
         });
 
         binding.aboutMaintainer.setText(url(getString(R.string.about_maintainer), getString(R.string.url_maintainer)));
