@@ -37,6 +37,7 @@ public class AccountRepository {
     private final TablesDatabase db;
     private final ServerErrorHandler serverErrorHandler;
     private final SharedPreferences sharedPreferences;
+    @SuppressWarnings("FieldCanBeLocal")
     private final LiveData<Long> currentAccountId$;
     private final LiveData<Account> currentAccount$;
 
@@ -47,9 +48,9 @@ public class AccountRepository {
         this.serverErrorHandler = new ServerErrorHandler(context);
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.currentAccountId$ = new SharedPreferenceLongLiveData(sharedPreferences, SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT, -1L);
-        this.currentAccount$ = Transformations.switchMap(currentAccountId$, currentAccountId -> (currentAccountId < 0)
+        this.currentAccount$ = Transformations.distinctUntilChanged(Transformations.switchMap(currentAccountId$, currentAccountId -> (currentAccountId < 0)
                 ? new MutableLiveData<>(null)
-                : db.getAccountDao().getAccountById$(currentAccountId));
+                : db.getAccountDao().getAccountById$(currentAccountId)));
     }
 
     public LiveData<Account> getCurrentAccount() {
@@ -172,7 +173,7 @@ public class AccountRepository {
         db.getAccountDao().delete(account);
     }
 
-    public void guessCurrentBoard(@NonNull Account account) {
+    public void guessCurrentTable(@NonNull Account account) {
         Optional.ofNullable(db.getTableDao().getAnyNotDeletedTables(account.getId()))
                 .ifPresent(table -> db.getAccountDao().updateCurrentTable(account.getId(), table.getId()));
     }

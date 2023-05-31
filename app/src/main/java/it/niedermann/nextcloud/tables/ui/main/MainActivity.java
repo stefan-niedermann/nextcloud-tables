@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             if (account == null) {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
             } else {
-
+                Log.i(TAG, "New account set: " + account);
                 mainViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
                     if (exception != null) {
                         exception.printStackTrace();

@@ -6,6 +6,7 @@ import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Version implements Serializable, Comparable<Version> {
@@ -70,12 +71,6 @@ public class Version implements Serializable, Comparable<Version> {
         return patch;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return String.format(Locale.getDefault(), "%d.%d.%d", major, minor, patch);
-    }
-
     @Override
     public int compareTo(@NonNull Version o) {
         if (major < o.getMajor()) {
@@ -113,5 +108,24 @@ public class Version implements Serializable, Comparable<Version> {
 
     public boolean isLessThanOrEqual(@NonNull Version o) {
         return compareTo(o) <= 0;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format(Locale.getDefault(), "%d.%d.%d", major, minor, patch);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Version version1 = (Version) o;
+        return major == version1.major && minor == version1.minor && patch == version1.patch && Objects.equals(version, version1.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(version, major, minor, patch);
     }
 }
