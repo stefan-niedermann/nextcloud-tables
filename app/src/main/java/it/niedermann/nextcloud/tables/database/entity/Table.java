@@ -158,6 +158,12 @@ public class Table extends AbstractRemoteEntity {
     }
 
     @Override
+    @NonNull
+    public String toString() {
+        return getTitleWithEmoji();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

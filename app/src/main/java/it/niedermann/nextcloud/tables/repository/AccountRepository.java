@@ -53,6 +53,7 @@ public class AccountRepository {
                 : db.getAccountDao().getAccountById$(currentAccountId)));
     }
 
+    @MainThread
     public LiveData<Account> getCurrentAccount() {
         return currentAccount$;
     }
@@ -73,6 +74,7 @@ public class AccountRepository {
         return db.getAccountDao().getAccountById(id);
     }
 
+    @MainThread
     public LiveData<List<Account>> getAccounts$() {
         return db.getAccountDao().getAccounts$();
     }
@@ -81,6 +83,7 @@ public class AccountRepository {
         return db.getAccountDao().getAccounts();
     }
 
+    @MainThread
     public LiveData<List<Account>> getAccountsExcept$(long id) {
         return db.getAccountDao().getAccountsExcept$(id);
     }

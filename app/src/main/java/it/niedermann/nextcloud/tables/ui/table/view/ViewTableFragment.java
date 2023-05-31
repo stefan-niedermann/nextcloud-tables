@@ -66,12 +66,15 @@ public class ViewTableFragment extends Fragment {
 
     private void applyCurrentTable(@NonNull Account account, @Nullable FullTable fullTable) {
         if (fullTable == null) {
+            Log.i(TAG, "Current table: " + null);
             adapter.setAllItems(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
             binding.tableView.setTableViewListener(null);
             binding.fab.setVisibility(View.GONE);
             binding.swipeRefreshLayout.setOnRefreshListener(null);
             return;
         }
+
+        Log.i(TAG, "Current table: " + fullTable.getTable());
 
         binding.fab.setVisibility(fullTable.getTable().hasCreatePermission() ? View.VISIBLE : View.GONE);
 

@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void applyCurrentTable(@Nullable Table table) {
         binding.toolbar.setHint(table == null
-                ? "Choose table from the sidebar"
+                ? getString(R.string.choose_table_from_the_sidebar)
                 : table.getTitleWithEmoji());
     }
 

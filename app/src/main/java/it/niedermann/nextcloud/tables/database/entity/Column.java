@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -254,6 +255,12 @@ public class Column extends AbstractRemoteEntity {
 
     public void setDatetimeDefault(String datetimeDefault) {
         this.datetimeDefault = datetimeDefault;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getTitle();
     }
 
     @Override
