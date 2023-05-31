@@ -87,7 +87,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
     @Override
     public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
-        for (final var table : db.getTableDao().getTables(account.getId())) {
+        for (final var table : db.getTableDao().getTablesWithReadPermission(account.getId())) {
             final var fetchedRows = new HashSet<Row>();
             int offset = 0;
 

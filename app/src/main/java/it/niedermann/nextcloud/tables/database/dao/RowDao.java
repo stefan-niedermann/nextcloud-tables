@@ -28,6 +28,9 @@ public interface RowDao extends GenericDao<Row> {
     @Query("SELECT r.remoteId, r.id FROM `Row` r WHERE r.accountId = :accountId AND r.remoteId IN (:remoteIds)")
     Map<Long, Long> getRowRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);
 
+    @Query("DELETE FROM `Row` WHERE tableId = :tableId")
+    void deleteAllFromTable(long tableId);
+
     @Query("DELETE FROM `Row` WHERE tableId = :tableId AND remoteId NOT IN (:remoteIds)")
     void deleteExcept(long tableId, Collection<Long> remoteIds);
 }

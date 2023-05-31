@@ -123,6 +123,9 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
                 table.setId(tableId);
                 Log.i(TAG, "→ Updating " + table.getTitle() + " in database");
                 db.getTableDao().update(table);
+                if (!table.hasReadPermission()) {
+                    db.getRowDao().deleteAllFromTable(table.getId());
+                }
             }
         }
 
