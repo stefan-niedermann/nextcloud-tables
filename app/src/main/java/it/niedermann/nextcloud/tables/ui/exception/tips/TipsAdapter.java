@@ -78,17 +78,11 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 
             switch (((ServerNotAvailableException) throwable).getReason()) {
                 case NOT_INSTALLED:
-                    break;
                 case NOT_ENABLED:
-                    break;
                 case MAINTENANCE_MODE:
-                    break;
                 case SERVER_ERROR:
-                    break;
                 case DEVICE_OFFLINE:
-                    break;
                 case TABLES_NOT_SUPPORTED:
-                    break;
                 case NEXTCLOUD_NOT_SUPPORTED:
                     break;
                 case UNKNOWN:
@@ -99,16 +93,26 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             }
         } else if (throwable instanceof InsufficientPermissionException) {
             switch (((InsufficientPermissionException) throwable).getMissingPermission()) {
-                case READ:
+                case READ: {
                     add(R.string.missing_permission_read);
-                case CREATE:
+                    break;
+                }
+                case CREATE: {
                     add(R.string.missing_permission_create);
-                case UPDATE:
+                    break;
+                }
+                case UPDATE: {
                     add(R.string.missing_permission_update);
-                case DELETE:
+                    break;
+                }
+                case DELETE: {
                     add(R.string.missing_permission_delete);
-                case MANAGE:
+                    break;
+                }
+                case MANAGE: {
                     add(R.string.missing_permission_manage);
+                    break;
+                }
                 default:
                     add(R.string.reason_unknown);
                     add(R.string.error_dialog_tip_clear_storage_might_help);

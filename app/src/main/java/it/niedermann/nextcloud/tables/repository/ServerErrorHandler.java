@@ -40,9 +40,9 @@ public class ServerErrorHandler {
                 break;
             }
             case 500:
-                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR);
+                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR, message);
             case 503:
-                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.MAINTENANCE_MODE);
+                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.MAINTENANCE_MODE, message);
             case 520: {
                 for (final var handler : Handler.values()) {
                     if (handler.canHandle(response.message())) {

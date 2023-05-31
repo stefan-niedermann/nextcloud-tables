@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.remote.exception;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -15,6 +17,11 @@ public class ServerNotAvailableException extends Exception {
     }
 
     public ServerNotAvailableException(@NonNull Reason reason) {
+        this(reason, null);
+    }
+
+    public ServerNotAvailableException(@NonNull Reason reason, @Nullable String message) {
+        super(message);
         this.reason = reason;
     }
 
@@ -25,7 +32,11 @@ public class ServerNotAvailableException extends Exception {
     @Nullable
     @Override
     public String getMessage() {
-        return String.valueOf(getReason());
+        final var message = super.getMessage();
+        if (TextUtils.isEmpty(message)) {
+            return String.valueOf(getReason());
+        }
+        return String.format("%s: %s", getReason(), message);
     }
 
     public enum Reason {
