@@ -26,11 +26,11 @@ public class ServerErrorHandler {
     }
 
     public void handle(@NonNull Response<?> response) throws Exception {
-        handle(response, "", Strategy.THROW_ALWAYS);
+        handle(response, "", Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED);
     }
 
     public void handle(@NonNull Response<?> response, @NonNull String message) throws Exception {
-        handle(response, message, Strategy.THROW_ALWAYS);
+        handle(response, message, Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED);
     }
 
     public void handle(@NonNull Response<?> response, @NonNull String message, @NonNull Strategy strategy) throws Exception {
@@ -49,12 +49,12 @@ public class ServerErrorHandler {
                         throw handler.exception;
                     }
                 }
-                if (strategy == Strategy.THROW_ALWAYS) {
+                if (strategy == Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED) {
                     throw new NextcloudHttpRequestFailedException(context, response.code(), new RuntimeException(message));
                 }
             }
             default: {
-                if (strategy == Strategy.THROW_ALWAYS) {
+                if (strategy == Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED) {
                     throw new NextcloudHttpRequestFailedException(context, response.code(), new RuntimeException(message));
                 }
             }
@@ -65,11 +65,11 @@ public class ServerErrorHandler {
         /**
          * Will throw an {@link Exception} in any case. Caller is responsible for checking acceptable status codes
          */
-        THROW_ALWAYS,
+        THROW_ALWAYS_EXCEPT_NOT_MODIFIED,
         /**
          * Will only throw an {@link Exception} if a known error occurs and do nothing otherwise
          */
-        THROW_ON_KNOWN_ERROR
+        THROW_ON_KNOWN_ERROR_EXCEPT_NOT_MODIFIED
     }
 
     private enum Handler {

@@ -77,6 +77,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
             Log.v(TAG, "Pulling remote changes for " + account.getAccountName() + " (offset: " + offset + ")");
             final var request = api.getTables(TablesAPI.DEFAULT_API_LIMIT_TABLES, offset);
             final var response = request.execute();
+            //noinspection SwitchStatementWithTooFewBranches
             switch (response.code()) {
                 case 200: {
                     final var tables = response.body();
@@ -101,11 +102,6 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
                     break;
                 }
 
-                case 304: {
-                    Log.v(TAG, "→ HTTP " + response.code() + " Not Modified");
-                    break;
-                }
-
                 default: {
                     serverErrorHandler.handle(response);
                 }
@@ -117,11 +113,11 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
         for (final var table : fetchedTables) {
             final var tableId = tableIds.get(table.getRemoteId());
             if (tableId == null) {
-                Log.i(TAG, "→ Adding " + table.getTitle() + " to database");
+                Log.i(TAG, "← Adding " + table.getTitle() + " to database");
                 table.setId(db.getTableDao().insert(table));
             } else {
                 table.setId(tableId);
-                Log.i(TAG, "→ Updating " + table.getTitle() + " in database");
+                Log.i(TAG, "← Updating " + table.getTitle() + " in database");
                 db.getTableDao().update(table);
                 if (!table.hasReadPermission()) {
                     db.getRowDao().deleteAllFromTable(table.getId());
@@ -129,7 +125,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
             }
         }
 
-        Log.i(TAG, "→ Delete all tables except remoteId " + tableRemoteIds);
+        Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds);
         db.getTableDao().deleteExcept(account.getId(), tableRemoteIds);
     }
 }
