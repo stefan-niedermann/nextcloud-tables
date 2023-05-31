@@ -141,6 +141,9 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                 case 302:
                     add(R.string.error_dialog_redirect);
                     break;
+                case 403:
+                    add(R.string.error_dialog_forbidden);
+                    break;
                 case 500:
                     if (account != null) {
                         add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
