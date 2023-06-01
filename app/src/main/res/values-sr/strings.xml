@@ -150,4 +150,6 @@
     <string name="navigation_my_tables">Моје табеле</string>
     <string name="navigation_shared_tables">Дељене табеле</string>
     <string name="could_not_display_column_editor"> %1$s не може да се прикаже.</string>
+    <string name="last_background_sync">Последња синх.:</string>
+    <string name="simple_disabled">искључено</string>
 </resources>

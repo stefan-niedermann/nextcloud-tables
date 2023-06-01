@@ -142,4 +142,4 @@
     <string name="navigation_my_tables">جداولي</string>
     <string name="navigation_shared_tables">جداول مشتركة</string>
     <string name="could_not_display_column_editor"> %1$s لا يمكن عرضها.</string>
-</resources>
+    </resources>

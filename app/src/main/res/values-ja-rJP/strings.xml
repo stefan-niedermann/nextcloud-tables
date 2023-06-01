@@ -143,4 +143,6 @@
     <string name="navigation_my_tables">マイテーブル</string>
     <string name="navigation_shared_tables">共有された表</string>
     <string name="could_not_display_column_editor">%1$sは表示できませんでした。</string>
+    <string name="last_background_sync">最後のバックグラウンド同期：</string>
+    <string name="simple_disabled">無効</string>
 </resources>

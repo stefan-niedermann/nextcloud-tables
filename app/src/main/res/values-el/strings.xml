@@ -93,4 +93,6 @@
 
     <string name="reason_unknown">Προέκυψε ένα άγνωστο σφάλμα</string>
     <string name="add_column">Προσθήκη στήλης</string>
-    </resources>
+    <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
+    <string name="simple_disabled">απενεργοποιημένο</string>
+</resources>

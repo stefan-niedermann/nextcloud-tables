@@ -150,4 +150,6 @@
     <string name="navigation_my_tables">Minhas tabelas</string>
     <string name="navigation_shared_tables">Tabelas compartilhadas</string>
     <string name="could_not_display_column_editor"> %1$s não pôde ser exibido.</string>
+    <string name="last_background_sync">Última sincronização em segundo plano:</string>
+    <string name="simple_disabled">desativado</string>
 </resources>

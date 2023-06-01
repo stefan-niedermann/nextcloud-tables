@@ -86,4 +86,6 @@
     <string name="error_action_update_files_app">Actualizare</string>
     <string name="error_action_open_battery_settings">Setări baterie</string>
 
-    </resources>
+    <string name="last_background_sync">Ultima sincronizare de fundal:</string>
+    <string name="simple_disabled">dezactivat</string>
+</resources>

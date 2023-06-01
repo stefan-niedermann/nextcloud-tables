@@ -102,4 +102,6 @@
     <string name="reason_unknown">Si è verificato un errore sconosciuto</string>
     <string name="order_weight">Peso normale</string>
     <string name="add_column">Aggiungi colonna</string>
-    </resources>
+    <string name="last_background_sync">Ultima sincronizzazione in background:</string>
+    <string name="simple_disabled">disabilitato</string>
+</resources>

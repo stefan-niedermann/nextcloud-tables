@@ -93,4 +93,6 @@
 
     <string name="reason_unknown">遇到未知错误</string>
     <string name="add_column">添加列</string>
-    </resources>
+    <string name="last_background_sync">上次后台同步时间：</string>
+    <string name="simple_disabled">已禁用</string>
+</resources>

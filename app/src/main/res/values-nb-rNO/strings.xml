@@ -93,4 +93,6 @@
 
     <string name="reason_unknown">En ukjent feil oppstod</string>
     <string name="order_weight">Rekkefølge-vekting</string>
-    </resources>
+    <string name="last_background_sync">Siste bakgrunnssynkronisering:</string>
+    <string name="simple_disabled">deaktiver</string>
+</resources>

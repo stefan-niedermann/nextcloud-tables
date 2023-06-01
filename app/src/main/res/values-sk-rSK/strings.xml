@@ -100,4 +100,6 @@
     <string name="add_column">Pridať stĺpec</string>
     <string name="navigation_my_tables">Moje tabuľky</string>
     <string name="navigation_shared_tables">Zdieľané tabuľky</string>
-    </resources>
+    <string name="last_background_sync">Posledná synchronizácia na pozadí:</string>
+    <string name="simple_disabled">zakázané</string>
+</resources>

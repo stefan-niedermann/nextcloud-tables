@@ -80,4 +80,6 @@
     <string name="error_action_open_battery_settings">Налаштування батареї</string>
 
     <string name="add_column">Додати стовпчик</string>
-    </resources>
+    <string name="last_background_sync">Остання фонова синхронізація:</string>
+    <string name="simple_disabled">вимкнено</string>
+</resources>

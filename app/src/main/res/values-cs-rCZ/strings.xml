@@ -130,6 +130,14 @@
     <string name="reason_tables_not_supported">Vámi využívaná verze aplikace Nextcloud Tabulky není podporována</string>
     <string name="reason_nextcloud_not_supported">Verze vámi využívaného Nextcloud není podporována</string>
     <string name="reason_unknown">Nastala neznámá chyba</string>
+    <string name="reason_offline">V tuto chvíli nejste připojení k Internetu.</string>
+
+    <string name="missing_permission_read">Chybí oprávnění ke čtení</string>
+    <string name="missing_permission_create">Chybí oprávnění pro vytváření</string>
+    <string name="missing_permission_update">Chybí oprávnění pro aktualizování</string>
+    <string name="missing_permission_delete">Chybí oprávnění pro mazání</string>
+    <string name="missing_permission_manage">Chybí oprávnění pro správu</string>
+
     <string name="validation_number_not_parsable">Zdá se, že hodnota není číslem</string>
     <string name="validation_number_range">Je třeba, aby hodnota byla z rozmezí %1$d %2$d</string>
     <string name="validation_text_link">Hodnota není odkazem</string>
@@ -142,4 +150,4 @@
     <string name="navigation_my_tables">Moje tabulky</string>
     <string name="navigation_shared_tables">Sdílené tabulky</string>
     <string name="could_not_display_column_editor">%1$s se nepodařilo zobrazit.</string>
-</resources>
+    </resources>

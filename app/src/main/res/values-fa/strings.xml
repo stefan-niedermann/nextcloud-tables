@@ -90,4 +90,6 @@
     <string name="error_action_open_battery_settings">تنظیمات باتری</string>
 
     <string name="add_column">ستون را اضافه کنید</string>
-    </resources>
+    <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
+    <string name="simple_disabled">غیر فعال</string>
+</resources>

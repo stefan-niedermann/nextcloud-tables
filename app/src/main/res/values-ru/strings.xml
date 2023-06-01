@@ -141,4 +141,6 @@
     <string name="navigation_my_tables">Мои таблицы</string>
     <string name="navigation_shared_tables">Общие таблицы</string>
     <string name="could_not_display_column_editor">Не удалось отобразить %1$s.</string>
+    <string name="last_background_sync">Последняя фоновая синхронизация:</string>
+    <string name="simple_disabled">отключено</string>
 </resources>

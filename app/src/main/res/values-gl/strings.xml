@@ -95,4 +95,6 @@
 
     <string name="reason_unknown">Produciuse un erro descoñecido</string>
     <string name="add_column">Engadir columna</string>
-    </resources>
+    <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
+    <string name="simple_disabled">desactivado</string>
+</resources>

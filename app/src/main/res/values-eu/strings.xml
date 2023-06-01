@@ -103,4 +103,6 @@
     <string name="add_column">Gehitu zutabea</string>
     <string name="navigation_my_tables">Nire taulak</string>
     <string name="navigation_shared_tables">Partekatutako taulak</string>
-    </resources>
+    <string name="last_background_sync">Azken atzeko planoko sinkronizazioa:</string>
+    <string name="simple_disabled">desgaituta</string>
+</resources>

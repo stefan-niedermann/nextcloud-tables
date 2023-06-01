@@ -92,4 +92,6 @@
 
     <string name="reason_unknown">Došlo je do nepoznate greške</string>
     <string name="add_column">Dodaj stupac</string>
-    </resources>
+    <string name="last_background_sync">Posljednja pozadinska sinkronizacija:</string>
+    <string name="simple_disabled">onemogućeno</string>
+</resources>

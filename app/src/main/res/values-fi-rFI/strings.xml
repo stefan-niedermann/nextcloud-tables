@@ -111,4 +111,6 @@
     <string name="add_column">Lisää sarake</string>
     <string name="navigation_my_tables">Omat taulukot</string>
     <string name="navigation_shared_tables">Jaetut taulukot</string>
-    </resources>
+    <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
+    <string name="simple_disabled">poistettu käytöstä</string>
+</resources>
