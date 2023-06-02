@@ -97,6 +97,7 @@
     <string name="error_dialog_insufficient_storage">Na vámi využívané instanci Nexcloud nezbývá žádné volné místo na úložišti. Aby bylo možné synchronizovat vaše místní změny do vámi využívaného cloudu, je třeba nejprve smazat nějaké soubory.</string>
     <string name="error_dialog_we_need_info">Abychom vám mohli pomoci, potřebujeme následující technické údaje:</string>
     <string name="error_dialog_redirect">Vámi využívaný server odpověděl HTTP stavovým kódem 302, což ukazuje na to, že na serveru buď není nainstalovaná aplikace Tabulky, nebo je něco nesprávně nastavené. Toto může být způsobeno uživatelsky určenými přepsáními v souboru .htaccess nebo Nextcloud aplikacemi jako je OID klient.</string>
+    <string name="error_dialog_forbidden">Nemáte dostatečná oprávnění. Zkontrolujte tabulky, které vám nedávno byly nasdíleny a byly nedávno změněny.</string>
     <string name="error_dialog_version_not_parsable">Nepodařilo se zjistit verze aplikace Tabulky na straně serveru. Zajistěte, aby byla nainstalovaná a zapnutá.</string>
     <string name="error_dialog_account_might_not_be_authorized">Může být, že účet vaší Nextcloud aplikace už nemá potřebná pověření.</string>
     <string name="error_dialog_user_not_found_in_database">Stávající uživatel se neshoduje s uživatelem, který je v databázi. Pokud na své instanci Nextcloud používáte LDAP, je možné, že Nextcloud aplikace má uložený starý identifikátor uživatele.</string>
@@ -150,4 +151,7 @@
     <string name="navigation_my_tables">Moje tabulky</string>
     <string name="navigation_shared_tables">Sdílené tabulky</string>
     <string name="could_not_display_column_editor">%1$s se nepodařilo zobrazit.</string>
-    </resources>
+    <string name="choose_table_from_the_sidebar">Z postranního panelu zvolte tabulku</string>
+    <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
+    <string name="simple_disabled">vypnuto</string>
+</resources>

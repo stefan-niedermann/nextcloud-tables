@@ -97,6 +97,7 @@
     <string name="error_dialog_insufficient_storage">您的 Nextcloud 已無可用空間，請刪除部份檔案以將您的本地變更同步至雲端。</string>
     <string name="error_dialog_we_need_info">我們需要以下的技術資訊來幫助您：</string>
     <string name="error_dialog_redirect">您的伺服器回應了 HTTP 302 狀態碼，這表示您尚未在伺服器上安裝表格應用程式或設定錯誤。這可能是因為 .htaccess 檔案或 Nextcloud 應用程式（如 OID 客戶端）中的自訂覆寫引起的。</string>
+    <string name="error_dialog_forbidden">您沒有足夠的權限。請檢查與您分享且最近變更過的表格。</string>
     <string name="error_dialog_version_not_parsable">我們無法確認伺服器端表格應用程式的版本。請確保其已安裝並啟用。</string>
     <string name="error_dialog_account_might_not_be_authorized">您的 Nextcloud APP 帳號可能不再被授權。</string>
     <string name="error_dialog_user_not_found_in_database">目前使用者與我們資料庫中的使用者不符。如果您在 Nextcloud 實例上使用 LDAP，則 Nextcloud APP 可能已存儲了舊的使用者 ID。</string>
@@ -150,6 +151,7 @@
     <string name="navigation_my_tables">我的表格</string>
     <string name="navigation_shared_tables">已分享的表格</string>
     <string name="could_not_display_column_editor">%1$s 無法顯示。</string>
+    <string name="choose_table_from_the_sidebar">從側邊欄選擇表格</string>
     <string name="last_background_sync">上次背景同步時間：</string>
     <string name="simple_disabled">已停用</string>
 </resources>

@@ -97,6 +97,7 @@
     <string name="error_dialog_insufficient_storage">На Некстклауд инстанци више нема простора. Обришите неке фајлове да синхронизујете локалне измене на облак.</string>
     <string name="error_dialog_we_need_info">Потребне су нам следеће техничке информација да бисмо Вам помогли:</string>
     <string name="error_dialog_redirect">Сервер је одговорио са HTTP 302 статусним кодом, што значи да немате инсталирану апликацију Табеле или да Вам сервер није правилно конфигурисан. Ово може да буде последица произвољних премошћавања у .htaccess фајлу или других Nextcloud апликација као што је OID Client.</string>
+    <string name="error_dialog_forbidden">Немате довољно дозвола. Молимо вас да проверите табеле које су вам дељене, а које су скоро измењене.</string>
     <string name="error_dialog_version_not_parsable">Не можемо да одредимо серверску верзију апликације Табеле. Молимо вас да проверите да ли је инсталирана и укључена.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ваш налог од Некстклауд апликације можда више није ауторизован.</string>
     <string name="error_dialog_user_not_found_in_database">Тренутни корисник се не поклапа са корисником у нашој бази података. Ако користите LDAP у тренутној Некстклауд сесији, вероватно Вам је Некстклауд апликација сачувала стари кориснички ИД.</string>
@@ -150,6 +151,7 @@
     <string name="navigation_my_tables">Моје табеле</string>
     <string name="navigation_shared_tables">Дељене табеле</string>
     <string name="could_not_display_column_editor"> %1$s не може да се прикаже.</string>
+    <string name="choose_table_from_the_sidebar">Изаберите табелу из бочне траке</string>
     <string name="last_background_sync">Последња синх.:</string>
     <string name="simple_disabled">искључено</string>
 </resources>

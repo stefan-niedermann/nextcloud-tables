@@ -97,6 +97,7 @@
     <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
     <string name="error_dialog_redirect">Ihr Server antwortet mit HTTP Status-Code 302. Dies bedeutet, dass entweder die Tabellen-App nicht auf Ihrem Server installiert ist, oder eine Fehlkonfiguration vorliegt. Die Ursache kann im Überschreiben von Variablen in der .htaccess-Datei liegen, oder an Nextcloud-Apps wie OID Client.</string>
+    <string name="error_dialog_forbidden">Ihre Berechtigungen reichen nicht aus. Bitte überprüfen Sie die Tabellen, die für Sie freigegeben sind und kürzlich geändert wurden.</string>
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Tabellen-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Tabellen-App intstalliert und aktiviert ist.</string>
     <string name="error_dialog_account_might_not_be_authorized">Das Konto Ihrer Nextcloud-App ist möglicherweise nicht mehr autorisiert.</string>
     <string name="error_dialog_user_not_found_in_database">Der aktuelle Benutzer stimmt nicht mit dem Benutzer überein, den wir in unserer Datenbank haben. Wenn Sie LDAP in Ihrer Nextcloud-Instanz verwenden, hat Ihre Nextcloud-App möglicherweise eine alte Benutzer-ID gespeichert.</string>
@@ -151,6 +152,7 @@
     <string name="navigation_my_tables">Meine Tabellen</string>
     <string name="navigation_shared_tables">Geteilte Tabellen</string>
     <string name="could_not_display_column_editor">%1$s konnte nicht angezeigt werden.</string>
+    <string name="choose_table_from_the_sidebar">In der Seitenleiste eine Tabelle auswählen</string>
     <string name="last_background_sync">Letzte Hintergrundsynchronisierung:</string>
     <string name="simple_disabled">Deaktiviert</string>
 </resources>
