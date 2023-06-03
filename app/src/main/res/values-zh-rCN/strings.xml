@@ -12,6 +12,8 @@
     <string name="simple_settings">设置</string>
     <string name="simple_about">关于</string>
     <string name="simple_appearance">外观</string>
+    <string name="simple_description">描述</string>
+
     <string name="preferences">设置偏好</string>
     <string name="import_account">导入账号</string>
     <string name="choose_account">选择一个账户</string>

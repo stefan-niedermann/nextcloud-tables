@@ -19,7 +19,7 @@
     <string name="simple_description">Beschreibung</string>
 
     <string name="add_table">Tabelle hinzufügen</string>
-    <string name="add_row">Neue Zeile hinzufügen</string>
+    <string name="add_row">Zeile hinzufügen</string>
     <string name="edit_row">Zeile bearbeiten</string>
     <string name="manage_columns">Spalten verwalten</string>
     <string name="edit_column">Spalte bearbeiten</string>
@@ -64,7 +64,7 @@
     <string name="about_source">Dieses Projekt wird auf GitHub gehostet: %1$s</string>
     <string name="about_issues_title">Issues</string>
     <string name="about_issues">Sie können Fehler, Verbesserungsvorschläge oder Wünsche für neue Funktionen als Issue auf GitHub erfassen: %1$s</string>
-    <string name="about_translate_title">beim Übersetzen</string>
+    <string name="about_translate_title">Übersetzen</string>
     <string name="about_translate">Treten Sie dem Nextcloud-Team bei Transifex bei und helfen Sie uns, diese App zu übersetzen: %1$s</string>
     <string name="about_app_license_title">App-Lizenz</string>
     <string name="about_app_license">Diese Anwendung ist unter der GNU GENERAL PUBLIC LICENSE v3 + lizenziert.</string>
@@ -121,7 +121,7 @@
     <string name="importing_account">Importiere Konto %1$s</string>
     <string name="account_already_imported">Konto wurde bereits importiert</string>
     <string name="import_state_import_account">Importiere Konto</string>
-    <string name="import_state_import_tables">Importiere Tabellen, Das kann einige Minuten dauern.</string>
+    <string name="import_state_import_tables">Importiere Tabellen. Das kann einige Minuten dauern.</string>
     <string name="not_yet_synchronized">Bislang nicht synchronisiert</string>
 
     <string name="reason_not_installed">Nextcloud-Tabellen ist nicht installiert</string>
@@ -135,13 +135,12 @@
 
     <string name="missing_permission_read">Fehlende Leseberechtigung</string>
     <string name="missing_permission_create">Fehlende Erstellungsberechtigung</string>
-    <string name="missing_permission_update">Fehlende Update-Berechtigung</string>
-    <string name="missing_permission_delete">Fehlende Löschberechtigung
- </string>
+    <string name="missing_permission_update">Fehlende Aktualisierungsberechtigung</string>
+    <string name="missing_permission_delete">Fehlende Löschberechtigung</string>
     <string name="missing_permission_manage">Fehlende Verwaltungsberechtigung</string>
 
     <string name="validation_number_not_parsable">Der Wert scheint keine Zahl zu sein</string>
-    <string name="validation_number_range">Der wet muss zwischen %1$d und %2$d liegen</string>
+    <string name="validation_number_range">Der Wert muss zwischen %1$d und %2$d liegen</string>
     <string name="validation_text_link">Der Wert ist kein Link</string>
     <string name="validation_mandatory">Dies ist ein Pflichtfeld</string>
     <string name="validation_time_missing">Für ein DateTime-Feld muss die Zeit angegeben werden.</string>
