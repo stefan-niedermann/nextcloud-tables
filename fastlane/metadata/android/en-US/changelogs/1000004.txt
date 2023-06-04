@@ -2,3 +2,4 @@
 - feat(sync): Synchronize account on app start
 - feat(preferences): Allow synchronizing on Wi-Fi only
 - enh(sync): Better handling of network errors
+- feat: Add monochrome launcher icon
