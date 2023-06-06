@@ -6,7 +6,6 @@
 
 - Table emoji can not be changed
 - Managing columns is not yet possible
-- Values of type `selection` and `selection/multi` are currently only displayed as ID
 - Validations are not enforced
 - Sorting & Filtering is not yet possible
 

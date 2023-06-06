@@ -30,7 +30,11 @@ public interface RowDao extends GenericDao<Row> {
             "AND r.status = 'LOCAL_EDITED'")
     List<Row> getLocallyEditedRows(long accountId);
 
-    @Query("SELECT * FROM `Row` r WHERE r.tableId = :tableId AND r.status != 'LOCAL_DELETED' ORDER BY r.remoteId IS NULL OR r.remoteId = '', r.remoteId")
+    // TODO Check for DELETED
+    @Query("SELECT * FROM `Row` r " +
+            "WHERE r.tableId = :tableId " +
+            "AND r.status != 'LOCAL_DELETED' " +
+            "ORDER BY r.remoteId IS NULL OR r.remoteId = '', r.remoteId")
     LiveData<List<Row>> getNotDeletedRows$(long tableId);
 
     @Query("SELECT * FROM `Row` WHERE id = :id")

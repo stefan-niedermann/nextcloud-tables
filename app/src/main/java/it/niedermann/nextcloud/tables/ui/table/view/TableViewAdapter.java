@@ -10,9 +10,14 @@ import androidx.annotation.Nullable;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCornerBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
@@ -20,10 +25,12 @@ import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.ColumnHeaderViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.RowHeaderViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.SelectionViewHolder;
 
 public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
     private final CellViewHolder.Factory cellViewHolderFactory;
+    private final List<SelectionOption> selectionOptions = new ArrayList<>();
 
     public TableViewAdapter() {
         this(new CellViewHolder.Factory());
@@ -46,7 +53,9 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
     @Override
     public void onBindCellViewHolder(@NonNull AbstractViewHolder holder, @Nullable Data cellItemModel, int columnPosition, int rowPosition) {
-        if (holder instanceof CellViewHolder) {
+        if (holder instanceof SelectionViewHolder) {
+            ((SelectionViewHolder) holder).bind(cellItemModel, getColumnHeaderItem(columnPosition), selectionOptions);
+        } else if (holder instanceof CellViewHolder) {
             ((CellViewHolder) holder).bind(cellItemModel, getColumnHeaderItem(columnPosition));
         } else {
             throw new IllegalArgumentException("Unknown view holder type " + holder);
@@ -87,5 +96,21 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     @Override
     public View onCreateCornerView(@NonNull ViewGroup parent) {
         return TableviewCornerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false).getRoot();
+    }
+
+    @Override
+    public void setAllItems(@Nullable List<Column> columnHeaderItems,
+                            @Nullable List<Row> rowHeaderItems,
+                            @Nullable List<List<Data>> cellItems) {
+        setAllItems(columnHeaderItems, rowHeaderItems, cellItems, Collections.emptyList());
+    }
+
+    public void setAllItems(@Nullable List<Column> columnHeaderItems,
+                            @Nullable List<Row> rowHeaderItems,
+                            @Nullable List<List<Data>> cellItems,
+                            @NonNull List<SelectionOption> selectionOptions) {
+        this.selectionOptions.clear();
+        this.selectionOptions.addAll(selectionOptions);
+        super.setAllItems(columnHeaderItems, rowHeaderItems, cellItems);
     }
 }

@@ -77,6 +77,7 @@ public class ViewTableViewModel extends AndroidViewModel {
                         table,
                         tablesRepository.getNotDeletedRows$(table),
                         tablesRepository.getNotDeletedColumns$(table),
+                        tablesRepository.getUsedSelectionOptions(table),
                         tablesRepository.getData(table)
                 )
         );

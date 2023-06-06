@@ -18,11 +18,14 @@ public interface DataDao extends GenericDao<Data> {
             "ORDER BY r.remoteId, c.remoteId")
     Data[] getDataForRow(long rowId);
 
+    // TODO Check for DELETED
     @Query("SELECT d.* FROM Data d " +
             "LEFT JOIN `Row` r ON d.rowId = r.id " +
             "LEFT JOIN `Column` c ON d.columnId = c.id " +
             "WHERE r.tableId = :tableId " +
             "AND c.tableId = :tableId " +
+            "AND c.status != 'LOCAL_DELETED' " +
+            "AND r.status != 'LOCAL_DELETED' " +
             "ORDER BY r.remoteId, c.orderWeight")
     LiveData<List<Data>> getData(long tableId);
 

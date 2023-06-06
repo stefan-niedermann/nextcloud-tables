@@ -8,6 +8,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 
 public class FullTable {
@@ -15,12 +16,18 @@ public class FullTable {
     private final Table table;
     private final List<Row> rows;
     private final List<Column> columns;
+    private final List<SelectionOption> selectionOptions;
     private final List<List<Data>> data;
 
-    public FullTable(@NonNull Table table, @NonNull List<Row> rows, @NonNull List<Column> columns, @NonNull List<List<Data>> data) {
+    public FullTable(@NonNull Table table,
+                     @NonNull List<Row> rows,
+                     @NonNull List<Column> columns,
+                     @NonNull List<SelectionOption> selectionOptions,
+                     @NonNull List<List<Data>> data) {
         this.table = table;
         this.rows = rows;
         this.columns = columns;
+        this.selectionOptions = selectionOptions;
         this.data = data;
     }
 
@@ -34,6 +41,10 @@ public class FullTable {
 
     public List<Column> getColumns() {
         return columns;
+    }
+
+    public List<SelectionOption> getSelectionOptions() {
+        return selectionOptions;
     }
 
     public List<List<Data>> getData() {

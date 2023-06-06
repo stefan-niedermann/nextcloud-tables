@@ -11,6 +11,7 @@ import java.util.List;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 
 public class FullTableLiveData extends MediatorLiveData<FullTable> {
@@ -18,15 +19,18 @@ public class FullTableLiveData extends MediatorLiveData<FullTable> {
     private final Table table;
     private final Emitter<Row> rowEmitter = new Emitter<>();
     private final Emitter<Column> columnEmitter = new Emitter<>();
+    private final Emitter<SelectionOption> selectionOptionEmitter = new Emitter<>();
     private final Emitter<Data> dataEmitter = new Emitter<>();
 
     public FullTableLiveData(@NonNull Table table,
                              @NonNull LiveData<List<Row>> rowSource,
                              @NonNull LiveData<List<Column>> columnRows,
+                             @NonNull LiveData<List<SelectionOption>> selectionOptions,
                              @NonNull LiveData<List<Data>> dataSource) {
         this.table = table;
         addSource(rowSource, rowEmitter::emit);
         addSource(columnRows, columnEmitter::emit);
+        addSource(selectionOptions, selectionOptionEmitter::emit);
         addSource(dataSource, dataEmitter::emit);
     }
 
@@ -40,7 +44,7 @@ public class FullTableLiveData extends MediatorLiveData<FullTable> {
             this.value.clear();
             this.value.addAll(newValues);
 
-            if (!rowEmitter.firstEmit && !columnEmitter.firstEmit && !dataEmitter.firstEmit) {
+            if (!rowEmitter.firstEmit && !columnEmitter.firstEmit && !selectionOptionEmitter.firstEmit && !dataEmitter.firstEmit) {
                 final var rows = new ArrayList<List<Data>>(Collections.nCopies(rowEmitter.value.size(), null));
 
                 for (int rowPosition = 0; rowPosition < rowEmitter.value.size(); rowPosition++) {
@@ -67,7 +71,7 @@ public class FullTableLiveData extends MediatorLiveData<FullTable> {
                     rows.set(rowPosition, columnsForCurrentRow);
                 }
 
-                postValue(new FullTable(table, rowEmitter.value, columnEmitter.value, rows));
+                postValue(new FullTable(table, rowEmitter.value, columnEmitter.value, selectionOptionEmitter.value, rows));
             }
         }
     }

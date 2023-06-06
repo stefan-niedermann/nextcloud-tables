@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.model.EPermission;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
@@ -238,5 +239,10 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public Data[] getRawData(long rowId) {
         return db.getDataDao().getDataForRow(rowId);
+    }
+
+    @MainThread
+    public LiveData<List<SelectionOption>> getUsedSelectionOptions(@NonNull Table table) {
+        return Transformations.distinctUntilChanged(db.getSelectionOptionDao().getUsedSelectionOptionsById(table.getId()));
     }
 }

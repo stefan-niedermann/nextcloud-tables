@@ -8,11 +8,11 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellCheckBinding;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
-public class CheckCellViewHolder extends CellViewHolder {
+public class SelectionCheckCellViewHolder extends CellViewHolder {
 
     private final TableviewCellCheckBinding binding;
 
-    public CheckCellViewHolder(@NonNull TableviewCellCheckBinding binding) {
+    public SelectionCheckCellViewHolder(@NonNull TableviewCellCheckBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }

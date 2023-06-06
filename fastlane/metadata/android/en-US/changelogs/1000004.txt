@@ -1,5 +1,6 @@
+- feat(ui): Directly display selection values in table view
 - feat(permissions): Respect permissions for shared tables
 - feat(sync): Synchronize account on app start
 - feat(preferences): Allow synchronizing on Wi-Fi only
 - enh(sync): Better handling of network errors
-- feat: Add monochrome launcher icon
+- feat(ui): Add monochrome launcher icon

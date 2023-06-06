@@ -81,7 +81,7 @@ public class ViewTableFragment extends Fragment {
         final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
         final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
 
-        adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), fullTable.getData());
+        adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), fullTable.getData(), fullTable.getSelectionOptions());
 
         binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);
         binding.tableView.getRowHeaderLayoutManager().scrollToPosition(rowPosition);
