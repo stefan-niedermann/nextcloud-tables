@@ -46,18 +46,24 @@ public class TablesApplication extends Application {
                 .build());
     }
 
-    public enum FeatureToggles {
+    public enum FeatureToggle {
+        /**
+         * Some exceptions only affect a part of the app. Enabling {@link #STRICT_MODE} will always
+         * throw all exceptions to make the user aware of the fact that something went wrong.
+         * Disabling this {@link FeatureToggle} can lead to wrongly displayed data.
+         */
+        @SuppressWarnings("JavadocDeclaration")
+        STRICT_MODE(BuildConfig.DEBUG),
         EDIT_COLUMN(BuildConfig.DEBUG),
         CREATE_COLUMN(BuildConfig.DEBUG),
         DELETE_COLUMN(BuildConfig.DEBUG),
         SHARE_TABLE(BuildConfig.DEBUG),
         SEARCH_IN_TABLE(false),
-        RICH_EDITOR(true),
         ;
 
         public final boolean enabled;
 
-        FeatureToggles(boolean enabled) {
+        FeatureToggle(boolean enabled) {
             this.enabled = enabled;
         }
     }

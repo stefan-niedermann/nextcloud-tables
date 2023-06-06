@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import java.time.format.DateTimeParseException;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
@@ -34,10 +34,10 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
                 binding.data.setText(TextUtils.isEmpty(value) ? null : formatValue(value));
             } catch (DateTimeParseException e) {
                 binding.data.setText(null);
-                if (BuildConfig.DEBUG) {
+                e.printStackTrace();
+
+                if (FeatureToggle.STRICT_MODE.enabled) {
                     throw new IllegalArgumentException("Could not parse number " + value, e);
-                } else {
-                    e.printStackTrace();
                 }
             }
         }

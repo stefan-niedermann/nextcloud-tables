@@ -6,13 +6,10 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
-
-import com.google.android.material.button.MaterialButton;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,13 +18,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import it.niedermann.android.util.DimensionUtil;
-import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
-import it.niedermann.nextcloud.tables.TablesApplication;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.model.EDataType;
-import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.type.UnknownEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeDateEditor;
 import it.niedermann.nextcloud.tables.ui.row.type.datetime.DateTimeEditor;
@@ -72,19 +67,12 @@ public abstract class ColumnEditView extends FrameLayout {
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
         );
+
         layoutParams.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x));
         setLayoutParams(layoutParams);
-
-
-        try {
-            addView(onCreate(context, data));
-
-            requestLayout();
-            invalidate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showExceptionView(context, e);
-        }
+        addView(onCreate(context, data));
+        requestLayout();
+        invalidate();
     }
 
     @NonNull
@@ -150,24 +138,6 @@ public abstract class ColumnEditView extends FrameLayout {
         return Optional.empty();
     }
 
-    private void showExceptionView(@NonNull Context context, @NonNull Exception e) {
-        removeAllViews();
-        final var layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        final var unknownEditor = new UnknownEditor(context, fragmentManager, column, data);
-        addView(unknownEditor);
-        unknownEditor.setErrorMessage(getContext().getString(R.string.could_not_display_column_editor, column.getTitle()));
-
-        if (fragmentManager != null) {
-            final var btn = new MaterialButton(context);
-            btn.setText(R.string.simple_exception);
-            btn.setOnClickListener(v -> ExceptionDialogFragment.newInstance(e, null).show(fragmentManager, ExceptionDialogFragment.class.getSimpleName()));
-            layout.addView(btn);
-        }
-        addView(layout);
-    }
-
     public static class Factory {
 
         private static final String DEFAULT_NOW = "now";
@@ -209,9 +179,7 @@ public abstract class ColumnEditView extends FrameLayout {
                     return new SelectionCheckEditor(context, column, dataToPass);
                 case TEXT_RICH:
                 case TEXT_LONG:
-                    return TablesApplication.FeatureToggles.RICH_EDITOR.enabled
-                            ? new TextRichEditor(context, column, dataToPass)
-                            : new TextEditor(context, null, column, dataToPass);
+                    return new TextRichEditor(context, column, dataToPass);
                 case TEXT:
                 default:
                     return new TextEditor(context, null, column, dataToPass);
@@ -223,7 +191,7 @@ public abstract class ColumnEditView extends FrameLayout {
          * initialized with the default value according the given column.
          */
         @NonNull
-        private Data ensureDataObjectPresent(@NonNull Column column, @Nullable Data data) {
+        public Data ensureDataObjectPresent(@NonNull Column column, @Nullable Data data) {
             final Data dataToPass;
 
             if (data != null) {
@@ -270,7 +238,7 @@ public abstract class ColumnEditView extends FrameLayout {
                             return DEFAULT_NOW.equals(dateTimeDefault)
                                     ? LocalTime.now().format(DateTimeFormatter.ISO_TIME) : null;
                         default: {
-                            if (BuildConfig.DEBUG) {
+                            if (FeatureToggle.STRICT_MODE.enabled) {
                                 throw new UnsupportedOperationException("Unexpected column " + column.getType() + " subtype: " + column.getSubtype());
                             }
 
@@ -279,7 +247,7 @@ public abstract class ColumnEditView extends FrameLayout {
                     }
                 }
                 default: {
-                    if (BuildConfig.DEBUG) {
+                    if (FeatureToggle.STRICT_MODE.enabled) {
                         throw new UnsupportedOperationException("Unexpected column type " + column.getType());
                     }
 

@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
-import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggles;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.model.EPermission;
@@ -178,7 +178,7 @@ public class ViewTableFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
 
                     if (item.getItemId() == R.id.edit_column) {
-                        if (FeatureToggles.EDIT_COLUMN.enabled) {
+                        if (FeatureToggle.EDIT_COLUMN.enabled) {
                             startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.getTable(), column));
                         } else {
                             Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
@@ -189,7 +189,7 @@ public class ViewTableFragment extends Fragment {
                                 .setTitle(getString(R.string.delete_item, column.getTitle()))
                                 .setMessage(getString(R.string.delete_item_message, column.getTitle()))
                                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
-                                    if (FeatureToggles.DELETE_COLUMN.enabled) {
+                                    if (FeatureToggle.DELETE_COLUMN.enabled) {
                                         viewTableViewModel.deleteColumn(fullTable.getTable(), column).whenCompleteAsync((result, exception) -> {
                                             if (exception != null) {
                                                 ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());

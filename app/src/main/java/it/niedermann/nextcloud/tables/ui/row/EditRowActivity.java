@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,6 +26,7 @@ import it.niedermann.nextcloud.tables.databinding.ActivityEditRowBinding;
 import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.tables.ui.row.type.UnknownEditor;
 
 public class EditRowActivity extends AppCompatActivity {
 
@@ -67,13 +71,33 @@ public class EditRowActivity extends AppCompatActivity {
             editors.clear();
             editRowViewModel.getData(row).thenAcceptAsync(values -> {
                 for (final var column : columns) {
-                    final var editor = editViewFactory.create(EDataType.findByColumn(column),
-                            this,
-                            column,
-                            values.get(column.getId()),
-                            getSupportFragmentManager());
-                    binding.columns.addView(editor);
-                    editors.add(editor);
+                    try {
+                        final var editor = editViewFactory.create(EDataType.findByColumn(column),
+                                this,
+                                column,
+                                values.get(column.getId()),
+                                getSupportFragmentManager());
+                        binding.columns.addView(editor);
+                        editors.add(editor);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                        final var layout = new LinearLayout(this);
+                        layout.setOrientation(LinearLayout.VERTICAL);
+
+                        final var unknownEditor = new UnknownEditor(this,
+                                getSupportFragmentManager(),
+                                column,
+                                editViewFactory.ensureDataObjectPresent(column, values.get(column.getId())));
+                        binding.columns.addView(unknownEditor);
+                        unknownEditor.setErrorMessage(getString(R.string.could_not_display_column_editor, column.getTitle()));
+
+                        final var btn = new MaterialButton(this);
+                        btn.setText(R.string.simple_exception);
+                        btn.setOnClickListener(v -> ExceptionDialogFragment.newInstance(e, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                        layout.addView(btn);
+                        binding.columns.addView(layout);
+                    }
                 }
             }, ContextCompat.getMainExecutor(this));
         }, ContextCompat.getMainExecutor(this));

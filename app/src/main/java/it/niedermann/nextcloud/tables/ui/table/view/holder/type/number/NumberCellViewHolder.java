@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
@@ -36,10 +36,9 @@ public class NumberCellViewHolder extends CellViewHolder {
                     value = Double.parseDouble(data.getValue());
                 } catch (NumberFormatException noDoubleException) {
                     value = null;
-                    if (BuildConfig.DEBUG) {
+                    noDoubleException.printStackTrace();
+                    if (FeatureToggle.STRICT_MODE.enabled) {
                         throw new IllegalArgumentException("Could not parse number " + data.getValue(), noDoubleException);
-                    } else {
-                        noDoubleException.printStackTrace();
                     }
                 }
             }

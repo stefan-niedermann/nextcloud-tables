@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellStarsBinding;
@@ -33,8 +33,8 @@ public class StarsCellViewHolder extends CellViewHolder {
                 setStars(stars);
             } catch (NumberFormatException e) {
                 setStars(0);
-                if (BuildConfig.DEBUG) {
-                    throw new IllegalArgumentException("Could not parse stars: " + value);
+                if (FeatureToggle.STRICT_MODE.enabled) {
+                    throw e;
                 }
             }
         }
@@ -46,7 +46,9 @@ public class StarsCellViewHolder extends CellViewHolder {
             if (child instanceof ImageView) {
                 ((ImageView) child).setImageResource(i < count ? R.drawable.baseline_star_24 : R.drawable.baseline_star_border_24);
             } else {
-                throw new IllegalStateException("Expected child at position " + i + " to be of type " + ImageView.class.getSimpleName() + " but was " + child.getClass().getSimpleName());
+                if (FeatureToggle.STRICT_MODE.enabled) {
+                    throw new IllegalStateException("Expected child at position " + i + " to be of type " + ImageView.class.getSimpleName() + " but was " + child.getClass().getSimpleName());
+                }
             }
         }
     }

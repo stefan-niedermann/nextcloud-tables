@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.model.EDataType;
@@ -146,10 +146,10 @@ public class DataAdapter {
             }
         }
 
-        if (BuildConfig.DEBUG) {
+        if (FeatureToggle.STRICT_MODE.enabled) {
             throw new IllegalStateException("Failed to find column for " + data + " (remoteColumnId: " + data.getRemoteColumnId() + ")");
-        } else {
-            return EDataType.UNKNOWN;
         }
+
+        return EDataType.UNKNOWN;
     }
 }

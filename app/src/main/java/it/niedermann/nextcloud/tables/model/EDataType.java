@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import java.util.NoSuchElementException;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 
 public enum EDataType {
@@ -64,7 +64,7 @@ public enum EDataType {
             }
         }
 
-        if (BuildConfig.DEBUG) {
+        if (FeatureToggle.STRICT_MODE.enabled) {
             throw new UnsupportedOperationException("Unknown column type: " + column.getType() + "/" + column.getSubtype());
         }
 

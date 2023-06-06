@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
@@ -31,11 +31,10 @@ public class ProgressCellViewHolder extends CellViewHolder {
                 binding.progress.setProgressCompat(progress, false);
             } catch (NumberFormatException e) {
                 binding.progress.setProgressCompat(0, false);
+                e.printStackTrace();
 
-                if (BuildConfig.DEBUG) {
+                if (FeatureToggle.STRICT_MODE.enabled) {
                     throw new IllegalArgumentException("Could not parse progress: " + value, e);
-                } else {
-                    e.printStackTrace();
                 }
             }
         }

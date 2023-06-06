@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import it.niedermann.nextcloud.tables.R;
-import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggles;
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityMainBinding;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getCurrentTable().observe(this, this::applyCurrentTable);
 
         binding.toolbar.setOnClickListener(view -> {
-            if (FeatureToggles.SEARCH_IN_TABLE.enabled) {
+            if (FeatureToggle.SEARCH_IN_TABLE.enabled) {
                 throw new UnsupportedOperationException();
             } else {
                 Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(EditTableActivity.createIntent(MainActivity.this, account, table));
                                 return true;
                             } else if (id == R.id.share_table) {
-                                if (FeatureToggles.SHARE_TABLE.enabled) {
+                                if (FeatureToggle.SHARE_TABLE.enabled) {
                                     throw new UnsupportedOperationException();
                                 } else {
                                     Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();

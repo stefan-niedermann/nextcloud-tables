@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
@@ -53,12 +54,24 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
     @Override
     public void onBindCellViewHolder(@NonNull AbstractViewHolder holder, @Nullable Data cellItemModel, int columnPosition, int rowPosition) {
-        if (holder instanceof SelectionViewHolder) {
-            ((SelectionViewHolder) holder).bind(cellItemModel, getColumnHeaderItem(columnPosition), selectionOptions);
-        } else if (holder instanceof CellViewHolder) {
-            ((CellViewHolder) holder).bind(cellItemModel, getColumnHeaderItem(columnPosition));
-        } else {
-            throw new IllegalArgumentException("Unknown view holder type " + holder);
+        final var column = getColumnHeaderItem(columnPosition);
+
+        try {
+            if (column == null) {
+                throw new NullPointerException("column header item at position " + columnPosition + " is null.");
+            }
+
+            if (holder instanceof SelectionViewHolder) {
+                ((SelectionViewHolder) holder).bind(cellItemModel, column, selectionOptions);
+            } else if (holder instanceof CellViewHolder) {
+                ((CellViewHolder) holder).bind(cellItemModel, column);
+            } else {
+                throw new IllegalArgumentException("Unknown view holder type " + holder);
+            }
+        } catch (Exception e) {
+            if (FeatureToggle.STRICT_MODE.enabled) {
+                throw e;
+            }
         }
     }
 
@@ -70,10 +83,20 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
     @Override
     public void onBindColumnHeaderViewHolder(@NonNull AbstractViewHolder holder, @Nullable Column columnHeaderItemModel, int columnPosition) {
-        if (holder instanceof ColumnHeaderViewHolder) {
-            ((ColumnHeaderViewHolder) holder).bind(columnHeaderItemModel);
-        } else {
-            throw new IllegalArgumentException("Unknown view holder type " + holder);
+        try {
+            if (columnHeaderItemModel == null) {
+                throw new NullPointerException("columnHeaderItemModel is null.");
+            }
+
+            if (holder instanceof ColumnHeaderViewHolder) {
+                ((ColumnHeaderViewHolder) holder).bind(columnHeaderItemModel);
+            } else {
+                throw new IllegalArgumentException("Unknown view holder type " + holder);
+            }
+        } catch (Exception e) {
+            if (FeatureToggle.STRICT_MODE.enabled) {
+                throw e;
+            }
         }
     }
 
@@ -84,11 +107,21 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
     }
 
     @Override
-    public void onBindRowHeaderViewHolder(@NonNull AbstractViewHolder holder, @NonNull Row rowHeaderItemModel, int rowPosition) {
-        if (holder instanceof RowHeaderViewHolder) {
-            ((RowHeaderViewHolder) holder).bind(rowHeaderItemModel);
-        } else {
-            throw new IllegalArgumentException("Unknown view holder type " + holder);
+    public void onBindRowHeaderViewHolder(@NonNull AbstractViewHolder holder, @Nullable Row rowHeaderItemModel, int rowPosition) {
+        try {
+            if (rowHeaderItemModel == null) {
+                throw new NullPointerException("columnHeaderItemModel is null.");
+            }
+
+            if (holder instanceof RowHeaderViewHolder) {
+                ((RowHeaderViewHolder) holder).bind(rowHeaderItemModel);
+            } else {
+                throw new IllegalArgumentException("Unknown view holder type " + holder);
+            }
+        } catch (Exception e) {
+            if (FeatureToggle.STRICT_MODE.enabled) {
+                throw e;
+            }
         }
     }
 
