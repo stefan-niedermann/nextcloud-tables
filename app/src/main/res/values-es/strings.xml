@@ -97,6 +97,7 @@
     <string name="error_dialog_insufficient_storage">Su instancia de Nextcloud no tiene espacio libre de almacenamiento. Por favor elimine algunos archivos para sincronizar sus cambios locales con su nube.</string>
     <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
     <string name="error_dialog_redirect">Tu servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Tablas en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un archivo .htaccess o por aplicaciones de Nextcloud como OID Client. </string>
+    <string name="error_dialog_forbidden">No tiene permisos suficientes. Por favor, cerciórese cuales tablas están compartidas con Ud. y si han tenido cambios recientes.</string>
     <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Tablas del lado del servidor. Por favor, compruebe que está instalada y activada. </string>
     <string name="error_dialog_account_might_not_be_authorized">La cuenta de tu app Nextcloud podría no estar autorizada.</string>
     <string name="error_dialog_user_not_found_in_database">El usuario actual no coincide con el usuario que tenemos en nuestra base de datos. Si estás usando LDAP en tu instancia de Nextcloud, tu app de Nextcloud puede haber almacenado una ID de usuario antigua.</string>
@@ -150,6 +151,7 @@
     <string name="navigation_my_tables">Mis tablas</string>
     <string name="navigation_shared_tables">Tablas compartidas</string>
     <string name="could_not_display_column_editor">%1$s no se pudo mostrar.</string>
+    <string name="choose_table_from_the_sidebar">Escoger tabla del la barra lateral</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">deshabilitado</string>
 </resources>
