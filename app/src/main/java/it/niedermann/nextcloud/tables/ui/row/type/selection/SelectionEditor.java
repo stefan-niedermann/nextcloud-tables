@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.row.type.selection;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,7 @@ public class SelectionEditor extends ColumnEditView implements CompoundButton.On
 
     @Override
     protected void setValue(@Nullable String value) {
-        if (value == null) {
+        if (TextUtils.isEmpty(value)) {
             this.value = null;
         } else {
             this.value = Long.parseLong(value);

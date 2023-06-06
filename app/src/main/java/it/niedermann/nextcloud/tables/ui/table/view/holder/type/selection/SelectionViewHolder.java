@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection;
 
+import android.text.TextUtils;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,7 @@ public class SelectionViewHolder extends CellViewHolder {
     }
 
     protected String formatValue(@Nullable String value, @NonNull List<SelectionOption> selectionOptions) {
-        if (value == null) {
+        if (TextUtils.isEmpty(value)) {
             return "";
         }
 

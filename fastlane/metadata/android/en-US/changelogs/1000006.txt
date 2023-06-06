@@ -1,0 +1,19 @@
+1.0.6
+
+- fix: Prevent crash for selections in special circumstances
+
+1.0.5
+
+- enh: Show existing value if column type is not supported
+- fix: Prevent crash for numbers with constraints
+- fix: Prevent crash when opening account switcher dialog before importing any account
+- fix: Prevent crash when min or max is not configured for number columns
+
+1.0.4
+
+- feat(ui): Directly display selection values in table view
+- feat(permissions): Respect permissions for shared tables
+- feat(sync): Synchronize account on app start
+- feat(preferences): Allow synchronizing on Wi-Fi only
+- enh(sync): Better handling of network errors
+- feat(ui): Add monochrome launcher icon
