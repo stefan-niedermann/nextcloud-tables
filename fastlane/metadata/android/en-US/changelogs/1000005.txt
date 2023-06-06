@@ -1,2 +1,3 @@
 - enh: Show existing value if column type is not supported
 - fix: Prevent crash for numbers with constraints
+- fix: Prevent crash when opening account switcher dialog before importing any account

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,6 +29,7 @@ import it.niedermann.nextcloud.tables.ui.manageaccounts.ManageAccountsActivity;
 
 public class AccountSwitcherDialog extends DialogFragment {
 
+    private static final String TAG = AccountSwitcherDialog.class.getSimpleName();
     private AccountSwitcherAdapter adapter;
     private DialogAccountSwitcherBinding binding;
     private AccountViewModel accountViewModel;
@@ -62,6 +64,12 @@ public class AccountSwitcherDialog extends DialogFragment {
         });
 
         accountViewModel.getCurrentAccount().observe(this, account -> {
+            if (account == null) {
+                Log.i(TAG, "No accounts, dismissing " + AccountSwitcherDialog.class.getSimpleName());
+                dismiss();
+                return;
+            }
+
             binding.accountName.setText(
                     TextUtils.isEmpty(account.getDisplayName())
                             ? account.getUserName()
