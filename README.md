@@ -1,4 +1,4 @@
-# ⚠️ Early Alpha ⚠️
+# ⚠️ Early Beta ⚠️
 
 ***This app is currently under heavy development. It is not yet able to view or manage data in a production environment. Data loss may be possible. Use at your own risc!***
 
