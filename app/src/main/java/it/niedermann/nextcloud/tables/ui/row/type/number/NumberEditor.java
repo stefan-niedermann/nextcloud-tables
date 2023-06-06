@@ -65,11 +65,25 @@ public class NumberEditor extends TextEditor {
             // TODO check decimals
 
             final var val = Double.parseDouble(stringVal);
-
+            final var min = column.getNumberMin();
+            final var max = column.getNumberMax();
             final var df = new DecimalFormat();
-            return Range.create(column.getNumberMin(), column.getNumberMax()).contains(val)
-                    ? Optional.empty()
-                    : Optional.of(getContext().getString(R.string.validation_number_range, df.format(column.getNumberMin()), df.format(column.getNumberMax())));
+
+            if (min != null && max != null) {
+                return Range.create(min, max).contains(val)
+                        ? Optional.empty()
+                        : Optional.of(getContext().getString(R.string.validation_number_range, df.format(min), df.format(max)));
+            } else if (min != null) {
+                return val >= min
+                        ? Optional.empty()
+                        : Optional.of(getContext().getString(R.string.validation_number_min, df.format(min)));
+            } else if (max != null) {
+                return val <= max
+                        ? Optional.empty()
+                        : Optional.of(getContext().getString(R.string.validation_number_max, df.format(max)));
+            } else {
+                return Optional.empty();
+            }
 
         } catch (NumberFormatException e) {
             return Optional.of(getContext().getString(R.string.validation_number_not_parsable));

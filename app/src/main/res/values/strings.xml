@@ -164,6 +164,8 @@
 
     <string name="validation_number_not_parsable">The value seems not to be a number</string>
     <string name="validation_number_range">The value must be between %1$s and %2$s</string>
+    <string name="validation_number_min">The value must be at least %1$s</string>
+    <string name="validation_number_max">The value must be at most %1$s</string>
     <string name="validation_text_link">The value is not a link</string>
     <string name="validation_mandatory">This is a mandatory field</string>
     <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
