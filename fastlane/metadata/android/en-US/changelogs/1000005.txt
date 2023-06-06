@@ -1,0 +1,2 @@
+- enh: Show existing value if column type is not supported
+- fix: Prevent crash for numbers with constraints

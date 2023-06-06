@@ -163,7 +163,7 @@
     <string name="missing_permission_manage">Missing manage permission</string>
 
     <string name="validation_number_not_parsable">The value seems not to be a number</string>
-    <string name="validation_number_range">The value must be between %1$d %2$d</string>
+    <string name="validation_number_range">The value must be between %1$s and %2$s</string>
     <string name="validation_text_link">The value is not a link</string>
     <string name="validation_mandatory">This is a mandatory field</string>
     <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
@@ -173,7 +173,7 @@
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
     <string name="navigation_my_tables">My tables</string>
     <string name="navigation_shared_tables">Shared tables</string>
-    <string name="could_not_display_column_editor">" %1$s could not be displayed."</string>
+    <string name="could_not_display_column_editor">%1$s could not be displayed.</string>
     <string name="choose_table_from_the_sidebar">Choose table from the sidebar</string>
     <string name="last_background_sync">Last background sync:</string>
     <string name="simple_disabled">disabled</string>

@@ -66,7 +66,7 @@ public class UnknownEditor extends ColumnEditView {
     }
 
     @Override
-    protected void setErrorMessage(@Nullable String message) {
+    public void setErrorMessage(@Nullable String message) {
         binding.getRoot().setError(message);
     }
 }

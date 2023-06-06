@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -155,9 +154,11 @@ public abstract class ColumnEditView extends FrameLayout {
         removeAllViews();
         final var layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
-        final var errorMessage = new TextView(context);
-        errorMessage.setText(getContext().getString(R.string.could_not_display_column_editor, column.getTitle()));
-        layout.addView(errorMessage);
+
+        final var unknownEditor = new UnknownEditor(context, fragmentManager, column, data);
+        addView(unknownEditor);
+        unknownEditor.setErrorMessage(getContext().getString(R.string.could_not_display_column_editor, column.getTitle()));
+
         if (fragmentManager != null) {
             final var btn = new MaterialButton(context);
             btn.setText(R.string.simple_exception);

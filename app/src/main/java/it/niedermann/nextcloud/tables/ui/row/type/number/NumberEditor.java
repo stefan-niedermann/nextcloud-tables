@@ -10,6 +10,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.DecimalFormat;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
@@ -64,9 +65,11 @@ public class NumberEditor extends TextEditor {
             // TODO check decimals
 
             final var val = Double.parseDouble(stringVal);
+
+            final var df = new DecimalFormat();
             return Range.create(column.getNumberMin(), column.getNumberMax()).contains(val)
                     ? Optional.empty()
-                    : Optional.of(getContext().getString(R.string.validation_number_range, column.getNumberMin(), column.getNumberMax()));
+                    : Optional.of(getContext().getString(R.string.validation_number_range, df.format(column.getNumberMin()), df.format(column.getNumberMax())));
 
         } catch (NumberFormatException e) {
             return Optional.of(getContext().getString(R.string.validation_number_not_parsable));
