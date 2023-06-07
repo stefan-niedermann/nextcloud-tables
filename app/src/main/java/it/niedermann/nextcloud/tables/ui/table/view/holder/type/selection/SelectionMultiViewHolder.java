@@ -20,7 +20,7 @@ public class SelectionMultiViewHolder extends SelectionViewHolder {
 
     @Override
     public void bind(@Nullable Data data, @NonNull Column column, @NonNull List<SelectionOption> selectionOptions) {
-        binding.data.setText(data == null ? null : formatValue(data.getValue(), selectionOptions));
+        binding.data.setText(data == null ? null : formatValue(data.getValue(), column.getId(), selectionOptions));
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
         binding.data.requestLayout();

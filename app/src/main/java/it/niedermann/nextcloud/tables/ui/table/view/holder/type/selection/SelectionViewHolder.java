@@ -32,7 +32,7 @@ public class SelectionViewHolder extends CellViewHolder {
     }
 
     public void bind(@Nullable Data data, @NonNull Column column, @NonNull List<SelectionOption> selectionOptions) {
-        binding.data.setText(data == null ? null : formatValue(data.getValue(), selectionOptions));
+        binding.data.setText(data == null ? null : formatValue(data.getValue(), column.getId(), selectionOptions));
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
         binding.data.requestLayout();
@@ -41,7 +41,7 @@ public class SelectionViewHolder extends CellViewHolder {
         binding.getRoot().requestLayout();
     }
 
-    protected String formatValue(@Nullable String value, @NonNull List<SelectionOption> selectionOptions) {
+    protected String formatValue(@Nullable String value, long columnId, @NonNull List<SelectionOption> selectionOptions) {
         if (TextUtils.isEmpty(value)) {
             return "";
         }
@@ -49,13 +49,14 @@ public class SelectionViewHolder extends CellViewHolder {
         return Arrays.stream(value.split(","))
                 .map(Long::parseLong)
                 .sorted()
-                .map(id -> getLabel(id, selectionOptions))
+                .map(remoteSelectionOptionId -> getLabel(remoteSelectionOptionId, columnId, selectionOptions))
                 .collect(Collectors.joining(", "));
     }
 
-    private String getLabel(long id, @NonNull List<SelectionOption> selectionOptions) {
+    private String getLabel(long remoteSelectionOptionId, long columnId, @NonNull List<SelectionOption> selectionOptions) {
         for (final var selectionOption : selectionOptions) {
-            if (Objects.equals(id, selectionOption.getRemoteId())) {
+            if (Objects.equals(columnId, selectionOption.getColumnId()) &&
+                    Objects.equals(remoteSelectionOptionId, selectionOption.getRemoteId())) {
                 return selectionOption.getLabel();
             }
         }

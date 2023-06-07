@@ -25,7 +25,7 @@ public interface SelectionOptionDao extends GenericDao<SelectionOption> {
     void deleteExcept(long columnId, Collection<Long> remoteIds);
 
     // TODO Check for DELETED
-    @Query("SELECT s.* FROM SelectionOption s " +
+    @Query("SELECT DISTINCT s.* FROM SelectionOption s " +
             "INNER JOIN `Column` c ON s.columnId = c.id " +
             "INNER JOIN `Table` t on c.tableId = t.id " +
             "INNER JOIN `Row` r ON r.tableId = t.id " +
