@@ -86,4 +86,6 @@
     <string name="add_column">Tilføj kolonne</string>
     <string name="navigation_my_tables">Mine tabeller</string>
     <string name="navigation_shared_tables">Fælles tabeller</string>
-    </resources>
+    <string name="last_background_sync">Seneste baggrundssynkronisering:</string>
+    <string name="simple_disabled">slået fra</string>
+</resources>

@@ -131,7 +131,6 @@
     <string name="reason_nextcloud_not_supported">هذا الإصدار من نكست كلاود غير مدعوم</string>
     <string name="reason_unknown">حدث خلل غير معروف</string>
     <string name="validation_number_not_parsable">يبدو أن القيمة ليست رقماً</string>
-    <string name="validation_number_range">القيمة يجب أن تكون بين %1$d و %2$d</string>
     <string name="validation_text_link">القيمة ليست رابطاً</string>
     <string name="validation_mandatory">هذا حقل إلزامي</string>
     <string name="validation_time_missing">يجب تعيين الوقت في خانة الوقت و التاريخ DataTime.</string>
@@ -141,5 +140,6 @@
     <string name="unsupported_column_type">تعديل أعمدة من النوع %1$s غير مدعومة بعد.</string>
     <string name="navigation_my_tables">جداولي</string>
     <string name="navigation_shared_tables">جداول مشتركة</string>
-    <string name="could_not_display_column_editor"> %1$s لا يمكن عرضها.</string>
-    </resources>
+    <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
+    <string name="simple_disabled">معطّل</string>
+</resources>

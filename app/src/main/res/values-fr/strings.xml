@@ -116,14 +116,12 @@
     <string name="reason_nextcloud_not_supported">Votre version Nextcloud n\'est pas prise en charge</string>
     <string name="reason_unknown">Une erreur inconnue est survenue</string>
     <string name="validation_number_not_parsable">La valeur n\'est pas un nombre</string>
-    <string name="validation_number_range">La valeur doit être entre  %1$d et %2$d</string>
     <string name="validation_text_link">La valeur n\'est pas un lien</string>
     <string name="validation_mandatory">Ce champ est obligatoire</string>
     <string name="order_weight">Poids de la commande</string>
     <string name="add_column"> Ajouter une colonne</string>
     <string name="navigation_my_tables">Mes tableaux</string>
     <string name="navigation_shared_tables">Tableaux partagés</string>
-    <string name="could_not_display_column_editor"> %1$s ne peut pas être affiché.</string>
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
     <string name="simple_disabled">désactivé</string>
 </resources>

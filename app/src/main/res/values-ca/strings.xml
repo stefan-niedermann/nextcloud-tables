@@ -101,4 +101,6 @@
     <string name="add_column">Afegeix una columna</string>
     <string name="navigation_my_tables">Les meves taules</string>
     <string name="navigation_shared_tables">Taules compartides</string>
-    </resources>
+    <string name="last_background_sync">Última sincronització en segon pla:</string>
+    <string name="simple_disabled">inhabilitat</string>
+</resources>
