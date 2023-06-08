@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud Tables</string>
     <string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
     <string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
     <string name="action_settings">Paramètres</string>
@@ -79,25 +80,33 @@
 
     <string name="error_dialog_title">Oh zut ! Et maintenant, que fait-on ? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Essayez de forcer la fermeture de l\'application puis de la redémarrer. Il y avait peut-être une mauvaise connexion à Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si le problème persiste, essayez d\'effacer le stockage des deux applications : Nextcloud et Nextcloud Tables pour résoudre ce problème.</string>
     <string name="error_dialog_tip_database_upgrade_failed">La mise à jour de la base de données a échoué. Veuillez signaler l\'erreur et supprimer les données pour utiliser l\'application de manière normale.</string>
     <string name="error_dialog_tip_clear_storage">Vous pouvez nettoyer l\'espace de stockage en ouvrant les paramètres de l\'application et en sélectionnant Stockage → Effacer le stockage.</string>
     <string name="error_dialog_tip_offline_no_internet">Il semble que vous avez essayé de lancer une synchronisation sans accès internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">Connexion refusée, veuillez vérifier si votre serveur est accessible via le navigateur web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Connexion expirée, vérifiez que vous êtes connecté à internet. Cela peut aussi arriver sis votre serveur est occupé.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si vous avez activé \"Sync seulement par Wi-Fi\", vous ne pourrez donc synchroniser qu\'en étant connecté à un réseau Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Il semble que quelque chose ne fonctionne pas avec votre application Nextcloud. Essayez de forcer l\'arrêt de l\'application Nextcloud et de l\'application Nextcloud Tables.</string>
     <string name="error_dialog_tip_files_delete_storage">Si l’arrêt forcé ne fonctionne pas, vous pouvez essayer d\'effacer les données des deux applications.</string>
     <string name="error_dialog_timeout_instance">Le serveur n’a pas répondu dans le temps imparti. Assurez-vous que votre instance fonctionne correctement.</string>
     <string name="error_dialog_timeout_toggle">Vérifiez votre connexion réseau. L\'activation et la désactivation des données mobiles ou du Wi-Fi peuvent aider.</string>
+    <string name="error_dialog_check_server">La réponse de votre serveur n\'était pas correcte. Veuillez vérifier si vous pouvez accéder à l\'application Tables via l\'interface web.</string>
     <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Veuillez consulter les fichiers journaux du serveur.</string>
     <string name="error_dialog_check_maintenance">Veuillez vérifier que votre instance Nextcloud n\'est pas en mode maintenance actuellement.</string>
     <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes afin de vous aider :</string>
+    <string name="error_dialog_redirect">Votre serveur a répondu avec un code HTTP 302, ce qui signifie que vous n\'avez pas installé l\'application Tables sur votre serveur ou que quelque chose est mal configuré. Cela peut être causé par des surcharges personnalisées dans un fichier .htaccess ou par des applications Nextcloud comme OID Client.</string>
+    <string name="error_dialog_forbidden">Vous n\'avez pas les permissions suffisantes. Veuillez vérifier les tableaux qui sont partagés avec vous et qui ont été modifiés récemment.</string>
+    <string name="error_dialog_version_not_parsable">Nous n\'avons pas pu déterminer la version de l\'application Tables côté serveur. Veuillez vous assurer qu\'elle est installée et activée.</string>
     <string name="error_dialog_account_might_not_be_authorized">Il semble possible que le compte de votre application Nextcloud ne soit plus autorisé.</string>
     <string name="error_dialog_user_not_found_in_database">L\'utilisateur actuel est différent de l\'utilisateur que nous avons dans notre base de données. Si vous utilisez LDAP sur votre instance Nextcloud, il est possible que votre application Nextcloud ait stocké un identifiant utilisateur obsolète.</string>
     <string name="error_dialog_capabilities_not_parsable">Nous n\'avons pas pu évaluer les capacités de votre serveur. Veuillez vous assurer que votre serveur fonctionne bien et que les autres applications clientes peuvent accéder à Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Une pièce jointe n’a pas pu être envoyée. Veuillez essayer de la partager d’une autre façon et faites-nous part de ce bogue.</string>
     <string name="error_dialog_certificate">Le certificat du serveur est erroné. Pour plus d\'informations, veuillez vérifier chaque compte déclaré dans l\'application Nextcloud.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Veuillez désactiver toutes les optimisations de batterie pour Nextcloud et l\'application Tables.</string>
     <string name="error_dialog_unknown_error">Votre instance Nextcloud semble ne pas être joignable. Veuillez vérifier votre connexion internet et si vous êtes en mesure de vous connecter à votre instance via le navigateur.</string>
+    <string name="error_dialog_min_version">L\'application Android Tables nécessite que l\'application Android Nextcloud soit au moins en version 3.18.</string>
     <string name="error_action_open_app_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_nextcloud_app">Ouvrir l\'application Nextcloud</string>
     <string name="error_action_open_network">Paramètres réseau</string>
@@ -108,20 +117,43 @@
     <string name="error_action_update_files_app">Mise à jour</string>
     <string name="error_action_open_battery_settings">Paramètres pour la batterie</string>
 
+    <string name="welcome_text">Bienvenue dans Nextcloud Tables</string>
     <string name="importing_account">Import du compte %1$s en cours</string>
+    <string name="account_already_imported">Compte déjà importé</string>
     <string name="import_state_import_account">Import du compte en cours</string>
+    <string name="import_state_import_tables">Importation des tableaux. Cette opération peut prendre plusieurs minutes.</string>
     <string name="not_yet_synchronized">Non synchronisé actuellement</string>
 
+    <string name="reason_not_installed">Nextcloud Tables n\'est pas installé</string>
+    <string name="reason_not_enabled">Nextcloud Tables n\'est pas activé</string>
     <string name="reason_maintenance_mode">Votre instance de Nextcloud est actuellement en mode maintenance.</string>
+    <string name="reason_server_error">Votre serveur a fourni une réponse non valide</string>
+    <string name="reason_tables_not_supported">Votre version de l\'application Nextcloud Tables n\'est pas prise en charge</string>
     <string name="reason_nextcloud_not_supported">Votre version Nextcloud n\'est pas prise en charge</string>
     <string name="reason_unknown">Une erreur inconnue est survenue</string>
+    <string name="reason_offline">Vous êtes actuellement hors ligne.</string>
+
+    <string name="missing_permission_read">Autorisation de lecture manquante</string>
+    <string name="missing_permission_create">Autorisation de création manquante</string>
+    <string name="missing_permission_update">Autorisation de mise à jour manquante</string>
+    <string name="missing_permission_delete">Autorisation de suppression manquante</string>
+    <string name="missing_permission_manage">Autorisation de gestion manquante</string>
+
     <string name="validation_number_not_parsable">La valeur n\'est pas un nombre</string>
+    <string name="validation_number_range">La valeur doit être comprise entre %1$s et %2$s</string>
+    <string name="validation_number_min">La valeur doit être au moins de %1$s</string>
+    <string name="validation_number_max">La valeur doit être au maximum de %1$s</string>
     <string name="validation_text_link">La valeur n\'est pas un lien</string>
     <string name="validation_mandatory">Ce champ est obligatoire</string>
+    <string name="validation_time_missing">L\'heure doit être fournie pour un champ DateHeure.</string>
+
     <string name="order_weight">Poids de la commande</string>
     <string name="add_column"> Ajouter une colonne</string>
+    <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
     <string name="navigation_my_tables">Mes tableaux</string>
     <string name="navigation_shared_tables">Tableaux partagés</string>
+    <string name="could_not_display_column_editor">%1$s n\'a pas pu être affiché.</string>
+    <string name="choose_table_from_the_sidebar">Choisissez le tableau dans la barre latérale</string>
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
     <string name="simple_disabled">désactivé</string>
 </resources>

@@ -140,6 +140,9 @@
     <string name="missing_permission_manage">Yönetme (manage) izni eksik</string>
 
     <string name="validation_number_not_parsable">Değer bir sayı değil gibi görünüyor</string>
+    <string name="validation_number_range">Değer %1$s ile %2$s arasında olmalıdır</string>
+    <string name="validation_number_min">Değer en az %1$s olmalıdır</string>
+    <string name="validation_number_max">Değer en fazla %1$s olmalıdır</string>
     <string name="validation_text_link">Değer bir bağlantı değil</string>
     <string name="validation_mandatory">Bu alanın doldurulması zorunludur</string>
     <string name="validation_time_missing">Bir TarihSaat alanı için saat belirtilmelidir.</string>
@@ -149,6 +152,7 @@
     <string name="unsupported_column_type">%1$s türündeki sütunların düzenlenmesi henüz desteklenmiyor.</string>
     <string name="navigation_my_tables">Tablolarım</string>
     <string name="navigation_shared_tables">Paylaşılmış tablolar</string>
+    <string name="could_not_display_column_editor">%1$s görüntülenemedi.</string>
     <string name="choose_table_from_the_sidebar">Yan çubuktan tabloyu seçin</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
     <string name="simple_disabled">devre dışı</string>

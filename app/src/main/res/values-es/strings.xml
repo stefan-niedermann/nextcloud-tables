@@ -140,6 +140,9 @@
     <string name="missing_permission_manage">Sin permisos de gestión</string>
 
     <string name="validation_number_not_parsable">El valor no parece ser un número.</string>
+    <string name="validation_number_range">El valor debe estar entre %1$s y %2$s</string>
+    <string name="validation_number_min">El valor debe ser al menos %1$s</string>
+    <string name="validation_number_max">El valor debe ser a lo sumo %1$s</string>
     <string name="validation_text_link">El valor no es un enlace</string>
     <string name="validation_mandatory">Este campo es obligatorio</string>
     <string name="validation_time_missing">La hora debe ser provista para un campo DateTime</string>
@@ -149,6 +152,7 @@
     <string name="unsupported_column_type">La edición de columnas de tipo %1$s no está soportada todavía.</string>
     <string name="navigation_my_tables">Mis tablas</string>
     <string name="navigation_shared_tables">Tablas compartidas</string>
+    <string name="could_not_display_column_editor">%1$s no pudo ser mostrado.</string>
     <string name="choose_table_from_the_sidebar">Escoger tabla del la barra lateral</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">deshabilitado</string>

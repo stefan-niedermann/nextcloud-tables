@@ -140,6 +140,9 @@
     <string name="missing_permission_manage">Недостаје дозвола за управљање</string>
 
     <string name="validation_number_not_parsable">Изгледа да вредност није број</string>
+    <string name="validation_number_range">Вредност мора да буде између %1$s и %2$s</string>
+    <string name="validation_number_min">Вредност мора да буде барем %1$s</string>
+    <string name="validation_number_max">Вредност мора да буде највише %1$s</string>
     <string name="validation_text_link">Вредност није линк</string>
     <string name="validation_mandatory">Ово је обавезно поље</string>
     <string name="validation_time_missing">За DateTime поље мора да се наведе време.</string>
@@ -149,6 +152,7 @@
     <string name="unsupported_column_type">Уређивање колоне типа %1$s се још увек не подржава</string>
     <string name="navigation_my_tables">Моје табеле</string>
     <string name="navigation_shared_tables">Дељене табеле</string>
+    <string name="could_not_display_column_editor"> %1$s не може да се прикаже.</string>
     <string name="choose_table_from_the_sidebar">Изаберите табелу из бочне траке</string>
     <string name="last_background_sync">Последња синх.:</string>
     <string name="simple_disabled">искључено</string>

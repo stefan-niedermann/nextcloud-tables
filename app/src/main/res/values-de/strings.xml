@@ -140,6 +140,9 @@
     <string name="missing_permission_manage">Fehlende Verwaltungsberechtigung</string>
 
     <string name="validation_number_not_parsable">Der Wert scheint keine Zahl zu sein</string>
+    <string name="validation_number_range">Der Wert muss zwischen %1$s und %2$s liegen</string>
+    <string name="validation_number_min">Der Wert muss mindestens %1$s sein</string>
+    <string name="validation_number_max">Der Wert darf maximal %1$s sein</string>
     <string name="validation_text_link">Der Wert ist kein Link</string>
     <string name="validation_mandatory">Dies ist ein Pflichtfeld</string>
     <string name="validation_time_missing">Für ein DateTime-Feld muss die Zeit angegeben werden.</string>
@@ -149,6 +152,7 @@
     <string name="unsupported_column_type">Die Bearbeitung von Spalten des Typs %1$s wird noch nicht unterstützt.</string>
     <string name="navigation_my_tables">Meine Tabellen</string>
     <string name="navigation_shared_tables">Geteilte Tabellen</string>
+    <string name="could_not_display_column_editor">%1$s konnte nicht angezeigt werden.</string>
     <string name="choose_table_from_the_sidebar">In der Seitenleiste eine Tabelle auswählen</string>
     <string name="last_background_sync">Letzte Hintergrundsynchronisierung:</string>
     <string name="simple_disabled">Deaktiviert</string>
