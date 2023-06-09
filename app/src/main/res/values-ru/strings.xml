@@ -97,6 +97,7 @@
     <string name="error_dialog_insufficient_storage">На вашем экземпляре Nextcloud нет свободного места. Удалите ненужные файлы для синхронизации изменений в облако.</string>
     <string name="error_dialog_we_need_info">Требуется следующая техническая информация от вас:</string>
     <string name="error_dialog_redirect">Ваш сервер ответил кодом состояния HTTP 302, что означает, что вы не установили приложение Tables на свой сервер или что-то неправильно настроено. Это может быть вызвано пользовательскими переопределениями в файле .htaccess или приложениями Nextcloud, такими как OID Client.</string>
+    <string name="error_dialog_forbidden">У вас недостаточно прав. Пожалуйста, проверьте, какие из общих таблиц были недавно изменены.</string>
     <string name="error_dialog_version_not_parsable">Нам не удалось определить версию серверного приложения Nextcloud Tables. Убедитесь, что оно установлено и включено.</string>
     <string name="error_dialog_account_might_not_be_authorized">Учётная запись из приложения Nextcloud не может использована для авторизации.</string>
     <string name="error_dialog_user_not_found_in_database">Данные о текущем пользователе отличаются от сохранённых в базе данных приложения. Это может произойти при использовании каталогов LDAP на сервере Nextcloud.</string>
@@ -130,15 +131,29 @@
     <string name="reason_tables_not_supported">Ваша версия приложения Nextcloud Tables не поддерживается</string>
     <string name="reason_nextcloud_not_supported">Ваша версия Nextcloud не поддерживается</string>
     <string name="reason_unknown">Произошла неизвестная ошибка</string>
+    <string name="reason_offline">Нет подключения к интернету.</string>
+
+    <string name="missing_permission_read">Отсутствуют права на чтение</string>
+    <string name="missing_permission_create">Отсутствуют права на создание</string>
+    <string name="missing_permission_update">Отсутствуют права на изменение</string>
+    <string name="missing_permission_delete">Отсутствуют права на удаление</string>
+    <string name="missing_permission_manage">Отсутствуют права на управление</string>
+
     <string name="validation_number_not_parsable">Значение не является числом</string>
+    <string name="validation_number_range">Значение должно быть между %1$s и %2$s</string>
+    <string name="validation_number_min">Значения должно быть не меньше %1$s</string>
+    <string name="validation_number_max">Значения должно быть не больше %1$s</string>
     <string name="validation_text_link">Значение не является ссылкой</string>
     <string name="validation_mandatory">Это обязательное поле</string>
     <string name="validation_time_missing">Время должно быть указано для поля DateTime.</string>
 
+    <string name="order_weight">Порядковый номер</string>
     <string name="add_column">Добавить стопку</string>
     <string name="unsupported_column_type">Редактирование столбцов типа %1$s еще не поддерживается.</string>
     <string name="navigation_my_tables">Мои таблицы</string>
     <string name="navigation_shared_tables">Общие таблицы</string>
+    <string name="could_not_display_column_editor">Не удалось отобразить %1$s.</string>
+    <string name="choose_table_from_the_sidebar">Выберите таблицу из боковой панели</string>
     <string name="last_background_sync">Последняя фоновая синхронизация:</string>
     <string name="simple_disabled">отключено</string>
 </resources>
