@@ -18,6 +18,7 @@
     <string name="choose_account">Оберіть обліковий запис</string>
     <string name="app_name_short">Таблиці</string>
     <string name="manage_accounts">Облікові записи</string>
+    <string name="edit_table">Редагувати таблицю</string>
     <string name="edit_item">Редагувати %1$s</string>
     <string name="hint_error_appeared">Сталася помилка </string>
 
