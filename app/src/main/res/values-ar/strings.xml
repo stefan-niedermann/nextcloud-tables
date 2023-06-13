@@ -97,6 +97,7 @@
     <string name="error_dialog_insufficient_storage">خادم Nextcloud الخاص بك ليس لديه مساحة تخزين فارغة متبقية. يرجى حذف بعض الملفات لمزامنة التغييرات المحلية الخاصة بك في السحابة الخاصة بك.</string>
     <string name="error_dialog_we_need_info">نحتاج إلى المعلومات الفنية التالية لمساعدتك:</string>
     <string name="error_dialog_redirect">كان ردّ خادومك هو الكود HTTP 302، و الذي يعني أن تطبيق الجداول لم يتم تنصيبه أو لم تتم تهيئته كما يجب. يمكن أن يرجع ذلك إلى تخصيصات مُقدّمة في الملف .htaccess-file أو بسب تطبيق آخر لنكست كلاود مثل عميل OID Client.</string>
+    <string name="error_dialog_forbidden">أنت لا تملك التخويل الكافي. رجاءً أنظر في الجداول التي تمت مشاركتها معك و تمّ تعديلها مؤخراً.</string>
     <string name="error_dialog_version_not_parsable">لم نتمكن من تحديد رقم الإصدار لتطبيق الجداول على الخادوم. يُرجى التأكد من كونه مُنصّباً و مُفعّلاً.</string>
     <string name="error_dialog_account_might_not_be_authorized">ربما حسابك في نكست كلاود لم يعد مصرحًا به </string>
     <string name="error_dialog_user_not_found_in_database">لا يتطابق المستخدم الحالي مع المستخدم الموجود لدينا في قاعدة البيانات. إذا كنت تستخدم بروتوكول الوصول الخفيف إلى الدليل (LDAP) على حالة نكست كلاود الخاص بك، فربما قام تطبيق نكست كلاود بتخزين معرف مستخدم قديم.</string>
@@ -130,7 +131,18 @@
     <string name="reason_tables_not_supported">هذا الإصدار من تطبيق جداول نكست كلاود غير مدعوم</string>
     <string name="reason_nextcloud_not_supported">هذا الإصدار من نكست كلاود غير مدعوم</string>
     <string name="reason_unknown">حدث خلل غير معروف</string>
+    <string name="reason_offline">أنت الآن غير متصل.</string>
+
+    <string name="missing_permission_read">لا يوجد تخويل بالقراءة</string>
+    <string name="missing_permission_create">لا يوجد تخويل بالإنشاء</string>
+    <string name="missing_permission_update">لا يوجد تخويل بالتعديل</string>
+    <string name="missing_permission_delete">لا يوجد تخويل بالحذف</string>
+    <string name="missing_permission_manage">لا يوجد تخويل بالإدارة</string>
+
     <string name="validation_number_not_parsable">يبدو أن القيمة ليست رقماً</string>
+    <string name="validation_number_range">القيمة يجب أن تكون ما بين %1$s و %2$s</string>
+    <string name="validation_number_min">القيمة يجب ألّا تقل عن  %1$s </string>
+    <string name="validation_number_max">القيمة يجب ألّا تزيد عن %1$s</string>
     <string name="validation_text_link">القيمة ليست رابطاً</string>
     <string name="validation_mandatory">هذا حقل إلزامي</string>
     <string name="validation_time_missing">يجب تعيين الوقت في خانة الوقت و التاريخ DataTime.</string>
@@ -140,6 +152,8 @@
     <string name="unsupported_column_type">تعديل أعمدة من النوع %1$s غير مدعومة بعد.</string>
     <string name="navigation_my_tables">جداولي</string>
     <string name="navigation_shared_tables">جداول مشتركة</string>
+    <string name="could_not_display_column_editor">%1$s لا يمكن عرضها.</string>
+    <string name="choose_table_from_the_sidebar">إختر جدولاً من العمود الجانبي</string>
     <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
     <string name="simple_disabled">معطّل</string>
 </resources>
