@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud Táblázatok</string>
     <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
     <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
     <string name="action_settings">Beállítások</string>
@@ -11,10 +12,17 @@
     <string name="simple_delete">Törlés</string>
     <string name="simple_settings">Beállítások</string>
     <string name="simple_about">Névjegy</string>
+    <string name="simple_synchronization">Szinkronizálás</string>
     <string name="simple_appearance">Megjelenés</string>
+    <string name="simple_emoji">Emodzsi</string>
     <string name="simple_mandatory">Kötelező</string>
+    <string name="simple_description">Leírás</string>
+
     <string name="add_table">Táblázat hozzáadása</string>
+    <string name="add_row">Sor hozzáadása</string>
     <string name="edit_row">Sor szerkesztése</string>
+    <string name="manage_columns">Oszlopok kezelése</string>
+    <string name="edit_column">Oszlop szerkesztése</string>
     <string name="preferences">Beállítások</string>
     <string name="import_account">Fiók importálása</string>
     <string name="choose_account">Válasszon fiókot</string>
@@ -24,11 +32,16 @@
     <string name="add_account">Fiók hozzáadása</string>
     <string name="edit_table">Táblázat szerkesztése</string>
     <string name="edit_item">%1$s szerkesztése</string>
+    <string name="share_table">Táblázat megosztása</string>
+    <string name="not_implemented">Ez a funkció még nincs megvalósítva.</string>
     <string name="delete_table">Táblázat törlése</string>
     <string name="hint_error_appeared">Hiba történt</string>
 
     <string name="delete_item">%1$s törlése</string>
+    <string name="delete_item_message">Ez véglegesen törli a következőt: %1$s.</string>
     <string name="delete_row">Sor törlése</string>
+    <string name="delete_row_message">Ez véglegesen törli ezt a sort.</string>
+
     <string name="pref_title_sync_only_wifi">Szinkronizálás csak Wi-Fin</string>
     <string name="pref_title_sync_background">Háttér-szinkronizálás</string>
     <string name="pref_title_theme">Téma</string>
@@ -67,19 +80,25 @@
 
     <string name="error_dialog_title">Jaj ne – Most mi legyen? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Próbálja kényszeríteni az alkalmazás bezárását, és indítsa újra. Lehet, hogy hibás volt a kapcsolat a többi Nextcloud alkalmazással.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Ha a probléma továbbra is fennáll, próbálja kiüríteni mindkét alkalmazás tárolóját: a Nextcloudét és a Nextcloud Táblázatokét.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Az adatbázis frissítése sikertelen. Jelentse a problémát és az alkalmazás normális használatához törölje a tárolót.</string>
     <string name="error_dialog_tip_clear_storage">A tárolót az alkalmazásinformáció megnyitásával, és a Tárhely → Tárhely ürítése választásával törölheti.</string>
     <string name="error_dialog_tip_offline_no_internet">Úgy néz ki, hogy internetkapcsolat nélkül próbált meg szinkronizálást kezdeményezni.</string>
     <string name="error_dialog_tip_offline_connection_refused">A kapcsolat elutasítva, ellenőrizze, hogy a kiszolgáló webböngészővel elérhető-e.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A kapcsolatban időtúllépés történt, ellenőrizze, hogy kapcsolódik-e az internethez. Ez akkor is előfordulhat, ha a kiszolgáló elfoglalt.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Ha engedélyezte a „Szinkronizálás csak Wi-Fin” beállítást, akkor csak akkor szinkronizálhat, ha Wi-Fihez kapcsolódik.</string>
+    <string name="error_dialog_tip_files_force_stop">Valami hibásnak tűnik a Nextcloud alkalmazásában. Próbálja mindkettőt leállítani, a Nextcloud és a Nextcloud Táblázatok alkalmazást is.</string>
     <string name="error_dialog_tip_files_delete_storage">Ha a kényszerített leállítás nem segít, akkor megpróbálhatja mindkét alkalmazás tárolóját kiüríteni.</string>
     <string name="error_dialog_timeout_instance">A megadott időn belül nem érkezett válasz a kiszolgálótól. Győződjön meg róla, hogy a példánya helyesen fut.</string>
     <string name="error_dialog_timeout_toggle">Ellenőrizze a hálózati kapcsolatát. Néha a mobil adathasználat vagy a Wi-Fi ki- és bekapcsolása is segíthet.</string>
+    <string name="error_dialog_check_server">A kiszolgáló válasza helytelen volt. Ellenőrizze, hogy eléri-e a Táblázatok alkalmazást a webes felületen keresztül.</string>
     <string name="error_dialog_check_server_logs">Hiba van a Nextcloudja beállításaiban. Nézzen bele a kiszolgáló naplófájljaiba.</string>
     <string name="error_dialog_check_maintenance">Ellenőrizze, hogy a Nextcloud példánya nincs-e karbantartási módban.</string>
     <string name="error_dialog_insufficient_storage">A Nextcloud példányán elfogyott a szabad hely. Töröljön pár fájlt, hogy szinkronizálhassa a helyi változtatásait a felhővel.</string>
     <string name="error_dialog_we_need_info">A következő műszaki információkra van szükségünk, hogy segíthessünk:</string>
+    <string name="error_dialog_redirect">A kiszolgálója 302-es HTTP állapotkóddal válaszolt, amely arra utal, hogy nincs telepítve a Táblázatok alkalmazás a kiszolgálón, vagy valami hibásan van beállítva. Ezt egyéni felülírások is okozhatják, mint egy .htaccess-fájl vagy az OID klienshez hasonló Nextcloud alkalmazások.</string>
+    <string name="error_dialog_forbidden">Nincs megfelelő jogosultsága. Ellenőrizze, hogy mely táblázatok vannak Önnel megosztva, és melyek változtak a közelmúltban.</string>
+    <string name="error_dialog_version_not_parsable">Nem sikerült meghatározni a kiszolgálóoldali Táblázatok alkalmazás verzióját. Győződjön meg róla, hogy telepítve és engedélyezve van.</string>
     <string name="error_dialog_account_might_not_be_authorized">A Nextcloud alkalmazáshoz tartozó fiókja lehet hogy már lehet, hogy nincs hitelesítve.</string>
     <string name="error_dialog_user_not_found_in_database">A jelenlegi felhasználó nem egyezik az adatbázisban tárolttal. Ha LDAP-ot használt a Nextcloud példányán, akkor lehet, hogy a Nextcloud alkalmazás még egy régebbi felhasználóazonosítót tárol.</string>
     <string name="error_dialog_capabilities_not_parsable">A képességek lekérése a kiszolgálójáról sikertelen. Győződjön meg róla, hogy a kiszolgálója rendesen fut-e, és hogy más kliensalkalmazások elérik-e a Nextcloudod.</string>

@@ -80,7 +80,7 @@
 
     <string name="error_dialog_title">Oh nein - Was jetzt? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Bitte versuchen Sie, das Schließen der App zu erzwingen und erneut zu starten. Möglicherweise war die Verbindung zur Nextcloud-App gestört.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Falls dieser Fehler weiterhin besteht können Sie versuchen den Speicherinhalt der beiden Apps Nextcloud und Nextcloud-Tabellen zu leeren um das Problem zu beheben.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Falls dieser Fehler weiterhin besteht, können Sie versuchen, den Speicherinhalt der beiden Apps Nextcloud und Nextcloud-Tabellen zu leeren, um das Problem zu beheben.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Die Aktualisierung der Datenbank ist fehlgeschlagen. Bitte melden Sie das Problem und leeren Sie den Speicher, um die App normal zu verwenden.</string>
     <string name="error_dialog_tip_clear_storage">Sie können den Speicherinhalt leeren indem Sie die App öffnen und Speicher → Speicherinhalt löschen auswählen.</string>
     <string name="error_dialog_tip_offline_no_internet">Es sieht so aus, als hätten Sie versucht, eine Synchronisation auszulösen, ohne dass eine Internetverbindung bestand.</string>
@@ -91,12 +91,12 @@
     <string name="error_dialog_tip_files_delete_storage">Wenn das erzwungene Stoppen nicht hilft, können Sie versuchen, den Speicher beider Apps zu leeren.</string>
     <string name="error_dialog_timeout_instance">Der Server reagierte nicht in der üblichen Zeit. Bitte stellen Sie sicher, dass Ihre Instanz einwandfrei läuft.</string>
     <string name="error_dialog_timeout_toggle">Überprüfen Sie Ihre Netzwerkverbindung. Manchmal kann es hilfreich sein, die mobilen Daten oder das WLAN aus- und wieder einzuschalten.</string>
-    <string name="error_dialog_check_server">Die Antwort des Servers war fehlerhaft. Bitte überprüfen Sie ob die Tabellen-App über die Weboberfläche erreichbar ist.</string>
+    <string name="error_dialog_check_server">Die Antwort des Servers war fehlerhaft. Bitte überprüfen Sie, ob die Tabellen-App über die Weboberfläche erreichbar ist.</string>
     <string name="error_dialog_check_server_logs">Es liegt ein Problem mit Ihrer Nextcloud-Konfiguration vor. Bitte schauen Sie in die Server-Protokolldateien.</string>
-    <string name="error_dialog_check_maintenance">Bitte prüfen Sie, ob sich Ihr Nextcloud-Server derzeit  im Wartungsmodus befindet.</string>
+    <string name="error_dialog_check_maintenance">Bitte prüfen Sie, ob sich Ihr Nextcloud-Server derzeit im Wartungsmodus befindet.</string>
     <string name="error_dialog_insufficient_storage">Ihre Nextcloud-Installation hat keinen freien Speicherplatz mehr. Bitte löschen Sie einige Dateien, um Ihre lokalen Änderungen mit Ihrer Cloud synchronisieren zu können.</string>
     <string name="error_dialog_we_need_info">Wir benötigen die folgenden technischen Informationen, um Ihnen helfen zu können:</string>
-    <string name="error_dialog_redirect">Ihr Server antwortet mit HTTP Status-Code 302. Dies bedeutet, dass entweder die Tabellen-App nicht auf Ihrem Server installiert ist, oder eine Fehlkonfiguration vorliegt. Die Ursache kann im Überschreiben von Variablen in der .htaccess-Datei liegen, oder an Nextcloud-Apps wie OID Client.</string>
+    <string name="error_dialog_redirect">Ihr Server antwortete mit HTTP Status-Code 302. Dies bedeutet, dass entweder die Tabellen-App nicht auf Ihrem Server installiert ist oder eine Fehlkonfiguration vorliegt. Die Ursache kann im Überschreiben von Variablen in der .htaccess-Datei liegen oder an Nextcloud-Apps wie OID Client.</string>
     <string name="error_dialog_forbidden">Ihre Berechtigungen reichen nicht aus. Bitte überprüfen Sie die Tabellen, die für Sie freigegeben sind und kürzlich geändert wurden.</string>
     <string name="error_dialog_version_not_parsable">Version der auf dem Server installierten Tabellen-App konnte nicht ermittelt werden. Bitte sicherstellen, dass die Tabellen-App intstalliert und aktiviert ist.</string>
     <string name="error_dialog_account_might_not_be_authorized">Das Konto Ihrer Nextcloud-App ist möglicherweise nicht mehr autorisiert.</string>
@@ -106,7 +106,7 @@
     <string name="error_dialog_certificate">Mit dem Zertifikat des Servers scheint etwas nicht zu stimmen. Bitte überprüfen Sie alle Konten in der Nextcloud-App für weitere Informationen. </string>
     <string name="error_dialog_tip_disable_battery_optimizations">Bitte alle Batterieoptimierungen für Nextcloud und die Tabellen-App deaktivieren.</string>
     <string name="error_dialog_unknown_error">Ihre Nextcloud-Instanz scheint nicht erreichbar zu sein. Bitte überprüfen Sie Ihre Internetverbindung und ob Sie sich über den Browser mit Ihrer Instanz verbinden können.</string>
-    <string name="error_dialog_min_version">Die Tabellen-App für Android setzt voraus, dass die Nextcloud-Android-App mindestens Version 3.18 ist.</string>
+    <string name="error_dialog_min_version">Die Tabellen-App für Android setzt voraus, dass die Nextcloud-Android-App mindestens in Version 3.18 vorliegt.</string>
     <string name="error_action_open_app_info">App-Informationen öffnen</string>
     <string name="error_action_open_nextcloud_app">Nextcloud-App öffnen</string>
     <string name="error_action_open_network">Netzwerkeinstellungen</string>
