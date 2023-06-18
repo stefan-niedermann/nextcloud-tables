@@ -69,6 +69,7 @@
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка, вилучіть непотрібні файлі, щоби можна було виконувати синхронізацію змін на пристрої з хмарою.</string>
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
+    <string name="error_dialog_version_not_parsable">Неможливо визначити версію застосунку \"Таблиці\", встановленого на стороні серверу. Перевірте, чи його встановлено та увімкнено.</string>
     <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
     <string name="error_action_open_app_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_nextcloud_app">Відкрити програму Nextcloud</string>
