@@ -104,7 +104,9 @@
     <string name="error_dialog_capabilities_not_parsable">A képességek lekérése a kiszolgálójáról sikertelen. Győződjön meg róla, hogy a kiszolgálója rendesen fut-e, és hogy más kliensalkalmazások elérik-e a Nextcloudod.</string>
     <string name="error_dialog_attachment_upload_failed">A melléklet nem tölthető fel. Próbálja meg máshogy megosztani, és tájékoztasson minket a hibáról.</string>
     <string name="error_dialog_certificate">Valami nem stimmel a szerver tanúsítványával. Kérjük, további információkért ellenőrizze a Nextcloud alkalmazás összes fiókját.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Kapcsoljon ki minden energiatakarékossági beállítást a Nextcloud valamint a Táblázatok alkalmazáshoz.</string>
     <string name="error_dialog_unknown_error">Úgy tűnik, hogy a Nextcloud példánya nem érhető el. Ellenőrizze az internetkapcsolatát, és hogy böngészőn keresztül eléri-e a példányát.</string>
+    <string name="error_dialog_min_version">A Táblázatok androidos alkalmazáshoz a Nextcloud androidos alkalmazásnak legalább a 3.18-as verziója szükséges.</string>
     <string name="error_action_open_app_info">Alkalmazásinformációk megnyitása</string>
     <string name="error_action_open_nextcloud_app">Nextcloud alkalmazás megnyitása</string>
     <string name="error_action_open_network">Hálózati beállítások</string>
@@ -115,11 +117,43 @@
     <string name="error_action_update_files_app">Frissítés</string>
     <string name="error_action_open_battery_settings">Akkumulátorbeállítások</string>
 
+    <string name="welcome_text">Üdvözli a Nextcloud Táblázatok</string>
+    <string name="importing_account">A(z) %1$s fiók importálása</string>
+    <string name="account_already_imported">A fiók már importálásra került</string>
+    <string name="import_state_import_account">Fiók importálása</string>
+    <string name="import_state_import_tables">Táblázatok importálása. Ez eltarthat néhány percig.</string>
+    <string name="not_yet_synchronized">Még nincs szinkronizálva</string>
+
+    <string name="reason_not_installed">A Nextcloud Táblázatok nincs telepítve</string>
+    <string name="reason_not_enabled">A Nextcloud Táblázatok nincs engedélyezve</string>
+    <string name="reason_maintenance_mode">Ez a Nextcloud példány jelenleg karbantartási módban van</string>
+    <string name="reason_server_error">A kiszolgáló érvénytelen választ adott</string>
+    <string name="reason_tables_not_supported">A Nextcloud Táblázatok alkalmazásverziója nem támogatott</string>
+    <string name="reason_nextcloud_not_supported">A Nextcloud verziója nem támogatott</string>
     <string name="reason_unknown">Ismeretlen hiba történt</string>
+    <string name="reason_offline">Jelenleg nincs kapcsolat.</string>
+
+    <string name="missing_permission_read">Hiányzó olvasási engedély</string>
+    <string name="missing_permission_create">Hiányzó létrehozási engedély</string>
+    <string name="missing_permission_update">Hiányzó módosítási engedély</string>
+    <string name="missing_permission_delete">Hiányzó törlési engedély</string>
+    <string name="missing_permission_manage">Hiányzó kezelési engedély</string>
+
+    <string name="validation_number_not_parsable">Az érték nem tűnik számnak</string>
+    <string name="validation_number_range">Az értéknek %1$s és %2$s között kell lennie</string>
+    <string name="validation_number_min">Az érték legalább %1$s lehet</string>
+    <string name="validation_number_max">Az érték legfeljebb %1$s lehet</string>
+    <string name="validation_text_link">Az érték nem hivatkozás</string>
+    <string name="validation_mandatory">Ez egy kötelező mező</string>
+    <string name="validation_time_missing">Időt kell megadni a „Dátum és idő” típusú mezőben.</string>
+
     <string name="order_weight">Rendezés súlya</string>
     <string name="add_column">Oszlop hozzáadása</string>
+    <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
     <string name="navigation_my_tables">Saját táblázatok</string>
     <string name="navigation_shared_tables">Megosztott táblázatok</string>
+    <string name="could_not_display_column_editor">A(z) %1$s nem jeleníthető meg</string>
+    <string name="choose_table_from_the_sidebar">Válasszon táblázatot az oldalsávról</string>
     <string name="last_background_sync">Legutóbbi szinkronizálás:</string>
     <string name="simple_disabled">letiltva</string>
 </resources>
