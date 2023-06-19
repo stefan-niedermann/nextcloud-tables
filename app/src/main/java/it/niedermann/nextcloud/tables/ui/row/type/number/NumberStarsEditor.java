@@ -45,7 +45,7 @@ public class NumberStarsEditor extends ColumnEditView {
 
         binding.title.setText(column.getTitle());
         for (int i = 0; i < binding.stars.getChildCount(); i++) {
-            final var star = i;
+            final var star = i + 1;
             binding.stars.getChildAt(i).setOnClickListener(v -> setValue(String.valueOf(star)));
         }
 
@@ -73,7 +73,7 @@ public class NumberStarsEditor extends ColumnEditView {
         }
         for (int i = 0; i < binding.stars.getChildCount(); i++) {
             final var imageButton = (ImageButton) binding.stars.getChildAt(i);
-            imageButton.setImageResource(i <= this.value ? R.drawable.baseline_star_24 : R.drawable.baseline_star_border_24);
+            imageButton.setImageResource(i < this.value ? R.drawable.baseline_star_24 : R.drawable.baseline_star_border_24);
         }
     }
 

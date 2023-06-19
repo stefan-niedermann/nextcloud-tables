@@ -1,0 +1,1 @@
+- fix: Star editor displayed wrong number of stars (#7)
