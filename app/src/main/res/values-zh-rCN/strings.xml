@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud 表格</string>
     <string name="navigation_drawer_open">打开导航条</string>
     <string name="navigation_drawer_close">关闭导航条</string>
     <string name="action_settings">设置</string>
@@ -11,9 +12,15 @@
     <string name="simple_delete">删除</string>
     <string name="simple_settings">设置</string>
     <string name="simple_about">关于</string>
+    <string name="simple_synchronization">同步</string>
     <string name="simple_appearance">外观</string>
+    <string name="simple_emoji">表情符号</string>
+    <string name="simple_mandatory">必填项</string>
     <string name="simple_description">描述</string>
 
+    <string name="add_table">添加表格</string>
+    <string name="add_row">添加列</string>
+    <string name="edit_row">编辑列</string>
     <string name="preferences">设置偏好</string>
     <string name="import_account">导入账号</string>
     <string name="choose_account">选择一个账户</string>
@@ -22,9 +29,11 @@
     <string name="manage_accounts">管理账号</string>
     <string name="add_account">添加账目</string>
     <string name="edit_item">编辑 %1$s</string>
+    <string name="delete_table">删除表格</string>
     <string name="hint_error_appeared">发生了一个错误</string>
 
     <string name="delete_item">删除 %1$s</string>
+    <string name="delete_item_message">这将永久删除 %1$s。</string>
     <string name="pref_title_sync_only_wifi">仅在 Wi-Fi 下同步</string>
     <string name="pref_title_sync_background">后台同步</string>
     <string name="pref_title_theme">主题</string>
@@ -93,7 +102,16 @@
     <string name="error_action_update_files_app">更新</string>
     <string name="error_action_open_battery_settings">电池设置</string>
 
+    <string name="import_state_import_account">正在导入账号</string>
+    <string name="import_state_import_tables">正在导入表格。这可能需要几分钟。</string>
+    <string name="not_yet_synchronized">尚未同步</string>
+
+    <string name="reason_not_installed">Nextcloud 表格尚未安装</string>
+    <string name="reason_not_enabled">Nextcloud 表格尚未启用</string>
     <string name="reason_unknown">遇到未知错误</string>
+    <string name="reason_offline">你当前已离线。</string>
+
+    <string name="missing_permission_read">缺少读取权限</string>
     <string name="add_column">添加列</string>
     <string name="last_background_sync">上次后台同步时间：</string>
     <string name="simple_disabled">已禁用</string>
