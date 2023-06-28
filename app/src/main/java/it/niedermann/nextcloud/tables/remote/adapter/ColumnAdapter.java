@@ -3,6 +3,9 @@ package it.niedermann.nextcloud.tables.remote.adapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.stream.Collectors;
+
+import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.model.EDataType;
 import it.niedermann.nextcloud.tables.remote.util.TablesSerializationUtil;
@@ -28,6 +31,21 @@ public class ColumnAdapter {
         }
 
         return column.getSelectionDefault();
+    }
+
+    @NonNull
+    public String serializeSelectionOptions(@NonNull Column column) {
+        final var type = EDataType.findByColumn(column);
+
+        if (type == EDataType.SELECTION_MULTI) {
+            return "[" + column.getSelectionOptions()
+                    .stream()
+                    .map(AbstractRemoteEntity::getRemoteId)
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(",")) + "]";
+        }
+
+        return "[]";
     }
 
     @Nullable

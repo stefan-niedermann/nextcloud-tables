@@ -165,13 +165,13 @@ public interface TablesAPI {
     /**
      * @since 0.4.0
      */
-    @GET("column/{columnId}")
+    @GET("columns/{columnId}")
     Call<Column> getColumn(@Path("columnId") long columnId);
 
     /**
      * @since 0.4.0
      */
-    @PUT("column/{columnId}")
+    @PUT("columns/{columnId}")
     Call<Column> updateColumn(@Path("columnId") long columnId,
                               @Query("title") String title,
                               @Query("mandatory") boolean mandatory,
@@ -186,14 +186,14 @@ public interface TablesAPI {
                               @Query("textDefault") String textDefault,
                               @Query("textAllowedPattern") String textAllowedPattern,
                               @Query("textMaxLength") Integer textMaxLength,
-                              @Query("selectionOptions") List<SelectionOption> selectionOptions,
+                              @Query("selectionOptions") String selectionOptions,
                               @Query("selectionDefault") String selectionDefault,
                               @Query("datetimeDefault") String datetimeDefault);
 
     /**
      * @since 0.4.0
      */
-    @DELETE("column/{columnId}")
+    @DELETE("columns/{columnId}")
     Call<Column> deleteColumn(@Path("columnId") long columnId);
 
     /**

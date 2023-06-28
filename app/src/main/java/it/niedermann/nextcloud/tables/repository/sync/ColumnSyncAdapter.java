@@ -85,7 +85,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     column.getTextDefault(),
                     column.getTextAllowedPattern(),
                     column.getTextMaxLength(),
-                    column.getSelectionOptions(),
+                    columnAdapter.serializeSelectionOptions(column),
                     columnAdapter.serializeSelectionDefault(column),
                     column.getDatetimeDefault()).execute();
             Log.i(TAG, "--- → HTTP " + response.code());
