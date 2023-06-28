@@ -145,8 +145,8 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         }
                     }
 
-                    final var rowRemoteIds = fetchedRows.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
-                    final var rowIds = db.getRowDao().getRowRemoteAndLocalIds(table.getAccountId(), rowRemoteIds);
+                    final var fetchedRowRemoteIds = fetchedRows.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+                    final var rowIds = db.getRowDao().getRowRemoteAndLocalIds(table.getId());
 
                     for (final var row : fetchedRows) {
                         final var rowId = rowIds.get(row.getRemoteId());
@@ -188,8 +188,16 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         }
                     }
 
-                    Log.i(TAG, "------ ← Delete all rows except remoteId " + rowRemoteIds);
-                    db.getRowDao().deleteExcept(table.getId(), rowRemoteIds);
+                    Log.i(TAG, "------ ← Delete all rows except remoteId " + fetchedRowRemoteIds);
+                    final var existingRowIds = db.getRowDao().getRowRemoteAndLocalIds(table.getId());
+
+                    for (final var remoteId : fetchedRowRemoteIds) {
+                        existingRowIds.remove(remoteId);
+                    }
+
+                    for (final var id : new HashSet<>(existingRowIds.values())) {
+                        db.getRowDao().delete(id);
+                    }
                 } catch (Exception e) {
                     exceptions.add(e);
                 } finally {

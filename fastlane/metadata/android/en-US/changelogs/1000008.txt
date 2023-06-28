@@ -1,1 +1,2 @@
 - fix: Star editor displayed wrong number of stars (#7)
+- fix: SQLiteException: too many SQL variables (#8)
