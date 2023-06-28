@@ -122,6 +122,7 @@
     <string name="import_state_import_tables">Poteka uvažanje razpredelnic. Opravilo je lahko dolgotrajno.</string>
     <string name="not_yet_synchronized">Podatki še niso usklajeni</string>
 
+    <string name="reason_not_installed">Program Nextcloud Tables ni nameščen</string>
     <string name="order_weight">Razvrstilnik</string>
     <string name="add_column">Dodaj stolpec</string>
     <string name="navigation_my_tables">Moje razpredelnice</string>
