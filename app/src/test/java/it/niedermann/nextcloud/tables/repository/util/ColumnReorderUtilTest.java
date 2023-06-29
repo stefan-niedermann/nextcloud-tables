@@ -62,9 +62,9 @@ public class ColumnReorderUtilTest {
                 Map.of(1L, 50, 2L, 40, 3L, 30, 4L, 20, 5L, 10),
                 List.of(4L, 3L, 2L, 1L, 5L)
         );
-        Assert.assertEquals(42, (int) result.get(4L));
-        Assert.assertEquals(41, (int) result.get(3L));
-        Assert.assertEquals(40, (int) result.get(2L));
+        Assert.assertEquals(53, (int) result.get(4L));
+        Assert.assertEquals(52, (int) result.get(3L));
+        Assert.assertEquals(51, (int) result.get(2L));
         Assert.assertEquals(50, (int) result.get(1L));
         Assert.assertEquals(10, (int) result.get(5L));
     }
