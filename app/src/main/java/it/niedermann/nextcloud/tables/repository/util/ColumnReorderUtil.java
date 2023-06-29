@@ -58,7 +58,7 @@ public class ColumnReorderUtil {
             final Long compId = newColumnOrder.get(compIdx);
 
             if (gap >= newOrderWeights.get(compId)) {
-                newOrderWeights.put(compId, gap+1);
+                newOrderWeights.put(compId, gap + 1);
             }
         }
 
