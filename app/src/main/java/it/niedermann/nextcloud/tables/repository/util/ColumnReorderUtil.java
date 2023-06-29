@@ -45,8 +45,10 @@ public class ColumnReorderUtil {
             final Long gapId = newColumnOrder.get(gapIdx);
             final Integer bottom = newOrderWeights.get(id);
 
-            if (bottom >= newOrderWeights.get(gapId)) {
-                newOrderWeights.put(gapId, bottom + 1);
+            Integer gap = newOrderWeights.get(gapId);
+            if (bottom >= gap) {
+                gap = bottom + 1;
+                newOrderWeights.put(gapId, gap);
             }
 
             if (compIdx < 0) {
@@ -55,13 +57,14 @@ public class ColumnReorderUtil {
 
             final Long compId = newColumnOrder.get(compIdx);
 
-            if (bottom + 1 >= newOrderWeights.get(compId)) {
-                newOrderWeights.put(compId, bottom + 2);
+            if (gap >= newOrderWeights.get(compId)) {
+                newOrderWeights.put(compId, gap+1);
             }
         }
 
         return newOrderWeights;
     }
+
 
     /**
      * @return a {@link Map} containing only elements of {@param newOrderWeight} which differ from {@param originalOrderWeight}.
