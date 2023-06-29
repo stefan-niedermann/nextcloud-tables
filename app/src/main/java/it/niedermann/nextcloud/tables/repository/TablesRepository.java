@@ -147,13 +147,15 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
     }
 
-    public void reorderColumn(long tableId, @NonNull List<Long> newColumnOrder) {
+    public void reorderColumn(@NonNull Account account, long tableId, @NonNull List<Long> newColumnOrder) throws Exception {
         final var originalOrderWeights = db.getColumnDao().getNotDeletedOrderWeights(tableId);
         final var newOrderWeights = columnReorderUtil.reorderColumns(originalOrderWeights, newColumnOrder);
         final var newOrderWeightsDiff = columnReorderUtil.filterChanged(originalOrderWeights, newOrderWeights);
-
         for (final var entry : newOrderWeightsDiff.entrySet()) {
             db.getColumnDao().updateOrderWeight(entry.getKey(), entry.getValue());
+        }
+        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
+            pushLocalChanges(apiProvider.getApi(), account);
         }
     }
 
