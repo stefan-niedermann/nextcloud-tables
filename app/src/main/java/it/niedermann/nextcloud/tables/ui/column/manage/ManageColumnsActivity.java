@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.tables.R;
@@ -16,6 +17,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityManageColumnsBinding;
 import it.niedermann.nextcloud.tables.ui.column.edit.EditColumnActivity;
+import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
 public class ManageColumnsActivity extends AppCompatActivity {
@@ -55,6 +57,17 @@ public class ManageColumnsActivity extends AppCompatActivity {
                 Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
             }
         });
+
+        final var touchHelper = new ManageColumnsTouchHelper(
+                adapter,
+                reorderedIds -> manageColumnsViewModel.reorderColumns(table.getId(), reorderedIds).whenCompleteAsync((result, exception) -> {
+                    if (exception != null) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                }, ContextCompat.getMainExecutor(this))
+        );
+
+        touchHelper.attachToRecyclerView(binding.recyclerView);
 
         binding.recyclerView.setAdapter(adapter);
         manageColumnsViewModel.getNotDeletedColumns$(table).observe(this, adapter::setItems);

@@ -179,4 +179,5 @@
     <string name="choose_table_from_the_sidebar">Choose table from the sidebar</string>
     <string name="last_background_sync">Last background sync:</string>
     <string name="simple_disabled">disabled</string>
+    <string name="manage_columns_subtitle">Drag and drop to reorder</string>
 </resources>

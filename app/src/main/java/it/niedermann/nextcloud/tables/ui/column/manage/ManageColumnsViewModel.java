@@ -55,4 +55,18 @@ public class ManageColumnsViewModel extends AndroidViewModel {
             }
         }, executor);
     }
+
+    /**
+     * @param columnIdOrder defines the desired column order
+     */
+    public CompletableFuture<Void> reorderColumns(long tableId, @NonNull List<Long> columnIdOrder) {
+        return supplyAsync(() -> {
+            try {
+                tablesRepository.reorderColumn(tableId, columnIdOrder);
+                return null;
+            } catch (Exception e) {
+                throw new CompletionException(e);
+            }
+        }, executor);
+    }
 }
