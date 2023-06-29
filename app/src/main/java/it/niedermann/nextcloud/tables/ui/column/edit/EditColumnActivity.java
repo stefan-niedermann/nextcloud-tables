@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.tables.ui.column.edit;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -61,7 +60,6 @@ public class EditColumnActivity extends AppCompatActivity {
             binding.title.setText(column.getTitle());
             binding.description.setText(column.getDescription());
             binding.mandatory.setChecked(column.isMandatory());
-            binding.orderWeight.setText(String.valueOf(column.getOrderWeight()));
         }
 
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
@@ -81,21 +79,15 @@ public class EditColumnActivity extends AppCompatActivity {
                 this.column.setType("text");
                 this.column.setSubtype("line");
                 this.column.setTableId(table.getId());
+                this.column.setOrderWeight(0);
             }
 
             // TODO validate title not null
             final var title = binding.title.getText();
             final var description = binding.description.getText();
-            final var orderWeight = binding.orderWeight.getText();
             this.column.setTitle(title == null ? "" : title.toString());
             this.column.setDescription(description == null ? "" : description.toString());
             this.column.setMandatory(binding.mandatory.isChecked());
-            try {
-                this.column.setOrderWeight(TextUtils.isEmpty(orderWeight) ? 0 : Integer.parseInt(orderWeight.toString()));
-            } catch (NumberFormatException e) {
-                ExceptionDialogFragment.newInstance(e, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                return true;
-            }
 
             final var futureResult = this.column.getRemoteId() == null
                     ? editColumnViewModel.createColumn(account, table, column)
