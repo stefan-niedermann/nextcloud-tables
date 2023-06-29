@@ -173,10 +173,7 @@ public class ViewTableFragment extends Fragment {
 
                 final var popup = new PopupMenu(requireContext(), columnHeaderView.itemView);
                 popup.inflate(R.menu.context_menu_column);
-                Optional.ofNullable(popup.getMenu().findItem(R.id.delete_column))
-                        .ifPresent(item -> item.setTitle(getString(R.string.delete_item, column.getTitle())));
                 popup.setOnMenuItemClickListener(item -> {
-
                     if (item.getItemId() == R.id.edit_column) {
                         if (FeatureToggle.EDIT_COLUMN.enabled) {
                             startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.getTable(), column));
