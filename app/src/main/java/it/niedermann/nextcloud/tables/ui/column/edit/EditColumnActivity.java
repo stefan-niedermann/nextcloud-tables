@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.ui.column.edit;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +64,7 @@ public class EditColumnActivity extends AppCompatActivity {
         }
 
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
+        binding.experimentalFeature.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nextcloud/tables/issues/384"))));
     }
 
     @Override

@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.ui.column.manage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -71,6 +72,7 @@ public class ManageColumnsActivity extends AppCompatActivity {
 
         binding.recyclerView.setAdapter(adapter);
         manageColumnsViewModel.getNotDeletedColumns$(table).observe(this, adapter::setItems);
+        binding.experimentalFeature.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nextcloud/tables/issues/384"))));
         binding.fab.setOnClickListener(v -> {
             if (FeatureToggle.CREATE_COLUMN.enabled) {
                 startActivity(EditColumnActivity.createIntent(this, account, table));
