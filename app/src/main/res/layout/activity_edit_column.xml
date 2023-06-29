@@ -18,6 +18,18 @@
             app:title="@string/edit_column" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/experimentalFeature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorErrorContainer"
+        android:drawableStart="@drawable/baseline_warning_amber_24"
+        android:drawablePadding="@dimen/spacer_2x"
+        android:paddingHorizontal="@dimen/spacer_2x"
+        android:paddingVertical="@dimen/spacer_1x"
+        android:text="@string/experimental_feature_column_manage"
+        android:textColor="?attr/colorOnErrorContainer" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleWrapper"
         android:layout_width="match_parent"
@@ -54,21 +66,5 @@
         android:layout_marginHorizontal="@dimen/spacer_2x"
         android:layout_marginTop="@dimen/spacer_2x"
         android:text="@string/simple_mandatory" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/orderWeightWrapper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacer_2x"
-        android:layout_marginTop="@dimen/spacer_2x"
-        android:hint="@string/order_weight"
-        android:maxLines="1">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/orderWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

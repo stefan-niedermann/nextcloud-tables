@@ -2,12 +2,14 @@ package it.niedermann.nextcloud.tables.ui.column.manage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import it.niedermann.nextcloud.tables.R;
@@ -16,6 +18,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityManageColumnsBinding;
 import it.niedermann.nextcloud.tables.ui.column.edit.EditColumnActivity;
+import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
 public class ManageColumnsActivity extends AppCompatActivity {
@@ -56,8 +59,20 @@ public class ManageColumnsActivity extends AppCompatActivity {
             }
         });
 
+        final var touchHelper = new ManageColumnsTouchHelper(
+                adapter,
+                reorderedIds -> manageColumnsViewModel.reorderColumns(account, table.getId(), reorderedIds).whenCompleteAsync((result, exception) -> {
+                    if (exception != null) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                }, ContextCompat.getMainExecutor(this))
+        );
+
+        touchHelper.attachToRecyclerView(binding.recyclerView);
+
         binding.recyclerView.setAdapter(adapter);
         manageColumnsViewModel.getNotDeletedColumns$(table).observe(this, adapter::setItems);
+        binding.experimentalFeature.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nextcloud/tables/issues/384"))));
         binding.fab.setOnClickListener(v -> {
             if (FeatureToggle.CREATE_COLUMN.enabled) {
                 startActivity(EditColumnActivity.createIntent(this, account, table));

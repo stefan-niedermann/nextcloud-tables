@@ -23,6 +23,7 @@
     <string name="edit_row">Edit row</string>
     <string name="manage_columns">Manage columns</string>
     <string name="edit_column">Edit column</string>
+    <string name="delete_column">Delete column</string>
     <string name="preferences">Preferences</string>
     <string name="import_account">Import account</string>
     <string name="choose_account">Choose account</string>
@@ -179,4 +180,8 @@
     <string name="choose_table_from_the_sidebar">Choose table from the sidebar</string>
     <string name="last_background_sync">Last background sync:</string>
     <string name="simple_disabled">disabled</string>
+    <string name="manage_columns_subtitle">Drag and drop to reorder</string>
+
+    <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
+    <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
 </resources>

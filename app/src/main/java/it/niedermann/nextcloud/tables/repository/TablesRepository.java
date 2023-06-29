@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.tables.repository.sync.AbstractSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.ColumnSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.RowSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.TableSyncAdapter;
+import it.niedermann.nextcloud.tables.repository.util.ColumnReorderUtil;
 
 @WorkerThread
 public class TablesRepository extends AbstractSyncAdapter {
@@ -35,6 +36,7 @@ public class TablesRepository extends AbstractSyncAdapter {
     private final AbstractSyncAdapter tableSyncAdapter;
     private final AbstractSyncAdapter columnSyncAdapter;
     private final AbstractSyncAdapter rowSyncAdapter;
+    private final ColumnReorderUtil columnReorderUtil;
 
     public TablesRepository(@NonNull Context context) {
         this(TablesDatabase.getInstance(context), context);
@@ -46,19 +48,22 @@ public class TablesRepository extends AbstractSyncAdapter {
                 context,
                 new TableSyncAdapter(db, context),
                 new ColumnSyncAdapter(db, context),
-                new RowSyncAdapter(db, context));
+                new RowSyncAdapter(db, context),
+                new ColumnReorderUtil());
     }
 
     private TablesRepository(@NonNull TablesDatabase db,
                              @NonNull Context context,
                              @NonNull AbstractSyncAdapter tableSyncAdapter,
                              @NonNull AbstractSyncAdapter columnSyncAdapter,
-                             @NonNull AbstractSyncAdapter rowSyncAdapter) {
+                             @NonNull AbstractSyncAdapter rowSyncAdapter,
+                             @NonNull ColumnReorderUtil columnReorderUtil) {
         super(db, context);
         this.context = context;
         this.tableSyncAdapter = tableSyncAdapter;
         this.columnSyncAdapter = columnSyncAdapter;
         this.rowSyncAdapter = rowSyncAdapter;
+        this.columnReorderUtil = columnReorderUtil;
     }
 
     public void synchronizeTables(@NonNull Account account) throws Exception {
@@ -137,6 +142,18 @@ public class TablesRepository extends AbstractSyncAdapter {
         column.setStatus(DBStatus.LOCAL_EDITED);
         column.setAccountId(account.getId());
         db.getColumnDao().insert(column);
+        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
+            pushLocalChanges(apiProvider.getApi(), account);
+        }
+    }
+
+    public void reorderColumn(@NonNull Account account, long tableId, @NonNull List<Long> newColumnOrder) throws Exception {
+        final var originalOrderWeights = db.getColumnDao().getNotDeletedOrderWeights(tableId);
+        final var newOrderWeights = columnReorderUtil.reorderColumns(originalOrderWeights, newColumnOrder);
+        final var newOrderWeightsDiff = columnReorderUtil.filterChanged(originalOrderWeights, newOrderWeights);
+        for (final var entry : newOrderWeightsDiff.entrySet()) {
+            db.getColumnDao().updateOrderWeight(entry.getKey(), entry.getValue());
+        }
         try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
             pushLocalChanges(apiProvider.getApi(), account);
         }
