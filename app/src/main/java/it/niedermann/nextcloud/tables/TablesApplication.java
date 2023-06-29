@@ -54,9 +54,9 @@ public class TablesApplication extends Application {
          */
         @SuppressWarnings("JavadocDeclaration")
         STRICT_MODE(BuildConfig.DEBUG),
-        EDIT_COLUMN(BuildConfig.DEBUG),
+        EDIT_COLUMN(true),
         CREATE_COLUMN(BuildConfig.DEBUG),
-        DELETE_COLUMN(BuildConfig.DEBUG),
+        DELETE_COLUMN(true),
         SHARE_TABLE(BuildConfig.DEBUG),
         SEARCH_IN_TABLE(false),
         ;
