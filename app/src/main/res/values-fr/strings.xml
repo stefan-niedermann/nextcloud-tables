@@ -23,6 +23,7 @@
     <string name="edit_row">Modifier la ligne</string>
     <string name="manage_columns">Gérer les colonnes</string>
     <string name="edit_column">Modifier la colonne</string>
+    <string name="delete_column">Supprimer la colonne</string>
     <string name="preferences">Préférences</string>
     <string name="import_account">Importer le compte</string>
     <string name="choose_account">Sélectionnez un compte</string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">Choisissez le tableau dans la barre latérale</string>
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
     <string name="simple_disabled">désactivé</string>
-</resources>
+    </resources>

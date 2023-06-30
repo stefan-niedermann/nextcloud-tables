@@ -14,6 +14,7 @@
     <string name="simple_appearance">Utseende</string>
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="edit_row">Redigera rad</string>
+    <string name="delete_column">Radera kolumn</string>
     <string name="preferences">Inställningar</string>
     <string name="import_account">Importera konto</string>
     <string name="choose_account">Välj konto</string>
@@ -102,4 +103,4 @@
     <string name="navigation_shared_tables">Delade tabeller</string>
     <string name="last_background_sync">Senaste bakgrundssynk:</string>
     <string name="simple_disabled">inaktiverad</string>
-</resources>
+    </resources>

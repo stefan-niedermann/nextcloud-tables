@@ -16,6 +16,7 @@
 
     <string name="add_table">Pridať tabuľku</string>
     <string name="edit_row">Upraviť riadok</string>
+    <string name="delete_column">Zmazať stĺpec</string>
     <string name="preferences">Nastavenia</string>
     <string name="import_account">Importovať účet</string>
     <string name="choose_account">Zvoliť účet</string>
@@ -102,4 +103,4 @@
     <string name="navigation_shared_tables">Zdieľané tabuľky</string>
     <string name="last_background_sync">Posledná synchronizácia na pozadí:</string>
     <string name="simple_disabled">zakázané</string>
-</resources>
+    </resources>

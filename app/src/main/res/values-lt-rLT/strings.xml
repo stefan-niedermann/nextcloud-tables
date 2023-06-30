@@ -16,6 +16,7 @@
     <string name="simple_description">Aprašas</string>
 
     <string name="edit_row">Taisyti eilutę</string>
+    <string name="delete_column">Ištrinti stulpelį</string>
     <string name="preferences">Nuostatos</string>
     <string name="import_account">Importuoti paskyrą</string>
     <string name="choose_account">Parinkti paskyrą</string>
@@ -82,4 +83,4 @@
     <string name="navigation_shared_tables">Bendrinamos lentelės</string>
     <string name="last_background_sync">Paskutinis foninis sinchronizavimas:</string>
     <string name="simple_disabled">išjungta</string>
-</resources>
+    </resources>

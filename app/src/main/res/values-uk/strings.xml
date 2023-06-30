@@ -13,6 +13,7 @@
     <string name="simple_appearance">Вигляд</string>
     <string name="simple_description">Опис</string>
 
+    <string name="delete_column">Видалити стовпчик</string>
     <string name="preferences">Налаштування</string>
     <string name="import_account">Імпорт акаунту</string>
     <string name="choose_account">Оберіть обліковий запис</string>
@@ -84,4 +85,4 @@
     <string name="add_column">Додати стовпчик</string>
     <string name="last_background_sync">Остання фонова синхронізація:</string>
     <string name="simple_disabled">вимкнено</string>
-</resources>
+    </resources>

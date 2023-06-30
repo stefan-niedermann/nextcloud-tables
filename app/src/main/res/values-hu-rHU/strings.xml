@@ -23,6 +23,7 @@
     <string name="edit_row">Sor szerkesztése</string>
     <string name="manage_columns">Oszlopok kezelése</string>
     <string name="edit_column">Oszlop szerkesztése</string>
+    <string name="delete_column">Oszlop törlése</string>
     <string name="preferences">Beállítások</string>
     <string name="import_account">Fiók importálása</string>
     <string name="choose_account">Válasszon fiókot</string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">Válasszon táblázatot az oldalsávról</string>
     <string name="last_background_sync">Legutóbbi szinkronizálás:</string>
     <string name="simple_disabled">letiltva</string>
-</resources>
+    </resources>

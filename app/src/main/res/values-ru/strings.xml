@@ -23,6 +23,7 @@
     <string name="edit_row">Изменить строку</string>
     <string name="manage_columns">Управление столбцами</string>
     <string name="edit_column">Изменить столбец</string>
+    <string name="delete_column">Удалить стопку</string>
     <string name="preferences">Свойства</string>
     <string name="import_account">Импортировать учётную запись</string>
     <string name="choose_account">Выбрать учётную запись</string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">Выберите таблицу из боковой панели</string>
     <string name="last_background_sync">Последняя фоновая синхронизация:</string>
     <string name="simple_disabled">отключено</string>
-</resources>
+    </resources>

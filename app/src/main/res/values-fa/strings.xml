@@ -12,6 +12,7 @@
     <string name="simple_appearance">ظاهر</string>
     <string name="simple_description">توضیحات</string>
 
+    <string name="delete_column">ستون را حذف کنید</string>
     <string name="preferences">اولویت ها</string>
     <string name="import_account"> وارد کردن حساب </string>
     <string name="choose_account">حساب کاربری را انتخاب کنید</string>
@@ -92,4 +93,4 @@
     <string name="add_column">ستون را اضافه کنید</string>
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
     <string name="simple_disabled">غیر فعال</string>
-</resources>
+    </resources>

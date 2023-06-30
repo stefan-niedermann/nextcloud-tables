@@ -15,6 +15,7 @@
     <string name="simple_mandatory">Obavezno</string>
     <string name="simple_description">Opis</string>
 
+    <string name="delete_column">Izbriši stupac</string>
     <string name="preferences">Preferencije</string>
     <string name="import_account">Uvezi račun</string>
     <string name="choose_account">Odaberi račun</string>
@@ -94,4 +95,4 @@
     <string name="add_column">Dodaj stupac</string>
     <string name="last_background_sync">Posljednja pozadinska sinkronizacija:</string>
     <string name="simple_disabled">onemogućeno</string>
-</resources>
+    </resources>

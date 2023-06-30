@@ -23,6 +23,7 @@
     <string name="edit_row">Уреди ред</string>
     <string name="manage_columns">Управљај колонама</string>
     <string name="edit_column">Уреди колону</string>
+    <string name="delete_column">Обриши колону</string>
     <string name="preferences">Поставке</string>
     <string name="import_account">Увези налог</string>
     <string name="choose_account">Одаберите налог</string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">Изаберите табелу из бочне траке</string>
     <string name="last_background_sync">Последња синх.:</string>
     <string name="simple_disabled">искључено</string>
-</resources>
+    </resources>

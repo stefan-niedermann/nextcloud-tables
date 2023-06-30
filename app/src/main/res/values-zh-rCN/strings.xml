@@ -21,6 +21,7 @@
     <string name="add_table">添加表格</string>
     <string name="add_row">添加列</string>
     <string name="edit_row">编辑列</string>
+    <string name="delete_column">删除列</string>
     <string name="preferences">设置偏好</string>
     <string name="import_account">导入账号</string>
     <string name="choose_account">选择一个账户</string>
@@ -115,4 +116,4 @@
     <string name="add_column">添加列</string>
     <string name="last_background_sync">上次后台同步时间：</string>
     <string name="simple_disabled">已禁用</string>
-</resources>
+    </resources>

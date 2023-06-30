@@ -22,6 +22,7 @@
     <string name="edit_row">Muokkaa riviä</string>
     <string name="manage_columns">Hallitse sarakkeita</string>
     <string name="edit_column">Muokkaa saraketta</string>
+    <string name="delete_column">Poista sarake</string>
     <string name="preferences">Asetukset</string>
     <string name="import_account">Tuo tili</string>
     <string name="choose_account">Valitse tili</string>
@@ -113,4 +114,4 @@
     <string name="navigation_shared_tables">Jaetut taulukot</string>
     <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
     <string name="simple_disabled">poistettu käytöstä</string>
-</resources>
+    </resources>

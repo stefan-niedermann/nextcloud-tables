@@ -156,4 +156,4 @@
     <string name="choose_table_from_the_sidebar">從側邊欄選擇數據庫表</string>
     <string name="last_background_sync">上次背景同步時間：</string>
     <string name="simple_disabled">已停用</string>
-</resources>
+    </resources>

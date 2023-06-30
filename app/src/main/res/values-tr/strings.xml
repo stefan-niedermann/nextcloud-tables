@@ -23,6 +23,7 @@
     <string name="edit_row">Satırı düzenle</string>
     <string name="manage_columns">Sütun yönetimi</string>
     <string name="edit_column">Sütunu düzenle</string>
+    <string name="delete_column">Sütunu sil</string>
     <string name="preferences">Ayarlar</string>
     <string name="import_account">Hesabı içe aktar</string>
     <string name="choose_account">Hesap seçin</string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">Yan çubuktan tabloyu seçin</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
     <string name="simple_disabled">devre dışı</string>
-</resources>
+    </resources>

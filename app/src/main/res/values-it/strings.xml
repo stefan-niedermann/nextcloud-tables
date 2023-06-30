@@ -20,6 +20,7 @@
     <string name="add_table">Aggiungi tabella</string>
     <string name="add_row">Aggiungi riga</string>
     <string name="edit_row">Modifica riga</string>
+    <string name="delete_column">Elimina colonna</string>
     <string name="preferences">Preferenze</string>
     <string name="import_account">Importa account</string>
     <string name="choose_account">Scegli account</string>
@@ -104,4 +105,4 @@
     <string name="add_column">Aggiungi colonna</string>
     <string name="last_background_sync">Ultima sincronizzazione in background:</string>
     <string name="simple_disabled">disabilitato</string>
-</resources>
+    </resources>

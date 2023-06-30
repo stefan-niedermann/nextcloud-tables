@@ -23,6 +23,7 @@
     <string name="edit_row">行を編集</string>
     <string name="manage_columns">列を管理</string>
     <string name="edit_column">列を編集</string>
+    <string name="delete_column">列の削除</string>
     <string name="preferences">環境設定</string>
     <string name="import_account">アカウントをインポート</string>
     <string name="choose_account">アカウントを選択</string>
@@ -143,4 +144,4 @@
     <string name="navigation_shared_tables">共有された表</string>
     <string name="last_background_sync">最後のバックグラウンド同期：</string>
     <string name="simple_disabled">無効</string>
-</resources>
+    </resources>

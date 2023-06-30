@@ -16,6 +16,7 @@
     <string name="simple_description">Περιγραφή</string>
 
     <string name="edit_row">Επεξεργασία γραμμής</string>
+    <string name="delete_column">Διαγραφή στήλης</string>
     <string name="preferences">Προτιμήσεις</string>
     <string name="import_account">Εισαγωγή λογαριασμού</string>
     <string name="choose_account">Επιλογή λογαριασμού</string>
@@ -95,4 +96,4 @@
     <string name="add_column">Προσθήκη στήλης</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
-</resources>
+    </resources>

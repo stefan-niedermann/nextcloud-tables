@@ -23,6 +23,7 @@
     <string name="edit_row">編輯列</string>
     <string name="manage_columns">管理欄</string>
     <string name="edit_column">編輯欄</string>
+    <string name="delete_column">刪除欄位</string>
     <string name="preferences">設定</string>
     <string name="import_account">匯入帳戶</string>
     <string name="choose_account">選擇帳號</string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">從側邊欄選擇表格</string>
     <string name="last_background_sync">上次背景同步時間：</string>
     <string name="simple_disabled">已停用</string>
-</resources>
+    </resources>

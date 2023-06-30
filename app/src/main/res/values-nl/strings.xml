@@ -16,6 +16,7 @@
     <string name="simple_description">Omschrijving</string>
 
     <string name="add_table">Voeg een tabel toe</string>
+    <string name="delete_column">Verwijder kolom</string>
     <string name="preferences">Voorkeuren</string>
     <string name="import_account">Importeer account</string>
     <string name="choose_account">Kies account</string>
@@ -101,4 +102,4 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="navigation_shared_tables">Gedeelde tabellen</string>
     <string name="last_background_sync">Laatste achtergrond sync:</string>
     <string name="simple_disabled">uitgeschakeld</string>
-</resources>
+    </resources>

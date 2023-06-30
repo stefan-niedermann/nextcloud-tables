@@ -23,6 +23,7 @@
     <string name="edit_row">Editatu errenkada</string>
     <string name="manage_columns">Kudeatu zutabeak</string>
     <string name="edit_column">Editatu zutabea</string>
+    <string name="delete_column">Ezabatu zutabea</string>
     <string name="preferences">Hobespenak</string>
     <string name="import_account">Inportatu kontua</string>
     <string name="choose_account">Aukeratu kontua</string>
@@ -152,4 +153,4 @@
     <string name="choose_table_from_the_sidebar">Aukeratu taula alboko barratik</string>
     <string name="last_background_sync">Azken atzeko planoko sinkronizazioa:</string>
     <string name="simple_disabled">desgaituta</string>
-</resources>
+    </resources>

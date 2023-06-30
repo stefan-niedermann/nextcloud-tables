@@ -23,6 +23,7 @@
     <string name="edit_row">Uredi vrstico</string>
     <string name="manage_columns">Upravljanje s stolpci</string>
     <string name="edit_column">Uredi stolpec</string>
+    <string name="delete_column">Izbriši paket</string>
     <string name="preferences">Nastavitve</string>
     <string name="import_account">Uvozi račun</string>
     <string name="choose_account">Izbor računa</string>
@@ -129,4 +130,4 @@
     <string name="navigation_shared_tables">Razpredelnice v souporabi</string>
     <string name="last_background_sync">Zadnje usklajevanje:</string>
     <string name="simple_disabled">onemogočeno</string>
-</resources>
+    </resources>

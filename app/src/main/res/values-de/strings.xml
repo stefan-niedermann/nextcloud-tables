@@ -23,6 +23,7 @@
     <string name="edit_row">Zeile bearbeiten</string>
     <string name="manage_columns">Spalten verwalten</string>
     <string name="edit_column">Spalte bearbeiten</string>
+    <string name="delete_column">Spalte löschen</string>
     <string name="preferences">Einstellungen</string>
     <string name="import_account">Konto importieren</string>
     <string name="choose_account">Konto auswählen</string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">In der Seitenleiste eine Tabelle auswählen</string>
     <string name="last_background_sync">Letzte Hintergrundsynchronisierung:</string>
     <string name="simple_disabled">Deaktiviert</string>
-</resources>
+    </resources>

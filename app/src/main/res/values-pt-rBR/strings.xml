@@ -23,6 +23,7 @@
     <string name="edit_row">Editar linha</string>
     <string name="manage_columns">Gerenciar colunas</string>
     <string name="edit_column">Editar coluna</string>
+    <string name="delete_column">Excluir colunas</string>
     <string name="preferences">Preferências</string>
     <string name="import_account">Importar conta</string>
     <string name="choose_account">Escolha a conta </string>
@@ -156,4 +157,4 @@
     <string name="choose_table_from_the_sidebar">Escolha uma tabela na barra lateral</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
     <string name="simple_disabled">desativado</string>
-</resources>
+    </resources>

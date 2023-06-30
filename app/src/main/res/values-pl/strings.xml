@@ -15,6 +15,7 @@
     <string name="simple_mandatory">Obowiązkowe</string>
     <string name="add_table">Dodaj tabelę</string>
     <string name="edit_row">Edytuj wiersz</string>
+    <string name="delete_column">Usuń kolumnę</string>
     <string name="preferences">Preferencje</string>
     <string name="import_account">Importuj konto</string>
     <string name="choose_account">Wybierz konto</string>
@@ -101,4 +102,4 @@
     <string name="navigation_shared_tables">Wspólne tabele</string>
     <string name="last_background_sync">Ostatnia synchronizacja w tle:</string>
     <string name="simple_disabled">wyłączony</string>
-</resources>
+    </resources>
