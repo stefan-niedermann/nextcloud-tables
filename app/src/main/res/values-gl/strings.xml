@@ -98,4 +98,8 @@
     <string name="add_column">Engadir columna</string>
     <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
     <string name="simple_disabled">desactivado</string>
-    </resources>
+    <string name="manage_columns_subtitle">Arrastre e solte para reordenar</string>
+
+    <string name="experimental_feature_column_reordering">A reordenación de columnas é unha función experimental que tamén pode ter efectos secundarios non desexados para outras configuracións das columnas desta táboa.</string>
+    <string name="experimental_feature_column_manage">A edición de columnas é unha función experimental que tamén pode ter efectos secundarios non desexados para outras configuracións desta columna.</string>
+</resources>

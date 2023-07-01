@@ -14,6 +14,7 @@
     <string name="simple_appearance">Udseende</string>
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="edit_row">Rediger række</string>
+    <string name="delete_column">Slet kolonne</string>
     <string name="preferences">Indstillinger</string>
     <string name="import_account">Importer konto</string>
     <string name="choose_account">Vælg konto</string>

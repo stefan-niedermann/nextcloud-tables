@@ -23,6 +23,7 @@
     <string name="edit_row">編輯列</string>
     <string name="manage_columns">管理縱列</string>
     <string name="edit_column">編輯縱列</string>
+    <string name="delete_column">刪除縱列</string>
     <string name="preferences">設定</string>
     <string name="import_account">匯入賬戶</string>
     <string name="choose_account">選擇賬戶</string>
@@ -156,4 +157,8 @@
     <string name="choose_table_from_the_sidebar">從側邊欄選擇數據庫表</string>
     <string name="last_background_sync">上次背景同步時間：</string>
     <string name="simple_disabled">已停用</string>
-    </resources>
+    <string name="manage_columns_subtitle">拖放以重新排序</string>
+
+    <string name="experimental_feature_column_reordering">對列重新排序是一項實驗性功能，可能也會對該表的列的其他配置產生意想不到的副作用。</string>
+    <string name="experimental_feature_column_manage">編輯列是一項實驗性功能，也可能對該列的其他配置產生意想不到的副作用。</string>
+</resources>

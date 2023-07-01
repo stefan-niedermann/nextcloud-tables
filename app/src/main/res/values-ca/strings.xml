@@ -15,6 +15,7 @@
     <string name="simple_mandatory">Obligatori</string>
     <string name="add_table">Afegeix taula</string>
     <string name="edit_row">Edició fila</string>
+    <string name="delete_column">Suprimeix la columna</string>
     <string name="preferences">Preferències</string>
     <string name="import_account">Importa el compte</string>
     <string name="choose_account">Trieu un compte</string>

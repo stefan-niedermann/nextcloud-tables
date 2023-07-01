@@ -23,6 +23,7 @@
     <string name="edit_row">Upravit řádek</string>
     <string name="manage_columns">Spravovat sloupce</string>
     <string name="edit_column">Upravit sloupec</string>
+    <string name="delete_column">Smazat sloupec</string>
     <string name="preferences">Předvolby</string>
     <string name="import_account">Importovat účet</string>
     <string name="choose_account">Zvolte účet</string>
