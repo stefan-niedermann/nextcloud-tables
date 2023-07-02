@@ -23,7 +23,7 @@
     <string name="edit_row">Zeile bearbeiten</string>
     <string name="manage_columns">Spalten verwalten</string>
     <string name="edit_column">Spalte bearbeiten</string>
-    <string name="delete_column">Spalte löschen</string>
+    <string name="delete_column">Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).</string>
     <string name="preferences">Einstellungen</string>
     <string name="import_account">Konto importieren</string>
     <string name="choose_account">Konto auswählen</string>
@@ -157,8 +157,8 @@
     <string name="choose_table_from_the_sidebar">In der Seitenleiste eine Tabelle auswählen</string>
     <string name="last_background_sync">Letzte Hintergrundsynchronisierung:</string>
     <string name="simple_disabled">Deaktiviert</string>
-    <string name="manage_columns_subtitle">Zum Neuordnen per Ziehen und ablegen verschieben</string>
+    <string name="manage_columns_subtitle">Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).</string>
 
-    <string name="experimental_feature_column_reordering">Das Neuanordnen von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen der Spalten dieser Tabelle unbeabsichtigte Nebenwirkungen haben kann.</string>
-    <string name="experimental_feature_column_manage">Das Bearbeiten von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen dieser Spalte unbeabsichtigte Nebenwirkungen haben kann.</string>
+    <string name="experimental_feature_column_reordering">Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).</string>
+    <string name="experimental_feature_column_manage">Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).</string>
 </resources>
