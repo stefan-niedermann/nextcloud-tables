@@ -64,7 +64,7 @@ public class EditColumnActivity extends AppCompatActivity {
         }
 
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
-        binding.experimentalFeature.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nextcloud/tables/issues/384"))));
+        binding.mandatoryHelp.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/nextcloud/tables/issues/384"))));
     }
 
     @Override

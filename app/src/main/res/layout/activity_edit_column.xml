@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorErrorContainer"
-        android:drawableStart="@drawable/baseline_warning_amber_24"
+        app:drawableStartCompat="@drawable/baseline_warning_amber_24"
         android:drawablePadding="@dimen/spacer_2x"
         android:paddingHorizontal="@dimen/spacer_2x"
         android:paddingVertical="@dimen/spacer_1x"
@@ -59,12 +59,29 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.materialswitch.MaterialSwitch
-        android:id="@+id/mandatory"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacer_2x"
         android:layout_marginTop="@dimen/spacer_2x"
-        android:text="@string/simple_mandatory" />
+        android:orientation="horizontal">
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/mandatory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/not_implemented"
+            android:enabled="false"
+            android:text="@string/simple_mandatory" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mandatoryHelp"
+            style="?materialIconButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            app:icon="@drawable/baseline_question_mark_24" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,0 +1,1 @@
+- enh: Disable mandatory property in column editor

@@ -73,7 +73,8 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
             ).execute()
                     : api.updateColumn(column.getRemoteId(),
                     column.getTitle(),
-                    column.isMandatory(),
+                    // TODO Properly update mandatory property
+                    // column.isMandatory(),
                     column.getDescription(),
                     column.getOrderWeight(),
                     column.getNumberPrefix(),

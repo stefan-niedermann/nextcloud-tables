@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorErrorContainer"
-            android:drawableStart="@drawable/baseline_warning_amber_24"
+            app:drawableStartCompat="@drawable/baseline_warning_amber_24"
             android:drawablePadding="@dimen/spacer_2x"
             android:paddingHorizontal="@dimen/spacer_2x"
             android:paddingVertical="@dimen/spacer_1x"

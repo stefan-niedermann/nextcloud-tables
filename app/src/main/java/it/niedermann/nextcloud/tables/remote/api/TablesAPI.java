@@ -191,6 +191,30 @@ public interface TablesAPI {
                               @Query("datetimeDefault") String datetimeDefault);
 
     /**
+     * Due to a <a href="https://github.com/nextcloud/tables/issues/384">Bug in the Tables server app</a> the <code>mandatory</code> property will always update to <code>true</code> except the property is omitted.
+     *
+     * @see #updateColumn(long, String, boolean, String, int, String, String, Double, Double, Double, Integer, String, String, Integer, String, String, String)
+     * @since 0.4.0
+     */
+    @PUT("columns/{columnId}")
+    Call<Column> updateColumn(@Path("columnId") long columnId,
+                              @Query("title") String title,
+                              @Query("description") String description,
+                              @Query("orderWeight") int orderWeight,
+                              @Query("numberPrefix") String numberPrefix,
+                              @Query("numberSuffix") String numberSuffix,
+                              @Query("numberDefault") Double numberDefault,
+                              @Query("numberMin") Double numberMin,
+                              @Query("numberMax") Double numberMax,
+                              @Query("numberDecimals") Integer numberDecimals,
+                              @Query("textDefault") String textDefault,
+                              @Query("textAllowedPattern") String textAllowedPattern,
+                              @Query("textMaxLength") Integer textMaxLength,
+                              @Query("selectionOptions") String selectionOptions,
+                              @Query("selectionDefault") String selectionDefault,
+                              @Query("datetimeDefault") String datetimeDefault);
+
+    /**
      * @since 0.4.0
      */
     @DELETE("columns/{columnId}")
