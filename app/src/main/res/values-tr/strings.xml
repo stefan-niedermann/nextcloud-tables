@@ -157,4 +157,8 @@
     <string name="choose_table_from_the_sidebar">Yan çubuktan tabloyu seçin</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
     <string name="simple_disabled">devre dışı</string>
-    </resources>
+    <string name="manage_columns_subtitle">Sıralamak için sürükleyip bırakın</string>
+
+    <string name="experimental_feature_column_reordering">Sütun sırasını değiştirmek henüz deneysel bir özelliktir ve bu tablonun sütunlarının diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
+    <string name="experimental_feature_column_manage">Sütunları düzenlemek henüz deneysel bir özelliktir ve bu sütunun diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
+</resources>

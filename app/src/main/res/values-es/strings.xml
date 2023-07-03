@@ -157,4 +157,8 @@
     <string name="choose_table_from_the_sidebar">Escoger tabla del la barra lateral</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">deshabilitado</string>
-    </resources>
+    <string name="manage_columns_subtitle">Arrastre y suelte para reordenar</string>
+
+    <string name="experimental_feature_column_reordering">El reordenamiento de las columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de las columnas de esta tabla.</string>
+    <string name="experimental_feature_column_manage">La edición de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de esta columna.</string>
+</resources>
