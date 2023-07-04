@@ -157,4 +157,8 @@
     <string name="choose_table_from_the_sidebar">Z postranního panelu zvolte tabulku</string>
     <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
     <string name="simple_disabled">vypnuto</string>
-    </resources>
+    <string name="manage_columns_subtitle">Pořadí změníte přetahováním</string>
+
+    <string name="experimental_feature_column_reordering">Změna pořadí sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
+    <string name="experimental_feature_column_manage">Upravování sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
+</resources>

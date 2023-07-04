@@ -157,4 +157,8 @@
     <string name="choose_table_from_the_sidebar">Изаберите табелу из бочне траке</string>
     <string name="last_background_sync">Последња синх.:</string>
     <string name="simple_disabled">искључено</string>
-    </resources>
+    <string name="manage_columns_subtitle">Превуците и упустите да промените редослед</string>
+
+    <string name="experimental_feature_column_reordering">Промена редоследа колона је експерментална функција која такође може имати нежељене споредне ефекте на остале конфигурације колона ове табеле.</string>
+    <string name="experimental_feature_column_manage">Уређивање колона је експерментална функција која такође може имати нежељене споредне ефекте на остале конфигурације колона ове табеле.</string>
+</resources>
