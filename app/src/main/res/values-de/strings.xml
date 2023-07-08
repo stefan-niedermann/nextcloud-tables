@@ -159,6 +159,6 @@
     <string name="simple_disabled">Deaktiviert</string>
     <string name="manage_columns_subtitle">Zum Neuordnen per Drag-and-Drop verschieben</string>
 
-    <string name="experimental_feature_column_reordering">Das Neuanordnen von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen der Spalten dieser Tabelle unbeabsichtigte Nebenwirkungen haben kann.</string>
+    <string name="experimental_feature_column_reordering">Das Neuordnen von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen der Spalten dieser Tabelle unbeabsichtigte Nebenwirkungen haben kann.</string>
     <string name="experimental_feature_column_manage">Das Bearbeiten von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen dieser Spalte unbeabsichtigte Nebenwirkungen haben kann.</string>
 </resources>
