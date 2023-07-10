@@ -19,7 +19,7 @@
     <string name="preferences">Preferencias</string>
     <string name="import_account">Importar unha conta</string>
     <string name="choose_account">Escolla unha conta</string>
-    <string name="app_logo">Logotipo da apli</string>
+    <string name="app_logo">Logotipo da aplicación</string>
     <string name="app_name_short">Táboas</string>
     <string name="manage_accounts">Xestionar contas</string>
     <string name="add_account">Engadir unha conta</string>
@@ -51,7 +51,7 @@
     <string name="about_issues">Vostede pode informar de fallos, propoñer melloras e solicitar funcionalidades na ferramenta de seguimento de incidencias do GitHub: %1$s</string>
     <string name="about_translate_title">Traducir</string>
     <string name="about_translate">Únase ao equipo Nextcloud en Transifex e axúdenos a traducir esta aplicación: %1$s</string>
-    <string name="about_app_license_title">Licenza da apli</string>
+    <string name="about_app_license_title">Licenza da aplicación</string>
     <string name="about_app_license">Esta aplicación está licenciada baixo a LICENZA XERAL PUBLICA GNU v3+.</string>
     <string name="about_app_license_button">Ver a licenza</string>
     <string name="about_icons_disclaimer_title">Iconas</string>
@@ -64,9 +64,9 @@
     <string name="about_server_app_version_text">Versión da aplicación do servidor:</string>
 
     <string name="error_dialog_title">Vaites, e agora que? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da apli e reiniciala de novo. Pode haber unha conexión incorrecta coa apli Nextcloud.</string>
-    <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a apli normalmente.</string>
-    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da apli e seleccionando Almacenamento → Limpar o almacenamento.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Probe a forzar o peche da aplicación e reiniciala de novo. Pode haber unha conexión incorrecta coa aplicación Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a aplicación normalmente.</string>
+    <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da aplicación e seleccionando Almacenamento → Limpar o almacenamento.</string>
     <string name="error_dialog_tip_offline_no_internet">Semella que tentou facer unha sincronización cando non ten conexión a Internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">A conexión foi rexeitada. Comprobe que é posíbel acceder ao servidor cun navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A conexión excedeu o tempo de agarda. Comprobe se ten conexión á Internet. Isto tamén pode deberse a que o servidor estea moi ocupado.</string>
@@ -78,14 +78,14 @@
     <string name="error_dialog_check_maintenance">Comprobe que a súa instancia Nextcloud non se atope en modo de mantemento.</string>
     <string name="error_dialog_insufficient_storage">A súa instancia Nextcloud non dispón de espazo de almacenamento libre. Elimine algúns ficheiros para sincronizar os seus cambios locais na súa nube.</string>
     <string name="error_dialog_we_need_info">Necesitamos a seguinte información técnica para axudarlle:</string>
-    <string name="error_dialog_account_might_not_be_authorized">É posíbel que a conta da súa apli de Nextcloud xa non estea autorizada.</string>
-    <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia de Nextcloud, é posíbel que a súa apli de Nextcloud teña almacenado un ID de usuario antigo.</string>
-    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplis de cliente poidan acceder a Nextcloud.</string>
+    <string name="error_dialog_account_might_not_be_authorized">É posíbel que a conta da súa aplicación de Nextcloud xa non estea autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">O usuario actual non coincide co que temos na nosa base de datos. Se está a usar LDAP na súa instancia de Nextcloud, é posíbel que a súa aplicación de Nextcloud teña almacenado un ID de usuario antigo.</string>
+    <string name="error_dialog_capabilities_not_parsable">Non foi posíbel obter as funcionalidades do seu servidor. Asegúrese de que o seu servidor funciona correctamente e que outras aplicacións de cliente poidan acceder a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Non foi posíbel enviar un arquivo anexo. Probe compartilo doutro xeito e infórmenos deste erro.</string>
-    <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na apli Nextcloud para obter máis información.</string>
+    <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na aplicación Nextcloud para obter máis información.</string>
     <string name="error_dialog_unknown_error">A instancia de Nextcloud non semella accesíbel. Comprobe a conexión a Internet e se pode conectarse á súa instancia a través do navegador.</string>
-    <string name="error_action_open_app_info">Abrir a info da apli</string>
-    <string name="error_action_open_nextcloud_app">Abrir a apli Nextcloud</string>
+    <string name="error_action_open_app_info">Abrir a info da aplicación</string>
+    <string name="error_action_open_nextcloud_app">Abrir a aplicación Nextcloud</string>
     <string name="error_action_open_network">Axustes da rede</string>
     <string name="error_action_server_logs">Rexistros do servidor</string>
     <string name="error_action_open_in_browser">Abrir no navegador</string>
