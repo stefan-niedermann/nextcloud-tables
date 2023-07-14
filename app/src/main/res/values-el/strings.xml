@@ -24,11 +24,13 @@
     <string name="app_name_short">Πίνακες</string>
     <string name="manage_accounts">Διαχείριση λογαριασμών</string>
     <string name="add_account">Προσθήκη λογαριασμού</string>
+    <string name="edit_table">Επεξεργασία πίνακα</string>
     <string name="edit_item">Επεξεργασία του %1$s</string>
     <string name="delete_table">Διαγραφή πίνακα</string>
     <string name="hint_error_appeared">Παρουσιάστηκε σφάλμα</string>
 
     <string name="delete_item">Διαγραφή %1$s</string>
+    <string name="delete_row">Διαγραφή γραμμής</string>
     <string name="pref_title_sync_only_wifi">Συγχρονισμός μόνο σε Wi-Fi</string>
     <string name="pref_title_sync_background">Συγχρονισμός στο παρασκήνιο</string>
     <string name="pref_title_theme">Θέμα</string>
@@ -94,6 +96,8 @@
 
     <string name="reason_unknown">Προέκυψε ένα άγνωστο σφάλμα</string>
     <string name="add_column">Προσθήκη στήλης</string>
+    <string name="navigation_my_tables">Οι πίνακές μου</string>
+    <string name="navigation_shared_tables">Κοινόχρηστοι πίνακες</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
     </resources>
