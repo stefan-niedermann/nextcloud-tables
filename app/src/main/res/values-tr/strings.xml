@@ -132,7 +132,7 @@
     <string name="reason_tables_not_supported">Nextcloud Tablolar uygulamasının sürümü desteklenmiyor</string>
     <string name="reason_nextcloud_not_supported">Bu Nextcloud sürümü desteklenmiyor</string>
     <string name="reason_unknown">Bilinmeyen bir sorun çıktı</string>
-    <string name="reason_offline">Şu anda çevrimdışısınız.</string>
+    <string name="reason_offline">Şu anda çevrim dışısınız.</string>
 
     <string name="missing_permission_read">Okuma (read) izni eksik</string>
     <string name="missing_permission_create">Oluşturma (create) izni eksik</string>
