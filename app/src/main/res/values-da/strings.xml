@@ -11,9 +11,17 @@
     <string name="simple_delete">Slet</string>
     <string name="simple_settings">Indstillinger</string>
     <string name="simple_about">Om</string>
+    <string name="simple_synchronization">Synkronisering</string>
     <string name="simple_appearance">Udseende</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatorisk</string>
+    <string name="simple_description">Beskrivelse</string>
+
+    <string name="add_table">Tilføj tabel</string>
+    <string name="add_row">Tilføj række</string>
     <string name="edit_row">Rediger række</string>
+    <string name="manage_columns">Administrer kolonner</string>
+    <string name="edit_column">Rediger kolonne</string>
     <string name="delete_column">Slet kolonne</string>
     <string name="preferences">Indstillinger</string>
     <string name="import_account">Importer konto</string>
@@ -21,13 +29,19 @@
     <string name="app_logo">App logo</string>
     <string name="app_name_short">Tabeller</string>
     <string name="manage_accounts">Administrér konti</string>
+    <string name="add_account">Tilføj konto</string>
     <string name="edit_table">Rediger tabel</string>
     <string name="edit_item">Rediger %1$s</string>
+    <string name="share_table">Del tabel</string>
+    <string name="not_implemented">Denne funktion er endnu ikke implementeret</string>
     <string name="delete_table">Slet tabel</string>
     <string name="hint_error_appeared">En fejl opstod</string>
 
     <string name="delete_item">Slet %1$s</string>
+    <string name="delete_item_message">Dette vil permanent slette %1$s.</string>
     <string name="delete_row">Slet række</string>
+    <string name="delete_row_message">Dette sletter denne række permanent.</string>
+
     <string name="pref_title_sync_only_wifi">Synkronisér kun på Wi-Fi</string>
     <string name="pref_title_sync_background">Synkronisering i baggrunden</string>
     <string name="pref_title_theme">Tema</string>
@@ -66,6 +80,9 @@
 
     <string name="error_dialog_title">Åh nej - hvad nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Forsøg venligst at tvinge app\'en til at lukke og start den påny igen. Der kan have været en ukorrekt forbindelse til Nextcloud-app\'en.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Hvis problemet fortsætter, så prøv at rydde lagringen af begge apps: Nextcloud og Nextcloud Tables for at løse dette problem.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Opgraderingen af databasen mislykkedes. Rapportér venligst problemet og ryd lageret for at bruge appen normalt.</string>
+    <string name="error_dialog_tip_clear_storage">Du kan rydde lageret ved at åbne appoplysningerne og vælge Lager → Ryd lager.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
     <string name="error_dialog_timeout_instance">Der var intet svar fra din server på nuværende tidspunkt. Sørg venligst for at sikre, at din instans kører rigtigt. </string>
     <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
