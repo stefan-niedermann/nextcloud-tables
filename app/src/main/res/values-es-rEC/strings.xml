@@ -1,0 +1,164 @@
+<resources>
+    <string name="app_name">Nextcloud Tablas</string>
+    <string name="navigation_drawer_open">Abirr la barra de navegación</string>
+    <string name="navigation_drawer_close">Cerrar la barra de navegación</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="simple_title">Título</string>
+    <string name="simple_exception">Excepción</string>
+    <string name="simple_save">Guardar</string>
+    <string name="simple_close">Cerrar</string>
+    <string name="simple_copy">Copiar</string>
+    <string name="simple_delete">Borrar</string>
+    <string name="simple_settings">Ajustes</string>
+    <string name="simple_about">Acerca</string>
+    <string name="simple_synchronization">Sincronización</string>
+    <string name="simple_appearance">Apariencia</string>
+    <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">Obligatorio</string>
+    <string name="simple_description">Descripción</string>
+
+    <string name="add_table">Agregar tabla</string>
+    <string name="add_row">Agregar fila</string>
+    <string name="edit_row">Editar fila</string>
+    <string name="manage_columns">Gestionar columnas</string>
+    <string name="edit_column">Editar columna</string>
+    <string name="delete_column">Eliminar columna</string>
+    <string name="preferences">Preferencias</string>
+    <string name="import_account">Importar cuenta</string>
+    <string name="choose_account">Elige la cuenta</string>
+    <string name="app_logo">Logotipo de la aplicación</string>
+    <string name="app_name_short">Tablas</string>
+    <string name="manage_accounts">Administrar cuentas</string>
+    <string name="add_account">Agregar cuenta</string>
+    <string name="edit_table">Editar tabla</string>
+    <string name="edit_item">Editar %1$s</string>
+    <string name="share_table">Compartir tabla</string>
+    <string name="not_implemented">Esta función aún no ha sido implementada</string>
+    <string name="delete_table">Eliminar tabla</string>
+    <string name="hint_error_appeared">Apareció un error</string>
+
+    <string name="delete_item">Eliminar %1$s</string>
+    <string name="delete_item_message">Esto eliminará permanentemente %1$s.</string>
+    <string name="delete_row">Eliminar fila</string>
+    <string name="delete_row_message">Esto eliminará permanentemente esta fila.</string>
+
+    <string name="pref_title_sync_only_wifi">Sincronizar solo con Wi-Fi</string>
+    <string name="pref_title_sync_background">Sincronización en segundo plano</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>Configuración predeterminada del sistema</item>
+        <item>Claro</item>
+        <item>Oscuro</item>
+    </string-array>
+
+    <string name="about">Acerca</string>
+    <string name="about_version_title">Versión</string>
+    <string name="about_version">Actualmente estás usando %1$s</string>
+    <string name="about_maintainer_title">Equipo de mantenimiento</string>
+    <string name="about_developers_title">Desarrolladores</string>
+    <string name="about_translators_title">Traductores</string>
+    <string name="about_translators_transifex">Comunidad de Nextcloud en %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Código fuente</string>
+    <string name="about_source">Este proyecto está alojado en GitHub: %1$s</string>
+    <string name="about_issues_title">Temas</string>
+    <string name="about_issues">Puedes informar errores, propuestas de mejora y solicitudes de funciones en el rastreador de problemas de GitHub: %1$s</string>
+    <string name="about_translate_title">Traducir</string>
+    <string name="about_translate">Únete al equipo de Nextcloud en Transifex y ayúdanos a traducir esta aplicación: %1$s</string>
+    <string name="about_app_license_title">Licencia de la aplicación</string>
+    <string name="about_app_license">Esta aplicación está licenciada bajo la LICENCIA GENERAL PUBLICA GNU v3+</string>
+    <string name="about_app_license_button">Ver licencia</string>
+    <string name="about_icons_disclaimer_title">Íconos</string>
+    <string name="about_icons_disclaimer_app_icon">Para el ícono original, consulta %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Todos los demás íconos utilizados por esta aplicación son %1$s creados por Google Inc. y con licencia Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design Icons</string>
+    <string name="about_credits_tab_title">Créditos</string>
+    <string name="about_contribution_tab_title">Contribución</string>
+    <string name="about_license_tab_title">Licencia</string>
+    <string name="about_server_app_version_text">Versión de la aplicación del servidor:</string>
+
+    <string name="error_dialog_title">¡Oh no! ¿Y ahora? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta cerrar forzosamente la aplicación y reiniciarla nuevamente. Puede haber habido una conexión incorrecta con la aplicación Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si el problema persiste, intenta borrar el almacenamiento de ambas aplicaciones: Nextcloud y Nextcloud Tablas para resolver este problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">La actualización de la base de datos falló. Por favor, informa el problema y borra el almacenamiento para usar la aplicación normalmente.</string>
+    <string name="error_dialog_tip_clear_storage">Puedes borrar el almacenamiento abriendo la información de la aplicación y seleccionando Almacenamiento → Borrar almacenamiento.</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que intentaste iniciar una sincronización sin una conexión a Internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Se rechazó la conexión, por favor verifica si tu servidor es accesible a través del navegador web.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">La conexión ha expirado, por favor verifica si estás conectado a Internet. Esto también puede ocurrir cuando tu servidor está ocupado.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Si has activado la configuración \"Sincronizar solo con Wi-Fi\", solo podrás sincronizar cuando estés conectado a una red Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Algo parece estar mal con tu aplicación Nextcloud. Intenta detener forzosamente tanto la aplicación Nextcloud como la aplicación Nextcloud Tablas.</string>
+    <string name="error_dialog_tip_files_delete_storage">Si detenerlas forzosamente no ayuda, puedes intentar borrar el almacenamiento de ambas aplicaciones.</string>
+    <string name="error_dialog_timeout_instance">No hubo respuesta de tu servidor en el tiempo indicado. Asegúrate de que tu instancia esté funcionando correctamente.</string>
+    <string name="error_dialog_timeout_toggle">Verifica tu conexión de red. A veces, apagar y encender los datos móviles o Wi-Fi puede ayudar.</string>
+    <string name="error_dialog_check_server">La respuesta de tu servidor no fue correcta. Por favor, verifica si puedes acceder a la aplicación Tablas a través de la interfaz web.</string>
+    <string name="error_dialog_check_server_logs">Hay un problema con tu configuración de Nextcloud. Por favor, revisa los archivos de registro del servidor.</string>
+    <string name="error_dialog_check_maintenance">Por favor, verifica si tu instancia de Nextcloud no está actualmente en modo de mantenimiento.</string>
+    <string name="error_dialog_insufficient_storage">Tu instancia de Nextcloud no tiene espacio de almacenamiento libre. Por favor, elimina algunos archivos para sincronizar tus cambios locales en tu nube.</string>
+    <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarte:</string>
+    <string name="error_dialog_redirect">Tu servidor respondió con un código de estado HTTP 302, lo que implica que no tienes instalada la aplicación Tablas en tu servidor o que algo está mal configurado. Esto puede deberse a modificaciones personalizadas en un archivo .htaccess o a aplicaciones de Nextcloud como OID Client.</string>
+    <string name="error_dialog_forbidden">No tienes permisos suficientes. Por favor, verifica las tablas que se te han compartido y que han sido modificadas recientemente.</string>
+    <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Tablas instalada en el servidor. Por favor, asegúrate de que esté instalada y habilitada.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Es posible que la cuenta de tu aplicación Nextcloud ya no esté autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">El usuario actual no coincide con el usuario que tenemos en nuestra base de datos. Si estás usando LDAP en tu instancia de Nextcloud, tu aplicación Nextcloud puede haber almacenado un ID de usuario antiguo.</string>
+    <string name="error_dialog_capabilities_not_parsable">No pudimos obtener las capacidades de tu servidor. Por favor, asegúrate de que tu servidor esté funcionando correctamente y que otras aplicaciones cliente puedan acceder a Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">No se pudo cargar un adjunto. Por favor, intenta compartirlo de otra manera y avísanos sobre este error.</string>
+    <string name="error_dialog_certificate">Algo parece estar mal con el certificado del servidor. Por favor, verifica todas las cuentas en la aplicación Nextcloud para obtener más información.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Por favor, desactiva todas las optimizaciones de batería para Nextcloud y la aplicación Tablas.</string>
+    <string name="error_dialog_unknown_error">Parece que tu instancia de Nextcloud no es accesible. Por favor, verifica tu conexión a Internet y si puedes conectarte a tu instancia a través del navegador.</string>
+    <string name="error_dialog_min_version">La aplicación Nextcloud Tablas requiere que la aplicación Nextcloud en Android tenga al menos la versión 3.18.</string>
+    <string name="error_action_open_app_info">Abrir información de la aplicación</string>
+    <string name="error_action_open_nextcloud_app">Abrir aplicación Nextcloud</string>
+    <string name="error_action_open_network">Configuración de red</string>
+    <string name="error_action_server_logs">Registros del servidor</string>
+    <string name="error_action_open_in_browser">Abrir en el navegador</string>
+    <string name="error_action_install">Instalar</string>
+    <string name="error_action_report_issue">Informe</string>
+    <string name="error_action_update_files_app">Actualizar</string>
+    <string name="error_action_open_battery_settings">Configuración de la batería</string>
+
+    <string name="welcome_text">Bienvenido a Nextcloud Tablas</string>
+    <string name="importing_account">Importando cuenta %1$s</string>
+    <string name="account_already_imported">La cuenta ya ha sido importada</string>
+    <string name="import_state_import_account">Importando cuenta</string>
+    <string name="import_state_import_tables">Importando tablas. Esto puede tomar varios minutos.</string>
+    <string name="not_yet_synchronized">Aún no sincronizado</string>
+
+    <string name="reason_not_installed">Nextcloud Tablas no está instalado</string>
+    <string name="reason_not_enabled">Nextcloud Tablas no está habilitado</string>
+    <string name="reason_maintenance_mode">Tu instancia de Nextcloud se encuentra actualmente en modo de mantenimiento</string>
+    <string name="reason_server_error">Tu servidor respondió con una respuesta no válida</string>
+    <string name="reason_tables_not_supported">La versión de Nextcloud Tablas que tienes no es compatible</string>
+    <string name="reason_nextcloud_not_supported">Tu versión de Nextcloud no es compatible</string>
+    <string name="reason_unknown">Se presentó un error desconocido</string>
+    <string name="reason_offline">Estás desconectado actualmente. </string>
+
+    <string name="missing_permission_read">Falta permiso de lectura</string>
+    <string name="missing_permission_create">Falta permiso de creación</string>
+    <string name="missing_permission_update">Falta permiso de actualización</string>
+    <string name="missing_permission_delete">Falta permiso de eliminación</string>
+    <string name="missing_permission_manage">Falta permiso de gestión</string>
+
+    <string name="validation_number_not_parsable">El valor parece no ser un número</string>
+    <string name="validation_number_range">El valor debe estar entre %1$s y %2$s</string>
+    <string name="validation_number_min">El valor debe ser al menos %1$s</string>
+    <string name="validation_number_max">El valor debe ser como máximo %1$s</string>
+    <string name="validation_text_link">El valor no es un enlace</string>
+    <string name="validation_mandatory">Este es un campo obligatorio</string>
+    <string name="validation_time_missing">Se debe proporcionar una hora para un campo DateTime.</string>
+
+    <string name="order_weight">Peso de orden</string>
+    <string name="add_column">Agregar columna</string>
+    <string name="unsupported_column_type">No se admite la edición de columnas de tipo %1$s.</string>
+    <string name="navigation_my_tables">Mis tablas</string>
+    <string name="navigation_shared_tables">Tablas compartidas</string>
+    <string name="could_not_display_column_editor">No se pudo mostrar %1$s.</string>
+    <string name="choose_table_from_the_sidebar">Elige una tabla del panel lateral</string>
+    <string name="last_background_sync">Última sincronización en segundo plano:</string>
+    <string name="simple_disabled">desactivado</string>
+    <string name="manage_columns_subtitle">Arrastra y suelta para reordenar</string>
+
+    <string name="experimental_feature_column_reordering">La reordenación de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de las columnas de esta tabla.</string>
+    <string name="experimental_feature_column_manage">La edición de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de esta columna.</string>
+</resources>
