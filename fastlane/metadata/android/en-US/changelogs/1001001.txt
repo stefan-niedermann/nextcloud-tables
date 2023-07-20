@@ -1,2 +1,3 @@
 - enh: Disable mandatory property in column editor
 - fix: Allow entering decimals for number fields
+- fix: Hide complete table when no rows are present as workaround for crash

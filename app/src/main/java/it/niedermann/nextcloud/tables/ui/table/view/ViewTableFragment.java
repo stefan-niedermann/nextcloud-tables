@@ -81,7 +81,12 @@ public class ViewTableFragment extends Fragment {
         final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
         final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
 
-        adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), fullTable.getData(), fullTable.getSelectionOptions());
+        // Workaround for https://github.com/stefan-niedermann/nextcloud-tables/issues/16
+        if (fullTable.getRows().isEmpty()) {
+            adapter.setAllItems(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        } else {
+            adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), fullTable.getData(), fullTable.getSelectionOptions());
+        }
 
         binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);
         binding.tableView.getRowHeaderLayoutManager().scrollToPosition(rowPosition);
