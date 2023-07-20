@@ -1,1 +1,2 @@
 - enh: Disable mandatory property in column editor
+- fix: Allow entering decimals for number fields

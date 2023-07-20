@@ -39,7 +39,11 @@ public class NumberEditor extends TextEditor {
     protected View onCreate(@NonNull Context context, @NonNull Data data) {
         final var view = super.onCreate(context, data);
 
-        binding.editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        final var decimals = column.getNumberDecimals();
+        final int inputType = decimals != null && decimals > 0
+                ? InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+                : InputType.TYPE_CLASS_NUMBER;
+        binding.editText.setInputType(inputType);
 
         binding.getRoot().setPrefixText(column.getNumberPrefix());
         binding.getRoot().setSuffixText(column.getNumberSuffix());
