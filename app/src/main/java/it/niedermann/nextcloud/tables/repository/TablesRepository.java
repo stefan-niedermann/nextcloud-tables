@@ -243,7 +243,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         final var columns = db.getColumnDao().getNotDeletedColumns(table.getId());
         for (final var column : columns) {
             // TODO perf: move to one query?
-            final var selectionOptions = db.getSelectionOptionDao().getSelectionOptions(column.getId());
+            final var selectionOptions = db.getSelectionOptionDao().getNotDeletedSelectionOptions(column.getId());
             column.setSelectionOptions(selectionOptions);
         }
         return columns;
