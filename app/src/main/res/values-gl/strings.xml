@@ -107,7 +107,7 @@
     <string name="error_dialog_certificate">Semella que algo foi mal co certificado do servidor. Consulte todas as contas na aplicación Nextcloud para obter máis información.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Desactive todas as optimizacións de batería para Nextcloud e a aplicación Táboas.</string>
     <string name="error_dialog_unknown_error">A instancia de Nextcloud non semella accesíbel. Comprobe a conexión a Internet e se pode conectarse á súa instancia a través do navegador.</string>
-    <string name="error_dialog_min_version">A aplicación de Táboas para Android necesita que a aplicación de Android Nextcloud teña como mínimo a versión 3.18.</string>
+    <string name="error_dialog_min_version">A aplicación de Táboas para Android precisa que a aplicación de Android Nextcloud teña como mínimo a versión 3.18.</string>
     <string name="error_action_open_app_info">Abrir a info da aplicación</string>
     <string name="error_action_open_nextcloud_app">Abrir a aplicación Nextcloud</string>
     <string name="error_action_open_network">Axustes da rede</string>
