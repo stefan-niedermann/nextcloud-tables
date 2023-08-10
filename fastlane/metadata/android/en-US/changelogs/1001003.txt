@@ -1,0 +1,1 @@
+- enh: Update app icon to match future Table server apps icon
