@@ -1,17 +1,28 @@
 <resources>
+    <string name="app_name">Nextcloud Tables</string>
     <string name="navigation_drawer_open">کشو ناوبری را باز کنید</string>
     <string name="navigation_drawer_close">بستن کشو ناوبری</string>
     <string name="action_settings">تنظیمات</string>
 
+    <string name="simple_title">Title</string>
     <string name="simple_exception">استثنا</string>
     <string name="simple_save">ذخیره</string>
     <string name="simple_close">بسته</string>
     <string name="simple_copy">رونوشت</string>
     <string name="simple_delete">حذف</string>
     <string name="simple_settings">تنظیمات</string>
+    <string name="simple_about">About</string>
+    <string name="simple_synchronization">Synchronisation</string>
     <string name="simple_appearance">ظاهر</string>
+    <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">Mandatory</string>
     <string name="simple_description">توضیحات</string>
 
+    <string name="add_table">Add table</string>
+    <string name="add_row">Add row</string>
+    <string name="edit_row">Edit row</string>
+    <string name="manage_columns">Manage columns</string>
+    <string name="edit_column">Edit column</string>
     <string name="delete_column">ستون را حذف کنید</string>
     <string name="preferences">اولویت ها</string>
     <string name="import_account"> وارد کردن حساب </string>
@@ -20,10 +31,18 @@
     <string name="app_name_short">جدول‌ها</string>
     <string name="manage_accounts">حساب ها را مدیریت کنید</string>
     <string name="add_account">افزودن حساب</string>
+    <string name="edit_table">Edit table</string>
     <string name="edit_item">%1$s را ویرایش کنید</string>
+    <string name="share_table">Share table</string>
+    <string name="not_implemented">This feature has not been implemented yet</string>
+    <string name="delete_table">Delete table</string>
     <string name="hint_error_appeared">خطایی بروز کرد</string>
 
     <string name="delete_item">حذف %1$s</string>
+    <string name="delete_item_message">This will permanently delete %1$s.</string>
+    <string name="delete_row">Delete row</string>
+    <string name="delete_row_message">This will permanently delete this row.</string>
+
     <string name="pref_title_sync_only_wifi">همگام سازی فقط در Wi-Fi</string>
     <string name="pref_title_sync_background">همگام سازی پس زمینه</string>
     <string name="pref_title_theme">تم تاریک</string>
@@ -34,6 +53,7 @@
         <item>تاریک</item>
     </string-array>
 
+    <string name="about">About</string>
     <string name="about_version_title">نسخه</string>
     <string name="about_version"> شما در حال استفاده %1$s هستید</string>
     <string name="about_maintainer_title">نگاه‌دارنده</string>
@@ -61,25 +81,33 @@
 
     <string name="error_dialog_title">اوه نه - حالا چی؟ 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">لطفا از طریق توقف اجباری برنامه را بسته و دوباره اجرا کنید. ممکن است یک اتصال نادرست با نکست‌کلود ایجاد شده باشد.  </string>
+    <string name="error_dialog_tip_clear_storage_might_help">If the issue persists, try to clear the storage of both apps: Nextcloud and Nextcloud Tables to solve this issue.</string>
     <string name="error_dialog_tip_database_upgrade_failed">ارتقا پایگاه داده انجام نشد. لطفاً موضوع را گزارش کرده و فضای ذخیره سازی را پاک کنید تا به طور معمول از برنامه استفاده کنید.</string>
     <string name="error_dialog_tip_clear_storage">با باز کردن اطلاعات برنامه و انتخاب ذخیره سازی → پاک کردن فضای ذخیره سازی ، می توانید فضای ذخیره سازی را پاک کنید.</string>
     <string name="error_dialog_tip_offline_no_internet">به نظر می رسد سعی کرده اید یک همگام سازی را بدون اتصال به اینترنت راه اندازی کنید.</string>
     <string name="error_dialog_tip_offline_connection_refused">اتصال رد شد، لطفاً بررسی کنید که آیا میزبان شما از طریق مرورگر وب قابل دسترسی است یا خیر.</string>
     <string name="error_dialog_tip_offline_connection_timeout">اتصال در زمان مقرر اتفاق نیوفتاد، لطفاً بررسی کنید که آیا به اینترنت متصل هستید یا خیر. این ممکن است زمانی هم اتفاق بیفتد که میزبان شما مشغول است.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">اگر شما گزینه «هم‌گام‌سازی فقط روی وای‌فای» را در تنظیمات فعال کرده باشید، تنها زمانی که به وای‌فای متصل باشید می‌توانید هم‌گام‌سازی کنید.</string>
+    <string name="error_dialog_tip_files_force_stop">Something seems to be wrong with your Nextcloud app. Please try to force stop both, the Nextcloud app and the Nextcloud Tables app.</string>
     <string name="error_dialog_tip_files_delete_storage">اگر متوقف کردن اجباری کمکی نکرد ، می توانید فضای ذخیره سازی هر دو برنامه را پاک کنید.</string>
     <string name="error_dialog_timeout_instance">در زمان تعیین شده پاسخی از سرور شما دریافت نشده است. لطفاً مطمئن شوید که کار شما به خوبی اجرا می شود.</string>
     <string name="error_dialog_timeout_toggle">اتصال شبکه خود را بررسی کنید. بعضی اوقات خاموش و روشن کردن مجدد داده تلفن همراه یا Wi-Fi می تواند کمک کند.</string>
+    <string name="error_dialog_check_server">The response of your server was not correct. Please check whether you can access the Tables app via web interface.</string>
     <string name="error_dialog_check_server_logs"> مشکلی در نصب ابر Nextcloud وجود دارد. لطفا لاگ‌های سرور را بررسی کنید.</string>
     <string name="error_dialog_check_maintenance">لطفا بررسی کنید که نسخه نکست‌کلود شما در حال حاضر در حالت تعمیر و نگهداری نباشد.</string>
     <string name="error_dialog_insufficient_storage">نمونه ابرسانا شما فضای ذخیره ای رایگان ندارد. لطفاً چند فایل را حذف کنید تا تغییرات محلی خود را در ابر خود همگام سازی کنید.</string>
     <string name="error_dialog_we_need_info">برای کمک به شما به اطلاعات فنی زیر نیاز داریم:</string>
+    <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Tables app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
+    <string name="error_dialog_forbidden">You have insufficient permissions. Please check tables which are shared to you and have been changed recently.</string>
+    <string name="error_dialog_version_not_parsable">We could not determine the version of the server side Tables app. Please make sure it is installed and enabled.</string>
     <string name="error_dialog_account_might_not_be_authorized">حساب برنامه ابرسانا شما ممکن است دیگر مجاز نباشد.</string>
     <string name="error_dialog_user_not_found_in_database">کاربر فعلی با کاربری که در پایگاه داده خود داریم مطابقت ندارد. اگر از LDAP در نمونه ابرسنا خود استفاده می کنید ، ممکن است برنامه ابرسانا شما شناسه کاربری قدیمی را ذخیره کرده باشد.</string>
     <string name="error_dialog_capabilities_not_parsable">ما نمی توانیم قابلیت های سرور شما را واکشی کنیم. لطفاً اطمینان حاصل کنید که سرور شما به خوبی کار می کند و سایر برنامه های سرویس گیرنده قادر به دسترسی به ابرسانا هستند.</string>
     <string name="error_dialog_attachment_upload_failed">پیوست بارگذاری نمی شود. لطفا سعی کنید آن را به روش دیگری به اشتراک بگذارید و در مورد این اشکال به ما اطلاع دهید.</string>
     <string name="error_dialog_certificate">به نظر می‌رسد مشکلی در ارتباط با گواهینامهٔ کارسازتان وجود داشته باشد. لطفا همه حساب‌ها را در برنامه نکست‌کلود برای اطلاعات بیشتر وارسی کنید.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Please disable all battery optimizations for Nextcloud and the Tables app.</string>
     <string name="error_dialog_unknown_error">به نظر می‌رسد نمونه نکست‌کلود شما در دسترس نیست. لطفا وارسی کنید که به اینترنت متصل بوده و می‌توانید از طرف مرورگر به نمونه‌تان متصل شوید.</string>
+    <string name="error_dialog_min_version">The Tables Android app requires the Nextcloud Android app to be at least version 3.18.</string>
     <string name="error_action_open_app_info">اطلاعات برنامه را باز کنید</string>
     <string name="error_action_open_nextcloud_app">باز کردن کارهٔ نکست‌کلود</string>
     <string name="error_action_open_network">تنظیمات شبکه</string>
@@ -90,7 +118,47 @@
     <string name="error_action_update_files_app">به‌روز رسانی</string>
     <string name="error_action_open_battery_settings">تنظیمات باتری</string>
 
+    <string name="welcome_text">Welcome to Nextcloud Tables</string>
+    <string name="importing_account">Importing account %1$s</string>
+    <string name="account_already_imported">Account is already imported</string>
+    <string name="import_state_import_account">Importing account</string>
+    <string name="import_state_import_tables">Importing tables. This may take several minutes.</string>
+    <string name="not_yet_synchronized">Not yet synchronized</string>
+
+    <string name="reason_not_installed">Nextcloud Tables is not installed</string>
+    <string name="reason_not_enabled">Nextcloud Tables is not enabled</string>
+    <string name="reason_maintenance_mode">Your Nextcloud instance is currently in maintenance mode</string>
+    <string name="reason_server_error">Your server responded with an invalid response</string>
+    <string name="reason_tables_not_supported">Your Nextcloud Tables app version is not supported</string>
+    <string name="reason_nextcloud_not_supported">Your Nextcloud version is not supported</string>
+    <string name="reason_unknown">An unknown error occurred</string>
+    <string name="reason_offline">You are currently offline. </string>
+
+    <string name="missing_permission_read">Missing read permission</string>
+    <string name="missing_permission_create">Missing create permission</string>
+    <string name="missing_permission_update">Missing update permission</string>
+    <string name="missing_permission_delete">Missing delete permission</string>
+    <string name="missing_permission_manage">Missing manage permission</string>
+
+    <string name="validation_number_not_parsable">The value seems not to be a number</string>
+    <string name="validation_number_range">The value must be between %1$s and %2$s</string>
+    <string name="validation_number_min">The value must be at least %1$s</string>
+    <string name="validation_number_max">The value must be at most %1$s</string>
+    <string name="validation_text_link">The value is not a link</string>
+    <string name="validation_mandatory">This is a mandatory field</string>
+    <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
+
+    <string name="order_weight">Order weight</string>
     <string name="add_column">ستون را اضافه کنید</string>
+    <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
+    <string name="navigation_my_tables">My tables</string>
+    <string name="navigation_shared_tables">Shared tables</string>
+    <string name="could_not_display_column_editor">%1$s could not be displayed.</string>
+    <string name="choose_table_from_the_sidebar">Choose table from the sidebar</string>
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
     <string name="simple_disabled">غیر فعال</string>
-    </resources>
+    <string name="manage_columns_subtitle">Drag and drop to reorder</string>
+
+    <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
+    <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
+</resources>
