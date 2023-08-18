@@ -47,6 +47,7 @@
     <string name="about_source">Dette prosjektet er på GitHub: %1$s</string>
     <string name="about_issues_title">Problemer</string>
     <string name="about_issues">Du kan rapportere inn feil, forbedringsforslag og funksjonsforespørsler på GitHub issue tracker: %1$s</string>
+    <string name="about_translate_title">Oversette</string>
     <string name="about_translate">Bli med og hjelp oss å oversette Nextcloud på vår Transifex side: %1$s </string>
     <string name="about_app_license_title">App-lisens</string>
     <string name="about_app_license">Denne appen er lisensiert under GNU GENERAL PUBLIC LICENSE v3+.</string>
