@@ -3,12 +3,17 @@
     <string name="navigation_drawer_close">Închideți sertarul de navigare</string>
     <string name="action_settings">Setări</string>
 
+    <string name="simple_title">Titlu</string>
     <string name="simple_exception">Excepție </string>
     <string name="simple_save">Salvează</string>
     <string name="simple_close">Închide</string>
+    <string name="simple_copy">Copiază</string>
     <string name="simple_delete">Șterge</string>
     <string name="simple_settings">Setări</string>
+    <string name="simple_about">Despre</string>
+    <string name="simple_synchronization">Sincronizare</string>
     <string name="simple_appearance">Aspect</string>
+    <string name="simple_emoji">Emoticoane</string>
     <string name="simple_description">Descriere</string>
 
     <string name="preferences">Preferințe</string>
@@ -30,6 +35,7 @@
         <item>Întunecat</item>
     </string-array>
 
+    <string name="about">Despre</string>
     <string name="about_version_title">Versiune</string>
     <string name="about_version">În momentul de față folosești %1$s</string>
     <string name="about_maintainer_title">Gestionar</string>
