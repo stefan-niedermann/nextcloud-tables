@@ -16,6 +16,7 @@
 
     <string name="add_table">Pridať tabuľku</string>
     <string name="edit_row">Upraviť riadok</string>
+    <string name="edit_column">Upraviť stĺpec</string>
     <string name="delete_column">Zmazať stĺpec</string>
     <string name="preferences">Nastavenia</string>
     <string name="import_account">Importovať účet</string>
@@ -29,6 +30,7 @@
     <string name="hint_error_appeared">Vyskytla sa chyba</string>
 
     <string name="delete_item">Zmazať %1$s</string>
+    <string name="delete_row">Odstrániť riadok</string>
     <string name="pref_title_sync_only_wifi">Synchronizovať len na Wi-Fi</string>
     <string name="pref_title_sync_background">Synchronizácia na pozadí</string>
     <string name="pref_title_theme">Vzhľad</string>
