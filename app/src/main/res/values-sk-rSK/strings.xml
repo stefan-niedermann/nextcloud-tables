@@ -15,6 +15,7 @@
     <string name="simple_description">Popis</string>
 
     <string name="add_table">Pridať tabuľku</string>
+    <string name="add_row">Pridať riadok</string>
     <string name="edit_row">Upraviť riadok</string>
     <string name="edit_column">Upraviť stĺpec</string>
     <string name="delete_column">Zmazať stĺpec</string>
