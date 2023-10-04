@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Tabuľky Nextcloud</string>
     <string name="navigation_drawer_open">Otvoriť navigačný panel</string>
     <string name="navigation_drawer_close">Zavrieť navigačný panel</string>
     <string name="action_settings">Nastavenia</string>
