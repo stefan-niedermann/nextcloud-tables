@@ -28,6 +28,7 @@
     <string name="manage_accounts">Spravovať účty</string>
     <string name="add_account">Pridať účet</string>
     <string name="edit_item">Upraviť %1$s</string>
+    <string name="share_table">Zdieľať tabuľku</string>
     <string name="delete_table">Vymazať tabuľku</string>
     <string name="hint_error_appeared">Vyskytla sa chyba</string>
 
