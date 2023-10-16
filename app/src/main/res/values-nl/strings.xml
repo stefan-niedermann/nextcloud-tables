@@ -51,6 +51,7 @@
     <string name="about_source">Dit project wordt gehost op GitHub: %1$s</string>
     <string name="about_issues_title">Problemen</string>
     <string name="about_issues">Je kunt bugs rapporteren, verbeteringen voorstellen en functionele aanpassingen aanvragen via de issue-tracker op GitHub: %1$s</string>
+    <string name="about_translate_title">Vertaal</string>
     <string name="about_translate">Word lid van het Nextcloud-team op Transifex en help ons deze app te vertalen: %1$s </string>
     <string name="about_app_license_title">App licentie</string>
     <string name="about_app_license">Deze applicatie valt onder de GNU GENERAL PUBLIC LICENSE v3+.</string>
