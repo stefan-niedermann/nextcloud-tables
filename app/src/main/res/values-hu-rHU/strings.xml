@@ -157,4 +157,6 @@
     <string name="choose_table_from_the_sidebar">Válasszon táblázatot az oldalsávról</string>
     <string name="last_background_sync">Legutóbbi szinkronizálás:</string>
     <string name="simple_disabled">letiltva</string>
+    <string name="manage_columns_subtitle">Húzza át az átrendezéshez</string>
+
     </resources>

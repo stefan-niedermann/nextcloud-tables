@@ -18,6 +18,7 @@
     <string name="add_table">Pridať tabuľku</string>
     <string name="add_row">Pridať riadok</string>
     <string name="edit_row">Upraviť riadok</string>
+    <string name="manage_columns">Správa stĺpcov</string>
     <string name="edit_column">Upraviť stĺpec</string>
     <string name="delete_column">Zmazať stĺpec</string>
     <string name="preferences">Nastavenia</string>
@@ -27,6 +28,7 @@
     <string name="app_name_short">Tabuľky</string>
     <string name="manage_accounts">Spravovať účty</string>
     <string name="add_account">Pridať účet</string>
+    <string name="edit_table">Upraviť tabuľku</string>
     <string name="edit_item">Upraviť %1$s</string>
     <string name="share_table">Zdieľať tabuľku</string>
     <string name="delete_table">Vymazať tabuľku</string>
