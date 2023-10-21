@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Таблиці Nextcloud</string>
     <string name="navigation_drawer_open">Розгорнути скриньку з навігацією</string>
     <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
     <string name="action_settings">Налаштування</string>
@@ -7,23 +8,41 @@
     <string name="simple_exception">Виняток</string>
     <string name="simple_save">Зберегти</string>
     <string name="simple_close">Закрити</string>
+    <string name="simple_copy">Копія</string>
     <string name="simple_delete">Вилучити</string>
     <string name="simple_settings">Налаштування</string>
     <string name="simple_about">Про програму</string>
+    <string name="simple_synchronization">Синхронізація</string>
     <string name="simple_appearance">Вигляд</string>
+    <string name="simple_emoji">Емоційки</string>
+    <string name="simple_mandatory">Обов\'язково</string>
     <string name="simple_description">Опис</string>
 
+    <string name="add_table">Додати таблицю</string>
+    <string name="add_row">Додати рядок</string>
+    <string name="edit_row">Редагувати рядок</string>
+    <string name="manage_columns">Керувати стовпцями</string>
+    <string name="edit_column">Редагувати стовпець</string>
     <string name="delete_column">Видалити стовпчик</string>
     <string name="preferences">Налаштування</string>
     <string name="import_account">Імпорт акаунту</string>
     <string name="choose_account">Оберіть обліковий запис</string>
+    <string name="app_logo">Лоґо застосунку</string>
     <string name="app_name_short">Таблиці</string>
     <string name="manage_accounts">Облікові записи</string>
+    <string name="add_account">Додати обліковий запис</string>
     <string name="edit_table">Редагувати таблицю</string>
     <string name="edit_item">Редагувати %1$s</string>
+    <string name="share_table">Поділитися таблицею</string>
+    <string name="not_implemented">Ця функціональність поки недоступна</string>
+    <string name="delete_table">Вилучити таблицю</string>
     <string name="hint_error_appeared">Сталася помилка </string>
 
     <string name="delete_item">Вилучити %1$s</string>
+    <string name="delete_item_message">Це призведе до вилучення без можливості відновлення %1$s.</string>
+    <string name="delete_row">Вилучити рядок</string>
+    <string name="delete_row_message">Це призведе до вилучення цього рядка.</string>
+
     <string name="pref_title_sync_only_wifi">Синхронізація тільки за допомогою WI-Fi</string>
     <string name="pref_title_sync_background">Фонова синхронізація</string>
     <string name="pref_title_theme">Тема</string>
@@ -62,15 +81,26 @@
 
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Якщо проблема залишатиметься, очистіть сховище даних застосунків Nextcloud та Таблиці Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Не вдалося оновити базу даних. Будь ласка, повідомте про проблему, очистіть сховище даних для подальшого використання застосунку.</string>
     <string name="error_dialog_tip_clear_storage">Ви можете очистити сховище, відкривши інформацію про програму та вибравши Пам’ять → Очистити пам’ять.</string>
+    <string name="error_dialog_tip_offline_no_internet">Схоже, ви намагаєтеся виконати синхронізацію без доступу до мережі.</string>
     <string name="error_dialog_tip_offline_connection_refused">Відмовлено у з\'єднанні. Будь ласка, перевірте, чи доступний ваш сервер з бравзера.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">З\'єднання розірвано. Будь ласка, перевірте доступ до мережі. Також, перевірте доступність сервера.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Якщо ви увімкнете параметр \"Синхронізація тільки з Wi-Fi\", то синхронізація буде виконуватися лише за умови наявности з\'єднання через Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Схоже, що є проблеми із застосунком Nextcloud. Спробуйте вручну вивантажити з пам\'яти застосунки Nextcloud та Таблиці Nextcloud.</string>
     <string name="error_dialog_tip_files_delete_storage">Якщо примусове їх завершення не допомагає, спробуйте очистити сховище обох застосунків.</string>
     <string name="error_dialog_timeout_instance">За відведений час відповіді від вашого сервера не надійшло. Переконайтесь, що ваш сервер працює добре.</string>
+    <string name="error_dialog_timeout_toggle">Перевірте доступ до мережі. Часом може допомогти послідовне вимикання та вмикання мобільних даних або Wi-Fi.</string>
+    <string name="error_dialog_check_server">Отримано недійсну відповідь від вашого сервера. Перевірте, чи є доступ до застосунку Таблиці через вебінтерфейс.</string>
     <string name="error_dialog_check_server_logs">Виникла проблема з налаштуванням Nextcloud. Будь ласка, подивіться файли журналу сервера.</string>
     <string name="error_dialog_check_maintenance">Будь ласка, перевірте, чи ваш сервер Nextcloud наразі не перебуває в режимі обслуговування.</string>
     <string name="error_dialog_insufficient_storage">Ваш сервер Nextcloud не має вільного місця. Будь ласка, вилучіть непотрібні файлі, щоби можна було виконувати синхронізацію змін на пристрої з хмарою.</string>
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
+    <string name="error_dialog_redirect">Сервер повернув код стану HTTP 302. Це означає, що у вашій хмарі не встановлено застосунок Таблиці або ви маєте недійсні налаштування. Також це може бути спричинено власними налаштуваннями у файлі .htaccess або в налаштуваннях застосунку  Nextcloud, таких як OID Client.</string>
+    <string name="error_dialog_forbidden">У вас недостатні дозволи. Перевірте таблиці, якими поділилися з вами та які було нещодавно змінено.</string>
     <string name="error_dialog_version_not_parsable">Неможливо визначити версію застосунку \"Таблиці\", встановленого на стороні серверу. Перевірте, чи його встановлено та увімкнено.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Ймовірно, що ваш обліковий запис у застосунку Nextcloud більше не авторизовано.</string>
     <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
     <string name="error_action_open_app_info">Відкрити інформацію про застосунок</string>
     <string name="error_action_open_nextcloud_app">Відкрити програму Nextcloud</string>
@@ -83,6 +113,7 @@
     <string name="error_action_open_battery_settings">Налаштування батареї</string>
 
     <string name="add_column">Додати стовпчик</string>
+    <string name="navigation_my_tables">Мої таблиці</string>
     <string name="last_background_sync">Остання фонова синхронізація:</string>
     <string name="simple_disabled">вимкнено</string>
     </resources>
