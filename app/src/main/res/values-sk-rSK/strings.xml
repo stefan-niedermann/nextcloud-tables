@@ -103,6 +103,7 @@
     <string name="error_action_update_files_app">Aktualizovať</string>
     <string name="error_action_open_battery_settings">Nastavenia batérie.</string>
 
+    <string name="welcome_text">Vitajte v Nextcloud Tabuľkách</string>
     <string name="reason_unknown">Nastala neznáma chyba</string>
     <string name="order_weight">Váha triedenia</string>
     <string name="add_column">Pridať stĺpec</string>
