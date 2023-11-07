@@ -157,4 +157,7 @@
     <string name="choose_table_from_the_sidebar">Choisissez le tableau dans la barre latérale</string>
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
     <string name="simple_disabled">désactivé</string>
+    <string name="manage_columns_subtitle">Glissez-déposez pour réorganiser</string>
+
+    <string name="experimental_feature_column_reordering">La réorganisation des colonnes est une fonctionnalité expérimentale qui peut avoir des effets indésirables sur d\'autres configurations des colonnes sur ce tableau.</string>
     </resources>
