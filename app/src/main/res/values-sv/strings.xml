@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud Tabeller</string>
     <string name="navigation_drawer_open">Öppna navigeringspanelen</string>
     <string name="navigation_drawer_close">Stäng navigeringslådan</string>
     <string name="action_settings">Inställningar</string>
@@ -14,6 +15,7 @@
     <string name="simple_appearance">Utseende</string>
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="edit_row">Redigera rad</string>
+    <string name="edit_column">Redigera kolumn</string>
     <string name="delete_column">Radera kolumn</string>
     <string name="preferences">Inställningar</string>
     <string name="import_account">Importera konto</string>
