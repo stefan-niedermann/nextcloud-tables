@@ -13,6 +13,8 @@
     <string name="simple_about">Quant a</string>
     <string name="simple_appearance">Aparença</string>
     <string name="simple_mandatory">Obligatori</string>
+    <string name="simple_description">Descripció</string>
+
     <string name="add_table">Afegeix taula</string>
     <string name="edit_row">Edició fila</string>
     <string name="delete_column">Suprimeix la columna</string>
