@@ -1,0 +1,91 @@
+<resources>
+    <string name="navigation_drawer_open">Opna leiðsagnarsleða</string>
+    <string name="navigation_drawer_close">Loka leiðsagnarsleða</string>
+    <string name="action_settings">Stillingar</string>
+
+    <string name="simple_exception">Frávik</string>
+    <string name="simple_save">Vista</string>
+    <string name="simple_close">Loka</string>
+    <string name="simple_delete">Eyða</string>
+    <string name="simple_settings">Stillingar</string>
+    <string name="simple_about">Um</string>
+    <string name="simple_appearance">Útlit</string>
+    <string name="simple_description">Lýsing</string>
+
+    <string name="delete_column">Eyða dálki</string>
+    <string name="preferences">Kjörstillingar</string>
+    <string name="import_account">Flytja inn aðgang</string>
+    <string name="choose_account">Veldu aðgang</string>
+    <string name="app_logo">Táknmerki forritsins</string>
+    <string name="manage_accounts">Sýsla með notendaaðganga</string>
+    <string name="edit_item">Breyta %1$s</string>
+    <string name="hint_error_appeared">Villa kom upp</string>
+
+    <string name="delete_item">Eyða \'%s\'?</string>
+    <string name="pref_title_sync_only_wifi">Aðeins samstilla á WiFi-neti</string>
+    <string name="pref_title_sync_background">Samstilling í bakgrunni</string>
+    <string-array name="theme_entries">
+        <item>Sjálfgefið kerfi</item>
+    </string-array>
+
+    <string name="about">Um</string>
+    <string name="about_version_title">Útgáfa</string>
+    <string name="about_version">Þú ert núna að nota %1$s</string>
+    <string name="about_maintainer_title">Umsjónarmaður</string>
+    <string name="about_developers_title">Hönnuðir</string>
+    <string name="about_translators_title">Þýðendur</string>
+    <string name="about_translators_transifex">Nextcloud-samfélagið á %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Upprunakóði</string>
+    <string name="about_source">Þetta verkefni er hýst á GitHub: %1$s</string>
+    <string name="about_issues_title">Vandamál</string>
+    <string name="about_issues">Þú getur tilkynnt um villur, beðið um viðbótareiginleika og betrumbætur á GitHub villuskrásetjaranum: %1$s</string>
+    <string name="about_translate_title">Þýða</string>
+    <string name="about_translate">Gakktu í Nextcloud-teymið á Transifex og hjálpaðu okkur að þýða þetta forrit: %1$s</string>
+    <string name="about_app_license_title">Notkunarleyfi forritsins</string>
+    <string name="about_app_license">Þessu forriti er dreift með almenna GNU GENERAL PUBLIC notkunarleyfinu v3+.</string>
+    <string name="about_app_license_button">Skoða leyfi</string>
+    <string name="about_icons_disclaimer_title">Táknmyndir</string>
+    <string name="about_icons_disclaimer_app_icon">Vegna upprunalegrar táknmyndar ættirðu að skoða %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Allar aðrar táknmyndir eru gerðar af Google Inc. %1$s og útgefnar samkvæmt Apache 2.0 hugbúnaðarleyfinu.</string>
+    <string name="about_icons_disclaimer_mdi">Material Design táknmyndir</string>
+    <string name="about_credits_tab_title">Framlög</string>
+    <string name="about_contribution_tab_title">Höfundar</string>
+    <string name="about_license_tab_title">Notkunarleyfi</string>
+    <string name="about_server_app_version_text">Útgáfa forrits á þjóni:</string>
+
+    <string name="error_dialog_title">Ó-nei - Hvað nú? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Prófaðu að þvinga lokun á forritinu og endurræsa það síðan. Mögulega hefur verið röng tenging við Nextcloud-forritið.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Uppfærsla á gagnagrunninum mistókst. Tilkynntu vandamálið og hreinsaðu út úr geymslurýminu til að nota forritið á venjulegan máta.</string>
+    <string name="error_dialog_tip_clear_storage">Þú getur hreinsað geymslurýmið með því að opna upplýsingar forritsins og velja Geymslurými → Hreinsa geymslurými.</string>
+    <string name="error_dialog_tip_offline_no_internet">Það lítur út eins og þú hafir sett samstillingu í gang án tengingar við internetið.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Tengingu var hafnað, athugaðu hvort samband næst við netþjóninn í gegnum vafra.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Tenging féll á tíma, athugaðu hvort internettenging sé til staðar. Þetta getur líka gerst þegar mikið álag er á netþjóninum.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ef þú hefur virkjað \"Aðeins samstilla á WiFi-neti\", þá geturðu einungis samstillt þegar tenging er við WiFi-netkerfi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Ef þvinguð stöðvun leysir ekki vandamálið, skaltu reyna að hreinsa geymslurými beggja forritanna.</string>
+    <string name="error_dialog_timeout_toggle">Athugaðu netsambandið þitt. Stundum getur hjálpað að víxla af farsímagögnum og/eða Wi-Fi og síðan aftur á.</string>
+    <string name="error_dialog_check_server_logs">Það er vandamál með Nextcloud-uppsetninguna þína. Athugaðu atvikaskrár netþjónsins.</string>
+    <string name="error_dialog_check_maintenance">Athugaðu hvort Nextcloud-þjónninn þinn sé nokkuð núna í viðhaldsham.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud-netþjónninn þinn á ekkert laust geymslupláss eftir. Eyddu einhverjum skrám til að geta samstillt breytingar á tækinu yfir í skýið.</string>
+    <string name="error_dialog_we_need_info">Við þurfum eftirfarandi tæknilegar upplýsingar til að geta aðstoðað þig:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Aðgangurinn þinn á Nextcloud-forritinu er mögulega ekki lengur heimilaður.</string>
+    <string name="error_dialog_user_not_found_in_database">Núverandi notandi samsvarar ekki notandanum sem við erum með í gagnagrunninum okkar. Ef þú ert að nota LDAP á Nextcloud-tilvikinu þínu, gæti Nextcloud-forritið þitt mögulega hafa geymt gamalt notandaauðkenni.</string>
+    <string name="error_dialog_capabilities_not_parsable">Við gátum ekki náð í getuupplýsingar þjónsins þíns. Gakktu úr skugga um að netþjónninn sé í gangi og að önnur biðlaraforrit nái aðgangi á Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Ekki var hægt að senda inn viðhengi. Reyndu að deila því á einhvern annan hátt og láttu okkur vita um þennan galla.</string>
+    <string name="error_dialog_certificate">Eitthvað virðist vera í ólagi með skilríkið á netþjóninum. Athugaðu alla aðgangana í Nextcloud-forritinu hvort þar séu nánari upplýsingar.</string>
+    <string name="error_dialog_unknown_error">Ekki virðist vera hægt að ná sambandi við Nextcloud-tilvikið þitt. Athugaðu internettenginguna þína og hvort þú náir að tengjast netþjóninum í gegnum vafra.</string>
+    <string name="error_action_open_app_info">Opna upplýsingar um forrit</string>
+    <string name="error_action_open_nextcloud_app">Opna Nextcloud-forrit</string>
+    <string name="error_action_open_network">Netkerfisstillingar</string>
+    <string name="error_action_server_logs">Atvikaskráning netþjóns</string>
+    <string name="error_action_open_in_browser">Opna í vafra</string>
+    <string name="error_action_install">Setja upp</string>
+    <string name="error_action_report_issue">Skýrsla</string>
+    <string name="error_action_update_files_app">Uppfæra</string>
+    <string name="error_action_open_battery_settings">Stillingar rafhlöðu</string>
+
+    <string name="reason_unknown">Óþekkt villa kom upp</string>
+    <string name="add_column">Bæta við dálki</string>
+    <string name="last_background_sync">Síðasta samstilling í bakgrunni:</string>
+    <string name="simple_disabled">óvirkt</string>
+    </resources>
