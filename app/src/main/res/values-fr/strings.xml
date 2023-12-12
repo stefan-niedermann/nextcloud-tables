@@ -160,4 +160,5 @@
     <string name="manage_columns_subtitle">Glissez-déposez pour réorganiser</string>
 
     <string name="experimental_feature_column_reordering">La réorganisation des colonnes est une fonctionnalité expérimentale qui peut avoir des effets indésirables sur d\'autres configurations des colonnes sur ce tableau.</string>
-    </resources>
+    <string name="experimental_feature_column_manage">La modification des colonnes est une fonctionnalité expérimentale qui peut avoir des effets secondaires involontaires sur d\'autres configurations de cette colonne.</string>
+</resources>
