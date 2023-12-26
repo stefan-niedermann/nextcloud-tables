@@ -1,0 +1,91 @@
+<resources>
+    <string name="navigation_drawer_open">Buka laci navigasi</string>
+    <string name="navigation_drawer_close">Tutup laci navigasi</string>
+    <string name="action_settings">Setelan</string>
+
+    <string name="simple_exception">Pengecualian</string>
+    <string name="simple_save">Simpan</string>
+    <string name="simple_close">Tutup</string>
+    <string name="simple_copy">Salin</string>
+    <string name="simple_delete">Hapus</string>
+    <string name="simple_settings">Setelan</string>
+    <string name="simple_about">Tentang</string>
+    <string name="simple_appearance">Tampilan</string>
+    <string name="simple_description">Deskrisi</string>
+
+    <string name="preferences">Preferensi</string>
+    <string name="choose_account">Pilih akun</string>
+    <string name="app_logo">Logo aplikasi</string>
+    <string name="manage_accounts">Kelola akun</string>
+    <string name="edit_item">Sunting %1$s</string>
+    <string name="hint_error_appeared">Sebuah kesalahan muncul</string>
+
+    <string name="delete_item">Hapus %1$s</string>
+    <string name="pref_title_sync_only_wifi">Sinkronkan saja pada Wi-Fi</string>
+    <string name="pref_title_sync_background">Sinkronisasi latar belakang</string>
+    <string name="pref_title_theme">Tema</string>
+
+    <string-array name="theme_entries">
+        <item>Bawaan Sistem</item>
+        <item>Terang</item>
+        <item>Gelap</item>
+    </string-array>
+
+    <string name="about">Tentang</string>
+    <string name="about_version_title">Versi</string>
+    <string name="about_version">Anda sedang menggunakan %1$s</string>
+    <string name="about_maintainer_title">Pengelola</string>
+    <string name="about_developers_title">Pengembang</string>
+    <string name="about_translators_title">Penerjemah</string>
+    <string name="about_translators_transifex">Komunitas Nextcloud di %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Kode sumber</string>
+    <string name="about_source">Proyek ini dihosting di GitHub: %1$s</string>
+    <string name="about_issues_title">Isu</string>
+    <string name="about_issues">Anda dapat melaporkan bug, proposal peningkatan, dan permintaan fitur di issue tracker GitHub: %1$s</string>
+    <string name="about_translate_title">Terjemahkan</string>
+    <string name="about_translate">Bergabunglah dengan tim Nextcloud di Transifex dan bantu kami menerjemahkan aplikasi ini: %1$s</string>
+    <string name="about_app_license_title">Lisensi apl</string>
+    <string name="about_app_license">Aplikasi ini dilisensikan dibawah GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Lihat lisensi</string>
+    <string name="about_icons_disclaimer_title">Ikon</string>
+    <string name="about_icons_disclaimer_app_icon">Untuk ikon asli, lihat %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Semua ikon selanjutnya yang digunakan oleh aplikasi ini adalah %1$s yang dibuat oleh Google Inc. dan dilisensikan di bawah Lisensi Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Ikon Desain Material</string>
+    <string name="about_credits_tab_title">Kredit</string>
+    <string name="about_contribution_tab_title">Kontribusi</string>
+    <string name="about_license_tab_title">Lisensi</string>
+    <string name="about_server_app_version_text">Versi aplikasi server:</string>
+
+    <string name="error_dialog_title">Aduh — apa sekarang? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Silakan mencoba untuk menutup aplikasi secara paksa dan mulai ulang. Mungkin ada koneksi yang tidak benar ke aplikasi Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Pembaruan basis data gagal. Silakan laporkan masalah ini dan hapus penyimpanan untuk menggunakan aplikasi secara normal.</string>
+    <string name="error_dialog_tip_clear_storage">Anda dapat menghapus penyimpanan dengan membuka informasi aplikasi dan memilih Penyimpanan → Hapus penyimpanan.</string>
+    <string name="error_dialog_tip_offline_no_internet">Sepertinya Anda mencoba untuk sinkronisasi tanpa koneksi internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Koneksi ditolak, silakan periksa jika server Anda dapat diakses melalui peramban web.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Waktu koneksi habis, silakan periksa jika Anda terhubung ke internet. Ini mungkin juga terjadi ketika server Anda sedang sibuk.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Jika Anda mengaktifkan pengaturan \"Sinkronisasi saja pada Wi-Fi\", Anda hanya bisa menyinkronkan ketika Anda terhubung ke Wi-Fi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Jika menghentikan paksa mereka tidak membantu, Anda dapat mencoba untuk membersihkan penyimpanan kedua aplikasi.</string>
+    <string name="error_dialog_timeout_instance">Tidak ada respons dari server Anda dalam waktu yang diberikan. Pastikan instansi Anda berjalan dengan baik.</string>
+    <string name="error_dialog_timeout_toggle">Periksa koneksi jaringan Anda. Kadang-kadang mematikan dan menghidupkan kembali data seluler atau Wi-Fi dapat membantu.</string>
+    <string name="error_dialog_check_server_logs">Ada masalah dengan penyiapan Nextcloud Anda. Silakan lihat berkas log server.</string>
+    <string name="error_dialog_check_maintenance">Tolong periksa apakah instansi Nextcloud Anda saat ini tidak dalam mode pemeliharaan.</string>
+    <string name="error_dialog_insufficient_storage">Instansi Nextcloud Anda tidak memiliki penyimpanan gratis yang tersisa. Silakan hapus beberapa berkas untuk menyinkronkan perubahan lokal Anda ke cloud Anda.</string>
+    <string name="error_dialog_we_need_info">Kami membutuhkan informasi teknis berikut untuk membantu Anda.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Akun aplikasi Nextcloud Anda mungkin tidak lagi diotorisasi.</string>
+    <string name="error_dialog_user_not_found_in_database">Pengguna saat ini tidak cocok dengan pengguna yang ada di basis data kami. Jika Anda menggunakan LDAP pada instansi Nextcloud Anda, aplikasi Nextcloud Anda mungkin telah menyimpan identitas pengguna lama.</string>
+    <string name="error_dialog_capabilities_not_parsable">Kami tidak dapat memperoleh kemampuan server Anda. Pastikan server Anda berjalan dengan baik dan aplikasi klien lain dapat mengakses Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Lampiran tidak dapat diunggah. Silakan coba untuk membagikannya dengan cara lain dan beritahu kami tentang bug ini.</string>
+    <string name="error_dialog_certificate">Sepertinya ada yang salah dengan sertifikat server. Silakan periksa semua akun di aplikasi Nextcloud untuk informasi lebih lanjut.</string>
+    <string name="error_action_open_app_info">Buka Info Aplikasi</string>
+    <string name="error_action_open_nextcloud_app">Buka aplikasi Nextcloud</string>
+    <string name="error_action_open_network">Pengaturan jaringan</string>
+    <string name="error_action_open_in_browser">Buka di peramban</string>
+    <string name="error_action_install">Pasang</string>
+    <string name="error_action_report_issue">Laporan</string>
+    <string name="error_action_update_files_app">Perbarui</string>
+    <string name="error_action_open_battery_settings">Pengaturan baterai</string>
+
+    <string name="last_background_sync">Sinkronisasi latar belakang terakhir:</string>
+    <string name="simple_disabled">nonaktifkan</string>
+    </resources>
