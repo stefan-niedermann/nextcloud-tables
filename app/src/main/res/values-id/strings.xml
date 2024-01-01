@@ -16,6 +16,7 @@
     <string name="preferences">Preferensi</string>
     <string name="choose_account">Pilih akun</string>
     <string name="app_logo">Logo aplikasi</string>
+    <string name="app_name_short">Tabel</string>
     <string name="manage_accounts">Kelola akun</string>
     <string name="edit_item">Sunting %1$s</string>
     <string name="hint_error_appeared">Sebuah kesalahan muncul</string>
