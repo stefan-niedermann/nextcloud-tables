@@ -8,10 +8,10 @@
     <string name="simple_exception">Виняток</string>
     <string name="simple_save">Зберегти</string>
     <string name="simple_close">Закрити</string>
-    <string name="simple_copy">Копія</string>
+    <string name="simple_copy">Копіювати</string>
     <string name="simple_delete">Вилучити</string>
     <string name="simple_settings">Налаштування</string>
-    <string name="simple_about">Про програму</string>
+    <string name="simple_about">Про застосунок</string>
     <string name="simple_synchronization">Синхронізація</string>
     <string name="simple_appearance">Вигляд</string>
     <string name="simple_emoji">Емоційки</string>
