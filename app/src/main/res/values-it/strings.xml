@@ -63,7 +63,7 @@
     <string name="about_icons_disclaimer_title">Icone</string>
     <string name="about_icons_disclaimer_app_icon">Per l\'icona originale, vedi %1$s.</string>
     <string name="about_icons_disclaimer_mdi_icons">Tutte le altre icone utilizzate da questa applicazione sono %1$s realizzate da Google Inc. e rilasciate nei termini della licenza Apache 2.0.</string>
-    <string name="about_icons_disclaimer_mdi">Icone in Material Design</string>
+    <string name="about_icons_disclaimer_mdi">Icone Material Design</string>
     <string name="about_credits_tab_title">Riconoscimenti</string>
     <string name="about_contribution_tab_title">Contributi</string>
     <string name="about_license_tab_title">Licenza</string>
