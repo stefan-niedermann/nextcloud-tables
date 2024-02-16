@@ -140,7 +140,7 @@ public class AccountRepository {
                 account.setTablesVersion(tablesVersion);
                 account.setNextcloudVersion(nextcloudVersion);
                 account.setETag(response.headers().get("ETag"));
-                account.setColor(Color.parseColor(ColorUtil.INSTANCE.formatColorToParsableHexString(body.ocs.data.capabilities.theming.color)));
+                account.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities.theming.color)));
                 break;
             }
 

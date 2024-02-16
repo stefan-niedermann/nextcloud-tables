@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.Px;
 import androidx.fragment.app.FragmentManager;
 
 import java.time.LocalDate;
@@ -17,7 +18,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -68,7 +68,8 @@ public abstract class ColumnEditView extends FrameLayout {
                 FrameLayout.LayoutParams.WRAP_CONTENT
         );
 
-        layoutParams.setMargins(0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x), 0, DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x));
+        @Px final int verticalMargin = context.getResources().getDimensionPixelSize(R.dimen.spacer_1x);
+        layoutParams.setMargins(0, verticalMargin, 0, verticalMargin);
         setLayoutParams(layoutParams);
         addView(onCreate(context, data));
         requestLayout();

@@ -21,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.databinding.DialogAccountSwitcherBinding;
 import it.niedermann.nextcloud.tables.ui.importaccount.ImportAccountActivity;
@@ -78,7 +77,7 @@ public class AccountSwitcherDialog extends DialogFragment {
             binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
 
             Glide.with(requireContext())
-                    .load(account.getAvatarUrl(DimensionUtil.INSTANCE.dpToPx(binding.currentAccountItemAvatar.getContext(), R.dimen.avatar_size)))
+                    .load(account.getAvatarUrl(binding.currentAccountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                     .apply(RequestOptions.circleCropTransform())
                     .placeholder(R.drawable.ic_baseline_account_circle_24)
                     .error(R.drawable.ic_baseline_account_circle_24)

@@ -19,7 +19,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import it.niedermann.android.util.DimensionUtil;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -67,18 +66,19 @@ public class DateTimeEditor extends ColumnEditView {
         date = new DateTimeDateEditor(context, fragmentManager, column, dateData);
         time = new DateTimeTimeEditor(context, fragmentManager, column, timeData);
 
+        final var horizontalMargin = context.getResources().getDimensionPixelSize(R.dimen.spacer_1x);
         final var dateLayoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1
         );
-        dateLayoutParams.setMarginEnd(DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x));
+        dateLayoutParams.setMarginEnd(horizontalMargin);
         final var timeLayoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1
         );
-        timeLayoutParams.setMarginStart(DimensionUtil.INSTANCE.dpToPx(context, R.dimen.spacer_1x));
+        timeLayoutParams.setMarginStart(horizontalMargin);
 
         date.setLayoutParams(dateLayoutParams);
         time.setLayoutParams(timeLayoutParams);

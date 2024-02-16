@@ -57,6 +57,6 @@ public class ApiProvider<T> implements AutoCloseable {
 
     @Override
     public void close() {
-        this.nextcloudAPI.stop();
+        this.nextcloudAPI.close();
     }
 }
