@@ -71,7 +71,7 @@
     <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
-    <string name="error_dialog_tip_offline_no_internet">Det verkar som att du startade en synkronisering utan en internetanslutning.</string>
+    <string name="error_dialog_tip_offline_no_internet">Det ser ut som om du försökte starta en synkronisering utan en internetanslutning.</string>
     <string name="error_dialog_tip_offline_connection_refused">Anslutningen nekades, kontrollera att din server är nåbar i en webbläsare.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Anslutningen tog för lång tid, kontrollera om du är ansluten till internet. Detta kan också hända när din server är upptagen.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Om du har aktiverat \"Synkronisera enbart med Wi-Fi\" kan du bara synkronisera när du är ansluten till Wi-Fi.</string>
