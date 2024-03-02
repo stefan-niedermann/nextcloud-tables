@@ -21,7 +21,7 @@ public class EmojiDrawable extends Drawable {
 
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         canvas.drawText(emoji, 8, (float) getBounds().height() / 1.4f, paint);
     }
 
@@ -37,14 +37,11 @@ public class EmojiDrawable extends Drawable {
 
     @Override
     public int getOpacity() {
-        switch (paint.getAlpha()) {
-            case 0:
-                return PixelFormat.TRANSPARENT;
-            case 255:
-                return PixelFormat.OPAQUE;
-            default:
-                return PixelFormat.TRANSLUCENT;
-        }
+        return switch (paint.getAlpha()) {
+            case 0 -> PixelFormat.TRANSPARENT;
+            case 255 -> PixelFormat.OPAQUE;
+            default -> PixelFormat.TRANSLUCENT;
+        };
     }
 
 }

@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -11,6 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(
         inheritSuperIndices = true,
@@ -28,7 +30,7 @@ public class Table extends AbstractRemoteEntity {
     @ColumnInfo(defaultValue = "")
     private String title = "";
     @ColumnInfo(defaultValue = "")
-    private String emoji;
+    private String emoji = "";
     @ColumnInfo(defaultValue = "")
     private String ownership;
     @ColumnInfo(defaultValue = "")
@@ -85,12 +87,13 @@ public class Table extends AbstractRemoteEntity {
         this.title = title;
     }
 
+    @NonNull
     public String getEmoji() {
         return emoji;
     }
 
-    public void setEmoji(String emoji) {
-        this.emoji = emoji;
+    public void setEmoji(@Nullable String emoji) {
+        this.emoji = Optional.ofNullable(emoji).orElse("");
     }
 
     public String getOwnership() {
