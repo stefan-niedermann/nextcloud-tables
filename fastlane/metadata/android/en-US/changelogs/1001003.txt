@@ -1,1 +1,4 @@
 - fix: Prevents crash when table emoji is null
+- fix: Treat "null" as null for selection default
+- fix: Fix logging of Tables server app version
+- fix: Compatibility with "none" as default value for datetimes

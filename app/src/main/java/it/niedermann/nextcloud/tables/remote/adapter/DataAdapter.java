@@ -110,12 +110,27 @@ public class DataAdapter {
 
         switch (type) {
             case DATETIME:
-            case DATETIME_DATETIME:
+            case DATETIME_DATETIME: {
+                // Compat with Tables 0.5.x https://github.com/stefan-niedermann/nextcloud-tables/issues/18
+                if ("none".equals(value)) {
+                    return null;
+                }
                 return TextUtils.isEmpty(value) ? null : DateTimeFormatter.ISO_DATE_TIME.format(TablesAPI.FORMATTER_DATA_DATE_TIME.parse(value));
-            case DATETIME_DATE:
+            }
+            case DATETIME_DATE: {
+                // Compat with Tables 0.5.x https://github.com/stefan-niedermann/nextcloud-tables/issues/18
+                if ("none".equals(value)) {
+                    return null;
+                }
                 return TextUtils.isEmpty(value) ? null : DateTimeFormatter.ISO_DATE.format(TablesAPI.FORMATTER_DATA_DATE.parse(value));
-            case DATETIME_TIME:
+            }
+            case DATETIME_TIME: {
+                // Compat with Tables 0.5.x https://github.com/stefan-niedermann/nextcloud-tables/issues/18
+                if ("none".equals(value)) {
+                    return null;
+                }
                 return TextUtils.isEmpty(value) ? null : DateTimeFormatter.ISO_TIME.format(TablesAPI.FORMATTER_DATA_TIME.parse(value));
+            }
             case NUMBER:
             case NUMBER_PROGRESS:
             case NUMBER_STARS: {
