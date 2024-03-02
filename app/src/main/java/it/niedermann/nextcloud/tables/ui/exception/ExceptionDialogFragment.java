@@ -52,7 +52,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
 
         final var adapter = new TipsAdapter(actionIntent -> requireActivity().startActivity(actionIntent));
 
-        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwable, BuildConfig.FLAVOR, account == null ? null : String.valueOf(account.getNextcloudVersion()));
+        final String debugInfos = ExceptionUtil.getDebugInfos(requireContext(), throwable, BuildConfig.FLAVOR, account == null ? null : String.valueOf(account.getTablesVersion()));
 
         binding.tips.setAdapter(adapter);
         binding.stacktrace.setText(debugInfos);
