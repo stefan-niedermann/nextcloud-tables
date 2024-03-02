@@ -104,8 +104,7 @@ public abstract class ColumnEditView extends FrameLayout {
     protected void onRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
 
-        if (state instanceof Bundle) {
-            final var bundle = (Bundle) state;
+        if (state instanceof Bundle bundle) {
 
             if (bundle.containsKey(KEY_DATA)) {
                 this.data = (Data) bundle.getSerializable(KEY_DATA);
@@ -143,6 +142,7 @@ public abstract class ColumnEditView extends FrameLayout {
 
         private static final String DEFAULT_NOW = "now";
         private static final String DEFAULT_TODAY = "today";
+        private static final String DEFAULT_NULL = "null";
 
         @NonNull
         public ColumnEditView create(@NonNull EDataType dataType,
@@ -152,39 +152,25 @@ public abstract class ColumnEditView extends FrameLayout {
                                      @Nullable FragmentManager fragmentManager) {
             final Data dataToPass = ensureDataObjectPresent(column, data);
 
-            switch (dataType) {
-                case UNKNOWN:
-                    return new UnknownEditor(context, fragmentManager, column, dataToPass);
-                case TEXT_LINE:
-                    return new TextLineEditor(context, column, dataToPass);
-                case TEXT_LINK:
-                    return new TextLinkEditor(context, column, dataToPass);
-                case DATETIME_DATETIME:
-                case DATETIME:
-                    return new DateTimeEditor(context, fragmentManager, column, dataToPass);
-                case DATETIME_DATE:
-                    return new DateTimeDateEditor(context, fragmentManager, column, dataToPass);
-                case DATETIME_TIME:
-                    return new DateTimeTimeEditor(context, fragmentManager, column, dataToPass);
-                case NUMBER:
-                    return new NumberEditor(context, column, dataToPass);
-                case NUMBER_STARS:
-                    return new NumberStarsEditor(context, column, dataToPass);
-                case NUMBER_PROGRESS:
-                    return new NumberProgressEditor(context, column, dataToPass);
-                case SELECTION:
-                    return new SelectionEditor(context, column, dataToPass);
-                case SELECTION_MULTI:
-                    return new SelectionMultiEditor(context, column, dataToPass);
-                case SELECTION_CHECK:
-                    return new SelectionCheckEditor(context, column, dataToPass);
-                case TEXT_RICH:
-                case TEXT_LONG:
-                    return new TextRichEditor(context, column, dataToPass);
-                case TEXT:
-                default:
-                    return new TextEditor(context, null, column, dataToPass);
-            }
+            return switch (dataType) {
+                case UNKNOWN -> new UnknownEditor(context, fragmentManager, column, dataToPass);
+                case TEXT_LINE -> new TextLineEditor(context, column, dataToPass);
+                case TEXT_LINK -> new TextLinkEditor(context, column, dataToPass);
+                case DATETIME_DATETIME, DATETIME ->
+                        new DateTimeEditor(context, fragmentManager, column, dataToPass);
+                case DATETIME_DATE ->
+                        new DateTimeDateEditor(context, fragmentManager, column, dataToPass);
+                case DATETIME_TIME ->
+                        new DateTimeTimeEditor(context, fragmentManager, column, dataToPass);
+                case NUMBER -> new NumberEditor(context, column, dataToPass);
+                case NUMBER_STARS -> new NumberStarsEditor(context, column, dataToPass);
+                case NUMBER_PROGRESS -> new NumberProgressEditor(context, column, dataToPass);
+                case SELECTION -> new SelectionEditor(context, column, dataToPass);
+                case SELECTION_MULTI -> new SelectionMultiEditor(context, column, dataToPass);
+                case SELECTION_CHECK -> new SelectionCheckEditor(context, column, dataToPass);
+                case TEXT_RICH, TEXT_LONG -> new TextRichEditor(context, column, dataToPass);
+                default -> new TextEditor(context, null, column, dataToPass);
+            };
         }
 
         /**
@@ -224,28 +210,25 @@ public abstract class ColumnEditView extends FrameLayout {
                     return numberDefault == null ? null : String.valueOf(numberDefault);
                 }
                 case "selection":
-                    return column.getSelectionDefault();
+                    final var selectionDefault = column.getSelectionDefault();
+                    return DEFAULT_NULL.equals(selectionDefault)
+                            ? null : selectionDefault;
                 case "datetime": {
                     final var dateTimeDefault = column.getDatetimeDefault();
-                    switch (column.getSubtype()) {
-                        case "":
-                        case "datetime":
-                            return DEFAULT_NOW.equals(dateTimeDefault)
-                                    ? LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) : null;
-                        case "date":
-                            return DEFAULT_TODAY.equals(dateTimeDefault)
-                                    ? LocalDate.now().format(DateTimeFormatter.ISO_DATE) : null;
-                        case "time":
-                            return DEFAULT_NOW.equals(dateTimeDefault)
-                                    ? LocalTime.now().format(DateTimeFormatter.ISO_TIME) : null;
-                        default: {
+                    return switch (column.getSubtype()) {
+                        case "", "datetime" -> DEFAULT_NOW.equals(dateTimeDefault)
+                                ? LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) : null;
+                        case "date" -> DEFAULT_TODAY.equals(dateTimeDefault)
+                                ? LocalDate.now().format(DateTimeFormatter.ISO_DATE) : null;
+                        case "time" -> DEFAULT_NOW.equals(dateTimeDefault)
+                                ? LocalTime.now().format(DateTimeFormatter.ISO_TIME) : null;
+                        default -> {
                             if (FeatureToggle.STRICT_MODE.enabled) {
                                 throw new UnsupportedOperationException("Unexpected column " + column.getType() + " subtype: " + column.getSubtype());
                             }
-
-                            return null;
+                            yield null;
                         }
-                    }
+                    };
                 }
                 default: {
                     if (FeatureToggle.STRICT_MODE.enabled) {
