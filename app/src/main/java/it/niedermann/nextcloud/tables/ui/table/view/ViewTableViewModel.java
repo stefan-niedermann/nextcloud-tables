@@ -1,13 +1,12 @@
 package it.niedermann.nextcloud.tables.ui.table.view;
 
-import static androidx.lifecycle.Transformations.distinctUntilChanged;
-import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -18,6 +17,7 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
@@ -67,19 +67,24 @@ public class ViewTableViewModel extends AndroidViewModel {
                 return new MutableLiveData<>(new Pair<>(account, null));
             }
 
-            return map(switchMap(tablesRepository.getNotDeletedTable$(account.getCurrentTable()), this::getFullTable), fullTable -> new Pair<>(account, fullTable));
+            return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
+                    .flatMap(this::getFullTable)
+                    .map(fullTable -> new Pair<>(account, fullTable))
+                    .distinctUntilChanged();
         });
     }
 
-    public LiveData<FullTable> getFullTable(@NonNull Table table) {
-        return distinctUntilChanged(
-                new FullTableLiveData(
-                        table,
-                        tablesRepository.getNotDeletedRows$(table),
-                        tablesRepository.getNotDeletedColumns$(table),
-                        tablesRepository.getUsedSelectionOptions(table),
-                        tablesRepository.getData(table)
-                )
+    public LiveData<FullTable> getFullTable(@Nullable Table table) {
+        if (table == null) {
+            return new MutableLiveData<>(null);
+        }
+
+        return new FullTableLiveData(
+                table,
+                tablesRepository.getNotDeletedRows$(table),
+                tablesRepository.getNotDeletedColumns$(table),
+                tablesRepository.getUsedSelectionOptions(table),
+                tablesRepository.getData(table)
         );
     }
 
