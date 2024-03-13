@@ -14,6 +14,8 @@
     <string name="simple_about">Om</string>
     <string name="simple_appearance">Utseende</string>
     <string name="simple_mandatory">Obligatorisk</string>
+    <string name="simple_description">Beskrivning</string>
+
     <string name="edit_row">Redigera rad</string>
     <string name="edit_column">Redigera kolumn</string>
     <string name="delete_column">Radera kolumn</string>
