@@ -75,7 +75,7 @@ android {
 }
 
 ext {
-    version_nextcloud_commons = '2.1.0'
+    version_nextcloud_commons = '2.1.0-communis.2'
     version_glide = '4.16.0'
     version_room = '2.6.1'
     version_emoji = '1.4.0'
