@@ -100,6 +100,7 @@
     <string name="error_action_update_files_app">Uppdatera</string>
     <string name="error_action_open_battery_settings">Batteriinställningar</string>
 
+    <string name="welcome_text">Välkommen till Nextcloud Tabeller</string>
     <string name="reason_unknown">Ett okänt fel uppstod</string>
     <string name="order_weight">Beställningsvikt</string>
     <string name="add_column">Lägg till kolumn</string>
