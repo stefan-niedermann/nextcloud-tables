@@ -1,0 +1,87 @@
+<resources>
+    <string name="navigation_drawer_open">Abrir el caxón de navegación</string>
+    <string name="navigation_drawer_close">Zarrar el caxón de navegación</string>
+    <string name="action_settings">Configuración</string>
+
+    <string name="simple_title">Títulu</string>
+    <string name="simple_exception">Exceición</string>
+    <string name="simple_save">Guardar</string>
+    <string name="simple_close">Zarrar</string>
+    <string name="simple_copy">Copiar</string>
+    <string name="simple_delete">Desaniciar</string>
+    <string name="simple_settings">Configuración</string>
+    <string name="simple_about">Tocante a</string>
+    <string name="simple_synchronization">Sincronización</string>
+    <string name="simple_appearance">Aspeutu</string>
+    <string name="simple_description">Descripción</string>
+
+    <string name="add_table">Amestar una tabla</string>
+    <string name="add_row">Amestar una filera</string>
+    <string name="edit_row">Editar la filera</string>
+    <string name="manage_columns">Xestionar les columnes</string>
+    <string name="edit_column">Editar la columna</string>
+    <string name="delete_column">Desaniciar la columna</string>
+    <string name="preferences">Preferencies</string>
+    <string name="choose_account">Esbillar cuenta</string>
+    <string name="app_logo">Logotipu de l\'aplicación</string>
+    <string name="app_name_short">Tables</string>
+    <string name="manage_accounts">Xestionar cuentes</string>
+    <string name="add_account">Amestar una cuenta</string>
+    <string name="edit_table">Editar la tabla</string>
+    <string name="edit_item">Editar «%1$s»</string>
+    <string name="share_table">Compartir la tabla</string>
+    <string name="not_implemented">Esta función entá nun s\'implementó</string>
+    <string name="delete_table">Desaniciar la tabla</string>
+    <string name="hint_error_appeared">Prodúxose un error</string>
+
+    <string name="delete_item">Desaniciar «%1$s»</string>
+    <string name="delete_item_message">Esta aición va desaniciar permanentemente «%1$s».</string>
+    <string name="delete_row">Desanciar la filera</string>
+    <string name="delete_row_message">Esta aición va desaniciar permanentemente esta filera.</string>
+
+    <string name="pref_title_sync_background">Sincronización en segundu planu</string>
+    <string name="pref_title_theme">Estilu</string>
+
+    <string-array name="theme_entries">
+        <item>Claridá</item>
+        <item>Escuridá</item>
+    </string-array>
+
+    <string name="about">Tocante</string>
+    <string name="about_version_title">Versión</string>
+    <string name="about_version">Tas usando %1$s</string>
+    <string name="about_developers_title">Desendolcadores</string>
+    <string name="about_translators_title">Traductores</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Códigu fonte</string>
+    <string name="about_source">Esti proyeutu ta agospiáu en GitHub: %1$s</string>
+    <string name="about_issues_title">Problemes</string>
+    <string name="about_translate_title">Traducir</string>
+    <string name="about_translate">Xúnite al equipu de Nextcloud en Transifex y ayúdanos a traducir esta aplicación: %1$s</string>
+    <string name="about_app_license_title">Llicencia de l\'aplicación</string>
+    <string name="about_app_license">Esta aplicación ta llicenciada baxo la GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Ver la llicencia</string>
+    <string name="about_icons_disclaimer_title">Iconos</string>
+    <string name="about_icons_disclaimer_mdi">Iconos de Material Design</string>
+    <string name="about_credits_tab_title">Creitos</string>
+    <string name="about_contribution_tab_title">Collaboración</string>
+    <string name="about_license_tab_title">Llicencia</string>
+    <string name="about_server_app_version_text">Versión de l\'aplicación del sirvidor:</string>
+
+    <string name="error_dialog_title">Oh non - ¿Y agora qué? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Tenta de forciar el zarru de l\'aplicación y volvi aniciala. Quiciabes heba una conexón incorreuta cola aplicación de Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Si\'l problema sigue, prueba a borrar l\'almacenamientu de dambes aplicaciones: Nextcloud y Nextcloud Tables pa iguar esti problema.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">L\'anovamientu de la base de datos falló. Informa d\'esti problema y borrar l\'almacenamientu pa usar l\'aplicación con normalidá.</string>
+    <string name="error_action_open_app_info">Abrir la información de l\'aplicación</string>
+    <string name="error_action_open_nextcloud_app">Abrir l\'aplicación Nextcloud</string>
+    <string name="error_action_open_in_browser">Abrir nel restolador</string>
+    <string name="error_action_install">Instalar</string>
+    <string name="error_action_report_issue">Informar</string>
+    <string name="error_action_update_files_app">Anovar</string>
+    <string name="error_action_open_battery_settings">Configuración de la batería</string>
+
+    <string name="welcome_text">Afáyate en Nextcloud Tables</string>
+    <string name="account_already_imported">Yá s\'importó la cuenta</string>
+    <string name="reason_unknown">Asocedió un fallu desconocíu</string>
+    <string name="validation_text_link">El valor nun ye un enllaz</string>
+    </resources>
