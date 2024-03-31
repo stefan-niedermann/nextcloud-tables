@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud Tables</string>
     <string name="navigation_drawer_open">Abrir el caxón de navegación</string>
     <string name="navigation_drawer_close">Zarrar el caxón de navegación</string>
     <string name="action_settings">Configuración</string>
