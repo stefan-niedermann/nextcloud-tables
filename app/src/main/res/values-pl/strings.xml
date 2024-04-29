@@ -13,6 +13,8 @@
     <string name="simple_about">O aplikacji</string>
     <string name="simple_appearance">Wygląd</string>
     <string name="simple_mandatory">Obowiązkowe</string>
+    <string name="simple_description">Opis</string>
+
     <string name="add_table">Dodaj tabelę</string>
     <string name="edit_row">Edytuj wiersz</string>
     <string name="delete_column">Usuń kolumnę</string>
