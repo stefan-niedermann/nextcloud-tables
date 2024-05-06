@@ -29,6 +29,7 @@
     <string name="app_name_short">表格</string>
     <string name="manage_accounts">管理账号</string>
     <string name="add_account">添加账目</string>
+    <string name="edit_table">编辑表</string>
     <string name="edit_item">编辑 %1$s</string>
     <string name="delete_table">删除表格</string>
     <string name="hint_error_appeared">发生了一个错误</string>
