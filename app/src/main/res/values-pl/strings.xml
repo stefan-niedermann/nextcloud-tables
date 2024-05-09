@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Tabele Nextcloud</string>
     <string name="navigation_drawer_open">Otwórz panel nawigacji</string>
     <string name="navigation_drawer_close">Zamknij panel nawigacji</string>
     <string name="action_settings">Ustawienia</string>
@@ -11,12 +12,17 @@
     <string name="simple_delete">Usuń</string>
     <string name="simple_settings">Ustawienia</string>
     <string name="simple_about">O aplikacji</string>
+    <string name="simple_synchronization">Synchronizacja</string>
     <string name="simple_appearance">Wygląd</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obowiązkowe</string>
     <string name="simple_description">Opis</string>
 
     <string name="add_table">Dodaj tabelę</string>
+    <string name="add_row">Dodaj wiersz</string>
     <string name="edit_row">Edytuj wiersz</string>
+    <string name="manage_columns">Zarządzaj kolumnami</string>
+    <string name="edit_column">Edytuj kolumnę</string>
     <string name="delete_column">Usuń kolumnę</string>
     <string name="preferences">Preferencje</string>
     <string name="import_account">Importuj konto</string>
@@ -25,11 +31,18 @@
     <string name="app_name_short">Tabele</string>
     <string name="manage_accounts">Zarządzaj kontami</string>
     <string name="add_account">Dodaj konto</string>
+    <string name="edit_table">Edytuj tabelę</string>
     <string name="edit_item">Edytuj %1$s</string>
+    <string name="share_table">Udostępnij tabelę</string>
+    <string name="not_implemented">Ta funkcja nie została jeszcze zaimplementowana</string>
     <string name="delete_table">Usuń tabelę</string>
     <string name="hint_error_appeared">Wystąpił błąd</string>
 
     <string name="delete_item">Usuń %1$s</string>
+    <string name="delete_item_message">Spowoduje to trwałe usunięcie %1$s.</string>
+    <string name="delete_row">Usuń wiersz</string>
+    <string name="delete_row_message">Spowoduje to trwałe usunięcie tego wiersza.</string>
+
     <string name="pref_title_sync_only_wifi">Synchronizuj tylko przez Wi-Fi</string>
     <string name="pref_title_sync_background">Synchronizacja w tle</string>
     <string name="pref_title_theme">Motyw</string>
@@ -68,25 +81,33 @@
 
     <string name="error_dialog_title">O nie - co teraz? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Spróbuj wymusić zamknięcie aplikacji i uruchomić ją ponownie. Być może połączenie z aplikacją Nextcloud było nieprawidłowe.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jeśli problem będzie się powtarzał, spróbuj wyczyścić pamięć obu aplikacji: Nextcloud i Tabele Nextcloud, aby rozwiązać ten problem.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizacja bazy danych nie powiodła się. Zgłoś problem oraz wyczyść pamięć, aby ponownie korzystać z aplikacji.</string>
     <string name="error_dialog_tip_clear_storage">Możesz wyczyścić pamięć, otwierając informacje o aplikacji i wybierając Pamięć → Wyczyść pamięć podręczną.</string>
     <string name="error_dialog_tip_offline_no_internet">Wygląda na to, że próbowałeś uruchomić synchronizację bez połączenia z Internetem.</string>
     <string name="error_dialog_tip_offline_connection_refused">Połączenie zostało odrzucone, sprawdź, czy Twój serwer jest dostępny przez przeglądarkę internetową.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Upłynął limit czasu połączenia, sprawdź, czy masz połączenie z internetem. Może się to również zdarzyć, gdy serwer jest zajęty.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jeśli włączyłeś ustawienie \"Synchronizuj tylko przez Wi-Fi\", możesz synchronizować tylko wtedy, gdy masz połączenie z Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Wygląda na to, że coś jest nie tak z Twoją aplikacją Nextcloud. Spróbuj wymusić zatrzymanie zarówno aplikacji Nextcloud, jak i aplikacji Tabele Nextcloud.</string>
     <string name="error_dialog_tip_files_delete_storage">Jeśli nie pomoże ich zatrzymanie, możesz spróbować wyczyścić pamięć obu aplikacji.</string>
     <string name="error_dialog_timeout_instance">W określonym czasie nie było odpowiedzi z Twojego serwera. Upewnij się, że instancja działa poprawnie.</string>
     <string name="error_dialog_timeout_toggle">Sprawdź połączenie sieciowe. Czasami może pomóc wyłączenie i ponowne włączenie połączenia danych mobilnych lub Wi-Fi.</string>
+    <string name="error_dialog_check_server">Odpowiedź Twojego serwera była nieprawidłowa. Sprawdź, czy możesz uzyskać dostęp do aplikacji Tabele za pośrednictwem interfejsu internetowego.</string>
     <string name="error_dialog_check_server_logs">Wystąpił problem z konfiguracją Nextcloud. Zajrzyj do plików dziennika serwera.</string>
     <string name="error_dialog_check_maintenance">Sprawdź, czy Twoja instancja Nextcloud nie jest obecnie w trybie konserwacji.</string>
     <string name="error_dialog_insufficient_storage">W Twojej instancji Nextcloud nie ma już wolnego miejsca. Usuń niektóre pliki, aby zsynchronizować lokalne zmiany w chmurze.</string>
     <string name="error_dialog_we_need_info">Potrzebujemy następujących informacji technicznych, aby Tobie pomóc:</string>
+    <string name="error_dialog_redirect">Twój serwer odpowiedział kodem stanu HTTP 302, co oznacza, że nie masz zainstalowanej aplikacji Tabele na serwerze lub coś jest źle skonfigurowane. Może to być spowodowane niestandardowymi przekierowaniami pliku .htaccess lub aplikacjami Nextcloud, takimi jak OID Client.</string>
+    <string name="error_dialog_forbidden">Nie masz wystarczających uprawnień. Sprawdź tabele, które zostały Ci udostępnione i zostały ostatnio zmienione.</string>
+    <string name="error_dialog_version_not_parsable">Nie mogliśmy określić wersji aplikacji Tabele po stronie serwera. Upewnij się, że jest zainstalowana i włączona.</string>
     <string name="error_dialog_account_might_not_be_authorized">Konto Twojej aplikacji Nextcloud może nie być już autoryzowane.</string>
     <string name="error_dialog_user_not_found_in_database">Bieżący użytkownik nie jest zgodny z użytkownikiem, którego mamy w naszej bazie danych. Jeśli używasz protokołu LDAP w swojej instancji Nextcloud, to Twoja aplikacja Nextcloud może przechowywać stary ID użytkownika.</string>
     <string name="error_dialog_capabilities_not_parsable">Nie udało się sprawdzić możliwości Twojego serwera. Upewnij się, że serwer działa poprawnie oraz czy inne aplikacje klienckie mają dostęp do Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Nie można wysłać załącznika. Spróbuj udostępnić go w inny sposób oraz powiadom nas o tym błędzie.</string>
     <string name="error_dialog_certificate">Wydaje się, że coś jest nie tak z certyfikatem serwera. Aby uzyskać więcej informacji, sprawdź wszystkie konta w aplikacji Nextcloud.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Wyłącz wszystkie optymalizacje baterii dla Nextcloud i aplikacji Tabel.</string>
     <string name="error_dialog_unknown_error">Twoja instancja Nextcloud wydaje się być nieosiągalna. Sprawdź swoje połączenie internetowe oraz czy możesz połączyć się z instancją za pomocą przeglądarki.</string>
+    <string name="error_dialog_min_version">Aplikacja Tabele na Androida wymaga aplikacji Nextcloud na Androida w wersji co najmniej 3.18.</string>
     <string name="error_action_open_app_info">Otwórz informacje o aplikacji</string>
     <string name="error_action_open_nextcloud_app">Otwórz aplikację Nextcloud</string>
     <string name="error_action_open_network">Ustawienia sieci</string>
@@ -97,11 +118,47 @@
     <string name="error_action_update_files_app">Aktualizuj</string>
     <string name="error_action_open_battery_settings">Ustawienia baterii</string>
 
+    <string name="welcome_text">Witamy w Tabelach Nextcloud</string>
+    <string name="importing_account">Importowanie konta %1$s</string>
+    <string name="account_already_imported">Konto zostało już zaimportowane</string>
+    <string name="import_state_import_account">Importowanie konta</string>
+    <string name="import_state_import_tables">Importowanie tabel. To może zająć kilka minut.</string>
+    <string name="not_yet_synchronized">Jeszcze nie zsynchronizowane</string>
+
+    <string name="reason_not_installed">Tabele Nextcloud nie są zainstalowane</string>
+    <string name="reason_not_enabled">Tabele Nextcloud nie są włączone</string>
+    <string name="reason_maintenance_mode">Twoja instancja Nextcloud jest obecnie w trybie konserwacji</string>
+    <string name="reason_server_error">Twój serwer odpowiedział nieprawidłową odpowiedzią</string>
+    <string name="reason_tables_not_supported">Twoja wersja aplikacji Tabele Nextcloud nie jest obsługiwana</string>
+    <string name="reason_nextcloud_not_supported">Twoja wersja Nextcloud nie jest obsługiwana</string>
     <string name="reason_unknown">Wystąpił nieznany błąd</string>
+    <string name="reason_offline">Obecnie jesteś w trybie offline</string>
+
+    <string name="missing_permission_read">Brak uprawnień do odczytu</string>
+    <string name="missing_permission_create">Brak uprawnień do tworzenia</string>
+    <string name="missing_permission_update">Brak uprawnień do aktualizacji</string>
+    <string name="missing_permission_delete">Brak uprawnień do usuwania</string>
+    <string name="missing_permission_manage">Brak uprawnień do zarządzania</string>
+
+    <string name="validation_number_not_parsable">Wartość wydaje się nie być liczbą</string>
+    <string name="validation_number_range">Wartość musi znajdować się pomiędzy %1$s i %2$s</string>
+    <string name="validation_number_min">Wartość musi wynosić co najmniej %1$s</string>
+    <string name="validation_number_max">Wartość musi wynosić co najwyżej %1$s</string>
+    <string name="validation_text_link">Wartość nie jest łączem</string>
+    <string name="validation_mandatory">Jest to pole obowiązkowe</string>
+    <string name="validation_time_missing">W polu DateTime należy podać godzinę.</string>
+
     <string name="order_weight">Kolejność znaczenia</string>
     <string name="add_column">Dodaj kolumnę</string>
+    <string name="unsupported_column_type">Edytowanie kolumn typu %1$s nie jest jeszcze obsługiwane.</string>
     <string name="navigation_my_tables">Moje tabele</string>
     <string name="navigation_shared_tables">Wspólne tabele</string>
+    <string name="could_not_display_column_editor">Nie można było wyświetlić %1$s.</string>
+    <string name="choose_table_from_the_sidebar">Wybierz tabelę z paska bocznego</string>
     <string name="last_background_sync">Ostatnia synchronizacja w tle:</string>
     <string name="simple_disabled">wyłączony</string>
-    </resources>
+    <string name="manage_columns_subtitle">Przeciągnij i upuść, aby zmienić kolejność</string>
+
+    <string name="experimental_feature_column_reordering">Zmiana kolejności kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji kolumn tej tabeli.</string>
+    <string name="experimental_feature_column_manage">Edycja kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji tej kolumny.</string>
+</resources>
