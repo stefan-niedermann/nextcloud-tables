@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Tabelle Nextcloud</string>
     <string name="navigation_drawer_open">Apri il cassetto di navigazione</string>
     <string name="navigation_drawer_close">Chiudi il cassetto di navigazione</string>
     <string name="action_settings">Impostazioni</string>
@@ -20,6 +21,8 @@
     <string name="add_table">Aggiungi tabella</string>
     <string name="add_row">Aggiungi riga</string>
     <string name="edit_row">Modifica riga</string>
+    <string name="manage_columns">Gestisci colonne</string>
+    <string name="edit_column">Modifica colonna</string>
     <string name="delete_column">Elimina colonna</string>
     <string name="preferences">Preferenze</string>
     <string name="import_account">Importa account</string>
@@ -28,11 +31,18 @@
     <string name="app_name_short">Tabelle</string>
     <string name="manage_accounts">Gestisci account</string>
     <string name="add_account">Aggiungi account</string>
+    <string name="edit_table">Modifica tabella</string>
     <string name="edit_item">Modifica %1$s</string>
+    <string name="share_table">Condividi tabella</string>
+    <string name="not_implemented">Questa funzionalità non è ancora stata implementata</string>
     <string name="delete_table">Elimina tabella</string>
     <string name="hint_error_appeared">Si è verificato un errore</string>
 
     <string name="delete_item">Elimina %1$s</string>
+    <string name="delete_item_message">Questa azione eliminerà permanentemente %1$s.</string>
+    <string name="delete_row">Elimina riga</string>
+    <string name="delete_row_message">Questa azione eliminerà permanentemente la riga.</string>
+
     <string name="pref_title_sync_only_wifi">Sincronizza solo con Wi-Fi</string>
     <string name="pref_title_sync_background">Sincronizzazione in background</string>
     <string name="pref_title_theme">Tema</string>
@@ -100,9 +110,42 @@
     <string name="error_action_update_files_app">Aggiorna</string>
     <string name="error_action_open_battery_settings">Impostazioni batteria</string>
 
+    <string name="welcome_text">Ti diamo il benvenuto in Nextcloud Tables</string>
+    <string name="importing_account">Importazione account %1$s</string>
+    <string name="account_already_imported">Account già importato</string>
+    <string name="import_state_import_account">Importazione account</string>
+    <string name="import_state_import_tables">Importazione tabelle in corso. L\'operazione può richiedere alcuni minuti.</string>
+    <string name="not_yet_synchronized">Sincronizzazione non ancora avvenuta</string>
+
+    <string name="reason_not_installed">Nextcloud Tables non è installato</string>
+    <string name="reason_not_enabled">Nextcloud Tables non è abilitato</string>
+    <string name="reason_maintenance_mode">La tua istanza Nextcloud è attualmente in modalità manutenzione</string>
+    <string name="reason_server_error">Il tuo server ha dato una risposta invalida</string>
+    <string name="reason_tables_not_supported">La versione della tua app Nextcloud Tables non è supportata</string>
+    <string name="reason_nextcloud_not_supported">La tua versione di Nextcloud non è supportata</string>
     <string name="reason_unknown">Si è verificato un errore sconosciuto</string>
+    <string name="reason_offline">Sei offline.</string>
+
+    <string name="missing_permission_read">Permesso di lettura mancante</string>
+    <string name="missing_permission_create">Permesso di creazione mancante</string>
+    <string name="missing_permission_update">Permesso di aggiornamento mancante</string>
+    <string name="missing_permission_delete">Permesso di eliminazione mancante</string>
+    <string name="missing_permission_manage">Permesso di gestione mancante</string>
+
+    <string name="validation_number_not_parsable">Il valore non risulta essere un numero</string>
+    <string name="validation_number_range">Il valore deve essere compreso tra %1$s e %2$s</string>
+    <string name="validation_number_min">Il valore deve essere almeno %1$s</string>
+    <string name="validation_number_max">Il valore può essere al massimo %1$s</string>
+    <string name="validation_text_link">Il valore non rappresenta un link</string>
+    <string name="validation_mandatory">Questo campo è obbligatorio</string>
     <string name="order_weight">Peso normale</string>
     <string name="add_column">Aggiungi colonna</string>
+    <string name="unsupported_column_type">La modifica di colonne di tipo %1$s non è ancora supportata</string>
+    <string name="navigation_my_tables">Le mie tabelle</string>
+    <string name="navigation_shared_tables">Tabelle condivise</string>
+    <string name="could_not_display_column_editor">%1$s non può essere visualizzato.</string>
     <string name="last_background_sync">Ultima sincronizzazione in background:</string>
     <string name="simple_disabled">disabilitato</string>
+    <string name="manage_columns_subtitle">Trascina e rilascia per riordinare</string>
+
     </resources>
