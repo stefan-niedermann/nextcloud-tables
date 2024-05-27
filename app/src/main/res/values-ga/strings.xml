@@ -1,0 +1,164 @@
+<resources>
+    <string name="app_name">Táblaí Nextcloud</string>
+    <string name="navigation_drawer_open">Oscail tarraiceán nascleanúna</string>
+    <string name="navigation_drawer_close">Dún tarraiceán nascleanúna</string>
+    <string name="action_settings">Socruithe</string>
+
+    <string name="simple_title">Teideal</string>
+    <string name="simple_exception">Eisceacht</string>
+    <string name="simple_save">Sábháil</string>
+    <string name="simple_close">Dún</string>
+    <string name="simple_copy">Cóipeáil</string>
+    <string name="simple_delete">Scrios</string>
+    <string name="simple_settings">Socruithe</string>
+    <string name="simple_about">Faoi</string>
+    <string name="simple_synchronization">Sioncrónú</string>
+    <string name="simple_appearance">Dealramh</string>
+    <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">Éigeantach</string>
+    <string name="simple_description">Cur síos</string>
+
+    <string name="add_table">Cuir tábla leis</string>
+    <string name="add_row">Cuir ró</string>
+    <string name="edit_row">Cuir ró in eagar</string>
+    <string name="manage_columns">Bainistigh colúin</string>
+    <string name="edit_column">Cuir colún in eagar</string>
+    <string name="delete_column">Scrios colún</string>
+    <string name="preferences">Roghanna</string>
+    <string name="import_account">Iompórtáil cuntas</string>
+    <string name="choose_account">Roghnaigh cuntas</string>
+    <string name="app_logo">Lógó app</string>
+    <string name="app_name_short">Táblaí</string>
+    <string name="manage_accounts">Bainistigh cuntais</string>
+    <string name="add_account">Cuir cuntas leis</string>
+    <string name="edit_table">Cuir tábla in eagar</string>
+    <string name="edit_item">Cuir %1$s in eagar</string>
+    <string name="share_table">Comhroinn tábla</string>
+    <string name="not_implemented">Níl an ghné seo curtha i bhfeidhm fós</string>
+    <string name="delete_table">Scrios tábla</string>
+    <string name="hint_error_appeared">Tharla earráid</string>
+
+    <string name="delete_item"> Scrios%1$s</string>
+    <string name="delete_item_message">Scriosfaidh sé seo %1$s go buan.</string>
+    <string name="delete_row">Scrios ró</string>
+    <string name="delete_row_message">Scriosfaidh sé seo an ró seo go buan.</string>
+
+    <string name="pref_title_sync_only_wifi">Sioncronaigh ar Wi-Fi amháin</string>
+    <string name="pref_title_sync_background">Sioncronú cúlra</string>
+    <string name="pref_title_theme">Téama</string>
+
+    <string-array name="theme_entries">
+        <item>Réamhshocrú Córais</item>
+        <item>Solas</item>
+        <item>Dorcha</item>
+    </string-array>
+
+    <string name="about">Faoi</string>
+    <string name="about_version_title">Leagan</string>
+    <string name="about_version">Tá tú ag úsáid faoi láthair %1$s</string>
+    <string name="about_maintainer_title">Cothaitheoir</string>
+    <string name="about_developers_title">Forbróirí</string>
+    <string name="about_translators_title">Aistritheoirí</string>
+    <string name="about_translators_transifex">Pobal Nextcloud ar %1$s</string>
+    <string name="about_translators_transifex_label">Trasifeacs</string>
+    <string name="about_source_title">Cód foinse</string>
+    <string name="about_source">Tá an tionscadal seo á óstáil ar GitHub: %1$s</string>
+    <string name="about_issues_title">Saincheisteanna</string>
+    <string name="about_issues">Is féidir leat fabhtanna, moltaí feabhsúcháin agus iarratais ar ghnéithe a thuairisciú ag an rianaire eisiúna GitHub: %1$s</string>
+    <string name="about_translate_title">Aistrigh</string>
+    <string name="about_translate">Bí ar fhoireann Nextcloud ar Transifex agus cuidigh linn an aip seo a aistriú: %1$s</string>
+    <string name="about_app_license_title">Ceadúnas app</string>
+    <string name="about_app_license">Tá an feidhmchlár seo ceadúnaithe faoin GNU GENERAL PUBLIC LICENCE v3+.</string>
+    <string name="about_app_license_button">Féach ar cheadúnas</string>
+    <string name="about_icons_disclaimer_title">Deilbhíní</string>
+    <string name="about_icons_disclaimer_app_icon">Le haghaidh an deilbhín bunaidh féach%1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Gach deilbhín eile a úsáideann an aip seo %1$s déanta ag Google Inc. agus ceadúnaithe faoi Cheadúnas Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Deilbhíní Dearaidh Ábhar</string>
+    <string name="about_credits_tab_title">Creidmheasanna</string>
+    <string name="about_contribution_tab_title">Ranníocaíocht</string>
+    <string name="about_license_tab_title">Ceadúnas</string>
+    <string name="about_server_app_version_text">Leagan feidhmchláir an fhreastalaí:</string>
+
+    <string name="error_dialog_title">Ó ní hea - Cad anois? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Déan iarracht iallach a chur ar an aip a dhúnadh agus í a atosú arís le do thoil. Seans go raibh nasc mícheart leis an aip Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Má leanann an cheist, déan iarracht stóráil an dá apps a ghlanadh: Nextcloud agus Nextcloud Tables chun an cheist seo a réiteach.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Theip ar uasghrádú an bhunachair sonraí. Tuairiscigh an fhadhb le do thoil agus glan an stóras chun an aip a úsáid de ghnáth.</string>
+    <string name="error_dialog_tip_clear_storage">Is féidir leat an stóráil a ghlanadh tríd an eolas app a oscailt agus Stóráil → Stóráil Glan a roghnú.</string>
+    <string name="error_dialog_tip_offline_no_internet">Tá an chuma ar an scéal go ndearna tú iarracht sioncrónú a spreagadh gan nasc idirlín.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Diúltaíodh don nascadh, seiceáil an bhfuil do fhreastalaí insroichte trí bhrabhsálaí gréasáin.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Chuaigh an t-am istigh, seiceáil an bhfuil tú nasctha leis an idirlíon le do thoil. D\'fhéadfadh sé seo tarlú freisin nuair a bhíonn do fhreastalaí gnóthach.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Má tá an socrú \"Sync only on Wi-Fi\" cumasaithe agat, ní féidir leat sioncrónú ach amháin nuair atá tú ceangailte le Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Is cosúil go bhfuil rud éigin cearr le d’aip Nextcloud. Déan iarracht le do thoil stop a chur leis an dá, an aip Nextcloud agus an aip Nextcloud Táblaí.</string>
+    <string name="error_dialog_tip_files_delete_storage">Más rud é nach bhfeidhm chun stop a chur leo cabhrú, is féidir leat triail a ghlanadh a stóráil an dá apps.</string>
+    <string name="error_dialog_timeout_instance">Ní raibh freagra ó do fhreastalaí san am tugtha. Cinntigh le do thoil go bhfuil do chás ag feidhmiú go maith.</string>
+    <string name="error_dialog_timeout_toggle">Seiceáil do nasc líonra. Uaireanta is féidir cabhrú le scoránú na sonraí soghluaiste nó Wi-Fi as agus ar aghaidh.</string>
+    <string name="error_dialog_check_server">Ní raibh freagra do fhreastalaí ceart. Seiceáil le do thoil an féidir leat rochtain a fháil ar an aip Tables trí chomhéadan gréasáin.</string>
+    <string name="error_dialog_check_server_logs">Tá fadhb ann le do shocrú Nextcloud. Breathnaigh le do thoil ar chomhaid logála an fhreastalaí.</string>
+    <string name="error_dialog_check_maintenance">Seiceáil le do thoil an bhfuil do shampla Nextcloud i mód cothabhála faoi láthair.</string>
+    <string name="error_dialog_insufficient_storage">Níl aon stóras saor in aisce fágtha ag do shampla Nextcloud. Scrios roinnt comhad chun d\'athruithe áitiúla a shioncronú isteach i do néal.</string>
+    <string name="error_dialog_we_need_info">Tá an fhaisnéis theicniúil seo a leanas ag teastáil uainn chun cabhrú leat:</string>
+    <string name="error_dialog_redirect">D\'fhreagair do fhreastalaí le cód stádais HTTP 302, rud a thugann le tuiscint, nach bhfuil an aip Táblaí suiteáilte agat ar do fhreastalaí nó go bhfuil rud éigin míchumraithe. Is féidir é seo a bheith mar chúis le sáruithe saincheaptha i gcomhad .htaccess nó trí apps Nextcloud cosúil le Cliant OID.</string>
+    <string name="error_dialog_forbidden">Níl dóthain ceadanna agat. Seiceáil na táblaí a roinntear leat agus a athraíodh le déanaí le do thoil.</string>
+    <string name="error_dialog_version_not_parsable">Níorbh fhéidir linn an leagan den aip Táblaí taobh an fhreastalaí a chinneadh. Cinntigh le do thoil go bhfuil sé suiteáilte agus cumasaithe.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Seans nach bhfuil cuntas d’aip Nextcloud údaraithe a thuilleadh.</string>
+    <string name="error_dialog_user_not_found_in_database">Ní mheaitseálann an t-úsáideoir reatha an t-úsáideoir atá inár mbunachar sonraí. Má tá LDAP á úsáid agat ar do shampla Nextcloud, seans go raibh seanaitheantas úsáideora stóráilte ag d’aip Nextcloud.</string>
+    <string name="error_dialog_capabilities_not_parsable">Níorbh fhéidir linn cumais do fhreastalaí a fháil. Cinntigh le do thoil go bhfuil do fhreastalaí ag rith go maith agus go bhfuil aipeanna cliaint eile in ann rochtain a fháil ar Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Níorbh fhéidir ceangaltán a uaslódáil. Déan iarracht é a roinnt ar bhealach eile agus cuir in iúl dúinn faoin bhfabht seo.</string>
+    <string name="error_dialog_certificate">Is cosúil go bhfuil rud éigin cearr le teastas an fhreastalaí. Seiceáil na cuntais go léir san aip Nextcloud le haghaidh tuilleadh faisnéise.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Díchumasaigh gach leas iomlán a bhaint ceallraí le haghaidh Nextcloud agus an aip Táblaí le do thoil. </string>
+    <string name="error_dialog_unknown_error">Is cosúil nach féidir teacht ar do shampla Nextcloud. Seiceáil do nasc idirlín agus seiceáil an bhfuil tú in ann nascadh le do chás trí bhrabhsálaí le do thoil.</string>
+    <string name="error_dialog_min_version">Éilíonn an aip Táblaí Android go bhfuil an aip Android Nextcloud ar a laghad leagan 3.18.</string>
+    <string name="error_action_open_app_info">Oscail eolas Aip</string>
+    <string name="error_action_open_nextcloud_app">Oscail an aip Nextcloud</string>
+    <string name="error_action_open_network">Socruithe líonra</string>
+    <string name="error_action_server_logs">Logs freastalaí</string>
+    <string name="error_action_open_in_browser">Oscail sa bhrabhsálaí</string>
+    <string name="error_action_install">Suiteáil</string>
+    <string name="error_action_report_issue">Tuairisc</string>
+    <string name="error_action_update_files_app">Nuashonrú</string>
+    <string name="error_action_open_battery_settings">Socruithe ceallraí</string>
+
+    <string name="welcome_text">Fáilte go dtí Nextcloud Táblaí</string>
+    <string name="importing_account">Cuntas á iompórtáil%1$s</string>
+    <string name="account_already_imported">Tá an cuntas iompórtáilte cheana féin</string>
+    <string name="import_state_import_account">Cuntas á iompórtáil</string>
+    <string name="import_state_import_tables">Táblaí á n-iompórtáil. Féadfaidh sé seo roinnt nóiméad a ghlacadh.</string>
+    <string name="not_yet_synchronized">Gan sioncronaithe fós</string>
+
+    <string name="reason_not_installed">Níl Nextcloud Táblaí suiteáilte</string>
+    <string name="reason_not_enabled">Níl Nextcloud Táblaí cumasaithe</string>
+    <string name="reason_maintenance_mode">Tá do shampla Nextcloud i mód cothabhála faoi láthair</string>
+    <string name="reason_server_error">D\'fhreagair do fhreastalaí le freagra neamhbhailí</string>
+    <string name="reason_tables_not_supported">Ní thacaítear le do leagan den aip Nextcloud Táblaí</string>
+    <string name="reason_nextcloud_not_supported">Ní thacaítear le do leagan Nextcloud</string>
+    <string name="reason_unknown">Tharla earráid anaithnid</string>
+    <string name="reason_offline">Tá tú as líne faoi láthair.</string>
+
+    <string name="missing_permission_read">Cead léite ar iarraidh</string>
+    <string name="missing_permission_create">Cead cruthaithe in easnamh</string>
+    <string name="missing_permission_update">Cead nuashonraithe in easnamh</string>
+    <string name="missing_permission_delete">Cead scriosta in easnamh</string>
+    <string name="missing_permission_manage">Cead bainistithe in easnamh</string>
+
+    <string name="validation_number_not_parsable">Is cosúil nach uimhir an luach</string>
+    <string name="validation_number_range">Caithfidh an luach a bheith idir %1$s agus %2$s</string>
+    <string name="validation_number_min">Caithfidh an luach a bheith %1$s ar a laghad</string>
+    <string name="validation_number_max">Caithfidh an luach a bheith %1$s ar a mhéad</string>
+    <string name="validation_text_link">Ní nasc é an luach</string>
+    <string name="validation_mandatory">Is réimse éigeantach é seo</string>
+    <string name="validation_time_missing">Ní mór am a sholáthar do réimse DateTime.</string>
+
+    <string name="order_weight">Ordú meáchan</string>
+    <string name="add_column">Cuir colún leis</string>
+    <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
+    <string name="navigation_my_tables">Mo táblaí</string>
+    <string name="navigation_shared_tables">Táblaí roinnte</string>
+    <string name="could_not_display_column_editor">Níorbh fhéidir %1$s a thaispeáint.</string>
+    <string name="choose_table_from_the_sidebar">Roghnaigh tábla ón taobhbharra</string>
+    <string name="last_background_sync">Sioncronú cúlra is déanaí:</string>
+    <string name="simple_disabled">faoi ​​mhíchumas</string>
+    <string name="manage_columns_subtitle">Tarraing agus scaoil chun athordú</string>
+
+    <string name="experimental_feature_column_reordering">Is gné thurgnamhach é colúin a athordú a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile de cholúin an tábla seo freisin.</string>
+    <string name="experimental_feature_column_manage">Is gné thurgnamhach é eagarthóireacht na gcolún a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile den cholún seo freisin.</string>
+</resources>
