@@ -95,7 +95,7 @@
     <string name="error_dialog_check_server">The response of your server was not correct. Please check whether you can access the Tables app via web interface.</string>
     <string name="error_dialog_check_server_logs"> مشکلی در نصب ابر Nextcloud وجود دارد. لطفا لاگ‌های سرور را بررسی کنید.</string>
     <string name="error_dialog_check_maintenance">لطفا بررسی کنید که نسخه نکست‌کلود شما در حال حاضر در حالت تعمیر و نگهداری نباشد.</string>
-    <string name="error_dialog_insufficient_storage">نمونه ابرسانا شما فضای ذخیره ای رایگان ندارد. لطفاً چند فایل را حذف کنید تا تغییرات محلی خود را در ابر خود همگام سازی کنید.</string>
+    <string name="error_dialog_insufficient_storage">نمونه نکست‌کلود شما دیگر فضای ذخیرهٔ خالی ندارد. لطفاً تعدادی پرونده را حذف کنید تا تغییرات محلی‌تان با فضای ابری همگام شود.</string>
     <string name="error_dialog_we_need_info">برای کمک به شما به اطلاعات فنی زیر نیاز داریم:</string>
     <string name="error_dialog_redirect">Your server did respond with a HTTP 302 status code, which implies, that you do not have installed the Tables app on your server or something is misconfigured. This can be caused by custom overrides in a .htaccess-file or by Nextcloud apps like OID Client.</string>
     <string name="error_dialog_forbidden">You have insufficient permissions. Please check tables which are shared to you and have been changed recently.</string>
