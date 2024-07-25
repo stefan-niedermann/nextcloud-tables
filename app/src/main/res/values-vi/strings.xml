@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Bảng Nextcloud</string>
     <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
     <string name="navigation_drawer_close">Đóng ngăn điều hướng</string>
     <string name="action_settings">Cài đặt</string>
