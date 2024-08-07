@@ -1,0 +1,92 @@
+<resources>
+    <string name="navigation_drawer_open">Abirr la barra de navegación</string>
+    <string name="navigation_drawer_close">Cerrar la barra de navegación</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="simple_exception">Excepción</string>
+    <string name="simple_save">Guardar</string>
+    <string name="simple_close">Cerrar</string>
+    <string name="simple_copy">Copiar</string>
+    <string name="simple_delete">Eliminar</string>
+    <string name="simple_settings">Ajustes</string>
+    <string name="simple_about">Acerca</string>
+    <string name="simple_appearance">Apariencia</string>
+    <string name="simple_description">Descripción</string>
+
+    <string name="preferences">Preferencias</string>
+    <string name="import_account">Importar cuenta</string>
+    <string name="choose_account">Elige la cuenta</string>
+    <string name="app_logo">Logotipo de la aplicación</string>
+    <string name="manage_accounts">Administrar cuentas</string>
+    <string name="add_account">Añadir cuenta</string>
+    <string name="edit_item">Editar %1$s</string>
+    <string name="hint_error_appeared">Ha ocurrido un error</string>
+
+    <string name="delete_item">Eliminar %1$s</string>
+    <string name="pref_title_sync_only_wifi">Sincronizar solo con Wi-Fi</string>
+    <string name="pref_title_sync_background">Sincronización en segundo plano</string>
+    <string-array name="theme_entries">
+        <item>Configuración predeterminada del sistema</item>
+        <item>Oscuro</item>
+    </string-array>
+
+    <string name="about">Acerca</string>
+    <string name="about_version_title">Versión</string>
+    <string name="about_version">Actualmente está utilizando %1$s</string>
+    <string name="about_maintainer_title">Equipo de mantenimiento</string>
+    <string name="about_developers_title">Desarrolladores</string>
+    <string name="about_translators_title">Traductores</string>
+    <string name="about_translators_transifex">Comunidad de Nextcloud en %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Código fuente</string>
+    <string name="about_source">Este proyecto está alojado en GitHub: %1$s</string>
+    <string name="about_issues_title">Temas</string>
+    <string name="about_issues">Puede informar de errores, proponer mejoras y solicitar nuevas características en el rastreador de problemas de GitHub: %1$s</string>
+    <string name="about_translate_title">Traducir</string>
+    <string name="about_translate">Únase al equipo de Nextcloud en Transifex y ayúdanos a traducir esta aplicación: %1$s</string>
+    <string name="about_app_license_title">Licencia de la aplicación</string>
+    <string name="about_app_license">Esta aplicación está licenciada bajo la LICENCIA GENERAL PUBLICA GNU v3+</string>
+    <string name="about_app_license_button">Ver licencia</string>
+    <string name="about_icons_disclaimer_title">Íconos</string>
+    <string name="about_icons_disclaimer_app_icon">Para el icono original, consulte %1$s.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Todos los demás íconos utilizados por esta aplicación son %1$s creados por Google Inc. y con licencia Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Iconos Material Design</string>
+    <string name="about_credits_tab_title">Créditos</string>
+    <string name="about_contribution_tab_title">Contribución</string>
+    <string name="about_license_tab_title">Licencia</string>
+    <string name="about_server_app_version_text">Versión de la aplicación del servidor:</string>
+
+    <string name="error_dialog_title">¡Oh no! ¿Y ahora qué? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Por favor, intenta cerrar forzosamente la aplicación y reiniciarla nuevamente. Puede haber habido una conexión incorrecta con la aplicación Nextcloud.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Falló la actualización de la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
+    <string name="error_dialog_tip_clear_storage">Puede limpiar el almacenamiento abriendo la información de la aplicación y seleccionando Almacenamiento → Limpiar almacenamiento.</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que intentaste iniciar una sincronización sin una conexión a Internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Se rechazó la conexión, por favor verifique si su servidor es accesible a través del navegador web.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">La conexión ha expirado, por favor verifique si está conectado a Internet. Esto también puede ocurrir cuando su servidor está saturado.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Si ha activado la configuración \"Sincronizar solo con Wi-Fi\", solo podrá sincronizar cuando esté conectado a una red Wi-Fi.</string>
+    <string name="error_dialog_tip_files_delete_storage">Si detenerlas forzosamente no ayuda, puede intentar borrar el almacenamiento de ambas aplicaciones.</string>
+    <string name="error_dialog_timeout_toggle">Verifique su conexión de red. A veces, apagar y encender los datos móviles o Wi-Fi puede ayudar.</string>
+    <string name="error_dialog_check_server_logs">Hay un problema con su configuración de Nextcloud. Por favor, revise los archivos de registro del servidor.</string>
+    <string name="error_dialog_check_maintenance">Por favor verifique si su instancia de Nextcloud no está actualmente en modo de mantenimiento.</string>
+    <string name="error_dialog_insufficient_storage">Su instancia de Nextcloud no tiene espacio de almacenamiento libre. Por favor, elimine algunos archivos para sincronizar sus cambios locales en su nube.</string>
+    <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Es posible que la cuenta de su aplicación Nextcloud ya no esté autorizada.</string>
+    <string name="error_dialog_user_not_found_in_database">El usuario actual no coincide con el usuario que tenemos en nuestra base de datos. Si está usando LDAP en su instancia de Nextcloud, su aplicación Nextcloud puede haber almacenado un ID de usuario antiguo.</string>
+    <string name="error_dialog_capabilities_not_parsable">No pudimos obtener las capacidades de su servidor. Por favor, asegúrese de que su servidor esté funcionando correctamente y que otras aplicaciones cliente puedan acceder a Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">No se pudo cargar un archivo adjunto. Por favor intente compartirlo de otra manera y avísenos sobre este error.</string>
+    <string name="error_dialog_certificate">Algo parece estar mal con el certificado del servidor. Por favor verifique todas las cuentas en la aplicación Nextcloud para obtener más información.</string>
+    <string name="error_dialog_unknown_error">Parece que no se puede acceder a su instancia de Nextcloud. Compruebe su conexión a Internet y si puede conectarse a través del navegador.</string>
+    <string name="error_action_open_app_info">Abrir información de la aplicación</string>
+    <string name="error_action_open_nextcloud_app">Abrir aplicación Nextcloud</string>
+    <string name="error_action_open_network">Configuración de red</string>
+    <string name="error_action_server_logs">Registros del servidor</string>
+    <string name="error_action_open_in_browser">Abrir en el navegador</string>
+    <string name="error_action_install">Instalar</string>
+    <string name="error_action_report_issue">Reportar</string>
+    <string name="error_action_update_files_app">Actualizar</string>
+    <string name="error_action_open_battery_settings">Ajustes de batería</string>
+
+    <string name="reason_unknown">Se presentó un error desconocido</string>
+    <string name="last_background_sync">Última sincronización en segundo plano:</string>
+    <string name="simple_disabled">deshabilitado</string>
+    </resources>
