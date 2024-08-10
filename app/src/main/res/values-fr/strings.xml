@@ -154,7 +154,7 @@
     <string name="navigation_my_tables">Mes tableaux</string>
     <string name="navigation_shared_tables">Tableaux partagés</string>
     <string name="could_not_display_column_editor">%1$s n\'a pas pu être affiché.</string>
-    <string name="choose_table_from_the_sidebar">Choisissez le tableau dans la barre latérale</string>
+    <string name="choose_table_from_the_sidebar">Choisissez le tableau dans le panneau latéral</string>
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
     <string name="simple_disabled">désactivé</string>
     <string name="manage_columns_subtitle">Glissez-déposez pour réorganiser</string>
