@@ -78,7 +78,7 @@ ext {
     version_nextcloud_commons = '2.2.0'
     version_glide = '4.16.0'
     version_room = '2.6.1'
-    version_emoji = '1.4.0'
+    version_emoji = '1.5.0'
 }
 
 dependencies {
