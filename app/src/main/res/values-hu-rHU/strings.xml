@@ -159,4 +159,6 @@
     <string name="simple_disabled">letiltva</string>
     <string name="manage_columns_subtitle">Húzza át az átrendezéshez</string>
 
-    </resources>
+    <string name="experimental_feature_column_reordering">Az oszlopok újrarendezése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek a táblázat oszlopainak más beállításaira.</string>
+    <string name="experimental_feature_column_manage">Az oszlopok szerkesztése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek az oszlop más beállításaira.</string>
+</resources>
