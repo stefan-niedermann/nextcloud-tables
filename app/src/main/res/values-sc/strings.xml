@@ -91,7 +91,7 @@
     <string name="error_action_install">Installa</string>
     <string name="error_action_report_issue">Signala</string>
     <string name="error_action_update_files_app">Agiorna</string>
-    <string name="error_action_open_battery_settings">Impostatziones bateria</string>
+    <string name="error_action_open_battery_settings">Cunfiguratzione de sa bateria</string>
 
     <string name="last_background_sync">Ùrtima sincronizatzione in background:</string>
     <string name="simple_disabled">disativadu</string>
