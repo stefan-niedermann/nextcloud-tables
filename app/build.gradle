@@ -23,10 +23,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            testCoverageEnabled true
-        }
-
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -45,6 +41,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            enableUnitTestCoverage true
+            enableAndroidTestCoverage true
         }
     }
 
@@ -75,7 +75,7 @@ android {
 }
 
 ext {
-    version_nextcloud_commons = '2.2.0'
+    version_nextcloud_commons = '2.3.0'
     version_glide = '4.16.0'
     version_room = '2.6.1'
     version_emoji = '1.5.0'
