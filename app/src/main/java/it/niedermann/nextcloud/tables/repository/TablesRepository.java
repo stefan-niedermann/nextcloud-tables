@@ -190,6 +190,8 @@ public class TablesRepository extends AbstractSyncAdapter {
         row.setAccountId(account.getId());
         final var insertedRowId = db.getRowDao().insert(row);
         for (final var data : dataset) {
+            data.setId(0L);
+            data.setETag(null);
             data.setRowId(insertedRowId);
             db.getDataDao().insert(data);
         }

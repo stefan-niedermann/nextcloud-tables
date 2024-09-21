@@ -33,9 +33,11 @@ public class EditRowActivity extends AppCompatActivity {
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_TABLE = "table";
     private static final String KEY_ROW = "row";
+    private static final String KEY_DUPLICATE = "duplicate";
     private Account account;
     private Table table;
     private Row row;
+    private boolean duplicate;
     private EditRowViewModel editRowViewModel;
     private ActivityEditRowBinding binding;
     private final Collection<ColumnEditView> editors = new ArrayList<>();
@@ -55,12 +57,19 @@ public class EditRowActivity extends AppCompatActivity {
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         this.table = (Table) intent.getSerializableExtra(KEY_TABLE);
         this.row = (Row) intent.getSerializableExtra(KEY_ROW);
+        this.duplicate = intent.getBooleanExtra(KEY_DUPLICATE, false);
 
         binding = ActivityEditRowBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        binding.toolbar.setTitle(row == null ? R.string.add_row : R.string.edit_row);
+        if (this.duplicate) {
+            binding.toolbar.setTitle(R.string.duplicate_row);
+        } else if (row == null) {
+            binding.toolbar.setTitle(R.string.add_row);
+        } else {
+            binding.toolbar.setTitle(R.string.edit_row);
+        }
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
 
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
@@ -112,7 +121,7 @@ public class EditRowActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            final var futureResult = row == null
+            final var futureResult = duplicate || row == null
                     ? editRowViewModel.createRow(account, table, editors)
                     : editRowViewModel.updateRow(account, table, row, editors);
 
@@ -128,14 +137,22 @@ public class EditRowActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent createIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table) {
+    public static Intent createAddIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table) {
         return new Intent(context, EditRowActivity.class)
                 .putExtra(KEY_ACCOUNT, account)
                 .putExtra(KEY_TABLE, table);
     }
 
-    public static Intent createIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table, @NonNull Row row) {
-        return createIntent(context, account, table)
+    public static Intent createEditIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table, @NonNull Row row) {
+        return createAddIntent(context, account, table)
                 .putExtra(KEY_ROW, row);
+    }
+
+    /**
+     * If {@param duplicate} is <code>true</code>, it will open the activity in edit mode prepopulating the information from the given {@param row}.
+     */
+    public static Intent createDuplicateIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table, @NonNull Row row) {
+        return createEditIntent(context, account, table, row)
+                .putExtra(KEY_DUPLICATE, true);
     }
 }

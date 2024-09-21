@@ -104,7 +104,7 @@ public class ViewTableFragment extends Fragment {
                 if (row == null) {
                     ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 } else {
-                    startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable(), row));
+                    startActivity(EditRowActivity.createEditIntent(requireContext(), account, fullTable.getTable(), row));
                 }
             }
 
@@ -139,7 +139,9 @@ public class ViewTableFragment extends Fragment {
                     }
 
                     if (item.getItemId() == R.id.edit_row) {
-                        startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable(), row));
+                        startActivity(EditRowActivity.createEditIntent(requireContext(), account, fullTable.getTable(), row));
+                    } else if (item.getItemId() == R.id.duplicate_row) {
+                        startActivity(EditRowActivity.createDuplicateIntent(requireContext(), account, fullTable.getTable(), row));
                     } else if (item.getItemId() == R.id.delete_row) {
                         new MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(R.string.delete_row)
@@ -214,7 +216,7 @@ public class ViewTableFragment extends Fragment {
             }
         });
 
-        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable())));
+        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createAddIntent(requireContext(), account, fullTable.getTable())));
         binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
             // TODO fragment gets detached by MainActivity, this code will fail.
             binding.swipeRefreshLayout.setRefreshing(false);

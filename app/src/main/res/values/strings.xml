@@ -20,6 +20,7 @@
 
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>
+    <string name="duplicate_row">Duplicate row</string>
     <string name="edit_row">Edit row</string>
     <string name="manage_columns">Manage columns</string>
     <string name="edit_column">Edit column</string>
