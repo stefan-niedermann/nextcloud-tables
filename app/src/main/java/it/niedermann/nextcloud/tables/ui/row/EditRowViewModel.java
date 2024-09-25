@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
+import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
 
 public class EditRowViewModel extends AndroidViewModel {
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/table_view_cell_height"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingHorizontal="@dimen/spacer_1x">
+
+    <TextView
+        android:id="@+id/data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:maxWidth="200dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Cell Data" />
+
+</LinearLayout>

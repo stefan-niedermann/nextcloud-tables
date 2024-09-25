@@ -23,10 +23,10 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditRowBinding;
-import it.niedermann.nextcloud.tables.model.EDataType;
+import it.niedermann.nextcloud.tables.types.EDataType;
+import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.tables.ui.row.type.UnknownEditor;
 
 public class EditRowActivity extends AppCompatActivity {
 
@@ -65,18 +65,13 @@ public class EditRowActivity extends AppCompatActivity {
 
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
 
-        final var editViewFactory = new ColumnEditView.Factory();
         editRowViewModel.getNotDeletedColumns(table).thenAcceptAsync(columns -> {
             binding.columns.removeAllViews();
             editors.clear();
             editRowViewModel.getData(row).thenAcceptAsync(values -> {
                 for (final var column : columns) {
                     try {
-                        final var editor = editViewFactory.create(EDataType.findByColumn(column),
-                                this,
-                                column,
-                                values.get(column.getId()),
-                                getSupportFragmentManager());
+                        final var editor = EDataType.findByColumn(column).createEditor(this, column, values.get(column.getId()), getSupportFragmentManager());
                         binding.columns.addView(editor);
                         editors.add(editor);
                     } catch (Exception e) {
@@ -85,12 +80,14 @@ public class EditRowActivity extends AppCompatActivity {
                         final var layout = new LinearLayout(this);
                         layout.setOrientation(LinearLayout.VERTICAL);
 
-                        final var unknownEditor = new UnknownEditor(this,
-                                getSupportFragmentManager(),
-                                column,
-                                editViewFactory.ensureDataObjectPresent(column, values.get(column.getId())));
-                        binding.columns.addView(unknownEditor);
-                        unknownEditor.setErrorMessage(getString(R.string.could_not_display_column_editor, column.getTitle()));
+                        try {
+                            final var unknownEditor = EDataType.UNKNOWN.createEditor(this, column, values.get(column.getId()), getSupportFragmentManager());
+                            binding.columns.addView(unknownEditor);
+                            unknownEditor.setErrorMessage(getString(R.string.could_not_display_column_editor, column.getTitle()));
+                            editors.add(unknownEditor);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
 
                         final var btn = new MaterialButton(this);
                         btn.setText(R.string.simple_exception);

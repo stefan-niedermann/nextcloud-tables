@@ -71,17 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="@string/not_implemented"
-            android:enabled="false"
             android:text="@string/simple_mandatory" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mandatoryHelp"
-            style="?materialIconButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@null"
-            app:icon="@drawable/baseline_question_mark_24" />
     </LinearLayout>
 
 </LinearLayout>

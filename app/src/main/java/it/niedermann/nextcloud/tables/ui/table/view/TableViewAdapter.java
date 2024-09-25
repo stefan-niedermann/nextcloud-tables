@@ -9,11 +9,14 @@ import androidx.annotation.Nullable;
 
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -22,34 +25,33 @@ import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCornerBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
-import it.niedermann.nextcloud.tables.model.EDataType;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
+import it.niedermann.nextcloud.tables.types.EDataType;
+import it.niedermann.nextcloud.tables.types.viewer.CellViewHolder;
+import it.niedermann.nextcloud.tables.types.viewer.viewholder.selection.SelectionViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.ColumnHeaderViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.holder.RowHeaderViewHolder;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.type.selection.SelectionViewHolder;
 
 public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
 
-    private final CellViewHolder.Factory cellViewHolderFactory;
     private final List<SelectionOption> selectionOptions = new ArrayList<>();
-
-    public TableViewAdapter() {
-        this(new CellViewHolder.Factory());
-    }
-
-    private TableViewAdapter(@NonNull CellViewHolder.Factory cellViewHolderFactory) {
-        this.cellViewHolderFactory = cellViewHolderFactory;
-    }
 
     @Override
     public int getCellItemViewType(int columnPosition) {
-        return EDataType.findByColumn(getColumnHeaderItem(columnPosition)).getId();
+        final var column = getColumnHeaderItem(columnPosition);
+        if (column == null) {
+            if (BuildConfig.DEBUG) {
+                throw new IllegalStateException("Column header item on position " + columnPosition + " is null. Can not determine " + EDataType.class.getSimpleName());
+            } else {
+                return EDataType.UNKNOWN.getId();
+            }
+        }
+        return EDataType.findByColumn(column).getId();
     }
 
     @NonNull
     @Override
     public AbstractViewHolder onCreateCellViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return cellViewHolderFactory.create(EDataType.findById(viewType), parent);
+        return EDataType.findById(viewType).createViewHolder(parent);
     }
 
     @Override
@@ -62,7 +64,15 @@ public class TableViewAdapter extends AbstractTableAdapter<Column, Row, Data> {
             }
 
             if (holder instanceof SelectionViewHolder) {
-                ((SelectionViewHolder) holder).bind(cellItemModel, column, selectionOptions);
+                final JsonElement value;
+                if(cellItemModel == null) {
+                    value = JsonNull.INSTANCE;
+                } else {
+                    final var val = cellItemModel.getValue();
+                    value = val == null ? JsonNull.INSTANCE : val;
+                }
+
+                ((SelectionViewHolder) holder).bind(value, column, selectionOptions);
             } else if (holder instanceof CellViewHolder) {
                 ((CellViewHolder) holder).bind(cellItemModel, column);
             } else {

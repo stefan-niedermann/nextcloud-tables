@@ -1,6 +1,6 @@
 package it.niedermann.nextcloud.tables.ui.about;
 
-import static it.niedermann.nextcloud.tables.ui.util.SpannableUtil.setTextWithURL;
+import static it.niedermann.nextcloud.tables.util.SpannableUtil.setTextWithURL;
 
 import android.content.Intent;
 import android.net.Uri;

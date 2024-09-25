@@ -10,7 +10,7 @@ import com.evrencoskun.tableview.sort.SortState;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
-import it.niedermann.nextcloud.tables.model.EDataType;
+import it.niedermann.nextcloud.tables.types.EDataType;
 
 /**
  * Created by evrencoskun on 1.12.2017.
@@ -37,14 +37,11 @@ public class ColumnHeaderViewHolder extends AbstractSorterViewHolder {
     private int getGravity(@NonNull Column column) {
         final var type = EDataType.findByColumn(column);
 
-        switch (type) {
-            case NUMBER:
-                return Gravity.CENTER_VERTICAL | Gravity.END;
-            case SELECTION_CHECK:
-                return Gravity.CENTER;
-            default:
-                return Gravity.CENTER_VERTICAL | Gravity.START;
-        }
+        return switch (type) {
+            case NUMBER -> Gravity.CENTER_VERTICAL | Gravity.END;
+            case SELECTION_CHECK -> Gravity.CENTER;
+            default -> Gravity.CENTER_VERTICAL | Gravity.START;
+        };
     }
 
     @Override

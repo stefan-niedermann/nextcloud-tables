@@ -25,15 +25,17 @@ import com.nextcloud.android.sso.ui.UiExceptionManager;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
-import it.niedermann.nextcloud.tables.remote.SyncWorker;
 import it.niedermann.nextcloud.tables.remote.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
+import it.niedermann.nextcloud.tables.repository.SyncWorker;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
+import it.niedermann.nextcloud.tables.util.AvatarUtil;
 
 public class ImportAccountActivity extends AppCompatActivity {
 
     private static final String TAG = ImportAccountActivity.class.getSimpleName();
+    private final AvatarUtil avatarUtil = new AvatarUtil();
     private ActivityImportBinding binding;
     private ImportAccountViewModel importAccountViewModel;
 
@@ -131,7 +133,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         }
         binding.progressText.setText(getString(R.string.importing_account, account.getDisplayName()));
         Glide.with(binding.image)
-                .load(account.getAvatarUrl(binding.image.getWidth()))
+                .load(avatarUtil.getAvatarUrl(account, binding.image.getWidth()))
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(binding.image);

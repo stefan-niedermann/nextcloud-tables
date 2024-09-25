@@ -25,10 +25,12 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.databinding.DialogAccountSwitcherBinding;
 import it.niedermann.nextcloud.tables.ui.importaccount.ImportAccountActivity;
 import it.niedermann.nextcloud.tables.ui.manageaccounts.ManageAccountsActivity;
+import it.niedermann.nextcloud.tables.util.AvatarUtil;
 
 public class AccountSwitcherDialog extends DialogFragment {
 
     private static final String TAG = AccountSwitcherDialog.class.getSimpleName();
+    private final AvatarUtil avatarUtil = new AvatarUtil();
     private AccountSwitcherAdapter adapter;
     private DialogAccountSwitcherBinding binding;
     private AccountViewModel accountViewModel;
@@ -77,7 +79,7 @@ public class AccountSwitcherDialog extends DialogFragment {
             binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
 
             Glide.with(requireContext())
-                    .load(account.getAvatarUrl(binding.currentAccountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
+                    .load(avatarUtil.getAvatarUrl(account, binding.currentAccountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                     .apply(RequestOptions.circleCropTransform())
                     .placeholder(R.drawable.ic_baseline_account_circle_24)
                     .error(R.drawable.ic_baseline_account_circle_24)

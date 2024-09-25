@@ -24,12 +24,12 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
-import it.niedermann.nextcloud.tables.model.EPermission;
 import it.niedermann.nextcloud.tables.model.FullTable;
+import it.niedermann.nextcloud.tables.remote.model.EPermission;
+import it.niedermann.nextcloud.tables.types.viewer.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.EditRowActivity;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
 
 public class ViewTableFragment extends Fragment {
 
@@ -123,7 +123,7 @@ public class ViewTableFragment extends Fragment {
                                 ((CellViewHolder) cellView).getQuickActionProvider().ifPresentOrElse(
                                         quickActionProvider -> {
                                             quickActionMenuItem.setVisible(true);
-                                            quickActionMenuItem.setTitle(quickActionProvider.getTitle());
+                                            quickActionMenuItem.setTitle(quickActionProvider.title());
                                         },
                                         () -> quickActionMenuItem.setVisible(false)
                                 );

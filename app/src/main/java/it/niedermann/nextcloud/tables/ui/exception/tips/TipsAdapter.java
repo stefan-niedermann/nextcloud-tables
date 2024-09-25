@@ -114,7 +114,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                     break;
                 }
                 default:
-                    add(R.string.reason_unknown);
+                    add(it.niedermann.nextcloud.tables.remote.R.string.reason_unknown);
                     add(R.string.error_dialog_tip_clear_storage_might_help);
                     add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
             }

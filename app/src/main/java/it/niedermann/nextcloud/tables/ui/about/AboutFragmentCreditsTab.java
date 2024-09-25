@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.about;
 
-import static it.niedermann.nextcloud.tables.ui.util.SpannableUtil.setTextWithURL;
-import static it.niedermann.nextcloud.tables.ui.util.SpannableUtil.url;
+import static it.niedermann.nextcloud.tables.util.SpannableUtil.setTextWithURL;
+import static it.niedermann.nextcloud.tables.util.SpannableUtil.url;
 
 import android.os.Bundle;
 import android.text.format.DateUtils;

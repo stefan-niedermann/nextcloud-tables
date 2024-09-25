@@ -16,8 +16,8 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.remote.SyncWorker;
 import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
+import it.niedermann.nextcloud.tables.repository.SyncWorker;
 
 public class PreferencesFragment extends PreferenceFragmentCompat {
 
@@ -43,7 +43,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        final Preference prefSyncBackground = Objects.requireNonNull(findPreference(getString(R.string.pref_key_sync_background)));
+        final Preference prefSyncBackground = Objects.requireNonNull(findPreference(getString(it.niedermann.nextcloud.tables.repository.R.string.pref_key_sync_background)));
         prefSyncBackground.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
             Log.i(TAG, "newValue: " + Boolean.TRUE.equals(newValue));
             SyncWorker.update(requireContext().getApplicationContext(), Boolean.TRUE.equals(newValue));
@@ -55,10 +55,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final Preference prefTheme = Objects.requireNonNull(findPreference(getString(R.string.pref_key_theme)));
+        final Preference prefTheme = Objects.requireNonNull(findPreference(getString(it.niedermann.nextcloud.tables.repository.R.string.pref_key_theme)));
 
-        final var entries = getResources().getStringArray(R.array.theme_entries);
-        final var values = getResources().getStringArray(R.array.pref_values_theme);
+        final var entries = getResources().getStringArray(it.niedermann.nextcloud.tables.repository.R.array.theme_entries);
+        final var values = getResources().getStringArray(it.niedermann.nextcloud.tables.repository.R.array.pref_values_theme);
 
         preferencesRepository.getTheme$().observe(getViewLifecycleOwner(), theme -> {
             for (int i = 0; i < values.length; i++) {
