@@ -8,10 +8,12 @@ import androidx.annotation.Nullable;
 
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
+import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
 import retrofit2.Response;
@@ -34,15 +36,19 @@ public class ServerErrorHandler {
     }
 
     public void handle(@NonNull Response<?> response, @NonNull String message, @NonNull Strategy strategy) throws Exception {
+        final var details = extractErrorBody(response)
+                .map(msg -> "\n" + msg)
+                .orElse("");
+
         switch (response.code()) {
             case 304: {
                 Log.i(TAG, "HTTP " + response.code() + " Not Modified");
                 break;
             }
             case 500:
-                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR, message);
+                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR, message + details);
             case 503:
-                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.MAINTENANCE_MODE, message);
+                throw new ServerNotAvailableException(ServerNotAvailableException.Reason.MAINTENANCE_MODE, message + details);
             case 520: {
                 for (final var handler : Handler.values()) {
                     if (handler.canHandle(response.message())) {
@@ -50,14 +56,28 @@ public class ServerErrorHandler {
                     }
                 }
                 if (strategy == Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED) {
-                    throw new NextcloudHttpRequestFailedException(context, response.code(), new RuntimeException(message));
+                    throw new NextcloudHttpRequestFailedException(context, response.code(), new RuntimeException(message + details));
                 }
             }
             default: {
                 if (strategy == Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED) {
-                    throw new NextcloudHttpRequestFailedException(context, response.code(), new RuntimeException(message));
+                    throw new NextcloudHttpRequestFailedException(context, response.code(), new RuntimeException(message + details));
                 }
             }
+        }
+    }
+
+    private Optional<String> extractErrorBody(@NonNull Response<?> response) {
+        try (var errorBody = response.errorBody()) {
+            return Optional.ofNullable(errorBody).map(responseBody -> {
+                try {
+                    return responseBody.string();
+                } catch (IOException e) {
+                    return null;
+                }
+            });
+        } catch (Throwable t) {
+            return Optional.empty();
         }
     }
 

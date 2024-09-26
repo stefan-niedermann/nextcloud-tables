@@ -7,13 +7,14 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+
+import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
 
 @Entity(
         inheritSuperIndices = true,
@@ -67,7 +68,7 @@ public class Column extends AbstractRemoteEntity {
     private Integer textMaxLength;
     @Ignore
     private List<SelectionOption> selectionOptions;
-    private JsonElement selectionDefault;
+    private SelectionDefault selectionDefault;
     private String datetimeDefault;
     @Ignore
     @Expose(deserialize = false, serialize = false)
@@ -249,11 +250,11 @@ public class Column extends AbstractRemoteEntity {
         this.selectionOptions = selectionOptions;
     }
 
-    public JsonElement getSelectionDefault() {
+    public SelectionDefault getSelectionDefault() {
         return selectionDefault;
     }
 
-    public void setSelectionDefault(JsonElement selectionDefault) {
+    public void setSelectionDefault(SelectionDefault selectionDefault) {
         this.selectionDefault = selectionDefault;
     }
 

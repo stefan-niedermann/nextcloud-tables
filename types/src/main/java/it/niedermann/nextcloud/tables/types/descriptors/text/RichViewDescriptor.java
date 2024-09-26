@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.tables.types.descriptors.text;
 
 import androidx.annotation.NonNull;
 
+import it.niedermann.nextcloud.tables.types.creators.ColumnCreator;
+import it.niedermann.nextcloud.tables.types.creators.type.TextCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.text.TextDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
@@ -17,12 +19,15 @@ public class RichViewDescriptor extends DataTypeDescriptor {
     }
 
     private RichViewDescriptor(@NonNull DefaultValueSupplier defaultValueSupplier) {
-        this(new RichViewFactory(defaultValueSupplier), new TextRichEditorFactory(defaultValueSupplier));
+        this(new RichViewFactory(defaultValueSupplier),
+                new TextRichEditorFactory(defaultValueSupplier),
+                new TextCreator());
     }
 
     private RichViewDescriptor(
             @NonNull ViewHolderFactory viewHolderFactory,
-            @NonNull EditorFactory editorFactory) {
-        super(viewHolderFactory, editorFactory);
+            @NonNull EditorFactory editorFactory,
+            @NonNull ColumnCreator columnCreator) {
+        super(viewHolderFactory, editorFactory, columnCreator);
     }
 }

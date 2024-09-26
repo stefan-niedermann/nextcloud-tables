@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.tables.types.descriptors.number;
 
 import androidx.annotation.NonNull;
 
+import it.niedermann.nextcloud.tables.types.creators.ColumnCreator;
+import it.niedermann.nextcloud.tables.types.creators.type.NumberCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.number.NumberDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
@@ -17,12 +19,15 @@ public class ProgressDescriptor extends DataTypeDescriptor {
     }
 
     private ProgressDescriptor(@NonNull DefaultValueSupplier defaultValueSupplier) {
-        this(new ProgressCellFactory(defaultValueSupplier), new NumberProgressEditorFactory(defaultValueSupplier));
+        this(new ProgressCellFactory(defaultValueSupplier),
+                new NumberProgressEditorFactory(defaultValueSupplier),
+                new NumberCreator());
     }
 
     private ProgressDescriptor(
             @NonNull ViewHolderFactory viewHolderFactory,
-            @NonNull EditorFactory editorFactory) {
-        super(viewHolderFactory, editorFactory);
+            @NonNull EditorFactory editorFactory,
+            @NonNull ColumnCreator columnCreator) {
+        super(viewHolderFactory, editorFactory, columnCreator);
     }
 }

@@ -20,6 +20,7 @@ import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
+import it.niedermann.nextcloud.tables.remote.api.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.exception.InsufficientPermissionException;
 import it.niedermann.nextcloud.tables.remote.model.EPermission;
 import it.niedermann.nextcloud.tables.repository.sync.AbstractSyncAdapter;
@@ -67,26 +68,34 @@ public class TablesRepository extends AbstractSyncAdapter {
     }
 
     public void synchronizeTables(@NonNull Account account) throws Exception {
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
             final var api = apiProvider.getApi();
+            final var apiV1 = apiV1Provider.getApi();
 
-            pushLocalChanges(api, account);
-            pullRemoteChanges(api, account);
+            pushLocalChanges(api, apiV1, account);
+            pullRemoteChanges(api, apiV1, account);
         }
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
-        tableSyncAdapter.pushLocalChanges(api, account);
-        columnSyncAdapter.pushLocalChanges(api, account);
-        rowSyncAdapter.pushLocalChanges(api, account);
+    public void pushLocalChanges(@NonNull TablesAPI api,
+                                 @NonNull TablesV1API apiV1,
+                                 @NonNull Account account) throws Exception {
+        tableSyncAdapter.pushLocalChanges(api, apiV1, account);
+        columnSyncAdapter.pushLocalChanges(api, apiV1, account);
+        rowSyncAdapter.pushLocalChanges(api, apiV1, account);
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
-        tableSyncAdapter.pullRemoteChanges(api, account);
-        columnSyncAdapter.pullRemoteChanges(api, account);
-        rowSyncAdapter.pullRemoteChanges(api, account);
+    public void pullRemoteChanges(@NonNull TablesAPI api,
+                                  @NonNull TablesV1API apiV1,
+                                  @NonNull Account account) throws Exception {
+        tableSyncAdapter.pullRemoteChanges(api, apiV1, account);
+        columnSyncAdapter.pullRemoteChanges(api, apiV1, account);
+        rowSyncAdapter.pullRemoteChanges(api, apiV1, account);
     }
 
     public LiveData<List<Table>> getNotDeletedTables$(@NonNull Account account, boolean isShared) {
@@ -107,8 +116,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         table.setStatus(DBStatus.LOCAL_EDITED);
         table.setAccountId(account.getId());
         db.getTableDao().insert(table);
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -118,8 +130,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
         table.setStatus(DBStatus.LOCAL_EDITED);
         db.getTableDao().update(table);
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -130,8 +145,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         table.setStatus(DBStatus.LOCAL_DELETED);
         db.getTableDao().update(table);
         final var account = db.getAccountDao().getAccountById(table.getAccountId());
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -142,8 +160,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         column.setStatus(DBStatus.LOCAL_EDITED);
         column.setAccountId(account.getId());
         db.getColumnDao().insert(column);
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -154,8 +175,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         for (final var entry : newOrderWeightsDiff.entrySet()) {
             db.getColumnDao().updateOrderWeight(entry.getKey(), entry.getValue());
         }
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -165,8 +189,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         }
         column.setStatus(DBStatus.LOCAL_EDITED);
         db.getColumnDao().update(column);
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -177,8 +204,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         column.setStatus(DBStatus.LOCAL_DELETED);
         db.getColumnDao().update(column);
         final var account = db.getAccountDao().getAccountById(column.getAccountId());
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -193,8 +223,11 @@ public class TablesRepository extends AbstractSyncAdapter {
             data.setRowId(insertedRowId);
             db.getDataDao().insert(data);
         }
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -217,8 +250,11 @@ public class TablesRepository extends AbstractSyncAdapter {
                 data.setId(db.getDataDao().insert(data));
             }
         }
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 
@@ -229,8 +265,11 @@ public class TablesRepository extends AbstractSyncAdapter {
         row.setStatus(DBStatus.LOCAL_DELETED);
         db.getRowDao().update(row);
         final var account = db.getAccountDao().getAccountById(row.getAccountId());
-        try (final var apiProvider = ApiProvider.getTablesApiProvider(context, account)) {
-            pushLocalChanges(apiProvider.getApi(), account);
+        try (
+                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
+        ) {
+            pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
         }
     }
 

@@ -57,6 +57,9 @@ dependencies {
     // TableView
     implementation 'com.github.evrencoskun:TableView:v0.8.9.4'
 
+    // Retrofit
+    api 'com.squareup.retrofit2:retrofit:2.11.0'
+
     api "androidx.emoji2:emoji2:$version_emoji"
     api "androidx.emoji2:emoji2-views:$version_emoji"
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

@@ -10,6 +10,7 @@ import static java.time.temporal.ChronoField.YEAR;
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonElement;
+import com.nextcloud.android.sso.model.ocs.OcsResponse;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -18,9 +19,15 @@ import java.util.List;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
-import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.remote.model.ENodeType;
+import it.niedermann.nextcloud.tables.remote.model.columns.DateTimeColumn;
+import it.niedermann.nextcloud.tables.remote.model.columns.NumberColumn;
+import it.niedermann.nextcloud.tables.remote.model.columns.SelectionColumn;
+import it.niedermann.nextcloud.tables.remote.model.columns.TextColumn;
+import it.niedermann.nextcloud.tables.remote.model.columns.UserGroupColumn;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -29,14 +36,10 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * @link <a href="https://petstore.swagger.io/?url=https://github.com/nextcloud/tables/blob/main/openapi.json">Tables REST API</a>
+ * @link <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/nextcloud/tables/refs/heads/main/openapi.json">Tables REST API</a>
  */
 @SuppressWarnings("unused")
 public interface TablesAPI {
-
-    int DEFAULT_API_LIMIT = 1_000;
-    int DEFAULT_API_LIMIT_TABLES = DEFAULT_API_LIMIT;
-    int DEFAULT_API_LIMIT_ROWS = DEFAULT_API_LIMIT;
 
     String DEFAULT_TABLES_TEMPLATE = "custom";
 
@@ -68,202 +71,139 @@ public interface TablesAPI {
             .append(FORMATTER_PROPERTIES_TIME)
             .toFormatter();
 
-    /**
-     * @since 0.3.0
-     */
-    @GET("tables")
-    Call<List<Table>> getTables();
+    /* ****************************************************************************************** *
+     * api_general                                                                                *
+     * ****************************************************************************************** */
 
     /**
-     * @since 0.3.0
+     * @since 0.8.0
      */
-    @GET("tables")
-    Call<List<Table>> getTables(@Query("limit") int limit,
-                                @Query("offset") int offset);
+    @GET("init?format=json")
+    Call<OcsResponse<List<Table>>> init();
+
+    /* ****************************************************************************************** *
+     * api_tables                                                                                 *
+     * ****************************************************************************************** */
 
     /**
-     * @since 0.3.0
+     * @since 0.8.0
      */
-    @GET("tables")
-    Call<List<Table>> getTables(@Query("keyword") @NonNull String keyword,
-                                @Query("limit") int limit,
-                                @Query("offset") int offset);
+    @GET("tables?format=json")
+    Call<OcsResponse<List<Table>>> getTables();
+
+//    See https://github.com/nextcloud/tables/issues/1180#issuecomment-2376202656
+//
+//    /**
+//     * @since 0.8.0
+//     */
+//    @GET("tables?format=json")
+//    Call<OcsResponse<List<Table>>> getTables(@Query("limit") int limit,
+//                                             @Query("offset") int offset);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @GET("tables/{tableId}")
-    Call<Table> getTable(@Path("tableId") long tableId);
+    @POST("tables?format=json")
+    Call<OcsResponse<Table>> createTable(@Query("title") @NonNull String title,
+                                         @Query("description") @NonNull String description,
+                                         @Query("emoji") @NonNull String emoji,
+                                         @Query("template") @NonNull String template);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @POST("tables")
-    Call<Table> createTable(@Query("title") @NonNull String title,
-                            @Query("emoji") @NonNull String emoji,
-                            @Query("template") @NonNull String template);
+    @GET("tables/{tableId}?format=json")
+    Call<OcsResponse<Table>> getTable(@Path("tableId") long tableId);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @DELETE("tables/{tableId}")
-    Call<Table> deleteTable(@Path("tableId") long tableId);
+    @PUT("tables/{tableId}?format=json")
+    Call<OcsResponse<Table>> updateTable(@Path("tableId") long tableId,
+                                         @Query("title") @NonNull String title,
+                                         @Query("emoji") @NonNull String emoji,
+                                         @Query("description") @NonNull String description);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @PUT("tables/{tableId}")
-    Call<Table> updateTable(@Path("tableId") long tableId,
-                            @Query("title") @NonNull String title,
-                            @Query("emoji") @NonNull String emoji,
-                            @Query("template") @NonNull String template);
+    @DELETE("tables/{tableId}?format=json")
+    Call<OcsResponse<Table>> deleteTable(@Path("tableId") long tableId);
+
+    /* ****************************************************************************************** *
+     * api_columns                                                                                *
+     * ****************************************************************************************** */
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @PUT("tables/{tableId}")
-    Call<Table> updateTable(@Path("tableId") long tableId,
-                            @Query("title") @NonNull String title,
-                            @Query("emoji") @NonNull String emoji);
+    @GET("/columns/{nodeType}/{nodeId}?format=json")
+    Call<OcsResponse<List<Column>>> getColumns(@Path("nodeType") @NonNull ENodeType nodeType,
+                                               @Path("nodeId") long nodeId);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @GET("tables/{tableId}/columns")
-    Call<List<Column>> getColumns(@Path("tableId") long tableId);
+    @GET("columns/{columnId}?format=json")
+    Call<OcsResponse<Column>> getColumn(@Path("columnId") long columnId);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @POST("tables/{tableId}/columns")
-    Call<Column> createColumn(@Path("tableId")
-                              @Query("tableId") long tableId,
-                              @Query("title") String title,
-                              @Query("type") String type,
-                              @Query("subtype") String subtype,
-                              @Query("mandatory") int mandatory,
-                              @Query("description") String description,
-                              @Query("orderWeight") int orderWeight,
-                              @Query("numberPrefix") String numberPrefix,
-                              @Query("numberSuffix") String numberSuffix,
-                              @Query("numberDefault") Double numberDefault,
-                              @Query("numberMin") Double numberMin,
-                              @Query("numberMax") Double numberMax,
-                              @Query("numberDecimals") Integer numberDecimals,
-                              @Query("textDefault") String textDefault,
-                              @Query("textAllowedPattern") String textAllowedPattern,
-                              @Query("textMaxLength") Integer textMaxLength,
-                              @Query("selectionOptions") List<SelectionOption> selectionOptions,
-                              @Query("selectionDefault") String selectionDefault,
-                              @Query("datetimeDefault") String datetimeDefault
-    );
+    @POST("columns/number?format=json")
+    Call<OcsResponse<Column>> createNumberColumn(@Body @NonNull NumberColumn column);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @GET("columns/{columnId}")
-    Call<Column> getColumn(@Path("columnId") long columnId);
+    @POST("columns/text?format=json")
+    Call<OcsResponse<Column>> createTextColumn(@Body @NonNull TextColumn column);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @PUT("columns/{columnId}")
-    Call<Column> updateColumn(@Path("columnId") long columnId,
-                              @Query("title") String title,
-                              @Query("mandatory") int mandatory,
-                              @Query("description") String description,
-                              @Query("orderWeight") int orderWeight,
-                              @Query("numberPrefix") String numberPrefix,
-                              @Query("numberSuffix") String numberSuffix,
-                              @Query("numberDefault") Double numberDefault,
-                              @Query("numberMin") Double numberMin,
-                              @Query("numberMax") Double numberMax,
-                              @Query("numberDecimals") Integer numberDecimals,
-                              @Query("textDefault") String textDefault,
-                              @Query("textAllowedPattern") String textAllowedPattern,
-                              @Query("textMaxLength") Integer textMaxLength,
-                              @Query("selectionOptions") List<SelectionOption> selectionOptions,
-                              @Query("selectionDefault") String selectionDefault,
-                              @Query("datetimeDefault") String datetimeDefault);
+    @POST("columns/selection?format=json")
+    Call<OcsResponse<Column>> createSelectionColumn(@Body @NonNull SelectionColumn column);
 
     /**
-     * Due to a <a href="https://github.com/nextcloud/tables/issues/384">Bug in the Tables server app</a> the <code>mandatory</code> property will always update to <code>true</code> except the property is omitted.
-     *
-     * @see #updateColumn(long, String, int, String, int, String, String, Double, Double, Double, Integer, String, String, Integer, List, String, String)
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @PUT("columns/{columnId}")
-    Call<Column> updateColumn(@Path("columnId") long columnId,
-                              @Query("title") String title,
-                              @Query("description") String description,
-                              @Query("orderWeight") int orderWeight,
-                              @Query("numberPrefix") String numberPrefix,
-                              @Query("numberSuffix") String numberSuffix,
-                              @Query("numberDefault") Double numberDefault,
-                              @Query("numberMin") Double numberMin,
-                              @Query("numberMax") Double numberMax,
-                              @Query("numberDecimals") Integer numberDecimals,
-                              @Query("textDefault") String textDefault,
-                              @Query("textAllowedPattern") String textAllowedPattern,
-                              @Query("textMaxLength") Integer textMaxLength,
-                              @Query("selectionOptions") List<SelectionOption> selectionOptions,
-                              @Query("selectionDefault") String selectionDefault,
-                              @Query("datetimeDefault") String datetimeDefault);
+    @POST("columns/datetime?format=json")
+    Call<OcsResponse<Column>> createDateTimeColumn(@Body @NonNull DateTimeColumn column);
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @DELETE("columns/{columnId}")
-    Call<Column> deleteColumn(@Path("columnId") long columnId);
+    @POST("columns/usergroup?format=json")
+    Call<OcsResponse<Column>> createUserGroupColumn(@Body @NonNull UserGroupColumn column);
+
+    /* ****************************************************************************************** *
+     * api_favorite                                                                               *
+     * ****************************************************************************************** */
+
+    @POST("favorites/{nodeType}/{nodeId}")
+    Call<OcsResponse<?>> setFavorite(@Path("nodeType") @NonNull ENodeType nodeType,
+                                     @Path("nodeId") long nodeId);
+
+    @DELETE("favorites/{nodeType}/{nodeId}")
+    Call<OcsResponse<?>> unsetFavorite(@Path("nodeType") @NonNull ENodeType nodeType,
+                                       @Path("nodeId") long nodeId);
+
+    /* ****************************************************************************************** *
+     * context                                                                                    *
+     * ****************************************************************************************** */
+
+    /* ****************************************************************************************** *
+     * rowocs                                                                                     *
+     * ****************************************************************************************** */
 
     /**
-     * @since 0.4.0
+     * @since 0.8.0
      */
-    @GET("tables/{tableId}/rows")
-    Call<List<Row>> getRows(@Path("tableId") long tableId);
+    @POST("{nodeCollection}/{nodeId}/rows?format=json")
+    Call<OcsResponse<Row>> createRow(
+            @Path("nodeCollection") @NonNull ENodeType nodeType,
+            @Path("nodeId") long tableId,
+            @Query("data") @NonNull JsonElement data);
 
-    /**
-     * @since 0.4.0
-     */
-    @GET("tables/{tableId}/rows")
-    Call<List<Row>> getRows(@Path("tableId") long tableId,
-                            @Query("limit") int limit,
-                            @Query("offset") int offset);
-
-    /**
-     * Expected format:
-     * <code>
-     * {
-     * "1": "Foo",
-     * "2": "Bar",
-     * "…": "…",
-     * "remoteColumnId": "value"
-     * }
-     * </code>
-     *
-     * @since 0.4.0
-     */
-    @POST("tables/{tableId}/rows")
-    Call<Row> createRow(@Path("tableId") long tableId,
-                        @Query("data") @NonNull JsonElement data);
-
-    /**
-     * @since 0.4.0
-     */
-    @GET("rows/{rowId}")
-    Call<Row> getRow(@Path("rowId") long rowId);
-
-    /**
-     * @since 0.4.0
-     */
-    @PUT("rows/{rowId}")
-    Call<Row> updateRow(@Path("rowId")
-                        @Query("id") long rowId,
-                        @Query("data") @NonNull JsonElement data);
-
-    /**
-     * @since 0.4.0
-     */
-    @DELETE("rows/{rowId}")
-    Call<Row> deleteRow(@Path("rowId") long rowId);
 }

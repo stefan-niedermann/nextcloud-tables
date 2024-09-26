@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.tables.types.descriptors.text;
 
 import androidx.annotation.NonNull;
 
+import it.niedermann.nextcloud.tables.types.creators.ColumnCreator;
+import it.niedermann.nextcloud.tables.types.creators.type.TextCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.text.TextDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
@@ -17,12 +19,15 @@ public class TextDescriptor extends DataTypeDescriptor {
     }
 
     private TextDescriptor(@NonNull DefaultValueSupplier defaultValueSupplier) {
-        this(new TextCellFactory(defaultValueSupplier), new TextEditorFactory(defaultValueSupplier));
+        this(new TextCellFactory(defaultValueSupplier),
+                new TextEditorFactory(defaultValueSupplier),
+                new TextCreator());
     }
 
     private TextDescriptor(
             @NonNull ViewHolderFactory viewHolderFactory,
-            @NonNull EditorFactory editorFactory) {
-        super(viewHolderFactory, editorFactory);
+            @NonNull EditorFactory editorFactory,
+            @NonNull ColumnCreator columnCreator) {
+        super(viewHolderFactory, editorFactory, columnCreator);
     }
 }

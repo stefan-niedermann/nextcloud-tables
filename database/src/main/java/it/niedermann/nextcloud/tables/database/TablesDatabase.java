@@ -11,6 +11,7 @@ import androidx.room.TypeConverters;
 import it.niedermann.nextcloud.tables.database.converter.DBStatusConverter;
 import it.niedermann.nextcloud.tables.database.converter.InstantConverter;
 import it.niedermann.nextcloud.tables.database.converter.JsonElementConverter;
+import it.niedermann.nextcloud.tables.database.converter.SelectionDefaultConverter;
 import it.niedermann.nextcloud.tables.database.converter.VersionConverter;
 import it.niedermann.nextcloud.tables.database.dao.AccountDao;
 import it.niedermann.nextcloud.tables.database.dao.ColumnDao;
@@ -40,7 +41,8 @@ import it.niedermann.nextcloud.tables.database.migration.Migration_1_2;
         DBStatusConverter.class,
         InstantConverter.class,
         JsonElementConverter.class,
-        VersionConverter.class
+        VersionConverter.class,
+        SelectionDefaultConverter.class
 })
 public abstract class TablesDatabase extends RoomDatabase {
 

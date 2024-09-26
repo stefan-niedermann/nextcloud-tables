@@ -77,46 +77,26 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             add(((ServerNotAvailableException) throwable).getReason().messageRes);
 
             switch (((ServerNotAvailableException) throwable).getReason()) {
-                case NOT_INSTALLED:
-                case NOT_ENABLED:
-                case MAINTENANCE_MODE:
-                case SERVER_ERROR:
-                case DEVICE_OFFLINE:
-                case TABLES_NOT_SUPPORTED:
-                case NEXTCLOUD_NOT_SUPPORTED:
-                    break;
-                case UNKNOWN:
-                default:
+                case NOT_INSTALLED, NOT_ENABLED, MAINTENANCE_MODE, SERVER_ERROR, DEVICE_OFFLINE,
+                     TABLES_NOT_SUPPORTED, NEXTCLOUD_NOT_SUPPORTED -> {
+                }
+                default -> {
                     add(R.string.error_dialog_tip_clear_storage_might_help);
                     add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
-                    break;
+                }
             }
         } else if (throwable instanceof InsufficientPermissionException) {
             switch (((InsufficientPermissionException) throwable).getMissingPermission()) {
-                case READ: {
-                    add(R.string.missing_permission_read);
-                    break;
-                }
-                case CREATE: {
-                    add(R.string.missing_permission_create);
-                    break;
-                }
-                case UPDATE: {
-                    add(R.string.missing_permission_update);
-                    break;
-                }
-                case DELETE: {
-                    add(R.string.missing_permission_delete);
-                    break;
-                }
-                case MANAGE: {
-                    add(R.string.missing_permission_manage);
-                    break;
-                }
-                default:
+                case READ -> add(R.string.missing_permission_read);
+                case CREATE -> add(R.string.missing_permission_create);
+                case UPDATE -> add(R.string.missing_permission_update);
+                case DELETE -> add(R.string.missing_permission_delete);
+                case MANAGE -> add(R.string.missing_permission_manage);
+                default -> {
                     add(it.niedermann.nextcloud.tables.remote.R.string.reason_unknown);
                     add(R.string.error_dialog_tip_clear_storage_might_help);
                     add(R.string.error_dialog_tip_clear_storage, INTENT_APP_INFO);
+                }
             }
         } else if (throwable instanceof TokenMismatchException) {
             add(R.string.error_dialog_tip_token_mismatch_retry);
@@ -142,13 +122,9 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         } else if (throwable instanceof NextcloudHttpRequestFailedException) {
             int statusCode = ((NextcloudHttpRequestFailedException) throwable).getStatusCode();
             switch (statusCode) {
-                case 302:
-                    add(R.string.error_dialog_redirect);
-                    break;
-                case 403:
-                    add(R.string.error_dialog_forbidden);
-                    break;
-                case 500:
+                case 302 -> add(R.string.error_dialog_redirect);
+                case 403 -> add(R.string.error_dialog_forbidden);
+                case 500 -> {
                     if (account != null) {
                         add(R.string.error_dialog_check_server_logs, new Intent(Intent.ACTION_VIEW)
                                 .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_server_logs)
@@ -156,16 +132,12 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
                     } else {
                         add(R.string.error_dialog_check_server_logs);
                     }
-                    break;
-                case 503:
-                    add(R.string.error_dialog_check_maintenance);
-                    break;
-                case 507:
-                    add(R.string.error_dialog_insufficient_storage);
-                    break;
+                }
+                case 503 -> add(R.string.error_dialog_check_maintenance);
+                case 507 -> add(R.string.error_dialog_insufficient_storage);
             }
         } else if (throwable instanceof ClassNotFoundException) {
-            final Throwable cause = ((ClassNotFoundException) throwable).getCause();
+            final Throwable cause = throwable.getCause();
             if (cause != null) {
                 final String message = cause.getMessage();
                 if (message != null && message.toLowerCase().contains("certificate")) {

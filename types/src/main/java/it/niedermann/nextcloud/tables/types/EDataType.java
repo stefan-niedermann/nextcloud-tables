@@ -9,12 +9,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import com.google.gson.JsonElement;
+import com.nextcloud.android.sso.model.ocs.OcsResponse;
 
 import java.util.NoSuchElementException;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
+import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.datetime.DateDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.datetime.DateTimeDescriptor;
@@ -32,6 +34,7 @@ import it.niedermann.nextcloud.tables.types.descriptors.text.TextDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.unknown.UnknownDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.usergroup.UserGroupDescriptor;
 import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
+import retrofit2.Call;
 
 public enum EDataType {
 
@@ -127,5 +130,12 @@ public enum EDataType {
     @NonNull
     public JsonElement interceptResponse(@NonNull TablesVersion version, @NonNull JsonElement value) {
         return this.descriptor.getInterceptor().interceptResponse(version, value);
+    }
+
+    @NonNull
+    public Call<OcsResponse<Column>> createColumn(@NonNull TablesAPI tablesAPI,
+                                                  long tableRemoteId,
+                                                  @NonNull Column column) {
+        return this.descriptor.getColumnCreator().createColumn(tablesAPI, tableRemoteId, column);
     }
 }

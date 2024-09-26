@@ -30,6 +30,8 @@ import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.BuildConfig;
 import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
+import it.niedermann.nextcloud.tables.remote.api.TablesV1API;
+import it.niedermann.nextcloud.tables.remote.model.ENodeType;
 import it.niedermann.nextcloud.tables.types.EDataType;
 
 public class RowSyncAdapter extends AbstractSyncAdapter {
@@ -49,7 +51,9 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
+    public void pushLocalChanges(@NonNull TablesAPI api,
+                                 @NonNull TablesV1API apiV1,
+                                 @NonNull Account account) throws Exception {
         final var version = account.getTablesVersion();
         if (version == null) {
             throw new IllegalStateException(TablesVersion.class.getSimpleName() + " is null. Capabilities need to be synchronized before pushing local changes.");
@@ -63,7 +67,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             if (remoteId == null) {
                 db.getRowDao().delete(row);
             } else {
-                final var response = api.deleteRow(row.getRemoteId()).execute();
+                final var response = apiV1.deleteRow(row.getRemoteId()).execute();
                 Log.i(TAG, "------ → HTTP " + response.code());
                 if (response.isSuccessful()) {
                     db.getRowDao().delete(row);
@@ -83,28 +87,43 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
             row.setData(dataset);
 
-            final var response = row.getRemoteId() == null
-                    // TODO perf: fetch all remoteIds at once
-                    ? api.createRow(db.getTableDao().getRemoteId(row.getTableId()), serialize(columns, version, row.getData())).execute()
-                    : api.updateRow(row.getRemoteId(), serialize(columns, version, row.getData())).execute();
-            Log.i(TAG, "------ → HTTP " + response.code());
-            if (response.isSuccessful()) {
-                row.setStatus(DBStatus.VOID);
-                final var body = response.body();
-                if (body == null) {
-                    throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfully, but response body was empty");
-                }
+            if (row.getRemoteId() == null) {
+                final var response = api.createRow(ENodeType.TABLE, db.getTableDao().getRemoteId(row.getTableId()), serialize(columns, version, row.getData())).execute();
+                if (response.isSuccessful()) {
+                    row.setStatus(DBStatus.VOID);
+                    final var body = response.body();
+                    if (body == null || body.ocs == null || body.ocs.data == null) {
+                        throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfully, but response body was empty");
+                    }
 
-                row.setRemoteId(body.getRemoteId());
-                db.getRowDao().update(row);
+                    row.setRemoteId(body.ocs.data.getRemoteId());
+                    db.getRowDao().update(row);
+                } else {
+                    serverErrorHandler.handle(response, "Could not push local changes for row " + row.getRemoteId());
+                }
             } else {
-                serverErrorHandler.handle(response, "Could not push local changes for row " + row.getRemoteId());
+                final var response = apiV1.updateRow(row.getRemoteId(), serialize(columns, version, row.getData())).execute();
+                Log.i(TAG, "------ → HTTP " + response.code());
+                if (response.isSuccessful()) {
+                    row.setStatus(DBStatus.VOID);
+                    final var body = response.body();
+                    if (body == null) {
+                        throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfully, but response body was empty");
+                    }
+
+                    row.setRemoteId(body.getRemoteId());
+                    db.getRowDao().update(row);
+                } else {
+                    serverErrorHandler.handle(response, "Could not push local changes for row " + row.getRemoteId());
+                }
             }
         }
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api, @NonNull Account account) throws Exception {
+    public void pullRemoteChanges(@NonNull TablesAPI api,
+                                  @NonNull TablesV1API apiV1,
+                                  @NonNull Account account) throws Exception {
         final var tables = db.getTableDao().getTablesWithReadPermission(account.getId());
         final var latch = new CountDownLatch(tables.size());
         final var exceptions = new LinkedList<Exception>();
@@ -127,7 +146,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                             throw new IllegalStateException("Expected table remote ID to be present when pushing row changes, but was null");
                         }
 
-                        final var request = api.getRows(tableRemoteId, TablesAPI.DEFAULT_API_LIMIT_ROWS, offset);
+                        final var request = apiV1.getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset);
                         final var response = request.execute();
                         //noinspection SwitchStatementWithTooFewBranches
                         switch (response.code()) {
@@ -145,7 +164,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
 
                                 fetchedRows.addAll(rows);
 
-                                if (rows.size() != TablesAPI.DEFAULT_API_LIMIT_ROWS) {
+                                if (rows.size() != TablesV1API.DEFAULT_API_LIMIT_ROWS) {
                                     break fetchRowsLoop;
                                 }
 
@@ -232,7 +251,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
     }
 
     /**
-     * @see TablesAPI#createRow(long, JsonElement)
+     * @see TablesV1API#createRow(long, JsonElement)
      */
     @NonNull
     private JsonElement serialize(@NonNull List<Column> columns, @NonNull TablesVersion version, @NonNull Data[] dataset) {

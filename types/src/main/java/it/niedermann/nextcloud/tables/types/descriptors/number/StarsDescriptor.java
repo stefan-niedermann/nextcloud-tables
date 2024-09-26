@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.tables.types.descriptors.number;
 
 import androidx.annotation.NonNull;
 
+import it.niedermann.nextcloud.tables.types.creators.ColumnCreator;
+import it.niedermann.nextcloud.tables.types.creators.type.NumberCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.number.NumberDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
@@ -17,12 +19,15 @@ public class StarsDescriptor extends DataTypeDescriptor {
     }
 
     private StarsDescriptor(@NonNull DefaultValueSupplier defaultValueSupplier) {
-        this(new StarsCellFactory(defaultValueSupplier), new NumberStarsEditorFactory(defaultValueSupplier));
+        this(new StarsCellFactory(defaultValueSupplier),
+                new NumberStarsEditorFactory(defaultValueSupplier),
+                new NumberCreator());
     }
 
     private StarsDescriptor(
             @NonNull ViewHolderFactory viewHolderFactory,
-            @NonNull EditorFactory editorFactory) {
-        super(viewHolderFactory, editorFactory);
+            @NonNull EditorFactory editorFactory,
+            @NonNull ColumnCreator columnCreator) {
+        super(viewHolderFactory, editorFactory, columnCreator);
     }
 }

@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.tables.types.descriptors.selection;
 
 import androidx.annotation.NonNull;
 
+import it.niedermann.nextcloud.tables.types.creators.ColumnCreator;
+import it.niedermann.nextcloud.tables.types.creators.type.SelectionCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.selection.SelectionDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
@@ -17,12 +19,15 @@ public class SelectionCheckDescriptor extends DataTypeDescriptor {
     }
 
     private SelectionCheckDescriptor(@NonNull DefaultValueSupplier defaultValueSupplier) {
-        this(new SelectionCheckFactory(defaultValueSupplier), new SelectionCheckEditorFactory(defaultValueSupplier));
+        this(new SelectionCheckFactory(defaultValueSupplier),
+                new SelectionCheckEditorFactory(defaultValueSupplier),
+                new SelectionCreator());
     }
 
     private SelectionCheckDescriptor(
             @NonNull ViewHolderFactory viewHolderFactory,
-            @NonNull EditorFactory editorFactory) {
-        super(viewHolderFactory, editorFactory);
+            @NonNull EditorFactory editorFactory,
+            @NonNull ColumnCreator columnCreator) {
+        super(viewHolderFactory, editorFactory, columnCreator);
     }
 }

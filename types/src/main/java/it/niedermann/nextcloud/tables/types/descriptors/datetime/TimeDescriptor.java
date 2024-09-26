@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.tables.types.descriptors.datetime;
 
 import androidx.annotation.NonNull;
 
+import it.niedermann.nextcloud.tables.types.creators.ColumnCreator;
+import it.niedermann.nextcloud.tables.types.creators.type.DateTimeCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.datetime.TimeDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
@@ -21,13 +23,15 @@ public class TimeDescriptor extends DataTypeDescriptor {
     private TimeDescriptor(@NonNull DefaultValueSupplier defaultValueSupplier) {
         this(new TimeCellFactory(defaultValueSupplier),
                 new TimeEditorFactory(defaultValueSupplier),
+                new DateTimeCreator(),
                 new TimeInterceptor());
     }
 
     private TimeDescriptor(
             @NonNull ViewHolderFactory viewHolderFactory,
             @NonNull EditorFactory editorFactory,
+            @NonNull ColumnCreator columnCreator,
             @NonNull Interceptor interceptor) {
-        super(viewHolderFactory, editorFactory, interceptor);
+        super(viewHolderFactory, editorFactory, columnCreator, interceptor);
     }
 }

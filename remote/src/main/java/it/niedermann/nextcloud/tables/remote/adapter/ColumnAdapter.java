@@ -10,9 +10,11 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
-import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
+import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
 
 public class ColumnAdapter {
 
@@ -21,7 +23,13 @@ public class ColumnAdapter {
     }
 
     @NonNull
-    public String serializeSelectionDefault(@Nullable JsonElement value) {
+    public String serializeSelectionDefault(@Nullable SelectionDefault selectionDefault) {
+        return serializeSelectionDefault(
+                selectionDefault == null ? null : selectionDefault.getValue());
+    }
+
+    @NonNull
+    private String serializeSelectionDefault(@Nullable JsonElement value) {
         if (value == null) {
             return "";
         }
@@ -30,7 +38,13 @@ public class ColumnAdapter {
     }
 
     @NonNull
-    public JsonElement deserializeSelectionDefault(@Nullable JsonElement value) {
+    public SelectionDefault deserializeSelectionDefault(@Nullable SelectionDefault selectionDefault) {
+        return new SelectionDefault(deserializeSelectionDefault(
+                selectionDefault == null ? null : selectionDefault.getValue()));
+    }
+
+    @NonNull
+    private JsonElement deserializeSelectionDefault(@Nullable JsonElement value) {
         if (value == null) {
             return JsonNull.INSTANCE;
         }
@@ -44,11 +58,13 @@ public class ColumnAdapter {
     }
 
     @NonNull
-    public String serializeSelectionOptions(@NonNull Column column) {
+    public String serializeSelectionOptions(@Nullable Collection<SelectionOption> selectionOptions) {
         final var options = new JsonArray();
 
-        for (final var option : column.getSelectionOptions()) {
-            options.add(option.getRemoteId());
+        if (selectionOptions != null) {
+            for (final var option : selectionOptions) {
+                options.add(option.getRemoteId());
+            }
         }
 
         return options.toString();
