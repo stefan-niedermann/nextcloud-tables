@@ -84,6 +84,8 @@
     <FrameLayout
         android:id="@+id/managerHolder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacer_2x"
+        android:layout_marginTop="@dimen/spacer_2x" />
 
 </LinearLayout>

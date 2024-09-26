@@ -34,8 +34,8 @@ public abstract class DataTypeDescriptor {
             @NonNull ViewHolderFactory viewHolderFactory,
             @NonNull EditorFactory editorFactory,
             @NonNull ColumnCreator columnCreator,
-            @NonNull UnknownManagerFactory managerFactory) {
-        this(viewHolderFactory, editorFactory, columnCreator, managerFactory, new NoOpInterceptor());
+            @NonNull ManageFactory manageFactory) {
+        this(viewHolderFactory, editorFactory, columnCreator, manageFactory, new NoOpInterceptor());
     }
 
     protected DataTypeDescriptor(

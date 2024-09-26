@@ -44,9 +44,6 @@ public class NumberProgressEditor extends ColumnEditView implements Slider.OnCha
     protected View onCreate(@NonNull Context context, @NonNull Data data) {
         binding = EditNumberProgressBinding.inflate(LayoutInflater.from(context));
         binding.title.setText(column.getTitle());
-        binding.progress.setValueFrom(0f);
-        binding.progress.setValueTo(100f);
-        binding.progress.setStepSize(1f);
         binding.progress.addOnChangeListener(this);
 
         final var value = data.getValue();
@@ -70,7 +67,8 @@ public class NumberProgressEditor extends ColumnEditView implements Slider.OnCha
             binding.progress.setValue(0);
         } else {
             try {
-                binding.progress.setValue(value.getAsInt());
+                // https://github.com/nextcloud/tables/issues/1385
+                binding.progress.setValue(Math.min(100f, value.getAsInt()));
             } catch (NumberFormatException e) {
                 binding.progress.setValue(0);
             }

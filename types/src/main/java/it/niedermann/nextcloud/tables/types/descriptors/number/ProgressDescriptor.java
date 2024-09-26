@@ -9,6 +9,7 @@ import it.niedermann.nextcloud.tables.types.defaults.supplier.number.NumberDefau
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
 import it.niedermann.nextcloud.tables.types.editor.factories.EditorFactory;
 import it.niedermann.nextcloud.tables.types.editor.factories.number.NumberProgressEditorFactory;
+import it.niedermann.nextcloud.tables.types.manager.factories.number.NumberProgressManagerFactory;
 import it.niedermann.nextcloud.tables.types.viewer.ViewHolderFactory;
 import it.niedermann.nextcloud.tables.types.viewer.factories.number.ProgressCellFactory;
 
@@ -28,6 +29,6 @@ public class ProgressDescriptor extends DataTypeDescriptor {
             @NonNull ViewHolderFactory viewHolderFactory,
             @NonNull EditorFactory editorFactory,
             @NonNull ColumnCreator columnCreator) {
-        super(viewHolderFactory, editorFactory, columnCreator);
+        super(viewHolderFactory, editorFactory, columnCreator, new NumberProgressManagerFactory());
     }
 }

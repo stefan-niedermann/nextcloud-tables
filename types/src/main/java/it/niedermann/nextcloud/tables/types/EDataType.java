@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.tables.types;
 
+import static java.util.function.Predicate.not;
+
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -118,10 +121,21 @@ public enum EDataType {
     }
 
     @NonNull
+    public String getType() {
+        return this.type;
+    }
+
+    @NonNull
+    public String getSubType() {
+        return this.subType;
+    }
+
+    @NonNull
     public static Collection<String> getTypes() {
         return Arrays
                 .stream(values())
                 .map(value -> value.type)
+                .filter(not(TextUtils::isEmpty))
                 .collect(Collectors.toUnmodifiableSet());
     }
 
@@ -131,6 +145,7 @@ public enum EDataType {
                 .stream(values())
                 .filter(value -> value.type.equals(type))
                 .map(value -> value.subType)
+//                .filter(not(TextUtils::isEmpty))
                 .collect(Collectors.toUnmodifiableSet());
     }
 

@@ -7,20 +7,16 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.Px;
 import androidx.fragment.app.FragmentManager;
 
-import java.util.Optional;
-
 import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.types.R;
 
 public abstract class ColumnManageView extends FrameLayout {
 
     protected static final String KEY_COLUMN = "column";
-
     protected Column column;
     protected FragmentManager fragmentManager;
 
@@ -33,11 +29,10 @@ public abstract class ColumnManageView extends FrameLayout {
     }
 
     public ColumnManageView(@NonNull Context context,
-                             @NonNull Column column,
-                             @Nullable FragmentManager fragmentManager
+                            @NonNull Column column,
+                            @Nullable FragmentManager fragmentManager
     ) {
         this(context);
-        this.column = column;
         this.fragmentManager = fragmentManager;
 
         final var layoutParams = new LayoutParams(
@@ -45,10 +40,9 @@ public abstract class ColumnManageView extends FrameLayout {
                 LayoutParams.WRAP_CONTENT
         );
 
-        @Px final int verticalMargin = context.getResources().getDimensionPixelSize(R.dimen.spacer_1x);
-        layoutParams.setMargins(0, verticalMargin, 0, verticalMargin);
         setLayoutParams(layoutParams);
         addView(onCreate(context));
+        setColumn(column);
         requestLayout();
         invalidate();
     }
@@ -85,28 +79,16 @@ public abstract class ColumnManageView extends FrameLayout {
         }
     }
 
-    protected void onValueChanged() {
-        validate().ifPresentOrElse(
-                this::setErrorMessage,
-                () -> setErrorMessage(null)
-        );
-    }
-
     @NonNull
     protected abstract View onCreate(@NonNull Context context);
 
     @NonNull
-    public abstract Column getColumn();
+    public Column getColumn() {
+        return this.column;
+    }
 
-    protected abstract void setColumn(@NonNull Column column);
-
-    public abstract void setErrorMessage(@Nullable String message);
-
-    /**
-     * @return an error message if invalid, {@link Optional#empty()} otherwise.
-     */
-    @NonNull
-    public Optional<String> validate() {
-        return Optional.empty();
+    @CallSuper
+    protected void setColumn(@NonNull Column column) {
+        this.column = column;
     }
 }

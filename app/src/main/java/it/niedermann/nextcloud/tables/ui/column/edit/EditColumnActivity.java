@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Objects;
+
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -73,10 +77,14 @@ public class EditColumnActivity extends AppCompatActivity {
 
         binding.typeSelection.getDataType$().observe(this, dataType -> {
             try {
-                final var manager = dataType.createManager(this, new Column(), getSupportFragmentManager());
-                binding.managerHolder.removeAllViews();
+                final var column = new Column();
+                column.setTableId(table.getId());
+                column.setType(dataType.getType());
+                column.setSubtype(dataType.getSubType());
 
-                manager.addView(manager);
+                columnManageView = dataType.createManager(this, column, getSupportFragmentManager());
+                binding.managerHolder.removeAllViews();
+                binding.managerHolder.addView(columnManageView);
             } catch (Exception e) {
                 ExceptionDialogFragment.newInstance(e, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
@@ -94,21 +102,16 @@ public class EditColumnActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.save) {
             if (this.column == null) {
                 if (columnManageView == null) {
-                    this.column = new Column();
-                    this.column.setType("text");
-                    this.column.setSubtype("line");
-                } else {
-                    this.column = columnManageView.getColumn();
+                    Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
+                    return false;
                 }
 
-                this.column.setTableId(table.getId());
+                this.column = columnManageView.getColumn();
             }
 
             // TODO validate title not null
-            final var title = binding.title.getText();
-            final var description = binding.description.getText();
-            this.column.setTitle(title == null ? "" : title.toString());
-            this.column.setDescription(description == null ? "" : description.toString());
+            this.column.setTitle(Objects.requireNonNullElse(binding.title.getText(), "").toString());
+            this.column.setDescription(Objects.requireNonNullElse(binding.description.getText(), "").toString());
             this.column.setMandatory(binding.mandatory.isChecked());
 
             final var futureResult = this.column.getRemoteId() == null

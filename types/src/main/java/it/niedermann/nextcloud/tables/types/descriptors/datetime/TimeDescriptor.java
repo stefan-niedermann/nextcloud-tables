@@ -11,7 +11,7 @@ import it.niedermann.nextcloud.tables.types.editor.factories.EditorFactory;
 import it.niedermann.nextcloud.tables.types.editor.factories.datetime.TimeEditorFactory;
 import it.niedermann.nextcloud.tables.types.interceptors.Interceptor;
 import it.niedermann.nextcloud.tables.types.interceptors.datetime.TimeInterceptor;
-import it.niedermann.nextcloud.tables.types.manager.factories.unknown.UnknownManagerFactory;
+import it.niedermann.nextcloud.tables.types.manager.factories.datetime.DateTimeManagerFactory;
 import it.niedermann.nextcloud.tables.types.viewer.ViewHolderFactory;
 import it.niedermann.nextcloud.tables.types.viewer.factories.datetime.TimeCellFactory;
 
@@ -33,6 +33,6 @@ public class TimeDescriptor extends DataTypeDescriptor {
             @NonNull EditorFactory editorFactory,
             @NonNull ColumnCreator columnCreator,
             @NonNull Interceptor interceptor) {
-        super(viewHolderFactory, editorFactory, columnCreator, new UnknownManagerFactory(), interceptor);
+        super(viewHolderFactory, editorFactory, columnCreator, new DateTimeManagerFactory(), interceptor);
     }
 }

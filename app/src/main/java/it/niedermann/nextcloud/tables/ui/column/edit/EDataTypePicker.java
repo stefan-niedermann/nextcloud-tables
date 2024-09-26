@@ -36,26 +36,22 @@ public class EDataTypePicker extends FrameLayout {
 
     public EDataTypePicker(Context context) {
         super(context);
-        binding = ViewDatatypePickerBinding.inflate(LayoutInflater.from(context));
-        addView(binding.getRoot());
+        onCreate();
     }
 
     public EDataTypePicker(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        binding = ViewDatatypePickerBinding.inflate(LayoutInflater.from(context));
-        addView(binding.getRoot());
+        onCreate();
     }
 
     public EDataTypePicker(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        binding = ViewDatatypePickerBinding.inflate(LayoutInflater.from(context));
-        addView(binding.getRoot());
+        onCreate();
     }
 
     public EDataTypePicker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        binding = ViewDatatypePickerBinding.inflate(LayoutInflater.from(context));
-        addView(binding.getRoot());
+        onCreate();
     }
 
     private void onCreate() {

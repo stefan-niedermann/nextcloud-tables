@@ -149,4 +149,5 @@
 
     <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
     <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
+    <string name="column_type_is_required">Column type is required</string>
 </resources>

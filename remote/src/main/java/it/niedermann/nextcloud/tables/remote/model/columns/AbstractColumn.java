@@ -14,7 +14,7 @@ public class AbstractColumn {
     private final long baseNodeId;
     private final String title;
     private final String description;
-    private final String subType;
+    private final String subtype;
     private final boolean mandatory;
     private final ENodeType nodeType;
     private final Collection<Long> selectedViewIds;
@@ -34,14 +34,14 @@ public class AbstractColumn {
     protected AbstractColumn(long baseNodeId,
                              String title,
                              String description,
-                             String subType,
+                             String subtype,
                              boolean mandatory,
                              ENodeType nodeType,
                              Collection<Long> selectedViewIds) {
         this.baseNodeId = baseNodeId;
         this.title = title;
         this.description = description;
-        this.subType = subType;
+        this.subtype = subtype;
         this.mandatory = mandatory;
         this.nodeType = nodeType;
         this.selectedViewIds = selectedViewIds;
@@ -59,8 +59,8 @@ public class AbstractColumn {
         return description;
     }
 
-    public String getSubType() {
-        return subType;
+    public String getSubtype() {
+        return subtype;
     }
 
     public boolean isMandatory() {
@@ -80,11 +80,11 @@ public class AbstractColumn {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractColumn that = (AbstractColumn) o;
-        return baseNodeId == that.baseNodeId && mandatory == that.mandatory && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(subType, that.subType) && nodeType == that.nodeType && Objects.equals(selectedViewIds, that.selectedViewIds);
+        return baseNodeId == that.baseNodeId && mandatory == that.mandatory && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(subtype, that.subtype) && nodeType == that.nodeType && Objects.equals(selectedViewIds, that.selectedViewIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(baseNodeId, title, description, subType, mandatory, nodeType, selectedViewIds);
+        return Objects.hash(baseNodeId, title, description, subtype, mandatory, nodeType, selectedViewIds);
     }
 }
