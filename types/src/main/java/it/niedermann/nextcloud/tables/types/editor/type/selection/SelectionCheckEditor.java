@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.types.databinding.EditSelectionCheckBinding;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
-import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
+import it.niedermann.nextcloud.tables.types.editor.type.ColumnEditView;
 
 public class SelectionCheckEditor extends ColumnEditView implements CompoundButton.OnCheckedChangeListener {
 

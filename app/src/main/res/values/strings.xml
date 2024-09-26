@@ -17,6 +17,8 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Mandatory</string>
     <string name="simple_description">Description</string>
+    <string name="simple_type">Type</string>
+    <string name="simple_subtype">Subtype</string>
 
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>

@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.types.databinding.EditNumberProgressBinding;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
-import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
+import it.niedermann.nextcloud.tables.types.editor.type.ColumnEditView;
 
 public class NumberProgressEditor extends ColumnEditView implements Slider.OnChangeListener {
 

@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.types.R;
 import it.niedermann.nextcloud.tables.types.databinding.EditTextviewBinding;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
-import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
+import it.niedermann.nextcloud.tables.types.editor.type.ColumnEditView;
 
 public class UnknownEditor extends ColumnEditView {
 

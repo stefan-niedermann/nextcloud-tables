@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
-import it.niedermann.nextcloud.tables.types.editor.AbstractEditorFactory;
-import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
+import it.niedermann.nextcloud.tables.types.editor.factories.AbstractEditorFactory;
+import it.niedermann.nextcloud.tables.types.editor.type.ColumnEditView;
 import it.niedermann.nextcloud.tables.types.editor.type.text.TextEditor;
 
 public class TextEditorFactory extends AbstractEditorFactory {

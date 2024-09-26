@@ -11,7 +11,10 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import com.google.gson.JsonElement;
 import com.nextcloud.android.sso.model.ocs.OcsResponse;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -33,7 +36,8 @@ import it.niedermann.nextcloud.tables.types.descriptors.text.RichViewDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.text.TextDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.unknown.UnknownDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.usergroup.UserGroupDescriptor;
-import it.niedermann.nextcloud.tables.types.editor.ColumnEditView;
+import it.niedermann.nextcloud.tables.types.editor.type.ColumnEditView;
+import it.niedermann.nextcloud.tables.types.manager.type.ColumnManageView;
 import retrofit2.Call;
 
 public enum EDataType {
@@ -82,14 +86,18 @@ public enum EDataType {
     }
 
     public static EDataType findByColumn(@NonNull Column column) {
+        return findByType(column.getType(), column.getSubtype());
+    }
+
+    public static EDataType findByType(@NonNull String type, @NonNull String subType) {
         for (final var entry : EDataType.values()) {
-            if (entry.type.equals(column.getType()) && entry.subType.equals(column.getSubtype())) {
+            if (entry.type.equals(type) && entry.subType.equals(subType)) {
                 return entry;
             }
         }
 
         if (BuildConfig.DEBUG) {
-            throw new UnsupportedOperationException("Unknown column type: " + column.getType() + "/" + column.getSubtype());
+            throw new UnsupportedOperationException("Unknown column type: " + type + "/" + subType);
         }
 
         return EDataType.UNKNOWN;
@@ -110,6 +118,23 @@ public enum EDataType {
     }
 
     @NonNull
+    public static Collection<String> getTypes() {
+        return Arrays
+                .stream(values())
+                .map(value -> value.type)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @NonNull
+    public static Collection<String> getSubTypes(@NonNull String type) {
+        return Arrays
+                .stream(values())
+                .filter(value -> value.type.equals(type))
+                .map(value -> value.subType)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    @NonNull
     public AbstractViewHolder createViewHolder(@NonNull ViewGroup parent) {
         return this.descriptor.getViewHolderFactory().create(parent);
     }
@@ -120,6 +145,13 @@ public enum EDataType {
                                        @Nullable Data data,
                                        @Nullable FragmentManager fragmentManager) throws Exception {
         return this.descriptor.getEditorFactory().create(context, column, data, fragmentManager);
+    }
+
+    @NonNull
+    public ColumnManageView createManager(@NonNull Context context,
+                                          @NonNull Column column,
+                                          @Nullable FragmentManager fragmentManager) {
+        return this.descriptor.getManageFactory().create(context, column, fragmentManager);
     }
 
     @NonNull

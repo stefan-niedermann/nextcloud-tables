@@ -121,8 +121,8 @@ public interface TablesAPI {
     @PUT("tables/{tableId}?format=json")
     Call<OcsResponse<Table>> updateTable(@Path("tableId") long tableId,
                                          @Query("title") @NonNull String title,
-                                         @Query("emoji") @NonNull String emoji,
-                                         @Query("description") @NonNull String description);
+                                         @Query("description") @NonNull String description,
+                                         @Query("emoji") @NonNull String emoji);
 
     /**
      * @since 0.8.0

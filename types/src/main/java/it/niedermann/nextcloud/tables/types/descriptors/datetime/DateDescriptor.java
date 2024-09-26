@@ -7,10 +7,11 @@ import it.niedermann.nextcloud.tables.types.creators.type.DateTimeCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.datetime.DateDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
-import it.niedermann.nextcloud.tables.types.editor.EditorFactory;
+import it.niedermann.nextcloud.tables.types.editor.factories.EditorFactory;
 import it.niedermann.nextcloud.tables.types.editor.factories.datetime.DateEditorFactory;
 import it.niedermann.nextcloud.tables.types.interceptors.Interceptor;
 import it.niedermann.nextcloud.tables.types.interceptors.datetime.DateInterceptor;
+import it.niedermann.nextcloud.tables.types.manager.factories.unknown.UnknownManagerFactory;
 import it.niedermann.nextcloud.tables.types.viewer.ViewHolderFactory;
 import it.niedermann.nextcloud.tables.types.viewer.factories.datetime.DateCellFactory;
 
@@ -32,6 +33,6 @@ public class DateDescriptor extends DataTypeDescriptor {
             @NonNull EditorFactory editorFactory,
             @NonNull ColumnCreator columnCreator,
             @NonNull Interceptor interceptor) {
-        super(viewHolderFactory, editorFactory, columnCreator, interceptor);
+        super(viewHolderFactory, editorFactory, columnCreator, new UnknownManagerFactory(), interceptor);
     }
 }

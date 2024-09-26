@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditColumnBinding;
+import it.niedermann.nextcloud.tables.types.manager.type.ColumnManageView;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
@@ -30,6 +32,9 @@ public class EditColumnActivity extends AppCompatActivity {
     private Column column;
     private EditColumnViewModel editColumnViewModel;
     private ActivityEditColumnBinding binding;
+
+    @Nullable
+    private ColumnManageView columnManageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +60,9 @@ public class EditColumnActivity extends AppCompatActivity {
 
         if (column == null) {
             binding.toolbar.setTitle(R.string.add_column);
+            binding.typeSelection.setVisibility(View.VISIBLE);
         } else {
+            binding.typeSelection.setVisibility(View.GONE);
             binding.toolbar.setTitle(getString(R.string.edit_item, column.getTitle()));
             binding.title.setText(column.getTitle());
             binding.description.setText(column.getDescription());
@@ -63,6 +70,17 @@ public class EditColumnActivity extends AppCompatActivity {
         }
 
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
+
+        binding.typeSelection.getDataType$().observe(this, dataType -> {
+            try {
+                final var manager = dataType.createManager(this, new Column(), getSupportFragmentManager());
+                binding.managerHolder.removeAllViews();
+
+                manager.addView(manager);
+            } catch (Exception e) {
+                ExceptionDialogFragment.newInstance(e, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
@@ -75,11 +93,15 @@ public class EditColumnActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
             if (this.column == null) {
-                this.column = new Column();
-                this.column.setType("text");
-                this.column.setSubtype("line");
+                if (columnManageView == null) {
+                    this.column = new Column();
+                    this.column.setType("text");
+                    this.column.setSubtype("line");
+                } else {
+                    this.column = columnManageView.getColumn();
+                }
+
                 this.column.setTableId(table.getId());
-                this.column.setOrderWeight(0);
             }
 
             // TODO validate title not null

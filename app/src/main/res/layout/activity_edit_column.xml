@@ -23,12 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorErrorContainer"
-        app:drawableStartCompat="@drawable/baseline_warning_amber_24"
         android:drawablePadding="@dimen/spacer_2x"
         android:paddingHorizontal="@dimen/spacer_2x"
         android:paddingVertical="@dimen/spacer_1x"
         android:text="@string/experimental_feature_column_manage"
-        android:textColor="?attr/colorOnErrorContainer" />
+        android:textColor="?attr/colorOnErrorContainer"
+        app:drawableStartCompat="@drawable/baseline_warning_amber_24" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/titleWrapper"
@@ -73,5 +73,17 @@
             android:layout_weight="1"
             android:text="@string/simple_mandatory" />
     </LinearLayout>
+
+    <it.niedermann.nextcloud.tables.ui.column.edit.EDataTypePicker
+        android:id="@+id/typeSelection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacer_2x"
+        android:layout_marginTop="@dimen/spacer_2x" />
+
+    <FrameLayout
+        android:id="@+id/managerHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

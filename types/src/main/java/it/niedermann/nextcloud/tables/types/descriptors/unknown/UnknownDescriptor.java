@@ -7,7 +7,7 @@ import it.niedermann.nextcloud.tables.types.creators.NoOpCreator;
 import it.niedermann.nextcloud.tables.types.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.types.defaults.supplier.NoOpDefaultSupplier;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
-import it.niedermann.nextcloud.tables.types.editor.EditorFactory;
+import it.niedermann.nextcloud.tables.types.editor.factories.EditorFactory;
 import it.niedermann.nextcloud.tables.types.editor.factories.unknown.UnknownEditorFactory;
 import it.niedermann.nextcloud.tables.types.viewer.ViewHolderFactory;
 import it.niedermann.nextcloud.tables.types.viewer.factories.text.TextCellFactory;

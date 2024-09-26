@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.types.editor;
+package it.niedermann.nextcloud.tables.types.editor.type;
 
 import android.content.Context;
 import android.os.Bundle;
