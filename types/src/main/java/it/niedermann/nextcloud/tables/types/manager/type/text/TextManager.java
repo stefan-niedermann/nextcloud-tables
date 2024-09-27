@@ -52,6 +52,6 @@ public class TextManager extends ColumnManageView {
         super.setColumn(column);
         binding.textDefault.setText(column.getTextDefault());
         binding.textAllowedPattern.setText(column.getTextAllowedPattern());
-        binding.textMaxLength.setText(column.getTextMaxLength());
+        binding.textMaxLength.setText(Objects.requireNonNullElse(column.getTextMaxLength(), 0));
     }
 }

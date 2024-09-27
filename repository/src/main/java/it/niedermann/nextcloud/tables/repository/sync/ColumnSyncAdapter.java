@@ -11,24 +11,36 @@ import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.remote.adapter.ColumnAdapter;
-import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
-import it.niedermann.nextcloud.tables.remote.api.TablesV1API;
-import it.niedermann.nextcloud.tables.remote.model.ENodeType;
+import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.SelectionOptionV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.SelectionOptionV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.ColumnV2Mapper;
 import it.niedermann.nextcloud.tables.types.EDataType;
 
 public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = ColumnSyncAdapter.class.getSimpleName();
+    private final Mapper<SelectionOptionV1Dto, SelectionOption> selectionOptionMapper;
+    private final Mapper<ColumnV2Dto, Column> columnMapper;
     private final ColumnAdapter columnAdapter;
 
-    public ColumnSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
+    public ColumnSyncAdapter(@NonNull TablesDatabase db,
+                             @NonNull Context context) {
         super(db, context);
+        this.selectionOptionMapper = new SelectionOptionV1Mapper();
+        this.columnMapper = new ColumnV2Mapper();
         this.columnAdapter = new ColumnAdapter();
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api,
+    public void pushLocalChanges(@NonNull TablesV2API apiV2,
                                  @NonNull TablesV1API apiV1,
                                  @NonNull Account account) throws Exception {
         Log.v(TAG, "--- Pushing local columns for " + account.getAccountName());
@@ -58,7 +70,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
             if (column.getRemoteId() == null) {
                 final var response = EDataType
                         .findByColumn(column)
-                        .createColumn(api, db.getTableDao().getRemoteId(column.getTableId()), column).execute();
+                        .createColumn(apiV2, db.getTableDao().getRemoteId(column.getTableId()), columnMapper.toDto(column)).execute();
 
                 Log.i(TAG, "--- → HTTP " + response.code());
                 if (response.isSuccessful()) {
@@ -68,7 +80,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                         throw new NullPointerException("Pushing changes for column " + column.getTitle() + " was successfull, but response body was empty");
                     }
 
-                    column.setRemoteId(body.ocs.data.getRemoteId());
+                    column.setRemoteId(body.ocs.data.remoteId());
                     db.getColumnDao().update(column);
                 } else {
                     serverErrorHandler.handle(response, "Could not push local changes for column " + column.getTitle());
@@ -87,7 +99,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                         column.getTextDefault(),
                         column.getTextAllowedPattern(),
                         column.getTextMaxLength(),
-                        column.getSelectionOptions(),
+                        selectionOptionMapper.toDtoList(column.getSelectionOptions()),
 //                    this.columnAdapter.serializeSelectionOptions(column.getSelectionOptions()),
                         this.columnAdapter.serializeSelectionDefault(column.getSelectionDefault()),
                         column.getDatetimeDefault()).execute();
@@ -100,7 +112,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                         throw new NullPointerException("Pushing changes for column " + column.getTitle() + " was successfull, but response body was empty");
                     }
 
-                    column.setRemoteId(body.getRemoteId());
+                    column.setRemoteId(body.remoteId());
                     db.getColumnDao().update(column);
                 } else {
                     serverErrorHandler.handle(response, "Could not push local changes for column " + column.getTitle());
@@ -110,7 +122,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api,
+    public void pullRemoteChanges(@NonNull TablesV2API apiV2,
                                   @NonNull TablesV1API apiV1,
                                   @NonNull Account account) throws Exception {
         for (final var table : db.getTableDao().getTables(account.getId())) {
@@ -119,7 +131,7 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                 throw new IllegalStateException("Expected table remote ID to be present when pushing column changes, but was null");
             }
 
-            final var request = api.getColumns(ENodeType.TABLE, tableRemoteId);
+            final var request = apiV2.getColumns(ENodeTypeV2Dto.TABLE, tableRemoteId);
             final var response = request.execute();
             //noinspection SwitchStatementWithTooFewBranches
             switch (response.code()) {
@@ -129,12 +141,13 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                         throw new RuntimeException("Response body is null");
                     }
 
-                    final var columns = responseBody.ocs.data;
+                    final var columnDtos = responseBody.ocs.data;
 
-                    final var columnRemoteIds = columns.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+                    final var columnRemoteIds = columnDtos.stream().map(ColumnV2Dto::remoteId).collect(toUnmodifiableSet());
                     final var columnIds = db.getColumnDao().getColumnRemoteAndLocalIds(account.getId(), columnRemoteIds);
 
-                    for (final var column : columns) {
+                    for (final var columnDto : columnDtos) {
+                        final var column = columnMapper.toEntity(columnDto);
                         column.setAccountId(account.getId());
                         column.setTableId(table.getId());
                         column.setETag(response.headers().get(HEADER_ETAG));

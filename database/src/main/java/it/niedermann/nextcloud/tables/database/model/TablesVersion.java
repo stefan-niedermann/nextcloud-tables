@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.tables.database.model;
 
 import androidx.annotation.NonNull;
 
-import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
-
 public class TablesVersion extends Version {
 
     public static final Version V_0_5_0 = new Version("0.5.0", 0, 5, 0);
@@ -18,10 +16,6 @@ public class TablesVersion extends Version {
 
     public static TablesVersion of(@NonNull Version version) {
         return new TablesVersion(version.getVersion(), version.getMajor(), version.getMinor(), version.getPatch());
-    }
-
-    public static TablesVersion of(@NonNull OcsCapabilitiesResponse.OcsVersion version) {
-        return new TablesVersion(version.string, version.major, version.minor, version.macro);
     }
 
     public boolean isSupported() {

@@ -11,7 +11,7 @@ import com.google.gson.JsonPrimitive;
 import java.time.format.DateTimeFormatter;
 
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
-import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
+import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
 import it.niedermann.nextcloud.tables.types.interceptors.Interceptor;
 
 public class DateInterceptor implements Interceptor {
@@ -22,7 +22,7 @@ public class DateInterceptor implements Interceptor {
             return JsonNull.INSTANCE;
         }
 
-        return new JsonPrimitive(TablesAPI.FORMATTER_DATA_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE.parse(value.getAsString())));
+        return new JsonPrimitive(TablesV2API.FORMATTER_DATA_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE.parse(value.getAsString())));
     }
 
     @NonNull
@@ -43,6 +43,6 @@ public class DateInterceptor implements Interceptor {
 
         return TextUtils.isEmpty(str)
                 ? JsonNull.INSTANCE
-                : new JsonPrimitive(DateTimeFormatter.ISO_DATE.format(TablesAPI.FORMATTER_DATA_DATE.parse(str)));
+                : new JsonPrimitive(DateTimeFormatter.ISO_DATE.format(TablesV2API.FORMATTER_DATA_DATE.parse(str)));
     }
 }

@@ -16,11 +16,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
@@ -118,16 +120,13 @@ public class MainViewModel extends AndroidViewModel {
 
     @NonNull
     public LiveData<Pair<Account, NetworkRequest>> getAccountAndNetworkRequest() {
-        return switchMap(getCurrentAccount(), account -> {
-            if (account != null) {
-                return map(preferencesRepository.getNetworkRequest$(), parameter -> new Pair<>(account, parameter));
-            } else {
-                return new MutableLiveData<>();
-            }
-        });
+        return new ReactiveLiveData<>(getCurrentAccount())
+                .distinctUntilChanged()
+                .filter(Objects::nonNull)
+                .combineWith(preferencesRepository::getNetworkRequest$);
     }
 
-    static class TablesPerAccount {
+    public static class TablesPerAccount {
         @NonNull
         private final Account account;
         @NonNull

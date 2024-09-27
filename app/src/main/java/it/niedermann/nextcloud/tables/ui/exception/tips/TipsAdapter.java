@@ -35,8 +35,8 @@ import java.util.List;
 import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.remote.exception.InsufficientPermissionException;
-import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
+import it.niedermann.nextcloud.tables.repository.exception.InsufficientPermissionException;
+import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
 

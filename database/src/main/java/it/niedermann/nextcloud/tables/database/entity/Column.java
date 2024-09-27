@@ -7,9 +7,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
@@ -38,8 +35,6 @@ import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
         }
 )
 public class Column extends AbstractRemoteEntity {
-    @SerializedName("localTableId")
-    @Expose(deserialize = false, serialize = false)
     private long tableId;
     @ColumnInfo(defaultValue = "")
     private String title = "";
@@ -71,7 +66,6 @@ public class Column extends AbstractRemoteEntity {
     private SelectionDefault selectionDefault;
     private String datetimeDefault;
     @Ignore
-    @Expose(deserialize = false, serialize = false)
     private List<String> usergroupDefault;
     private boolean usergroupMultipleItems;
     private boolean usergroupSelectUsers;

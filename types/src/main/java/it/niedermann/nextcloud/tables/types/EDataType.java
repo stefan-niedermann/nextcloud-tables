@@ -22,7 +22,8 @@ import java.util.stream.Collectors;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
-import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
+import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.types.descriptors.DataTypeDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.datetime.DateDescriptor;
 import it.niedermann.nextcloud.tables.types.descriptors.datetime.DateTimeDescriptor;
@@ -180,9 +181,9 @@ public enum EDataType {
     }
 
     @NonNull
-    public Call<OcsResponse<Column>> createColumn(@NonNull TablesAPI tablesAPI,
-                                                  long tableRemoteId,
-                                                  @NonNull Column column) {
-        return this.descriptor.getColumnCreator().createColumn(tablesAPI, tableRemoteId, column);
+    public Call<OcsResponse<ColumnV2Dto>> createColumn(@NonNull TablesV2API tablesV2API,
+                                                       long tableRemoteId,
+                                                       @NonNull ColumnV2Dto column) {
+        return this.descriptor.getColumnCreator().createColumn(tablesV2API, tableRemoteId, column);
     }
 }

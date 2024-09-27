@@ -3,8 +3,6 @@ package it.niedermann.nextcloud.tables.database.entity;
 import androidx.room.Entity;
 import androidx.room.Index;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.Objects;
 
 @Entity(
@@ -15,8 +13,6 @@ import java.util.Objects;
 )
 public abstract class AbstractAccountRelatedEntity extends AbstractEntity {
 
-
-    @Expose(deserialize = false, serialize = false)
     protected long accountId;
 
     public AbstractAccountRelatedEntity() {

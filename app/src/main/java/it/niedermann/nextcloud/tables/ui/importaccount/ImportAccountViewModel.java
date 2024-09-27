@@ -13,9 +13,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.remote.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
+import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
 
 public class ImportAccountViewModel extends AndroidViewModel {
 

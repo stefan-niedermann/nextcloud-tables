@@ -4,9 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.PrimaryKey;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,11 +12,8 @@ import it.niedermann.nextcloud.tables.database.DBStatus;
 public abstract class AbstractEntity implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    @Expose(deserialize = false, serialize = false)
-    @SerializedName("localId")
     protected long id;
 
-    @Expose(deserialize = false, serialize = false)
     @Nullable
     protected String eTag;
 

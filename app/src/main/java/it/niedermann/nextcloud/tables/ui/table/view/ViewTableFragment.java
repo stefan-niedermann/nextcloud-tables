@@ -25,7 +25,7 @@ import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.model.FullTable;
-import it.niedermann.nextcloud.tables.remote.model.EPermission;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.EPermissionV2Dto;
 import it.niedermann.nextcloud.tables.types.viewer.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
@@ -96,7 +96,7 @@ public class ViewTableFragment extends Fragment {
             @Override
             public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
                 if (!fullTable.getTable().hasUpdatePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermission.UPDATE);
+                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.UPDATE);
                     return;
                 }
 
@@ -111,7 +111,7 @@ public class ViewTableFragment extends Fragment {
             @Override
             public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
                 if (!fullTable.getTable().hasUpdatePermission() && !fullTable.getTable().hasDeletePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermission.UPDATE + ", " + EPermission.DELETE);
+                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.UPDATE + ", " + EPermissionV2Dto.DELETE);
                     return;
                 }
 
@@ -172,7 +172,7 @@ public class ViewTableFragment extends Fragment {
                 }
 
                 if (!fullTable.getTable().hasManagePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermission.MANAGE);
+                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.MANAGE);
                     return;
                 }
 

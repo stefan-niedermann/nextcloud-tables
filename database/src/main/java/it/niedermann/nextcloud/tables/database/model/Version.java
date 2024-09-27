@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.tables.database.model;
 
 import androidx.annotation.NonNull;
 
-import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
-
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
@@ -20,10 +18,6 @@ public class Version implements Serializable, Comparable<Version> {
         this.major = major;
         this.minor = minor;
         this.patch = patch;
-    }
-
-    public static Version of(@NonNull OcsCapabilitiesResponse.OcsVersion version) {
-        return new Version(version.string, version.major, version.minor, version.macro);
     }
 
     public static Version parse(@NonNull String version) {

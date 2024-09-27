@@ -36,8 +36,6 @@ ext {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
-    api 'com.github.nextcloud:Android-SingleSignOn:1.2.0'
-
     api 'com.google.code.gson:gson:2.11.0'
 
     // Database

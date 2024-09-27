@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
+import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
 import retrofit2.Response;
 
 public class ServerErrorHandler {

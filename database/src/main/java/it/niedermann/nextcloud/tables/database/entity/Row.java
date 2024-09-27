@@ -6,9 +6,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.time.Instant;
 import java.util.Objects;
 
@@ -34,8 +31,6 @@ import java.util.Objects;
         }
 )
 public class Row extends AbstractRemoteEntity {
-    @SerializedName("localTableId")
-    @Expose(deserialize = false, serialize = false)
     private long tableId;
     @ColumnInfo(defaultValue = "")
     private String createdBy;

@@ -8,8 +8,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 
 import com.google.gson.JsonElement;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
@@ -51,14 +49,9 @@ import java.util.Objects;
 )
 public class Data extends AbstractAccountRelatedEntity {
 
-    @SerializedName("localColumnId")
-    @Expose(deserialize = false, serialize = false)
     private long columnId;
-    @SerializedName("localRowId")
-    @Expose(deserialize = false, serialize = false)
     private long rowId;
     @Nullable
-    @SerializedName("columnId")
     private Long remoteColumnId;
     @Nullable
     private JsonElement value;

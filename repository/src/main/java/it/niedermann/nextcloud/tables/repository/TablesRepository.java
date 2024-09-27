@@ -19,10 +19,10 @@ import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
-import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
-import it.niedermann.nextcloud.tables.remote.api.TablesV1API;
-import it.niedermann.nextcloud.tables.remote.exception.InsufficientPermissionException;
-import it.niedermann.nextcloud.tables.remote.model.EPermission;
+import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
+import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.EPermissionV2Dto;
+import it.niedermann.nextcloud.tables.repository.exception.InsufficientPermissionException;
 import it.niedermann.nextcloud.tables.repository.sync.AbstractSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.ColumnSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.RowSyncAdapter;
@@ -69,7 +69,7 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void synchronizeTables(@NonNull Account account) throws Exception {
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             final var api = apiProvider.getApi();
@@ -81,7 +81,7 @@ public class TablesRepository extends AbstractSyncAdapter {
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api,
+    public void pushLocalChanges(@NonNull TablesV2API api,
                                  @NonNull TablesV1API apiV1,
                                  @NonNull Account account) throws Exception {
         tableSyncAdapter.pushLocalChanges(api, apiV1, account);
@@ -90,7 +90,7 @@ public class TablesRepository extends AbstractSyncAdapter {
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api,
+    public void pullRemoteChanges(@NonNull TablesV2API api,
                                   @NonNull TablesV1API apiV1,
                                   @NonNull Account account) throws Exception {
         tableSyncAdapter.pullRemoteChanges(api, apiV1, account);
@@ -117,7 +117,7 @@ public class TablesRepository extends AbstractSyncAdapter {
         table.setAccountId(account.getId());
         db.getTableDao().insert(table);
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -126,12 +126,12 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void updateTable(@NonNull Account account, @NonNull Table table) throws Exception {
         if (!table.hasManagePermission()) {
-            throw new InsufficientPermissionException(EPermission.MANAGE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.MANAGE);
         }
         table.setStatus(DBStatus.LOCAL_EDITED);
         db.getTableDao().update(table);
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -140,13 +140,13 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void deleteTable(@NonNull Table table) throws Exception {
         if (!table.hasManagePermission()) {
-            throw new InsufficientPermissionException(EPermission.MANAGE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.MANAGE);
         }
         table.setStatus(DBStatus.LOCAL_DELETED);
         db.getTableDao().update(table);
         final var account = db.getAccountDao().getAccountById(table.getAccountId());
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -155,13 +155,13 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void createColumn(@NonNull Account account, @NonNull Table table, @NonNull Column column) throws Exception {
         if (!table.hasManagePermission()) {
-            throw new InsufficientPermissionException(EPermission.MANAGE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.MANAGE);
         }
         column.setStatus(DBStatus.LOCAL_EDITED);
         column.setAccountId(account.getId());
         db.getColumnDao().insert(column);
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -176,7 +176,7 @@ public class TablesRepository extends AbstractSyncAdapter {
             db.getColumnDao().updateOrderWeight(entry.getKey(), entry.getValue());
         }
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -185,12 +185,12 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void updateColumn(@NonNull Account account, @NonNull Table table, @NonNull Column column) throws Exception {
         if (!table.hasManagePermission()) {
-            throw new InsufficientPermissionException(EPermission.MANAGE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.MANAGE);
         }
         column.setStatus(DBStatus.LOCAL_EDITED);
         db.getColumnDao().update(column);
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -199,13 +199,13 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void deleteColumn(@NonNull Table table, @NonNull Column column) throws Exception {
         if (!table.hasManagePermission()) {
-            throw new InsufficientPermissionException(EPermission.MANAGE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.MANAGE);
         }
         column.setStatus(DBStatus.LOCAL_DELETED);
         db.getColumnDao().update(column);
         final var account = db.getAccountDao().getAccountById(column.getAccountId());
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -214,7 +214,7 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void createRow(@NonNull Account account, @NonNull Table table, @NonNull Row row, @NonNull Data[] dataset) throws Exception {
         if (!table.hasCreatePermission()) {
-            throw new InsufficientPermissionException(EPermission.CREATE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.CREATE);
         }
         row.setStatus(DBStatus.LOCAL_EDITED);
         row.setAccountId(account.getId());
@@ -224,7 +224,7 @@ public class TablesRepository extends AbstractSyncAdapter {
             db.getDataDao().insert(data);
         }
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -233,7 +233,7 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void updateRow(@NonNull Account account, @NonNull Table table, @NonNull Row row, @NonNull Data[] dataset) throws Exception {
         if (!table.hasUpdatePermission()) {
-            throw new InsufficientPermissionException(EPermission.UPDATE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.UPDATE);
         }
         row.setStatus(DBStatus.LOCAL_EDITED);
         row.setAccountId(account.getId());
@@ -251,7 +251,7 @@ public class TablesRepository extends AbstractSyncAdapter {
             }
         }
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);
@@ -260,13 +260,13 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     public void deleteRow(@NonNull Table table, @NonNull Row row) throws Exception {
         if (!table.hasDeletePermission()) {
-            throw new InsufficientPermissionException(EPermission.DELETE);
+            throw new InsufficientPermissionException(EPermissionV2Dto.DELETE);
         }
         row.setStatus(DBStatus.LOCAL_DELETED);
         db.getRowDao().update(row);
         final var account = db.getAccountDao().getAccountById(row.getAccountId());
         try (
-                final var apiProvider = ApiProvider.getTablesApiProvider(context, account);
+                final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account);
                 final var apiV1Provider = ApiProvider.getTablesV1ApiProvider(context, account);
         ) {
             pushLocalChanges(apiProvider.getApi(), apiV1Provider.getApi(), account);

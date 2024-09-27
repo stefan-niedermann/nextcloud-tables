@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.tables.repository;
 
-import static androidx.lifecycle.Transformations.map;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.NetworkCapabilities;
@@ -16,6 +14,7 @@ import androidx.preference.PreferenceManager;
 
 import java.time.Instant;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceBooleanLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceStringLiveData;
@@ -29,12 +28,13 @@ public class PreferencesRepository {
     public final String pref_key_sync_background;
     public final String pref_key_sync_background_last;
     public final String pref_key_theme;
-    public final LiveData<Boolean> syncOnlyOnWifi$;
-    public final LiveData<Instant> lastBackgroundSync$;
+    private final LiveData<Boolean> syncOnlyOnWifi$;
+    private final LiveData<Instant> lastBackgroundSync$;
+    private final LiveData<NetworkRequest> networkRequest$;
     /**
      * @see AppCompatDelegate
      */
-    public final LiveData<Integer> theme$;
+    private final LiveData<Integer> theme$;
 
     public PreferencesRepository(@NonNull Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -45,31 +45,32 @@ public class PreferencesRepository {
         this.pref_key_sync_background_last = context.getString(R.string.pref_key_sync_background_last);
         this.pref_key_theme = context.getString(R.string.pref_key_theme);
 
-        syncOnlyOnWifi$ = new SharedPreferenceBooleanLiveData(this.sharedPreferences, this.pref_key_sync_only_wifi, false);
-        lastBackgroundSync$ = map(
-                new SharedPreferenceLongLiveData(this.sharedPreferences, this.pref_key_sync_background_last, -1L),
-                lastBackgroundSync -> lastBackgroundSync < 0 ? null : Instant.ofEpochMilli(lastBackgroundSync)
-        );
-        theme$ = map(
-                new SharedPreferenceStringLiveData(this.sharedPreferences, this.pref_key_theme, String.valueOf(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)),
-                Integer::parseInt
-        );
+        syncOnlyOnWifi$ = new ReactiveLiveData<>(new SharedPreferenceBooleanLiveData(this.sharedPreferences, this.pref_key_sync_only_wifi, false))
+                .distinctUntilChanged();
+        lastBackgroundSync$ = new ReactiveLiveData<>(new SharedPreferenceLongLiveData(this.sharedPreferences, this.pref_key_sync_background_last, -1L))
+                .distinctUntilChanged()
+                .map(lastBackgroundSync -> lastBackgroundSync < 0 ? null : Instant.ofEpochMilli(lastBackgroundSync));
+        theme$ = new ReactiveLiveData<>(new SharedPreferenceStringLiveData(this.sharedPreferences, this.pref_key_theme, String.valueOf(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)))
+                .distinctUntilChanged()
+                .map(Integer::parseInt);
+        networkRequest$ = new ReactiveLiveData<>(this.syncOnlyOnWifi$)
+                .map(syncOnlyOnWifi -> {
+                    final var networkRequestBuilder = new NetworkRequest.Builder()
+                            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                            .addTransportType(NetworkCapabilities.TRANSPORT_BLUETOOTH)
+                            .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET);
+
+                    if (!syncOnlyOnWifi) {
+                        networkRequestBuilder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR);
+                    }
+
+                    return networkRequestBuilder.build();
+                });
     }
 
     public LiveData<NetworkRequest> getNetworkRequest$() {
-        return map(this.syncOnlyOnWifi$, syncOnlyOnWifi -> {
-            final var networkRequestBuilder = new NetworkRequest.Builder()
-                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_BLUETOOTH)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET);
-
-            if (!syncOnlyOnWifi) {
-                networkRequestBuilder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR);
-            }
-
-            return networkRequestBuilder.build();
-        });
+        return networkRequest$;
     }
 
     public LiveData<Instant> getLastBackgroundSync$() {

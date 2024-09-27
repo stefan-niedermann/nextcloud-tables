@@ -29,29 +29,35 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.BuildConfig;
-import it.niedermann.nextcloud.tables.remote.api.TablesAPI;
-import it.niedermann.nextcloud.tables.remote.api.TablesV1API;
-import it.niedermann.nextcloud.tables.remote.model.ENodeType;
+import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.RowV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.RowV1Mapper;
 import it.niedermann.nextcloud.tables.types.EDataType;
 
 public class RowSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
     private final ExecutorService rowFetchExecutor;
+    private final Mapper<RowV1Dto, Row> rowMapper;
 
     public RowSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
-        this(db, context, Executors.newCachedThreadPool());
+        this(db, context, Executors.newCachedThreadPool(), new RowV1Mapper());
     }
 
     private RowSyncAdapter(@NonNull TablesDatabase db,
                            @NonNull Context context,
-                           @NonNull ExecutorService rowFetchExecutor) {
+                           @NonNull ExecutorService rowFetchExecutor,
+                           @NonNull Mapper<RowV1Dto, Row> rowMapper) {
         super(db, context);
         this.rowFetchExecutor = rowFetchExecutor;
+        this.rowMapper = rowMapper;
     }
 
     @Override
-    public void pushLocalChanges(@NonNull TablesAPI api,
+    public void pushLocalChanges(@NonNull TablesV2API apiV2,
                                  @NonNull TablesV1API apiV1,
                                  @NonNull Account account) throws Exception {
         final var version = account.getTablesVersion();
@@ -88,7 +94,11 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
             row.setData(dataset);
 
             if (row.getRemoteId() == null) {
-                final var response = api.createRow(ENodeType.TABLE, db.getTableDao().getRemoteId(row.getTableId()), serialize(columns, version, row.getData())).execute();
+                final var response = apiV2.createRow(
+                        ENodeTypeV2Dto.TABLE,
+                        db.getTableDao().getRemoteId(row.getTableId()),
+                        serialize(columns, version, row.getData())).execute();
+
                 if (response.isSuccessful()) {
                     row.setStatus(DBStatus.VOID);
                     final var body = response.body();
@@ -96,7 +106,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfully, but response body was empty");
                     }
 
-                    row.setRemoteId(body.ocs.data.getRemoteId());
+                    row.setRemoteId(body.ocs.data.remoteId());
                     db.getRowDao().update(row);
                 } else {
                     serverErrorHandler.handle(response, "Could not push local changes for row " + row.getRemoteId());
@@ -111,7 +121,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         throw new NullPointerException("Pushing changes for row " + row.getRemoteId() + " was successfully, but response body was empty");
                     }
 
-                    row.setRemoteId(body.getRemoteId());
+                    row.setRemoteId(body.remoteId());
                     db.getRowDao().update(row);
                 } else {
                     serverErrorHandler.handle(response, "Could not push local changes for row " + row.getRemoteId());
@@ -121,7 +131,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
     }
 
     @Override
-    public void pullRemoteChanges(@NonNull TablesAPI api,
+    public void pullRemoteChanges(@NonNull TablesV2API api,
                                   @NonNull TablesV1API apiV1,
                                   @NonNull Account account) throws Exception {
         final var tables = db.getTableDao().getTablesWithReadPermission(account.getId());
@@ -151,24 +161,24 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                         //noinspection SwitchStatementWithTooFewBranches
                         switch (response.code()) {
                             case 200: {
-                                final var rows = response.body();
-                                if (rows == null) {
+                                final var rowDtos = response.body();
+                                if (rowDtos == null) {
                                     throw new RuntimeException("Response body is null");
                                 }
 
-                                for (final var row : rows) {
+                                for (final var rowDto : rowDtos) {
+                                    final var row = rowMapper.toEntity(rowDto);
                                     row.setAccountId(table.getAccountId());
                                     row.setTableId(table.getId());
                                     row.setETag(response.headers().get(HEADER_ETAG));
+                                    fetchedRows.add(row);
                                 }
 
-                                fetchedRows.addAll(rows);
-
-                                if (rows.size() != TablesV1API.DEFAULT_API_LIMIT_ROWS) {
+                                if (rowDtos.size() != TablesV1API.DEFAULT_API_LIMIT_ROWS) {
                                     break fetchRowsLoop;
                                 }
 
-                                offset += rows.size();
+                                offset += rowDtos.size();
 
                                 break;
                             }
@@ -185,7 +195,7 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
                     for (final var row : fetchedRows) {
                         final var rowId = rowIds.get(row.getRemoteId());
                         if (rowId == null) {
-                            Log.i(TAG, "------ ← Adding " + table.getTitle() + " to database");
+                            Log.i(TAG, "------ ← Adding table " + table.getTitle() + " to database");
                             row.setId(db.getRowDao().insert(row));
                         } else {
                             row.setId(rowId);

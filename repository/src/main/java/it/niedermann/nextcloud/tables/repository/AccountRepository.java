@@ -12,21 +12,26 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
+
+import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.model.NextcloudVersion;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
+import it.niedermann.nextcloud.tables.database.model.Version;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
-import it.niedermann.nextcloud.tables.remote.api.OcsAPI;
-import it.niedermann.nextcloud.tables.remote.exception.ServerNotAvailableException;
+import it.niedermann.nextcloud.tables.remote.ocs.OcsAPI;
+import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.ocs.OcsVersionMapper;
 
 @WorkerThread
 public class AccountRepository {
@@ -40,17 +45,22 @@ public class AccountRepository {
     @SuppressWarnings("FieldCanBeLocal")
     private final LiveData<Long> currentAccountId$;
     private final LiveData<Account> currentAccount$;
+    private final Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper;
 
     @MainThread
     public AccountRepository(@NonNull Context context) {
         this.context = context;
         this.db = TablesDatabase.getInstance(context);
         this.serverErrorHandler = new ServerErrorHandler(context);
+        this.versionMapper = new OcsVersionMapper();
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        this.currentAccountId$ = new SharedPreferenceLongLiveData(sharedPreferences, SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT, -1L);
-        this.currentAccount$ = Transformations.distinctUntilChanged(Transformations.switchMap(currentAccountId$, currentAccountId -> (currentAccountId < 0)
-                ? new MutableLiveData<>(null)
-                : db.getAccountDao().getAccountById$(currentAccountId)));
+        this.currentAccountId$ = new ReactiveLiveData<>(new SharedPreferenceLongLiveData(sharedPreferences, SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT, -1L))
+                .distinctUntilChanged();
+        this.currentAccount$ = new ReactiveLiveData<>(currentAccountId$)
+                .flatMap(currentAccountId -> currentAccountId < 1
+                        ? new MutableLiveData<>(null)
+                        : db.getAccountDao().getAccountById$(currentAccountId))
+                .distinctUntilChanged();
     }
 
     @MainThread
@@ -119,20 +129,20 @@ public class AccountRepository {
                         break;
                 }
 
-                final var nextcloudVersion = NextcloudVersion.of(body.ocs.data.version);
+                final var nextcloudVersion = NextcloudVersion.of(versionMapper.toEntity(body.ocs.data.version()));
                 if (!nextcloudVersion.isSupported()) {
                     throw new ServerNotAvailableException(ServerNotAvailableException.Reason.TABLES_NOT_SUPPORTED);
                 }
 
-                final var tablesNode = body.ocs.data.capabilities.tables;
+                final var tablesNode = body.ocs.data.capabilities().tables();
                 if (tablesNode == null) {
                     throw new ServerNotAvailableException(ServerNotAvailableException.Reason.NOT_INSTALLED);
                 }
-                if (!tablesNode.enabled) {
+                if (!tablesNode.enabled()) {
                     throw new ServerNotAvailableException(ServerNotAvailableException.Reason.NOT_ENABLED);
                 }
 
-                final var tablesVersion = TablesVersion.parse(tablesNode.version);
+                final var tablesVersion = TablesVersion.parse(tablesNode.version());
                 if (!tablesVersion.isSupported()) {
                     throw new ServerNotAvailableException(ServerNotAvailableException.Reason.TABLES_NOT_SUPPORTED);
                 }
@@ -140,7 +150,7 @@ public class AccountRepository {
                 account.setTablesVersion(tablesVersion);
                 account.setNextcloudVersion(nextcloudVersion);
                 account.setETag(response.headers().get("ETag"));
-                account.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities.theming.color)));
+                account.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities().theming().color)));
                 break;
             }
 

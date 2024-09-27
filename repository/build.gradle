@@ -42,6 +42,8 @@ dependencies {
 
     implementation 'com.github.stefan-niedermann:android-commons:1.0.0'
 
+    api 'com.github.nextcloud:Android-SingleSignOn:1.2.0'
+
     // Retrofit
     api 'com.squareup.retrofit2:retrofit:2.11.0'
 

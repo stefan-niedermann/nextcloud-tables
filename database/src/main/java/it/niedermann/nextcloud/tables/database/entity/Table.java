@@ -7,8 +7,6 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
@@ -30,6 +28,7 @@ public class Table extends AbstractRemoteEntity {
     @ColumnInfo(defaultValue = "")
     private String title = "";
     @ColumnInfo(defaultValue = "")
+    @Nullable
     private String description;
     @ColumnInfo(defaultValue = "")
     private String emoji = "";
@@ -46,7 +45,6 @@ public class Table extends AbstractRemoteEntity {
     private String lastEditAt;
     private boolean isShared;
     @Embedded
-    @SerializedName("onSharePermissions")
     private OnSharePermission onSharePermission;
 
     public Table() {
@@ -89,12 +87,12 @@ public class Table extends AbstractRemoteEntity {
         this.title = title;
     }
 
-    @NonNull
+    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(@NonNull String description) {
+    public void setDescription(@Nullable String description) {
         this.description = description;
     }
 

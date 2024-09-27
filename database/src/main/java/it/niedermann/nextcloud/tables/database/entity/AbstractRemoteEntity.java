@@ -4,8 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Index;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.Objects;
 
 @Entity(
@@ -18,7 +16,6 @@ import java.util.Objects;
 public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity {
 
     @Nullable
-    @SerializedName("id")
     protected Long remoteId;
 
     public AbstractRemoteEntity() {
