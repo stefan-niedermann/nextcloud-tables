@@ -19,7 +19,9 @@ import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.BooleanV1Adapter;
 import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.InstantV1Adapter;
 import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.SelectionDefaultV1Adapter;
 import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.SelectionOptionListV1Adapter;
+import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.UserGroupListV1Adapter;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.SelectionOptionV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.UserGroupV1Dto;
 
 @WorkerThread
 public class TablesV1ApiProvider<T> extends ApiProvider<T> {
@@ -33,7 +35,8 @@ public class TablesV1ApiProvider<T> extends ApiProvider<T> {
                 .registerTypeAdapter(Instant.class, new InstantV1Adapter(TablesV1API.FORMATTER_PROPERTIES_DATE_TIME))
                 .registerTypeAdapter(SelectionDefault.class, new SelectionDefaultV1Adapter())
                 .registerTypeAdapter(Boolean.class, new BooleanV1Adapter())
-                .registerTypeAdapter(TypeToken.getParameterized(List.class, SelectionOptionV1Dto.class).getType(), new SelectionOptionListV1Adapter()));
+                .registerTypeAdapter(TypeToken.getParameterized(List.class, SelectionOptionV1Dto.class).getType(), new SelectionOptionListV1Adapter())
+                .registerTypeAdapter(TypeToken.getParameterized(List.class, UserGroupV1Dto.class).getType(), new UserGroupListV1Adapter()));
     }
 
     private TablesV1ApiProvider(@NonNull Context context,

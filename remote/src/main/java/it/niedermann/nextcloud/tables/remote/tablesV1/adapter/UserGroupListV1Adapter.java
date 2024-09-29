@@ -21,35 +21,35 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import it.niedermann.nextcloud.tables.remote.tablesV1.model.SelectionOptionV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.UserGroupV1Dto;
 
-public class SelectionOptionListV1Adapter implements JsonSerializer<List<SelectionOptionV1Dto>>, JsonDeserializer<List<SelectionOptionV1Dto>> {
+public class UserGroupListV1Adapter implements JsonSerializer<List<UserGroupV1Dto>>, JsonDeserializer<List<UserGroupV1Dto>> {
 
     @NonNull
     private final Gson gson;
 
-    public SelectionOptionListV1Adapter() {
+    public UserGroupListV1Adapter() {
         this(new GsonBuilder().create());
     }
 
-    private SelectionOptionListV1Adapter(@NonNull Gson gson) {
+    private UserGroupListV1Adapter(@NonNull Gson gson) {
         this.gson = gson;
     }
 
     @Override
-    public JsonElement serialize(List<SelectionOptionV1Dto> src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(List<UserGroupV1Dto> src, Type typeOfSrc, JsonSerializationContext context) {
         return new JsonPrimitive(gson.toJson(src));
     }
 
     @Override
-    public List<SelectionOptionV1Dto> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public List<UserGroupV1Dto> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         return json.isJsonArray() || json.isJsonObject()
                 ? deserialize(json)
                 : Collections.emptyList();
     }
 
     @NonNull
-    public List<SelectionOptionV1Dto> deserialize(@NonNull JsonElement json) throws JsonParseException {
+    public List<UserGroupV1Dto> deserialize(@NonNull JsonElement json) throws JsonParseException {
         if (json.isJsonObject()) {
             return deserialize(json.getAsJsonObject())
                     .map(List::of)
@@ -70,13 +70,13 @@ public class SelectionOptionListV1Adapter implements JsonSerializer<List<Selecti
     }
 
     @NonNull
-    private Optional<SelectionOptionV1Dto> deserialize(@Nullable JsonObject object) {
+    private Optional<UserGroupV1Dto> deserialize(@Nullable JsonObject object) {
         if (object == null) {
             return Optional.empty();
         }
 
         try {
-            return Optional.of(gson.fromJson(object, SelectionOptionV1Dto.class));
+            return Optional.of(gson.fromJson(object, UserGroupV1Dto.class));
         } catch (JsonSyntaxException e) {
             return Optional.empty();
         }

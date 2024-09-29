@@ -2,27 +2,30 @@ package it.niedermann.nextcloud.tables.remote.tablesV2.model.columns;
 
 import androidx.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.UserGroupV2Dto;
 
 public class CreateUserGroupColumnV2Dto extends CreateColumnV2Dto {
 
-    private final List<String> usergroupDefault;
+    private final List<UserGroupV2Dto> usergroupDefault;
     private final boolean usergroupMultipleItems;
     private final boolean usergroupSelectUsers;
     private final boolean usergroupSelectGroups;
 
-    public CreateUserGroupColumnV2Dto(long tableRemoteId, @NonNull ColumnV2Dto column) {
-        super(tableRemoteId, column);
-        this.usergroupDefault = column.usergroupDefault();
-        this.usergroupMultipleItems = column.usergroupMultipleItems();
-        this.usergroupSelectUsers = column.usergroupSelectUsers();
-        this.usergroupSelectGroups = column.usergroupSelectGroups();
+    public CreateUserGroupColumnV2Dto(long tableRemoteId, @NonNull ColumnV2Dto dto) {
+        super(tableRemoteId, dto);
+        this.usergroupDefault = Optional.ofNullable(dto.usergroupDefault()).orElse(Collections.emptyList());
+        this.usergroupMultipleItems = Boolean.TRUE.equals(dto.usergroupMultipleItems());
+        this.usergroupSelectUsers = Boolean.TRUE.equals(dto.usergroupSelectUsers());
+        this.usergroupSelectGroups = Boolean.TRUE.equals(dto.usergroupSelectGroups());
     }
 
-    public List<String> getUsergroupDefault() {
+    public List<UserGroupV2Dto> getUsergroupDefault() {
         return usergroupDefault;
     }
 

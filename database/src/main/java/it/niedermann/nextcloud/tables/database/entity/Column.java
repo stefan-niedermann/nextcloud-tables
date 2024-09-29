@@ -66,7 +66,7 @@ public class Column extends AbstractRemoteEntity {
     private SelectionDefault selectionDefault;
     private String datetimeDefault;
     @Ignore
-    private List<String> usergroupDefault;
+    private List<UserGroup> usergroupDefault;
     private boolean usergroupMultipleItems;
     private boolean usergroupSelectUsers;
     private boolean usergroupSelectGroups;
@@ -260,11 +260,11 @@ public class Column extends AbstractRemoteEntity {
         this.datetimeDefault = datetimeDefault;
     }
 
-    public List<String> getUsergroupDefault() {
+    public List<UserGroup> getUsergroupDefault() {
         return usergroupDefault;
     }
 
-    public void setUsergroupDefault(List<String> usergroupDefault) {
+    public void setUsergroupDefault(List<UserGroup> usergroupDefault) {
         this.usergroupDefault = usergroupDefault;
     }
 

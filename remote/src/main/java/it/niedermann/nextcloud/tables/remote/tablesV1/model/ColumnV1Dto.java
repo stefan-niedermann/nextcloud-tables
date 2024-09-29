@@ -34,7 +34,7 @@ public record ColumnV1Dto(
         @Nullable List<SelectionOptionV1Dto> selectionOptions,
         @Nullable JsonElement selectionDefault,
         @Nullable String datetimeDefault,
-        @Nullable List<String> usergroupDefault,
+        @Nullable List<UserGroupV1Dto> usergroupDefault,
         @Nullable Boolean usergroupMultipleItems,
         @Nullable Boolean usergroupSelectUsers,
         @Nullable Boolean usergroupSelectGroups,

@@ -20,6 +20,11 @@ public record UpdateColumnV1Dto(
         @Nullable Integer textMaxLength,
         @Nullable List<SelectionOptionV1Dto> selectionOptions,
         @Nullable String selectionDefault,
-        @Nullable String datetimeDefault
+        @Nullable String datetimeDefault,
+        @Nullable List<UserGroupV1Dto> usergroupDefault,
+        @Nullable Boolean usergroupMultipleItems,
+        @Nullable Boolean usergroupSelectUsers,
+        @Nullable Boolean usergroupSelectGroups,
+        @Nullable Boolean showUserStatus
 ) implements Serializable {
 }
