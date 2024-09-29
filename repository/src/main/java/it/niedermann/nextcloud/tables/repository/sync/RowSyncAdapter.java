@@ -260,9 +260,6 @@ public class RowSyncAdapter extends AbstractSyncAdapter {
         }
     }
 
-    /**
-     * @see TablesV1API#createRow(long, JsonElement)
-     */
     @NonNull
     private JsonElement serialize(@NonNull List<Column> columns, @NonNull TablesVersion version, @NonNull Data[] dataset) {
         final var properties = new JsonObject();

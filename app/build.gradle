@@ -74,13 +74,6 @@ android {
     }
 }
 
-ext {
-    version_nextcloud_commons = '2.3.0'
-    version_glide = '4.16.0'
-    version_room = '2.6.1'
-    version_emoji = '1.5.0'
-}
-
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
@@ -90,8 +83,8 @@ dependencies {
     implementation project(path: ':types')
 
     // Nextcloud SSO
-    implementation 'com.github.nextcloud.android-common:ui:0.23.0'
-    implementation 'com.github.stefan-niedermann:android-commons:1.0.0'
+    implementation 'com.github.nextcloud.android-common:ui:0.23.1'
+    implementation "com.github.stefan-niedermann:android-commons:$version_android_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$version_nextcloud_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$version_nextcloud_commons"
     implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$version_nextcloud_commons") {

@@ -16,7 +16,8 @@ public abstract class AbstractSyncAdapter {
     protected final TablesDatabase db;
     protected final ServerErrorHandler serverErrorHandler;
 
-    protected AbstractSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
+    protected AbstractSyncAdapter(@NonNull TablesDatabase db,
+                                  @NonNull Context context) {
         this.db = db;
         this.serverErrorHandler = new ServerErrorHandler(context);
     }

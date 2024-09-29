@@ -40,12 +40,12 @@ dependencies {
     implementation project(path: ':remote')
     implementation project(path: ':types')
 
-    implementation 'com.github.stefan-niedermann:android-commons:1.0.0'
+    implementation "com.github.stefan-niedermann:android-commons:$version_android_commons"
 
-    api 'com.github.nextcloud:Android-SingleSignOn:1.2.0'
+    api "com.github.nextcloud:Android-SingleSignOn:$version_sso"
 
     // Retrofit
-    api 'com.squareup.retrofit2:retrofit:2.11.0'
+    api "com.squareup.retrofit2:retrofit:$version_retrofit"
 
     // Database
     implementation "androidx.room:room-runtime:$version_room"

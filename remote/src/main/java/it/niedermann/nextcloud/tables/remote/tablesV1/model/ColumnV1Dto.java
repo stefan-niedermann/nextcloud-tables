@@ -20,7 +20,7 @@ public record ColumnV1Dto(
         @Nullable Instant lastEditAt,
         @Nullable String type,
         @Nullable String subtype,
-        @Nullable Boolean mandatory,
+        boolean mandatory,
         @Nullable String description,
         @Nullable Double numberDefault,
         @Nullable Double numberMin,

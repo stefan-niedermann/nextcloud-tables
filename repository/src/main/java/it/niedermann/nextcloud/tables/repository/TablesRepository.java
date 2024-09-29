@@ -6,10 +6,10 @@ import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 
 import java.util.List;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -99,17 +99,20 @@ public class TablesRepository extends AbstractSyncAdapter {
     }
 
     public LiveData<List<Table>> getNotDeletedTables$(@NonNull Account account, boolean isShared) {
-        return db.getTableDao().getNotDeletedTables$(account.getId(), isShared);
+        return new ReactiveLiveData<>(db.getTableDao().getNotDeletedTables$(account.getId(), isShared))
+                .distinctUntilChanged();
     }
 
     @MainThread
     public LiveData<Table> getNotDeletedTable$(long id) {
-        return Transformations.distinctUntilChanged(db.getTableDao().getNotDeletedTable$(id));
+        return new ReactiveLiveData<>(db.getTableDao().getNotDeletedTable$(id))
+                .distinctUntilChanged();
     }
 
     @MainThread
     public LiveData<List<Row>> getNotDeletedRows$(@NonNull Table table) {
-        return Transformations.distinctUntilChanged(db.getRowDao().getNotDeletedRows$(table.getId()));
+        return new ReactiveLiveData<>(db.getRowDao().getNotDeletedRows$(table.getId()))
+                .distinctUntilChanged();
     }
 
     public void createTable(@NonNull Account account, @NonNull Table table) throws Exception {
@@ -275,7 +278,8 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     @MainThread
     public LiveData<List<Column>> getNotDeletedColumns$(@NonNull Table table) {
-        return Transformations.distinctUntilChanged(db.getColumnDao().getNotDeletedColumns$(table.getId()));
+        return new ReactiveLiveData<>(db.getColumnDao().getNotDeletedColumns$(table.getId()))
+                .distinctUntilChanged();
     }
 
     public List<Column> getNotDeletedColumns(@NonNull Table table) {
@@ -290,7 +294,8 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     @MainThread
     public LiveData<List<Data>> getData(@NonNull Table table) {
-        return Transformations.distinctUntilChanged(db.getDataDao().getData(table.getId()));
+        return new ReactiveLiveData<>(db.getDataDao().getData(table.getId()))
+                .distinctUntilChanged();
     }
 
     public Data[] getRawData(long rowId) {
@@ -299,6 +304,7 @@ public class TablesRepository extends AbstractSyncAdapter {
 
     @MainThread
     public LiveData<List<SelectionOption>> getUsedSelectionOptions(@NonNull Table table) {
-        return Transformations.distinctUntilChanged(db.getSelectionOptionDao().getUsedSelectionOptionsById(table.getId()));
+        return new ReactiveLiveData<>(db.getSelectionOptionDao().getUsedSelectionOptionsById(table.getId()))
+                .distinctUntilChanged();
     }
 }

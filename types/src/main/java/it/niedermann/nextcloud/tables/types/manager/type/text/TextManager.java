@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.types.manager.type.text;
 
+import static java.util.function.Predicate.not;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.types.databinding.ManageTextBinding;
@@ -43,7 +46,11 @@ public class TextManager extends ColumnManageView {
     public Column getColumn() {
         column.setTextDefault(Objects.requireNonNullElse(binding.textDefault.getText(), "").toString());
         column.setTextAllowedPattern(Objects.requireNonNullElse(binding.textAllowedPattern.getText(), "").toString());
-        column.setTextMaxLength(Integer.parseInt(Objects.requireNonNull(binding.textMaxLength.getText()).toString()));
+        Optional.ofNullable(binding.textMaxLength.getText())
+                .map(Object::toString)
+                .filter(not(String::isEmpty))
+                .map(Integer::parseInt)
+                .ifPresent(column::setTextMaxLength);
         return super.getColumn();
     }
 
@@ -52,6 +59,6 @@ public class TextManager extends ColumnManageView {
         super.setColumn(column);
         binding.textDefault.setText(column.getTextDefault());
         binding.textAllowedPattern.setText(column.getTextAllowedPattern());
-        binding.textMaxLength.setText(Objects.requireNonNullElse(column.getTextMaxLength(), 0));
+        binding.textMaxLength.setText(Optional.ofNullable(column.getTextMaxLength()).map(String::valueOf).orElse(""));
     }
 }

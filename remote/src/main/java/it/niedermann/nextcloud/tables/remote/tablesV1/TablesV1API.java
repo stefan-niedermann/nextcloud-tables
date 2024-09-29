@@ -11,11 +11,11 @@ import java.util.List;
 
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.ColumnV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.RowV1Dto;
-import it.niedermann.nextcloud.tables.remote.tablesV1.model.SelectionOptionV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateColumnV1Dto;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -41,21 +41,7 @@ public interface TablesV1API {
      */
     @PUT("columns/{columnId}")
     Call<ColumnV1Dto> updateColumn(@Path("columnId") long columnId,
-                                   @Query("title") String title,
-                                   @Query("mandatory") int mandatory,
-                                   @Query("description") String description,
-                                   @Query("numberPrefix") String numberPrefix,
-                                   @Query("numberSuffix") String numberSuffix,
-                                   @Query("numberDefault") Double numberDefault,
-                                   @Query("numberMin") Double numberMin,
-                                   @Query("numberMax") Double numberMax,
-                                   @Query("numberDecimals") Integer numberDecimals,
-                                   @Query("textDefault") String textDefault,
-                                   @Query("textAllowedPattern") String textAllowedPattern,
-                                   @Query("textMaxLength") Integer textMaxLength,
-                                   @Query("selectionOptions") List<SelectionOptionV1Dto> selectionOptions,
-                                   @Query("selectionDefault") String selectionDefault,
-                                   @Query("datetimeDefault") String datetimeDefault);
+                                   @Body() UpdateColumnV1Dto column);
 
     /**
      * @since 0.4.0
@@ -71,13 +57,6 @@ public interface TablesV1API {
     Call<List<RowV1Dto>> getRows(@Path("tableId") long tableId,
                                  @Query("limit") int limit,
                                  @Query("offset") int offset);
-
-    /**
-     * @since 0.4.0
-     */
-    @POST("tables/{tableId}/rows")
-    Call<RowV1Dto> createRow(@Path("tableId") long tableId,
-                             @Query("data") @NonNull JsonElement data);
 
     /**
      * @since 0.4.0

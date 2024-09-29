@@ -12,31 +12,27 @@ import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
-import it.niedermann.nextcloud.tables.remote.adapter.ColumnAdapter;
 import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
-import it.niedermann.nextcloud.tables.remote.tablesV1.model.SelectionOptionV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateColumnV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.SelectionOptionV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.UpdateColumnV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.ColumnV2Mapper;
 import it.niedermann.nextcloud.tables.types.EDataType;
 
 public class ColumnSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = ColumnSyncAdapter.class.getSimpleName();
-    private final Mapper<SelectionOptionV1Dto, SelectionOption> selectionOptionMapper;
     private final Mapper<ColumnV2Dto, Column> columnMapper;
-    private final ColumnAdapter columnAdapter;
+    private final Mapper<UpdateColumnV1Dto, Column> updateColumnMapper;
 
     public ColumnSyncAdapter(@NonNull TablesDatabase db,
                              @NonNull Context context) {
         super(db, context);
-        this.selectionOptionMapper = new SelectionOptionV1Mapper();
         this.columnMapper = new ColumnV2Mapper();
-        this.columnAdapter = new ColumnAdapter();
+        this.updateColumnMapper = new UpdateColumnV1Mapper();
     }
 
     @Override
@@ -86,23 +82,10 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                     serverErrorHandler.handle(response, "Could not push local changes for column " + column.getTitle());
                 }
             } else {
-                final var response = apiV1.updateColumn(column.getRemoteId(),
-                        column.getTitle(),
-                        this.columnAdapter.serializeMandatory(column.isMandatory()),
-                        column.getDescription(),
-                        column.getNumberPrefix(),
-                        column.getNumberSuffix(),
-                        column.getNumberDefault(),
-                        column.getNumberMin(),
-                        column.getNumberMax(),
-                        column.getNumberDecimals(),
-                        column.getTextDefault(),
-                        column.getTextAllowedPattern(),
-                        column.getTextMaxLength(),
-                        selectionOptionMapper.toDtoList(column.getSelectionOptions()),
-//                    this.columnAdapter.serializeSelectionOptions(column.getSelectionOptions()),
-                        this.columnAdapter.serializeSelectionDefault(column.getSelectionDefault()),
-                        column.getDatetimeDefault()).execute();
+                final var response = apiV1.updateColumn(
+                                column.getRemoteId(),
+                                updateColumnMapper.toDto(column))
+                        .execute();
 
                 Log.i(TAG, "--- → HTTP " + response.code());
                 if (response.isSuccessful()) {
@@ -151,7 +134,6 @@ public class ColumnSyncAdapter extends AbstractSyncAdapter {
                         column.setAccountId(account.getId());
                         column.setTableId(table.getId());
                         column.setETag(response.headers().get(HEADER_ETAG));
-                        column.setSelectionDefault(columnAdapter.deserializeSelectionDefault(column.getSelectionDefault()));
 
                         final var columnId = columnIds.get(column.getRemoteId());
                         if (columnId == null) {

@@ -22,12 +22,12 @@ public class SelectionDefault implements Externalizable {
     }
 
     public SelectionDefault(@Nullable JsonElement value) {
-        selectionDefault = value;
+        selectionDefault = value == null ? JsonNull.INSTANCE : value;
     }
 
     @NonNull
     public JsonElement getValue() {
-        return selectionDefault == null ? JsonNull.INSTANCE : selectionDefault;
+        return selectionDefault;
     }
 
     @NonNull

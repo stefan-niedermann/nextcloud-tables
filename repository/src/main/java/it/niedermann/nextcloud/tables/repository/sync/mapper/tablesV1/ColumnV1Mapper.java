@@ -15,7 +15,6 @@ import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.ColumnV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.SelectionOptionV1Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.SelectionDefaultV2Mapper;
 
 public class ColumnV1Mapper implements Mapper<ColumnV1Dto, Column> {
 
@@ -25,7 +24,7 @@ public class ColumnV1Mapper implements Mapper<ColumnV1Dto, Column> {
     public ColumnV1Mapper() {
         this(
                 new SelectionOptionV1Mapper(),
-                new SelectionDefaultV2Mapper()
+                new SelectionDefaultV1Mapper()
         );
     }
 

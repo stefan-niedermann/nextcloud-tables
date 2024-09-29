@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
+package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1;
 
 import androidx.annotation.NonNull;
 
@@ -9,7 +9,7 @@ import com.google.gson.JsonParser;
 import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
 
-public class SelectionDefaultV2Mapper implements Mapper<JsonElement, SelectionDefault> {
+public class SelectionDefaultV1Mapper implements Mapper<JsonElement, SelectionDefault> {
 
     @NonNull
     @Override

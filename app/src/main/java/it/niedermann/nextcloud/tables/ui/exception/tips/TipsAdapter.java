@@ -17,13 +17,13 @@ import androidx.annotation.StringRes;
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nextcloud.android.sso.FilesAppTypeRegistry;
 import com.nextcloud.android.sso.exceptions.NextcloudApiNotRespondingException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotSupportedException;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 import com.nextcloud.android.sso.exceptions.TokenMismatchException;
 import com.nextcloud.android.sso.exceptions.UnknownErrorException;
-import com.nextcloud.android.sso.model.FilesAppType;
 
 import org.json.JSONException;
 
@@ -31,6 +31,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
@@ -141,12 +142,10 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
             if (cause != null) {
                 final String message = cause.getMessage();
                 if (message != null && message.toLowerCase().contains("certificate")) {
-                    final Intent filesOpenIntent = getOpenFilesIntent(context);
-                    if (filesOpenIntent == null) {
-                        add(R.string.error_dialog_certificate);
-                    } else {
-                        add(R.string.error_dialog_certificate, filesOpenIntent);
-                    }
+                    getOpenFilesIntent(context).ifPresentOrElse(
+                            intent -> add(R.string.error_dialog_certificate, intent),
+                            () -> add(R.string.error_dialog_certificate)
+                    );
                 }
             }
         } else if (throwable instanceof RuntimeException) {
@@ -195,17 +194,17 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsViewHolder> {
         notifyItemInserted(tips.size());
     }
 
-    @Nullable
-    private static Intent getOpenFilesIntent(@NonNull Context context) {
+    @NonNull
+    private static Optional<Intent> getOpenFilesIntent(@NonNull Context context) {
         final var pm = context.getPackageManager();
-        for (final var filesAppType : FilesAppType.values()) {
+        for (final var filesAppType : FilesAppTypeRegistry.getInstance().getTypes()) {
             try {
                 pm.getPackageInfo(filesAppType.packageId, PackageManager.GET_ACTIVITIES);
-                return pm.getLaunchIntentForPackage(filesAppType.packageId)
-                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_nextcloud_app);
+                return Optional.of(pm.getLaunchIntentForPackage(filesAppType.packageId)
+                        .putExtra(INTENT_EXTRA_BUTTON_TEXT, R.string.error_action_open_nextcloud_app));
             } catch (PackageManager.NameNotFoundException ignored) {
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

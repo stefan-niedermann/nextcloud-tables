@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.ui.table.view;
 
-import static androidx.lifecycle.Transformations.switchMap;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.app.Application;
@@ -57,21 +56,22 @@ public class ViewTableViewModel extends AndroidViewModel {
     }
 
     public LiveData<Pair<Account, FullTable>> getCurrentFullTable() {
-        return switchMap(getCurrentAccount(), account -> {
-            if (account == null) {
-                return new MutableLiveData<>();
-            }
+        return new ReactiveLiveData<>(getCurrentAccount())
+                .flatMap(account -> {
+                    if (account == null) {
+                        return new MutableLiveData<>();
+                    }
 
-            if (account.getCurrentTable() == null) {
-                executor.submit(() -> accountRepository.guessCurrentTable(account));
-                return new MutableLiveData<>(new Pair<>(account, null));
-            }
+                    if (account.getCurrentTable() == null) {
+                        executor.submit(() -> accountRepository.guessCurrentTable(account));
+                        return new MutableLiveData<>(new Pair<>(account, null));
+                    }
 
-            return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
-                    .flatMap(this::getFullTable)
-                    .map(fullTable -> new Pair<>(account, fullTable))
-                    .distinctUntilChanged();
-        });
+                    return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
+                            .flatMap(this::getFullTable)
+                            .map(fullTable -> new Pair<>(account, fullTable))
+                            .distinctUntilChanged();
+                });
     }
 
     public LiveData<FullTable> getFullTable(@Nullable Table table) {

@@ -39,11 +39,6 @@ android {
     }
 }
 
-ext {
-    version_nextcloud_commons = '2.3.0'
-    version_emoji = '1.5.0'
-}
-
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
@@ -58,7 +53,7 @@ dependencies {
     implementation 'com.github.evrencoskun:TableView:v0.8.9.4'
 
     // Retrofit
-    api 'com.squareup.retrofit2:retrofit:2.11.0'
+    api "com.squareup.retrofit2:retrofit:$version_retrofit"
 
     api "androidx.emoji2:emoji2:$version_emoji"
     api "androidx.emoji2:emoji2-views:$version_emoji"
