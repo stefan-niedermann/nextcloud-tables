@@ -70,7 +70,7 @@ public class TableSyncAdapter extends AbstractSyncAdapter {
                 table.setStatus(DBStatus.VOID);
                 final var body = response.body();
                 if (body == null || body.ocs == null || body.ocs.data == null) {
-                    throw new NullPointerException("Pushing changes for table " + table.getTitle() + " was successfull, but response body was empty");
+                    throw new NullPointerException("Pushing changes for table " + table.getTitle() + " was successful, but response body was empty");
                 }
 
                 table.setRemoteId(body.ocs.data.remoteId());

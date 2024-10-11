@@ -8,30 +8,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.database.entity.Data;
-import it.niedermann.nextcloud.tables.database.entity.Row;
-import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
+import it.niedermann.nextcloud.tables.database.model.FullData;
+import it.niedermann.nextcloud.tables.database.model.FullRow;
 
 public class FullTableLiveData extends MediatorLiveData<FullTable> {
 
     private final Table table;
-    private final Emitter<Row> rowEmitter = new Emitter<>();
-    private final Emitter<Column> columnEmitter = new Emitter<>();
-    private final Emitter<SelectionOption> selectionOptionEmitter = new Emitter<>();
-    private final Emitter<Data> dataEmitter = new Emitter<>();
+    private final Emitter<FullRow> rowEmitter = new Emitter<>();
+    private final Emitter<FullColumn> columnEmitter = new Emitter<>();
 
     public FullTableLiveData(@NonNull Table table,
-                             @NonNull LiveData<List<Row>> rowSource,
-                             @NonNull LiveData<List<Column>> columnRows,
-                             @NonNull LiveData<List<SelectionOption>> selectionOptions,
-                             @NonNull LiveData<List<Data>> dataSource) {
+                             @NonNull LiveData<List<FullRow>> rowSource,
+                             @NonNull LiveData<List<FullColumn>> columnRows) {
         this.table = table;
         addSource(rowSource, rowEmitter::emit);
         addSource(columnRows, columnEmitter::emit);
-        addSource(selectionOptions, selectionOptionEmitter::emit);
-        addSource(dataSource, dataEmitter::emit);
     }
 
     private class Emitter<T> {
@@ -44,34 +37,32 @@ public class FullTableLiveData extends MediatorLiveData<FullTable> {
             this.value.clear();
             this.value.addAll(newValues);
 
-            if (!rowEmitter.firstEmit && !columnEmitter.firstEmit && !selectionOptionEmitter.firstEmit && !dataEmitter.firstEmit) {
-                final var rows = new ArrayList<List<Data>>(Collections.nCopies(rowEmitter.value.size(), null));
+            if (!rowEmitter.firstEmit && !columnEmitter.firstEmit) {
+                final var dataGrid = new ArrayList<List<FullData>>(Collections.nCopies(rowEmitter.value.size(), null));
 
                 for (int rowPosition = 0; rowPosition < rowEmitter.value.size(); rowPosition++) {
-                    final var columnsForCurrentRow = new ArrayList<Data>(Collections.nCopies(columnEmitter.value.size(), null));
-                    rows.set(rowPosition, columnsForCurrentRow);
+                    final var columnsForCurrentRow = new ArrayList<FullData>(Collections.nCopies(columnEmitter.value.size(), null));
+                    dataGrid.set(rowPosition, columnsForCurrentRow);
 
                     for (int columnPosition = 0; columnPosition < columnEmitter.value.size(); columnPosition++) {
-                        final var targetRowId = rowEmitter.value.get(rowPosition).getId();
-                        final var targetColumnId = columnEmitter.value.get(columnPosition).getId();
+                        final var targetColumnId = columnEmitter.value.get(columnPosition).getColumn().getId();
 
                         final var finalColumnPosition = columnPosition;
 
-                        dataEmitter.value
+                        rowEmitter.value.get(rowPosition).getFullData()
                                 .stream()
-                                .filter(data -> data.getRowId() == targetRowId)
-                                .filter(data -> data.getColumnId() == targetColumnId)
+                                .filter(data -> data.getData().getColumnId() == targetColumnId)
                                 .findAny()
                                 .ifPresentOrElse(
                                         data -> columnsForCurrentRow.set(finalColumnPosition, data),
-                                        () -> columnsForCurrentRow.set(finalColumnPosition, null)
+                                        () -> columnsForCurrentRow.set(finalColumnPosition, new FullData())
                                 );
 
                     }
-                    rows.set(rowPosition, columnsForCurrentRow);
+                    dataGrid.set(rowPosition, columnsForCurrentRow);
                 }
 
-                postValue(new FullTable(table, rowEmitter.value, columnEmitter.value, selectionOptionEmitter.value, rows));
+                postValue(new FullTable(table, rowEmitter.value, columnEmitter.value, dataGrid));
             }
         }
     }

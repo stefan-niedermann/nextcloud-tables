@@ -1,11 +1,14 @@
 package it.niedermann.nextcloud.tables.repository;
 
+import static java.util.concurrent.CompletableFuture.runAsync;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,13 +20,16 @@ import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.android.util.ColorUtil;
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.NextcloudVersion;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.database.model.Version;
@@ -33,8 +39,8 @@ import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableExc
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.ocs.OcsVersionMapper;
 
-@WorkerThread
-public class AccountRepository {
+@MainThread
+public class AccountRepository extends AbstractRepository {
 
     private static final String TAG = AccountRepository.class.getSimpleName();
     private static final String SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT = "it.niedermann.nextcloud.tables.current_account";
@@ -47,7 +53,6 @@ public class AccountRepository {
     private final LiveData<Account> currentAccount$;
     private final Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper;
 
-    @MainThread
     public AccountRepository(@NonNull Context context) {
         this.context = context;
         this.db = TablesDatabase.getInstance(context);
@@ -63,7 +68,7 @@ public class AccountRepository {
                 .distinctUntilChanged();
     }
 
-    @MainThread
+    @NonNull
     public LiveData<Account> getCurrentAccount() {
         return currentAccount$;
     }
@@ -79,54 +84,75 @@ public class AccountRepository {
         editor.apply();
     }
 
-    public Account createAccount(@NonNull Account account) {
-        final var id = db.getAccountDao().insert(account);
-        return db.getAccountDao().getAccountById(id);
+    @AnyThread
+    @NonNull
+    public CompletableFuture<Account> createAccount(@NonNull Account account) {
+        return CompletableFuture.supplyAsync(() -> {
+            final long id = db.getAccountDao().insert(account);
+            account.setId(id);
+            return account;
+        }, dbSequentialExecutor);
     }
 
-    @MainThread
+    @NonNull
     public LiveData<List<Account>> getAccounts$() {
         return db.getAccountDao().getAccounts$();
     }
 
+    @WorkerThread
     public List<Account> getAccounts() {
         return db.getAccountDao().getAccounts();
     }
 
-    @MainThread
+    @NonNull
     public LiveData<List<Account>> getAccountsExcept$(long id) {
         return db.getAccountDao().getAccountsExcept$(id);
     }
 
-    public void setCurrentTable(long accountId, @Nullable Long tableId) {
-        db.getAccountDao().updateCurrentTable(accountId, tableId);
+    @AnyThread
+    @NonNull
+    public CompletableFuture<Void> setCurrentTable(long accountId, @Nullable Long tableId) {
+        final var a = dbSequentialExecutor.submit(() -> db.getAccountDao().updateCurrentTable(accountId, tableId));
+        return runAsync(() -> db.getAccountDao().updateCurrentTable(accountId, tableId), dbSequentialExecutor);
     }
 
-    public void synchronizeAccount(@NonNull Account account) throws Exception {
-        try (final var apiProvider = ApiProvider.getOcsApiProvider(context, account)) {
-            synchronizeCapabilities(apiProvider.getApi(), account);
-            synchronizeUser(apiProvider.getApi(), account);
-            db.getAccountDao().update(account);
-        }
+    @AnyThread
+    @NonNull
+    public CompletableFuture<Account> synchronizeAccount(@NonNull Account account) {
+        return CompletableFuture.supplyAsync(() -> {
+                    try (final var apiProvider = ApiProvider.getOcsApiProvider(context, account)) {
+                        final var syncedAccount = synchronizeCapabilities(apiProvider.getApi(), account);
+                        return synchronizeUser(apiProvider.getApi(), syncedAccount);
+                    } catch (Exception e) {
+                        throw new CompletionException(e);
+                    }
+                }, syncExecutor)
+                .thenApplyAsync(entity -> {
+                    db.getAccountDao().update(entity);
+                    return entity;
+                }, dbSequentialExecutor);
     }
 
-    private void synchronizeCapabilities(@NonNull OcsAPI api, @NonNull Account account) throws Exception {
+    @WorkerThread
+    @NonNull
+    private Account synchronizeCapabilities(@NonNull OcsAPI api, @NonNull Account account) throws Exception {
         final var response = api.getCapabilities(account.getETag()).execute();
+
         //noinspection SwitchStatementWithTooFewBranches
         switch (response.code()) {
-            case 200: {
+            case 200 -> {
                 final var body = response.body();
                 if (body == null) {
                     throw new IOException("Response body is null");
                 }
 
                 switch (body.ocs.meta.statusCode) {
-                    case 500:
-                        throw new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR);
-                    case 503:
-                        throw new ServerNotAvailableException(ServerNotAvailableException.Reason.MAINTENANCE_MODE);
-                    default:
-                        break;
+                    case 500 ->
+                            throw new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR);
+                    case 503 ->
+                            throw new ServerNotAvailableException(ServerNotAvailableException.Reason.MAINTENANCE_MODE);
+                    default -> {
+                    }
                 }
 
                 final var nextcloudVersion = NextcloudVersion.of(versionMapper.toEntity(body.ocs.data.version()));
@@ -151,43 +177,67 @@ public class AccountRepository {
                 account.setNextcloudVersion(nextcloudVersion);
                 account.setETag(response.headers().get("ETag"));
                 account.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities().theming().color)));
-                break;
             }
+            default -> {
+                final var exception = serverErrorHandler.responseToException(response, "Could not fetch capabilities " + account.getUserName(), true);
 
-            default: {
-                serverErrorHandler.handle(response);
-                break;
+                if (exception.isPresent()) {
+                    throw exception.get();
+                }
             }
         }
+
+        return account;
     }
 
-    private void synchronizeUser(@NonNull OcsAPI api, @NonNull Account account) throws Exception {
+    @WorkerThread
+    @NonNull
+    private Account synchronizeUser(@NonNull OcsAPI api, @NonNull Account account) throws Exception {
         final var response = api.getUser(account.getUserName()).execute();
+
         //noinspection SwitchStatementWithTooFewBranches
         switch (response.code()) {
-            case 200: {
+            case 200 -> {
                 final var body = response.body();
                 if (body == null) {
                     throw new RuntimeException("Response body is null");
                 }
 
                 account.setDisplayName(body.ocs.data.displayName);
-                break;
             }
+            default -> {
+                final var exception = serverErrorHandler.responseToException(response, "Could not fetch user " + account.getUserName(), true);
 
-            default: {
-                serverErrorHandler.handle(response, "Could not fetch user " + account.getUserName());
-                break;
+                if (exception.isPresent()) {
+                    throw exception.get();
+                }
             }
         }
+
+        return account;
     }
 
-    public void deleteAccount(@NonNull Account account) {
-        db.getAccountDao().delete(account);
+    @AnyThread
+    @NonNull
+    public CompletableFuture<Void> deleteAccount(@NonNull Account account) {
+        return runAsync(() -> db.getAccountDao().delete(account), dbSequentialExecutor);
     }
 
-    public void guessCurrentTable(@NonNull Account account) {
-        Optional.ofNullable(db.getTableDao().getAnyNotDeletedTables(account.getId()))
-                .ifPresent(table -> db.getAccountDao().updateCurrentTable(account.getId(), table.getId()));
+    public CompletableFuture<Table> guessCurrentTable(@NonNull Account account) {
+        try {
+            dbParallelExecutor.submit(() -> db.getTableDao().getAnyNotDeletedTable(account.getId())).get();
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return CompletableFuture
+                .supplyAsync(() -> db.getTableDao().getAnyNotDeletedTable(account.getId()), dbParallelExecutor)
+                .thenComposeAsync(table -> {
+                    if (table != null) {
+                        db.getAccountDao().updateCurrentTable(account.getId(), table.getId());
+                    }
+                    return CompletableFuture.completedFuture(table);
+                }, dbSequentialExecutor);
     }
 }

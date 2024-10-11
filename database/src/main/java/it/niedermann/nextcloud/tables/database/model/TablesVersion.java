@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 public class TablesVersion extends Version {
 
-    public static final Version V_0_5_0 = new Version("0.5.0", 0, 5, 0);
+    public static final TablesVersion V_0_5_0 = new TablesVersion("0.5.0", 0, 5, 0);
 
     public TablesVersion(@NonNull String version, int major, int minor, int patch) {
         super(version, major, minor, patch);

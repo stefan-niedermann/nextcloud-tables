@@ -19,9 +19,6 @@ public class SelectionOptionV2Mapper implements Mapper<SelectionOptionV2Dto, Sel
     @NonNull
     @Override
     public SelectionOption toEntity(@NonNull SelectionOptionV2Dto dto) {
-        final var entity = new SelectionOption();
-        entity.setRemoteId(dto.remoteId());
-        entity.setLabel(dto.label());
-        return entity;
+        return new SelectionOption(dto.remoteId(), dto.label());
     }
 }

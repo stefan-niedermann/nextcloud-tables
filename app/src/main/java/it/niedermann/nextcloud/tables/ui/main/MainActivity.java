@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
+        mainViewModel.getFullTable$().observe(this, rowWithData -> {
+            Log.v("Hello", "World");
+        });
         mainViewModel.getCurrentAccount().observe(this, account -> {
             if (account == null) {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
@@ -96,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainViewModel.isLoading$().observe(this, loading -> {
+            this.binding.loadingWrapper.setVisibility(loading ? View.VISIBLE : View.GONE);
+            this.binding.fragment.setVisibility(!loading ? View.VISIBLE : View.GONE);
+        });
         mainViewModel.getTables().observe(this, this::updateSidebarMenu);
         mainViewModel.getCurrentTable().observe(this, this::applyCurrentTable);
 
@@ -107,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final var connectivityManager = (ConnectivityManager) getSystemService(ConnectivityManager.class);
+        final var connectivityManager = getSystemService(ConnectivityManager.class);
         final var networkCallbackReference = new AtomicReference<ConnectivityManager.NetworkCallback>();
         mainViewModel.getAccountAndNetworkRequest().observe(this, accountAndNetworkRequest -> {
             if (networkCallbackReference.get() != null) {

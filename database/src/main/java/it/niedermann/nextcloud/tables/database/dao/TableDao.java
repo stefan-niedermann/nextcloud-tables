@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.MapInfo;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.model.FullTable;
 
 @Dao
 public interface TableDao extends GenericDao<Table> {
@@ -34,7 +36,7 @@ public interface TableDao extends GenericDao<Table> {
     LiveData<Table> getNotDeletedTable$(long id);
 
     @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId AND t.status != 'LOCAL_DELETED' LIMIT 1")
-    Table getAnyNotDeletedTables(long accountId);
+    Table getAnyNotDeletedTable(long accountId);
 
     @Query("SELECT * FROM `Table` t WHERE t.accountId = :accountId AND t.isShared = :isShared AND t.status != 'LOCAL_DELETED' ORDER by t.title")
     LiveData<List<Table>> getNotDeletedTables$(long accountId, boolean isShared);
@@ -45,4 +47,10 @@ public interface TableDao extends GenericDao<Table> {
 
     @Query("DELETE FROM `Table` WHERE accountId = :accountId AND remoteId NOT IN (:remoteIds)")
     void deleteExcept(long accountId, Collection<Long> remoteIds);
+
+    @Transaction
+    @Query("SELECT t.* FROM `Table` t " +
+            "WHERE t.id = :tableId " +
+            "AND t.status != 'LOCAL_DELETED'")
+    LiveData<FullTable> getFullTable$(long tableId);
 }

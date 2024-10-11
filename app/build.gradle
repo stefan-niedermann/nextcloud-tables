@@ -80,7 +80,6 @@ dependencies {
     implementation project(path: ':database')
     implementation project(path: ':remote')
     implementation project(path: ':repository')
-    implementation project(path: ':types')
 
     // Nextcloud SSO
     implementation 'com.github.nextcloud.android-common:ui:0.23.1'

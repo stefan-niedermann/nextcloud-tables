@@ -13,8 +13,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.R;
+import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.databinding.ViewDatatypePickerBinding;
-import it.niedermann.nextcloud.tables.types.EDataType;
 
 public class EDataTypePicker extends FrameLayout {
 

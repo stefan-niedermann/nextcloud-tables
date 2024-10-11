@@ -2,21 +2,27 @@ package it.niedermann.nextcloud.tables.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.MapInfo;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
+import java.util.Map;
 
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.database.model.FullData;
 
 @Dao
 public interface DataDao extends GenericDao<Data> {
 
+    @Transaction
+    @MapInfo(keyColumn = "columnId")
     @Query("SELECT d.* FROM Data d " +
             "LEFT JOIN `Row` r ON d.rowId = r.id " +
             "LEFT JOIN `Column` c ON d.columnId = c.id " +
             "WHERE d.rowId = :rowId " +
             "ORDER BY r.remoteId, c.remoteId")
-    Data[] getDataForRow(long rowId);
+    Map<Long, FullData> getColumnIdAndFullData(long rowId);
 
     // TODO Check for DELETED
     @Query("SELECT d.* FROM Data d " +
@@ -29,8 +35,24 @@ public interface DataDao extends GenericDao<Data> {
             "ORDER BY r.remoteId, c.orderWeight")
     LiveData<List<Data>> getData(long tableId);
 
-    @Query("SELECT * FROM Data d WHERE d.columnId = :columnId AND d.rowId = :rowId")
-    Data getDataForCoordinates(long columnId, long rowId);
+    @Query("SELECT d.id FROM Data d " +
+            "WHERE d.columnId = :columnId " +
+            "AND d.rowId = :rowId")
+    Long getDataIdForCoordinates(long columnId, long rowId);
+
+    @Query("DELETE FROM Data " +
+            "WHERE rowId = :rowId " +
+            "AND data_booleanValue = NULL " +
+            "AND data_dateValue = NULL " +
+            "AND data_doubleValue = NULL " +
+            "AND data_instantValue = NULL " +
+            "AND data_stringValue = NULL " +
+            "AND data_timeValue = NULL " +
+            "AND id NOT IN (" +
+            "SELECT xRef.dataId FROM DataSelectionOptionCrossRef xRef " +
+            "WHERE xRef.dataId = id " +
+            ")")
+    void deleteRowIfEmpty(long rowId);
 
     @Query("SELECT EXISTS(SELECT id FROM Data WHERE columnId = :columnId AND rowId = :rowId)")
     boolean exists(long columnId, long rowId);

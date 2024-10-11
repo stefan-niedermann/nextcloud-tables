@@ -20,19 +20,20 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
+import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
 import it.niedermann.nextcloud.tables.repository.SyncWorker;
-import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
+import it.niedermann.nextcloud.tables.ui.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.util.AvatarUtil;
 
-public class ImportAccountActivity extends AppCompatActivity {
+public class ImportAccountActivity extends AppCompatActivity implements AccountImporter.IAccountAccessGranted {
 
     private static final String TAG = ImportAccountActivity.class.getSimpleName();
     private final AvatarUtil avatarUtil = new AvatarUtil();
@@ -70,34 +71,41 @@ public class ImportAccountActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void accountAccessGranted(@NonNull SingleSignOnAccount account) {
+        importAccountViewModel
+                .createAccount(new Account(account.url, account.name, account.userId))
+                .whenComplete((v, throwable) -> {
+                    if (throwable == null) {
+                        SyncWorker.update(getApplicationContext());
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
+    }
+
     private void applyImportState(@NonNull ImportAccountViewModel.ImportState state) {
         switch (state.state) {
-            case IMPORTING_ACCOUNT: {
+            case IMPORTING_ACCOUNT -> {
                 setAvatar(state.account);
                 binding.progressCircular.setVisibility(View.VISIBLE);
                 binding.progressText.setVisibility(View.VISIBLE);
                 binding.progressText.setText(R.string.import_state_import_account);
                 binding.addButton.setEnabled(false);
-                break;
             }
-            case IMPORTING_TABLES: {
+            case IMPORTING_TABLES -> {
                 setAvatar(state.account);
                 binding.progressCircular.setVisibility(View.VISIBLE);
                 binding.progressText.setVisibility(View.VISIBLE);
                 binding.progressText.setText(R.string.import_state_import_tables);
                 binding.addButton.setEnabled(false);
-                break;
             }
-            case FINISHED: {
+            case FINISHED -> {
                 setAvatar(state.account);
                 binding.progressCircular.setVisibility(View.GONE);
                 binding.progressText.setVisibility(View.GONE);
-                SyncWorker.update(getApplicationContext());
-                setResult(RESULT_OK);
-                finish();
-                break;
             }
-            case ERROR: {
+            case ERROR -> {
                 binding.image.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
                 binding.progressCircular.setVisibility(View.GONE);
                 binding.progressText.setVisibility(View.VISIBLE);
@@ -110,7 +118,7 @@ public class ImportAccountActivity extends AppCompatActivity {
                         state.error.printStackTrace();
                         ExceptionDialogFragment.newInstance(state.error, state.account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
 
-                        if(state.error instanceof ServerNotAvailableException) {
+                        if (state.error instanceof ServerNotAvailableException) {
                             binding.progressText.setText(((ServerNotAvailableException) state.error).getReason().messageRes);
                         } else {
                             binding.progressText.setText(state.error.getMessage());
@@ -120,10 +128,8 @@ public class ImportAccountActivity extends AppCompatActivity {
                         new IllegalStateException("Received error state while importing, but exception was null").printStackTrace();
                     }
                 }
-                break;
             }
-            default:
-                throw new IllegalStateException("Unexpected value: " + state.state);
+            default -> throw new IllegalStateException("Unexpected value: " + state.state);
         }
     }
 
@@ -131,6 +137,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         if (account == null) {
             throw new NullPointerException();
         }
+
         binding.progressText.setText(getString(R.string.importing_account, account.getDisplayName()));
         Glide.with(binding.image)
                 .load(avatarUtil.getAvatarUrl(account, binding.image.getWidth()))
@@ -144,8 +151,7 @@ public class ImportAccountActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode != REQUEST_AUTH_TOKEN_SSO || resultCode != RESULT_CANCELED) {
             try {
-                AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this,
-                        account -> importAccountViewModel.createAccount(new Account(account.name, account.userId, account.url)));
+                AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, this);
             } catch (AccountImportCancelledException e) {
                 Log.i(TAG, "Account import has been canceled.");
             }

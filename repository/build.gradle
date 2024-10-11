@@ -38,23 +38,17 @@ dependencies {
 
     implementation project(path: ':database')
     implementation project(path: ':remote')
-    implementation project(path: ':types')
 
     implementation "com.github.stefan-niedermann:android-commons:$version_android_commons"
-
-    api "com.github.nextcloud:Android-SingleSignOn:$version_sso"
-
-    // Retrofit
-    api "com.squareup.retrofit2:retrofit:$version_retrofit"
-
-    // Database
-    implementation "androidx.room:room-runtime:$version_room"
-
-    implementation 'androidx.preference:preference:1.2.1'
-    api 'androidx.work:work-runtime:2.9.1'
+    implementation "com.github.nextcloud:Android-SingleSignOn:$version_sso"
+    implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation "androidx.room:room-runtime:$version_room"
+    implementation 'androidx.work:work-runtime:2.9.1'
     implementation 'com.google.android.material:material:1.12.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'

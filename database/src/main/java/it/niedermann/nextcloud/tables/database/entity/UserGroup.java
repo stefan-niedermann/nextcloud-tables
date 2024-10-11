@@ -26,13 +26,24 @@ import it.niedermann.nextcloud.tables.database.model.EUserGroupType;
         }
 )
 public class UserGroup extends AbstractAccountRelatedEntity {
+
     @Nullable
     protected String remoteId;
     protected String key;
     protected EUserGroupType type;
 
     public UserGroup() {
+        // Default constructor
+    }
 
+    public UserGroup(
+            @Nullable String remoteId,
+            String key,
+            EUserGroupType type
+    ) {
+        this.remoteId = remoteId;
+        this.key = key;
+        this.type = type;
     }
 
     @Nullable

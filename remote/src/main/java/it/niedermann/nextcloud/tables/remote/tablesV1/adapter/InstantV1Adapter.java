@@ -30,12 +30,12 @@ public class InstantV1Adapter implements JsonSerializer<Instant>, JsonDeserializ
     }
 
     @Override
-    public synchronized JsonElement serialize(Instant date, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(Instant date, Type type, JsonSerializationContext jsonSerializationContext) {
         return new JsonPrimitive(dateTimeFormatter.format(date));
     }
 
     @Override
-    public synchronized Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
+    public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
         try {
             return LocalDateTime
                     .parse(jsonElement.getAsString(), dateTimeFormatter)

@@ -18,6 +18,7 @@ import java.time.format.SignStyle;
 import java.util.List;
 
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateColumnResponseV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.RowV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.TableV2Dto;
@@ -151,31 +152,31 @@ public interface TablesV2API {
      * @since 0.8.0
      */
     @POST("columns/number?format=json")
-    Call<OcsResponse<ColumnV2Dto>> createNumberColumn(@Body @NonNull CreateNumberColumnV2Dto column);
+    Call<OcsResponse<CreateColumnResponseV2Dto>> createNumberColumn(@Body @NonNull CreateNumberColumnV2Dto column);
 
     /**
      * @since 0.8.0
      */
     @POST("columns/text?format=json")
-    Call<OcsResponse<ColumnV2Dto>> createTextColumn(@Body @NonNull CreateTextColumnV2Dto column);
+    Call<OcsResponse<CreateColumnResponseV2Dto>> createTextColumn(@Body @NonNull CreateTextColumnV2Dto column);
 
     /**
      * @since 0.8.0
      */
     @POST("columns/selection?format=json")
-    Call<OcsResponse<ColumnV2Dto>> createSelectionColumn(@Body @NonNull CreateSelectionColumnV2Dto column);
+    Call<OcsResponse<CreateColumnResponseV2Dto>> createSelectionColumn(@Body @NonNull CreateSelectionColumnV2Dto column);
 
     /**
      * @since 0.8.0
      */
     @POST("columns/datetime?format=json")
-    Call<OcsResponse<ColumnV2Dto>> createDateTimeColumn(@Body @NonNull CreateDateTimeColumnV2Dto column);
+    Call<OcsResponse<CreateColumnResponseV2Dto>> createDateTimeColumn(@Body @NonNull CreateDateTimeColumnV2Dto column);
 
     /**
      * @since 0.8.0
      */
     @POST("columns/usergroup?format=json")
-    Call<OcsResponse<ColumnV2Dto>> createUserGroupColumn(@Body @NonNull CreateUserGroupColumnV2Dto column);
+    Call<OcsResponse<CreateColumnResponseV2Dto>> createUserGroupColumn(@Body @NonNull CreateUserGroupColumnV2Dto column);
 
     /* ****************************************************************************************** *
      * api_favorite                                                                               *

@@ -33,24 +33,32 @@ import it.niedermann.nextcloud.tables.database.model.TablesVersion;
         }
 )
 public class Account extends AbstractEntity {
+
     @NonNull
     @ColumnInfo(defaultValue = "")
     private String url = "";
+
     @NonNull
     @ColumnInfo(defaultValue = "")
     private String userName = "";
+
     @NonNull
     @ColumnInfo(defaultValue = "")
     private String accountName = "";
+
     @Nullable
     private NextcloudVersion nextcloudVersion;
+
     @Nullable
     private TablesVersion tablesVersion;
+
     @ColorInt
     @ColumnInfo(defaultValue = "-16743735")
     private int color = Color.parseColor("#0082C9");
+
     @Nullable
     private String displayName;
+
     @Nullable
     private Long currentTable;
 
@@ -58,15 +66,20 @@ public class Account extends AbstractEntity {
         // Default constructor
     }
 
-    public Account(@NonNull String url, @NonNull String username, @NonNull String accountName, @Nullable String displayName) {
-        this(accountName, username, url);
-        setDisplayName(displayName);
+    public Account(@NonNull String url,
+                   @NonNull String accountName,
+                   @NonNull String username) {
+        this(url, accountName, username, null);
     }
 
-    public Account(@NonNull String accountName, @NonNull String username, @NonNull String url) {
-        setAccountName(accountName);
-        setUserName(username);
-        setUrl(url);
+    public Account(@NonNull String url,
+                   @NonNull String accountName,
+                   @NonNull String username,
+                   @Nullable String displayName) {
+        this.accountName = accountName;
+        this.userName = username;
+        this.url = url;
+        this.displayName = displayName;
     }
 
     @NonNull

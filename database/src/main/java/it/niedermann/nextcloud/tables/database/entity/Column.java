@@ -2,16 +2,21 @@ package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
 
-import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
+import it.niedermann.nextcloud.tables.database.entity.attributes.DateTimeAttributes;
+import it.niedermann.nextcloud.tables.database.entity.attributes.NumberAttributes;
+import it.niedermann.nextcloud.tables.database.entity.attributes.SelectionAttributes;
+import it.niedermann.nextcloud.tables.database.entity.attributes.TextAttributes;
+import it.niedermann.nextcloud.tables.database.entity.attributes.UserGroupAttributes;
+import it.niedermann.nextcloud.tables.database.model.EDataType;
+import it.niedermann.nextcloud.tables.database.model.Value;
 
 @Entity(
         inheritSuperIndices = true,
@@ -30,50 +35,69 @@ import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
                 )
         },
         indices = {
-                @Index(name = "IDX_COLUMN_ACCOUNT_ID_REMOTE_D", value = {"accountId", "remoteId"}, unique = true),
+                @Index(name = "IDX_COLUMN_ACCOUNT_ID_REMOTE_ID", value = {"accountId", "remoteId"}, unique = true),
                 @Index(name = "IDX_COLUMN_TABLE_ID", value = "tableId")
         }
 )
 public class Column extends AbstractRemoteEntity {
+
     private long tableId;
+
     @ColumnInfo(defaultValue = "")
     private String title = "";
+
     @ColumnInfo(defaultValue = "")
     private String createdBy;
+
     private Instant createdAt;
+
     @ColumnInfo(defaultValue = "")
     private String lastEditBy;
+
     private Instant lastEditAt;
-    @ColumnInfo(defaultValue = "")
-    private String type;
-    @ColumnInfo(defaultValue = "")
-    private String subtype;
+
+    @NonNull
+    private EDataType dataType;
+
     private boolean mandatory;
+
     @ColumnInfo(defaultValue = "")
     private String description;
+
     private Integer orderWeight;
-    private Double numberDefault;
-    private Double numberMin;
-    private Double numberMax;
-    private Integer numberDecimals;
-    private String numberPrefix;
-    private String numberSuffix;
-    private String textDefault;
-    private String textAllowedPattern;
-    private Integer textMaxLength;
-    @Ignore
-    private List<SelectionOption> selectionOptions;
-    private SelectionDefault selectionDefault;
-    private String datetimeDefault;
-    @Ignore
-    private List<UserGroup> usergroupDefault;
-    private boolean usergroupMultipleItems;
-    private boolean usergroupSelectUsers;
-    private boolean usergroupSelectGroups;
-    private boolean showUserStatus;
+
+    @Embedded(prefix = "default_")
+    @NonNull
+    private Value defaultValue;
+
+    @Embedded
+    @NonNull
+    private NumberAttributes numberAttributes;
+
+    @Embedded
+    @NonNull
+    private DateTimeAttributes dateTimeAttributes;
+
+    @Embedded
+    @NonNull
+    private SelectionAttributes selectionAttributes;
+
+    @Embedded
+    @NonNull
+    private TextAttributes textAttributes;
+
+    @Embedded
+    @NonNull
+    private UserGroupAttributes userGroupAttributes;
 
     public Column() {
-        // Default constructor
+        dataType = EDataType.UNKNOWN;
+        defaultValue = new Value();
+        numberAttributes = new NumberAttributes(null, null, null, null, null);
+        dateTimeAttributes = new DateTimeAttributes();
+        selectionAttributes = new SelectionAttributes();
+        textAttributes = new TextAttributes(null, null);
+        userGroupAttributes = new UserGroupAttributes(false, false, false, false);
     }
 
     public long getTableId() {
@@ -124,20 +148,13 @@ public class Column extends AbstractRemoteEntity {
         this.lastEditAt = lastEditAt;
     }
 
-    public String getType() {
-        return type;
+    @NonNull
+    public EDataType getDataType() {
+        return dataType;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getSubtype() {
-        return subtype;
-    }
-
-    public void setSubtype(String subtype) {
-        this.subtype = subtype;
+    public void setDataType(@NonNull EDataType dataType) {
+        this.dataType = dataType;
     }
 
     public boolean isMandatory() {
@@ -164,146 +181,64 @@ public class Column extends AbstractRemoteEntity {
         this.orderWeight = orderWeight;
     }
 
-    public Double getNumberDefault() {
-        return numberDefault;
+    @NonNull
+    public Value getDefaultValue() {
+        return defaultValue;
     }
 
-    public void setNumberDefault(Double numberDefault) {
-        this.numberDefault = numberDefault;
+    public void setDefaultValue(@NonNull Value defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
-    public Double getNumberMin() {
-        return numberMin;
+    @NonNull
+    public NumberAttributes getNumberAttributes() {
+        return numberAttributes;
     }
 
-    public void setNumberMin(Double numberMin) {
-        this.numberMin = numberMin;
+    public void setNumberAttributes(@NonNull NumberAttributes numberAttributes) {
+        this.numberAttributes = numberAttributes;
     }
 
-    public Double getNumberMax() {
-        return numberMax;
+    @NonNull
+    public DateTimeAttributes getDateTimeAttributes() {
+        return dateTimeAttributes;
     }
 
-    public void setNumberMax(Double numberMax) {
-        this.numberMax = numberMax;
+    public void setDateTimeAttributes(@NonNull DateTimeAttributes dateTimeAttributes) {
+        this.dateTimeAttributes = dateTimeAttributes;
     }
 
-    public Integer getNumberDecimals() {
-        return numberDecimals;
+    @NonNull
+    public SelectionAttributes getSelectionAttributes() {
+        return selectionAttributes;
     }
 
-    public void setNumberDecimals(Integer numberDecimals) {
-        this.numberDecimals = numberDecimals;
+    public void setSelectionAttributes(@NonNull SelectionAttributes selectionAttributes) {
+        this.selectionAttributes = selectionAttributes;
     }
 
-    public String getNumberPrefix() {
-        return numberPrefix;
+    @NonNull
+    public TextAttributes getTextAttributes() {
+        return textAttributes;
     }
 
-    public void setNumberPrefix(String numberPrefix) {
-        this.numberPrefix = numberPrefix;
+    public void setTextAttributes(@NonNull TextAttributes textAttributes) {
+        this.textAttributes = textAttributes;
     }
 
-    public String getNumberSuffix() {
-        return numberSuffix;
+    @NonNull
+    public UserGroupAttributes getUserGroupAttributes() {
+        return userGroupAttributes;
     }
 
-    public void setNumberSuffix(String numberSuffix) {
-        this.numberSuffix = numberSuffix;
-    }
-
-    public String getTextDefault() {
-        return textDefault;
-    }
-
-    public void setTextDefault(String textDefault) {
-        this.textDefault = textDefault;
-    }
-
-    public String getTextAllowedPattern() {
-        return textAllowedPattern;
-    }
-
-    public void setTextAllowedPattern(String textAllowedPattern) {
-        this.textAllowedPattern = textAllowedPattern;
-    }
-
-    public Integer getTextMaxLength() {
-        return textMaxLength;
-    }
-
-    public void setTextMaxLength(Integer textMaxLength) {
-        this.textMaxLength = textMaxLength;
-    }
-
-    public List<SelectionOption> getSelectionOptions() {
-        return selectionOptions;
-    }
-
-    public void setSelectionOptions(List<SelectionOption> selectionOptions) {
-        this.selectionOptions = selectionOptions;
-    }
-
-    public SelectionDefault getSelectionDefault() {
-        return selectionDefault;
-    }
-
-    public void setSelectionDefault(SelectionDefault selectionDefault) {
-        this.selectionDefault = selectionDefault;
-    }
-
-    public String getDatetimeDefault() {
-        return datetimeDefault;
-    }
-
-    public void setDatetimeDefault(String datetimeDefault) {
-        this.datetimeDefault = datetimeDefault;
-    }
-
-    public List<UserGroup> getUsergroupDefault() {
-        return usergroupDefault;
-    }
-
-    public void setUsergroupDefault(List<UserGroup> usergroupDefault) {
-        this.usergroupDefault = usergroupDefault;
-    }
-
-    public boolean isUsergroupMultipleItems() {
-        return usergroupMultipleItems;
-    }
-
-    public void setUsergroupMultipleItems(boolean usergroupMultipleItems) {
-        this.usergroupMultipleItems = usergroupMultipleItems;
-    }
-
-    public boolean isUsergroupSelectUsers() {
-        return usergroupSelectUsers;
-    }
-
-    public void setUsergroupSelectUsers(boolean usergroupSelectUsers) {
-        this.usergroupSelectUsers = usergroupSelectUsers;
-    }
-
-    public boolean isUsergroupSelectGroups() {
-        return usergroupSelectGroups;
-    }
-
-    public void setUsergroupSelectGroups(boolean usergroupSelectGroups) {
-        this.usergroupSelectGroups = usergroupSelectGroups;
-    }
-
-    public boolean isShowUserStatus() {
-        return showUserStatus;
-    }
-
-    public void setShowUserStatus(boolean showUserStatus) {
-        this.showUserStatus = showUserStatus;
+    public void setUserGroupAttributes(@NonNull UserGroupAttributes userGroupAttributes) {
+        this.userGroupAttributes = userGroupAttributes;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return getTitle();
+        return title;
     }
 
     @Override
@@ -312,11 +247,11 @@ public class Column extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Column column = (Column) o;
-        return tableId == column.tableId && mandatory == column.mandatory && usergroupMultipleItems == column.usergroupMultipleItems && usergroupSelectUsers == column.usergroupSelectUsers && usergroupSelectGroups == column.usergroupSelectGroups && showUserStatus == column.showUserStatus && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && Objects.equals(type, column.type) && Objects.equals(subtype, column.subtype) && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(numberDefault, column.numberDefault) && Objects.equals(numberMin, column.numberMin) && Objects.equals(numberMax, column.numberMax) && Objects.equals(numberDecimals, column.numberDecimals) && Objects.equals(numberPrefix, column.numberPrefix) && Objects.equals(numberSuffix, column.numberSuffix) && Objects.equals(textDefault, column.textDefault) && Objects.equals(textAllowedPattern, column.textAllowedPattern) && Objects.equals(textMaxLength, column.textMaxLength) && Objects.equals(selectionOptions, column.selectionOptions) && Objects.equals(selectionDefault, column.selectionDefault) && Objects.equals(datetimeDefault, column.datetimeDefault) && Objects.equals(usergroupDefault, column.usergroupDefault);
+        return tableId == column.tableId && mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && dataType == column.dataType && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(defaultValue, column.defaultValue) && Objects.equals(numberAttributes, column.numberAttributes) && Objects.equals(dateTimeAttributes, column.dateTimeAttributes) && Objects.equals(selectionAttributes, column.selectionAttributes) && Objects.equals(textAttributes, column.textAttributes) && Objects.equals(userGroupAttributes, column.userGroupAttributes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tableId, title, createdBy, createdAt, lastEditBy, lastEditAt, type, subtype, mandatory, description, orderWeight, numberDefault, numberMin, numberMax, numberDecimals, numberPrefix, numberSuffix, textDefault, textAllowedPattern, textMaxLength, selectionOptions, selectionDefault, datetimeDefault, usergroupDefault, usergroupMultipleItems, usergroupSelectUsers, usergroupSelectGroups, showUserStatus);
+        return Objects.hash(super.hashCode(), tableId, title, createdBy, createdAt, lastEditBy, lastEditAt, dataType, mandatory, description, orderWeight, defaultValue, numberAttributes, dateTimeAttributes, selectionAttributes, textAttributes, userGroupAttributes);
     }
 }

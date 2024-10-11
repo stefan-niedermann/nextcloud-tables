@@ -46,7 +46,7 @@ public abstract class ApiProvider<T> implements AutoCloseable {
         return new OcsApiProvider<>(context, account, OcsAPI.class);
     }
 
-    @Deprecated(forRemoval = true)
+    @Deprecated()
     public static ApiProvider<TablesV1API> getTablesV1ApiProvider(@NonNull Context context,
                                                                   @NonNull Account account) throws NextcloudFilesAppAccountNotFoundException {
         return new TablesV1ApiProvider<>(context, account, TablesV1API.class);

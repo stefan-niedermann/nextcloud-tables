@@ -6,22 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
 import java.time.Instant;
-import java.util.List;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.model.SelectionDefault;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
 import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.BooleanV1Adapter;
+import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.EUserGroupTypeV1Adapter;
 import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.InstantV1Adapter;
-import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.SelectionDefaultV1Adapter;
-import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.SelectionOptionListV1Adapter;
-import it.niedermann.nextcloud.tables.remote.tablesV1.adapter.UserGroupListV1Adapter;
-import it.niedermann.nextcloud.tables.remote.tablesV1.model.SelectionOptionV1Dto;
-import it.niedermann.nextcloud.tables.remote.tablesV1.model.UserGroupV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.EUserGroupTypeV1Dto;
 
 @WorkerThread
 public class TablesV1ApiProvider<T> extends ApiProvider<T> {
@@ -33,10 +27,8 @@ public class TablesV1ApiProvider<T> extends ApiProvider<T> {
                                @NonNull Class<T> clazz) throws NextcloudFilesAppAccountNotFoundException {
         this(context, account, clazz, new GsonBuilder()
                 .registerTypeAdapter(Instant.class, new InstantV1Adapter(TablesV1API.FORMATTER_PROPERTIES_DATE_TIME))
-                .registerTypeAdapter(SelectionDefault.class, new SelectionDefaultV1Adapter())
                 .registerTypeAdapter(Boolean.class, new BooleanV1Adapter())
-                .registerTypeAdapter(TypeToken.getParameterized(List.class, SelectionOptionV1Dto.class).getType(), new SelectionOptionListV1Adapter())
-                .registerTypeAdapter(TypeToken.getParameterized(List.class, UserGroupV1Dto.class).getType(), new UserGroupListV1Adapter()));
+                .registerTypeAdapter(EUserGroupTypeV1Dto.class, new EUserGroupTypeV1Adapter()));
     }
 
     private TablesV1ApiProvider(@NonNull Context context,

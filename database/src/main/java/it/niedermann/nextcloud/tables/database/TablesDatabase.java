@@ -9,9 +9,12 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import it.niedermann.nextcloud.tables.database.converter.DBStatusConverter;
+import it.niedermann.nextcloud.tables.database.converter.EDataTypeConverter;
 import it.niedermann.nextcloud.tables.database.converter.InstantConverter;
 import it.niedermann.nextcloud.tables.database.converter.JsonElementConverter;
-import it.niedermann.nextcloud.tables.database.converter.SelectionDefaultConverter;
+import it.niedermann.nextcloud.tables.database.converter.LocalDateConverter;
+import it.niedermann.nextcloud.tables.database.converter.LocalTimeConverter;
+import it.niedermann.nextcloud.tables.database.converter.UserGroupTypeConverter;
 import it.niedermann.nextcloud.tables.database.converter.VersionConverter;
 import it.niedermann.nextcloud.tables.database.dao.AccountDao;
 import it.niedermann.nextcloud.tables.database.dao.ColumnDao;
@@ -22,9 +25,14 @@ import it.niedermann.nextcloud.tables.database.dao.TableDao;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.DataUserGroupCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.DefaultValueSelectionOptionCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.DefaultValueUserGroupCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 import it.niedermann.nextcloud.tables.database.migration.Migration_1_2;
 
 @Database(
@@ -34,15 +42,25 @@ import it.niedermann.nextcloud.tables.database.migration.Migration_1_2;
                 Column.class,
                 Row.class,
                 Data.class,
-                SelectionOption.class
-        }, version = 2
+                SelectionOption.class,
+                UserGroup.class,
+                DataSelectionOptionCrossRef.class,
+                DataUserGroupCrossRef.class,
+                DefaultValueSelectionOptionCrossRef.class,
+                DefaultValueUserGroupCrossRef.class
+        },
+        exportSchema = false,
+        version = 2
 )
 @TypeConverters({
         DBStatusConverter.class,
         InstantConverter.class,
+        LocalDateConverter.class,
+        LocalTimeConverter.class,
         JsonElementConverter.class,
         VersionConverter.class,
-        SelectionDefaultConverter.class
+        UserGroupTypeConverter.class,
+        EDataTypeConverter.class
 })
 public abstract class TablesDatabase extends RoomDatabase {
 

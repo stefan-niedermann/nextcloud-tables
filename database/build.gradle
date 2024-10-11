@@ -36,7 +36,7 @@ ext {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
-    api 'com.google.code.gson:gson:2.11.0'
+    implementation 'com.google.code.gson:gson:2.11.0'
 
     // Database
     implementation "androidx.room:room-runtime:$version_room"

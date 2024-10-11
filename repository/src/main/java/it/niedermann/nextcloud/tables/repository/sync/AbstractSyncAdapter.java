@@ -8,9 +8,10 @@ import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
+import it.niedermann.nextcloud.tables.repository.AbstractRepository;
 import it.niedermann.nextcloud.tables.repository.ServerErrorHandler;
 
-public abstract class AbstractSyncAdapter {
+public abstract class AbstractSyncAdapter extends AbstractRepository {
 
     protected static final String HEADER_ETAG = "ETag";
     protected final TablesDatabase db;

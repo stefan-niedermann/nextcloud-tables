@@ -35,7 +35,24 @@
                 android:name="it.niedermann.nextcloud.tables.ui.table.view.ViewTableFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tag="activity_main_fragment" />
+                android:tag="activity_main_fragment"
+                android:visibility="gone"
+                tools:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/loadingWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    tools:indeterminate="false"
+                    tools:progress="66" />
+            </FrameLayout>
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

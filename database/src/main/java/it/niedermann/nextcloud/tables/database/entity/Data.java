@@ -1,15 +1,15 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import com.google.gson.JsonElement;
-
 import java.util.Objects;
+
+import it.niedermann.nextcloud.tables.database.model.Value;
 
 
 @Entity(
@@ -50,26 +50,27 @@ import java.util.Objects;
 public class Data extends AbstractAccountRelatedEntity {
 
     private long columnId;
+    private long remoteColumnId;
     private long rowId;
-    @Nullable
-    private Long remoteColumnId;
-    @Nullable
-    private JsonElement value;
+
+    @NonNull
+    @Embedded(prefix = "data_")
+    private Value value;
 
     public Data() {
-        // Default constructor
+        this.value = new Value();
     }
 
     @Ignore
     public Data(@NonNull Data data) {
-        setId(data.getId());
-        setAccountId(data.getAccountId());
-        setRowId(data.getRowId());
-        setColumnId(data.getColumnId());
-        setRemoteColumnId(data.getRemoteColumnId());
-        setETag(data.getETag());
-        setStatus(data.getStatus());
-        setValue(data.getValue());
+        this.id = data.getId();
+        this.rowId = data.getRowId();
+        this.value = data.getValue();
+        this.remoteColumnId = data.getRemoteColumnId();
+        this.accountId = data.getAccountId();
+        this.columnId = data.getColumnId();
+        this.eTag = data.getETag();
+        this.status = data.getStatus();
     }
 
     public long getColumnId() {
@@ -80,6 +81,14 @@ public class Data extends AbstractAccountRelatedEntity {
         this.columnId = columnId;
     }
 
+    public long getRemoteColumnId() {
+        return remoteColumnId;
+    }
+
+    public void setRemoteColumnId(long remoteColumnId) {
+        this.remoteColumnId = remoteColumnId;
+    }
+
     public long getRowId() {
         return rowId;
     }
@@ -88,21 +97,12 @@ public class Data extends AbstractAccountRelatedEntity {
         this.rowId = rowId;
     }
 
-    @Nullable
-    public Long getRemoteColumnId() {
-        return remoteColumnId;
-    }
-
-    public void setRemoteColumnId(@Nullable Long remoteColumnId) {
-        this.remoteColumnId = remoteColumnId;
-    }
-
-    @Nullable
-    public JsonElement getValue() {
+    @NonNull
+    public Value getValue() {
         return value;
     }
 
-    public void setValue(@Nullable JsonElement value) {
+    public void setValue(@NonNull Value value) {
         this.value = value;
     }
 
@@ -112,17 +112,17 @@ public class Data extends AbstractAccountRelatedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Data data = (Data) o;
-        return columnId == data.columnId && rowId == data.rowId && Objects.equals(remoteColumnId, data.remoteColumnId) && Objects.equals(value, data.value);
+        return columnId == data.columnId && remoteColumnId == data.remoteColumnId && rowId == data.rowId && Objects.equals(value, data.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), columnId, rowId, remoteColumnId, value);
+        return Objects.hash(super.hashCode(), columnId, remoteColumnId, rowId, value);
     }
 
     @NonNull
     @Override
     public String toString() {
-        return getValue() + " (row: " + getRowId() + ", column: " + getColumnId() + ")";
+        return "[Row: " + getRowId() + " / Column: " + getColumnId() + "]:" + getValue();
     }
 }

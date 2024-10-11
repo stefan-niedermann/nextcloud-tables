@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.function.Consumer;
 
-import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.ItemColumnBinding;
 
 public class ManageColumnsViewHolder extends RecyclerView.ViewHolder {
@@ -20,15 +20,15 @@ public class ManageColumnsViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull Column column, @NonNull Consumer<Column> onEdit) {
-        binding.title.setText(column.getTitle());
+    public void bind(@NonNull FullColumn column, @NonNull Consumer<FullColumn> onEdit) {
+        binding.title.setText(column.getColumn().getTitle());
 
-        if (TextUtils.isEmpty(column.getDescription())) {
+        if (TextUtils.isEmpty(column.getColumn().getDescription())) {
             binding.description.setText(null);
             binding.description.setVisibility(View.GONE);
 
         } else {
-            binding.description.setText(column.getDescription());
+            binding.description.setText(column.getColumn().getDescription());
             binding.description.setVisibility(View.VISIBLE);
         }
 

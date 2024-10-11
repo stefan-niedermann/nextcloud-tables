@@ -14,15 +14,15 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
-import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.ItemColumnBinding;
 
 public class ManageColumnsAdapter extends RecyclerView.Adapter<ManageColumnsViewHolder> {
 
-    private final List<Column> columns = new ArrayList<>();
-    private final Consumer<Column> onEdit;
+    private final List<FullColumn> fullColumns = new ArrayList<>();
+    private final Consumer<FullColumn> onEdit;
 
-    public ManageColumnsAdapter(@NonNull Consumer<Column> onEdit) {
+    public ManageColumnsAdapter(@NonNull Consumer<FullColumn> onEdit) {
         this.onEdit = onEdit;
         setHasStableIds(true);
     }
@@ -35,22 +35,22 @@ public class ManageColumnsAdapter extends RecyclerView.Adapter<ManageColumnsView
 
     @Override
     public void onBindViewHolder(@NonNull ManageColumnsViewHolder holder, int position) {
-        holder.bind(columns.get(position), onEdit);
+        holder.bind(fullColumns.get(position), onEdit);
     }
 
     @Override
     public long getItemId(int position) {
-        return columns.get(position).getId();
+        return fullColumns.get(position).getColumn().getId();
     }
 
     @Override
     public int getItemCount() {
-        return columns.size();
+        return fullColumns.size();
     }
 
-    public void setItems(@NonNull Collection<Column> columns) {
-        this.columns.clear();
-        this.columns.addAll(columns);
+    public void setItems(@NonNull Collection<FullColumn> fullColumns) {
+        this.fullColumns.clear();
+        this.fullColumns.addAll(fullColumns);
         notifyDataSetChanged();
     }
 
@@ -61,7 +61,7 @@ public class ManageColumnsAdapter extends RecyclerView.Adapter<ManageColumnsView
      */
     public boolean swapVolatile(int fromPosition, int toPosition) {
         try {
-            Collections.swap(columns, fromPosition, toPosition);
+            Collections.swap(fullColumns, fromPosition, toPosition);
         } catch (IndexOutOfBoundsException e) {
             return false;
         }
@@ -71,7 +71,8 @@ public class ManageColumnsAdapter extends RecyclerView.Adapter<ManageColumnsView
     }
 
     public List<Long> getColumnIdsOrderedByViewPosition() {
-        return this.columns.stream()
+        return this.fullColumns.stream()
+                .map(FullColumn::getColumn)
                 .map(AbstractEntity::getId)
                 .collect(Collectors.toUnmodifiableList());
     }

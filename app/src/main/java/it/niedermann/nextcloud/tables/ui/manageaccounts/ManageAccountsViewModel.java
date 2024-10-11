@@ -2,28 +2,28 @@ package it.niedermann.nextcloud.tables.ui.manageaccounts;
 
 import android.app.Application;
 
+import androidx.annotation.AnyThread;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 
+@MainThread
 @SuppressWarnings("WeakerAccess")
 public class ManageAccountsViewModel extends AndroidViewModel {
 
-    private final ExecutorService executor;
     private final AccountRepository accountRepository;
 
     public ManageAccountsViewModel(@NonNull Application application) {
         super(application);
         this.accountRepository = new AccountRepository(application);
-        this.executor = Executors.newSingleThreadExecutor();
     }
 
     public LiveData<List<Account>> getAccounts() {
@@ -34,11 +34,13 @@ public class ManageAccountsViewModel extends AndroidViewModel {
         return accountRepository.getCurrentAccount();
     }
 
+    @AnyThread
     public void setCurrentAccount(@Nullable Account account) {
-        executor.submit(() -> accountRepository.setCurrentAccount(account));
+        accountRepository.setCurrentAccount(account);
     }
 
-    public void deleteAccount(@NonNull Account account) {
-        executor.submit(() -> accountRepository.deleteAccount(account));
+    @AnyThread
+    public CompletableFuture<Void> deleteAccount(@NonNull Account account) {
+        return accountRepository.deleteAccount(account);
     }
 }

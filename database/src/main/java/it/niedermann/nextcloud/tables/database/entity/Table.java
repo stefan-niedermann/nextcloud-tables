@@ -24,31 +24,43 @@ import java.util.Optional;
         }
 )
 public class Table extends AbstractRemoteEntity {
+
     @NonNull
     @ColumnInfo(defaultValue = "")
     private String title = "";
+
     @ColumnInfo(defaultValue = "")
     @Nullable
     private String description;
+
     @ColumnInfo(defaultValue = "")
     private String emoji = "";
+
     @ColumnInfo(defaultValue = "")
     private String ownership;
+
     @ColumnInfo(defaultValue = "")
     private String ownerDisplayName;
+
     @ColumnInfo(defaultValue = "")
     private String createdBy;
+
     private Instant createdAt;
+
     @ColumnInfo(defaultValue = "")
     private String lastEditBy;
+
     @ColumnInfo(defaultValue = "")
     private String lastEditAt;
+
     private boolean isShared;
+
+    @NonNull
     @Embedded
     private OnSharePermission onSharePermission;
 
     public Table() {
-        // Default constructor
+        this.onSharePermission = new OnSharePermission();
     }
 
     @NonNull
@@ -161,11 +173,12 @@ public class Table extends AbstractRemoteEntity {
         isShared = shared;
     }
 
+    @NonNull
     public OnSharePermission getOnSharePermission() {
         return onSharePermission;
     }
 
-    public void setOnSharePermission(OnSharePermission onSharePermission) {
+    public void setOnSharePermission(@NonNull OnSharePermission onSharePermission) {
         this.onSharePermission = onSharePermission;
     }
 

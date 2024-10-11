@@ -19,6 +19,15 @@
     <string name="simple_description">Description</string>
     <string name="simple_type">Type</string>
     <string name="simple_subtype">Subtype</string>
+    <string name="simple_default_value">Default value</string>
+    <string name="simple_max_length">Max length</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Decimals</string>
+    <string name="simple_prefix">Prefix</string>
+    <string name="simple_suffix">Suffix</string>
+    <string name="simple_label">Label</string>
+    <string name="simple_hint">Hinweis</string>
 
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>
@@ -131,6 +140,14 @@
     <string name="import_state_import_tables">Importing tables. This may take several minutes.</string>
     <string name="not_yet_synchronized">Not yet synchronized</string>
 
+    <string name="validation_number_not_parsable">The value seems not to be a number</string>
+    <string name="validation_number_range">The value must be between %1$s and %2$s</string>
+    <string name="validation_number_min">The value must be at least %1$s</string>
+    <string name="validation_number_max">The value must be at most %1$s</string>
+    <string name="validation_text_link">The value is not a link</string>
+    <string name="validation_mandatory">This is a mandatory field</string>
+    <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
+
     <string name="missing_permission_read">Missing read permission</string>
     <string name="missing_permission_create">Missing create permission</string>
     <string name="missing_permission_update">Missing update permission</string>
@@ -146,8 +163,14 @@
     <string name="last_background_sync">Last background sync:</string>
     <string name="simple_disabled">disabled</string>
     <string name="manage_columns_subtitle">Drag and drop to reorder</string>
-
+    <string name="text_allowed_pattern">Allowed pattern</string>
+    <string name="use_now_as_default">Use now as default</string>
+    <string name="use_today_as_default">Use today as default</string>
+    <string name="add_option">Add option</string>
+    <string name="delete_option">Delete option</string>
     <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
     <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
     <string name="column_type_is_required">Column type is required</string>
+    <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
+    <string name="number_only_us_format">Please note that editing numbers is currently only possible in US format (use comma for thousand separators and a dot for decimal separator)</string>
 </resources>

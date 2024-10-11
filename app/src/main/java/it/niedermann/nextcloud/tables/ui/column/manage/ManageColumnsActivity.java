@@ -48,9 +48,9 @@ public class ManageColumnsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        final var adapter = new ManageColumnsAdapter(column -> {
+        final var adapter = new ManageColumnsAdapter(fullColumn -> {
             if (FeatureToggle.EDIT_COLUMN.enabled) {
-                startActivity(EditColumnActivity.createIntent(this, account, table, column));
+                startActivity(EditColumnActivity.createIntent(this, account, table, fullColumn));
             } else {
                 Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
             }
@@ -69,7 +69,7 @@ public class ManageColumnsActivity extends AppCompatActivity {
 //        touchHelper.attachToRecyclerView(binding.recyclerView);
 
         binding.recyclerView.setAdapter(adapter);
-        manageColumnsViewModel.getNotDeletedColumns$(table).observe(this, adapter::setItems);
+        manageColumnsViewModel.getNotDeletedFullColumns$(table).observe(this, adapter::setItems);
         binding.fab.setOnClickListener(v -> {
             if (FeatureToggle.CREATE_COLUMN.enabled) {
                 startActivity(EditColumnActivity.createIntent(this, account, table));

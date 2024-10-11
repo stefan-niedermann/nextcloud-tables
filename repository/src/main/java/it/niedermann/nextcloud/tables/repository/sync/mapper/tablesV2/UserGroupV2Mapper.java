@@ -26,17 +26,15 @@ public class UserGroupV2Mapper implements Mapper<UserGroupV2Dto, UserGroup> {
         return new UserGroupV2Dto(
                 entity.getRemoteId(),
                 entity.getKey(),
-                mapper.toDto(entity.getType())
-        );
+                mapper.toDto(entity.getType()));
     }
 
     @NonNull
     @Override
     public UserGroup toEntity(@NonNull UserGroupV2Dto dto) {
-        final var entity = new UserGroup();
-        entity.setRemoteId(dto.remoteId());
-        entity.setKey(dto.key());
-        entity.setType(mapper.toEntity(dto.type()));
-        return entity;
+        return new UserGroup(
+                dto.remoteId(),
+                dto.key(),
+                mapper.toEntity(dto.type()));
     }
 }

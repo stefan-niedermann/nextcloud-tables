@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.tables.database.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.time.Instant;
@@ -27,19 +26,23 @@ import java.util.Objects;
         },
         indices = {
                 @Index(name = "IDX_ROW_ACCOUNT_ID_REMOTE_ID", value = {"accountId", "remoteId"}, unique = true),
+                @Index(name = "IDX_ROW_TABLE_ID_REMOTE_ID", value = {"tableId", "remoteId"}, unique = true),
                 @Index(name = "IDX_ROW_TABLE_ID", value = "tableId")
         }
 )
 public class Row extends AbstractRemoteEntity {
+
     private long tableId;
+
     @ColumnInfo(defaultValue = "")
     private String createdBy;
+
     private Instant createdAt;
+
     @ColumnInfo(defaultValue = "")
     private String lastEditBy;
+
     private Instant lastEditAt;
-    @Ignore
-    private Data[] data;
 
     public Row() {
         // Default constructor
@@ -83,16 +86,6 @@ public class Row extends AbstractRemoteEntity {
 
     public void setLastEditAt(Instant lastEditAt) {
         this.lastEditAt = lastEditAt;
-    }
-
-    @Ignore
-    public Data[] getData() {
-        return data;
-    }
-
-    @Ignore
-    public void setData(Data[] data) {
-        this.data = data;
     }
 
     @Override
