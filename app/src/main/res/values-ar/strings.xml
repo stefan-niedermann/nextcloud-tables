@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">جداول نكست كلاود Tables</string>
-    <string name="navigation_drawer_open">فتح دُرْج التنقل </string>
-    <string name="navigation_drawer_close">إقفال دُرْج التنقل </string>
+    <string name="navigation_drawer_open">فتح درج التنقل </string>
+    <string name="navigation_drawer_close">إقفال درج التنقل </string>
     <string name="action_settings">الإعدادات</string>
 
     <string name="simple_title">العنوان</string>
