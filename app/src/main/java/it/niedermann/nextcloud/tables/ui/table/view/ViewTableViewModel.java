@@ -73,10 +73,8 @@ public class ViewTableViewModel extends AndroidViewModel {
 
     @AnyThread
     @NonNull
-    public CompletableFuture<Account> synchronizeAccountAndTables(@NonNull Account account) {
-        return this.accountRepository
-                .synchronizeAccount(account)
-                .thenCompose(this.tablesRepository::synchronizeTables);
+    public CompletableFuture<Void> synchronize(@NonNull Account account) {
+        return this.accountRepository.synchronize(account);
     }
 
     @AnyThread

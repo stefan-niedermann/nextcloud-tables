@@ -27,19 +27,9 @@ public class ServerErrorHandler {
         this.context = context;
     }
 
-    public void handle(@NonNull Response<?> response) throws Exception {
-        handle(response, "", Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED);
-    }
-
     public void handle(@NonNull Response<?> response,
                        @NonNull String message) throws Exception {
-        handle(response, message, Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED);
-    }
-
-    public void handle(@NonNull Response<?> response,
-                       @NonNull String message,
-                       @NonNull Strategy strategy) throws Exception {
-        final var exception = responseToException(response, message, strategy == Strategy.THROW_ALWAYS_EXCEPT_NOT_MODIFIED);
+        final var exception = responseToException(response, message, true);
         if (exception.isPresent()) {
             throw exception.get();
         }

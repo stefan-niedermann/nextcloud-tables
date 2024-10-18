@@ -72,15 +72,16 @@ public class NumberProgressEditor extends DataEditView<EditNumberProgressBinding
                 .map(Double::floatValue)
                 .orElse(100f);
 
+        final float stepSize = (max - min) / 100f;
+
         final var value = Optional
                 .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
                 .map(Double::floatValue)
                 .map(val -> val < min ? min : val > max ? max : val)
+                .map(val -> (Math.round(val / stepSize)) * stepSize)
                 .orElse(min);
-
-        final float stepSize = (max - min) / 100f;
 
         binding.progress.setValueFrom(min);
         binding.progress.setValueTo(max);

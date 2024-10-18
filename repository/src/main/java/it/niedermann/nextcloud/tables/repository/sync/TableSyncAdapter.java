@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.runAsync;
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
@@ -7,143 +9,145 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
-import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
-import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.TableV2Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.TableV2Mapper;
 
 
-public class TableSyncAdapter extends AbstractSyncAdapter {
+class TableSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = TableSyncAdapter.class.getSimpleName();
     private final Mapper<TableV2Dto, Table> tableMapper;
 
-    public TableSyncAdapter(@NonNull TablesDatabase db, @NonNull Context context) {
-        super(db, context);
+    public TableSyncAdapter(@NonNull Context context) {
+        super(context);
         this.tableMapper = new TableV2Mapper();
     }
 
+    @NonNull
     @Override
-    public void pushLocalChanges(@NonNull TablesV2API api,
-                                 @NonNull TablesV1API apiV1,
-                                 @NonNull Account account) throws Exception {
-        Log.v(TAG, "Pushing local changes for " + account.getAccountName());
-        final var deletedTables = db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED);
-        for (final var table : deletedTables) {
-            Log.i(TAG, "→ DELETE: " + table.getTitle());
-            final var remoteId = table.getRemoteId();
-            if (remoteId == null) {
-                db.getTableDao().delete(table);
-            } else {
-                final var response = api.deleteTable(table.getRemoteId()).execute();
-                Log.i(TAG, "-→ HTTP " + response.code());
-                if (response.isSuccessful()) {
-                    db.getTableDao().delete(table);
-                } else {
-                    serverErrorHandler.handle(response, "Could not delete table " + table.getTitle());
-                }
-            }
-        }
+    public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
+        return runAsync(() -> Log.v(TAG, "Pushing local changes for " + account.getAccountName()), workExecutor)
+                .thenApplyAsync(v -> db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
+                .thenAcceptAsync(deletedTables -> CompletableFuture.allOf(deletedTables.stream().map(table -> {
+                    Log.i(TAG, "→ DELETE: " + table.getTitle());
+                    final var remoteId = table.getRemoteId();
+                    if (remoteId == null) {
+                        return runAsync(() -> db.getTableDao().delete(table), db.getSequentialExecutor());
+                    } else {
+                        return executeNetworkRequest(account, apis -> apis.apiV2().deleteTable(table.getRemoteId()))
+                                .thenComposeAsync(response -> {
+                                    Log.i(TAG, "-→ HTTP " + response.code());
 
-        final var changedTables = db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_EDITED);
-        for (final var table : changedTables) {
-            Log.i(TAG, "→ PUT/POST: " + table.getTitle());
-            final var response = table.getRemoteId() == null
-                    ? api.createTable(table.getTitle(),
-                    table.getDescription(),
-                    table.getEmoji(),
-                    TablesV2API.DEFAULT_TABLES_TEMPLATE).execute()
-                    : api.updateTable(table.getRemoteId(),
-                    table.getTitle(),
-                    table.getDescription(),
-                    table.getEmoji()).execute();
-            Log.i(TAG, "-→ HTTP " + response.code());
-            if (response.isSuccessful()) {
-                table.setStatus(DBStatus.VOID);
-                final var body = response.body();
-                if (body == null || body.ocs == null || body.ocs.data == null) {
-                    throw new NullPointerException("Pushing changes for table " + table.getTitle() + " was successful, but response body was empty");
-                }
+                                    if (response.isSuccessful()) {
+                                        return runAsync(() -> db.getTableDao().delete(table), db.getSequentialExecutor());
 
-                table.setRemoteId(body.ocs.data.remoteId());
-                db.getTableDao().update(table);
-            } else {
-                serverErrorHandler.handle(response, "Could not push local changes for table " + table.getTitle());
-            }
-        }
+                                    } else {
+                                        serverErrorHandler.responseToException(response, "Could not delete table " + table.getTitle(), false).ifPresent(this::throwError);
+                                        return CompletableFuture.completedFuture(null);
+                                    }
+                                }, workExecutor);
+                    }
+                }).toArray(CompletableFuture[]::new)), workExecutor)
+                .thenApplyAsync(v -> db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_EDITED), db.getParallelExecutor())
+                .thenAcceptAsync(changedTables -> CompletableFuture.allOf(changedTables.stream().map(table -> {
+                    Log.i(TAG, "→ PUT/POST: " + table.getTitle());
+
+                    return executeNetworkRequest(account, apis -> table.getRemoteId() == null
+                            ? apis.apiV2().createTable(table.getTitle(),
+                            table.getDescription(),
+                            table.getEmoji(),
+                            TablesV2API.DEFAULT_TABLES_TEMPLATE)
+                            : apis.apiV2().updateTable(table.getRemoteId(),
+                            table.getTitle(),
+                            table.getDescription(),
+                            table.getEmoji()))
+                            .thenComposeAsync(response -> {
+                                Log.i(TAG, "-→ HTTP " + response.code());
+                                if (response.isSuccessful()) {
+                                    table.setStatus(DBStatus.VOID);
+                                    final var body = response.body();
+                                    if (body == null || body.ocs == null || body.ocs.data == null) {
+                                        throwError(new NullPointerException("Pushing changes for table " + table.getTitle() + " was successful, but response body was empty"));
+                                    }
+
+                                    assert body != null;
+                                    table.setRemoteId(body.ocs.data.remoteId());
+                                    return runAsync(() -> db.getTableDao().update(table), db.getSequentialExecutor());
+
+                                } else {
+                                    serverErrorHandler.responseToException(response, "Could not push local changes for table " + table.getTitle(), false).ifPresent(this::throwError);
+                                    return CompletableFuture.completedFuture(null);
+                                }
+                            }, workExecutor);
+                }).toArray(CompletableFuture[]::new)), workExecutor);
     }
 
+    @NonNull
     @Override
-    public void pullRemoteChanges(@NonNull TablesV2API api,
-                                  @NonNull TablesV1API apiV1,
-                                  @NonNull Account account) throws Exception {
-        final var fetchedTables = new HashSet<Table>();
-        int offset = 0;
+    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account) {
+        return executeNetworkRequest(account, apis -> apis.apiV2().getTables())
+                .thenComposeAsync(response -> {
+                    final Collection<Table> fetchedTables;
+                    Log.v(TAG, "Pulling remote changes for " + account.getAccountName());
 
-//        fetchTablesLoop:
-//        while (true) {
-        Log.v(TAG, "Pulling remote changes for " + account.getAccountName() + " (offset: " + offset + ")");
-        final var request = api.getTables(/*TablesAPI.DEFAULT_API_LIMIT_TABLES, offset*/);
-        final var response = request.execute();
-        //noinspection SwitchStatementWithTooFewBranches
-        switch (response.code()) {
-            case 200: {
-                final var responseBody = response.body();
-                if (responseBody == null || responseBody.ocs == null || responseBody.ocs.data == null) {
-                    throw new RuntimeException("Response body is null");
-                }
+                    switch (response.code()) {
+                        case 200 -> {
+                            final var responseBody = response.body();
+                            if (responseBody == null || responseBody.ocs == null || responseBody.ocs.data == null) {
+                                throw new RuntimeException("Response body is null");
+                            }
 
-                final var tableDtos = responseBody.ocs.data;
+                            fetchedTables = responseBody.ocs.data
+                                    .stream()
+                                    .map(tableMapper::toEntity)
+                                    .peek(table -> {
+                                        table.setStatus(DBStatus.VOID);
+                                        table.setAccountId(account.getId());
+                                        table.setETag(response.headers().get(HEADER_ETAG));
+                                    })
+                                    .collect(toUnmodifiableSet());
+                        }
+                        default -> {
+                            fetchedTables = Collections.emptySet();
+                            serverErrorHandler.responseToException(response, "", true).ifPresent(this::throwError);
+                        }
+                    }
 
-                for (final var tableDto : tableDtos) {
-                    final var table = tableMapper.toEntity(tableDto);
-                    table.setStatus(DBStatus.VOID);
-                    table.setAccountId(account.getId());
-                    table.setETag(response.headers().get(HEADER_ETAG));
-                    fetchedTables.add(table);
-                }
+                    final var tableRemoteIds = fetchedTables.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+                    return supplyAsync(() -> db.getTableDao().getTableRemoteAndLocalIds(account.getId(), tableRemoteIds), db.getParallelExecutor())
+                            .thenAcceptAsync(tableIds -> CompletableFuture.allOf(fetchedTables.stream().map(table -> {
+                                final var tableId = tableIds.get(table.getRemoteId());
 
-//                    if (tables.size() != TablesAPI.DEFAULT_API_LIMIT_TABLES) {
-//                        break fetchTablesLoop;
-//                    }
+                                if (tableId == null) {
+                                    Log.i(TAG, "← Adding table " + table.getTitle() + " to database");
 
-                offset += tableDtos.size();
+                                    return supplyAsync(() -> db.getTableDao().insert(table), db.getSequentialExecutor())
+                                            .thenAcceptAsync(table::setId, workExecutor);
 
-                break;
-            }
+                                } else {
+                                    table.setId(tableId);
+                                    Log.i(TAG, "← Updating " + table.getTitle() + " in database");
 
-            default: {
-                serverErrorHandler.handle(response);
-            }
-//            }
-        }
-
-        final var tableRemoteIds = fetchedTables.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
-        final var tableIds = db.getTableDao().getTableRemoteAndLocalIds(account.getId(), tableRemoteIds);
-        for (final var table : fetchedTables) {
-            final var tableId = tableIds.get(table.getRemoteId());
-            if (tableId == null) {
-                Log.i(TAG, "← Adding table " + table.getTitle() + " to database");
-                table.setId(db.getTableDao().insert(table));
-            } else {
-                table.setId(tableId);
-                Log.i(TAG, "← Updating " + table.getTitle() + " in database");
-                db.getTableDao().update(table);
-                if (!table.hasReadPermission()) {
-                    db.getRowDao().deleteAllFromTable(table.getId());
-                }
-            }
-        }
-
-        Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds);
-        db.getTableDao().deleteExcept(account.getId(), tableRemoteIds);
+                                    return runAsync(() -> db.getTableDao().update(table), db.getSequentialExecutor())
+                                            .thenRunAsync(() -> {
+                                                if (!table.hasReadPermission()) {
+                                                    db.getRowDao().deleteAllFromTable(table.getId());
+                                                }
+                                            }, db.getSequentialExecutor());
+                                }
+                            }).toArray(CompletableFuture[]::new)), workExecutor)
+                            .thenRunAsync(() -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
+                            .thenRunAsync(() -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSequentialExecutor());
+                }, workExecutor);
     }
 }

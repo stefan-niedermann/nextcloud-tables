@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.ui.exception;
+package it.niedermann.nextcloud.tables.repository.exception;
 
 import androidx.annotation.Nullable;
 

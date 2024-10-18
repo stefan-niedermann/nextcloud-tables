@@ -27,8 +27,9 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
 import it.niedermann.nextcloud.tables.repository.SyncWorker;
+import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
-import it.niedermann.nextcloud.tables.ui.exception.AccountAlreadyImportedException;
+import it.niedermann.nextcloud.tables.repository.model.ImportState;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.util.AvatarUtil;
@@ -84,7 +85,7 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
                 });
     }
 
-    private void applyImportState(@NonNull ImportAccountViewModel.ImportState state) {
+    private void applyImportState(@NonNull ImportState state) {
         switch (state.state) {
             case IMPORTING_ACCOUNT -> {
                 setAvatar(state.account);

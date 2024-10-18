@@ -232,11 +232,13 @@ public class ViewTableFragment extends Fragment {
         });
 
         binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.table())));
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
-            // TODO fragment gets detached by MainActivity, this code will fail.
-            binding.swipeRefreshLayout.setRefreshing(false);
-            if (exception != null) {
-                ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronize(account).whenCompleteAsync((result, exception) -> {
+            if (isAdded()) {
+                binding.swipeRefreshLayout.setRefreshing(false);
+
+                if (exception != null) {
+                    ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                }
             }
         }, ContextCompat.getMainExecutor(requireContext())));
     }

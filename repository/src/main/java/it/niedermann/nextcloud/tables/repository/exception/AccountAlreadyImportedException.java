@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.ui.exception;
+package it.niedermann.nextcloud.tables.repository.exception;
 
 import android.database.sqlite.SQLiteConstraintException;
 

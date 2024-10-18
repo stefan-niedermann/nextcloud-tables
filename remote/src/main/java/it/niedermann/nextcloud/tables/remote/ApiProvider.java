@@ -65,4 +65,12 @@ public abstract class ApiProvider<T> implements AutoCloseable {
     public void close() {
         this.nextcloudAPI.close();
     }
+
+    public record ApiTuple(
+            @NonNull OcsAPI ocs,
+            @NonNull TablesV2API apiV2,
+            @NonNull TablesV1API apiV1
+    ) {
+
+    }
 }

@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onAvailable(@NonNull Network network) {
                     super.onAvailable(network);
                     Log.i(TAG, "Network available, trigger synchronization for " + accountAndNetworkRequest.first);
-                    mainViewModel.synchronizeAccountAndTables(accountAndNetworkRequest.first).whenCompleteAsync((result, exception) -> {
+                    mainViewModel.synchronize(accountAndNetworkRequest.first).whenCompleteAsync((result, exception) -> {
                         if (exception != null) {
                             exception.printStackTrace();
                         }

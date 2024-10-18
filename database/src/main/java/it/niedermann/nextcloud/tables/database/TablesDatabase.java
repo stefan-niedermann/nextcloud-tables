@@ -8,6 +8,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import it.niedermann.nextcloud.tables.database.converter.DBStatusConverter;
 import it.niedermann.nextcloud.tables.database.converter.EDataTypeConverter;
 import it.niedermann.nextcloud.tables.database.converter.InstantConverter;
@@ -66,16 +69,28 @@ public abstract class TablesDatabase extends RoomDatabase {
 
     private static final String TAG = TablesDatabase.class.getSimpleName();
     private static final String DB_NAME = "nextcloud-tables.sqlite";
+
+    private static final ExecutorService DB_PARALLEL = Executors.newCachedThreadPool();
+    private static final ExecutorService DB_SEQUENTIAL = Executors.newSingleThreadExecutor();
+
+    private final ExecutorService parallelExecutor;
+    private final ExecutorService sequentialExecutor;
+
     private static volatile TablesDatabase instance;
 
-    public static TablesDatabase getInstance(@NonNull Context context) {
+    public TablesDatabase() {
+        this.parallelExecutor = DB_PARALLEL;
+        this.sequentialExecutor = DB_SEQUENTIAL;
+    }
+
+    public static synchronized TablesDatabase getInstance(@NonNull Context context) {
         if (instance == null) {
             instance = create(context.getApplicationContext());
         }
         return instance;
     }
 
-    private static TablesDatabase create(final Context context) {
+    private static TablesDatabase create(@NonNull final Context context) {
         return Room.databaseBuilder(context, TablesDatabase.class, DB_NAME)
                 .addMigrations(
                         new Migration_1_2()
@@ -83,6 +98,14 @@ public abstract class TablesDatabase extends RoomDatabase {
                 .fallbackToDestructiveMigrationOnDowngrade()
                 .fallbackToDestructiveMigration()
                 .build();
+    }
+
+    public ExecutorService getParallelExecutor() {
+        return parallelExecutor;
+    }
+
+    public ExecutorService getSequentialExecutor() {
+        return sequentialExecutor;
     }
 
     public abstract AccountDao getAccountDao();
