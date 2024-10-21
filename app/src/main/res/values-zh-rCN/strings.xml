@@ -21,6 +21,7 @@
     <string name="add_table">添加表格</string>
     <string name="add_row">添加列</string>
     <string name="edit_row">编辑列</string>
+    <string name="edit_column">编辑列</string>
     <string name="delete_column">删除列</string>
     <string name="preferences">设置偏好</string>
     <string name="import_account">导入账号</string>
