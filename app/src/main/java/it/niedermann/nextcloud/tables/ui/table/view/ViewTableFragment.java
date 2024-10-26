@@ -108,12 +108,32 @@ public class ViewTableFragment extends Fragment {
                     return;
                 }
 
+                if (rowPosition >= fullTable.fullRows().size()) {
+                    final var exception = new IllegalStateException("Tried to access rowPosition " + rowPosition + " but there were only " + fullTable.fullRows().size() + " rows.");
+
+                    if (FeatureToggle.STRICT_MODE.enabled) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    } else {
+                        exception.printStackTrace();
+                    }
+
+                    return;
+                }
+
                 final var row = fullTable.fullRows().get(rowPosition);
                 if (row == null) {
-                    ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                } else {
-                    startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.table(), row.getRow()));
+                    final var exception = new IllegalStateException("No row header at position " + rowPosition);
+
+                    if (FeatureToggle.STRICT_MODE.enabled) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    } else {
+                        exception.printStackTrace();
+                    }
+
+                    return;
                 }
+
+                startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.table(), row.getRow()));
             }
 
             @Override
