@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.row;
 
+import static java.util.function.Predicate.not;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewbinding.ViewBinding;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,6 +77,18 @@ public class EditRowActivity extends AppCompatActivity {
         binding.toolbar.setTitle(row == null ? R.string.add_row : R.string.edit_row);
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
 
+        if (this.row != null) {
+            final var callback = new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    if (savePromptRequired()) {
+                        showSavePromptGuard(EditRowActivity.this::finish);
+                    }
+                }
+            };
+            getOnBackPressedDispatcher().addCallback(this, callback);
+        }
+
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
 
         editRowViewModel.getNotDeletedColumns(table).thenAcceptAsync(columns -> {
@@ -122,6 +138,7 @@ public class EditRowActivity extends AppCompatActivity {
 
                             binding.columns.addView(unknownEditor);
                             editors.add(unknownEditor);
+
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
@@ -137,6 +154,45 @@ public class EditRowActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
+    private boolean savePromptRequired() {
+        return editors.stream().anyMatch(not(DataEditView::isPristine));
+    }
+
+    private void showSavePromptGuard(@NonNull Runnable closeFunction) {
+        new MaterialAlertDialogBuilder(EditRowActivity.this)
+                .setTitle(R.string.unsafed_changes)
+                .setMessage(R.string.unsafed_changes_details)
+                .setPositiveButton(R.string.simple_save, (dialog, which) -> {
+                    save();
+                    closeFunction.run();
+                })
+                .setNegativeButton(R.string.simple_discard, (dialog, which) -> closeFunction.run())
+                .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+    private void save() {
+        final var futureResult = row == null
+                ? editRowViewModel.createRow(account, table, editors)
+                : editRowViewModel.updateRow(account, table, row, editors);
+
+        futureResult.whenCompleteAsync((result, exception) -> {
+            if (exception != null) {
+                ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+        }, ContextCompat.getMainExecutor(this));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (savePromptRequired()) {
+            showSavePromptGuard(super::onSupportNavigateUp);
+            return true;
+        }
+
+        return super.onSupportNavigateUp();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_row, menu);
@@ -146,16 +202,7 @@ public class EditRowActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            final var futureResult = row == null
-                    ? editRowViewModel.createRow(account, table, editors)
-                    : editRowViewModel.updateRow(account, table, row, editors);
-
-            futureResult.whenCompleteAsync((result, exception) -> {
-                if (exception != null) {
-                    ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-            }, ContextCompat.getMainExecutor(this));
-
+            save();
             finish();
             return true;
         }

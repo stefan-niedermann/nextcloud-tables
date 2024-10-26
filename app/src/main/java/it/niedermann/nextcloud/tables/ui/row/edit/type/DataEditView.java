@@ -27,6 +27,8 @@ public abstract class DataEditView<T extends ViewBinding> extends FrameLayout {
     protected final Column column;
     protected final FragmentManager fragmentManager;
 
+    private boolean pristine = true;
+
     @Nullable
     protected FullData fullData;
 
@@ -121,9 +123,14 @@ public abstract class DataEditView<T extends ViewBinding> extends FrameLayout {
     }
 
     protected void onValueChanged() {
+        this.pristine = false;
         validate().ifPresentOrElse(
                 this::setErrorMessage,
                 () -> setErrorMessage(null));
+    }
+
+    public boolean isPristine() {
+        return this.pristine;
     }
 
     public abstract void setErrorMessage(@Nullable String message);
