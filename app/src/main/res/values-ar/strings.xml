@@ -92,7 +92,7 @@
     <string name="error_dialog_tip_files_delete_storage">إذا لم يساعد إيقافهم بالقوة ، فيمكنك محاولة مسح تخزين كلا التطبيقين.</string>
     <string name="error_dialog_timeout_instance">لم يكن هناك استجابة من الخادم في الوقت المحدد. يرجى التأكد من أن الخادم الخاص بك يعمل بشكل جيد.</string>
     <string name="error_dialog_timeout_toggle">تحقق من اتصالك بالشبكة. يمكن أحياناً أن يساعد إيقاف بيانات الهاتف المحمول أو إيقاف تشغيل Wi-Fi ثم إعادة تشغيله مرة أخرى.</string>
-    <string name="error_dialog_check_server">الاستجابة من الخادم ليست صحيحة. يُرجى التأكد من إمكانية تشغيل تطبيق الجداول عبر واجهة الوب.</string>
+    <string name="error_dialog_check_server">الاستجابة من الخادم ليست صحيحة. يُرجى التأكد من إمكانية تشغيل تطبيق الجداول عبر واجهة الويب.</string>
     <string name="error_dialog_check_server_logs">هناك مشكلة في إعداد نكست كلاود الخاص بك. يرجى إلقاء نظرة على ملفات سجل الخادم.</string>
     <string name="error_dialog_check_maintenance">يرجى التحقق مما إذا كان خادم نكست كلاود الخاص بك ليس في وضع الصيانة حاليًا.</string>
     <string name="error_dialog_insufficient_storage">خادم نكست كلاود الخاص بك ليس لديه مساحة تخزين فارغة متبقية. يرجى حذف بعض الملفات لمزامنة التغييرات المحلية الخاصة بك في السحابة الخاصة بك.</string>
