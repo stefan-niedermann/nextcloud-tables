@@ -26,7 +26,7 @@ public class ProgressCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
         final var attributes = Optional
-                .ofNullable(column.getNumberAttributes());
+                .of(column.getNumberAttributes());
 
         final var min = attributes
                 .map(NumberAttributes::numberMin)
@@ -39,12 +39,14 @@ public class ProgressCellViewHolder extends CellViewHolder {
                 .orElse(100);
 
         final var optionalValue = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
                 .map(Double::intValue)
                 .map(value -> value < min ? min : value > max ? max : value);
 
+        binding.progress.setMin(min);
+        binding.progress.setMax(max);
         binding.progress.setProgressCompat(optionalValue.orElse(0), false);
     }
 }
