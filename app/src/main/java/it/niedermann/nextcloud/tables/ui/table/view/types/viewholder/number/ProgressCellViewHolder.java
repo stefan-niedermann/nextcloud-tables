@@ -38,15 +38,16 @@ public class ProgressCellViewHolder extends CellViewHolder {
                 .map(Double::intValue)
                 .orElse(100);
 
-        final var optionalValue = Optional
+        final var value = Optional
                 .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
                 .map(Double::intValue)
-                .map(value -> value < min ? min : value > max ? max : value);
+                .map(val -> val < min ? min : val > max ? max : val)
+                .orElse(0);
 
         binding.progress.setMin(min);
         binding.progress.setMax(max);
-        binding.progress.setProgressCompat(optionalValue.orElse(0), false);
+        binding.progress.setProgressCompat(value, false);
     }
 }
