@@ -30,7 +30,7 @@
     <string name="app_logo">Лого апликације</string>
     <string name="app_name_short">Табеле</string>
     <string name="manage_accounts">Управљање налозима</string>
-    <string name="add_account">Додај рачун</string>
+    <string name="add_account">Додај налог</string>
     <string name="edit_table">Уреди табелу</string>
     <string name="edit_item">Измени %1$s</string>
     <string name="share_table">Дели табелу</string>

@@ -21,14 +21,15 @@
     <string name="add_table">添加表格</string>
     <string name="add_row">添加列</string>
     <string name="edit_row">编辑列</string>
+    <string name="edit_column">编辑列</string>
     <string name="delete_column">删除列</string>
     <string name="preferences">设置偏好</string>
     <string name="import_account">导入账号</string>
-    <string name="choose_account">选择一个账户</string>
+    <string name="choose_account">选择账号</string>
     <string name="app_logo">应用图标</string>
     <string name="app_name_short">表格</string>
     <string name="manage_accounts">管理账号</string>
-    <string name="add_account">添加账目</string>
+    <string name="add_account">添加账号</string>
     <string name="edit_table">编辑表</string>
     <string name="edit_item">编辑 %1$s</string>
     <string name="delete_table">删除表格</string>
@@ -92,7 +93,7 @@
     <string name="error_dialog_user_not_found_in_database">当前用户与数据库中的用户不匹配。如果你在 Nextcloud 实例上使用 LDAP，那么 Nextcloud 应用程序可能存储了一个旧的用户ID。</string>
     <string name="error_dialog_capabilities_not_parsable">我们无法获取您服务器的容量。请确保您的服务器运行良好，其他客户端应用程序能够访问Nextcloud。</string>
     <string name="error_dialog_attachment_upload_failed">无法上传一个附件。请尝试用另一种方式分享它，并让我们知道这个bug。</string>
-    <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账户以获取更多信息。</string>
+    <string name="error_dialog_certificate">服务器的证书似乎有问题。请查看 Nextcloud 应用程序中的所有账号以获取更多信息。</string>
     <string name="error_dialog_unknown_error">您的 Nextcloud 实例似乎不可访问。请检查您的互联网连接，以及您是否能够通过浏览器连接到您的实例。</string>
     <string name="error_action_open_app_info">打开应用信息</string>
     <string name="error_action_open_nextcloud_app">打开 Nextcloud 应用</string>
