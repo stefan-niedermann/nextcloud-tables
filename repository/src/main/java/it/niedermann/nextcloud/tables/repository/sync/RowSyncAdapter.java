@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -195,7 +196,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                         }
 
                         yield CompletableFuture.allOf(rowDtos.stream().map(rowDto -> supplyAsync(() -> {
-                                    final var fullRow = fetchRowMapper.toEntity(account.getId(), rowDto, columns, account.getTablesVersion());
+                                    final var fullRow = fetchRowMapper.toEntity(account.getId(), rowDto, columns, Objects.requireNonNull(account.getTablesVersion()));
 
                                     final var row = fullRow.getRow();
                                     row.setAccountId(table.getAccountId());

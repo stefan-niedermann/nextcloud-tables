@@ -75,7 +75,7 @@ public class AccountRepository extends AbstractRepository {
     @NonNull
     @AnyThread
     public CompletableFuture<Void> synchronize(@NonNull Account account) {
-        return syncAdapter.synchronize(account);
+        return super.synchronize(account);
     }
 
     @AnyThread
@@ -84,7 +84,7 @@ public class AccountRepository extends AbstractRepository {
         return supplyAsync(() -> db.getAccountDao().insert(accountToCreate), db.getSequentialExecutor())
                 .thenAcceptAsync(accountToCreate::setId, workExecutor)
                 .thenApplyAsync(v -> accountToCreate, workExecutor)
-                .thenComposeAsync(syncAdapter::synchronize, workExecutor)
+                .thenComposeAsync(this::synchronize, workExecutor)
                 .thenApplyAsync(v -> accountToCreate, workExecutor)
                 .handleAsync((account, throwable) -> {
                     final var cause = Optional.ofNullable(throwable)
