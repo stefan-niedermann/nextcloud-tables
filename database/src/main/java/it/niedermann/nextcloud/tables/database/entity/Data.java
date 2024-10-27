@@ -123,6 +123,6 @@ public class Data extends AbstractAccountRelatedEntity {
     @NonNull
     @Override
     public String toString() {
-        return "[Row: " + getRowId() + " / Column: " + getColumnId() + "]:" + getValue();
+        return "[Row: " + getRowId() + " / Column: " + getColumnId() + "]: " + getValue();
     }
 }
