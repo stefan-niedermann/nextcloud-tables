@@ -1,8 +1,10 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
 import static java.util.concurrent.CompletableFuture.runAsync;
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
@@ -15,6 +17,8 @@ import java.util.concurrent.ForkJoinPool;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 
 public class SyncAdapter {
+
+    private static final String TAG = SyncAdapter.class.getSimpleName();
 
     private final ExecutorService executor;
     private final AbstractSyncAdapter capabilitiesSyncAdapter;
@@ -55,15 +59,13 @@ public class SyncAdapter {
     }
 
     @AnyThread
-    public synchronized CompletableFuture<Void> synchronize(@NonNull Account account) {
+    public synchronized CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {
         synchronized (SyncAdapter.this) {
             if (currentSync == null && scheduledSync == null) {
 
                 // Currently no sync is active. let's start one!
 
-                currentSync = synchronizationSupported(account)
-                        ? pushLocalChanges(account).thenRunAsync(() -> pullRemoteChanges(account), executor)
-                        : pullRemoteChanges(account);
+                currentSync = synchronize(account);
 
                 return currentSync;
 
@@ -79,9 +81,7 @@ public class SyncAdapter {
                                 scheduledSync = null;
                             }
                         }, executor)
-                        .thenComposeAsync(v -> synchronizationSupported(account)
-                                ? pushLocalChanges(account)
-                                : CompletableFuture.completedFuture(null), executor)
+                        .thenComposeAsync(v -> synchronize(account), executor)
                         .thenRunAsync(() -> pullRemoteChanges(account), executor)
                         .whenCompleteAsync((v, throwable) -> currentSync = null, executor);
 
@@ -104,15 +104,25 @@ public class SyncAdapter {
         }
     }
 
-    /**
-     *  If {@link it.niedermann.nextcloud.tables.database.model.NextcloudVersion} or {@link it.niedermann.nextcloud.tables.database.model.TablesVersion} is null,
-     *  the first request must pull {@link it.niedermann.nextcloud.tables.remote.ocs.model.CapabilitiesResponseDto.OcsCapabilities} to determine
-     *  if we support the tables server version and whether the server is in maintenance mode.
-     *  We therefore skip the push of local changes.
-     *  The only valid scenario where this happens is when importing an account.
-     */
-    private boolean synchronizationSupported(@NonNull Account account) {
-        return account.getNextcloudVersion() != null && account.getTablesVersion() != null;
+
+    @AnyThread
+    private CompletableFuture<Void> synchronize(@NonNull Account account) {
+        return supplyAsync(() -> Log.i(TAG, "[Synchronization] Start " + account.getAccountName()), executor)
+                .thenComposeAsync(v ->
+
+                        // If NextcloudVersion or TablesVersion is null,
+                        // the first request must pull Capabilities to determine
+                        // if we support the tables server version and
+                        // whether the server is in maintenance mode.
+                        // We therefore skip the push of local changes.
+                        // The only valid scenario where this happens is when importing an account.
+
+                        account.getNextcloudVersion() != null && account.getTablesVersion() != null
+                                ? pushLocalChanges(account)
+                                : CompletableFuture.completedFuture(null), executor)
+
+                .thenRunAsync(() -> pullRemoteChanges(account), executor)
+                .thenRunAsync(() -> Log.i(TAG, "[Synchronization] End " + account.getAccountName()), executor);
     }
 
     @NonNull

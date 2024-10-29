@@ -27,6 +27,6 @@ public abstract class AbstractRepository {
     }
 
     protected CompletableFuture<Void> synchronize(@NonNull Account account) {
-        return this.syncAdapter.synchronize(account);
+        return this.syncAdapter.scheduleSynchronization(account);
     }
 }
