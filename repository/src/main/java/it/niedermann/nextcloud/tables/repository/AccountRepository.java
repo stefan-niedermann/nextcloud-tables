@@ -84,8 +84,6 @@ public class AccountRepository extends AbstractRepository {
         return supplyAsync(() -> db.getAccountDao().insert(accountToCreate), db.getSequentialExecutor())
                 .thenAcceptAsync(accountToCreate::setId, workExecutor)
                 .thenApplyAsync(v -> accountToCreate, workExecutor)
-                .thenComposeAsync(this::synchronize, workExecutor)
-                .thenApplyAsync(v -> accountToCreate, workExecutor)
                 .handleAsync((account, throwable) -> {
                     final var cause = Optional.ofNullable(throwable)
                             .map(Throwable::getCause)
@@ -109,7 +107,6 @@ public class AccountRepository extends AbstractRepository {
                         throw new AccountNotCreatedException();
                     }
 
-                    accountToCreate.setId(account.getId());
                     return account;
                 }, workExecutor)
                 .thenComposeAsync(account -> {
