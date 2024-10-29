@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
 import static java.util.concurrent.CompletableFuture.runAsync;
-import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
 
@@ -62,9 +61,9 @@ public class SyncAdapter {
 
                 // Currently no sync is active. let's start one!
 
-                currentSync = supplyAsync(() -> pushLocalChanges(account), executor)
-                        .thenRunAsync(() -> pullRemoteChanges(account), executor)
-                        .whenCompleteAsync((v, throwable) -> currentSync = null, executor);
+                currentSync = synchronizationSupported(account)
+                        ? pushLocalChanges(account).thenRunAsync(() -> pullRemoteChanges(account), executor)
+                        : pullRemoteChanges(account);
 
                 return currentSync;
 
@@ -80,7 +79,9 @@ public class SyncAdapter {
                                 scheduledSync = null;
                             }
                         }, executor)
-                        .thenComposeAsync(v -> pushLocalChanges(account), executor)
+                        .thenComposeAsync(v -> synchronizationSupported(account)
+                                ? pushLocalChanges(account)
+                                : CompletableFuture.completedFuture(null), executor)
                         .thenRunAsync(() -> pullRemoteChanges(account), executor)
                         .whenCompleteAsync((v, throwable) -> currentSync = null, executor);
 
@@ -101,6 +102,17 @@ public class SyncAdapter {
                 return scheduledSync;
             }
         }
+    }
+
+    /**
+     *  If {@link it.niedermann.nextcloud.tables.database.model.NextcloudVersion} or {@link it.niedermann.nextcloud.tables.database.model.TablesVersion} is null,
+     *  the first request must pull {@link it.niedermann.nextcloud.tables.remote.ocs.model.CapabilitiesResponseDto.OcsCapabilities} to determine
+     *  if we support the tables server version and whether the server is in maintenance mode.
+     *  We therefore skip the push of local changes.
+     *  The only valid scenario where this happens is when importing an account.
+     */
+    private boolean synchronizationSupported(@NonNull Account account) {
+        return account.getNextcloudVersion() != null && account.getTablesVersion() != null;
     }
 
     @NonNull
