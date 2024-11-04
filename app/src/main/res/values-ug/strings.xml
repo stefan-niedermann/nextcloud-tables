@@ -1,0 +1,164 @@
+<resources>
+    <string name="app_name">كېيىنكى بۇلۇت جەدۋىلى</string>
+    <string name="navigation_drawer_open">يول باشلاش تارتمىسىنى ئېچىڭ</string>
+    <string name="navigation_drawer_close">يول باشلاش تارتمىسىنى تاقاڭ</string>
+    <string name="action_settings">تەڭشەك</string>
+
+    <string name="simple_title">ماۋزۇ</string>
+    <string name="simple_exception">مۇستەسنا</string>
+    <string name="simple_save">ساقلاش</string>
+    <string name="simple_close">تاقاش</string>
+    <string name="simple_copy">كۆچۈرۈڭ</string>
+    <string name="simple_delete">ئۆچۈرۈش</string>
+    <string name="simple_settings">تەڭشەك</string>
+    <string name="simple_about">ھەققىدە</string>
+    <string name="simple_synchronization">ماس قەدەملەش</string>
+    <string name="simple_appearance">كۆرۈنۈش</string>
+    <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">مەجبۇرى</string>
+    <string name="simple_description">چۈشەندۈرۈش</string>
+
+    <string name="add_table">جەدۋەل قوشۇڭ</string>
+    <string name="add_row">قۇر قوشۇڭ</string>
+    <string name="edit_row">قۇرنى تەھرىرلەش</string>
+    <string name="manage_columns">ئىستونلارنى باشقۇرۇش</string>
+    <string name="edit_column">ستوننى تەھرىرلەش</string>
+    <string name="delete_column">ستوننى ئۆچۈرۈڭ</string>
+    <string name="preferences">مايىللىق</string>
+    <string name="import_account">ھېسابات ئەكىرىش</string>
+    <string name="choose_account">ھېسابات تاللاڭ</string>
+    <string name="app_logo">ئەپ بەلگىسى</string>
+    <string name="app_name_short">جەدۋەل</string>
+    <string name="manage_accounts">ھېساباتنى باشقۇرۇش</string>
+    <string name="add_account">ھېسابات قوشۇڭ</string>
+    <string name="edit_table">جەدۋەلنى تەھرىرلەش</string>
+    <string name="edit_item">% 1 $ s نى تەھرىرلەڭ</string>
+    <string name="share_table">جەدۋەلنى ئورتاقلىشىش</string>
+    <string name="not_implemented">بۇ ئىقتىدار تېخى يولغا قويۇلمىدى</string>
+    <string name="delete_table">جەدۋەلنى ئۆچۈرۈڭ</string>
+    <string name="hint_error_appeared">خاتالىق كۆرۈلدى</string>
+
+    <string name="delete_item">% 1 $ s نى ئۆچۈرۈڭ</string>
+    <string name="delete_item_message">بۇ% 1 $ s نى مەڭگۈلۈك ئۆچۈرۈۋېتىدۇ.</string>
+    <string name="delete_row">قۇرنى ئۆچۈرۈڭ</string>
+    <string name="delete_row_message">بۇ بۇ قۇرنى مەڭگۈلۈك ئۆچۈرۈۋېتىدۇ.</string>
+
+    <string name="pref_title_sync_only_wifi">پەقەت Wi-Fi دا ماسقەدەملەڭ</string>
+    <string name="pref_title_sync_background">تەگلىك ماس قەدەمدە</string>
+    <string name="pref_title_theme">باشتېما</string>
+
+    <string-array name="theme_entries">
+        <item>System Default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string name="about">ھەققىدە</string>
+    <string name="about_version_title">نەشرى</string>
+    <string name="about_version">ھازىر% 1 $ s ئىشلىتىۋاتىسىز</string>
+    <string name="about_maintainer_title">Maintainer</string>
+    <string name="about_developers_title">Developers</string>
+    <string name="about_translators_title">تەرجىمانلار</string>
+    <string name="about_translators_transifex">Nextcloud مەھەللىسى% 1 $ s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">مەنبە كودى</string>
+    <string name="about_source">بۇ تۈر GitHub دا:% 1 $ s</string>
+    <string name="about_issues_title">مەسىلىلەر</string>
+    <string name="about_issues">سىز كەمتۈك ، كۈچەيتىش تەكلىپلىرى ۋە ئىقتىدار تەلەپلىرىنى GitHub مەسىلە ئىز قوغلىغۇچتا دوكلات قىلالايسىز:% 1 $ s</string>
+    <string name="about_translate_title">تەرجىمە قىلىڭ</string>
+    <string name="about_translate">Transifex دىكى Nextcloud ئەترىتىگە قوشۇلۇڭ ۋە بىزنىڭ بۇ ئەپنى تەرجىمە قىلىشىمىزغا ياردەملىشىڭ:% 1 $ s</string>
+    <string name="about_app_license_title">ئەپ ئىجازەتنامىسى</string>
+    <string name="about_app_license">بۇ پروگرامما GNU GENERAL PUBLIC LICENSE v3 + ئىجازەتنامىسىگە ئېرىشكەن.</string>
+    <string name="about_app_license_button">ئىجازەتنامىنى كۆرۈش</string>
+    <string name="about_icons_disclaimer_title">سىنبەلگە</string>
+    <string name="about_icons_disclaimer_app_icon">ئەسلى سىنبەلگە% 1 $ s نى كۆرۈڭ.</string>
+    <string name="about_icons_disclaimer_mdi_icons">بۇ دېتالدا ئىشلىتىلگەن بارلىق سىنبەلگىلەرنىڭ ھەممىسى گۇگۇل شىركىتى تەرىپىدىن ياسالغان ۋە Apache 2.0 ئىجازەتنامىسىدە ئىجازەت بېرىلگەن% 1 $ s.</string>
+    <string name="about_icons_disclaimer_mdi">ماتېرىيال لايىھىلەش سىنبەلگىسى</string>
+    <string name="about_credits_tab_title">Credits</string>
+    <string name="about_contribution_tab_title">تۆھپە</string>
+    <string name="about_license_tab_title">ئىجازەتنامە</string>
+    <string name="about_server_app_version_text">مۇلازىمېتىر ئەپ نۇسخىسى:</string>
+
+    <string name="error_dialog_title">ھە ياق - ھازىرچۇ؟ 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">ئەپنى تاقاپ قايتا قوزغىتىپ بېقىڭ. Nextcloud دېتالىغا خاتا ئۇلىنىش بولۇشى مۇمكىن.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">ئەگەر بۇ مەسىلە داۋاملاشسا ، بۇ مەسىلىنى ھەل قىلىش ئۈچۈن Nextcloud ۋە Nextcloud جەدۋىلىنىڭ ھەر ئىككى ئەپنىڭ ساقلىنىشىنى تازىلاپ بېقىڭ.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">سانداننىڭ يېڭىلىنىشى مەغلۇپ بولدى. بۇ مەسىلىنى دوكلات قىلىپ ، ئەپنى نورمال ئىشلىتىش ئۈچۈن ساقلاشنى تازىلاڭ.</string>
+    <string name="error_dialog_tip_clear_storage">ئەپ ئۇچۇرىنى ئېچىش ۋە ساقلاش → ساقلاشنى تاللاش ئارقىلىق ساقلاشنى تازىلىيالايسىز.</string>
+    <string name="error_dialog_tip_offline_no_internet">تورغا ئۇلانماي ماس قەدەمنى قوزغىتىشقا ئۇرۇنغان ئوخشايسىز.</string>
+    <string name="error_dialog_tip_offline_connection_refused">ئۇلىنىش رەت قىلىندى ، توركۆرگۈ ئارقىلىق مۇلازىمېتىرىڭىزنىڭ بار-يوقلۇقىنى تەكشۈرۈڭ.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">ئۇلىنىش ۋاقتى توشتى ، تورغا ئۇلانغان ياكى ئۇلانمىغانلىقىڭىزنى تەكشۈرۈپ بېقىڭ. مۇلازىمېتىرىڭىز ئالدىراش بولغاندا بۇمۇ يۈز بېرىشى مۇمكىن.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">ئەگەر «پەقەت Wi-Fi دا ماسقەدەملەش» تەڭشىكىنى قوزغىتقان بولسىڭىز ، پەقەت Wi-Fi غا ئۇلانغاندىلا ماسقەدەملىيەلەيسىز.</string>
+    <string name="error_dialog_tip_files_force_stop">Nextcloud دېتالىڭىزدا خاتالىق باردەك قىلىدۇ. Nextcloud دېتالى ۋە Nextcloud جەدۋەل دېتالىنى ھەر ئىككىسىنى توختىتىشقا مەجبۇرلاڭ.</string>
+    <string name="error_dialog_tip_files_delete_storage">ئەگەر ئۇلارنى توسۇشنىڭ پايدىسى بولمىسا ، ھەر ئىككى ئەپنىڭ ساقلاش بوشلۇقىنى تازىلىسىڭىز بولىدۇ.</string>
+    <string name="error_dialog_timeout_instance">بېرىلگەن ۋاقىتتا مۇلازىمېتىرىڭىزدىن ھېچقانداق جاۋاب كەلمىدى. مىسالىڭىزنىڭ ياخشى يۈرۈشىگە كاپالەتلىك قىلىڭ.</string>
+    <string name="error_dialog_timeout_toggle">تور ئۇلىنىشىڭىزنى تەكشۈرۈڭ. بەزىدە كۆچمە سانلىق مەلۇمات ياكى Wi-Fi نى قايتا قوزغىتىپ قايتا قوزغىتىشقا پايدىسى بار.</string>
+    <string name="error_dialog_check_server">مۇلازىمېتىرىڭىزنىڭ ئىنكاسى توغرا ئەمەس. تور بەت يۈزى ئارقىلىق جەدۋەل دېتالىنى زىيارەت قىلالايدىغان ياكى قىلالمايدىغانلىقىڭىزنى تەكشۈرۈپ بېقىڭ.</string>
+    <string name="error_dialog_check_server_logs">Nextcloud تەڭشىكىڭىزدە مەسىلە بار. مۇلازىمېتىر خاتىرى ھۆججىتىنى كۆرۈپ بېقىڭ.</string>
+    <string name="error_dialog_check_maintenance">Nextcloud مىسالىڭىزنىڭ ھازىر ئاسراش ھالىتىدە ئەمەسلىكىنى تەكشۈرۈڭ.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud مىسالىڭىزدا ھەقسىز ساقلاش بوشلۇقى قالمىدى. يەرلىك ھۆججەتلىرىڭىزنى بۇلۇتقا ماسقەدەملەش ئۈچۈن بەزى ھۆججەتلەرنى ئۆچۈرۈڭ.</string>
+    <string name="error_dialog_we_need_info">سىزگە ياردەم قىلىش ئۈچۈن تۆۋەندىكى تېخنىكىلىق ئۇچۇرلار لازىم:</string>
+    <string name="error_dialog_redirect">مۇلازىمېتىرىڭىز HTTP 302 ھالەت كودى بىلەن جاۋاب قايتۇردى ، بۇ سىزنىڭ ئۈستەلئۈستى ئەپىنى مۇلازىمېتىرىڭىزغا قاچىلىمىغانلىقىڭىزنى ياكى بىرەر ئىشنىڭ خاتا ئۆزگەرتىلگەنلىكىنى كۆرسىتىدۇ. بۇنى .htaccess ھۆججىتىدىكى ئىختىيارى قاپلاش ياكى OID Client غا ئوخشاش Nextcloud ئەپلىرى كەلتۈرۈپ چىقىرىدۇ.</string>
+    <string name="error_dialog_forbidden">ئىجازەتلىرىڭىز يېتەرلىك ئەمەس. سىز بىلەن ئورتاقلاشقان ۋە يېقىندا ئۆزگەرتىلگەن جەدۋەللەرنى تەكشۈرۈپ بېقىڭ.</string>
+    <string name="error_dialog_version_not_parsable">مۇلازىمېتىر تەرەپتىكى جەدۋەل دېتالىنىڭ نەشرىنى ئېنىقلىيالمىدۇق. قاچىلانغان ۋە قوزغىتىلغانلىقىنى جەزملەشتۈرۈڭ.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Nextcloud ئەپىڭىزنىڭ ھېساباتىغا ئەمدى ئىجازەت بېرىلمەسلىكى مۇمكىن.</string>
+    <string name="error_dialog_user_not_found_in_database">نۆۋەتتىكى ئىشلەتكۈچى سانداندىكى ئىشلەتكۈچىگە ماس كەلمەيدۇ. ئەگەر Nextcloud مىسالىڭىزدا LDAP ئىشلىتىۋاتقان بولسىڭىز ، Nextcloud ئەپىڭىز كونا ئىشلەتكۈچى كىملىكىنى ساقلىغان بولۇشى مۇمكىن.</string>
+    <string name="error_dialog_capabilities_not_parsable">مۇلازىمېتىرىڭىزنىڭ ئىقتىدارىنى ئالالمىدۇق. مۇلازىمېتىرىڭىزنىڭ نورمال يۈرۈۋاتقانلىقىغا ۋە باشقا خېرىدارلار ئەپلىرىنىڭ Nextcloud نى زىيارەت قىلالايدىغانلىقىغا كاپالەتلىك قىلىڭ.</string>
+    <string name="error_dialog_attachment_upload_failed">قوشۇمچە ھۆججەتنى يۈكلەشكە بولمىدى. ئۇنى باشقا ئۇسۇلدا ھەمبەھىرلەپ سىناپ بېقىڭ ، بۇ كەمتۈك ھەققىدە بىزگە خەۋەر قىلىڭ.</string>
+    <string name="error_dialog_certificate">مۇلازىمېتىرنىڭ گۇۋاھنامىسىدە خاتالىق باردەك قىلىدۇ. تېخىمۇ كۆپ ئۇچۇرغا ئېرىشىش ئۈچۈن Nextcloud دېتالىدىكى بارلىق ھېساباتلارنى تەكشۈرۈپ بېقىڭ.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Nextcloud ۋە جەدۋەل دېتالىنىڭ بارلىق باتارېيە ئەلالاشتۇرۇشىنى چەكلەڭ.</string>
+    <string name="error_dialog_unknown_error">Nextcloud مىسالىڭىزغا يەتكىلى بولمايدىغاندەك قىلىدۇ. تور ئۇلىنىشىڭىزنى ۋە توركۆرگۈ ئارقىلىق ئۈلگىڭىزگە ئۇلىنالامسىز يوق تەكشۈرۈڭ.</string>
+    <string name="error_dialog_min_version">جەدۋەل ئاندىرويىد دېتالى Nextcloud ئاندىرويىد دېتالىنىڭ كەم دېگەندە 3.18 نەشرى بولۇشىنى تەلەپ قىلىدۇ.</string>
+    <string name="error_action_open_app_info">ئەپ ئۇچۇرىنى ئېچىڭ</string>
+    <string name="error_action_open_nextcloud_app">Nextcloud دېتالىنى ئېچىڭ</string>
+    <string name="error_action_open_network">تور تەڭشىكى</string>
+    <string name="error_action_server_logs">مۇلازىمېتىر خاتىرىسى</string>
+    <string name="error_action_open_in_browser">توركۆرگۈدە ئېچىڭ</string>
+    <string name="error_action_install">قاچىلاش</string>
+    <string name="error_action_report_issue">دوكلات</string>
+    <string name="error_action_update_files_app">يېڭىلاش</string>
+    <string name="error_action_open_battery_settings">باتارېيە تەڭشىكى</string>
+
+    <string name="welcome_text">Nextcloud جەدۋىلىگە خۇش كەپسىز</string>
+    <string name="importing_account">ھېساباتنى ئىمپورت قىلىش% 1 $ s</string>
+    <string name="account_already_imported">ھېسابات ئاللىبۇرۇن ئىمپورت قىلىنغان</string>
+    <string name="import_state_import_account">ھېسابات ئەكىرىش</string>
+    <string name="import_state_import_tables">جەدۋەللەرنى ئەكىرىش. بۇنىڭغا بىر قانچە مىنۇت ۋاقىت كېتىشى مۇمكىن.</string>
+    <string name="not_yet_synchronized">تېخى ماس قەدەمدە ئەمەس</string>
+
+    <string name="reason_not_installed">Nextcloud جەدۋىلى ئورنىتىلمىدى</string>
+    <string name="reason_not_enabled">Nextcloud جەدۋىلى قوزغىتىلمىدى</string>
+    <string name="reason_maintenance_mode">Nextcloud مىسالىڭىز ھازىر ئاسراش ھالىتىدە</string>
+    <string name="reason_server_error">مۇلازىمېتىرىڭىز ئىناۋەتسىز جاۋاب بىلەن جاۋاب قايتۇردى</string>
+    <string name="reason_tables_not_supported">Nextcloud Tables ئەپ نەشرى قوللىمايدۇ</string>
+    <string name="reason_nextcloud_not_supported">Nextcloud نەشرىڭىزنى قوللىمايدۇ</string>
+    <string name="reason_unknown">نامەلۇم خاتالىق كۆرۈلدى</string>
+    <string name="reason_offline">سىز ھازىر تورسىز. </string>
+
+    <string name="missing_permission_read">ئوقۇش ئىجازەتنامىسى يوق</string>
+    <string name="missing_permission_create">ئىجازەتنامە يوق</string>
+    <string name="missing_permission_update">يېڭىلاش ئىجازەتنامىسى يوق</string>
+    <string name="missing_permission_delete">ئۆچۈرۈش ئىجازەتنامىسى يوق</string>
+    <string name="missing_permission_manage">باشقۇرۇش ئىجازەتنامىسى يوق</string>
+
+    <string name="validation_number_not_parsable">قىممىتى سان ئەمەسدەك قىلىدۇ</string>
+    <string name="validation_number_range">قىممىتى چوقۇم% 1 $ s بىلەن% 2 $ s ئارىلىقىدا بولۇشى كېرەك</string>
+    <string name="validation_number_min">قىممىتى كەم دېگەندە% 1 $ s بولۇشى كېرەك</string>
+    <string name="validation_number_max">قىممىتى ئەڭ كۆپ بولغاندا% 1 $ s بولۇشى كېرەك</string>
+    <string name="validation_text_link">قىممىتى ئۇلىنىش ئەمەس</string>
+    <string name="validation_mandatory">بۇ بىر مەجبۇرىي ساھە</string>
+    <string name="validation_time_missing">چېسلا ۋاقىت بۆلىكى ئۈچۈن ۋاقىت تەمىنلىنىشى كېرەك.</string>
+
+    <string name="order_weight">زاكاز ئېغىرلىقى</string>
+    <string name="add_column">ستون قوشۇڭ</string>
+    <string name="unsupported_column_type">% 1 $ s تىپىدىكى ئىستونلارنى تەھرىرلەش تېخى قوللىمايدۇ.</string>
+    <string name="navigation_my_tables">ئۈستەللىرىم</string>
+    <string name="navigation_shared_tables">ئورتاق جەدۋەل</string>
+    <string name="could_not_display_column_editor">% 1 $ s نى كۆرسىتەلمىدى.</string>
+    <string name="choose_table_from_the_sidebar">يان بالداقتىن جەدۋەلنى تاللاڭ</string>
+    <string name="last_background_sync">ئاخىرقى تەگلىك ماسقەدەملەش:</string>
+    <string name="simple_disabled">چەكلەنگەن</string>
+    <string name="manage_columns_subtitle">سۆرەپ تەرتىپكە سېلىش</string>
+
+    <string name="experimental_feature_column_reordering">ئىستونلارنى رەتلەش بىر تەجرىبە ئالاھىدىلىكى بولۇپ ، بۇ جەدۋەلنىڭ باشقا سەپلىمىلىرىگىمۇ ئويلىمىغان ئەكىس تەسىرلەر بولۇشى مۇمكىن.</string>
+    <string name="experimental_feature_column_manage">ستونلارنى تەھرىرلەش تەجرىبە ئىقتىدارى بولۇپ ، بۇ ئىستوننىڭ باشقا سەپلىمىلىرىگىمۇ ئويلىمىغان ئەكىس تەسىرلەر بولۇشى مۇمكىن.</string>
+</resources>
