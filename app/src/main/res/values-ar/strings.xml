@@ -108,7 +108,7 @@
     <string name="error_dialog_tip_disable_battery_optimizations">يُرجى إيقاف كل موفرات البطارية optimizers للتطبيقين: نكست كلاود، و جداول نكست كلاود.</string>
     <string name="error_dialog_unknown_error">يبدو أن الخادم لا يمكن الوصول إليه. يرجى التحقق من اتصالك بالإنترنت وما إذا كنت قادرًا على الاتصال به عبر المتصفح.</string>
     <string name="error_dialog_min_version">تطبيق الجداول على أندرويد يستلزم ألّا يقل رقم إصدار تطبيق نكست كلاود على الأندرويد عن 3.18. </string>
-    <string name="error_action_open_app_info">إفتح معلومات التطبيق</string>
+    <string name="error_action_open_app_info">فتح معلومات التطبيق</string>
     <string name="error_action_open_nextcloud_app">فتح تطبيق نكست كلاود</string>
     <string name="error_action_open_network">إعدادات الشبكة</string>
     <string name="error_action_server_logs">سجلات الحركة على الخادم Server logs</string>
