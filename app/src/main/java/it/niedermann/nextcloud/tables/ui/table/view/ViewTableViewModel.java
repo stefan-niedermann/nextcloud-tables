@@ -49,7 +49,6 @@ public class ViewTableViewModel extends AndroidViewModel {
                     }
 
                     if (account.getCurrentTable() == null) {
-                        accountRepository.guessCurrentTable(account);
                         return new MutableLiveData<>(new Pair<>(account, null));
                     }
 
