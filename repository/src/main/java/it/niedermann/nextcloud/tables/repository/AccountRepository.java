@@ -176,7 +176,7 @@ public class AccountRepository extends AbstractRepository {
                 .thenAcceptAsync(tableId -> {
                     if (tableId != null) {
                         db.getAccountDao().updateCurrentTable(account.getId(), tableId);
-                        account.setId(tableId);
+                        account.setCurrentTable(tableId);
                     }
                 }, db.getSequentialExecutor());
     }

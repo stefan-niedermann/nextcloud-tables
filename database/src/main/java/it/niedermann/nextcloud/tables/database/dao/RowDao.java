@@ -52,7 +52,7 @@ public interface RowDao extends GenericDao<Row> {
     @Query("SELECT r.id FROM `Row` r " +
             "WHERE r.tableId = :tableId " +
             "AND r.remoteId = :remoteId " +
-            "LIMIT 1 ")
+            "LIMIT 1")
     Long getRowId(long tableId, long remoteId);
 
     @Query("DELETE FROM `Row` WHERE tableId = :tableId")
