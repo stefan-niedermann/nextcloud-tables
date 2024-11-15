@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.repository;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
@@ -26,7 +25,6 @@ import java.util.concurrent.ExecutionException;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.exception.AccountNotCreatedException;
 import it.niedermann.nextcloud.tables.repository.model.ImportState;
@@ -157,29 +155,29 @@ public class AccountRepository extends AbstractRepository {
     @AnyThread
     @NonNull
     public CompletableFuture<Void> setCurrentTable(long accountId, @Nullable Long tableId) {
-        return runAsync(() -> db.getAccountDao().updateCurrentTable(accountId, tableId), db.getSequentialExecutor());
+        return supplyAsync(() -> {
+            db.getAccountDao().updateCurrentTable(accountId, tableId);
+            return null;
+        }, db.getSequentialExecutor());
     }
 
     @AnyThread
     @NonNull
     public CompletableFuture<Void> deleteAccount(@NonNull Account account) {
-        return runAsync(() -> db.getAccountDao().delete(account), db.getSequentialExecutor());
+        return supplyAsync(() -> {
+            db.getAccountDao().delete(account);
+            return null;
+        }, db.getSequentialExecutor());
     }
 
     @NonNull
-    public CompletableFuture<Table> guessCurrentTable(@NonNull Account account) {
-        try {
-            db.getParallelExecutor().submit(() -> db.getTableDao().getAnyNotDeletedTable(account.getId())).get();
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return supplyAsync(() -> db.getTableDao().getAnyNotDeletedTable(account.getId()), db.getParallelExecutor())
-                .thenComposeAsync(table -> {
-                    if (table != null) {
-                        db.getAccountDao().updateCurrentTable(account.getId(), table.getId());
+    public CompletableFuture<Void> guessCurrentTable(@NonNull Account account) {
+        return supplyAsync(() -> db.getTableDao().getAnyNotDeletedTableId(account.getId()), db.getParallelExecutor())
+                .thenAcceptAsync(tableId -> {
+                    if (tableId != null) {
+                        db.getAccountDao().updateCurrentTable(account.getId(), tableId);
+                        account.setId(tableId);
                     }
-                    return CompletableFuture.completedFuture(table);
                 }, db.getSequentialExecutor());
     }
 }

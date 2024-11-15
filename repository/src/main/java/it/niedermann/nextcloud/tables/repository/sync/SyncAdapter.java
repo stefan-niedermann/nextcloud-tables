@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
@@ -28,10 +27,9 @@ public class SyncAdapter {
     private final AbstractSyncAdapter rowSyncAdapter;
 
     @Nullable
-    private static CompletableFuture<Void> currentSync;
+    private static CompletableFuture<Void> currentSync = null;
     @Nullable
-    private static CompletableFuture<Void> scheduledSync;
-
+    private static CompletableFuture<Void> scheduledSync = null;
 
     public SyncAdapter(@NonNull Context context) {
         this(ForkJoinPool.commonPool(),
@@ -65,24 +63,35 @@ public class SyncAdapter {
 
                 // Currently no sync is active. let's start one!
 
-                currentSync = synchronize(account);
+                Log.i(TAG, "Scheduled (currently none active)");
+
+                currentSync = synchronize(account)
+                        .thenAcceptAsync(v -> {
+                            synchronized (SyncAdapter.this) {
+                                Log.i(TAG, "Current sync finished.");
+                                currentSync = null;
+                            }
+                        });
 
                 return currentSync;
 
             } else if (scheduledSync == null) {
 
-                // There is a sync in progress, but no other synced.
+                // There is a sync in progress, but no scheduled sync.
                 // Let's schedule a sync that waits for the current sync being done and then switches the scheduledSync to the current
 
+                Log.i(TAG, "Scheduled to the end of the current one.");
+
                 scheduledSync = currentSync
-                        .thenRunAsync(() -> {
+                        .thenAcceptAsync(v -> {
                             synchronized (SyncAdapter.this) {
+                                Log.i(TAG, "Scheduled now becomes current one.");
                                 currentSync = scheduledSync;
                                 scheduledSync = null;
                             }
                         }, executor)
                         .thenComposeAsync(v -> synchronize(account), executor)
-                        .thenRunAsync(() -> pullRemoteChanges(account), executor)
+                        .thenComposeAsync(v -> pullRemoteChanges(account), executor)
                         .whenCompleteAsync((v, throwable) -> currentSync = null, executor);
 
                 return scheduledSync;
@@ -99,6 +108,8 @@ public class SyncAdapter {
 
                 // There is a sync in progress and a scheduled one. It is safe to simply return the scheduled one.
 
+                Log.i(TAG, "Returned scheduled one");
+
                 return scheduledSync;
             }
         }
@@ -107,7 +118,7 @@ public class SyncAdapter {
 
     @AnyThread
     private CompletableFuture<Void> synchronize(@NonNull Account account) {
-        return supplyAsync(() -> Log.i(TAG, "[Synchronization] Start " + account.getAccountName()), executor)
+        return supplyAsync(() -> Log.i(TAG, "Start " + account.getAccountName()), executor)
                 .thenComposeAsync(v ->
 
                         // If NextcloudVersion or TablesVersion is null,
@@ -121,25 +132,27 @@ public class SyncAdapter {
                                 ? pushLocalChanges(account)
                                 : CompletableFuture.completedFuture(null), executor)
 
-                .thenRunAsync(() -> pullRemoteChanges(account), executor)
-                .thenRunAsync(() -> Log.i(TAG, "[Synchronization] End " + account.getAccountName()), executor);
+                .thenComposeAsync(v -> pullRemoteChanges(account), executor)
+                .thenAcceptAsync(v -> Log.i(TAG, "End " + account.getAccountName()), executor);
     }
 
     @NonNull
     private CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
-        return runAsync(() -> capabilitiesSyncAdapter.pushLocalChanges(account), executor)
-                .thenRunAsync(() -> userSyncAdapter.pushLocalChanges(account), executor)
-                .thenRunAsync(() -> tableSyncAdapter.pushLocalChanges(account), executor)
-                .thenRunAsync(() -> columnSyncAdapter.pushLocalChanges(account), executor)
-                .thenRunAsync(() -> rowSyncAdapter.pushLocalChanges(account), executor);
+        return capabilitiesSyncAdapter.pushLocalChanges(account)
+                .thenComposeAsync(v -> userSyncAdapter.pushLocalChanges(account), executor)
+                .thenComposeAsync(v -> tableSyncAdapter.pushLocalChanges(account), executor)
+                .thenComposeAsync(v -> columnSyncAdapter.pushLocalChanges(account), executor)
+                .thenComposeAsync(v -> rowSyncAdapter.pushLocalChanges(account), executor)
+                .thenApplyAsync(v -> null);
     }
 
     @NonNull
     private CompletableFuture<Void> pullRemoteChanges(@NonNull Account account) {
-        return runAsync(() -> capabilitiesSyncAdapter.pullRemoteChanges(account))
-                .thenRunAsync(() -> userSyncAdapter.pullRemoteChanges(account))
-                .thenRunAsync(() -> tableSyncAdapter.pullRemoteChanges(account))
-                .thenRunAsync(() -> columnSyncAdapter.pullRemoteChanges(account))
-                .thenRunAsync(() -> rowSyncAdapter.pullRemoteChanges(account));
+        return capabilitiesSyncAdapter.pullRemoteChanges(account)
+                .thenComposeAsync(v -> userSyncAdapter.pullRemoteChanges(account), executor)
+                .thenComposeAsync(v -> tableSyncAdapter.pullRemoteChanges(account), executor)
+                .thenComposeAsync(v -> columnSyncAdapter.pullRemoteChanges(account), executor)
+                .thenComposeAsync(v -> rowSyncAdapter.pullRemoteChanges(account), executor)
+                .thenApplyAsync(v -> null, executor);
     }
 }

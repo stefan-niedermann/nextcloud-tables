@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.database.entity;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Objects;
@@ -36,6 +37,7 @@ public class UserGroup extends AbstractAccountRelatedEntity {
         // Default constructor
     }
 
+    @Ignore
     public UserGroup(
             @Nullable String remoteId,
             String key,

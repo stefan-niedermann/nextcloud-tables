@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
@@ -36,20 +35,26 @@ class TableSyncAdapter extends AbstractSyncAdapter {
     @NonNull
     @Override
     public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
-        return runAsync(() -> Log.v(TAG, "Pushing local changes for " + account.getAccountName()), workExecutor)
-                .thenApplyAsync(v -> db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
+        Log.v(TAG, "Pushing local changes for " + account.getAccountName());
+        return supplyAsync(() -> db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
                 .thenAcceptAsync(deletedTables -> CompletableFuture.allOf(deletedTables.stream().map(table -> {
                     Log.i(TAG, "→ DELETE: " + table.getTitle());
                     final var remoteId = table.getRemoteId();
                     if (remoteId == null) {
-                        return runAsync(() -> db.getTableDao().delete(table), db.getSequentialExecutor());
+                        return supplyAsync(() -> {
+                            db.getTableDao().delete(table);
+                            return null;
+                        }, db.getSequentialExecutor());
                     } else {
                         return executeNetworkRequest(account, apis -> apis.apiV2().deleteTable(table.getRemoteId()))
                                 .thenComposeAsync(response -> {
                                     Log.i(TAG, "-→ HTTP " + response.code());
 
                                     if (response.isSuccessful()) {
-                                        return runAsync(() -> db.getTableDao().delete(table), db.getSequentialExecutor());
+                                        return supplyAsync(() -> {
+                                            db.getTableDao().delete(table);
+                                            return null;
+                                        }, db.getSequentialExecutor());
 
                                     } else {
                                         serverErrorHandler.responseToException(response, "Could not delete table " + table.getTitle(), false).ifPresent(this::throwError);
@@ -82,7 +87,10 @@ class TableSyncAdapter extends AbstractSyncAdapter {
 
                                     assert body != null;
                                     table.setRemoteId(body.ocs.data.remoteId());
-                                    return runAsync(() -> db.getTableDao().update(table), db.getSequentialExecutor());
+                                    return supplyAsync(() -> {
+                                        db.getTableDao().update(table);
+                                        return null;
+                                    }, db.getSequentialExecutor());
 
                                 } else {
                                     serverErrorHandler.responseToException(response, "Could not push local changes for table " + table.getTitle(), false).ifPresent(this::throwError);
@@ -138,16 +146,19 @@ class TableSyncAdapter extends AbstractSyncAdapter {
                                     table.setId(tableId);
                                     Log.i(TAG, "← Updating " + table.getTitle() + " in database");
 
-                                    return runAsync(() -> db.getTableDao().update(table), db.getSequentialExecutor())
-                                            .thenRunAsync(() -> {
+                                    return supplyAsync(() -> {
+                                        db.getTableDao().update(table);
+                                        return null;
+                                    }, db.getSequentialExecutor())
+                                            .thenAcceptAsync(v -> {
                                                 if (!table.hasReadPermission()) {
                                                     db.getRowDao().deleteAllFromTable(table.getId());
                                                 }
                                             }, db.getSequentialExecutor());
                                 }
                             }).toArray(CompletableFuture[]::new)), workExecutor)
-                            .thenRunAsync(() -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
-                            .thenRunAsync(() -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSequentialExecutor());
+                            .thenAcceptAsync(v -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
+                            .thenAcceptAsync(v -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSequentialExecutor());
                 }, workExecutor);
     }
 }

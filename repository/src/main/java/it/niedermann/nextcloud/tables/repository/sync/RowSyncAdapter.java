@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
@@ -17,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
@@ -56,13 +56,19 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                         Log.i(TAG, "------ → DELETE: " + row.getRemoteId());
                         final var remoteId = row.getRemoteId();
                         if (remoteId == null) {
-                            return runAsync(() -> db.getRowDao().delete(row), db.getSequentialExecutor());
+                            return supplyAsync(() -> {
+                                db.getRowDao().delete(row);
+                                return null;
+                            }, db.getSequentialExecutor());
                         } else {
                             return executeNetworkRequest(account, apis -> apis.apiV1().deleteRow(row.getRemoteId()))
                                     .thenComposeAsync(response -> {
                                         Log.i(TAG, "------ → HTTP " + response.code());
                                         if (response.isSuccessful()) {
-                                            return runAsync(() -> db.getRowDao().delete(row), db.getSequentialExecutor());
+                                            return supplyAsync(() -> {
+                                                db.getRowDao().delete(row);
+                                                return null;
+                                            }, db.getSequentialExecutor());
                                         } else {
                                             serverErrorHandler.responseToException(response, "Could not delete row " + row.getRemoteId(), false).ifPresent(this::throwError);
                                             return CompletableFuture.completedFuture(null);
@@ -99,7 +105,10 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                             }
 
                                             fullRow.getRow().setRemoteId(body.ocs.data.remoteId());
-                                            return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
+                                            return supplyAsync(() -> {
+                                                db.getRowDao().update(fullRow.getRow());
+                                                return null;
+                                            }, db.getSequentialExecutor());
                                         } else {
                                             serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
                                             return CompletableFuture.completedFuture(null);
@@ -119,7 +128,10 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                             }
 
                                             fullRow.getRow().setRemoteId(body.remoteId());
-                                            return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
+                                            return supplyAsync(() -> {
+                                                db.getRowDao().update(fullRow.getRow());
+                                                return null;
+                                            }, db.getSequentialExecutor());
                                         } else {
                                             serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
                                             return CompletableFuture.completedFuture(null);
@@ -147,7 +159,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                     .thenComposeAsync(columnsAndIdMap -> {
                                         final var columns = columnsAndIdMap.first;
                                         final var columnRemoteAndLocalIds = columnsAndIdMap.second;
-                                        final var target = new HashSet<FullRow>(columnRemoteAndLocalIds.values().size());
+                                        final var target = ConcurrentHashMap.<FullRow>newKeySet(columnRemoteAndLocalIds.values().size());
 
                                         return fetchRowsIntoTarget(account, table, 0, target, columns, columnRemoteAndLocalIds)
                                                 .thenApplyAsync(v -> target, workExecutor);
@@ -183,10 +195,9 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                                         @NonNull final Collection<FullRow> target,
                                                         @NonNull final Map<Long, Column> columns,
                                                         @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
-
-        return runAsync(() -> Log.v(TAG, "------ Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")"), workExecutor)
-                .thenComposeAsync(v -> this.getTableRemoteIdOrThrow(table, Row.class), workExecutor)
-                .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)))
+        Log.v(TAG, "------ Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")");
+        return this.getTableRemoteIdOrThrow(table, Row.class)
+                .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
                 .thenComposeAsync(response -> switch (response.code()) {
                     case 200: {
                         final var rowDtos = response.body();
@@ -224,7 +235,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
 //                                    row.setAccountId(table.getAccountId());
 //                                    row.setTableId(table.getId());
 //                                    row.setETag(response.headers().get(HEADER_ETAG));
-
+                                            // FIXME row#id is null but it should not at this point.
                                             return CompletableFuture.allOf(fullRow.getFullData().stream().map(fullData -> {
                                                         final var data = fullData.getData();
                                                         return supplyAsync(fullRow.getRow()::getId, workExecutor)
@@ -237,7 +248,10 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                                                                     .thenAcceptAsync(data::setId);
                                                                         } else {
                                                                             data.setId(existingData.get());
-                                                                            return runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor());
+                                                                            return supplyAsync(() -> {
+                                                                                db.getDataDao().update(data);
+                                                                                return null;
+                                                                            }, db.getSequentialExecutor());
                                                                         }
 
                                                                     } else {
@@ -253,7 +267,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                                     }, workExecutor);
                                         }, workExecutor)).toArray(CompletableFuture[]::new))
                                 .thenCompose(v -> {
-                                    if (rowDtos.size() != TablesV1API.DEFAULT_API_LIMIT_ROWS) {
+                                    if (rowDtos.size() < TablesV1API.DEFAULT_API_LIMIT_ROWS) {
                                         return CompletableFuture.completedFuture(null);
                                     }
 
@@ -271,7 +285,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                         () -> future.complete(null));
                         yield future;
                     }
-                });
+                }, workExecutor);
     }
 
     @NonNull
@@ -288,7 +302,10 @@ class RowSyncAdapter extends AbstractSyncAdapter {
             } else {
                 Log.i(TAG, "------ ← Updating row " + row.getRemoteId() + " in database");
                 row.setId(rowId);
-                return runAsync(() -> db.getRowDao().update(row), db.getSequentialExecutor());
+                return supplyAsync(() -> {
+                    db.getRowDao().update(row);
+                    return null;
+                }, db.getSequentialExecutor());
             }
         }, workExecutor)
                 .thenApplyAsync(v -> fullRow, workExecutor);
