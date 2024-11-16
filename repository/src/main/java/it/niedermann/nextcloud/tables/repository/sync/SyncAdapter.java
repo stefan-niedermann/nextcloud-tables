@@ -91,7 +91,6 @@ public class SyncAdapter {
                             }
                         }, executor)
                         .thenComposeAsync(v -> synchronize(account), executor)
-                        .thenComposeAsync(v -> pullRemoteChanges(account), executor)
                         .whenCompleteAsync((v, throwable) -> currentSync = null, executor);
 
                 return scheduledSync;
