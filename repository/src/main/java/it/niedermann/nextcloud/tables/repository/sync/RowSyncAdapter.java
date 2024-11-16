@@ -174,14 +174,11 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                         final var existingRowIds = pair.second;
 
                                         Log.i(TAG, "------ ← Delete all rows except remoteId " + fetchedRowRemoteIds);
-                                        for (final var remoteId : fetchedRowRemoteIds) {
-                                            existingRowIds.remove(remoteId);
-                                        }
+                                        final var rowIdsToDelete = new HashSet<Long>(existingRowIds.values());
+                                        rowIdsToDelete.removeAll(pair.first);
 
-                                        return existingRowIds;
+                                        return rowIdsToDelete;
                                     }, workExecutor)
-                                    .thenApplyAsync(Map::values, workExecutor)
-                                    .thenApplyAsync(HashSet::new, workExecutor)
                                     .thenAcceptAsync(existingRowIds -> existingRowIds.forEach(db.getRowDao()::delete), db.getSequentialExecutor())
                     ).toArray(CompletableFuture[]::new));
                 });
@@ -222,20 +219,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                         ), db.getParallelExecutor())
                                         .thenComposeAsync(rowAndRowId -> upsertRow(rowAndRowId.first, rowAndRowId.second.orElse(null)), workExecutor)
                                         .thenApplyAsync(fullRow -> {
-//                                    fullRow.getDataWithTypes()
-//                                            .stream()
-//                                            .map(DataWithType::getData)
-//                                            .forEach(data -> data.setRowId(row.getId()));
-//                                    final var columns = db.getColumnDao().getColumns(columnIds.values());
-//
-//                                    //FIXME rowID hard coded
-//                                    final var fullRow = rowMapper.toEntity(account.getId(), 0L, rowDto, columns, account.getTablesVersion());
-//                                    final var row = fullRow.getRow();
-//
-//                                    row.setAccountId(table.getAccountId());
-//                                    row.setTableId(table.getId());
-//                                    row.setETag(response.headers().get(HEADER_ETAG));
-                                            // FIXME row#id is null but it should not at this point.
+                                            fullRow.getFullData().forEach(data -> data.getData().setRowId(fullRow.getRow().getId()));
                                             return CompletableFuture.allOf(fullRow.getFullData().stream().map(fullData -> {
                                                         final var data = fullData.getData();
                                                         return supplyAsync(fullRow.getRow()::getId, workExecutor)
