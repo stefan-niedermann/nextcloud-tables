@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
-import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
 import android.util.Log;
@@ -19,7 +18,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
-import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
@@ -159,15 +157,11 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                     .thenComposeAsync(columnsAndIdMap -> {
                                         final var columns = columnsAndIdMap.first;
                                         final var columnRemoteAndLocalIds = columnsAndIdMap.second;
-                                        final var target = ConcurrentHashMap.<FullRow>newKeySet(columnRemoteAndLocalIds.values().size());
+                                        final var fetchedRowRemoteIds = ConcurrentHashMap.<Long>newKeySet(columnRemoteAndLocalIds.values().size());
 
-                                        return fetchRowsIntoTarget(account, table, 0, target, columns, columnRemoteAndLocalIds)
-                                                .thenApplyAsync(v -> target, workExecutor);
+                                        return fetchRowsIntoTarget(account, table, 0, fetchedRowRemoteIds, columns, columnRemoteAndLocalIds)
+                                                .thenApplyAsync(v -> fetchedRowRemoteIds, workExecutor);
                                     }, workExecutor)
-                                    .thenApplyAsync(fetchedRows -> fetchedRows.stream()
-                                            .map(FullRow::getRow)
-                                            .map(AbstractRemoteEntity::getRemoteId)
-                                            .collect(toUnmodifiableSet()), workExecutor)
                                     .thenApplyAsync(fetchedRowRemoteIds -> new Pair<>(fetchedRowRemoteIds, db.getRowDao().getRowRemoteAndLocalIds(table.getId())), db.getParallelExecutor())
                                     .thenApplyAsync(pair -> {
                                         final var fetchedRowRemoteIds = pair.first;
@@ -189,7 +183,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
     private CompletableFuture<Void> fetchRowsIntoTarget(@NonNull final Account account,
                                                         @NonNull final Table table,
                                                         final int offset,
-                                                        @NonNull final Collection<FullRow> target,
+                                                        @NonNull final Collection<Long> target,
                                                         @NonNull final Map<Long, Column> columns,
                                                         @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
         Log.v(TAG, "------ Pulling remote rows for " + table.getTitle() + " (offset: " + offset + ")");
@@ -246,7 +240,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                                                 }, workExecutor);
                                                     }).toArray(CompletableFuture[]::new))
                                                     .thenComposeAsync(v -> {
-                                                        target.add(fullRow);
+                                                        target.add(fullRow.getRow().getRemoteId());
                                                         return CompletableFuture.<Void>completedFuture(null);
                                                     }, workExecutor);
                                         }, workExecutor)).toArray(CompletableFuture[]::new))
