@@ -49,6 +49,9 @@ public interface RowDao extends GenericDao<Row> {
     @Query("SELECT r.remoteId, r.id FROM `Row` r WHERE r.tableId = :tableId")
     Map<Long, Long> getRowRemoteAndLocalIds(long tableId);
 
+    @Query("SELECT r.id FROM `Row` r WHERE r.tableId = :tableId")
+    List<Long> getIds(long tableId);
+
     @Query("SELECT r.id FROM `Row` r " +
             "WHERE r.tableId = :tableId " +
             "AND r.remoteId = :remoteId " +
