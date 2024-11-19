@@ -66,7 +66,7 @@ public class SyncAdapter {
                 Log.i(TAG, "Scheduled (currently none active)");
 
                 currentSync = synchronize(account)
-                        .thenAcceptAsync(v -> {
+                        .whenCompleteAsync((result, exception) -> {
                             synchronized (SyncAdapter.this) {
                                 Log.i(TAG, "Current sync finished.");
                                 currentSync = null;
@@ -83,7 +83,7 @@ public class SyncAdapter {
                 Log.i(TAG, "Scheduled to the end of the current one.");
 
                 scheduledSync = currentSync
-                        .thenAcceptAsync(v -> {
+                        .whenCompleteAsync((result, exception) -> {
                             synchronized (SyncAdapter.this) {
                                 Log.i(TAG, "Scheduled now becomes current one.");
                                 currentSync = scheduledSync;
