@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -86,6 +87,23 @@ public class Row extends AbstractRemoteEntity {
 
     public void setLastEditAt(Instant lastEditAt) {
         this.lastEditAt = lastEditAt;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Row{" +
+                "tableId=" + tableId +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdAt=" + createdAt +
+                ", lastEditBy='" + lastEditBy + '\'' +
+                ", lastEditAt=" + lastEditAt +
+                ", remoteId=" + remoteId +
+                ", accountId=" + accountId +
+                ", id=" + id +
+                ", eTag='" + eTag + '\'' +
+                ", status=" + status +
+                '}';
     }
 
     @Override
