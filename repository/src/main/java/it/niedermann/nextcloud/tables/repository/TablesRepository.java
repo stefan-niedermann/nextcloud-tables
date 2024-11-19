@@ -80,7 +80,9 @@ public class TablesRepository extends AbstractRepository {
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
+
             table.setStatus(DBStatus.LOCAL_DELETED);
+
             return table;
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
@@ -94,7 +96,9 @@ public class TablesRepository extends AbstractRepository {
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
+
             table.setStatus(DBStatus.LOCAL_DELETED);
+
             return table;
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
@@ -107,12 +111,17 @@ public class TablesRepository extends AbstractRepository {
     public CompletableFuture<Void> createColumn(@NonNull Account account,
                                                 @NonNull Table table,
                                                 @NonNull Column column) {
-        if (!table.hasManagePermission()) {
-            throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
-        }
-        table.setStatus(DBStatus.LOCAL_DELETED);
-        column.setAccountId(account.getId());
-        return supplyAsync(() -> db.getColumnDao().insert(column), db.getSequentialExecutor())
+        return supplyAsync(() -> {
+            if (!table.hasManagePermission()) {
+                throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
+            }
+
+            table.setStatus(DBStatus.LOCAL_DELETED);
+            column.setAccountId(account.getId());
+
+            return column;
+        })
+                .thenAcceptAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::synchronize, workExecutor);
     }
@@ -126,7 +135,9 @@ public class TablesRepository extends AbstractRepository {
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
+
             column.setStatus(DBStatus.LOCAL_EDITED);
+
             return column;
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
@@ -143,9 +154,11 @@ public class TablesRepository extends AbstractRepository {
                 .thenApplyAsync(originalOrderWeights -> {
                     final var newOrderWeights = columnReorderUtil.reorderColumns(originalOrderWeights, newColumnOrder);
                     final var newOrderWeightsDiff = columnReorderUtil.filterChanged(originalOrderWeights, newOrderWeights);
+
                     for (final var entry : newOrderWeightsDiff.entrySet()) {
                         db.getColumnDao().updateOrderWeight(entry.getKey(), entry.getValue());
                     }
+
                     return account;
                 }, db.getSequentialExecutor())
                 .thenAcceptAsync(this::synchronize, workExecutor);
@@ -158,7 +171,9 @@ public class TablesRepository extends AbstractRepository {
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
+
             column.setStatus(DBStatus.LOCAL_DELETED);
+
             return column;
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
@@ -176,12 +191,14 @@ public class TablesRepository extends AbstractRepository {
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.CREATE));
             }
+
             row.setStatus(DBStatus.LOCAL_EDITED);
             row.setAccountId(account.getId());
+
             return row;
         }, workExecutor)
-                .thenAcceptAsync(preparedRow -> {
-                    final var insertedRowId = db.getRowDao().insert(preparedRow);
+                .thenApplyAsync(db.getRowDao()::insert, db.getSequentialExecutor())
+                .thenAcceptAsync(insertedRowId -> {
                     for (final var fullData : fullDataSet) {
                         fullData.getData().setRowId(insertedRowId);
                         db.getDataDao().insert(fullData.getData());
@@ -201,8 +218,10 @@ public class TablesRepository extends AbstractRepository {
             if (!table.hasUpdatePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.UPDATE));
             }
+
             row.setStatus(DBStatus.LOCAL_EDITED);
             row.setAccountId(account.getId());
+
             return row;
         }, workExecutor)
                 .thenAcceptAsync(preparedRow -> {
@@ -211,10 +230,13 @@ public class TablesRepository extends AbstractRepository {
                         data.getData().setRowId(preparedRow.getId());
                         db.getDataDao().deleteRowIfEmpty(preparedRow.getId());
 
-                        final var exists = db.getDataDao().exists(data.getData().getColumnId(), data.getData().getRowId());
+                        final var exists = db.getDataDao().exists(
+                                data.getData().getColumnId(),
+                                data.getData().getRowId());
 
                         if (exists) {
                             db.getDataDao().update(data.getData());
+
                         } else {
                             data.getData().setId(db.getDataDao().insert(data.getData()));
                         }
@@ -231,7 +253,9 @@ public class TablesRepository extends AbstractRepository {
             if (!table.hasDeletePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.DELETE));
             }
+
             row.setStatus(DBStatus.LOCAL_DELETED);
+
             return row;
         }, workExecutor)
                 .thenAcceptAsync(db.getRowDao()::update, db.getSequentialExecutor())

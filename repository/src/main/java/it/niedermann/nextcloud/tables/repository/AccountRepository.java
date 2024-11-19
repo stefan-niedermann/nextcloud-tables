@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.repository;
 
+import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
@@ -155,19 +156,13 @@ public class AccountRepository extends AbstractRepository {
     @AnyThread
     @NonNull
     public CompletableFuture<Void> setCurrentTable(long accountId, @Nullable Long tableId) {
-        return supplyAsync(() -> {
-            db.getAccountDao().updateCurrentTable(accountId, tableId);
-            return null;
-        }, db.getSequentialExecutor());
+        return runAsync(() -> db.getAccountDao().updateCurrentTable(accountId, tableId), db.getSequentialExecutor());
     }
 
     @AnyThread
     @NonNull
     public CompletableFuture<Void> deleteAccount(@NonNull Account account) {
-        return supplyAsync(() -> {
-            db.getAccountDao().delete(account);
-            return null;
-        }, db.getSequentialExecutor());
+        return runAsync(() -> db.getAccountDao().delete(account), db.getSequentialExecutor());
     }
 
     @NonNull
