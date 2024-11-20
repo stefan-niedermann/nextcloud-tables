@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
@@ -43,33 +44,29 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
     @NonNull
     @Override
     public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
-        Log.v(TAG, "--- Pushing local columns for " + account.getAccountName());
-        return supplyAsync(() -> db.getColumnDao().getFullColumns(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
-                .thenAcceptAsync(columnsToDelete -> CompletableFuture.allOf(columnsToDelete.stream().map(fullColumn -> {
-                    final var column = fullColumn.getColumn();
-                    Log.i(TAG, "--- → DELETE: " + column.getTitle());
-                    final var remoteId = column.getRemoteId();
-                    if (remoteId == null) {
-                        return supplyAsync(() -> {
-                            db.getColumnDao().delete(column);
-                            return null;
-                        }, db.getSequentialExecutor());
-                    } else {
-                        return executeNetworkRequest(account, apis -> apis.apiV1().deleteColumn(column.getRemoteId()))
-                                .thenComposeAsync(response -> {
-                                    Log.i(TAG, "--- → HTTP " + response.code());
-                                    if (response.isSuccessful()) {
-                                        return supplyAsync(() -> {
-                                            db.getColumnDao().delete(column);
-                                            return null;
-                                        }, db.getSequentialExecutor());
-                                    } else {
-                                        serverErrorHandler.responseToException(response, "Could not delete column " + column.getTitle(), true).ifPresent(this::throwError);
-                                        return CompletableFuture.completedFuture(null);
-                                    }
-                                });
-                    }
-                }).toArray(CompletableFuture[]::new)), workExecutor)
+        return runAsync(() -> Log.v(TAG, "--- Pushing local columns for " + account.getAccountName()), workExecutor)
+                .thenApplyAsync(v -> db.getColumnDao().getFullColumns(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
+                .thenAcceptAsync(columnsToDelete -> CompletableFuture.allOf(columnsToDelete.stream()
+                        .map(FullColumn::getColumn)
+                        .peek(column -> Log.i(TAG, "--- → DELETE: " + column.getTitle()))
+                        .map(column -> {
+                            if (column.getRemoteId() == null) {
+                                return runAsync(() -> db.getColumnDao().delete(column), db.getSequentialExecutor());
+
+                            } else {
+                                return executeNetworkRequest(account, apis -> apis.apiV1().deleteColumn(column.getRemoteId()))
+                                        .thenComposeAsync(response -> {
+                                            Log.i(TAG, "--- → HTTP " + response.code());
+                                            if (response.isSuccessful()) {
+                                                return runAsync(() -> db.getColumnDao().delete(column), db.getSequentialExecutor());
+
+                                            } else {
+                                                serverErrorHandler.responseToException(response, "Could not delete column " + column.getTitle(), true).ifPresent(this::throwError);
+                                                return CompletableFuture.completedFuture(null);
+                                            }
+                                        });
+                            }
+                        }).toArray(CompletableFuture[]::new)), workExecutor)
                 .thenApplyAsync(v -> db.getColumnDao().getFullColumns(account.getId(), DBStatus.LOCAL_EDITED), db.getParallelExecutor())
                 .thenAcceptAsync(columnsToUpdate -> CompletableFuture.allOf(columnsToUpdate.stream().map(fullColumn -> {
                     final var column = fullColumn.getColumn();
@@ -79,7 +76,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                         final var columnDto = columnRequestMapper.toDto(fullColumn);
                         return executeNetworkRequest(account, apis -> columnCreator.getService(column.getDataType())
                                 .createColumn(apis.apiV2(), db.getTableDao().getRemoteId(column.getTableId()), columnDto))
-                                .thenApplyAsync(response -> {
+                                .thenComposeAsync(response -> {
                                     Log.i(TAG, "--- → HTTP " + response.code());
                                     if (response.isSuccessful()) {
                                         column.setStatus(DBStatus.VOID);
@@ -90,10 +87,8 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                                         }
 
                                         column.setRemoteId(body.ocs.data.remoteId());
-                                        return supplyAsync(() -> {
-                                            db.getColumnDao().update(column);
-                                            return null;
-                                        }, db.getSequentialExecutor());
+                                        return runAsync(() -> db.getColumnDao().update(column), db.getSequentialExecutor());
+
                                     } else {
                                         serverErrorHandler.responseToException(response, "Could not push local changes for column " + column.getTitle(), true).ifPresent(this::throwError);
                                         return CompletableFuture.completedFuture(null);
@@ -113,10 +108,8 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                                         }
 
                                         column.setRemoteId(body.remoteId());
-                                        return supplyAsync(() -> {
-                                            db.getColumnDao().update(column);
-                                            return null;
-                                        }, db.getSequentialExecutor());
+                                        return runAsync(() -> db.getColumnDao().update(column), db.getSequentialExecutor());
+
                                     } else {
                                         serverErrorHandler.responseToException(response, "Could not push local changes for column " + column.getTitle(), true).ifPresent(this::throwError);
                                         return CompletableFuture.completedFuture(null);
@@ -146,7 +139,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                                         final var columnRemoteIds = columnDtos.stream().map(ColumnV2Dto::remoteId).collect(toUnmodifiableSet());
 
                                         yield supplyAsync(() -> db.getColumnDao().getColumnRemoteAndLocalIds(table.getId(), columnRemoteIds), db.getParallelExecutor())
-                                                .thenAcceptAsync(columnIds -> CompletableFuture.allOf(columnDtos.stream().map(columnDto -> {
+                                                .thenComposeAsync(columnIds -> CompletableFuture.allOf(columnDtos.stream().map(columnDto -> {
                                                     final var fullColumn = columnRequestMapper.toEntity(columnDto);
                                                     final var column = fullColumn.getColumn();
                                                     column.setAccountId(account.getId());
@@ -162,16 +155,14 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                                                     } else {
                                                         column.setId(columnId);
                                                         Log.i(TAG, "--- ← Updating column " + column.getTitle() + " in database");
-                                                        columnUpdateFuture = supplyAsync(() -> {
-                                                            db.getColumnDao().update(column);
-                                                            return null;
-                                                        }, db.getSequentialExecutor());
+                                                        columnUpdateFuture = runAsync(() -> db.getColumnDao().update(column), db.getSequentialExecutor());
                                                     }
 
                                                     final var selectionOptions = fullColumn.getSelectionOptions();
                                                     final var selectionOptionRemoteIds = selectionOptions.stream().map(SelectionOption::getRemoteId).collect(toUnmodifiableSet());
-                                                    return columnUpdateFuture.thenApplyAsync(v -> db.getSelectionOptionDao().getSelectionOptionRemoteAndLocalIds(column.getId(), selectionOptionRemoteIds), db.getParallelExecutor())
-                                                            .thenApplyAsync(selectionOptionIds -> CompletableFuture.allOf(selectionOptions.stream().map(selectionOption -> {
+                                                    return columnUpdateFuture
+                                                            .thenApplyAsync(v -> db.getSelectionOptionDao().getSelectionOptionRemoteAndLocalIds(column.getId(), selectionOptionRemoteIds), db.getParallelExecutor())
+                                                            .thenComposeAsync(selectionOptionIds -> CompletableFuture.allOf(selectionOptions.stream().map(selectionOption -> {
                                                                 selectionOption.setColumnId(column.getId());
                                                                 selectionOption.setAccountId(column.getAccountId());
 
@@ -184,17 +175,14 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                                                                 } else {
                                                                     selectionOption.setId(selectionOptionId);
                                                                     Log.i(TAG, "--- ← Updating selection option " + selectionOption.getLabel() + " in database");
-                                                                    return supplyAsync(() -> {
-                                                                        db.getSelectionOptionDao().update(selectionOption);
-                                                                        return null;
-                                                                    }, db.getSequentialExecutor());
+                                                                    return runAsync(() -> db.getSelectionOptionDao().update(selectionOption), db.getSequentialExecutor());
                                                                 }
                                                             }).toArray(CompletableFuture[]::new)), workExecutor)
-                                                            .thenAcceptAsync(v -> Log.i(TAG, "--- ← Delete all selection options except remoteId " + selectionOptionRemoteIds), workExecutor)
-                                                            .thenAcceptAsync(v -> db.getSelectionOptionDao().deleteExcept(table.getId(), selectionOptionRemoteIds), db.getSequentialExecutor());
+                                                            .thenRunAsync(() -> Log.i(TAG, "--- ← Delete all selection options except remoteId " + selectionOptionRemoteIds), workExecutor)
+                                                            .thenRunAsync(() -> db.getSelectionOptionDao().deleteExcept(table.getId(), selectionOptionRemoteIds), db.getSequentialExecutor());
                                                 }).toArray(CompletableFuture[]::new)), workExecutor)
-                                                .thenAcceptAsync(v -> Log.i(TAG, "--- ← Delete all columns except remoteId " + columnRemoteIds), workExecutor)
-                                                .thenAcceptAsync(v -> db.getColumnDao().deleteExcept(table.getId(), columnRemoteIds));
+                                                .thenRunAsync(() -> Log.i(TAG, "--- ← Delete all columns except remoteId " + columnRemoteIds), workExecutor)
+                                                .thenRunAsync(() -> db.getColumnDao().deleteExcept(table.getId(), columnRemoteIds));
                                     }
                                     default -> {
                                         serverErrorHandler.responseToException(response, "At table remote ID: " + table.getRemoteId(), true).ifPresent(this::throwError);
