@@ -132,7 +132,7 @@ public class SyncAdapter {
                                 : CompletableFuture.completedFuture(null), workExecutor)
 
                 .thenComposeAsync(v -> pullRemoteChanges(account), workExecutor)
-                .thenAcceptAsync(v -> Log.i(TAG, "End " + account.getAccountName()), workExecutor);
+                .thenRunAsync(() -> Log.i(TAG, "End " + account.getAccountName()), workExecutor);
     }
 
     @NonNull

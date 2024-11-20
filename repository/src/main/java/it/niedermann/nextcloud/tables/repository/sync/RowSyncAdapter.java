@@ -162,6 +162,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
 
                                         final var rowIdsToDelete = new HashSet<Long>(existingRowIds);
                                         rowIdsToDelete.removeAll(fetchedRowIds);
+                                        Log.v(TAG, "Deleting rows with local ID in " + rowIdsToDelete);
 
                                         return rowIdsToDelete;
                                     }, workExecutor)
