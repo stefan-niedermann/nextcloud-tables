@@ -109,7 +109,7 @@ dependencies {
     implementation 'com.github.evrencoskun:TableView:v0.8.9.4'
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation "androidx.emoji2:emoji2:$version_emoji"
     implementation "androidx.emoji2:emoji2-views:$version_emoji"
