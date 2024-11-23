@@ -46,7 +46,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
     public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
         return runAsync(() -> Log.v(TAG, "--- Pushing local columns for " + account.getAccountName()), workExecutor)
                 .thenApplyAsync(v -> db.getColumnDao().getFullColumns(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
-                .thenAcceptAsync(columnsToDelete -> CompletableFuture.allOf(columnsToDelete.stream()
+                .thenComposeAsync(columnsToDelete -> CompletableFuture.allOf(columnsToDelete.stream()
                         .map(FullColumn::getColumn)
                         .peek(column -> Log.i(TAG, "--- → DELETE: " + column.getTitle()))
                         .map(column -> {
@@ -68,7 +68,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                             }
                         }).toArray(CompletableFuture[]::new)), workExecutor)
                 .thenApplyAsync(v -> db.getColumnDao().getFullColumns(account.getId(), DBStatus.LOCAL_EDITED), db.getParallelExecutor())
-                .thenAcceptAsync(columnsToUpdate -> CompletableFuture.allOf(columnsToUpdate.stream().map(fullColumn -> {
+                .thenComposeAsync(columnsToUpdate -> CompletableFuture.allOf(columnsToUpdate.stream().map(fullColumn -> {
                     final var column = fullColumn.getColumn();
 
                     Log.i(TAG, "--- → PUT/POST: " + column.getTitle());
@@ -124,7 +124,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account) {
         return supplyAsync(() -> db.getTableDao().getTables(account.getId()), db.getParallelExecutor())
-                .thenAcceptAsync(tables -> CompletableFuture.allOf(tables.stream().map(table ->
+                .thenComposeAsync(tables -> CompletableFuture.allOf(tables.stream().map(table ->
                         this.getTableRemoteIdOrThrow(table, Column.class)
                                 .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().getColumns(ENodeTypeV2Dto.TABLE, tableRemoteId)), workExecutor)
                                 .thenComposeAsync(response -> switch (response.code()) {

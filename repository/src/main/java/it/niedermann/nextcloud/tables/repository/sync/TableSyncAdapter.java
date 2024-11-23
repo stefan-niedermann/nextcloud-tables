@@ -39,7 +39,7 @@ class TableSyncAdapter extends AbstractSyncAdapter {
     public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
         return runAsync(() -> Log.v(TAG, "Pushing local changes for " + account.getAccountName()), workExecutor)
                 .thenApplyAsync(v -> db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
-                .thenAcceptAsync(deletedTables -> CompletableFuture.allOf(deletedTables.stream()
+                .thenComposeAsync(deletedTables -> CompletableFuture.allOf(deletedTables.stream()
                         .peek(table -> Log.i(TAG, "→ DELETE: " + table.getTitle()))
                         .map(table -> {
                             if (table.getRemoteId() == null) {
@@ -61,7 +61,7 @@ class TableSyncAdapter extends AbstractSyncAdapter {
                             }
                         }).toArray(CompletableFuture[]::new)), workExecutor)
                 .thenApplyAsync(v -> db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_EDITED), db.getParallelExecutor())
-                .thenAcceptAsync(changedTables -> CompletableFuture.allOf(changedTables.stream()
+                .thenComposeAsync(changedTables -> CompletableFuture.allOf(changedTables.stream()
                         .peek(table -> Log.i(TAG, "→ PUT/POST: " + table.getTitle()))
                         .map(table -> executeNetworkRequest(account, apis -> table.getRemoteId() == null
                                 ? apis.apiV2().createTable(table.getTitle(),

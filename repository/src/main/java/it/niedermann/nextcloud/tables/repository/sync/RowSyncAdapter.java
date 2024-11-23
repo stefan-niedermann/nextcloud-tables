@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullData;
@@ -72,7 +73,8 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                 }
                             }).toArray(CompletableFuture[]::new));
                 }, workExecutor)
-                .thenApplyAsync(v -> db.getRowDao().getLocallyEditedRows(account.getId()), db.getParallelExecutor())
+                .thenApplyAsync(v -> account.getId(), workExecutor)
+                .thenApplyAsync(db.getRowDao()::getLocallyEditedRows, db.getParallelExecutor())
                 .thenComposeAsync(fullRowsToUpdate -> {
                     Log.v(TAG, "------ Pushing " + fullRowsToUpdate.size() + " local row changes for " + account.getAccountName());
 
@@ -199,34 +201,19 @@ class RowSyncAdapter extends AbstractSyncAdapter {
 
                                     return fullRow;
                                 }, workExecutor)
-                                        .thenApplyAsync(fullRow -> new Pair<>(fullRow, Optional
-                                                .ofNullable(fullRow.getRow().getRemoteId())
+                                        .thenApplyAsync(fullRow -> new Pair<>(fullRow, Optional.of(fullRow)
+                                                .map(FullRow::getRow)
+                                                .map(Row::getRemoteId)
                                                 .map(remoteId -> db.getRowDao().getRowId(table.getId(), remoteId))
                                         ), db.getParallelExecutor())
                                         .thenComposeAsync(rowAndRowId -> upsertRow(rowAndRowId.first, rowAndRowId.second.orElse(null)), workExecutor)
-                                        .thenApplyAsync(fullRow -> CompletableFuture.allOf(fullRow
+                                        .thenComposeAsync(fullRow -> CompletableFuture.allOf(fullRow
                                                         .getFullData().stream()
                                                         .map(FullData::getData)
                                                         .map(data -> supplyAsync(fullRow.getRow()::getId, workExecutor)
                                                                 .thenAcceptAsync(data::setRowId, workExecutor)
-                                                                .thenComposeAsync(v -> {
-                                                                    if (columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
-                                                                        final var existingData = Optional.ofNullable(db.getDataDao().getDataIdForCoordinates(data.getColumnId(), data.getRowId()));
-                                                                        if (existingData.isEmpty()) {
-                                                                            return supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
-                                                                                    .thenAcceptAsync(data::setId);
-
-                                                                        } else {
-                                                                            data.setId(existingData.get());
-                                                                            return runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor());
-                                                                        }
-
-                                                                    } else {
-                                                                        // Data deletion is handled by database constraints
-                                                                        Log.w(TAG, "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
-                                                                        return CompletableFuture.completedFuture(null);
-                                                                    }
-                                                                }, workExecutor)).toArray(CompletableFuture[]::new))
+                                                                .thenComposeAsync(v -> upsertData(data, columnRemoteAndLocalIds), workExecutor))
+                                                        .toArray(CompletableFuture[]::new))
                                                 .thenComposeAsync(v -> {
                                                     target.add(fullRow.getRow().getId());
                                                     return CompletableFuture.<Void>completedFuture(null);
@@ -278,5 +265,30 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                         .map(FullData::getData)
                         .forEach(data -> data.setRowId(actualRowId)))
                 .thenApplyAsync(actualRowId -> fullRow, workExecutor);
+    }
+
+    @NonNull
+    public CompletableFuture<Void> upsertData(@NonNull final Data data,
+                                              @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
+        return CompletableFuture.completedFuture(null)
+                .thenComposeAsync(v -> {
+                    if (columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
+                        final var existingData = Optional.ofNullable(db.getDataDao().getDataIdForCoordinates(data.getColumnId(), data.getRowId()));
+                        if (existingData.isEmpty()) {
+                            return supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
+                                    .thenAcceptAsync(data::setId);
+
+                        } else {
+                            data.setId(existingData.get());
+                            return runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor());
+                        }
+
+                    } else {
+                        // Data deletion is handled by database constraints
+                        Log.w(TAG, "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
+                        return CompletableFuture.completedFuture(null);
+                    }
+
+                }, workExecutor);
     }
 }
