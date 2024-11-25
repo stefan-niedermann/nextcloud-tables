@@ -100,7 +100,7 @@ public abstract class AbstractSyncAdapter {
             final var tableRemoteId = table.getRemoteId();
 
             if (tableRemoteId == null) {
-                throw new IllegalStateException("Expected table remote ID to be present when pushing " + entityType.getSimpleName() + " changes, but was null");
+                throw new IllegalStateException("Expected " + Table.class.getSimpleName() + " remote ID to be present when pushing " + entityType.getSimpleName() + " changes, but was null");
             }
 
             return tableRemoteId;
