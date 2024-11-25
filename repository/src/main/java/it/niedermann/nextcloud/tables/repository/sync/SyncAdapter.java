@@ -7,8 +7,10 @@ import android.util.Log;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -26,10 +28,10 @@ public class SyncAdapter {
     private final AbstractSyncAdapter columnSyncAdapter;
     private final AbstractSyncAdapter rowSyncAdapter;
 
-    @Nullable
-    private static CompletableFuture<Void> currentSync = null;
-    @Nullable
-    private static CompletableFuture<Void> scheduledSync = null;
+    @NonNull
+    private final static Map<Long, CompletableFuture<Void>> currentSyncs = new HashMap<>(1);
+    @NonNull
+    private final static Map<Long, CompletableFuture<Void>> scheduledSyncs = new HashMap<>(1);
 
     public SyncAdapter(@NonNull Context context) {
         this(ForkJoinPool.commonPool(),
@@ -57,65 +59,75 @@ public class SyncAdapter {
     }
 
     @AnyThread
-    public synchronized CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {
+    public CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {
         synchronized (SyncAdapter.this) {
-            if (currentSync == null && scheduledSync == null) {
+            final long accountId = account.getId();
+            final boolean currentSyncActive = currentSyncs.containsKey(accountId);
+            final boolean nextSyncScheduled = scheduledSyncs.containsKey(accountId);
+            final boolean noSyncActive = !currentSyncActive && !nextSyncScheduled;
+            final boolean currentSyncActiveButNoSyncScheduled = currentSyncActive && !nextSyncScheduled;
+            final boolean currentSyncActiveAndAnotherSyncIsScheduled = currentSyncActive && nextSyncScheduled;
+
+            if (noSyncActive) {
 
                 // Currently no sync is active. let's start one!
 
                 Log.i(TAG, "Scheduled (currently none active)");
 
-                currentSync = synchronize(account)
+                currentSyncs.put(accountId, synchronize(account)
                         .whenCompleteAsync((result, exception) -> {
                             synchronized (SyncAdapter.this) {
                                 Log.i(TAG, "Current sync finished.");
-                                currentSync = null;
+                                currentSyncs.remove(accountId);
                             }
-                        });
+                        }, workExecutor));
 
-                return currentSync;
+                return currentSyncs.get(accountId);
 
-            } else if (scheduledSync == null) {
+            } else if (currentSyncActiveButNoSyncScheduled) {
 
                 // There is a sync in progress, but no scheduled sync.
                 // Let's schedule a sync that waits for the current sync being done and then switches the scheduledSync to the current
 
                 Log.i(TAG, "Scheduled to the end of the current one.");
 
-                scheduledSync = currentSync
+                scheduledSyncs.put(accountId, Objects.requireNonNull(currentSyncs.get(accountId))
                         .whenCompleteAsync((result, exception) -> {
                             synchronized (SyncAdapter.this) {
                                 Log.i(TAG, "Scheduled now becomes current one.");
-                                currentSync = scheduledSync;
-                                scheduledSync = null;
+                                currentSyncs.put(accountId, scheduledSyncs.get(accountId));
+                                scheduledSyncs.remove(accountId);
                             }
                         }, workExecutor)
                         .thenComposeAsync(v -> synchronize(account), workExecutor)
-                        .whenCompleteAsync((v, throwable) -> currentSync = null, workExecutor);
+                        .thenAcceptAsync(v -> {
+                            synchronized (SyncAdapter.this) {
+                                Log.i(TAG, "Current sync finished.");
+                                currentSyncs.remove(accountId);
+                            }
+                        }, workExecutor));
 
-                return scheduledSync;
+                return scheduledSyncs.get(accountId);
 
-            } else if (currentSync == null) {
-
-                // It should not be possible to have a scheduled sync but no actively running one
-
-                final var future = new CompletableFuture<Void>();
-                future.completeExceptionally(new IllegalStateException("currentSync is null but scheduledSync is not null."));
-                return future;
-
-            } else {
+            } else if (currentSyncActiveAndAnotherSyncIsScheduled) {
 
                 // There is a sync in progress and a scheduled one. It is safe to simply return the scheduled one.
 
                 Log.i(TAG, "Returned scheduled one");
 
-                return scheduledSync;
+                return scheduledSyncs.get(accountId);
+
             }
         }
+
+        // It should not be possible to have a scheduled sync but no actively running one
+
+        final var future = new CompletableFuture<Void>();
+        future.completeExceptionally(new IllegalStateException("currentSync is null but scheduledSync is not null."));
+        return future;
     }
 
 
-    @AnyThread
     private CompletableFuture<Void> synchronize(@NonNull Account account) {
         return runAsync(() -> Log.i(TAG, "Start " + account.getAccountName()), workExecutor)
                 .thenComposeAsync(v ->
