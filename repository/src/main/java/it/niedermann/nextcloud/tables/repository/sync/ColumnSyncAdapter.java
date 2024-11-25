@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
@@ -41,9 +42,8 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
         this.columnRequestV1Mapper = new ColumnRequestV1Mapper();
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pushLocalChanges(@NonNull Account account) {
         return runAsync(() -> Log.v(TAG, "--- Pushing local columns for " + account.getAccountName()), workExecutor)
                 .thenApplyAsync(v -> db.getColumnDao().getFullColumns(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
                 .thenComposeAsync(columnsToDelete -> CompletableFuture.allOf(columnsToDelete.stream()
@@ -62,7 +62,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
 
                                             } else {
                                                 serverErrorHandler.responseToException(response, "Could not delete column " + column.getTitle(), true).ifPresent(this::throwError);
-                                                return CompletableFuture.completedFuture(null);
+                                                return completedFuture(null);
                                             }
                                         });
                             }
@@ -91,13 +91,13 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
 
                                     } else {
                                         serverErrorHandler.responseToException(response, "Could not push local changes for column " + column.getTitle(), true).ifPresent(this::throwError);
-                                        return CompletableFuture.completedFuture(null);
+                                        return completedFuture(null);
                                     }
                                 }, workExecutor);
                     } else {
                         final var columnDtos = columnRequestV1Mapper.apply(fullColumn);
                         return this.executeNetworkRequest(account, apis -> apis.apiV1().updateColumn(column.getRemoteId(), columnDtos))
-                                .thenApplyAsync(response -> {
+                                .thenComposeAsync(response -> {
                                     Log.i(TAG, "--- → HTTP " + response.code());
                                     if (response.isSuccessful()) {
                                         column.setStatus(DBStatus.VOID);
@@ -112,17 +112,17 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
 
                                     } else {
                                         serverErrorHandler.responseToException(response, "Could not push local changes for column " + column.getTitle(), true).ifPresent(this::throwError);
-                                        return CompletableFuture.completedFuture(null);
+                                        return completedFuture(null);
                                     }
 
                                 }, workExecutor);
                     }
-                }).toArray(CompletableFuture[]::new)), workExecutor);
+                }).toArray(CompletableFuture[]::new)), workExecutor)
+                .thenApplyAsync(v -> account, workExecutor);
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pullRemoteChanges(@NonNull Account account) {
         return supplyAsync(() -> db.getTableDao().getTables(account.getId()), db.getParallelExecutor())
                 .thenComposeAsync(tables -> CompletableFuture.allOf(tables.stream().map(table ->
                         this.getTableRemoteIdOrThrow(table, Column.class)
@@ -186,9 +186,10 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
                                     }
                                     default -> {
                                         serverErrorHandler.responseToException(response, "At table remote ID: " + table.getRemoteId(), true).ifPresent(this::throwError);
-                                        yield CompletableFuture.completedFuture(null);
+                                        yield completedFuture(null);
                                     }
                                 })
-                ).toArray(CompletableFuture[]::new)), workExecutor);
+                ).toArray(CompletableFuture[]::new)), workExecutor)
+                .thenApplyAsync(v -> account, workExecutor);
     }
 }

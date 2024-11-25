@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -16,16 +18,14 @@ class UserSyncAdapter extends AbstractSyncAdapter {
         super(context);
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pushLocalChanges(@NonNull Account account) {
         // Users can't be changed locally
-        return CompletableFuture.completedFuture(null);
+        return completedFuture(account);
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pullRemoteChanges(@NonNull Account account) {
         return executeNetworkRequest(account, apis -> apis.ocs().getUser(account.getUserName()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {
@@ -46,6 +46,7 @@ class UserSyncAdapter extends AbstractSyncAdapter {
                         yield account;
                     }
                 })
-                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor());
+                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor())
+                .thenApplyAsync(v -> account, workExecutor);
     }
 }

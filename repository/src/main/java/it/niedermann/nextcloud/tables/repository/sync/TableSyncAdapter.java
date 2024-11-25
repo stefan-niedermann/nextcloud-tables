@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
@@ -34,9 +35,8 @@ class TableSyncAdapter extends AbstractSyncAdapter {
         this.tableMapper = new TableV2Mapper();
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pushLocalChanges(@NonNull Account account) {
         return runAsync(() -> Log.v(TAG, "Pushing local changes for " + account.getAccountName()), workExecutor)
                 .thenApplyAsync(v -> db.getTableDao().getTables(account.getId(), DBStatus.LOCAL_DELETED), db.getParallelExecutor())
                 .thenComposeAsync(deletedTables -> CompletableFuture.allOf(deletedTables.stream()
@@ -55,7 +55,7 @@ class TableSyncAdapter extends AbstractSyncAdapter {
 
                                             } else {
                                                 serverErrorHandler.responseToException(response, "Could not delete table " + table.getTitle(), false).ifPresent(this::throwError);
-                                                return CompletableFuture.completedFuture(null);
+                                                return completedFuture(null);
                                             }
                                         }, workExecutor);
                             }
@@ -87,14 +87,14 @@ class TableSyncAdapter extends AbstractSyncAdapter {
 
                                     } else {
                                         serverErrorHandler.responseToException(response, "Could not push local changes for table " + table.getTitle(), false).ifPresent(this::throwError);
-                                        return CompletableFuture.completedFuture(null);
+                                        return completedFuture(null);
                                     }
-                                }, workExecutor)).toArray(CompletableFuture[]::new)), workExecutor);
+                                }, workExecutor)).toArray(CompletableFuture[]::new)), workExecutor)
+                .thenApplyAsync(v -> account, workExecutor);
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pullRemoteChanges(@NonNull Account account) {
         return executeNetworkRequest(account, apis -> apis.apiV2().getTables())
                 .thenComposeAsync(response -> {
                     final Collection<Table> fetchedTables;
@@ -148,6 +148,7 @@ class TableSyncAdapter extends AbstractSyncAdapter {
                             }).toArray(CompletableFuture[]::new)), workExecutor)
                             .thenAcceptAsync(v -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
                             .thenAcceptAsync(v -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSequentialExecutor());
-                }, workExecutor);
+                }, workExecutor)
+                .thenApplyAsync(v -> account, workExecutor);
     }
 }

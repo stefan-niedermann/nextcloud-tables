@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
@@ -46,9 +47,8 @@ class RowSyncAdapter extends AbstractSyncAdapter {
         this.fetchRowMapper = fetchRowMapper;
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pushLocalChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pushLocalChanges(@NonNull Account account) {
         return supplyAsync(() -> db.getRowDao().getLocallyDeletedRows(account.getId()), db.getParallelExecutor())
                 .thenComposeAsync(rowsToDelete -> {
                     Log.v(TAG, "------ Pushing " + rowsToDelete.size() + " local row deletions for " + account.getAccountName());
@@ -67,7 +67,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                                     return runAsync(() -> db.getRowDao().delete(row), db.getSequentialExecutor());
                                                 } else {
                                                     serverErrorHandler.responseToException(response, "Could not delete row " + row.getRemoteId(), false).ifPresent(this::throwError);
-                                                    return CompletableFuture.completedFuture(null);
+                                                    return completedFuture(null);
                                                 }
                                             });
                                 }
@@ -106,7 +106,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
 
                                                 } else {
                                                     serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
-                                                    return CompletableFuture.completedFuture(null);
+                                                    return completedFuture(null);
                                                 }
                                             });
 
@@ -127,17 +127,17 @@ class RowSyncAdapter extends AbstractSyncAdapter {
 
                                                 } else {
                                                     serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
-                                                    return CompletableFuture.completedFuture(null);
+                                                    return completedFuture(null);
                                                 }
                                             });
                                 }
                             }).toArray(CompletableFuture[]::new));
-                }, workExecutor);
+                }, workExecutor)
+                .thenApplyAsync(v -> account, workExecutor);
     }
 
-    @NonNull
     @Override
-    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account) {
+    public @NonNull CompletableFuture<Account> pullRemoteChanges(@NonNull Account account) {
         return supplyAsync(() -> db.getTableDao().getTablesWithReadPermission(account.getId()), db.getParallelExecutor())
                 .thenComposeAsync(tables -> {
                     final var version = account.getTablesVersion();
@@ -170,7 +170,8 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                     }, workExecutor)
                                     .thenAcceptAsync(existingRowIds -> existingRowIds.forEach(db.getRowDao()::delete), db.getSequentialExecutor())
                     ).toArray(CompletableFuture[]::new));
-                });
+                })
+                .thenApplyAsync(v -> account, workExecutor);
     }
 
 
@@ -220,7 +221,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                                 }, workExecutor), workExecutor)).toArray(CompletableFuture[]::new))
                                 .thenComposeAsync(v -> {
                                     if (rowDtos.size() < TablesV1API.DEFAULT_API_LIMIT_ROWS) {
-                                        return CompletableFuture.completedFuture(null);
+                                        return completedFuture(null);
                                     }
 
                                     final var newOffset = offset + rowDtos.size();
@@ -270,7 +271,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
     @NonNull
     public CompletableFuture<Void> upsertData(@NonNull final Data data,
                                               @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
-        return CompletableFuture.completedFuture(null)
+        return completedFuture(null)
                 .thenComposeAsync(v -> {
                     if (columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
                         final var existingData = Optional.ofNullable(db.getDataDao().getDataIdForCoordinates(data.getColumnId(), data.getRowId()));
@@ -286,7 +287,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                     } else {
                         // Data deletion is handled by database constraints
                         Log.w(TAG, "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
-                        return CompletableFuture.completedFuture(null);
+                        return completedFuture(null);
                     }
 
                 }, workExecutor);

@@ -47,10 +47,10 @@ public abstract class AbstractSyncAdapter {
     }
 
     @NonNull
-    public abstract CompletableFuture<?> pushLocalChanges(@NonNull Account account);
+    public abstract CompletableFuture<Account> pushLocalChanges(@NonNull Account account);
 
     @NonNull
-    public abstract CompletableFuture<?> pullRemoteChanges(@NonNull Account account);
+    public abstract CompletableFuture<Account> pullRemoteChanges(@NonNull Account account);
 
     /**
      * Convenience method to catch the checked {@link IOException} when running the
