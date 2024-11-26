@@ -23,7 +23,9 @@ public class NumberRemoteMapper extends DataV1Mapper {
     public JsonElement toRemoteValue(@NonNull FullData entity,
                                      @NonNull EDataType dataType,
                                      @NonNull TablesVersion version) {
-        return Optional.of(entity.getData())
+        return Optional
+                .of(entity)
+                .map(FullData::getData)
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
                 .map(Math::round)

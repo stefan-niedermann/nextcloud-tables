@@ -25,7 +25,9 @@ public class SelectionCheckDataV1Mapper extends DataV1Mapper {
     public JsonElement toRemoteValue(@NonNull FullData entity,
                                      @NonNull EDataType dataType,
                                      @NonNull TablesVersion version) {
-        return Optional.ofNullable(entity.getData())
+        return Optional
+                .of(entity)
+                .map(FullData::getData)
                 .map(Data::getValue)
                 .map(Value::getBooleanValue)
                 .map(TRUE::equals)

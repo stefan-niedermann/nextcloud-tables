@@ -47,18 +47,18 @@ public class FetchRowResponseV1Mapper {
 
                 final var column = optionalColumn.get();
                 final var service = registry.getService(column.getDataType());
-                final var entity = service.toData(dataDto.value(), column.getRemoteId(), column.getDataType(), tablesVersion);
+                final var fullData = service.toData(dataDto.value(), column.getRemoteId(), column.getDataType(), tablesVersion);
 
-                entity.getData().setAccountId(accountId);
-                entity.getData().setColumnId(column.getId());
-                entity.setDataType(column.getDataType());
+                fullData.getData().setAccountId(accountId);
+                fullData.getData().setColumnId(column.getId());
+                fullData.setDataType(column.getDataType());
 
-                for (final var selectionOption : entity.getSelectionOptions()) {
+                for (final var selectionOption : fullData.getSelectionOptions()) {
                     selectionOption.setAccountId(accountId);
                     selectionOption.setColumnId(column.getId());
                 }
 
-                fullDataList.add(entity);
+                fullDataList.add(fullData);
             }
         });
 

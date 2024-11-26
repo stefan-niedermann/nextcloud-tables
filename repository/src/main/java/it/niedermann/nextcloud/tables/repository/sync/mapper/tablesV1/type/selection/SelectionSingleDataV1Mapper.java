@@ -26,7 +26,9 @@ public class SelectionSingleDataV1Mapper extends DataV1Mapper {
     public JsonElement toRemoteValue(@NonNull FullData entity,
                                      @NonNull EDataType dataType,
                                      @NonNull TablesVersion version) {
-        return Optional.ofNullable(entity.getSelectionOptions())
+        return Optional
+                .of(entity)
+                .map(FullData::getSelectionOptions)
                 .map(List::stream)
                 .flatMap(Stream::findAny)
                 .map(SelectionOption::getRemoteId)

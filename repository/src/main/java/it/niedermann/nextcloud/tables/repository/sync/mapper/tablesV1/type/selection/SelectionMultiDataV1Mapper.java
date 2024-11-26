@@ -28,8 +28,10 @@ public class SelectionMultiDataV1Mapper extends DataV1Mapper {
                                      @NonNull TablesVersion version) {
         final var selectionRemoteIds = new JsonArray();
 
-        Optional.ofNullable(entity.getSelectionOptions())
-                .orElse(Collections.emptyList())
+        Optional
+                .of(entity)
+                .map(FullData::getSelectionOptions)
+                .orElseGet(Collections::emptyList)
                 .stream()
                 .map(AbstractRemoteEntity::getRemoteId)
                 .forEach(selectionRemoteIds::add);

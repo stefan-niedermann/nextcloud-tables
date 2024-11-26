@@ -149,22 +149,19 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                     db.getColumnDao().getNotDeletedRemoteIdsAndColumns(table.getId()),
                                     db.getColumnDao().getColumnRemoteAndLocalIds(table.getId())
                             ), db.getParallelExecutor())
-                                    .thenComposeAsync(columnsAndIdMap -> {
-                                        final var columns = columnsAndIdMap.first;
-                                        final var columnRemoteAndLocalIds = columnsAndIdMap.second;
-                                        final var fetchedRowIds = ConcurrentHashMap.<Long>newKeySet(columnRemoteAndLocalIds.values().size());
-
-                                        return fetchRowsIntoTarget(account, table, 0, fetchedRowIds, columns, columnRemoteAndLocalIds)
-                                                .thenApplyAsync(v -> fetchedRowIds, workExecutor);
-                                    }, workExecutor)
+                                    .thenComposeAsync(columnsAndIdMap -> fetchAndPersistRows(
+                                            account, table, 0,
+                                            ConcurrentHashMap.newKeySet(columnsAndIdMap.second.values().size()),
+                                            columnsAndIdMap.first,
+                                            columnsAndIdMap.second), workExecutor)
                                     .thenApplyAsync(fetchedRowIds -> new Pair<>(fetchedRowIds, db.getRowDao().getIds(table.getId())), db.getParallelExecutor())
                                     .thenApplyAsync(pair -> {
                                         final var fetchedRowIds = pair.first;
                                         final var existingRowIds = pair.second;
 
-                                        final var rowIdsToDelete = new HashSet<Long>(existingRowIds);
+                                        final var rowIdsToDelete = new HashSet<>(existingRowIds);
                                         rowIdsToDelete.removeAll(fetchedRowIds);
-                                        Log.v(TAG, "Deleting rows with local ID in " + rowIdsToDelete);
+                                        Log.i(TAG, "------ ← Delete rows with local ID in " + rowIdsToDelete);
 
                                         return rowIdsToDelete;
                                     }, workExecutor)
@@ -175,13 +172,14 @@ class RowSyncAdapter extends AbstractSyncAdapter {
     }
 
 
+    /// @return Collection of [Row#id]s that have been fetched and persisted
     @NonNull
-    private CompletableFuture<Void> fetchRowsIntoTarget(@NonNull final Account account,
-                                                        @NonNull final Table table,
-                                                        final int offset,
-                                                        @NonNull final Collection<Long> target,
-                                                        @NonNull final Map<Long, Column> columns,
-                                                        @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
+    private CompletableFuture<Collection<Long>> fetchAndPersistRows(@NonNull final Account account,
+                                                                    @NonNull final Table table,
+                                                                    final int offset,
+                                                                    @NonNull final Collection<Long> target,
+                                                                    @NonNull final Map<Long, Column> columns,
+                                                                    @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
         return this.getTableRemoteIdOrThrow(table, Row.class)
                 .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
                 .thenComposeAsync(response -> switch (response.code()) {
@@ -211,9 +209,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                         .thenComposeAsync(fullRow -> CompletableFuture.allOf(fullRow
                                                         .getFullData().stream()
                                                         .map(FullData::getData)
-                                                        .map(data -> supplyAsync(fullRow.getRow()::getId, workExecutor)
-                                                                .thenAcceptAsync(data::setRowId, workExecutor)
-                                                                .thenComposeAsync(v -> upsertData(data, columnRemoteAndLocalIds), workExecutor))
+                                                        .map(data -> upsertData(data, columnRemoteAndLocalIds))
                                                         .toArray(CompletableFuture[]::new))
                                                 .thenComposeAsync(v -> {
                                                     target.add(fullRow.getRow().getId());
@@ -221,21 +217,21 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                                 }, workExecutor), workExecutor)).toArray(CompletableFuture[]::new))
                                 .thenComposeAsync(v -> {
                                     if (rowDtos.size() < TablesV1API.DEFAULT_API_LIMIT_ROWS) {
-                                        return completedFuture(null);
+                                        return completedFuture(target);
                                     }
 
                                     final var newOffset = offset + rowDtos.size();
-                                    return fetchRowsIntoTarget(account, table, newOffset, target, columns, columnRemoteAndLocalIds);
+                                    return fetchAndPersistRows(account, table, newOffset, target, columns, columnRemoteAndLocalIds);
                                 }, workExecutor);
                     }
 
                     default: {
-                        final var future = new CompletableFuture<Void>();
+                        final var future = new CompletableFuture<Collection<Long>>();
                         serverErrorHandler
                                 .responseToException(response, "Could not fetch rows for table with remote ID " + table.getRemoteId(), true)
                                 .ifPresentOrElse(
                                         future::completeExceptionally,
-                                        () -> future.complete(null));
+                                        () -> future.complete(target));
                         yield future;
                     }
                 }, workExecutor);
@@ -250,7 +246,9 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                     if (potentialRowId == null) {
 
                         Log.i(TAG, "------ ← Adding row " + row.getRemoteId() + " to database");
-                        return supplyAsync(() -> db.getRowDao().insert(row), db.getSequentialExecutor());
+                        return supplyAsync(() -> db.getRowDao().insert(row), db.getSequentialExecutor())
+                                .thenAcceptAsync(row::setId, workExecutor)
+                                .thenApplyAsync(v -> row.getId(), workExecutor);
 
                     } else {
 
@@ -258,13 +256,13 @@ class RowSyncAdapter extends AbstractSyncAdapter {
 
                         Log.i(TAG, "------ ← Updating row " + row.getRemoteId() + " in database");
                         return runAsync(() -> db.getRowDao().update(row), db.getSequentialExecutor())
-                                .thenApplyAsync(v -> potentialRowId);
+                                .thenApplyAsync(v -> potentialRowId, workExecutor);
                     }
 
                 }, workExecutor)
                 .thenAcceptAsync(actualRowId -> fullRow.getFullData().stream()
                         .map(FullData::getData)
-                        .forEach(data -> data.setRowId(actualRowId)))
+                        .forEach(data -> data.setRowId(actualRowId)), workExecutor)
                 .thenApplyAsync(actualRowId -> fullRow, workExecutor);
     }
 

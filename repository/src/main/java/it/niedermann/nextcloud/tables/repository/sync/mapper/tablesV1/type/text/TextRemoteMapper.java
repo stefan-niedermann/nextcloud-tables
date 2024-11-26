@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
-import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 
 import java.util.Optional;
 
@@ -23,10 +23,13 @@ public class TextRemoteMapper extends DataV1Mapper {
     public JsonElement toRemoteValue(@NonNull FullData entity,
                                      @NonNull EDataType dataType,
                                      @NonNull TablesVersion version) {
-        return Optional.ofNullable(entity.getData())
+        return Optional
+                .of(entity)
+                .map(FullData::getData)
                 .map(Data::getValue)
                 .map(Value::getStringValue)
-                .map(JsonParser::parseString)
+                .map(JsonPrimitive::new)
+                .map(JsonElement.class::cast)
                 .orElse(JsonNull.INSTANCE);
     }
 
