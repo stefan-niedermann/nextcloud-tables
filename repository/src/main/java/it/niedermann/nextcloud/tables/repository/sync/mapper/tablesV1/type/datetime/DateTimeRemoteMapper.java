@@ -49,7 +49,7 @@ public class DateTimeRemoteMapper extends DataV1Mapper {
                 .filter(JsonElement::isJsonPrimitive)
                 .map(JsonElement::getAsString)
                 // https://github.com/stefan-niedermann/nextcloud-tables/issues/18
-                .filter(value -> version.isLessThanOrEqual(TablesVersion.V_0_5_0) && !"none".equals(value))
+                .filter(value -> version.isGreaterThan(TablesVersion.V_0_5_0) && !"none".equals(value))
                 .map(TablesV1API.FORMATTER_DATA_DATE_TIME::parse)
                 .map(Instant::from)
                 .ifPresent(data.getValue()::setInstantValue);
