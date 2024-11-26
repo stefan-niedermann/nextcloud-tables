@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import java.time.Instant;
 import java.util.Locale;
@@ -21,6 +22,12 @@ import java.util.Optional;
                         childColumns = "accountId",
                         onDelete = ForeignKey.CASCADE
                 )
+        },
+        indices = {
+                @Index(value = "title"),
+                @Index(value = "isShared"),
+                @Index(value = "manage"),
+                @Index(value = "read"),
         }
 )
 public class Table extends AbstractRemoteEntity {

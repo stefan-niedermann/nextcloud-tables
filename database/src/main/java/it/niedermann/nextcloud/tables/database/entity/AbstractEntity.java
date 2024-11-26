@@ -2,6 +2,8 @@ package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -9,6 +11,11 @@ import java.util.Objects;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 
+@Entity(
+        indices = {
+                @Index(value = "status"),
+        }
+)
 public abstract class AbstractEntity implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

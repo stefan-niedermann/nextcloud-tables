@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Index;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -24,16 +23,9 @@ import java.util.Objects;
                         childColumns = "tableId",
                         onDelete = ForeignKey.CASCADE
                 )
-        },
-        indices = {
-                @Index(name = "IDX_ROW_ACCOUNT_ID_REMOTE_ID", value = {"accountId", "remoteId"}, unique = true),
-                @Index(name = "IDX_ROW_TABLE_ID_REMOTE_ID", value = {"tableId", "remoteId"}, unique = true),
-                @Index(name = "IDX_ROW_TABLE_ID", value = "tableId")
         }
 )
-public class Row extends AbstractRemoteEntity {
-
-    private long tableId;
+public class Row extends AbstractTableRelatedEntity {
 
     @ColumnInfo(defaultValue = "")
     private String createdBy;
@@ -47,14 +39,6 @@ public class Row extends AbstractRemoteEntity {
 
     public Row() {
         // Default constructor
-    }
-
-    public long getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(long tableId) {
-        this.tableId = tableId;
     }
 
     public String getCreatedBy() {
@@ -93,16 +77,15 @@ public class Row extends AbstractRemoteEntity {
     @Override
     public String toString() {
         return "Row{" +
-                "tableId=" + tableId +
+                "accountId=" + accountId +
+                ", remoteId=" + remoteId +
+                ", id=" + id +
+                ", eTag='" + eTag + '\'' +
+                ", status=" + status +
                 ", createdBy='" + createdBy + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastEditBy='" + lastEditBy + '\'' +
                 ", lastEditAt=" + lastEditAt +
-                ", remoteId=" + remoteId +
-                ", accountId=" + accountId +
-                ", id=" + id +
-                ", eTag='" + eTag + '\'' +
-                ", status=" + status +
                 '}';
     }
 
@@ -112,11 +95,11 @@ public class Row extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Row row = (Row) o;
-        return tableId == row.tableId && Objects.equals(createdBy, row.createdBy) && Objects.equals(createdAt, row.createdAt) && Objects.equals(lastEditBy, row.lastEditBy) && Objects.equals(lastEditAt, row.lastEditAt);
+        return Objects.equals(createdBy, row.createdBy) && Objects.equals(createdAt, row.createdAt) && Objects.equals(lastEditBy, row.lastEditBy) && Objects.equals(lastEditAt, row.lastEditAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tableId, createdBy, createdAt, lastEditBy, lastEditAt);
+        return Objects.hash(super.hashCode(), createdBy, createdAt, lastEditBy, lastEditAt);
     }
 }

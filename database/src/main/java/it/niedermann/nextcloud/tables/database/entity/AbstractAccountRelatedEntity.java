@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity(
         inheritSuperIndices = true,
         indices = {
-                @Index(value = {"accountId", "id"}, unique = true)
+                @Index(value = "accountId"),
         }
 )
 public abstract class AbstractAccountRelatedEntity extends AbstractEntity {

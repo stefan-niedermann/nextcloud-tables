@@ -10,8 +10,9 @@ import androidx.room.Index;
 import java.util.Locale;
 import java.util.Objects;
 
-
 @Entity(
+        /// The [#remoteId] of [SelectionOption]s is unique per [Column] but not per [#accountId].
+        /// Inheriting the unique index on [#remoteId] and [#accountId] is therefore not eligible.
         inheritSuperIndices = false,
         foreignKeys = {
                 @ForeignKey(
@@ -28,15 +29,9 @@ import java.util.Objects;
                 )
         },
         indices = {
-                @Index(value = {"accountId", "id"}, unique = true),
-
-                @Index(value = {"accountId", "id", "remoteId"}, unique = true),
-
-                @Index(value = {"columnId", "remoteId"}, unique = true),
-                @Index(value = {"columnId", "remoteId", "id"}, unique = true),
-                @Index(value = {"columnId", "remoteId", "accountId"}, unique = true),
-                @Index(value = {"columnId", "remoteId", "id", "accountId"}, unique = true),
-                @Index(name = "IDX_SELECTION_OPTION_COLUMN_ID", value = "columnId")
+                @Index(value = "accountId"),
+                @Index(value = {"remoteId", "columnId"}, unique = true),
+                @Index(value = "status"),
         }
 )
 public class SelectionOption extends AbstractRemoteEntity implements Comparable<SelectionOption> {
@@ -105,3 +100,4 @@ public class SelectionOption extends AbstractRemoteEntity implements Comparable<
 
 
 }
+

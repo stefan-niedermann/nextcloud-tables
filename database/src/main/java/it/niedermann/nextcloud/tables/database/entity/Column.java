@@ -35,13 +35,10 @@ import it.niedermann.nextcloud.tables.database.model.Value;
                 )
         },
         indices = {
-                @Index(name = "IDX_COLUMN_ACCOUNT_ID_REMOTE_ID", value = {"accountId", "remoteId"}, unique = true),
-                @Index(name = "IDX_COLUMN_TABLE_ID", value = "tableId")
+                @Index(value = "orderWeight"),
         }
 )
-public class Column extends AbstractRemoteEntity {
-
-    private long tableId;
+public class Column extends AbstractTableRelatedEntity {
 
     @ColumnInfo(defaultValue = "")
     private String title = "";
@@ -98,14 +95,6 @@ public class Column extends AbstractRemoteEntity {
         selectionAttributes = new SelectionAttributes();
         textAttributes = new TextAttributes(null, null);
         userGroupAttributes = new UserGroupAttributes(false, false, false, false);
-    }
-
-    public long getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(long tableId) {
-        this.tableId = tableId;
     }
 
     public String getTitle() {
@@ -247,11 +236,11 @@ public class Column extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Column column = (Column) o;
-        return tableId == column.tableId && mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && dataType == column.dataType && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(defaultValue, column.defaultValue) && Objects.equals(numberAttributes, column.numberAttributes) && Objects.equals(dateTimeAttributes, column.dateTimeAttributes) && Objects.equals(selectionAttributes, column.selectionAttributes) && Objects.equals(textAttributes, column.textAttributes) && Objects.equals(userGroupAttributes, column.userGroupAttributes);
+        return mandatory == column.mandatory && Objects.equals(title, column.title) && Objects.equals(createdBy, column.createdBy) && Objects.equals(createdAt, column.createdAt) && Objects.equals(lastEditBy, column.lastEditBy) && Objects.equals(lastEditAt, column.lastEditAt) && dataType == column.dataType && Objects.equals(description, column.description) && Objects.equals(orderWeight, column.orderWeight) && Objects.equals(defaultValue, column.defaultValue) && Objects.equals(numberAttributes, column.numberAttributes) && Objects.equals(dateTimeAttributes, column.dateTimeAttributes) && Objects.equals(selectionAttributes, column.selectionAttributes) && Objects.equals(textAttributes, column.textAttributes) && Objects.equals(userGroupAttributes, column.userGroupAttributes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), tableId, title, createdBy, createdAt, lastEditBy, lastEditAt, dataType, mandatory, description, orderWeight, defaultValue, numberAttributes, dateTimeAttributes, selectionAttributes, textAttributes, userGroupAttributes);
+        return Objects.hash(super.hashCode(), title, createdBy, createdAt, lastEditBy, lastEditAt, dataType, mandatory, description, orderWeight, defaultValue, numberAttributes, dateTimeAttributes, selectionAttributes, textAttributes, userGroupAttributes);
     }
 }

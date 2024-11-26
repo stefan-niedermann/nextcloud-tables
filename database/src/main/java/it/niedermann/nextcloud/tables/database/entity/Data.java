@@ -22,6 +22,12 @@ import it.niedermann.nextcloud.tables.database.model.Value;
                         onDelete = ForeignKey.CASCADE
                 ),
                 @ForeignKey(
+                        entity = Row.class,
+                        parentColumns = "id",
+                        childColumns = "rowId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
                         entity = Column.class,
                         parentColumns = "id",
                         childColumns = "columnId",
@@ -32,26 +38,18 @@ import it.niedermann.nextcloud.tables.database.model.Value;
                         parentColumns = {"accountId", "remoteId"},
                         childColumns = {"accountId", "remoteColumnId"},
                         onDelete = ForeignKey.CASCADE
-                ),
-                @ForeignKey(
-                        entity = Row.class,
-                        parentColumns = "id",
-                        childColumns = "rowId",
-                        onDelete = ForeignKey.CASCADE
                 )
         },
         indices = {
-                @Index(name = "IDX_DATA_ACCOUNT_ID_REMOTE_COLUMN_ID", value = {"accountId", "remoteColumnId"}),
-                @Index(name = "IDX_DATA_COLUMN_ID_ROW_ID", value = {"columnId", "rowId"}, unique = true),
-                @Index(name = "IDX_DATA_COLUMN_ID", value = "columnId"),
-                @Index(name = "IDX_DATA_ROW_ID", value = "rowId")
+                @Index(value = {"accountId", "rowId", "columnId"}, unique = true),
+                @Index(value = {"accountId", "rowId", "remoteColumnId"}, unique = true),
         }
 )
 public class Data extends AbstractAccountRelatedEntity {
 
+    private long rowId;
     private long columnId;
     private long remoteColumnId;
-    private long rowId;
 
     @NonNull
     @Embedded(prefix = "data_")

@@ -6,11 +6,12 @@ import androidx.room.Index;
 
 import java.util.Objects;
 
+/// [AbstractRemoteEntity] implicitly creates an unique index on [#remoteId] and [#accountId].
+/// In case the entity is not unique on an instance, do not inherit super indices.
 @Entity(
         inheritSuperIndices = true,
         indices = {
-                @Index(value = {"accountId", "id", "remoteId"}, unique = true),
-                @Index(value = {"accountId", "remoteId"}, unique = true)
+                @Index(value = {"remoteId", "accountId"}, unique = true),
         }
 )
 public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity {
