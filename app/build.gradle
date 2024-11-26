@@ -77,6 +77,7 @@ android {
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
+    implementation project(path: ':shared')
     implementation project(path: ':database')
     implementation project(path: ':remote')
     implementation project(path: ':repository')

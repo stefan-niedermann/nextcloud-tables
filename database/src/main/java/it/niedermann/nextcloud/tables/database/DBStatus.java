@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 
 import java.util.NoSuchElementException;
 
+import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+
 public enum DBStatus {
 
     VOID(""),
@@ -30,7 +32,7 @@ public enum DBStatus {
             }
         }
 
-        if (BuildConfig.DEBUG) {
+        if (FeatureToggle.STRICT_MODE.enabled) {
             throw new NoSuchElementException("Can not find " + DBStatus.class.getSimpleName() + " with title " + title);
         }
 

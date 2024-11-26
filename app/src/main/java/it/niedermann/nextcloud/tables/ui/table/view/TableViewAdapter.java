@@ -10,8 +10,6 @@ import androidx.annotation.Nullable;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
-import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
@@ -21,6 +19,7 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCornerBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
+import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.table.view.types.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.types.ViewHolderFactory;
 import it.niedermann.nextcloud.tables.ui.table.view.viewholder.ColumnHeaderViewHolder;
@@ -38,23 +37,14 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
     public int getCellItemViewType(int columnPosition) {
         final var fullColumn = getColumnHeaderItem(columnPosition);
         if (fullColumn == null) {
-            if (BuildConfig.DEBUG) {
+            if (FeatureToggle.STRICT_MODE.enabled) {
                 throw new IllegalStateException(FullColumn.class.getSimpleName() + " header item on position " + columnPosition + " is null. Can not determine " + EDataType.class.getSimpleName());
             } else {
                 return EDataType.UNKNOWN.getId();
             }
         }
 
-        final var column = fullColumn.getColumn();
-
-        if (column == null) {
-            if (BuildConfig.DEBUG) {
-                throw new IllegalStateException(Column.class.getSimpleName() + " header item on position " + columnPosition + " is null. Can not determine " + EDataType.class.getSimpleName());
-            } else {
-                return EDataType.UNKNOWN.getId();
-            }
-        }
-        return column.getDataType().getId();
+        return fullColumn.getColumn().getDataType().getId();
     }
 
     @NonNull

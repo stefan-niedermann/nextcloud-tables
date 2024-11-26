@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import java.util.Optional;
 
-import it.niedermann.nextcloud.tables.BuildConfig;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -14,6 +13,7 @@ import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellStarsBinding;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
+import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.table.view.types.CellViewHolder;
 
 public class StarsCellViewHolder extends CellViewHolder {
@@ -29,7 +29,9 @@ public class StarsCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
         try {
-            final var stars = Optional.ofNullable(fullData.getData())
+            final var stars = Optional
+                    .of(fullData)
+                    .map(FullData::getData)
                     .map(Data::getValue)
                     .map(Value::getDoubleValue)
                     .map(Math::round)
@@ -38,7 +40,7 @@ public class StarsCellViewHolder extends CellViewHolder {
             setStars(stars);
         } catch (NumberFormatException e) {
             setStars(0);
-            if (BuildConfig.DEBUG) {
+            if (FeatureToggle.STRICT_MODE.enabled) {
                 throw e;
             }
         }
@@ -50,7 +52,7 @@ public class StarsCellViewHolder extends CellViewHolder {
             if (child instanceof ImageView) {
                 ((ImageView) child).setImageResource(i < count ? R.drawable.baseline_star_24 : R.drawable.baseline_star_border_24);
             } else {
-                if (BuildConfig.DEBUG) {
+                if (FeatureToggle.STRICT_MODE.enabled) {
                     throw new IllegalStateException("Expected child at position " + i + " to be of type " + ImageView.class.getSimpleName() + " but was " + child.getClass().getSimpleName());
                 }
             }

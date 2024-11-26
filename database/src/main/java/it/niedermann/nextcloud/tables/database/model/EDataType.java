@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import it.niedermann.nextcloud.tables.database.BuildConfig;
+import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
 
 public enum EDataType {
 
@@ -66,7 +66,7 @@ public enum EDataType {
             }
         }
 
-        if (BuildConfig.DEBUG) {
+        if (FeatureToggle.STRICT_MODE.enabled) {
             throw new UnsupportedOperationException("Unknown column type: " + type + "/" + subType);
         }
 

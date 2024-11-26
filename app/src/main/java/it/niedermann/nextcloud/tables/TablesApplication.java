@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
+import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
 import it.niedermann.nextcloud.tables.util.CustomAppGlideModule;
 
 public class TablesApplication extends Application {
@@ -17,7 +18,7 @@ public class TablesApplication extends Application {
     public void onCreate() {
         final var repo = new PreferencesRepository(this);
 
-        if (BuildConfig.DEBUG) {
+        if (FeatureToggle.STRICT_MODE.enabled) {
             enableStrictModeLogging();
         }
 
@@ -44,27 +45,5 @@ public class TablesApplication extends Application {
                 .detectAll()
                 .penaltyLog()
                 .build());
-    }
-
-    public enum FeatureToggle {
-        /**
-         * Some exceptions only affect a part of the app. Enabling {@link #STRICT_MODE} will always
-         * throw all exceptions to make the user aware of the fact that something went wrong.
-         * Disabling this {@link FeatureToggle} can lead to wrongly displayed data.
-         */
-        @SuppressWarnings("JavadocDeclaration")
-        STRICT_MODE(BuildConfig.DEBUG),
-        EDIT_COLUMN(true),
-        CREATE_COLUMN(BuildConfig.DEBUG),
-        DELETE_COLUMN(true),
-        SHARE_TABLE(BuildConfig.DEBUG),
-        SEARCH_IN_TABLE(false),
-        ;
-
-        public final boolean enabled;
-
-        FeatureToggle(boolean enabled) {
-            this.enabled = enabled;
-        }
     }
 }
