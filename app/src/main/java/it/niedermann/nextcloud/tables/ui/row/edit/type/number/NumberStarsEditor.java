@@ -14,12 +14,12 @@ import androidx.annotation.Nullable;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
-import it.niedermann.nextcloud.tables.TablesApplication;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.EditNumberStarsBinding;
+import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.row.edit.type.DataEditView;
 
 public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> {
@@ -85,7 +85,7 @@ public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> {
 
             final var warnMessage = "Value must between " + validRange.getLower() + " and " + validRange.getUpper() + " but was " + value;
 
-            if (TablesApplication.FeatureToggle.STRICT_MODE.enabled) {
+            if (FeatureToggle.STRICT_MODE.enabled) {
                 throw new IllegalArgumentException(warnMessage);
 
             } else {
