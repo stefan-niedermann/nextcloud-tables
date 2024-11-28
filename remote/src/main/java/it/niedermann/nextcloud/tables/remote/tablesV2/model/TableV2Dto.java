@@ -20,7 +20,7 @@ public record TableV2Dto(
         @Nullable String createdBy,
         @Nullable Instant createdAt,
         @Nullable String lastEditBy,
-        @Nullable String lastEditAt,
+        @Nullable Instant lastEditAt,
         @Nullable Boolean isShared,
         @Nullable OnSharePermissionV2Dto onSharePermission
 ) implements Serializable {

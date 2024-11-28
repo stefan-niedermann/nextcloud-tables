@@ -123,6 +123,7 @@ class TableSyncAdapter extends AbstractSyncAdapter {
                         }
                     }
 
+                    //noinspection DataFlowIssue
                     final var tableRemoteIds = fetchedTables.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
                     return supplyAsync(() -> db.getTableDao().getTableRemoteAndLocalIds(account.getId(), tableRemoteIds), db.getParallelExecutor())
                             .thenComposeAsync(tableIds -> CompletableFuture.allOf(fetchedTables.stream().map(table -> {
@@ -149,6 +150,7 @@ class TableSyncAdapter extends AbstractSyncAdapter {
                             .thenAcceptAsync(v -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
                             .thenAcceptAsync(v -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSequentialExecutor());
                 }, workExecutor)
-                .thenApplyAsync(v -> account, workExecutor);
+                .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(account.getId()), db.getParallelExecutor())
+                .thenApplyAsync(v -> account, db.getSequentialExecutor());
     }
 }

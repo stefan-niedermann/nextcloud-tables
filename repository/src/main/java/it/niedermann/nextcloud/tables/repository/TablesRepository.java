@@ -102,6 +102,7 @@ public class TablesRepository extends AbstractRepository {
             return table;
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
+                .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(table.getAccountId()), db.getSequentialExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(table.getAccountId()), db.getParallelExecutor())
                 .thenAcceptAsync(this::synchronize, workExecutor);
     }

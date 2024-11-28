@@ -70,7 +70,6 @@ public class MainViewModel extends AndroidViewModel {
             }
 
             if (account.getCurrentTable() == null) {
-                accountRepository.guessCurrentTable(account);
                 return new MutableLiveData<>(null);
             }
 

@@ -164,15 +164,4 @@ public class AccountRepository extends AbstractRepository {
     public CompletableFuture<Void> deleteAccount(@NonNull Account account) {
         return runAsync(() -> db.getAccountDao().delete(account), db.getSequentialExecutor());
     }
-
-    @NonNull
-    public CompletableFuture<Void> guessCurrentTable(@NonNull Account account) {
-        return supplyAsync(() -> db.getTableDao().getAnyNotDeletedTableId(account.getId()), db.getParallelExecutor())
-                .thenAcceptAsync(tableId -> {
-                    if (tableId != null) {
-                        db.getAccountDao().updateCurrentTable(account.getId(), tableId);
-                        account.setCurrentTable(tableId);
-                    }
-                }, db.getSequentialExecutor());
-    }
 }

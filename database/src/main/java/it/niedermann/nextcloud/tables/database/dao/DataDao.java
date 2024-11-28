@@ -42,12 +42,12 @@ public interface DataDao extends GenericDao<Data> {
 
     @Query("DELETE FROM Data " +
             "WHERE rowId = :rowId " +
-            "AND data_booleanValue = NULL " +
-            "AND data_dateValue = NULL " +
-            "AND data_doubleValue = NULL " +
-            "AND data_instantValue = NULL " +
-            "AND data_stringValue = NULL " +
-            "AND data_timeValue = NULL " +
+            "AND data_booleanValue IS NULL " +
+            "AND data_dateValue IS NULL " +
+            "AND data_doubleValue IS NULL " +
+            "AND data_instantValue IS NULL " +
+            "AND data_stringValue IS NULL " +
+            "AND data_timeValue IS NULL " +
             "AND id NOT IN (" +
             "SELECT xRef.dataId FROM DataSelectionOptionCrossRef xRef " +
             "WHERE xRef.dataId = id " +

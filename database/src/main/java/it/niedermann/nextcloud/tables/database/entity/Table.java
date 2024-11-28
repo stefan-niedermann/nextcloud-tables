@@ -58,7 +58,7 @@ public class Table extends AbstractRemoteEntity {
     private String lastEditBy;
 
     @ColumnInfo(defaultValue = "")
-    private String lastEditAt;
+    private Instant lastEditAt;
 
     private boolean isShared;
 
@@ -164,11 +164,11 @@ public class Table extends AbstractRemoteEntity {
         this.lastEditBy = lastEditBy;
     }
 
-    public String getLastEditAt() {
+    public Instant getLastEditAt() {
         return lastEditAt;
     }
 
-    public void setLastEditAt(String lastEditAt) {
+    public void setLastEditAt(Instant lastEditAt) {
         this.lastEditAt = lastEditAt;
     }
 
