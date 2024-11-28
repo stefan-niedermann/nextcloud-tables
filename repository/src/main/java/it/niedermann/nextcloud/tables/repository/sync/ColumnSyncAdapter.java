@@ -126,7 +126,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter {
         return supplyAsync(() -> db.getTableDao().getTables(account.getId()), db.getParallelExecutor())
                 .thenComposeAsync(tables -> CompletableFuture.allOf(tables.stream().map(table ->
                         this.getTableRemoteIdOrThrow(table, Column.class)
-                                .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().getColumns(ENodeTypeV2Dto.TABLE, tableRemoteId)), workExecutor)
+                                .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().getColumns(ENodeTypeV2Dto.TABLES, tableRemoteId)), workExecutor)
                                 .thenComposeAsync(response -> switch (response.code()) {
                                     case 200 -> {
                                         final var responseBody = response.body();

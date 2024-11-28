@@ -3,8 +3,8 @@ package it.niedermann.nextcloud.tables.remote.tablesV2.model;
 import androidx.annotation.NonNull;
 
 public enum ENodeTypeV2Dto {
-    TABLE("table"),
-    VIEW("view"),
+    TABLES("tables"),
+    VIEWS("views"),
     ;
 
     private final String nodeType;

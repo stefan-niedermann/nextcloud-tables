@@ -32,7 +32,7 @@ public class CreateColumnV2Dto {
                 column.description(),
                 column.subtype(),
                 column.mandatory(),
-                ENodeTypeV2Dto.TABLE,
+                ENodeTypeV2Dto.TABLES,
                 Collections.emptySet()
         );
     }
