@@ -43,6 +43,7 @@ public class TablesRepository extends AbstractRepository {
         this.columnReorderUtil = new ColumnReorderUtil();
     }
 
+    @MainThread
     public LiveData<List<Table>> getNotDeletedTables$(@NonNull Account account, boolean isShared) {
         return new ReactiveLiveData<>(db.getTableDao().getNotDeletedTables$(account.getId(), isShared))
                 .distinctUntilChanged();
@@ -60,14 +61,35 @@ public class TablesRepository extends AbstractRepository {
                 .distinctUntilChanged();
     }
 
+    @MainThread
+    public LiveData<List<FullColumn>> getNotDeletedFullColumns$(@NonNull Table table) {
+        return new ReactiveLiveData<>(db.getColumnDao().getNotDeletedFullColumns$(table.getId()))
+                .distinctUntilChanged();
+    }
+
+    @MainThread
+    public LiveData<List<Data>> getData(@NonNull Table table) {
+        return new ReactiveLiveData<>(db.getDataDao().getData(table.getId()))
+                .distinctUntilChanged();
+    }
+
+    @MainThread
+    public LiveData<FullTable> getFullTable$(long tableId) {
+        return new ReactiveLiveData<>(db.getTableDao().getFullTable$(tableId))
+                .distinctUntilChanged();
+    }
+
     @AnyThread
     @NonNull
     public CompletableFuture<Void> createTable(@NonNull Account account,
                                                @NonNull Table table) {
         return supplyAsync(() -> {
+
             table.setStatus(DBStatus.LOCAL_EDITED);
             table.setAccountId(account.getId());
+
             return table;
+
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::insert, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
@@ -77,6 +99,7 @@ public class TablesRepository extends AbstractRepository {
     public CompletableFuture<Void> updateTable(@NonNull Account account,
                                                @NonNull Table table) {
         return supplyAsync(() -> {
+
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
@@ -84,6 +107,7 @@ public class TablesRepository extends AbstractRepository {
             table.setStatus(DBStatus.LOCAL_DELETED);
 
             return table;
+
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
@@ -93,6 +117,7 @@ public class TablesRepository extends AbstractRepository {
     @AnyThread
     public CompletableFuture<Void> deleteTable(@NonNull Table table) {
         return supplyAsync(() -> {
+
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
@@ -100,6 +125,7 @@ public class TablesRepository extends AbstractRepository {
             table.setStatus(DBStatus.LOCAL_DELETED);
 
             return table;
+
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
                 .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(table.getAccountId()), db.getSequentialExecutor())
@@ -113,15 +139,17 @@ public class TablesRepository extends AbstractRepository {
                                                 @NonNull Table table,
                                                 @NonNull Column column) {
         return supplyAsync(() -> {
+
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
 
-            table.setStatus(DBStatus.LOCAL_DELETED);
+            column.setStatus(DBStatus.LOCAL_EDITED);
             column.setAccountId(account.getId());
 
             return column;
-        })
+
+        }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::synchronize, workExecutor);
@@ -133,6 +161,7 @@ public class TablesRepository extends AbstractRepository {
                                                 @NonNull Table table,
                                                 @NonNull Column column) {
         return supplyAsync(() -> {
+
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
@@ -140,6 +169,7 @@ public class TablesRepository extends AbstractRepository {
             column.setStatus(DBStatus.LOCAL_EDITED);
 
             return column;
+
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
@@ -153,6 +183,7 @@ public class TablesRepository extends AbstractRepository {
                                                  @NonNull List<Long> newColumnOrder) {
         return supplyAsync(() -> db.getColumnDao().getNotDeletedOrderWeights(tableId), db.getParallelExecutor())
                 .thenApplyAsync(originalOrderWeights -> {
+
                     final var newOrderWeights = columnReorderUtil.reorderColumns(originalOrderWeights, newColumnOrder);
                     final var newOrderWeightsDiff = columnReorderUtil.filterChanged(originalOrderWeights, newOrderWeights);
 
@@ -161,6 +192,7 @@ public class TablesRepository extends AbstractRepository {
                     }
 
                     return account;
+
                 }, db.getSequentialExecutor())
                 .thenAcceptAsync(this::synchronize, workExecutor);
     }
@@ -169,6 +201,7 @@ public class TablesRepository extends AbstractRepository {
     @NonNull
     public CompletableFuture<Void> deleteColumn(@NonNull Table table, @NonNull Column column) {
         return supplyAsync(() -> {
+
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
@@ -176,6 +209,7 @@ public class TablesRepository extends AbstractRepository {
             column.setStatus(DBStatus.LOCAL_DELETED);
 
             return column;
+
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(column.getAccountId()), db.getParallelExecutor())
@@ -189,6 +223,7 @@ public class TablesRepository extends AbstractRepository {
                                              @NonNull Row row,
                                              @NonNull Collection<FullData> fullDataSet) {
         return supplyAsync(() -> {
+
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.CREATE));
             }
@@ -197,13 +232,16 @@ public class TablesRepository extends AbstractRepository {
             row.setAccountId(account.getId());
 
             return row;
+
         }, workExecutor)
                 .thenApplyAsync(db.getRowDao()::insert, db.getSequentialExecutor())
                 .thenAcceptAsync(insertedRowId -> {
+
                     for (final var fullData : fullDataSet) {
                         fullData.getData().setRowId(insertedRowId);
                         db.getDataDao().insert(fullData.getData());
                     }
+
                 }, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::synchronize, workExecutor);
@@ -216,6 +254,7 @@ public class TablesRepository extends AbstractRepository {
                                              @NonNull Row row,
                                              @NonNull Collection<FullData> fullDataSet) {
         return supplyAsync(() -> {
+
             if (!table.hasUpdatePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.UPDATE));
             }
@@ -224,9 +263,12 @@ public class TablesRepository extends AbstractRepository {
             row.setAccountId(account.getId());
 
             return row;
+
         }, workExecutor)
                 .thenAcceptAsync(preparedRow -> {
+
                     db.getRowDao().update(preparedRow);
+
                     for (final var data : fullDataSet) {
                         data.getData().setRowId(preparedRow.getId());
                         db.getDataDao().deleteRowIfEmpty(preparedRow.getId());
@@ -242,6 +284,7 @@ public class TablesRepository extends AbstractRepository {
                             data.getData().setId(db.getDataDao().insert(data.getData()));
                         }
                     }
+
                 }, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::synchronize, workExecutor);
@@ -251,6 +294,7 @@ public class TablesRepository extends AbstractRepository {
     @NonNull
     public CompletableFuture<Void> deleteRow(@NonNull Table table, @NonNull Row row) {
         return supplyAsync(() -> {
+
             if (!table.hasDeletePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.DELETE));
             }
@@ -258,16 +302,11 @@ public class TablesRepository extends AbstractRepository {
             row.setStatus(DBStatus.LOCAL_DELETED);
 
             return row;
+
         }, workExecutor)
                 .thenAcceptAsync(db.getRowDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(row.getAccountId()), db.getParallelExecutor())
                 .thenAcceptAsync(this::synchronize, workExecutor);
-    }
-
-    @MainThread
-    public LiveData<List<FullColumn>> getNotDeletedFullColumns$(@NonNull Table table) {
-        return new ReactiveLiveData<>(db.getColumnDao().getNotDeletedFullColumns$(table.getId()))
-                .distinctUntilChanged();
     }
 
     @AnyThread
@@ -276,19 +315,8 @@ public class TablesRepository extends AbstractRepository {
         return supplyAsync(() -> db.getColumnDao().getNotDeletedColumns(table.getId()), db.getParallelExecutor());
     }
 
-    @MainThread
-    public LiveData<List<Data>> getData(@NonNull Table table) {
-        return new ReactiveLiveData<>(db.getDataDao().getData(table.getId()))
-                .distinctUntilChanged();
-    }
-
     @AnyThread
     public CompletableFuture<Map<Long, FullData>> getRawColumnIdAndFullData(long rowId) {
         return supplyAsync(() -> db.getDataDao().getColumnIdAndFullData(rowId), db.getParallelExecutor());
-    }
-
-    @MainThread
-    public LiveData<FullTable> getFullTable$(long tableId) {
-        return db.getTableDao().getFullTable$(tableId);
     }
 }
