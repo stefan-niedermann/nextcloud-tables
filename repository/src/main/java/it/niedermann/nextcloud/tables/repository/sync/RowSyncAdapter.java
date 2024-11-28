@@ -90,8 +90,9 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                 final var dataset = fetchRowMapper.toJsonElement(version, fullRow.getFullData());
 
                                 if (fullRow.getRow().getRemoteId() == null) {
+                                    // TODO maybe preload map of table local / remote IDs?
                                     return supplyAsync(() -> db.getTableDao().getRemoteId(fullRow.getRow().getTableId()), db.getParallelExecutor())
-                                            .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeTypeV2Dto.TABLE, tableRemoteId, dataset)), workExecutor)
+                                            .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeTypeV2Dto.TABLES, tableRemoteId, dataset)), workExecutor)
                                             .thenComposeAsync(response -> {
                                                 if (response.isSuccessful()) {
                                                     fullRow.getRow().setStatus(DBStatus.VOID);

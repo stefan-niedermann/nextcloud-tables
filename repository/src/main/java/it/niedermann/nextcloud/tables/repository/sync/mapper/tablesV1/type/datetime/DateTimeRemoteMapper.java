@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -29,8 +28,7 @@ public class DateTimeRemoteMapper extends DataV1Mapper {
                 .of(entity)
                 .map(FullData::getData)
                 .map(Data::getValue)
-                .map(Value::getStringValue)
-                .map(DateTimeFormatter.ISO_LOCAL_DATE_TIME::parse)
+                .map(Value::getInstantValue)
                 .map(TablesV1API.FORMATTER_DATA_DATE_TIME::format)
                 .map(JsonPrimitive::new)
                 .map(JsonElement.class::cast)
