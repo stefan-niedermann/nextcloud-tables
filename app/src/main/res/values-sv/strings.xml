@@ -77,6 +77,7 @@
     <string name="error_dialog_tip_offline_connection_refused">Anslutningen nekades, kontrollera att din server är nåbar i en webbläsare.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Anslutningen tog för lång tid, kontrollera om du är ansluten till internet. Detta kan också hända när din server är upptagen.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Om du har aktiverat \"Synkronisera enbart med Wi-Fi\" kan du bara synkronisera när du är ansluten till Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Något verkar vara fel med din Nextcloud-app. Försök att tvångsavsluta både Nextcloud- och Nextcloud Tables-apparna.</string>
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
     <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
     <string name="error_dialog_timeout_toggle">Kontrollera din nätverksanslutning. Ibland kan det hjälpa att slå av och på mobildata eller Wi-Fi.</string>
