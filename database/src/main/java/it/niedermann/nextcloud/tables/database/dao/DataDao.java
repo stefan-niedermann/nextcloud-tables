@@ -24,7 +24,6 @@ public interface DataDao extends GenericDao<Data> {
             "ORDER BY r.remoteId, c.remoteId")
     Map<Long, FullData> getColumnIdAndFullData(long rowId);
 
-    // TODO Check for DELETED
     @Query("SELECT d.* FROM Data d " +
             "LEFT JOIN `Row` r ON d.rowId = r.id " +
             "LEFT JOIN `Column` c ON d.columnId = c.id " +

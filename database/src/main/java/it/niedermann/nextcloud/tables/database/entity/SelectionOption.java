@@ -30,6 +30,7 @@ import java.util.Objects;
         },
         indices = {
                 @Index(value = "accountId"),
+                @Index(value = "columnId"),
                 @Index(value = {"remoteId", "columnId"}, unique = true),
                 @Index(value = "status"),
         }

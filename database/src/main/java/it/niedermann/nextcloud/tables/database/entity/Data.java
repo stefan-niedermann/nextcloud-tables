@@ -68,7 +68,6 @@ public class Data extends AbstractAccountRelatedEntity {
         this.accountId = data.getAccountId();
         this.columnId = data.getColumnId();
         this.eTag = data.getETag();
-        this.status = data.getStatus();
     }
 
     public long getColumnId() {
