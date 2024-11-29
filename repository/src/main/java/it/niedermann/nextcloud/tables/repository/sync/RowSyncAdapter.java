@@ -31,20 +31,26 @@ import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.FetchRowResponseV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.CreateRowResponseV2Mapper;
 
 class RowSyncAdapter extends AbstractSyncAdapter {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
-    private final FetchRowResponseV1Mapper fetchRowMapper;
+    private final FetchRowResponseV1Mapper fetchRowV1Mapper;
+    private final CreateRowResponseV2Mapper createRowV2Mapper;
 
     public RowSyncAdapter(@NonNull Context context) {
-        this(context, new FetchRowResponseV1Mapper());
+        this(context,
+                new FetchRowResponseV1Mapper(),
+                new CreateRowResponseV2Mapper());
     }
 
     private RowSyncAdapter(@NonNull Context context,
-                           @NonNull FetchRowResponseV1Mapper fetchRowMapper) {
+                           @NonNull FetchRowResponseV1Mapper fetchRowV1Mapper,
+                           @NonNull CreateRowResponseV2Mapper createRowV2Mapper) {
         super(context);
-        this.fetchRowMapper = fetchRowMapper;
+        this.fetchRowV1Mapper = fetchRowV1Mapper;
+        this.createRowV2Mapper = createRowV2Mapper;
     }
 
     @Override
@@ -87,12 +93,11 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                     return CompletableFuture.allOf(fullRowsToUpdate.stream()
                             .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
                             .map(fullRow -> {
-                                final var dataset = fetchRowMapper.toJsonElement(version, fullRow.getFullData());
-
                                 if (fullRow.getRow().getRemoteId() == null) {
+                                    final var createRowDto = createRowV2Mapper.toCreateRowV2Dto(version, fullRow.getFullData());
                                     // TODO maybe preload map of table local / remote IDs?
                                     return supplyAsync(() -> db.getTableDao().getRemoteId(fullRow.getRow().getTableId()), db.getParallelExecutor())
-                                            .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeTypeV2Dto.TABLES, tableRemoteId, dataset)), workExecutor)
+                                            .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeTypeV2Dto.TABLES, tableRemoteId, createRowDto)), workExecutor)
                                             .thenComposeAsync(response -> {
                                                 if (response.isSuccessful()) {
                                                     fullRow.getRow().setStatus(DBStatus.VOID);
@@ -112,7 +117,8 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                             });
 
                                 } else {
-                                    return executeNetworkRequest(account, apis -> apis.apiV1().updateRow(fullRow.getRow().getRemoteId(), dataset))
+                                    final var createRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
+                                    return executeNetworkRequest(account, apis -> apis.apiV1().updateRow(fullRow.getRow().getRemoteId(), createRowDto))
                                             .thenComposeAsync(response -> {
                                                 Log.i(TAG, "------ → HTTP " + response.code());
 
@@ -192,7 +198,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                         }
 
                         yield CompletableFuture.allOf(rowDtos.stream().map(rowDto -> supplyAsync(() -> {
-                                    final var fullRow = fetchRowMapper.toEntity(account.getId(), rowDto, columns, Objects.requireNonNull(account.getTablesVersion()));
+                                    final var fullRow = fetchRowV1Mapper.toEntity(account.getId(), rowDto, columns, Objects.requireNonNull(account.getTablesVersion()));
 
                                     final var row = fullRow.getRow();
                                     row.setAccountId(table.getAccountId());

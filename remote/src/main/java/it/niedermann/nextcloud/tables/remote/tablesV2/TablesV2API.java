@@ -9,7 +9,6 @@ import static java.time.temporal.ChronoField.YEAR;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.JsonElement;
 import com.nextcloud.android.sso.model.ocs.OcsResponse;
 
 import java.time.format.DateTimeFormatter;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateColumnResponseV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.RowV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.TableV2Dto;
@@ -205,6 +205,6 @@ public interface TablesV2API {
     Call<OcsResponse<RowV2Dto>> createRow(
             @Path("nodeCollection") @NonNull ENodeTypeV2Dto nodeType,
             @Path("nodeId") long tableId,
-            @Query("data") @NonNull JsonElement data);
+            @Query("data") @NonNull CreateRowV2Dto data);
 
 }

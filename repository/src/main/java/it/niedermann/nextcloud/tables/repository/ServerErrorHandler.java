@@ -27,13 +27,17 @@ public class ServerErrorHandler {
         this.context = context;
     }
 
-    public void handle(@NonNull Response<?> response,
-                       @NonNull String message) throws Exception {
-        final var exception = responseToException(response, message, true);
-        if (exception.isPresent()) {
-            throw exception.get();
-        }
-    }
+//    @NonNull
+//    public CompletableFuture<Void> mapResponseToCompletableFuture(@NonNull Response<?> response,
+//                                                                  @NonNull String message,
+//                                                                  boolean tolerateNotModified) {
+//        final var future = CompletableFuture.<Void>completedFuture(null);
+//
+//        responseToException(response, message, tolerateNotModified)
+//                .ifPresent(future::obtrudeException);
+//
+//        return future;
+//    }
 
     @NonNull
     public Optional<Exception> responseToException(@NonNull Response<?> response,
