@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reason_not_installed">Nextcloud Tables is not installed</string>
+    <string name="reason_not_enabled">Nextcloud Tables is not enabled</string>
+    <string name="reason_maintenance_mode">Your Nextcloud instance is currently in maintenance mode</string>
+    <string name="reason_server_error">Your server responded with an invalid response</string>
+    <string name="reason_tables_not_supported">Your Nextcloud Tables app version is not supported</string>
+    <string name="reason_nextcloud_not_supported">Your Nextcloud version is not supported</string>
+    <string name="reason_unknown">An unknown error occurred</string>
+    <string name="reason_offline">You are currently offline. </string>
+</resources>

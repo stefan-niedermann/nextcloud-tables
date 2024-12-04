@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b016d832e1f56d3620bfcc202c4462ef",
+    "identityHash": "fbd843452b0447da6fcce389a8d97840",
     "entities": [
       {
         "tableName": "Account",
@@ -318,7 +318,7 @@
       },
       {
         "tableName": "Column",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `title` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `type` TEXT DEFAULT '', `subtype` TEXT DEFAULT '', `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `numberDefault` REAL, `numberMin` REAL, `numberMax` REAL, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textDefault` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `selectionDefault` TEXT, `datetimeDefault` TEXT, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `title` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `type` TEXT DEFAULT '', `subtype` TEXT DEFAULT '', `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `numberDefault` REAL, `numberMin` REAL, `numberMax` REAL, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textDefault` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `selectionDefault` TEXT, `datetimeDefault` TEXT, `usergroupDefault` TEXT, `usergroupMultipleItems` INTEGER NOT NULL, `usergroupSelectUsers` INTEGER NOT NULL, `usergroupSelectGroups` INTEGER NOT NULL, `showUserStatus` INTEGER NOT NULL, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "tableId",
@@ -457,6 +457,36 @@
             "columnName": "datetimeDefault",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "usergroupDefault",
+            "columnName": "usergroupDefault",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "usergroupMultipleItems",
+            "columnName": "usergroupMultipleItems",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usergroupSelectUsers",
+            "columnName": "usergroupSelectUsers",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usergroupSelectGroups",
+            "columnName": "usergroupSelectGroups",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showUserStatus",
+            "columnName": "showUserStatus",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "remoteId",
@@ -994,7 +1024,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b016d832e1f56d3620bfcc202c4462ef')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fbd843452b0447da6fcce389a8d97840')"
     ]
   }
 }
