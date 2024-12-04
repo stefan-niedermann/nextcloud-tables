@@ -81,25 +81,33 @@
 
     <string name="error_dialog_title">Oh no - E adesso? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Prova a forzare la chiusura dell\'applicazione e riavviarla nuovamente. Potrebbe essersi verificato un problema di connessione all\'applicazione Nextcloud. </string>
+    <string name="error_dialog_tip_clear_storage_might_help">Se il problema persiste, prova a cancellare lo spazio di archiviazione di entrambe le app: Nextcloud e Nextcloud Tables per risolvere il problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">L\'aggiornamento del database non è riuscito. Segnala il problema e cancella l\'archiviazione per utilizzare l\'applicazione normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Puoi a cancellare l\'archiviazione aprendo le informazioni dell\'applicazione e selezionando Archiviazione → Cancella archiviazione.</string>
     <string name="error_dialog_tip_offline_no_internet">Sembra che tu abbia provato a eseguire una sincronizzazione senza connessione internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">Connessione rifiutata, controlla se il tuo server è raggiungibile tramite browser web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Connessione scaduta, verifica la connessione a Internet. Questo può accadere anche quando il tuo server è occupato.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se hai attivato l\'impostazione \"Sincronizza solo con Wi-Fi\", puoi sincronizzare solo quando sei connesso a una rete Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Sembra che ci sia qualcosa che non va nella tua app Nextcloud. Prova a forzare l\'arresto sia dell\'app Nextcloud che dell\'app Nextcloud Tables.</string>
     <string name="error_dialog_tip_files_delete_storage">Se fermarle non aiuta, puoi provare a cancellare l\'archiviazione di entrambe le applicazioni.</string>
     <string name="error_dialog_timeout_instance">Non è stata ricevuta una risposta dal server nel tempo stabilito. Assicurati che la tua istanza sia correttamente in esecuzione.</string>
     <string name="error_dialog_timeout_toggle">Controlla la tua connessione di rete. A volte disattivare e riattivare i dati mobili o Wi-Fi può aiutare.</string>
+    <string name="error_dialog_check_server">La risposta del tuo server non era corretta. Verifica se puoi accedere all\'app Tables tramite l\'interfaccia web.</string>
     <string name="error_dialog_check_server_logs">Si è verificato un problema con la tua installazione di Nextcloud. Controlla nei file di registro del server.</string>
     <string name="error_dialog_check_maintenance">Controlla che la tua istanza di Nextcloud non sia attualmente in manutenzione.</string>
     <string name="error_dialog_insufficient_storage">La tua istanza di Nextcloud non ha più spazio libero. Elimina alcuni file per sincronizzare le modifiche locali con il tuo cloud.</string>
     <string name="error_dialog_we_need_info">Ci servono le seguenti informazioni tecniche per aiutarti:</string>
+    <string name="error_dialog_redirect">Il tuo server ha risposto con un codice di stato HTTP 302, il che implica che non hai installato l\'app Tables sul tuo server o che qualcosa è configurato in modo errato. Ciò può essere causato da override personalizzate in un file .htaccess o da app Nextcloud come OID Client.</string>
+    <string name="error_dialog_forbidden">Non hai autorizzazioni sufficienti. Controlla le tabelle condivise con te e che sono state modificate di recente.</string>
+    <string name="error_dialog_version_not_parsable">Non è stato possibile determinare la versione dell\'app Tables lato server. Assicurati che sia installato e abilitato.</string>
     <string name="error_dialog_account_might_not_be_authorized">L\'account della tua applicazione Nextcloud potrebbe non essere più autorizzato.</string>
     <string name="error_dialog_user_not_found_in_database">L\'utente attuale non corrisponde all\'utente presente nel nostro database. Se stai usando LDAP sulla tua istanza di Nextcloud, la tua applicazione potrebbe aver memorizzato un vecchio identificativo utente.</string>
     <string name="error_dialog_capabilities_not_parsable">Non siamo riusciti a recuperare le funzionalità del tuo server. Assicurati che il server sia in esecuzione e che le altre applicazioni siano in grado di accedere a Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Un allegato non può essere caricato. Prova a condividerlo in un altro modo e informaci di questo problema.</string>
     <string name="error_dialog_certificate">Sembra ci sia qualche problema nel certificato del server. Controlla tutti gli account nell\'applicazione Nextcloud per maggiori informazioni.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Disattiva tutte le ottimizzazioni della batteria per Nextcloud e l\'app Tables.</string>
     <string name="error_dialog_unknown_error">La tua istanza di Nextcloud sembra non essere raggiungibile. Controlla la connessione internet e se riesci a connetterti all\'istanza via browser.</string>
+    <string name="error_dialog_min_version">L\'app Android Tables richiede che l\'app Android Nextcloud sia almeno alla versione 3.18.</string>
     <string name="error_action_open_app_info">Apri informazioni applicazione</string>
     <string name="error_action_open_nextcloud_app">Apri l\'applicazione Nextcloud</string>
     <string name="error_action_open_network">Impostazioni di rete</string>
@@ -138,14 +146,19 @@
     <string name="validation_number_max">Il valore può essere al massimo %1$s</string>
     <string name="validation_text_link">Il valore non rappresenta un link</string>
     <string name="validation_mandatory">Questo campo è obbligatorio</string>
+    <string name="validation_time_missing">È necessario fornire l\'ora per un campo DateTime.</string>
+
     <string name="order_weight">Peso normale</string>
     <string name="add_column">Aggiungi colonna</string>
     <string name="unsupported_column_type">La modifica di colonne di tipo %1$s non è ancora supportata</string>
     <string name="navigation_my_tables">Le mie tabelle</string>
     <string name="navigation_shared_tables">Tabelle condivise</string>
     <string name="could_not_display_column_editor">%1$s non può essere visualizzato.</string>
+    <string name="choose_table_from_the_sidebar">Scegli la tabella dalla barra laterale</string>
     <string name="last_background_sync">Ultima sincronizzazione in background:</string>
     <string name="simple_disabled">disabilitato</string>
     <string name="manage_columns_subtitle">Trascina e rilascia per riordinare</string>
 
-    </resources>
+    <string name="experimental_feature_column_reordering">Il riordino delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni delle colonne di questa tabella.</string>
+    <string name="experimental_feature_column_manage">La modifica delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni di questa colonna.</string>
+</resources>
