@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.database.model;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,7 +11,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Value {
+public class Value implements Serializable {
 
     @Nullable
     private String stringValue;
