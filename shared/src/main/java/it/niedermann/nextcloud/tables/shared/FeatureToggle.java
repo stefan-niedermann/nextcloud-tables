@@ -1,6 +1,4 @@
-package it.niedermann.nextcloud.tables.shared.config;
-
-import it.niedermann.nextcloud.tables.shared.BuildConfig;
+package it.niedermann.nextcloud.tables.shared;
 
 public enum FeatureToggle {
 

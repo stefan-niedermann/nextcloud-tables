@@ -51,7 +51,7 @@ public class SyncWorker extends Worker {
 
             for (final var account : accounts) {
                 try {
-                    accountRepository.synchronize(account).get();
+                    accountRepository.scheduleSynchronization(account).get();
                     latch.await();
                 } catch (Exception e) {
                     e.printStackTrace();

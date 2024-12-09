@@ -29,8 +29,8 @@ public interface DataDao extends GenericDao<Data> {
             "LEFT JOIN `Column` c ON d.columnId = c.id " +
             "WHERE r.tableId = :tableId " +
             "AND c.tableId = :tableId " +
-            "AND c.status != 'LOCAL_DELETED' " +
-            "AND r.status != 'LOCAL_DELETED' " +
+            "AND c.status IS NOT 'LOCAL_DELETED' " +
+            "AND r.status IS NOT 'LOCAL_DELETED' " +
             "ORDER BY r.remoteId, c.orderWeight")
     LiveData<List<Data>> getData(long tableId);
 
@@ -53,6 +53,6 @@ public interface DataDao extends GenericDao<Data> {
             ")")
     void deleteRowIfEmpty(long rowId);
 
-    @Query("SELECT EXISTS(SELECT id FROM Data WHERE columnId = :columnId AND rowId = :rowId)")
+    @Query("SELECT EXISTS(SELECT d.id FROM Data d WHERE d.columnId = :columnId AND d.rowId = :rowId)")
     boolean exists(long columnId, long rowId);
 }

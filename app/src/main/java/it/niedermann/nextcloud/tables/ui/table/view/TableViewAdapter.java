@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCornerBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
-import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.table.view.types.CellViewHolder;
 import it.niedermann.nextcloud.tables.ui.table.view.types.ViewHolderFactory;
 import it.niedermann.nextcloud.tables.ui.table.view.viewholder.ColumnHeaderViewHolder;

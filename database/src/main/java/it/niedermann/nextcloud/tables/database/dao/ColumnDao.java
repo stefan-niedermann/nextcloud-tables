@@ -10,45 +10,104 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 
 @Dao
 public interface ColumnDao extends GenericDao<Column> {
 
     @Transaction
-    @Query("SELECT * FROM `Column` " +
-            "WHERE accountId = :accountId " +
-            "AND status = :status")
-    List<FullColumn> getFullColumns(long accountId, DBStatus status);
+    @Query("SELECT c.* FROM `Column` c")
+    List<Column> getColumns();
+
+    @Query("SELECT t.* FROM `Table` t " +
+            "INNER JOIN `Column` c " +
+            "ON t.id = c.tableId " +
+            "WHERE t.accountId = :accountId " +
+            "AND t.status IS NULL " +
+            "AND c.accountId = :accountId " +
+            "AND c.remoteId IS NULL " +
+            "AND c.status IS 'LOCAL_EDITED'")
+    List<Table> getUnchangedTablesHavingLocallyCreatedColumns(long accountId);
+
+    @Query("SELECT t.* FROM `Table` t " +
+            "INNER JOIN `Column` c ON t.id = c.tableId " +
+            "INNER JOIN `SelectionOption` s ON c.id = s.columnId " +
+            "WHERE ( " +
+            "   t.accountId = :accountId " +
+            "   AND t.status IS NULL " +
+            ") AND ( " +
+            "   ( " +
+            "       c.accountId = :accountId " +
+            "       AND c.remoteId IS NOT NULL " +
+            "       AND c.status IS 'LOCAL_EDITED' " +
+            "   ) OR ( " +
+            "       s.accountId = :accountId " +
+            "       AND s.remoteId IS NOT NULL " +
+            "       AND s.status IS NOT NULL " +
+            "   ) " +
+            ")"
+    )
+    List<Table> getUnchangedTablesHavingLocallyEditedColumnsOrChangedOrDeletedSelectionOptions(long accountId);
+
+    @Query("SELECT t.* FROM `Table` t " +
+            "INNER JOIN `Column` c " +
+            "ON t.id = c.tableId " +
+            "WHERE t.accountId = :accountId " +
+            "AND t.status IS NULL " +
+            "AND c.accountId = :accountId " +
+            "AND c.status IS 'LOCAL_DELETED'")
+    List<Table> getUnchangedTablesHavingLocallyDeletedColumns(long accountId);
 
     @Transaction
-    @Query("SELECT * FROM `Column` " +
+    @Query("SELECT c.* FROM `Column` c " +
+            "WHERE accountId = :accountId " +
+            "AND tableId = :tableId " +
+            "AND remoteId IS NULL " +
+            "AND status IS 'LOCAL_EDITED'")
+    List<FullColumn> getLocallyCreatedColumns(long accountId, long tableId);
+
+    @Transaction
+    @Query("SELECT c.* FROM `Column` c " +
+            "WHERE accountId = :accountId " +
+            "AND tableId = :tableId " +
+            "AND remoteId IS NOT NULL " +
+            "AND status IS 'LOCAL_EDITED'")
+    List<FullColumn> getLocallyEditedColumns(long accountId, long tableId);
+
+    @Transaction
+    @Query("SELECT c.* FROM `Column` c " +
+            "WHERE accountId = :accountId " +
+            "AND tableId = :tableId " +
+            "AND status IS 'LOCAL_DELETED'")
+    List<FullColumn> getLocallyDeletedColumns(long accountId, long tableId);
+
+    @Transaction
+    @Query("SELECT c.* FROM `Column` c " +
             "WHERE tableId = :tableId " +
-            "AND status != 'LOCAL_DELETED' " +
+            "AND status IS NOT 'LOCAL_DELETED' " +
             "ORDER BY orderWeight DESC")
     LiveData<List<FullColumn>> getNotDeletedFullColumns$(long tableId);
 
     @Transaction
-    @Query("SELECT * FROM `Column` " +
+    @Query("SELECT c.* FROM `Column` c " +
             "WHERE tableId = :tableId " +
-            "AND status != 'LOCAL_DELETED' " +
+            "AND status IS NOT 'LOCAL_DELETED' " +
             "ORDER BY orderWeight DESC")
     List<FullColumn> getNotDeletedColumns(long tableId);
 
     @MapInfo(keyColumn = "remoteId")
-    @Query("SELECT * FROM `Column` " +
-            "WHERE tableId = :tableId " +
-            "AND status != 'LOCAL_DELETED' " +
-            "ORDER BY orderWeight DESC")
+    @Query("SELECT c.* FROM `Column` c " +
+            "WHERE c.tableId = :tableId " +
+            "AND c.status IS NOT 'LOCAL_DELETED' " +
+            "ORDER BY c.orderWeight DESC")
     Map<Long, Column> getNotDeletedRemoteIdsAndColumns(long tableId);
-
 
     @MapInfo(keyColumn = "id", valueColumn = "orderWeight")
     @Query("SELECT id, orderWeight FROM `Column` " +
             "WHERE tableId = :tableId " +
-            "AND status != 'LOCAL_DELETED' " +
+            "AND status IS NOT 'LOCAL_DELETED' " +
             "ORDER BY orderWeight DESC")
     Map<Long, Integer> getNotDeletedOrderWeights(long tableId);
 

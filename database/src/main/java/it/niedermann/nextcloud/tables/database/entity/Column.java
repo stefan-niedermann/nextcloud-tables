@@ -227,7 +227,7 @@ public class Column extends AbstractTableRelatedEntity {
     @NonNull
     @Override
     public String toString() {
-        return title;
+        return title + " (ID: " + id + ", Remote ID: " + remoteId + ", Status: " + status + ", Table ID: " + getTableId() + ")";
     }
 
     @Override

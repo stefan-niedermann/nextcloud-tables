@@ -19,7 +19,7 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.EditNumberStarsBinding;
-import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.row.edit.type.DataEditView;
 
 public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> {

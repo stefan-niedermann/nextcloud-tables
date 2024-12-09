@@ -6,14 +6,15 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
-public record RowV2Dto(
+public record CreateRowResponseV2Dto(
         @SerializedName("id")
         @Nullable Long remoteId,
         @Nullable String createdBy,
         @Nullable Instant createdAt,
         @Nullable String lastEditBy,
         @Nullable Instant lastEditAt,
-        @Nullable DataV2Dto[] data
+        @Nullable List<DataV2Dto> data
 ) implements Serializable {
 }

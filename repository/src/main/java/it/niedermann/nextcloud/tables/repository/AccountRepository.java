@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.tables.repository;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.runAsync;
-import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,7 +28,8 @@ import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.exception.AccountNotCreatedException;
-import it.niedermann.nextcloud.tables.repository.model.ImportState;
+import it.niedermann.nextcloud.tables.repository.sync.report.LiveDataReporter;
+import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatus;
 
 @MainThread
 public class AccountRepository extends AbstractRepository {
@@ -73,14 +74,16 @@ public class AccountRepository extends AbstractRepository {
 
     @NonNull
     @AnyThread
-    public CompletableFuture<Void> synchronize(@NonNull Account account) {
-        return super.synchronize(account);
+    public CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {
+        return super.scheduleSynchronization(account);
     }
 
     @AnyThread
     @NonNull
-    public CompletableFuture<Account> createAccount(@NonNull Account accountToCreate, @NonNull MutableLiveData<ImportState> importState$) {
-        return supplyAsync(() -> db.getAccountDao().insert(accountToCreate), db.getSequentialExecutor())
+    public LiveData<SyncStatus> createAccount(@NonNull Account accountToCreate) {
+        final var reporter = new LiveDataReporter(accountToCreate);
+        completedFuture(accountToCreate)
+                .thenApplyAsync(db.getAccountDao()::insert, db.getSequentialExecutor())
                 .thenAcceptAsync(accountToCreate::setId, workExecutor)
                 .thenApplyAsync(v -> accountToCreate, workExecutor)
                 .handleAsync((account, throwable) -> {
@@ -108,34 +111,32 @@ public class AccountRepository extends AbstractRepository {
 
                     return account;
                 }, workExecutor)
-                .thenComposeAsync(account -> {
-                    importState$.postValue(new ImportState(account));
-                    return synchronize(account);
-                }, workExecutor)
+                .thenComposeAsync(account -> scheduleSynchronization(account, reporter), workExecutor)
                 .thenApplyAsync(v -> accountToCreate, workExecutor)
-                .handleAsync((account, throwable) -> {
+                .whenCompleteAsync((account, throwable) -> {
                     if (throwable != null) {
                         final var cause = Optional
                                 .ofNullable(throwable.getCause())
                                 .orElse(throwable);
 
-                        importState$.postValue(new ImportState(null, cause));
-
                         if (!(cause instanceof AccountNotCreatedException)) {
                             try {
                                 deleteAccount(accountToCreate).get();
                             } catch (ExecutionException | InterruptedException e) {
-                                throw new CompletionException(e);
+                                reporter.report(state -> state.withError(cause));
+                                return;
                             }
                         }
 
-                        throw new CompletionException(cause);
-                    }
+                        reporter.report(state -> state.withError(cause));
 
-                    importState$.postValue(new ImportState(ImportState.State.FINISHED, account));
-                    setCurrentAccount(account);
-                    return account;
+                    } else {
+                        setCurrentAccount(account);
+                        reporter.report(SyncStatus::markAsFinished);
+                    }
                 }, workExecutor);
+
+        return reporter;
     }
 
     @NonNull

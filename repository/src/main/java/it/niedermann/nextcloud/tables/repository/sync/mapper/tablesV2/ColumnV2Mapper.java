@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 
@@ -57,7 +56,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
     public ColumnV2Dto toDto(@NonNull FullColumn entity) {
 
         final var selectionOptions = Optional
-                .ofNullable(entity.getSelectionOptions())
+                .of(entity.getSelectionOptions())
                 .map(selectionOptionMapper::toDtoList)
                 .orElse(Collections.emptyList());
 
@@ -67,7 +66,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
 //                .orElse(null);
 
         final var dateTimeDefault = Optional
-                .ofNullable(entity.getColumn())
+                .of(entity.getColumn())
                 .map(Column::getDefaultValue)
                 .flatMap(val -> switch (entity.getColumn().getDataType()) {
                     case DATETIME, DATETIME_DATETIME -> Optional.ofNullable(val.getInstantValue())
@@ -172,7 +171,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                     defaultValue.setDoubleValue(dto.numberDefault());
             case SELECTION_CHECK -> defaultValue.setBooleanValue(Optional
                     .ofNullable(dto.selectionDefault())
-                    .map(JsonElement::getAsBoolean)
+                    .map(jsonElement -> jsonElement.isJsonNull() ? null : jsonElement.getAsBoolean())
                     .orElse(false));
             case USERGROUP -> {
                 final var defaultUserGroups = userGroupMapper.toEntityList(Optional.ofNullable(dto.usergroupDefault()).orElse(Collections.emptyList()));

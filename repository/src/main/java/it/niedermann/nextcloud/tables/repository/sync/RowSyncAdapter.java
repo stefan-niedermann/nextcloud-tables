@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
@@ -29,11 +30,12 @@ import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
-import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeCollectionV2Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.FetchRowResponseV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.CreateRowResponseV2Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
-class RowSyncAdapter extends AbstractSyncAdapter {
+class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
     private final FetchRowResponseV1Mapper fetchRowV1Mapper;
@@ -53,13 +55,96 @@ class RowSyncAdapter extends AbstractSyncAdapter {
         this.createRowV2Mapper = createRowV2Mapper;
     }
 
-    @Override
-    public @NonNull CompletableFuture<Account> pushLocalChanges(@NonNull Account account) {
-        return supplyAsync(() -> db.getRowDao().getLocallyDeletedRows(account.getId()), db.getParallelExecutor())
-                .thenComposeAsync(rowsToDelete -> {
-                    Log.v(TAG, "------ Pushing " + rowsToDelete.size() + " local row deletions for " + account.getAccountName());
 
-                    return CompletableFuture.allOf(rowsToDelete.stream()
+    @NonNull
+    @Override
+    public CompletableFuture<Void> pushLocalCreations(@NonNull Account account, @NonNull Table table) {
+        return supplyAsync(() -> db.getRowDao().getLocallyCreatedRows(account.getId(), table.getId()), db.getParallelExecutor())
+                .thenComposeAsync(fullRowsToUpdate -> {
+                    Log.v(TAG, "------ Pushing " + fullRowsToUpdate.size() + " local row creations for " + account.getAccountName());
+
+                    final var version = account.getTablesVersion();
+
+                    if (version == null) {
+                        throw new IllegalStateException(TablesVersion.class.getSimpleName() + " is null. Capabilities need to be synchronized before pushing local changes.");
+                    }
+
+                    return allOf(fullRowsToUpdate.stream()
+                            .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getId()))
+                            .map(fullRow -> {
+                                final var createRowDto = createRowV2Mapper.toCreateRowV2Dto(version, fullRow.getFullData());
+                                // TODO maybe preload map of table local / remote IDs?
+                                return supplyAsync(() -> db.getTableDao().getRemoteId(fullRow.getRow().getTableId()), db.getParallelExecutor())
+                                        .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeCollectionV2Dto.TABLES, tableRemoteId, createRowDto)), workExecutor)
+                                        .thenComposeAsync(response -> {
+                                            if (response.isSuccessful()) {
+                                                fullRow.getRow().setStatus(DBStatus.VOID);
+                                                final var body = response.body();
+
+                                                if (body == null || body.ocs == null || body.ocs.data == null) {
+                                                    throw new NullPointerException("Pushing changes for row with local ID " + fullRow.getRow().getId() + " was successfully, but response body was empty");
+                                                }
+
+                                                fullRow.getRow().setRemoteId(body.ocs.data.remoteId());
+                                                return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
+
+                                            } else {
+                                                serverErrorHandler.responseToException(response, "Could not push local row creations for " + fullRow.getRow().getId(), false).ifPresent(this::throwError);
+                                                return completedFuture(null);
+                                            }
+                                        });
+                            }).toArray(CompletableFuture[]::new));
+                }, workExecutor);
+    }
+
+    @NonNull
+    @Override
+    public CompletableFuture<Void> pushLocalUpdates(@NonNull Account account, @NonNull Table table) {
+        return supplyAsync(() -> db.getRowDao().getLocallyEditedRows(account.getId(), table.getId()), db.getParallelExecutor())
+                .thenComposeAsync(fullRowsToUpdate -> {
+                    Log.v(TAG, "------ Pushing " + fullRowsToUpdate.size() + " local row updates for " + account.getAccountName());
+
+                    final var version = account.getTablesVersion();
+
+                    if (version == null) {
+                        throw new IllegalStateException(TablesVersion.class.getSimpleName() + " is null. Capabilities need to be synchronized before pushing local changes.");
+                    }
+
+                    return allOf(fullRowsToUpdate.stream()
+                            .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
+                            .map(fullRow -> {
+                                final var createRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
+                                return executeNetworkRequest(account, apis -> apis.apiV1().updateRow(Objects.requireNonNull(fullRow.getRow().getRemoteId()), createRowDto))
+                                        .thenComposeAsync(response -> {
+                                            Log.i(TAG, "------ → HTTP " + response.code());
+
+                                            if (response.isSuccessful()) {
+                                                fullRow.getRow().setStatus(DBStatus.VOID);
+                                                final var body = response.body();
+                                                if (body == null) {
+                                                    throw new NullPointerException("Pushing changes for row " + fullRow.getRow().getRemoteId() + " was successfully, but response body was empty");
+                                                }
+
+                                                fullRow.getRow().setRemoteId(body.remoteId());
+                                                return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
+
+                                            } else {
+                                                serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
+                                                return completedFuture(null);
+                                            }
+                                        });
+                            }).toArray(CompletableFuture[]::new));
+                }, workExecutor);
+    }
+
+    @NonNull
+    @Override
+    public CompletableFuture<Void> pushLocalDeletions(@NonNull Account account, @NonNull Table table) {
+        return supplyAsync(() -> db.getRowDao().getLocallyDeletedRows(account.getId(), table.getId()), db.getParallelExecutor())
+                .thenComposeAsync(rows -> {
+                    Log.v(TAG, "------ Pushing " + rows.size() + " local row deletions for " + account.getAccountName());
+
+                    return allOf(rows.stream()
                             .peek(row -> Log.i(TAG, "------ → DELETE: " + row.getRemoteId()))
                             .map(row -> {
                                 if (row.getRemoteId() == null) {
@@ -78,73 +163,14 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                             });
                                 }
                             }).toArray(CompletableFuture[]::new));
-                }, workExecutor)
-                .thenApplyAsync(v -> account.getId(), workExecutor)
-                .thenApplyAsync(db.getRowDao()::getLocallyEditedRows, db.getParallelExecutor())
-                .thenComposeAsync(fullRowsToUpdate -> {
-                    Log.v(TAG, "------ Pushing " + fullRowsToUpdate.size() + " local row changes for " + account.getAccountName());
-
-                    final var version = account.getTablesVersion();
-
-                    if (version == null) {
-                        throw new IllegalStateException(TablesVersion.class.getSimpleName() + " is null. Capabilities need to be synchronized before pushing local changes.");
-                    }
-
-                    return CompletableFuture.allOf(fullRowsToUpdate.stream()
-                            .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
-                            .map(fullRow -> {
-                                if (fullRow.getRow().getRemoteId() == null) {
-                                    final var createRowDto = createRowV2Mapper.toCreateRowV2Dto(version, fullRow.getFullData());
-                                    // TODO maybe preload map of table local / remote IDs?
-                                    return supplyAsync(() -> db.getTableDao().getRemoteId(fullRow.getRow().getTableId()), db.getParallelExecutor())
-                                            .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeTypeV2Dto.TABLES, tableRemoteId, createRowDto)), workExecutor)
-                                            .thenComposeAsync(response -> {
-                                                if (response.isSuccessful()) {
-                                                    fullRow.getRow().setStatus(DBStatus.VOID);
-                                                    final var body = response.body();
-
-                                                    if (body == null || body.ocs == null || body.ocs.data == null) {
-                                                        throw new NullPointerException("Pushing changes for row " + fullRow.getRow().getRemoteId() + " was successfully, but response body was empty");
-                                                    }
-
-                                                    fullRow.getRow().setRemoteId(body.ocs.data.remoteId());
-                                                    return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
-
-                                                } else {
-                                                    serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
-                                                    return completedFuture(null);
-                                                }
-                                            });
-
-                                } else {
-                                    final var createRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
-                                    return executeNetworkRequest(account, apis -> apis.apiV1().updateRow(fullRow.getRow().getRemoteId(), createRowDto))
-                                            .thenComposeAsync(response -> {
-                                                Log.i(TAG, "------ → HTTP " + response.code());
-
-                                                if (response.isSuccessful()) {
-                                                    fullRow.getRow().setStatus(DBStatus.VOID);
-                                                    final var body = response.body();
-                                                    if (body == null) {
-                                                        throw new NullPointerException("Pushing changes for row " + fullRow.getRow().getRemoteId() + " was successfully, but response body was empty");
-                                                    }
-
-                                                    fullRow.getRow().setRemoteId(body.remoteId());
-                                                    return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
-
-                                                } else {
-                                                    serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
-                                                    return completedFuture(null);
-                                                }
-                                            });
-                                }
-                            }).toArray(CompletableFuture[]::new));
-                }, workExecutor)
-                .thenApplyAsync(v -> account, workExecutor);
+                }, workExecutor);
     }
 
+    @NonNull
     @Override
-    public @NonNull CompletableFuture<Account> pullRemoteChanges(@NonNull Account account) {
+    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
+                                                     @NonNull Table table,
+                                                     @Nullable SyncStatusReporter reporter) {
         return supplyAsync(() -> db.getTableDao().getTablesWithReadPermission(account.getId()), db.getParallelExecutor())
                 .thenComposeAsync(tables -> {
                     final var version = account.getTablesVersion();
@@ -152,7 +178,8 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                         throw new IllegalStateException(TablesVersion.class.getSimpleName() + " is null. Capabilities need to be synchronized before pulling remote changes.");
                     }
 
-                    return CompletableFuture.allOf(tables.stream().map(table -> supplyAsync(() -> new Pair<>(
+                    return allOf(tables.stream().map(tableStream ->
+                            supplyAsync(() -> new Pair<>(
                                     db.getColumnDao().getNotDeletedRemoteIdsAndColumns(table.getId()),
                                     db.getColumnDao().getColumnRemoteAndLocalIds(table.getId())
                             ), db.getParallelExecutor())
@@ -174,74 +201,7 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                                     }, workExecutor)
                                     .thenAcceptAsync(existingRowIds -> existingRowIds.forEach(db.getRowDao()::delete), db.getSequentialExecutor())
                     ).toArray(CompletableFuture[]::new));
-                })
-                .thenApplyAsync(v -> account, workExecutor);
-    }
-
-
-    /// @return Collection of [Row#id]s that have been fetched and persisted
-    @NonNull
-    private CompletableFuture<Collection<Long>> fetchAndPersistRows(@NonNull final Account account,
-                                                                    @NonNull final Table table,
-                                                                    final int offset,
-                                                                    @NonNull final Collection<Long> target,
-                                                                    @NonNull final Map<Long, Column> columns,
-                                                                    @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
-        return this.getTableRemoteIdOrThrow(table, Row.class)
-                .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
-                .thenComposeAsync(response -> switch (response.code()) {
-                    case 200: {
-                        final var rowDtos = response.body();
-
-                        if (rowDtos == null) {
-                            throw new RuntimeException("Response body is null");
-                        }
-
-                        yield CompletableFuture.allOf(rowDtos.stream().map(rowDto -> supplyAsync(() -> {
-                                    final var fullRow = fetchRowV1Mapper.toEntity(account.getId(), rowDto, columns, Objects.requireNonNull(account.getTablesVersion()));
-
-                                    final var row = fullRow.getRow();
-                                    row.setAccountId(table.getAccountId());
-                                    row.setTableId(table.getId());
-                                    row.setETag(response.headers().get(HEADER_ETAG));
-
-                                    return fullRow;
-                                }, workExecutor)
-                                        .thenApplyAsync(fullRow -> new Pair<>(fullRow, Optional.of(fullRow)
-                                                .map(FullRow::getRow)
-                                                .map(Row::getRemoteId)
-                                                .map(remoteId -> db.getRowDao().getRowId(table.getId(), remoteId))
-                                        ), db.getParallelExecutor())
-                                        .thenComposeAsync(rowAndRowId -> upsertRow(rowAndRowId.first, rowAndRowId.second.orElse(null)), workExecutor)
-                                        .thenComposeAsync(fullRow -> CompletableFuture.allOf(fullRow
-                                                        .getFullData().stream()
-                                                        .map(FullData::getData)
-                                                        .map(data -> upsertData(data, columnRemoteAndLocalIds))
-                                                        .toArray(CompletableFuture[]::new))
-                                                .thenComposeAsync(v -> {
-                                                    target.add(fullRow.getRow().getId());
-                                                    return CompletableFuture.<Void>completedFuture(null);
-                                                }, workExecutor), workExecutor)).toArray(CompletableFuture[]::new))
-                                .thenComposeAsync(v -> {
-                                    if (rowDtos.size() < TablesV1API.DEFAULT_API_LIMIT_ROWS) {
-                                        return completedFuture(target);
-                                    }
-
-                                    final var newOffset = offset + rowDtos.size();
-                                    return fetchAndPersistRows(account, table, newOffset, target, columns, columnRemoteAndLocalIds);
-                                }, workExecutor);
-                    }
-
-                    default: {
-                        final var future = new CompletableFuture<Collection<Long>>();
-                        serverErrorHandler
-                                .responseToException(response, "Could not fetch rows for table with remote ID " + table.getRemoteId(), true)
-                                .ifPresentOrElse(
-                                        future::completeExceptionally,
-                                        () -> future.complete(target));
-                        yield future;
-                    }
-                }, workExecutor);
+                });
     }
 
     @NonNull
@@ -295,6 +255,71 @@ class RowSyncAdapter extends AbstractSyncAdapter {
                         return completedFuture(null);
                     }
 
+                }, workExecutor);
+    }
+
+    /// @return Collection of [Row#id]s that have been fetched and persisted
+    @NonNull
+    private CompletableFuture<Collection<Long>> fetchAndPersistRows(@NonNull final Account account,
+                                                                    @NonNull final Table table,
+                                                                    final int offset,
+                                                                    @NonNull final Collection<Long> target,
+                                                                    @NonNull final Map<Long, Column> columns,
+                                                                    @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
+        return this.getTableRemoteIdOrThrow(table, Row.class)
+                .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
+                .thenComposeAsync(response -> switch (response.code()) {
+                    case 200: {
+                        final var rowDtos = response.body();
+
+                        if (rowDtos == null) {
+                            throw new RuntimeException("Response body is null");
+                        }
+
+                        yield allOf(rowDtos.stream().map(rowDto -> supplyAsync(() -> {
+                            final var fullRow = fetchRowV1Mapper.toEntity(account.getId(), rowDto, columns, Objects.requireNonNull(account.getTablesVersion()));
+
+                            final var row = fullRow.getRow();
+                            row.setAccountId(table.getAccountId());
+                            row.setTableId(table.getId());
+                            row.setETag(response.headers().get(HEADER_ETAG));
+
+                            return fullRow;
+                        }, workExecutor)
+                                .thenApplyAsync(fullRow -> new Pair<>(fullRow, Optional.of(fullRow)
+                                        .map(FullRow::getRow)
+                                        .map(Row::getRemoteId)
+                                        .map(remoteId -> db.getRowDao().getRowId(table.getId(), remoteId))
+                                ), db.getParallelExecutor())
+                                .thenComposeAsync(rowAndRowId -> upsertRow(rowAndRowId.first, rowAndRowId.second.orElse(null)), workExecutor)
+                                .thenComposeAsync(fullRow -> allOf(fullRow
+                                        .getFullData().stream()
+                                        .map(FullData::getData)
+                                        .map(data -> upsertData(data, columnRemoteAndLocalIds))
+                                        .toArray(CompletableFuture[]::new))
+                                        .thenComposeAsync(v -> {
+                                            target.add(fullRow.getRow().getId());
+                                            return CompletableFuture.<Void>completedFuture(null);
+                                        }, workExecutor), workExecutor)).toArray(CompletableFuture[]::new))
+                                .thenComposeAsync(v -> {
+                                    if (rowDtos.size() < TablesV1API.DEFAULT_API_LIMIT_ROWS) {
+                                        return completedFuture(target);
+                                    }
+
+                                    final var newOffset = offset + rowDtos.size();
+                                    return fetchAndPersistRows(account, table, newOffset, target, columns, columnRemoteAndLocalIds);
+                                }, workExecutor);
+                    }
+
+                    default: {
+                        final var future = new CompletableFuture<Collection<Long>>();
+                        serverErrorHandler
+                                .responseToException(response, "Could not fetch rows for table with remote ID " + table.getRemoteId(), true)
+                                .ifPresentOrElse(
+                                        future::completeExceptionally,
+                                        () -> future.complete(target));
+                        yield future;
+                    }
                 }, workExecutor);
     }
 }

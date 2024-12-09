@@ -11,19 +11,19 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 @Dao
 public interface AccountDao extends GenericDao<Account> {
 
-    @Query("SELECT * FROM Account")
+    @Query("SELECT a.* FROM Account a")
     LiveData<List<Account>> getAccounts$();
 
-    @Query("SELECT * FROM Account")
+    @Query("SELECT a.* FROM Account a")
     List<Account> getAccounts();
 
-    @Query("SELECT * FROM Account WHERE id = :accountId")
+    @Query("SELECT a.* FROM Account a WHERE a.id = :accountId")
     LiveData<Account> getAccountById$(long accountId);
 
-    @Query("SELECT * FROM Account WHERE id = :accountId")
+    @Query("SELECT a.* FROM Account a WHERE a.id = :accountId")
     Account getAccountById(long accountId);
 
-    @Query("SELECT * FROM Account WHERE id != :id")
+    @Query("SELECT a.* FROM Account a WHERE a.id != :id")
     LiveData<List<Account>> getAccountsExcept$(long id);
 
     @Query("UPDATE Account " +
@@ -31,7 +31,7 @@ public interface AccountDao extends GenericDao<Account> {
             "   SELECT t.id " +
             "   FROM `Table` t " +
             "   WHERE t.accountId = :accountId " +
-            "   AND t.status != 'LOCAL_DELETED' " +
+            "   AND t.status IS NOT 'LOCAL_DELETED' " +
             "   ORDER BY t.lastEditAt " +
             "   LIMIT 1" +
             ") " +

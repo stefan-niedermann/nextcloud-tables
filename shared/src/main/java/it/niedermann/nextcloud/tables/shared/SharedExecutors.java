@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.shared.config;
+package it.niedermann.nextcloud.tables.shared;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

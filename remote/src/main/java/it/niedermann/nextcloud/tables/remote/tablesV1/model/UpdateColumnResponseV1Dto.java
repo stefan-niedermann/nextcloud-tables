@@ -1,6 +1,4 @@
-package it.niedermann.nextcloud.tables.remote.tablesV2.model;
-
-import androidx.annotation.Nullable;
+package it.niedermann.nextcloud.tables.remote.tablesV1.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,8 +6,8 @@ import java.io.Serializable;
 
 import it.niedermann.nextcloud.tables.remote.shared.model.RemoteDto;
 
-public record CreateColumnResponseV2Dto(
+public record UpdateColumnResponseV1Dto(
         @SerializedName("id")
-        @Nullable Long remoteId
+        Long remoteId
 ) implements Serializable, RemoteDto {
 }

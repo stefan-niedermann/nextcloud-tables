@@ -93,7 +93,7 @@ public class TablesRepository extends AbstractRepository {
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::insert, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     public CompletableFuture<Void> updateTable(@NonNull Account account,
@@ -104,14 +104,14 @@ public class TablesRepository extends AbstractRepository {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
             }
 
-            table.setStatus(DBStatus.LOCAL_DELETED);
+            table.setStatus(DBStatus.LOCAL_EDITED);
 
             return table;
 
         }, workExecutor)
                 .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -130,7 +130,7 @@ public class TablesRepository extends AbstractRepository {
                 .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
                 .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(table.getAccountId()), db.getSequentialExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(table.getAccountId()), db.getParallelExecutor())
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -152,7 +152,7 @@ public class TablesRepository extends AbstractRepository {
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -173,7 +173,7 @@ public class TablesRepository extends AbstractRepository {
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -194,7 +194,7 @@ public class TablesRepository extends AbstractRepository {
                     return account;
 
                 }, db.getSequentialExecutor())
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -213,7 +213,7 @@ public class TablesRepository extends AbstractRepository {
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(column.getAccountId()), db.getParallelExecutor())
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -244,7 +244,7 @@ public class TablesRepository extends AbstractRepository {
 
                 }, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -287,7 +287,7 @@ public class TablesRepository extends AbstractRepository {
 
                 }, db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread
@@ -306,7 +306,7 @@ public class TablesRepository extends AbstractRepository {
         }, workExecutor)
                 .thenAcceptAsync(db.getRowDao()::update, db.getSequentialExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(row.getAccountId()), db.getParallelExecutor())
-                .thenAcceptAsync(this::synchronize, workExecutor);
+                .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
     @AnyThread

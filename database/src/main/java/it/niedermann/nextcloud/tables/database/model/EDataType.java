@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public enum EDataType {
 

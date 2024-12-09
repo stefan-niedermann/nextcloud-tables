@@ -13,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.Value;
@@ -42,7 +43,8 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                 switch (dataType) {
                     case NUMBER, NUMBER_PROGRESS -> column.getDefaultValue().getDoubleValue();
                     case NUMBER_STARS -> Optional
-                            .ofNullable(column.getDefaultValue())
+                            .of(column)
+                            .map(Column::getDefaultValue)
                             .map(Value::getDoubleValue)
                             .map(Math::round)
                             .map(Long::doubleValue)
@@ -72,7 +74,8 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                 },
 
                 switch (dataType) {
-                    case SELECTION -> Optional.ofNullable(fullColumn.getDefaultSelectionOptions())
+                    case SELECTION -> Optional.of(fullColumn)
+                            .map(FullColumn::getDefaultSelectionOptions)
                             .map(selectionOptions -> {
                                 final var jsonArray = new JsonArray();
                                 selectionOptions
@@ -84,7 +87,8 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                             .map(JsonElement::toString)
                             .orElse(new JsonArray().toString());
                     case SELECTION_MULTI ->
-                            Optional.ofNullable(fullColumn.getDefaultSelectionOptions())
+                            Optional.of(fullColumn)
+                                    .map(FullColumn::getDefaultSelectionOptions)
                                     .map(List::stream)
                                     .flatMap(Stream::findAny)
                                     .map(SelectionOption::getRemoteId)

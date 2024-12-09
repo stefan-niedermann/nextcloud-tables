@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.model.FullTable;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.EPermissionV2Dto;
 import it.niedermann.nextcloud.tables.repository.defaults.DataTypeDefaultServiceRegistry;
-import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.EditRowActivity;

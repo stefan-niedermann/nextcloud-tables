@@ -33,7 +33,7 @@ import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityMainBinding;
-import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.about.AboutActivity;
 import it.niedermann.nextcloud.tables.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.tables.ui.column.manage.ManageColumnsActivity;

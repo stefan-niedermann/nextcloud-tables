@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonElement;
@@ -18,8 +20,11 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.FetchRowResponseV1Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.TypeRemoteMapperServiceRegistry;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class FetchRowResponseV1Mapper {
+
+    private static final String TAG = FetchRowResponseV1Mapper.class.getSimpleName();
 
     private final TypeRemoteMapperServiceRegistry registry = new TypeRemoteMapperServiceRegistry();
 
@@ -42,7 +47,12 @@ public class FetchRowResponseV1Mapper {
                         .map(remoteIdToColumns::get);
 
                 if (optionalColumn.isEmpty()) {
-                    continue;
+                    if (FeatureToggle.STRICT_MODE.enabled) {
+                        throw new IllegalStateException("Unknown remote column id " + dataDto.remoteColumnId() + ". Columns must be synchronized before rows.");
+                    } else {
+                        Log.w(TAG, "Unknown remote column id " + dataDto.remoteColumnId() + " in dataDtoList " + list);
+                        continue;
+                    }
                 }
 
                 final var column = optionalColumn.get();

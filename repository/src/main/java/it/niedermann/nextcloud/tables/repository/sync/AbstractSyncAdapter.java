@@ -1,22 +1,27 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.concurrent.CompletableFuture.allOf;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.nextcloud.android.sso.model.ocs.OcsResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
+import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
 import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
@@ -25,12 +30,16 @@ import it.niedermann.nextcloud.tables.remote.ocs.OcsAPI;
 import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
 import it.niedermann.nextcloud.tables.repository.ServerErrorHandler;
+import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
+import it.niedermann.nextcloud.tables.shared.SharedExecutors;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public abstract class AbstractSyncAdapter {
+abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> implements SyncAdapter<TParentEntity> {
 
-    private static final ExecutorService NETWORK_EXECUTOR = Executors.newCachedThreadPool();
+    private static final String TAG = AbstractSyncAdapter.class.getSimpleName();
     protected static final String HEADER_ETAG = "ETag";
     protected final Context context;
     protected final TablesDatabase db;
@@ -42,15 +51,48 @@ public abstract class AbstractSyncAdapter {
         this.context = context.getApplicationContext();
         this.db = TablesDatabase.getInstance(this.context);
         this.serverErrorHandler = new ServerErrorHandler(this.context);
-        this.workExecutor = ForkJoinPool.commonPool();
-        this.networkExecutor = NETWORK_EXECUTOR;
+        this.workExecutor = SharedExecutors.CPU;
+        this.networkExecutor = SharedExecutors.IO_NET;
+    }
+
+    /// **Guaranteed orders**
+    ///
+    /// Step 1 - 3
+    /// 1. [#pushLocalDeletions]
+    /// 2. [#pushLocalCreations]
+    /// 3. [#pushLocalUpdates]
+    ///
+    /// Step 4
+    /// Runs parallel to step 1 - 3
+    /// 4. [#pushChildChangesWithoutChangedParent]
+    ///
+    /// Step 1 - 4 may be omitted in case [Account#getTablesVersion] or [Account#getNextcloudVersion] is `null`.
+    ///
+    /// Step 5
+    /// Runs always at the end
+    /// 5. [#pullRemoteChanges]
+    @NonNull
+    @Override
+    public final CompletableFuture<Void> synchronize(@NonNull Account account, @NonNull TParentEntity parentEntity, @Nullable SyncStatusReporter reporter) {
+        final var pushLocalChanges = account.getTablesVersion() == null || account.getNextcloudVersion() == null
+                ? completedFuture(null)
+                : allOf(
+                completedFuture(account)
+                        .thenComposeAsync(this::pushChildChangesWithoutChangedParent, workExecutor),
+                completedFuture(null)
+                        .thenComposeAsync(v -> pushLocalDeletions(account, parentEntity), workExecutor)
+                        .thenComposeAsync(v -> pushLocalCreations(account, parentEntity), workExecutor)
+                        .thenComposeAsync(v -> pushLocalUpdates(account, parentEntity), workExecutor)
+        );
+
+        return pushLocalChanges.thenComposeAsync(v -> pullRemoteChanges(account, parentEntity, reporter), workExecutor);
     }
 
     @NonNull
-    public abstract CompletableFuture<Account> pushLocalChanges(@NonNull Account account);
-
-    @NonNull
-    public abstract CompletableFuture<Account> pullRemoteChanges(@NonNull Account account);
+    @Override
+    public CompletableFuture<Void> pushChildChangesWithoutChangedParent(@NonNull Account account) {
+        return completedFuture(null);
+    }
 
     /**
      * Convenience method to catch the checked {@link IOException} when running the
@@ -58,8 +100,8 @@ public abstract class AbstractSyncAdapter {
      * Also takes care about closing resources in a <code>finally</code> block.
      */
     @NonNull
-    protected <T> CompletableFuture<Response<T>> executeNetworkRequest(@NonNull Account account,
-                                                                       @NonNull Function<ApiProvider.ApiTuple, Call<T>> api) {
+    protected <TResponse> CompletableFuture<Response<TResponse>> executeNetworkRequest(@NonNull Account account,
+                                                                                       @NonNull Function<ApiProvider.ApiTuple, Call<TResponse>> api) {
         return supplyAsync(() -> {
             final var ocsProviderRef = new AtomicReference<ApiProvider<OcsAPI>>();
             final var apiV2ProviderRef = new AtomicReference<ApiProvider<TablesV2API>>();
@@ -75,6 +117,7 @@ public abstract class AbstractSyncAdapter {
                         apiV2ProviderRef.get().getApi(),
                         apiV1ProviderRef.get().getApi());
 
+                // TODO Check connectivity
                 return api.apply(apiTuple).execute();
 
             } catch (Exception throwable) {
@@ -88,6 +131,22 @@ public abstract class AbstractSyncAdapter {
                         .forEach(ApiProvider::close);
             }
         }, networkExecutor);
+    }
+
+    /// V1 API does not wrap in OcsResponse objects
+    protected <T> Response<OcsResponse<T>> wrapInOcsResponse(@NonNull Response<T> result) {
+        final var response = new OcsResponse<T>();
+        response.ocs = new OcsResponse.OcsWrapper<>();
+        response.ocs.data = result.body();
+        response.ocs.meta = new OcsResponse.OcsWrapper.OcsMeta();
+        response.ocs.meta.statusCode = result.code();
+        response.ocs.meta.message = result.message();
+
+        return result.isSuccessful()
+                ? Response.success(response)
+                : Response.error(Optional.ofNullable(result.errorBody())
+                        .orElse(ResponseBody.create("", MediaType.get(""))),
+                result.raw());
     }
 
     /**
@@ -105,6 +164,26 @@ public abstract class AbstractSyncAdapter {
 
             return tableRemoteId;
         }, workExecutor);
+    }
+
+    protected CompletableFuture<Void> checkRemoteIdNull(@Nullable Long remoteId) {
+        if (remoteId != null) {
+            final var future = new CompletableFuture<Void>();
+            future.completeExceptionally(new IllegalStateException("RemoteID must be null but was " + remoteId));
+            return future;
+        }
+
+        return completedFuture(null);
+    }
+
+    protected CompletableFuture<Void> checkRemoteIdNotNull(@Nullable Long remoteId) {
+        if (remoteId == null) {
+            final var future = new CompletableFuture<Void>();
+            future.completeExceptionally(new IllegalStateException("RemoteID must be not be null."));
+            return future;
+        }
+
+        return completedFuture(null);
     }
 
     /**

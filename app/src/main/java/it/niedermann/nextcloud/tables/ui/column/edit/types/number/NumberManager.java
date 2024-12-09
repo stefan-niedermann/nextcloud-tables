@@ -12,8 +12,10 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.attributes.NumberAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
+import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.ManageNumberBinding;
 import it.niedermann.nextcloud.tables.ui.column.edit.types.ColumnEditView;
 
@@ -69,16 +71,14 @@ public class NumberManager extends ColumnEditView<ManageNumberBinding> {
     public void setFullColumn(@NonNull FullColumn fullColumn) {
         super.setFullColumn(fullColumn);
 
-        Optional.ofNullable(fullColumn.getColumn().getDefaultValue().getDoubleValue())
-                .map(String::valueOf)
-                .ifPresent(binding.numberDefault::setText);
+        final var column = Optional.of(fullColumn.getColumn());
+        final var attributes = column.map(Column::getNumberAttributes);
 
-        // FIXME String.valueOf(null) writes null into the inputs
-        final var attributes = fullColumn.getColumn().getNumberAttributes();
-        binding.numberMin.setText(String.valueOf(attributes.numberMin()));
-        binding.numberMax.setText(String.valueOf(attributes.numberMax()));
-        binding.numberDecimals.setText(String.valueOf(attributes.numberDecimals()));
-        binding.numberPrefix.setText(attributes.numberPrefix());
-        binding.numberSuffix.setText(attributes.numberSuffix());
+        binding.numberDefault.setText(column.map(Column::getDefaultValue).map(Value::getDoubleValue).map(String::valueOf).orElse(null));
+        binding.numberMin.setText(attributes.map(NumberAttributes::numberMin).map(String::valueOf).orElse(null));
+        binding.numberMax.setText(attributes.map(NumberAttributes::numberMax).map(String::valueOf).orElse(null));
+        binding.numberDecimals.setText(attributes.map(NumberAttributes::numberDecimals).map(String::valueOf).orElse(null));
+        binding.numberPrefix.setText(attributes.map(NumberAttributes::numberPrefix).orElse(null));
+        binding.numberSuffix.setText(attributes.map(NumberAttributes::numberSuffix).orElse(null));
     }
 }

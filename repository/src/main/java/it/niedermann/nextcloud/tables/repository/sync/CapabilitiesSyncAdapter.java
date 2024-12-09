@@ -1,11 +1,10 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
-import static java.util.concurrent.CompletableFuture.completedFuture;
-
 import android.content.Context;
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
 
@@ -20,8 +19,9 @@ import it.niedermann.nextcloud.tables.database.model.Version;
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.ocs.OcsVersionMapper;
+import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
-class CapabilitiesSyncAdapter extends AbstractSyncAdapter {
+class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
 
     private final Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper;
 
@@ -30,15 +30,12 @@ class CapabilitiesSyncAdapter extends AbstractSyncAdapter {
         this.versionMapper = new OcsVersionMapper();
     }
 
+    @NonNull
     @Override
-    public @NonNull CompletableFuture<Account> pushLocalChanges(@NonNull Account account) {
-        // Users can't be changed locally
-        return completedFuture(account);
-    }
-
-    @Override
-    public @NonNull CompletableFuture<Account> pullRemoteChanges(@NonNull Account account) {
-        return executeNetworkRequest(account, apis -> apis.ocs().getCapabilities(account.getETag()))
+    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
+                                                     @NonNull Account entity,
+                                                     @Nullable SyncStatusReporter reporter) {
+        return executeNetworkRequest(entity, apis -> apis.ocs().getCapabilities(entity.getETag()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {
                         final var body = response.body();
@@ -76,21 +73,20 @@ class CapabilitiesSyncAdapter extends AbstractSyncAdapter {
                             throwError(new ServerNotAvailableException(ServerNotAvailableException.Reason.TABLES_NOT_SUPPORTED));
                         }
 
-                        account.setTablesVersion(tablesVersion);
-                        account.setNextcloudVersion(nextcloudVersion);
-                        account.setETag(response.headers().get(HEADER_ETAG));
-                        account.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities().theming().color)));
-                        yield account;
+                        entity.setTablesVersion(tablesVersion);
+                        entity.setNextcloudVersion(nextcloudVersion);
+                        entity.setETag(response.headers().get(HEADER_ETAG));
+                        entity.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities().theming().color)));
+                        yield entity;
                     }
                     default -> {
-                        final var exception = serverErrorHandler.responseToException(response, "Could not fetch capabilities for " + account.getAccountName(), true);
+                        final var exception = serverErrorHandler.responseToException(response, "Could not fetch capabilities for " + entity.getAccountName(), true);
 
                         exception.ifPresent(this::throwError);
 
-                        yield account;
+                        yield entity;
                     }
                 })
-                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor())
-                .thenApplyAsync(v -> account, workExecutor);
+                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor());
     }
 }

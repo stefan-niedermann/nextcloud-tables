@@ -13,7 +13,7 @@ import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellStarsBinding;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
-import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.table.view.types.CellViewHolder;
 
 public class StarsCellViewHolder extends CellViewHolder {

@@ -60,7 +60,7 @@ public abstract class ColumnEditView<T extends ViewBinding> extends FrameLayout 
         } else if (state == null) {
             bundle = new Bundle();
         } else {
-            throw new IllegalStateException("Expected super state being null or " + Bundle.class.getSimpleName() + " but was " + state.getClass().getSimpleName());
+            throw new IllegalStateException("Expected super step being null or " + Bundle.class.getSimpleName() + " but was " + state.getClass().getSimpleName());
         }
 
         bundle.putSerializable(KEY_COLUMN, fullColumn);

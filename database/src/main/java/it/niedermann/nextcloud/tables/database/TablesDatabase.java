@@ -9,7 +9,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import it.niedermann.nextcloud.tables.database.converter.DBStatusConverter;
 import it.niedermann.nextcloud.tables.database.converter.EDataTypeConverter;
@@ -37,6 +36,7 @@ import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 import it.niedermann.nextcloud.tables.database.migration.Migration_1_2;
+import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 
 @Database(
         entities = {
@@ -70,8 +70,8 @@ public abstract class TablesDatabase extends RoomDatabase {
     private static final String TAG = TablesDatabase.class.getSimpleName();
     private static final String DB_NAME = "nextcloud-tables.sqlite";
 
-    private static final ExecutorService DB_PARALLEL = Executors.newCachedThreadPool();
-    private static final ExecutorService DB_SEQUENTIAL = Executors.newSingleThreadExecutor();
+    private static final ExecutorService DB_PARALLEL = SharedExecutors.IO_DB_OUTPUT;
+    private static final ExecutorService DB_SEQUENTIAL = SharedExecutors.IO_DB_INPUT;
 
     private final ExecutorService parallelExecutor;
     private final ExecutorService sequentialExecutor;

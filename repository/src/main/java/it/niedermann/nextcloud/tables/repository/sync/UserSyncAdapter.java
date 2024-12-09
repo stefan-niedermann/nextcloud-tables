@@ -1,31 +1,27 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
-import static java.util.concurrent.CompletableFuture.completedFuture;
-
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
-class UserSyncAdapter extends AbstractSyncAdapter {
-
+class UserSyncAdapter extends AbstractPullOnlySyncAdapter {
 
     public UserSyncAdapter(@NonNull Context context) {
         super(context);
     }
 
+    @NonNull
     @Override
-    public @NonNull CompletableFuture<Account> pushLocalChanges(@NonNull Account account) {
-        // Users can't be changed locally
-        return completedFuture(account);
-    }
-
-    @Override
-    public @NonNull CompletableFuture<Account> pullRemoteChanges(@NonNull Account account) {
+    public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
+                                                     @NonNull Account parentEntity,
+                                                     @Nullable SyncStatusReporter reporter) {
         return executeNetworkRequest(account, apis -> apis.ocs().getUser(account.getUserName()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {
@@ -46,7 +42,6 @@ class UserSyncAdapter extends AbstractSyncAdapter {
                         yield account;
                     }
                 })
-                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor())
-                .thenApplyAsync(v -> account, workExecutor);
+                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor());
     }
 }

@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
+import it.niedermann.nextcloud.tables.remote.shared.model.RemoteDto;
+
 public record ColumnV2Dto(
         @SerializedName("id")
         @Nullable Long remoteId,
@@ -39,5 +41,5 @@ public record ColumnV2Dto(
         @Nullable Boolean usergroupSelectUsers,
         @Nullable Boolean usergroupSelectGroups,
         @Nullable Boolean showUserStatus
-) implements Serializable {
+) implements Serializable, RemoteDto {
 }

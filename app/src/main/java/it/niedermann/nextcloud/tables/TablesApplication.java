@@ -7,7 +7,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
-import it.niedermann.nextcloud.tables.shared.config.FeatureToggle;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.util.CustomAppGlideModule;
 
 public class TablesApplication extends Application {

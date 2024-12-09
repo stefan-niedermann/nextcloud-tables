@@ -29,7 +29,7 @@ import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
 import it.niedermann.nextcloud.tables.repository.SyncWorker;
 import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
-import it.niedermann.nextcloud.tables.repository.model.ImportState;
+import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatus;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.util.AvatarUtil;
@@ -58,17 +58,24 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
             binding.image.setClipToOutline(true);
         }
 
-        importAccountViewModel.getImportState().observe(this, this::applyImportState);
         binding.addButton.setOnClickListener(this::onAddButtonClicked);
     }
 
     private void onAddButtonClicked(@NonNull View addButton) {
+        binding.addButton.setEnabled(false);
+
         try {
             AccountImporter.pickNewAccount(this);
-        } catch (NextcloudFilesAppNotInstalledException e) {
-            UiExceptionManager.showDialogForException(this, e);
+
         } catch (AndroidGetAccountsPermissionNotGranted e) {
             AccountImporter.requestAndroidAccountPermissionsAndPickAccount(this);
+
+        } catch (NextcloudFilesAppNotInstalledException e) {
+            UiExceptionManager.showDialogForException(this, e);
+            binding.addButton.setEnabled(true);
+
+        } catch (Throwable t) {
+            binding.addButton.setEnabled(true);
         }
     }
 
@@ -76,35 +83,48 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
     public void accountAccessGranted(@NonNull SingleSignOnAccount account) {
         importAccountViewModel
                 .createAccount(new Account(account.url, account.name, account.userId))
-                .whenComplete((v, throwable) -> {
-                    if (throwable == null) {
-                        SyncWorker.update(getApplicationContext());
-                        setResult(RESULT_OK);
-                        finish();
-                    }
-                });
+                .observe(this, this::applyImportState);
     }
 
-    private void applyImportState(@NonNull ImportState state) {
-        switch (state.state) {
-            case IMPORTING_ACCOUNT -> {
-                setAvatar(state.account);
+    private void applyImportState(@NonNull SyncStatus syncStatus) {
+
+        switch (syncStatus.getStep()) {
+            case START -> {
+                setAvatar(syncStatus.getAccount());
                 binding.progressCircular.setVisibility(View.VISIBLE);
                 binding.progressText.setVisibility(View.VISIBLE);
                 binding.progressText.setText(R.string.import_state_import_account);
                 binding.addButton.setEnabled(false);
+
+                binding.progressCircular.setIndeterminate(true);
             }
-            case IMPORTING_TABLES -> {
-                setAvatar(state.account);
+            case PROGRESS -> {
+                setAvatar(syncStatus.getAccount());
                 binding.progressCircular.setVisibility(View.VISIBLE);
                 binding.progressText.setVisibility(View.VISIBLE);
                 binding.progressText.setText(R.string.import_state_import_tables);
                 binding.addButton.setEnabled(false);
+
+                binding.progressCircular.setIndeterminate(false);
+                binding.progressCircular.setMax(syncStatus.getTablesTotalCount().orElse(100));
+                binding.progressCircular.setProgress(syncStatus.getTablesFinishedCount().orElse(0), true);
+                binding.progressCircular.setSecondaryProgress(syncStatus.getTablesFinishedCount().orElse(0) + syncStatus.getTablesInProgress().size());
             }
             case FINISHED -> {
-                setAvatar(state.account);
+                setAvatar(syncStatus.getAccount());
                 binding.progressCircular.setVisibility(View.GONE);
                 binding.progressText.setVisibility(View.GONE);
+
+                binding.progressCircular.setIndeterminate(false);
+                binding.progressCircular.setMax(1);
+                binding.progressCircular.setProgress(1, true);
+                binding.progressCircular.setSecondaryProgress(1);
+
+                if (syncStatus.getError() == null) {
+                    SyncWorker.update(getApplicationContext());
+                    setResult(RESULT_OK);
+                    finish();
+                }
             }
             case ERROR -> {
                 binding.image.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
@@ -112,26 +132,35 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
                 binding.progressText.setVisibility(View.VISIBLE);
                 binding.addButton.setEnabled(true);
 
-                if (state.error instanceof AccountAlreadyImportedException) {
+                binding.progressCircular.setIndeterminate(false);
+                binding.progressCircular.setMax(syncStatus.getTablesTotalCount().orElse(100));
+                binding.progressCircular.setProgress(syncStatus.getTablesFinishedCount().orElse(0), true);
+                binding.progressCircular.setSecondaryProgress(syncStatus.getTablesFinishedCount().orElse(0) + syncStatus.getTablesInProgress().size());
+
+                if (syncStatus.getError() instanceof AccountAlreadyImportedException) {
                     binding.progressText.setText(R.string.account_already_imported);
                 } else {
-                    if (state.error != null) {
-                        state.error.printStackTrace();
-                        ExceptionDialogFragment.newInstance(state.error, state.account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    if (syncStatus.getError() != null) {
+                        syncStatus.getError().printStackTrace();
+                        ExceptionDialogFragment.newInstance(syncStatus.getError(), syncStatus.getAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
 
-                        if (state.error instanceof ServerNotAvailableException) {
-                            binding.progressText.setText(((ServerNotAvailableException) state.error).getReason().messageRes);
+                        if (syncStatus.getError() instanceof ServerNotAvailableException) {
+                            binding.progressText.setText(((ServerNotAvailableException) syncStatus.getError()).getReason().messageRes);
                         } else {
-                            binding.progressText.setText(state.error.getMessage());
+                            binding.progressText.setText(syncStatus.getError().getMessage());
                         }
                     } else {
                         binding.progressText.setText(R.string.hint_error_appeared);
-                        new IllegalStateException("Received error state while importing, but exception was null").printStackTrace();
+                        new IllegalStateException("Received error step while importing, but exception was null").printStackTrace();
                     }
                 }
             }
-            default -> throw new IllegalStateException("Unexpected value: " + state.state);
+            default -> throw new IllegalStateException("Unexpected value: " + syncStatus.getStep());
         }
+    }
+
+    private void setAddButtonEnabled(@NonNull SyncStatus syncStatus) {
+        binding.addButton.setEnabled(syncStatus.isFinished());
     }
 
     private void setAvatar(@Nullable Account account) {

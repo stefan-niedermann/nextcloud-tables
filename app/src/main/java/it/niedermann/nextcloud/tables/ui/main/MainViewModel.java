@@ -113,7 +113,7 @@ public class MainViewModel extends AndroidViewModel {
     @AnyThread
     @NonNull
     public CompletableFuture<Void> synchronize(@NonNull Account account) {
-        return this.accountRepository.synchronize(account);
+        return this.accountRepository.scheduleSynchronization(account);
     }
 
     @MainThread

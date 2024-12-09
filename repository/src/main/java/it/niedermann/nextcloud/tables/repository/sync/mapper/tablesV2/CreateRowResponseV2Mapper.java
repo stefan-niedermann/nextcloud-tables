@@ -2,10 +2,11 @@ package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
-import it.niedermann.nextcloud.tables.remote.tablesV1.model.FetchRowResponseV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowResponseV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowV2Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.TypeRemoteMapperServiceRegistry;
 
@@ -24,7 +25,7 @@ public class CreateRowResponseV2Mapper {
     private final TypeRemoteMapperServiceRegistry registry = new TypeRemoteMapperServiceRegistry();
 
     public FullRow toEntity(long accountId,
-                            @NonNull FetchRowResponseV1Dto dto,
+                            @NonNull CreateRowResponseV2Dto dto,
                             @NonNull Map<Long, Column> remoteIdToColumns,
                             @NonNull TablesVersion tablesVersion) {
         final var fullRow = new FullRow();
@@ -79,15 +80,13 @@ public class CreateRowResponseV2Mapper {
     @NonNull
     public CreateRowV2Dto toCreateRowV2Dto(@NonNull TablesVersion version,
                                            @NonNull Collection<FullData> fullDataSet) {
-
-        final var data = new JsonObject();
+        final var data = new HashMap<Long, JsonElement>(fullDataSet.size());
 
         for (final var fullData : fullDataSet) {
             final var service = registry.getService(fullData.getDataType());
-            data.add(
-                    String.valueOf(fullData.getData().getRemoteColumnId()),
-                    service.toRemoteValue(fullData, fullData.getDataType(), version)
-            );
+            data.put(
+                    fullData.getData().getRemoteColumnId(),
+                    service.toRemoteValue(fullData, fullData.getDataType(), version));
         }
 
         return new CreateRowV2Dto(data);

@@ -46,7 +46,7 @@ public class ProgressManager extends ColumnEditView<ManageNumberProgressBinding>
         super.setFullColumn(fullColumn);
 
         // https://github.com/nextcloud/tables/issues/1385
-        Optional.ofNullable(fullColumn.getColumn())
+        Optional.of(fullColumn.getColumn())
                 .map(Column::getDefaultValue)
                 .map(Value::getDoubleValue)
                 .map(Double::floatValue)

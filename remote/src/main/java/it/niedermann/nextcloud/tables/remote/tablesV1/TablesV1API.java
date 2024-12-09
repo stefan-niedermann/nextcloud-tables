@@ -16,9 +16,10 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.SignStyle;
 import java.util.List;
 
+import it.niedermann.nextcloud.tables.remote.shared.model.RemoteDto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.ColumnRequestV1Dto;
-import it.niedermann.nextcloud.tables.remote.tablesV1.model.ColumnResponseV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.FetchRowResponseV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateColumnResponseV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateRowResponseV1Dto;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -67,15 +68,15 @@ public interface TablesV1API {
     /**
      * @since 0.4.0
      */
-    @PUT("columns/{columnId}")
-    Call<ColumnResponseV1Dto> updateColumn(@Path("columnId") long columnId,
-                                           @Body() ColumnRequestV1Dto column);
+    @PUT("columns/{columnRemoteId}")
+    Call<UpdateColumnResponseV1Dto> updateColumn(@Path("columnRemoteId") long columnId,
+                                                 @Body() ColumnRequestV1Dto column);
 
     /**
      * @since 0.4.0
      */
-    @DELETE("columns/{columnId}")
-    Call<?> deleteColumn(@Path("columnId") long columnId);
+    @DELETE("columns/{columnRemoteId}")
+    Call<RemoteDto> deleteColumn(@Path("columnRemoteId") long columnId);
 
 
     /**

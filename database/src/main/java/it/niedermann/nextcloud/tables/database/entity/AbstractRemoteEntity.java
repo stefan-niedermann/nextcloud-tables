@@ -23,7 +23,7 @@ public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity 
     @Nullable
     protected Long remoteId;
 
-    @NonNull
+    @Nullable
     protected DBStatus status = DBStatus.VOID;
 
     public AbstractRemoteEntity() {
@@ -41,6 +41,7 @@ public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity 
 
     @NonNull
     public DBStatus getStatus() {
+        assert status != null;
         return status;
     }
 

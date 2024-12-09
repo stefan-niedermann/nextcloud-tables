@@ -18,9 +18,10 @@ import java.util.List;
 
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateColumnResponseV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowResponseV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeCollectionV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
-import it.niedermann.nextcloud.tables.remote.tablesV2.model.RowV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.TableV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateDateTimeColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateNumberColumnV2Dto;
@@ -138,15 +139,15 @@ public interface TablesV2API {
     /**
      * @since 0.8.0
      */
-    @GET("/columns/{nodeType}/{nodeId}?format=json")
+    @GET("columns/{nodeType}/{nodeId}?format=json")
     Call<OcsResponse<List<ColumnV2Dto>>> getColumns(@Path("nodeType") @NonNull ENodeTypeV2Dto nodeType,
                                                     @Path("nodeId") long nodeId);
 
     /**
      * @since 0.8.0
      */
-    @GET("columns/{columnId}?format=json")
-    Call<OcsResponse<ColumnV2Dto>> getColumn(@Path("columnId") long columnId);
+    @GET("columns/{columnRemoteId}?format=json")
+    Call<OcsResponse<ColumnV2Dto>> getColumn(@Path("columnRemoteId") long columnId);
 
     /**
      * @since 0.8.0
@@ -202,9 +203,9 @@ public interface TablesV2API {
      * @since 0.8.0
      */
     @POST("{nodeCollection}/{nodeId}/rows?format=json")
-    Call<OcsResponse<RowV2Dto>> createRow(
-            @Path("nodeCollection") @NonNull ENodeTypeV2Dto nodeType,
+    Call<OcsResponse<CreateRowResponseV2Dto>> createRow(
+            @Path("nodeCollection") @NonNull ENodeCollectionV2Dto nodeCollection,
             @Path("nodeId") long tableId,
-            @Query("data") @NonNull CreateRowV2Dto data);
+            @Body @NonNull CreateRowV2Dto data);
 
 }

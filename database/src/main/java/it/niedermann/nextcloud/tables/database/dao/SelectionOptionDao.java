@@ -13,12 +13,12 @@ import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 @Dao
 public interface SelectionOptionDao extends GenericDao<SelectionOption> {
 
-    @Query("SELECT * FROM SelectionOption s WHERE s.columnId = :columnId")
+    @Query("SELECT s.* FROM SelectionOption s WHERE s.columnId = :columnId")
     List<SelectionOption> getSelectionOptions(long columnId);
 
-    @Query("SELECT * FROM SelectionOption s " +
+    @Query("SELECT s.* FROM SelectionOption s " +
             "WHERE s.columnId = :columnId " +
-            "AND status != 'LOCAL_DELETED'")
+            "AND status IS NOT 'LOCAL_DELETED'")
     List<SelectionOption> getNotDeletedSelectionOptions(long columnId);
 
     @MapInfo(keyColumn = "remoteId", valueColumn = "id")
