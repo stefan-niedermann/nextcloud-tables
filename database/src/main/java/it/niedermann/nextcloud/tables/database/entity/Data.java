@@ -42,6 +42,7 @@ import it.niedermann.nextcloud.tables.database.model.Value;
         },
         indices = {
                 @Index(value = {"accountId", "rowId", "columnId"}, unique = true),
+                // FIXME Unique Constraint fails
                 @Index(value = {"accountId", "rowId", "remoteColumnId"}, unique = true),
         }
 )

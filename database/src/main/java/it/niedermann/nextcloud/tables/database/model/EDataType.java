@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
@@ -48,6 +49,9 @@ public enum EDataType {
     private final int id;
     private final String type;
     private final String subType;
+
+    private static final Collection<EDataType> DATA_TYPES_USING_SELECTION_OPTIONS = Set.of(SELECTION, SELECTION_MULTI);
+    private static final Collection<EDataType> DATA_TYPES_USING_USER_GROUPS = Set.of(USERGROUP);
 
     public static EDataType findById(int id) throws NoSuchElementException {
         for (final var entry : EDataType.values()) {
@@ -112,6 +116,14 @@ public enum EDataType {
                 .map(value -> value.subType)
 //                .filter(not(TextUtils::isEmpty))
                 .collect(Collectors.toUnmodifiableSet());
+    }
+
+    public boolean hasSelectionOptions() {
+        return DATA_TYPES_USING_SELECTION_OPTIONS.contains(this);
+    }
+
+    public boolean hasUserGroups() {
+        return DATA_TYPES_USING_USER_GROUPS.contains(this);
     }
 
     @NonNull

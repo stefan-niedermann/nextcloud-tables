@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 
@@ -97,12 +98,21 @@ public interface ColumnDao extends GenericDao<Column> {
             "ORDER BY orderWeight DESC")
     List<FullColumn> getNotDeletedColumns(long tableId);
 
+    @Transaction
     @MapInfo(keyColumn = "remoteId")
     @Query("SELECT c.* FROM `Column` c " +
             "WHERE c.tableId = :tableId " +
             "AND c.status IS NOT 'LOCAL_DELETED' " +
             "ORDER BY c.orderWeight DESC")
-    Map<Long, Column> getNotDeletedRemoteIdsAndColumns(long tableId);
+    Map<Long, FullColumn> getNotDeletedColumnRemoteIdsAndFullColumns(long tableId);
+
+    @MapInfo(keyColumn = "remoteId")
+    @Query("SELECT c.remoteId, s.* FROM `SelectionOption` s " +
+            "INNER JOIN `Column` c " +
+            "ON s.columnId = c.id " +
+            "WHERE c.tableId = :tableId " +
+            "AND c.status IS NOT 'LOCAL_DELETED'")
+    Map<Long, List<SelectionOption>> getNotDeletedSelectionOptions(long tableId);
 
     @MapInfo(keyColumn = "id", valueColumn = "orderWeight")
     @Query("SELECT id, orderWeight FROM `Column` " +
@@ -116,11 +126,6 @@ public interface ColumnDao extends GenericDao<Column> {
             "WHERE tableId = :tableId " +
             "AND remoteId IN (:remoteIds)")
     Map<Long, Long> getColumnRemoteAndLocalIds(long tableId, Collection<Long> remoteIds);
-
-    @MapInfo(keyColumn = "remoteId", valueColumn = "id")
-    @Query("SELECT remoteId, id FROM `Column` " +
-            "WHERE tableId = :tableId")
-    Map<Long, Long> getColumnRemoteAndLocalIds(long tableId);
 
     @Query("DELETE FROM `Column` " +
             "WHERE tableId = :tableId " +

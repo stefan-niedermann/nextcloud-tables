@@ -68,8 +68,10 @@ public class SelectionMultiEditor extends DataEditView<EditSelectionMultiBinding
         super.setFullData(fullData);
 
         selected.clear();
-        Optional.ofNullable(fullData.getSelectionOptions())
+        Optional.of(fullData.getSelectionOptions())
                 .ifPresent(selected::addAll);
+
+        // TODO find checkboxes and SET them
     }
 
     @Override

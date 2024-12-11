@@ -8,13 +8,13 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.DataV1Mapper;
@@ -38,34 +38,20 @@ public class SelectionSingleDataV1Mapper extends DataV1Mapper {
     }
 
     @Override
-    public @NonNull FullData toData(@Nullable JsonElement dto,
-                                    @Nullable Long columnRemoteId,
-                                    @NonNull EDataType dataTypeAccordingToLocalColumn,
-                                    @NonNull TablesVersion version) {
-        final var fullData = new FullData();
-        final var data = new Data();
-
-        Optional.ofNullable(dto)
+    protected void toFullData(@NonNull FullData fullData,
+                              @Nullable JsonElement value,
+                              @NonNull FullColumn fullColumn,
+                              @NonNull TablesVersion version) {
+        Optional.ofNullable(value)
                 .filter(JsonElement::isJsonPrimitive)
                 .map(JsonElement::getAsLong)
-                .map(List::of)
-                .map(selectionOptionRemoteIds -> selectionOptionRemoteIds
+                .map(remoteId -> fullColumn.getSelectionOptions()
                         .stream()
-                        .map(remoteId -> {
-                            final var selectionOption = new SelectionOption();
-                            selectionOption.setRemoteId(remoteId);
-                            return selectionOption;
-                        })
-                        .collect(Collectors.toUnmodifiableList())
-                )
+                        .filter(selectionOption -> Objects.equals(remoteId, selectionOption.getRemoteId()))
+                        .findAny())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(List::of)
                 .ifPresent(fullData::setSelectionOptions);
-
-        fullData.setData(data);
-        fullData.setDataType(dataTypeAccordingToLocalColumn);
-
-        Optional.ofNullable(columnRemoteId)
-                .ifPresent(data::setRemoteColumnId);
-
-        return fullData;
     }
 }

@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
+import it.niedermann.nextcloud.tables.remote.shared.model.DataResponseDto;
+
 public record FetchRowResponseV1Dto(
         @SerializedName("id")
         @Nullable Long remoteId,
@@ -15,6 +17,6 @@ public record FetchRowResponseV1Dto(
         @Nullable Instant createdAt,
         @Nullable String lastEditBy,
         @Nullable Instant lastEditAt,
-        @Nullable List<DataV1Dto> data
+        @Nullable List<DataResponseDto> data
 ) implements Serializable {
 }

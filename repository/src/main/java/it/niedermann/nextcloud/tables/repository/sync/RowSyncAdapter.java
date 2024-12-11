@@ -1,9 +1,11 @@
 package it.niedermann.nextcloud.tables.repository.sync;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
+import static java.util.stream.Collectors.toMap;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,18 +16,18 @@ import androidx.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
@@ -114,7 +116,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                             .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
                             .map(fullRow -> {
                                 final var createRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
-                                return executeNetworkRequest(account, apis -> apis.apiV1().updateRow(Objects.requireNonNull(fullRow.getRow().getRemoteId()), createRowDto))
+                                return executeNetworkRequest(account, apis -> apis.apiV1().updateRow(requireNonNull(fullRow.getRow().getRemoteId()), createRowDto))
                                         .thenComposeAsync(response -> {
                                             Log.i(TAG, "------ → HTTP " + response.code());
 
@@ -180,14 +182,22 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
                     return allOf(tables.stream().map(tableStream ->
                             supplyAsync(() -> new Pair<>(
-                                    db.getColumnDao().getNotDeletedRemoteIdsAndColumns(table.getId()),
-                                    db.getColumnDao().getColumnRemoteAndLocalIds(table.getId())
+                                    db.getColumnDao().getNotDeletedColumnRemoteIdsAndFullColumns(table.getId()),
+                                    db.getColumnDao().getNotDeletedSelectionOptions(table.getId())
                             ), db.getParallelExecutor())
-                                    .thenComposeAsync(columnsAndIdMap -> fetchAndPersistRows(
-                                            account, table, 0,
-                                            ConcurrentHashMap.newKeySet(columnsAndIdMap.second.values().size()),
-                                            columnsAndIdMap.first,
-                                            columnsAndIdMap.second), workExecutor)
+                                    .thenComposeAsync(columnsAndIdMap -> {
+                                        final var columnRemoteAndLocalIds = columnsAndIdMap.first
+                                                .entrySet()
+                                                .stream()
+                                                .collect(toMap(Map.Entry::getKey, entry -> requireNonNull(entry.getValue().getColumn().getRemoteId())));
+
+                                        return fetchAndPersistRows(
+                                                account, table, 0,
+                                                ConcurrentHashMap.newKeySet(columnsAndIdMap.first.size()),
+                                                columnsAndIdMap.first,
+                                                columnRemoteAndLocalIds,
+                                                columnsAndIdMap.second);
+                                    }, workExecutor)
                                     .thenApplyAsync(fetchedRowIds -> new Pair<>(fetchedRowIds, db.getRowDao().getIds(table.getId())), db.getParallelExecutor())
                                     .thenApplyAsync(pair -> {
                                         final var fetchedRowIds = pair.first;
@@ -234,11 +244,13 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     }
 
     @NonNull
-    public CompletableFuture<Void> upsertData(@NonNull final Data data,
+    public CompletableFuture<Void> upsertData(@NonNull final FullData fullData,
                                               @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
         return completedFuture(null)
                 .thenComposeAsync(v -> {
+                    final var data = fullData.getData();
                     if (columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
+                        // FIXME if fullData.getDataType has selection options, then the value must be stored in CrossRef table
                         final var existingData = Optional.ofNullable(db.getDataDao().getDataIdForCoordinates(data.getColumnId(), data.getRowId()));
                         if (existingData.isEmpty()) {
                             return supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
@@ -264,8 +276,10 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                                     @NonNull final Table table,
                                                                     final int offset,
                                                                     @NonNull final Collection<Long> target,
-                                                                    @NonNull final Map<Long, Column> columns,
-                                                                    @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
+                                                                    @NonNull final Map<Long, FullColumn> columnRemoteIdsToFullColumns,
+                                                                    @NonNull final Map<Long, Long> columnRemoteIdsToColumnLocalIds,
+                                                                    @NonNull final Map<Long, List<SelectionOption>> columnRemoteIdToSelectionColumns) {
+
         return this.getTableRemoteIdOrThrow(table, Row.class)
                 .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
                 .thenComposeAsync(response -> switch (response.code()) {
@@ -277,7 +291,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                         }
 
                         yield allOf(rowDtos.stream().map(rowDto -> supplyAsync(() -> {
-                            final var fullRow = fetchRowV1Mapper.toEntity(account.getId(), rowDto, columns, Objects.requireNonNull(account.getTablesVersion()));
+                            final var fullRow = fetchRowV1Mapper.toEntity(account.getId(), rowDto, columnRemoteIdsToFullColumns, columnRemoteIdToSelectionColumns, requireNonNull(account.getTablesVersion()));
 
                             final var row = fullRow.getRow();
                             row.setAccountId(table.getAccountId());
@@ -294,8 +308,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                 .thenComposeAsync(rowAndRowId -> upsertRow(rowAndRowId.first, rowAndRowId.second.orElse(null)), workExecutor)
                                 .thenComposeAsync(fullRow -> allOf(fullRow
                                         .getFullData().stream()
-                                        .map(FullData::getData)
-                                        .map(data -> upsertData(data, columnRemoteAndLocalIds))
+                                        .map(fullData -> upsertData(fullData, columnRemoteIdsToColumnLocalIds))
                                         .toArray(CompletableFuture[]::new))
                                         .thenComposeAsync(v -> {
                                             target.add(fullRow.getRow().getId());
@@ -307,7 +320,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                     }
 
                                     final var newOffset = offset + rowDtos.size();
-                                    return fetchAndPersistRows(account, table, newOffset, target, columns, columnRemoteAndLocalIds);
+                                    return fetchAndPersistRows(account, table, newOffset, target, columnRemoteIdsToFullColumns, columnRemoteIdsToColumnLocalIds, columnRemoteIdToSelectionColumns);
                                 }, workExecutor);
                     }
 

@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
@@ -26,7 +26,7 @@ public class CreateRowResponseV2Mapper {
 
     public FullRow toEntity(long accountId,
                             @NonNull CreateRowResponseV2Dto dto,
-                            @NonNull Map<Long, Column> remoteIdToColumns,
+                            @NonNull Map<Long, FullColumn> remoteIdToFullColumns,
                             @NonNull TablesVersion tablesVersion) {
         final var fullRow = new FullRow();
 
@@ -40,24 +40,16 @@ public class CreateRowResponseV2Mapper {
             for (final var dataDto : list) {
                 final var optionalColumn = Optional
                         .ofNullable(dataDto.remoteColumnId())
-                        .map(remoteIdToColumns::get);
+                        .map(remoteIdToFullColumns::get);
 
                 if (optionalColumn.isEmpty()) {
                     continue;
                 }
 
-                final var column = optionalColumn.get();
+                final var fullColumn = optionalColumn.get();
+                final var column = fullColumn.getColumn();
                 final var service = registry.getService(column.getDataType());
-                final var fullData = service.toData(dataDto.value(), column.getRemoteId(), column.getDataType(), tablesVersion);
-
-                fullData.getData().setAccountId(accountId);
-                fullData.getData().setColumnId(column.getId());
-                fullData.setDataType(column.getDataType());
-
-                for (final var selectionOption : fullData.getSelectionOptions()) {
-                    selectionOption.setAccountId(accountId);
-                    selectionOption.setColumnId(column.getId());
-                }
+                final var fullData = service.toFullData(accountId, dataDto.value(), fullColumn, tablesVersion);
 
                 fullDataList.add(fullData);
             }

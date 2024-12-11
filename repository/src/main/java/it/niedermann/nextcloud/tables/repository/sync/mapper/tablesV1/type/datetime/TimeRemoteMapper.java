@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.database.model.Value;
@@ -36,28 +37,17 @@ public class TimeRemoteMapper extends DataV1Mapper {
     }
 
     @Override
-    public @NonNull FullData toData(@Nullable JsonElement dto,
-                                    @Nullable Long columnRemoteId,
-                                    @NonNull EDataType dataTypeAccordingToLocalColumn,
-                                    @NonNull TablesVersion version) {
-        final var fullData = new FullData();
-        final var data = new Data();
-
-        Optional.ofNullable(dto)
+    protected void toFullData(@NonNull FullData fullData,
+                              @Nullable JsonElement value,
+                              @NonNull FullColumn fullColumn,
+                              @NonNull TablesVersion version) {
+        Optional.ofNullable(value)
                 .filter(JsonElement::isJsonPrimitive)
                 .map(JsonElement::getAsString)
                 // https://github.com/stefan-niedermann/nextcloud-tables/issues/18
-                .filter(value -> version.isGreaterThan(TablesVersion.V_0_5_0) && !"none".equals(value))
+                .filter(stringValue -> version.isGreaterThan(TablesVersion.V_0_5_0) && !"none".equals(stringValue))
                 .map(TablesV1API.FORMATTER_DATA_TIME::parse)
                 .map(LocalTime::from)
-                .ifPresent(data.getValue()::setTimeValue);
-
-        fullData.setData(data);
-        fullData.setDataType(dataTypeAccordingToLocalColumn);
-
-        Optional.ofNullable(columnRemoteId)
-                .ifPresent(data::setRemoteColumnId);
-
-        return fullData;
+                .ifPresent(fullData.getData().getValue()::setTimeValue);
     }
 }
