@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
@@ -37,10 +38,17 @@ public class ImportAccountViewModel extends AndroidViewModel {
     @NonNull
     public LiveData<SyncStatus> createAccount(@NonNull Account accountToCreate) {
         if (importInProgress.getAndSet(true)) {
-            throw new IllegalStateException("Account Import already in progress. Next import can only get started after SyncStatus reaches " + SyncStatus.Step.FINISHED + " or " + SyncStatus.Step.ERROR);
+            return new MutableLiveData<>(
+                    new SyncStatus(accountToCreate)
+                            .withError(new IllegalStateException("Account Import already in progress. Next import can only get started after SyncStatus reaches " + SyncStatus.Step.FINISHED + " or " + SyncStatus.Step.ERROR)));
         }
 
-        return accountRepository.createAccount(accountToCreate);
+        return new ReactiveLiveData<>(accountRepository.createAccount(accountToCreate))
+                .tap(syncStatus -> {
+                    if (syncStatus.isFinished()) {
+                        importInProgress.set(false);
+                    }
+                });
 
 //        return new ReactiveLiveData<>(accountRepository.createAccount(accountToCreate));
 //                .map(ImportAccountUIState::new);
