@@ -62,8 +62,6 @@ public class FetchRowResponseV1Mapper {
                 final var service = registry.getService(column.getDataType());
                 final var fullData = service.toFullData(accountId, dataDto.value(), fullColumn, tablesVersion);
 
-                Optional.ofNullable(column.getRemoteId()).ifPresent(fullData.getData()::setRemoteColumnId);
-
                 fullDataList.add(fullData);
             }
         });
