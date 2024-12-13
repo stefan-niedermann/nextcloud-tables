@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Objects;
@@ -17,6 +19,12 @@ public abstract class AbstractAccountRelatedEntity extends AbstractEntity {
 
     public AbstractAccountRelatedEntity() {
         // Default constructor
+    }
+
+    @Ignore
+    public AbstractAccountRelatedEntity(@NonNull AbstractAccountRelatedEntity entity) {
+        super(entity);
+        this.accountId = entity.getAccountId();
     }
 
     public long getAccountId() {

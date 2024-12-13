@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.time.Instant;
@@ -68,6 +69,22 @@ public class Table extends AbstractRemoteEntity {
 
     public Table() {
         this.onSharePermission = new OnSharePermission();
+    }
+
+    @Ignore
+    public Table(@NonNull Table table) {
+        super(table);
+        this.title = table.getTitle();
+        this.description = table.getDescription();
+        this.emoji = table.getEmoji();
+        this.ownership = table.getOwnership();
+        this.ownerDisplayName = table.getOwnerDisplayName();
+        this.createdBy = table.getCreatedBy();
+        this.createdAt = table.getCreatedAt();
+        this.lastEditBy = table.lastEditBy;
+        this.lastEditAt = table.lastEditAt;
+        this.isShared = table.isShared();
+        this.onSharePermission = new OnSharePermission(table.getOnSharePermission());
     }
 
     @NonNull

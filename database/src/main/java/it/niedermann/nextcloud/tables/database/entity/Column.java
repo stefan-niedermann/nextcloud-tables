@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.time.Instant;
@@ -90,11 +91,31 @@ public class Column extends AbstractTableRelatedEntity {
     public Column() {
         dataType = EDataType.UNKNOWN;
         defaultValue = new Value();
-        numberAttributes = new NumberAttributes(null, null, null, null, null);
+        numberAttributes = new NumberAttributes();
         dateTimeAttributes = new DateTimeAttributes();
         selectionAttributes = new SelectionAttributes();
-        textAttributes = new TextAttributes(null, null);
-        userGroupAttributes = new UserGroupAttributes(false, false, false, false);
+        textAttributes = new TextAttributes();
+        userGroupAttributes = new UserGroupAttributes();
+    }
+
+    @Ignore
+    public Column(@NonNull Column column) {
+        super(column);
+        this.title = column.getTitle();
+        this.createdBy = column.getCreatedBy();
+        this.createdAt = column.getCreatedAt();
+        this.lastEditBy = column.getLastEditBy();
+        this.lastEditAt = column.getLastEditAt();
+        this.dataType = column.getDataType();
+        this.mandatory = column.isMandatory();
+        this.description = column.getDescription();
+        this.orderWeight = column.getOrderWeight();
+        this.defaultValue = column.getDefaultValue();
+        this.numberAttributes = column.getNumberAttributes();
+        this.dateTimeAttributes = column.getDateTimeAttributes();
+        this.selectionAttributes = column.getSelectionAttributes();
+        this.textAttributes = column.getTextAttributes();
+        this.userGroupAttributes = column.getUserGroupAttributes();
     }
 
     public String getTitle() {

@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -18,6 +20,12 @@ public abstract class AbstractEntity implements Serializable {
 
     public AbstractEntity() {
         // Default constructor
+    }
+
+    @Ignore
+    public AbstractEntity(@NonNull AbstractEntity entity) {
+        this.id = entity.getId();
+        this.eTag = entity.getETag();
     }
 
     public long getId() {

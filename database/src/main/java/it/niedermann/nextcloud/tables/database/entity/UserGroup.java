@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -46,6 +47,14 @@ public class UserGroup extends AbstractAccountRelatedEntity {
         this.remoteId = remoteId;
         this.key = key;
         this.type = type;
+    }
+
+    @Ignore
+    public UserGroup(@NonNull UserGroup userGroup) {
+        super(userGroup);
+        this.remoteId = userGroup.getRemoteId();
+        this.key = userGroup.getKey();
+        this.type = userGroup.getType();
     }
 
     @Nullable

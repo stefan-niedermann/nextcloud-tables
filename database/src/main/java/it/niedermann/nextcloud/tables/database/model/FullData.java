@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -82,8 +83,8 @@ public class FullData implements Serializable {
 
     @Ignore
     public FullData(@NonNull FullData fullData) {
-        this.data = fullData.getData();
-        this.selectionOptions = fullData.getSelectionOptions();
+        this.data = new Data(fullData.getData());
+        this.selectionOptions = fullData.getSelectionOptions().stream().map(SelectionOption::new).collect(Collectors.toUnmodifiableList());
         this.userGroups = fullData.getUserGroups();
         this.dataType = fullData.getDataType();
     }

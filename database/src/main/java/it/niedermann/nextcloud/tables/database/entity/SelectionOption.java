@@ -50,6 +50,13 @@ public class SelectionOption extends AbstractRemoteEntity implements Comparable<
         this.label = label;
     }
 
+    @Ignore
+    public SelectionOption(@NonNull SelectionOption selectionOption) {
+        super(selectionOption);
+        this.columnId = selectionOption.getColumnId();
+        this.label = selectionOption.getLabel();
+    }
+
     public long getColumnId() {
         return columnId;
     }

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Objects;
@@ -80,6 +81,19 @@ public class Account extends AbstractEntity {
         this.userName = username;
         this.url = url;
         this.displayName = displayName;
+    }
+
+    @Ignore
+    public Account(@NonNull Account account) {
+        super(account);
+        this.accountName = account.getAccountName();
+        this.userName = account.getUserName();
+        this.url = account.getUrl();
+        this.displayName = account.getDisplayName();
+        this.nextcloudVersion = account.getNextcloudVersion();
+        this.tablesVersion = account.getTablesVersion();
+        this.color = account.getColor();
+        this.currentTable = account.getCurrentTable();
     }
 
     @NonNull

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -39,6 +40,15 @@ public class Row extends AbstractTableRelatedEntity {
 
     public Row() {
         // Default constructor
+    }
+
+    @Ignore
+    public Row(@NonNull Row row) {
+        super(row);
+        this.createdBy = row.getCreatedBy();
+        this.createdAt = row.getCreatedAt();
+        this.lastEditBy = row.getLastEditBy();
+        this.lastEditAt = row.getLastEditAt();
     }
 
     public String getCreatedBy() {

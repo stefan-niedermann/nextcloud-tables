@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +17,15 @@ public class OnSharePermission implements Serializable {
 
     public OnSharePermission() {
         // Default constructor
+    }
+
+    @Ignore
+    public OnSharePermission(@NonNull OnSharePermission onSharePermission) {
+        this.read = onSharePermission.isRead();
+        this.create = onSharePermission.isCreate();
+        this.update = onSharePermission.isUpdate();
+        this.delete = onSharePermission.isDelete();
+        this.manage = onSharePermission.isManage();
     }
 
     public boolean isRead() {

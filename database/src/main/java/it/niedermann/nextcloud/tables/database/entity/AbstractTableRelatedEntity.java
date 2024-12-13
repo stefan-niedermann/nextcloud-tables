@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Objects;
@@ -14,10 +15,16 @@ import java.util.Objects;
 )
 public class AbstractTableRelatedEntity extends AbstractRemoteEntity {
 
-    private long tableId;
+    protected long tableId;
 
     public AbstractTableRelatedEntity() {
         // Default constructor
+    }
+
+    @Ignore
+    public AbstractTableRelatedEntity(@NonNull AbstractTableRelatedEntity entity) {
+        super(entity);
+        this.tableId = entity.getTableId();
     }
 
     public long getTableId() {

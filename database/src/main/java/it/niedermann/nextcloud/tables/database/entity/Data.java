@@ -62,13 +62,11 @@ public class Data extends AbstractAccountRelatedEntity {
 
     @Ignore
     public Data(@NonNull Data data) {
-        this.id = data.getId();
+        super(data);
         this.rowId = data.getRowId();
-        this.value = data.getValue();
-        this.remoteColumnId = data.getRemoteColumnId();
-        this.accountId = data.getAccountId();
         this.columnId = data.getColumnId();
-        this.eTag = data.getETag();
+        this.remoteColumnId = data.getRemoteColumnId();
+        this.value = data.getValue();
     }
 
     public long getColumnId() {
