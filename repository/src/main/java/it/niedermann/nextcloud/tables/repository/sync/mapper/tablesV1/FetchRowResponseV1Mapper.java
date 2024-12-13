@@ -32,7 +32,7 @@ public class FetchRowResponseV1Mapper {
     public FullRow toEntity(long accountId,
                             @NonNull FetchRowResponseV1Dto dto,
                             @NonNull Map<Long, FullColumn> remoteIdToFullColumns,
-                            @NonNull Map<Long, List<SelectionOption>> columnRemoteIdToSelectionColumns,
+                            @NonNull Map<Long, List<SelectionOption>> columnRemoteIdToSelectionOptions,
                             @NonNull TablesVersion tablesVersion) {
         final var fullRow = new FullRow();
 

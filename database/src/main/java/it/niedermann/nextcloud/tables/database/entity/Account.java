@@ -6,34 +6,37 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.model.NextcloudVersion;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 
 @Entity(
         inheritSuperIndices = true,
-        foreignKeys = {
-                @ForeignKey(
-                        entity = Table.class,
-                        parentColumns = "id",
-                        childColumns = "currentTable",
-                        onDelete = ForeignKey.SET_NULL
-                )
-        },
         indices = {
-                @Index(name = "IDX_ACCOUNT_URL", value = "url"),
-                @Index(name = "IDX_ACCOUNT_USERNAME", value = "userName"),
-                @Index(name = "IDX_ACCOUNT_ACCOUNTNAME", value = "accountName", unique = true),
-                @Index(name = "IDX_ACCOUNT_CURRENT_TABLE", value = "currentTable")
+                @Index(value = "user_status"),
+                @Index(value = "capabilities_status"),
+                @Index(value = {"userName", "url"}, unique = true),
+                @Index(value = "accountName", unique = true),
+                @Index(value = "currentTable")
         }
 )
 public class Account extends AbstractEntity {
+
+    @NonNull
+    @Embedded(prefix = "user_")
+    private SynchronizationContext userSynchronizationContext;
+
+    @NonNull
+    @Embedded(prefix = "capabilities_")
+    private SynchronizationContext capabilitiesSynchronizationContext;
 
     @NonNull
     @ColumnInfo(defaultValue = "")
@@ -64,7 +67,7 @@ public class Account extends AbstractEntity {
     private Long currentTable;
 
     public Account() {
-        // Default constructor
+        this("", "", "");
     }
 
     public Account(@NonNull String url,
@@ -81,6 +84,8 @@ public class Account extends AbstractEntity {
         this.userName = username;
         this.url = url;
         this.displayName = displayName;
+        this.userSynchronizationContext = new SynchronizationContext();
+        this.capabilitiesSynchronizationContext = new SynchronizationContext();
     }
 
     @Ignore
@@ -94,6 +99,70 @@ public class Account extends AbstractEntity {
         this.tablesVersion = account.getTablesVersion();
         this.color = account.getColor();
         this.currentTable = account.getCurrentTable();
+        this.userSynchronizationContext = new SynchronizationContext(account.getUserSynchronizationContext());
+        this.capabilitiesSynchronizationContext = new SynchronizationContext(account.getCapabilitiesSynchronizationContext());
+    }
+
+    @NonNull
+    public SynchronizationContext getUserSynchronizationContext() {
+        return userSynchronizationContext;
+    }
+
+    public void setUserSynchronizationContext(@NonNull SynchronizationContext userSynchronizationContext) {
+        this.userSynchronizationContext = userSynchronizationContext;
+    }
+
+    @NonNull
+    public SynchronizationContext getCapabilitiesSynchronizationContext() {
+        return capabilitiesSynchronizationContext;
+    }
+
+    public void setCapabilitiesSynchronizationContext(@NonNull SynchronizationContext capabilitiesSynchronizationContext) {
+        this.capabilitiesSynchronizationContext = capabilitiesSynchronizationContext;
+    }
+
+    @NonNull
+    @Ignore
+    public DBStatus getUserStatus() {
+        return Optional.ofNullable(userSynchronizationContext.status()).orElse(DBStatus.VOID);
+    }
+
+    @Ignore
+    public void setUserStatus(@NonNull DBStatus status) {
+        userSynchronizationContext = new SynchronizationContext(status, userSynchronizationContext.eTag());
+    }
+
+    @Nullable
+    @Ignore
+    public String getUserETag() {
+        return userSynchronizationContext.eTag();
+    }
+
+    @Ignore
+    public void setUserETag(@NonNull String eTag) {
+        userSynchronizationContext = new SynchronizationContext(userSynchronizationContext.status(), eTag);
+    }
+
+    @NonNull
+    @Ignore
+    public DBStatus getCapabilitiesStatus() {
+        return Optional.ofNullable(capabilitiesSynchronizationContext.status()).orElse(DBStatus.VOID);
+    }
+
+    @Ignore
+    public void setCapabilitiesStatus(@Nullable DBStatus status) {
+        capabilitiesSynchronizationContext = new SynchronizationContext(status, capabilitiesSynchronizationContext.eTag());
+    }
+
+    @Nullable
+    @Ignore
+    public String getCapabilitiesETag() {
+        return capabilitiesSynchronizationContext.eTag();
+    }
+
+    @Ignore
+    public void setCapabilitiesETag(@Nullable String eTag) {
+        capabilitiesSynchronizationContext = new SynchronizationContext(capabilitiesSynchronizationContext.status(), eTag);
     }
 
     @NonNull
@@ -179,11 +248,11 @@ public class Account extends AbstractEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Account account = (Account) o;
-        return color == account.color && url.equals(account.url) && userName.equals(account.userName) && accountName.equals(account.accountName) && Objects.equals(nextcloudVersion, account.nextcloudVersion) && Objects.equals(tablesVersion, account.tablesVersion) && Objects.equals(displayName, account.displayName) && Objects.equals(currentTable, account.currentTable);
+        return color == account.color && Objects.equals(userSynchronizationContext, account.userSynchronizationContext) && Objects.equals(capabilitiesSynchronizationContext, account.capabilitiesSynchronizationContext) && Objects.equals(url, account.url) && Objects.equals(userName, account.userName) && Objects.equals(accountName, account.accountName) && Objects.equals(nextcloudVersion, account.nextcloudVersion) && Objects.equals(tablesVersion, account.tablesVersion) && Objects.equals(displayName, account.displayName) && Objects.equals(currentTable, account.currentTable);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), url, userName, accountName, nextcloudVersion, tablesVersion, color, displayName, currentTable);
+        return Objects.hash(super.hashCode(), userSynchronizationContext, capabilitiesSynchronizationContext, url, userName, accountName, nextcloudVersion, tablesVersion, color, displayName, currentTable);
     }
 }

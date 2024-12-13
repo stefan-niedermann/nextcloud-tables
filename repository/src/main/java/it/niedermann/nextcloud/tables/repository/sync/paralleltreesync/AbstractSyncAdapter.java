@@ -1,6 +1,5 @@
-package it.niedermann.nextcloud.tables.repository.sync;
+package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
-import static java.util.concurrent.CompletableFuture.allOf;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
@@ -57,35 +56,29 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
 
     /// **Guaranteed orders**
     ///
-    /// Step 1 - 3
+    /// *Step 1 - 4* (may be omitted in case [Account#getTablesVersion] or [Account#getNextcloudVersion] is `null`)
     /// 1. [#pushLocalDeletions]
     /// 2. [#pushLocalCreations]
     /// 3. [#pushLocalUpdates]
-    ///
-    /// Step 4
-    /// Runs parallel to step 1 - 3
     /// 4. [#pushChildChangesWithoutChangedParent]
     ///
-    /// Step 1 - 4 may be omitted in case [Account#getTablesVersion] or [Account#getNextcloudVersion] is `null`.
-    ///
-    /// Step 5
-    /// Runs always at the end
+    /// *Step 5* (runs always at the end)
     /// 5. [#pullRemoteChanges]
     @NonNull
     @Override
-    public final CompletableFuture<Void> synchronize(@NonNull Account account, @NonNull TParentEntity parentEntity, @Nullable SyncStatusReporter reporter) {
+    public final CompletableFuture<Void> synchronize(@NonNull Account account,
+                                                     @NonNull TParentEntity parentEntity,
+                                                     @Nullable SyncStatusReporter reporter) {
         final var pushLocalChanges = account.getTablesVersion() == null || account.getNextcloudVersion() == null
                 ? completedFuture(null)
-                : allOf(
-                completedFuture(account)
-                        .thenComposeAsync(this::pushChildChangesWithoutChangedParent, workExecutor),
-                completedFuture(null)
-                        .thenComposeAsync(v -> pushLocalDeletions(account, parentEntity), workExecutor)
-                        .thenComposeAsync(v -> pushLocalCreations(account, parentEntity), workExecutor)
-                        .thenComposeAsync(v -> pushLocalUpdates(account, parentEntity), workExecutor)
-        );
+                : completedFuture(null)
+                .thenComposeAsync(v -> pushLocalDeletions(account, parentEntity), workExecutor)
+                .thenComposeAsync(v -> pushLocalCreations(account, parentEntity), workExecutor)
+                .thenComposeAsync(v -> pushLocalUpdates(account, parentEntity), workExecutor)
+                .thenComposeAsync(v -> pushChildChangesWithoutChangedParent(account), workExecutor);
 
-        return pushLocalChanges.thenComposeAsync(v -> pullRemoteChanges(account, parentEntity, reporter), workExecutor);
+        return pushLocalChanges
+                .thenComposeAsync(v -> pullRemoteChanges(account, parentEntity, reporter), workExecutor);
     }
 
     @NonNull
@@ -151,12 +144,13 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
 
     /**
      * @return {@link Table#getRemoteId()} of {@param table} or a failed future.
+     * @noinspection SameParameterValue
      */
     @NonNull
-    protected CompletableFuture<Long> getTableRemoteIdOrThrow(@NonNull Table table,
-                                                              @NonNull Class<? extends AbstractRemoteEntity> entityType) {
+    protected CompletableFuture<Long> getRemoteIdOrThrow(@NonNull AbstractRemoteEntity entity,
+                                                         @NonNull Class<? extends AbstractRemoteEntity> entityType) {
         return supplyAsync(() -> {
-            final var tableRemoteId = table.getRemoteId();
+            final var tableRemoteId = entity.getRemoteId();
 
             if (tableRemoteId == null) {
                 throw new IllegalStateException("Expected " + Table.class.getSimpleName() + " remote ID to be present when pushing " + entityType.getSimpleName() + " changes, but was null");

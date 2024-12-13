@@ -24,7 +24,6 @@ public abstract class DefaultValueSupplier {
 
         final var data = result.getData();
 
-        data.setAccountId(fullColumn.getColumn().getAccountId());
         data.setColumnId(fullColumn.getColumn().getId());
         Optional.of(fullColumn.getColumn())
                 .map(Column::getRemoteId)

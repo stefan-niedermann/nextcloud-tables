@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync;
+package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -35,7 +35,7 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Account entity,
                                                      @Nullable SyncStatusReporter reporter) {
-        return executeNetworkRequest(entity, apis -> apis.ocs().getCapabilities(entity.getETag()))
+        return executeNetworkRequest(entity, apis -> apis.ocs().getCapabilities(entity.getCapabilitiesETag()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {
                         final var body = response.body();
@@ -75,7 +75,7 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
 
                         entity.setTablesVersion(tablesVersion);
                         entity.setNextcloudVersion(nextcloudVersion);
-                        entity.setETag(response.headers().get(HEADER_ETAG));
+                        entity.setCapabilitiesETag(response.headers().get(HEADER_ETAG));
                         entity.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities().theming().color)));
                         yield entity;
                     }

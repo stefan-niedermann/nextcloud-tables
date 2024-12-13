@@ -3,28 +3,13 @@ package it.niedermann.nextcloud.tables.database.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 
 import java.time.Instant;
 import java.util.Objects;
 
 @Entity(
-        inheritSuperIndices = true,
-        foreignKeys = {
-                @ForeignKey(
-                        entity = Account.class,
-                        parentColumns = "id",
-                        childColumns = "accountId",
-                        onDelete = ForeignKey.CASCADE
-                ),
-                @ForeignKey(
-                        entity = Table.class,
-                        parentColumns = "id",
-                        childColumns = "tableId",
-                        onDelete = ForeignKey.CASCADE
-                )
-        }
+        inheritSuperIndices = true
 )
 public class Row extends AbstractTableRelatedEntity {
 
@@ -90,8 +75,6 @@ public class Row extends AbstractTableRelatedEntity {
                 "accountId=" + accountId +
                 ", remoteId=" + remoteId +
                 ", id=" + id +
-                ", eTag='" + eTag + '\'' +
-                ", status=" + status +
                 ", createdBy='" + createdBy + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastEditBy='" + lastEditBy + '\'' +
@@ -112,4 +95,5 @@ public class Row extends AbstractTableRelatedEntity {
     public int hashCode() {
         return Objects.hash(super.hashCode(), createdBy, createdAt, lastEditBy, lastEditAt);
     }
+
 }

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync;
+package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.completedFuture;
@@ -240,6 +240,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Account parentEntity,
                                                      @Nullable SyncStatusReporter reporter) {
+        Log.i(TAG, getClass().getSimpleName() + "#pullRemoteChanges for " + account.getAccountName());
         return executeNetworkRequest(account, apis -> apis.apiV2().getTables())
                 .thenComposeAsync(response -> {
                     final Collection<Table> fetchedTables;

@@ -13,7 +13,7 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="shared">
+      <SelectionState runConfigName="app (clear storage)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

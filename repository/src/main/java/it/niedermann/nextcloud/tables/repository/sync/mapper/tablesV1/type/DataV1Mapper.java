@@ -31,7 +31,6 @@ public abstract class DataV1Mapper {
         fullData.setDataType(fullColumn.getColumn().getDataType());
         fullData.setData(data);
 
-        data.setAccountId(accountId);
         data.setColumnId(fullColumn.getColumn().getId());
 
         Optional.ofNullable(fullColumn.getColumn().getRemoteId())

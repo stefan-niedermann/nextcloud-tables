@@ -34,22 +34,11 @@ public interface ColumnDao extends GenericDao<Column> {
 
     @Query("SELECT t.* FROM `Table` t " +
             "INNER JOIN `Column` c ON t.id = c.tableId " +
-            "INNER JOIN `SelectionOption` s ON c.id = s.columnId " +
-            "WHERE ( " +
-            "   t.accountId = :accountId " +
-            "   AND t.status IS NULL " +
-            ") AND ( " +
-            "   ( " +
-            "       c.accountId = :accountId " +
-            "       AND c.remoteId IS NOT NULL " +
-            "       AND c.status IS 'LOCAL_EDITED' " +
-            "   ) OR ( " +
-            "       s.accountId = :accountId " +
-            "       AND s.remoteId IS NOT NULL " +
-            "       AND s.status IS NOT NULL " +
-            "   ) " +
-            ")"
-    )
+            "WHERE t.accountId = :accountId " +
+            "AND t.status IS NULL " +
+            "AND c.accountId = :accountId " +
+            "AND c.remoteId IS NOT NULL " +
+            "AND c.status IS 'LOCAL_EDITED' ")
     List<Table> getUnchangedTablesHavingLocallyEditedColumnsOrChangedOrDeletedSelectionOptions(long accountId);
 
     @Query("SELECT t.* FROM `Table` t " +
@@ -106,8 +95,8 @@ public interface ColumnDao extends GenericDao<Column> {
             "ORDER BY c.orderWeight DESC")
     Map<Long, FullColumn> getNotDeletedColumnRemoteIdsAndFullColumns(long tableId);
 
-    @MapInfo(keyColumn = "remoteId")
-    @Query("SELECT c.remoteId, s.* FROM `SelectionOption` s " +
+    @MapInfo(keyColumn = "columnRemoteId")
+    @Query("SELECT c.remoteId AS columnRemoteId, s.* FROM `SelectionOption` s " +
             "INNER JOIN `Column` c " +
             "ON s.columnId = c.id " +
             "WHERE c.tableId = :tableId " +

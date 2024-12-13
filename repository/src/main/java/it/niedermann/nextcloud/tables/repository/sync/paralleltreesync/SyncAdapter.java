@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync;
+package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,7 +9,7 @@ import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
-public interface SyncAdapter<TParentEntity extends AbstractEntity> {
+interface SyncAdapter<TParentEntity extends AbstractEntity> {
 
     @NonNull
     CompletableFuture<Void> synchronize(@NonNull Account account, @NonNull TParentEntity parentEntity, @Nullable SyncStatusReporter reporter);

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync;
+package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.allOf;
@@ -173,45 +173,35 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Table table,
                                                      @Nullable SyncStatusReporter reporter) {
-        return supplyAsync(() -> db.getTableDao().getTablesWithReadPermission(account.getId()), db.getParallelExecutor())
-                .thenComposeAsync(tables -> {
-                    final var version = account.getTablesVersion();
-                    if (version == null) {
-                        throw new IllegalStateException(TablesVersion.class.getSimpleName() + " is null. Capabilities need to be synchronized before pulling remote changes.");
-                    }
+        return supplyAsync(() -> new Pair<>(
+                db.getColumnDao().getNotDeletedColumnRemoteIdsAndFullColumns(table.getId()),
+                db.getColumnDao().getNotDeletedSelectionOptions(table.getId())
+        ), db.getParallelExecutor())
+                .thenComposeAsync(columnsAndIdMap -> {
+                    final var columnRemoteAndLocalIds = columnsAndIdMap.first
+                            .entrySet()
+                            .stream()
+                            .collect(toMap(Map.Entry::getKey, entry -> requireNonNull(entry.getValue().getColumn().getRemoteId())));
 
-                    return allOf(tables.stream().map(tableStream ->
-                            supplyAsync(() -> new Pair<>(
-                                    db.getColumnDao().getNotDeletedColumnRemoteIdsAndFullColumns(table.getId()),
-                                    db.getColumnDao().getNotDeletedSelectionOptions(table.getId())
-                            ), db.getParallelExecutor())
-                                    .thenComposeAsync(columnsAndIdMap -> {
-                                        final var columnRemoteAndLocalIds = columnsAndIdMap.first
-                                                .entrySet()
-                                                .stream()
-                                                .collect(toMap(Map.Entry::getKey, entry -> requireNonNull(entry.getValue().getColumn().getRemoteId())));
+                    return fetchAndPersistRows(
+                            account, table, 0,
+                            ConcurrentHashMap.newKeySet(columnsAndIdMap.first.size()),
+                            columnsAndIdMap.first,
+                            columnRemoteAndLocalIds,
+                            columnsAndIdMap.second);
+                }, workExecutor)
+                .thenApplyAsync(fetchedRowIds -> new Pair<>(fetchedRowIds, db.getRowDao().getIds(table.getId())), db.getParallelExecutor())
+                .thenApplyAsync(pair -> {
+                    final var fetchedRowIds = pair.first;
+                    final var existingRowIds = pair.second;
 
-                                        return fetchAndPersistRows(
-                                                account, table, 0,
-                                                ConcurrentHashMap.newKeySet(columnsAndIdMap.first.size()),
-                                                columnsAndIdMap.first,
-                                                columnRemoteAndLocalIds,
-                                                columnsAndIdMap.second);
-                                    }, workExecutor)
-                                    .thenApplyAsync(fetchedRowIds -> new Pair<>(fetchedRowIds, db.getRowDao().getIds(table.getId())), db.getParallelExecutor())
-                                    .thenApplyAsync(pair -> {
-                                        final var fetchedRowIds = pair.first;
-                                        final var existingRowIds = pair.second;
+                    final var rowIdsToDelete = new HashSet<>(existingRowIds);
+                    rowIdsToDelete.removeAll(fetchedRowIds);
+                    Log.i(TAG, "------ ← Delete rows with local ID in " + rowIdsToDelete);
 
-                                        final var rowIdsToDelete = new HashSet<>(existingRowIds);
-                                        rowIdsToDelete.removeAll(fetchedRowIds);
-                                        Log.i(TAG, "------ ← Delete rows with local ID in " + rowIdsToDelete);
-
-                                        return rowIdsToDelete;
-                                    }, workExecutor)
-                                    .thenAcceptAsync(existingRowIds -> existingRowIds.forEach(db.getRowDao()::delete), db.getSequentialExecutor())
-                    ).toArray(CompletableFuture[]::new));
-                });
+                    return rowIdsToDelete;
+                }, workExecutor)
+                .thenAcceptAsync(existingRowIds -> existingRowIds.forEach(db.getRowDao()::delete), db.getSequentialExecutor());
     }
 
     @NonNull
@@ -254,7 +244,6 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                         // FIXME if fullData.getDataType has selection options, then the value must be stored in CrossRef table
 
                         return supplyAsync(() -> db.getDataDao().getDataIdForCoordinates(
-                                data.getAccountId(),
                                 data.getRemoteColumnId(),
                                 data.getRowId()), db.getParallelExecutor())
 
@@ -286,9 +275,9 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                                     @NonNull final Collection<Long> target,
                                                                     @NonNull final Map<Long, FullColumn> columnRemoteIdsToFullColumns,
                                                                     @NonNull final Map<Long, Long> columnRemoteIdsToColumnLocalIds,
-                                                                    @NonNull final Map<Long, List<SelectionOption>> columnRemoteIdToSelectionColumns) {
+                                                                    @NonNull final Map<Long, List<SelectionOption>> columnRemoteIdToSelectionOptions) {
 
-        return this.getTableRemoteIdOrThrow(table, Row.class)
+        return this.getRemoteIdOrThrow(table, Row.class)
                 .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
                 .thenComposeAsync(response -> switch (response.code()) {
                     case 200: {
@@ -299,7 +288,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                         }
 
                         yield allOf(rowDtos.stream().map(rowDto -> supplyAsync(() -> {
-                            final var fullRow = fetchRowV1Mapper.toEntity(account.getId(), rowDto, columnRemoteIdsToFullColumns, columnRemoteIdToSelectionColumns, requireNonNull(account.getTablesVersion()));
+                            final var fullRow = fetchRowV1Mapper.toEntity(account.getId(), rowDto, columnRemoteIdsToFullColumns, columnRemoteIdToSelectionOptions, requireNonNull(account.getTablesVersion()));
 
                             final var row = fullRow.getRow();
                             row.setAccountId(table.getAccountId());
@@ -328,7 +317,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                     }
 
                                     final var newOffset = offset + rowDtos.size();
-                                    return fetchAndPersistRows(account, table, newOffset, target, columnRemoteIdsToFullColumns, columnRemoteIdsToColumnLocalIds, columnRemoteIdToSelectionColumns);
+                                    return fetchAndPersistRows(account, table, newOffset, target, columnRemoteIdsToFullColumns, columnRemoteIdsToColumnLocalIds, columnRemoteIdToSelectionOptions);
                                 }, workExecutor);
                     }
 

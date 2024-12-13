@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
@@ -21,20 +20,6 @@ import it.niedermann.nextcloud.tables.database.model.Value;
 
 @Entity(
         inheritSuperIndices = true,
-        foreignKeys = {
-                @ForeignKey(
-                        entity = Account.class,
-                        parentColumns = "id",
-                        childColumns = "accountId",
-                        onDelete = ForeignKey.CASCADE
-                ),
-                @ForeignKey(
-                        entity = Table.class,
-                        parentColumns = "id",
-                        childColumns = "tableId",
-                        onDelete = ForeignKey.CASCADE
-                )
-        },
         indices = {
                 @Index(value = "orderWeight"),
         }
@@ -248,7 +233,7 @@ public class Column extends AbstractTableRelatedEntity {
     @NonNull
     @Override
     public String toString() {
-        return title + " (ID: " + id + ", Remote ID: " + remoteId + ", Status: " + status + ", Table ID: " + getTableId() + ")";
+        return title + " (ID: " + id + ", Remote ID: " + remoteId + ", Status: " + getStatus() + ", Table ID: " + getTableId() + ")";
     }
 
     @Override

@@ -7,20 +7,11 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
-import java.util.Locale;
 import java.util.Objects;
 
 @Entity(
-        /// The [#remoteId] of [SelectionOption]s is unique per [Column] but not per [#accountId].
-        /// Inheriting the unique index on [#remoteId] and [#accountId] is therefore not eligible.
-        inheritSuperIndices = false,
+        inheritSuperIndices = true,
         foreignKeys = {
-                @ForeignKey(
-                        entity = Account.class,
-                        parentColumns = "id",
-                        childColumns = "accountId",
-                        onDelete = ForeignKey.CASCADE
-                ),
                 @ForeignKey(
                         entity = Column.class,
                         parentColumns = "id",
@@ -29,15 +20,18 @@ import java.util.Objects;
                 )
         },
         indices = {
-                @Index(value = "accountId"),
-                @Index(value = "columnId"),
-                @Index(value = {"remoteId", "columnId"}, unique = true),
-                @Index(value = "status"),
+                @Index(value = "remoteId"),
+                @Index(value = {"columnId", "remoteId"}, unique = true),
         }
 )
-public class SelectionOption extends AbstractRemoteEntity implements Comparable<SelectionOption> {
+public class SelectionOption extends AbstractEntity implements Comparable<SelectionOption> {
+
+    /// Unique per [Column]
+    @Nullable
+    private Long remoteId;
 
     private long columnId;
+
     private String label;
 
     public SelectionOption() {
@@ -53,8 +47,18 @@ public class SelectionOption extends AbstractRemoteEntity implements Comparable<
     @Ignore
     public SelectionOption(@NonNull SelectionOption selectionOption) {
         super(selectionOption);
+        this.remoteId = selectionOption.getRemoteId();
         this.columnId = selectionOption.getColumnId();
         this.label = selectionOption.getLabel();
+    }
+
+    @Nullable
+    public Long getRemoteId() {
+        return remoteId;
+    }
+
+    public void setRemoteId(@Nullable Long remoteId) {
+        this.remoteId = remoteId;
     }
 
     public long getColumnId() {
@@ -79,20 +83,13 @@ public class SelectionOption extends AbstractRemoteEntity implements Comparable<
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SelectionOption that = (SelectionOption) o;
-        return columnId == that.columnId && Objects.equals(label, that.label);
+        return columnId == that.columnId && Objects.equals(remoteId, that.remoteId) && Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), columnId, label);
+        return Objects.hash(super.hashCode(), remoteId, columnId, label);
     }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return String.format(Locale.getDefault(), "[%d] %s", remoteId, label);
-    }
-
 
     @Override
     public int compareTo(SelectionOption o) {
@@ -105,7 +102,5 @@ public class SelectionOption extends AbstractRemoteEntity implements Comparable<
                 ? remoteId == null ? 0 : 1
                 : remoteId == null ? -1 : remoteId.compareTo(otherRemoteId);
     }
-
-
 }
 

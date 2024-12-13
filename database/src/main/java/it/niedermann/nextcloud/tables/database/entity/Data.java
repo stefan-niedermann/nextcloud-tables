@@ -16,12 +16,6 @@ import it.niedermann.nextcloud.tables.database.model.Value;
         inheritSuperIndices = true,
         foreignKeys = {
                 @ForeignKey(
-                        entity = Account.class,
-                        parentColumns = "id",
-                        childColumns = "accountId",
-                        onDelete = ForeignKey.CASCADE
-                ),
-                @ForeignKey(
                         entity = Row.class,
                         parentColumns = "id",
                         childColumns = "rowId",
@@ -32,21 +26,15 @@ import it.niedermann.nextcloud.tables.database.model.Value;
                         parentColumns = "id",
                         childColumns = "columnId",
                         onDelete = ForeignKey.CASCADE
-                ),
-                @ForeignKey(
-                        entity = Column.class,
-                        parentColumns = {"accountId", "remoteId"},
-                        childColumns = {"accountId", "remoteColumnId"},
-                        onDelete = ForeignKey.CASCADE
                 )
         },
         indices = {
-                @Index(value = {"accountId", "rowId", "columnId"}, unique = true),
-                // FIXME Unique Constraint fails
-                @Index(value = {"accountId", "rowId", "remoteColumnId"}, unique = true),
+                @Index(value = "columnId"),
+                @Index(value = {"rowId", "columnId"}, unique = true),
+                @Index(value = {"rowId", "remoteColumnId"}, unique = true),
         }
 )
-public class Data extends AbstractAccountRelatedEntity {
+public class Data extends AbstractEntity {
 
     private long rowId;
     private long columnId;
@@ -108,17 +96,11 @@ public class Data extends AbstractAccountRelatedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Data data = (Data) o;
-        return columnId == data.columnId && remoteColumnId == data.remoteColumnId && rowId == data.rowId && Objects.equals(value, data.value);
+        return rowId == data.rowId && columnId == data.columnId && remoteColumnId == data.remoteColumnId && Objects.equals(value, data.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), columnId, remoteColumnId, rowId, value);
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "[Row: " + getRowId() + " / Column: " + getColumnId() + "]: " + getValue();
+        return Objects.hash(super.hashCode(), rowId, columnId, remoteColumnId, value);
     }
 }

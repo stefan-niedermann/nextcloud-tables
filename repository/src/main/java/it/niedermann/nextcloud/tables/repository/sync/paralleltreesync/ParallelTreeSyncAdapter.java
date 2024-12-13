@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync;
+package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.runAsync;
@@ -16,27 +16,28 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.repository.sync.SyncScheduler;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 
-public class DefaultSyncAdapter {
+public class ParallelTreeSyncAdapter implements SyncScheduler {
 
-    private static final String TAG = DefaultSyncAdapter.class.getSimpleName();
+    private static final String TAG = ParallelTreeSyncAdapter.class.getSimpleName();
     private static final int PROBABLE_ACCOUNT_COUNT = 1;
 
     private static final Map<Long, CompletableFuture<Void>> currentSyncs = new HashMap<>(PROBABLE_ACCOUNT_COUNT);
     private static final Map<Long, CompletableFuture<Void>> scheduledSyncs = new HashMap<>(PROBABLE_ACCOUNT_COUNT);
 
     private final ExecutorService workExecutor;
-    private final AbstractSyncAdapter<Account> accountSyncAdapter;
+    private final SyncAdapter<Account> accountSyncAdapter;
 
-    public DefaultSyncAdapter(@NonNull Context context) {
+    public ParallelTreeSyncAdapter(@NonNull Context context) {
         this(SharedExecutors.CPU, new AccountSyncAdapter(context));
     }
 
-    private DefaultSyncAdapter(
+    private ParallelTreeSyncAdapter(
             @NonNull ExecutorService workExecutor,
-            @NonNull AbstractSyncAdapter<Account> accountSyncAdapter
+            @NonNull SyncAdapter<Account> accountSyncAdapter
     ) {
         this.workExecutor = workExecutor;
         this.accountSyncAdapter = accountSyncAdapter;
@@ -45,7 +46,7 @@ public class DefaultSyncAdapter {
     @AnyThread
     public CompletableFuture<Void> scheduleSynchronization(@NonNull Account account, @Nullable SyncStatusReporter reporter) {
 
-        synchronized (DefaultSyncAdapter.this) {
+        synchronized (ParallelTreeSyncAdapter.this) {
 
             final long accountId = account.getId();
             final boolean currentSyncActive = currentSyncs.containsKey(accountId);
@@ -63,7 +64,7 @@ public class DefaultSyncAdapter {
                 currentSyncs.put(accountId, synchronize(account, reporter)
                         .whenCompleteAsync((result, exception) -> {
 
-                            synchronized (DefaultSyncAdapter.this) {
+                            synchronized (ParallelTreeSyncAdapter.this) {
 
                                 Log.i(TAG, "Current sync finished.");
                                 currentSyncs.remove(accountId);
@@ -85,7 +86,7 @@ public class DefaultSyncAdapter {
                 scheduledSyncs.put(accountId, requireNonNull(currentSyncs.get(accountId))
                         .whenCompleteAsync((result, exception) -> {
 
-                            synchronized (DefaultSyncAdapter.this) {
+                            synchronized (ParallelTreeSyncAdapter.this) {
 
                                 Log.i(TAG, "Scheduled now becomes current one.");
                                 currentSyncs.put(accountId, scheduledSyncs.get(accountId));
@@ -95,9 +96,9 @@ public class DefaultSyncAdapter {
 
                         }, workExecutor)
                         .thenComposeAsync(v -> synchronize(account, reporter), workExecutor)
-                        .thenAcceptAsync(v -> {
+                        .whenCompleteAsync((result, exception) -> {
 
-                            synchronized (DefaultSyncAdapter.this) {
+                            synchronized (ParallelTreeSyncAdapter.this) {
 
                                 Log.i(TAG, "Current sync finished.");
                                 currentSyncs.remove(accountId);

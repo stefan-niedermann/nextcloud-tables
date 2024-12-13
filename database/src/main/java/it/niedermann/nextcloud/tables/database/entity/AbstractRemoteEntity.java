@@ -2,16 +2,16 @@ package it.niedermann.nextcloud.tables.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 
-/// [AbstractRemoteEntity] implicitly creates an unique index on [#remoteId] and [#accountId].
-/// In case the entity is not unique on an instance, do not inherit super indices.
 @Entity(
         inheritSuperIndices = true,
         indices = {
@@ -21,21 +21,41 @@ import it.niedermann.nextcloud.tables.database.DBStatus;
 )
 public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity {
 
+    /// Unique per [Account].
     @Nullable
     protected Long remoteId;
 
-    @Nullable
-    protected DBStatus status = DBStatus.VOID;
+    @NonNull
+    @Embedded
+    protected SynchronizationContext synchronizationContext;
 
     public AbstractRemoteEntity() {
         // Default constructor
+        synchronizationContext = new SynchronizationContext();
     }
 
     @Ignore
     public AbstractRemoteEntity(@NonNull AbstractRemoteEntity entity) {
         super(entity);
         this.remoteId = entity.getRemoteId();
-        this.status = entity.status;
+        this.synchronizationContext = new SynchronizationContext(entity.getSynchronizationContext());
+    }
+
+    @Ignore
+    @NonNull
+    public DBStatus getStatus() {
+        return Optional.ofNullable(synchronizationContext.status())
+                .orElse(DBStatus.VOID);
+    }
+
+    @Ignore
+    public void setStatus(@Nullable DBStatus status) {
+        synchronizationContext = new SynchronizationContext(status, synchronizationContext.eTag());
+    }
+
+    @Ignore
+    public void setETag(@Nullable String eTag) {
+        synchronizationContext = new SynchronizationContext(synchronizationContext.status(), eTag);
     }
 
     @Nullable
@@ -48,13 +68,12 @@ public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity 
     }
 
     @NonNull
-    public DBStatus getStatus() {
-        assert status != null;
-        return status;
+    public SynchronizationContext getSynchronizationContext() {
+        return synchronizationContext;
     }
 
-    public void setStatus(@NonNull DBStatus status) {
-        this.status = status;
+    public void setSynchronizationContext(@NonNull SynchronizationContext synchronizationContext) {
+        this.synchronizationContext = synchronizationContext;
     }
 
     @Override
@@ -63,11 +82,11 @@ public abstract class AbstractRemoteEntity extends AbstractAccountRelatedEntity 
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         AbstractRemoteEntity that = (AbstractRemoteEntity) o;
-        return Objects.equals(remoteId, that.remoteId) && status == that.status;
+        return Objects.equals(remoteId, that.remoteId) && Objects.equals(synchronizationContext, that.synchronizationContext);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), remoteId, status);
+        return Objects.hash(super.hashCode(), remoteId, synchronizationContext);
     }
 }

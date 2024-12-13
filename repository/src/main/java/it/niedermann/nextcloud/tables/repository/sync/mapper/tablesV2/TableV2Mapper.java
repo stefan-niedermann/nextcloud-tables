@@ -26,7 +26,7 @@ public class TableV2Mapper implements Mapper<TableV2Dto, Table> {
     @Override
     public TableV2Dto toDto(@NonNull Table entity) {
         final var onSharePermission = Optional
-                .ofNullable(entity.getOnSharePermission())
+                .of(entity.getOnSharePermission())
                 .map(onSharePermissionMapper::toDto)
                 .orElse(null);
         return new TableV2Dto(

@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
@@ -35,7 +34,7 @@ public class SelectionMultiDataV1Mapper extends DataV1Mapper {
                 .map(FullData::getSelectionOptions)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(AbstractRemoteEntity::getRemoteId)
+                .map(SelectionOption::getRemoteId)
                 .forEach(selectionRemoteIds::add);
 
         return selectionRemoteIds;

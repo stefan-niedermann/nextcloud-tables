@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync;
+package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.allOf;
@@ -237,10 +237,9 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                     final var selectionOptions = fullColumn.getSelectionOptions();
                                     final var selectionOptionRemoteIds = selectionOptions.stream().map(SelectionOption::getRemoteId).collect(toUnmodifiableSet());
                                     return columnUpdateFuture
-                                            .thenApplyAsync(v -> db.getSelectionOptionDao().getSelectionOptionRemoteAndLocalIds(column.getId(), selectionOptionRemoteIds), db.getParallelExecutor())
+                                            .thenApplyAsync(v -> db.getSelectionOptionDao().getSelectionOptionRemoteColumnAndLocalIds(column.getId(), selectionOptionRemoteIds), db.getParallelExecutor())
                                             .thenComposeAsync(selectionOptionIds -> allOf(selectionOptions.stream().map(selectionOption -> {
                                                 selectionOption.setColumnId(column.getId());
-                                                selectionOption.setAccountId(column.getAccountId());
 
                                                 final var selectionOptionId = selectionOptionIds.get(selectionOption.getRemoteId());
                                                 if (selectionOptionId == null) {

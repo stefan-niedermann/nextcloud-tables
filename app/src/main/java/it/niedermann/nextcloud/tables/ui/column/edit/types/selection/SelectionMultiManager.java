@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.attributes.SelectionAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
@@ -47,7 +46,6 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
         binding.options.setAdapter(adapter);
         binding.addOption.setOnClickListener(v -> {
             final var option = new SelectionOption();
-            option.setStatus(DBStatus.LOCAL_EDITED);
             this.adapter.addSelectionOption(option);
         });
     }
