@@ -35,9 +35,10 @@ public interface DataDao extends GenericDao<Data> {
     LiveData<List<Data>> getData(long tableId);
 
     @Query("SELECT d.id FROM Data d " +
-            "WHERE d.columnId = :columnId " +
-            "AND d.rowId = :rowId")
-    Long getDataIdForCoordinates(long columnId, long rowId);
+            "WHERE d.rowId = :rowId " +
+            "AND d.accountId = :accountId " +
+            "AND d.remoteColumnId = :remoteColumnId ")
+    Long getDataIdForCoordinates(long accountId, long remoteColumnId, long rowId);
 
     @Query("DELETE FROM Data " +
             "WHERE rowId = :rowId " +

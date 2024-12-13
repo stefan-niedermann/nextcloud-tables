@@ -250,16 +250,24 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                 .thenComposeAsync(v -> {
                     final var data = fullData.getData();
                     if (columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
-                        // FIXME if fullData.getDataType has selection options, then the value must be stored in CrossRef table
-                        final var existingData = Optional.ofNullable(db.getDataDao().getDataIdForCoordinates(data.getColumnId(), data.getRowId()));
-                        if (existingData.isEmpty()) {
-                            return supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
-                                    .thenAcceptAsync(data::setId);
 
-                        } else {
-                            data.setId(existingData.get());
-                            return runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor());
-                        }
+                        // FIXME if fullData.getDataType has selection options, then the value must be stored in CrossRef table
+
+                        return supplyAsync(() -> db.getDataDao().getDataIdForCoordinates(
+                                data.getAccountId(),
+                                data.getRemoteColumnId(),
+                                data.getRowId()), db.getParallelExecutor())
+
+                                .thenComposeAsync(existingData -> {
+                                    if (existingData == null) {
+                                        return supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
+                                                .thenAcceptAsync(data::setId, workExecutor);
+
+                                    } else {
+                                        data.setId(existingData);
+                                        return runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor());
+                                    }
+                                }, workExecutor);
 
                     } else {
                         // Data deletion is handled by database constraints
