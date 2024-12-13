@@ -73,7 +73,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @NonNull
     private CompletableFuture<Response<OcsResponse<TableV2Dto>>> createRemote(@NonNull Account account, @NonNull Table entity) {
         return checkRemoteIdNull(entity.getRemoteId())
-                .thenComposeAsync(v -> executeNetworkRequest(account, apis -> apis.apiV2().createTable(
+                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().createTable(
                         entity.getTitle(),
                         Optional.ofNullable(entity.getDescription()).orElse(""),
                         entity.getEmoji(),
@@ -100,7 +100,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @NonNull
     private CompletableFuture<Response<OcsResponse<TableV2Dto>>> updateRemote(@NonNull Account account, @NonNull Table entity) {
         return checkRemoteIdNotNull(entity.getRemoteId())
-                .thenComposeAsync(v -> executeNetworkRequest(account, apis -> apis.apiV2().updateTable(
+                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().updateTable(
                         requireNonNull(entity.getRemoteId()),
                         entity.getTitle(),
                         Optional.ofNullable(entity.getDescription()).orElse(""),
@@ -157,7 +157,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @NonNull
     private CompletableFuture<Response<OcsResponse<TableV2Dto>>> deleteRemote(@NonNull Account account, @NonNull Table entity) {
         return checkRemoteIdNotNull(entity.getRemoteId())
-                .thenComposeAsync(v -> executeNetworkRequest(account, apis -> apis.apiV2().deleteTable(requireNonNull(entity.getRemoteId()))), workExecutor);
+                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().deleteTable(requireNonNull(entity.getRemoteId()))), workExecutor);
     }
 
     private CompletableFuture<Void> deleteLocallyPhysically(@NonNull Table entity, @NonNull Response<?> response) {
@@ -241,7 +241,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                                      @NonNull Account parentEntity,
                                                      @Nullable SyncStatusReporter reporter) {
         Log.i(TAG, getClass().getSimpleName() + "#pullRemoteChanges for " + account.getAccountName());
-        return executeNetworkRequest(account, apis -> apis.apiV2().getTables())
+        return requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().getTables())
                 .thenComposeAsync(response -> {
                     final Collection<Table> fetchedTables;
                     Log.v(TAG, "Pulling remote changes for " + account.getAccountName());

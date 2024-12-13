@@ -1,40 +1,23 @@
 package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.nextcloud.android.sso.model.ocs.OcsResponse;
-
-import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
-import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Table;
-import it.niedermann.nextcloud.tables.remote.ApiProvider;
-import it.niedermann.nextcloud.tables.remote.ocs.OcsAPI;
-import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
-import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
+import it.niedermann.nextcloud.tables.remote.RequestHelper;
 import it.niedermann.nextcloud.tables.repository.ServerErrorHandler;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 import it.niedermann.nextcloud.tables.shared.SharedExecutors;
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Response;
 
 abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> implements SyncAdapter<TParentEntity> {
 
@@ -44,14 +27,14 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
     protected final TablesDatabase db;
     protected final ServerErrorHandler serverErrorHandler;
     protected final ExecutorService workExecutor;
-    private final ExecutorService networkExecutor;
+    protected final RequestHelper requestHelper;
 
     protected AbstractSyncAdapter(@NonNull Context context) {
         this.context = context.getApplicationContext();
         this.db = TablesDatabase.getInstance(this.context);
         this.serverErrorHandler = new ServerErrorHandler(this.context);
         this.workExecutor = SharedExecutors.CPU;
-        this.networkExecutor = SharedExecutors.IO_NET;
+        this.requestHelper = new RequestHelper(this.context);
     }
 
     /// **Guaranteed orders**
@@ -87,79 +70,6 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
         return completedFuture(null);
     }
 
-    /**
-     * Convenience method to catch the checked {@link IOException} when running the
-     * {@link Call#execute()} method and throw it wrapped in a {@link CompletionException}.
-     * Also takes care about closing resources in a <code>finally</code> block.
-     */
-    @NonNull
-    protected <TResponse> CompletableFuture<Response<TResponse>> executeNetworkRequest(@NonNull Account account,
-                                                                                       @NonNull Function<ApiProvider.ApiTuple, Call<TResponse>> api) {
-        return supplyAsync(() -> {
-            final var ocsProviderRef = new AtomicReference<ApiProvider<OcsAPI>>();
-            final var apiV2ProviderRef = new AtomicReference<ApiProvider<TablesV2API>>();
-            final var apiV1ProviderRef = new AtomicReference<ApiProvider<TablesV1API>>();
-
-            try {
-                ocsProviderRef.set(ApiProvider.getOcsApiProvider(context, account));
-                apiV2ProviderRef.set(ApiProvider.getTablesV2ApiProvider(context, account));
-                apiV1ProviderRef.set(ApiProvider.getTablesV1ApiProvider(context, account));
-
-                final var apiTuple = new ApiProvider.ApiTuple(
-                        ocsProviderRef.get().getApi(),
-                        apiV2ProviderRef.get().getApi(),
-                        apiV1ProviderRef.get().getApi());
-
-                // TODO Check connectivity
-                return api.apply(apiTuple).execute();
-
-            } catch (Exception throwable) {
-                throw throwable instanceof CompletionException
-                        ? (CompletionException) throwable
-                        : new CompletionException(throwable);
-
-            } finally {
-                Stream.of(ocsProviderRef, apiV2ProviderRef, apiV1ProviderRef)
-                        .map(AtomicReference::get)
-                        .forEach(ApiProvider::close);
-            }
-        }, networkExecutor);
-    }
-
-    /// V1 API does not wrap in OcsResponse objects
-    protected <T> Response<OcsResponse<T>> wrapInOcsResponse(@NonNull Response<T> result) {
-        final var response = new OcsResponse<T>();
-        response.ocs = new OcsResponse.OcsWrapper<>();
-        response.ocs.data = result.body();
-        response.ocs.meta = new OcsResponse.OcsWrapper.OcsMeta();
-        response.ocs.meta.statusCode = result.code();
-        response.ocs.meta.message = result.message();
-
-        return result.isSuccessful()
-                ? Response.success(response)
-                : Response.error(Optional.ofNullable(result.errorBody())
-                        .orElse(ResponseBody.create("", MediaType.get(""))),
-                result.raw());
-    }
-
-    /**
-     * @return {@link Table#getRemoteId()} of {@param table} or a failed future.
-     * @noinspection SameParameterValue
-     */
-    @NonNull
-    protected CompletableFuture<Long> getRemoteIdOrThrow(@NonNull AbstractRemoteEntity entity,
-                                                         @NonNull Class<? extends AbstractRemoteEntity> entityType) {
-        return supplyAsync(() -> {
-            final var tableRemoteId = entity.getRemoteId();
-
-            if (tableRemoteId == null) {
-                throw new IllegalStateException("Expected " + Table.class.getSimpleName() + " remote ID to be present when pushing " + entityType.getSimpleName() + " changes, but was null");
-            }
-
-            return tableRemoteId;
-        }, workExecutor);
-    }
-
     protected CompletableFuture<Void> checkRemoteIdNull(@Nullable Long remoteId) {
         if (remoteId != null) {
             final var future = new CompletableFuture<Void>();
@@ -170,14 +80,14 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
         return completedFuture(null);
     }
 
-    protected CompletableFuture<Void> checkRemoteIdNotNull(@Nullable Long remoteId) {
+    protected CompletableFuture<Long> checkRemoteIdNotNull(@Nullable Long remoteId) {
         if (remoteId == null) {
-            final var future = new CompletableFuture<Void>();
+            final var future = new CompletableFuture<Long>();
             future.completeExceptionally(new IllegalStateException("RemoteID must be not be null."));
             return future;
         }
 
-        return completedFuture(null);
+        return completedFuture(remoteId);
     }
 
     /**

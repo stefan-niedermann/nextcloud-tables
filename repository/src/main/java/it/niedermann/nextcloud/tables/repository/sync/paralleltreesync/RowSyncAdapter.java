@@ -77,7 +77,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                 final var createRowDto = createRowV2Mapper.toCreateRowV2Dto(version, fullRow.getFullData());
                                 // TODO maybe preload map of table local / remote IDs?
                                 return supplyAsync(() -> db.getTableDao().getRemoteId(fullRow.getRow().getTableId()), db.getParallelExecutor())
-                                        .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeCollectionV2Dto.TABLES, tableRemoteId, createRowDto)), workExecutor)
+                                        .thenComposeAsync(tableRemoteId -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().createRow(ENodeCollectionV2Dto.TABLES, tableRemoteId, createRowDto)), workExecutor)
                                         .thenComposeAsync(response -> {
                                             if (response.isSuccessful()) {
                                                 fullRow.getRow().setStatus(DBStatus.VOID);
@@ -116,7 +116,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                             .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
                             .map(fullRow -> {
                                 final var createRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
-                                return executeNetworkRequest(account, apis -> apis.apiV1().updateRow(requireNonNull(fullRow.getRow().getRemoteId()), createRowDto))
+                                return requestHelper.executeNetworkRequest(account, apis -> apis.apiV1().updateRow(requireNonNull(fullRow.getRow().getRemoteId()), createRowDto))
                                         .thenComposeAsync(response -> {
                                             Log.i(TAG, "------ → HTTP " + response.code());
 
@@ -153,7 +153,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                     return runAsync(() -> db.getRowDao().delete(row), db.getSequentialExecutor());
 
                                 } else {
-                                    return executeNetworkRequest(account, apis -> apis.apiV1().deleteRow(row.getRemoteId()))
+                                    return requestHelper.executeNetworkRequest(account, apis -> apis.apiV1().deleteRow(row.getRemoteId()))
                                             .thenComposeAsync(response -> {
                                                 Log.i(TAG, "------ → HTTP " + response.code());
                                                 if (response.isSuccessful()) {
@@ -277,8 +277,8 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                                     @NonNull final Map<Long, Long> columnRemoteIdsToColumnLocalIds,
                                                                     @NonNull final Map<Long, List<SelectionOption>> columnRemoteIdToSelectionOptions) {
 
-        return this.getRemoteIdOrThrow(table, Row.class)
-                .thenComposeAsync(tableRemoteId -> executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
+        return checkRemoteIdNotNull(table.getRemoteId())
+                .thenComposeAsync(tableRemoteId -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV1().getRows(tableRemoteId, TablesV1API.DEFAULT_API_LIMIT_ROWS, offset)), workExecutor)
                 .thenComposeAsync(response -> switch (response.code()) {
                     case 200: {
                         final var rowDtos = response.body();

@@ -35,7 +35,7 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Account entity,
                                                      @Nullable SyncStatusReporter reporter) {
-        return executeNetworkRequest(entity, apis -> apis.ocs().getCapabilities(entity.getCapabilitiesETag()))
+        return requestHelper.executeNetworkRequest(entity, apis -> apis.ocs().getCapabilities(entity.getCapabilitiesETag()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {
                         final var body = response.body();
