@@ -254,7 +254,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                                     return runAsync(() -> db.getSelectionOptionDao().update(selectionOption), db.getSequentialExecutor());
                                                 }
                                             }).toArray(CompletableFuture[]::new)), workExecutor)
-                                            .thenRunAsync(() -> Log.i(TAG, "--- ← Delete all selection options except remoteId " + selectionOptionRemoteIds), workExecutor)
+                                            .thenRunAsync(() -> Log.i(TAG, "--- ← Delete all selection options for column \"" + column + "\" except remoteId " + selectionOptionRemoteIds), workExecutor)
                                             .thenRunAsync(() -> db.getSelectionOptionDao().deleteExcept(table.getId(), selectionOptionRemoteIds), db.getSequentialExecutor());
                                 }).toArray(CompletableFuture[]::new)), workExecutor)
                                 .thenRunAsync(() -> Log.i(TAG, "--- ← Delete all columns except remoteId " + columnRemoteIds), workExecutor)
