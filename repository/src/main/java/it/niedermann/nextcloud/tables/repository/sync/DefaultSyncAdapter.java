@@ -131,6 +131,6 @@ public class DefaultSyncAdapter {
     private CompletableFuture<Void> synchronize(@NonNull Account account, @Nullable SyncStatusReporter reporter) {
         return runAsync(() -> Log.i(TAG, "Start " + account.getAccountName()), workExecutor)
                 .thenComposeAsync(v -> accountSyncAdapter.synchronize(account, account, reporter), workExecutor)
-                .thenRunAsync(() -> Log.i(TAG, "End " + account.getAccountName()), workExecutor);
+                .whenCompleteAsync((result, exception) -> Log.i(TAG, "End " + account.getAccountName()), workExecutor);
     }
 }
