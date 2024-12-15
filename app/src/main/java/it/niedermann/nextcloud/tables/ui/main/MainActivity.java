@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.main;
 
+import static it.niedermann.nextcloud.tables.util.AvatarUtil.getAvatarUrl;
+
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -42,13 +44,11 @@ import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.ui.importaccount.ImportAccountActivity;
 import it.niedermann.nextcloud.tables.ui.settings.PreferencesActivity;
 import it.niedermann.nextcloud.tables.ui.table.edit.EditTableActivity;
-import it.niedermann.nextcloud.tables.util.AvatarUtil;
 import it.niedermann.nextcloud.tables.util.EmojiDrawable;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private final AvatarUtil avatarUtil = new AvatarUtil();
     private ActivityMainBinding binding;
     private MainViewModel mainViewModel;
 
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Glide
                         .with(binding.toolbar.getContext())
-                        .load(avatarUtil.getAvatarUrl(account, binding.toolbar.getMenu().findItem(R.id.account_switcher).getIcon().getIntrinsicWidth()))
+                        .load(getAvatarUrl(account, binding.toolbar.getMenu().findItem(R.id.account_switcher).getIcon().getIntrinsicWidth()))
                         .apply(RequestOptions.circleCropTransform())
                         .placeholder(R.drawable.ic_baseline_account_circle_24)
                         .error(R.drawable.ic_baseline_account_circle_24)

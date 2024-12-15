@@ -132,6 +132,7 @@ public class AccountRepository extends AbstractRepository {
 
                     } else {
                         setCurrentAccount(account);
+                        SyncWorker.update(context);
                         reporter.report(SyncStatus::markAsFinished);
                     }
                 }, workExecutor);

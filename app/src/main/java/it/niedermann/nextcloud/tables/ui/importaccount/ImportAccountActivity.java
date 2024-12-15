@@ -1,56 +1,53 @@
 package it.niedermann.nextcloud.tables.ui.importaccount;
 
 import static com.nextcloud.android.sso.AccountImporter.REQUEST_AUTH_TOKEN_SSO;
+import static com.nextcloud.android.sso.AccountImporter.REQUEST_GET_ACCOUNTS_PERMISSION;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
 import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.exceptions.AccountImportCancelledException;
 import com.nextcloud.android.sso.exceptions.AndroidGetAccountsPermissionNotGranted;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledException;
+import com.nextcloud.android.sso.exceptions.SSOException;
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
-import it.niedermann.nextcloud.tables.repository.SyncWorker;
-import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
-import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
-import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatus;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
-import it.niedermann.nextcloud.tables.util.AvatarUtil;
 
-public class ImportAccountActivity extends AppCompatActivity implements AccountImporter.IAccountAccessGranted {
+public class ImportAccountActivity extends AppCompatActivity implements AccountImporter.IAccountAccessGranted, Observer<ImportAccountUIState> {
 
-    private static final String TAG = ImportAccountActivity.class.getSimpleName();
-    private final AvatarUtil avatarUtil = new AvatarUtil();
     private ActivityImportBinding binding;
-    private ImportAccountViewModel importAccountViewModel;
+    private ImportAccountViewModel vm;
+    public LiveData<ImportAccountUIState> state$;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-
         setTheme(R.style.AppTheme);
 
-        importAccountViewModel = new ViewModelProvider(this).get(ImportAccountViewModel.class);
-        binding = ActivityImportBinding.inflate(getLayoutInflater());
+        vm = new ViewModelProvider(this).get(ImportAccountViewModel.class);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_import);
+        binding.setActivity(this);
 
         setContentView(binding.getRoot());
 
@@ -58,11 +55,30 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
             binding.image.setClipToOutline(true);
         }
 
-        binding.addButton.setOnClickListener(this::onAddButtonClicked);
+        state$ = vm.getState$();
+        state$.observe(this, this);
     }
 
-    private void onAddButtonClicked(@NonNull View addButton) {
-        binding.addButton.setEnabled(false);
+    @Override
+    public void onChanged(@NonNull ImportAccountUIState state) {
+        final var account = state.account();
+        final var error = state.error();
+
+        if (error != null) {
+            if (error instanceof SSOException ssoException) {
+                UiExceptionManager.showDialogForException(this, ssoException);
+            } else {
+                ExceptionDialogFragment.newInstance(error, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+            }
+
+        } else if (!state.importRunning() && account != null) {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
+    public void accountSelectionStarted(@NonNull View addButton) {
+        vm.accountSelectionStarted();
 
         try {
             AccountImporter.pickNewAccount(this);
@@ -72,132 +88,59 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
 
         } catch (NextcloudFilesAppNotInstalledException e) {
             UiExceptionManager.showDialogForException(this, e);
-            binding.addButton.setEnabled(true);
+            vm.accountSelectionFinished(e);
 
         } catch (Throwable t) {
-            binding.addButton.setEnabled(true);
+            vm.accountSelectionFinished(t);
         }
-    }
-
-    @Override
-    public void accountAccessGranted(@NonNull SingleSignOnAccount account) {
-        importAccountViewModel
-                .createAccount(new Account(account.url, account.name, account.userId))
-                .observe(this, this::applyImportState);
-    }
-
-    private void applyImportState(@NonNull SyncStatus syncStatus) {
-
-        switch (syncStatus.getStep()) {
-            case START -> {
-                setAvatar(syncStatus.getAccount());
-                binding.progressCircular.setVisibility(View.VISIBLE);
-                binding.progressText.setVisibility(View.VISIBLE);
-                binding.progressText.setText(R.string.import_state_import_account);
-                binding.addButton.setEnabled(false);
-
-                binding.progressCircular.setIndeterminate(true);
-            }
-            case PROGRESS -> {
-                setAvatar(syncStatus.getAccount());
-                binding.progressCircular.setVisibility(View.VISIBLE);
-                binding.progressText.setVisibility(View.VISIBLE);
-                binding.progressText.setText(R.string.import_state_import_tables);
-                binding.addButton.setEnabled(false);
-
-                binding.progressCircular.setIndeterminate(false);
-                binding.progressCircular.setMax(syncStatus.getTablesTotalCount().orElse(100));
-                binding.progressCircular.setProgress(syncStatus.getTablesFinishedCount().orElse(0), true);
-                binding.progressCircular.setSecondaryProgress(syncStatus.getTablesFinishedCount().orElse(0) + syncStatus.getTablesInProgress().size());
-            }
-            case FINISHED -> {
-                setAvatar(syncStatus.getAccount());
-                binding.progressCircular.setVisibility(View.GONE);
-                binding.progressText.setVisibility(View.GONE);
-
-                binding.progressCircular.setIndeterminate(false);
-                binding.progressCircular.setMax(1);
-                binding.progressCircular.setProgress(1, true);
-                binding.progressCircular.setSecondaryProgress(1);
-
-                if (syncStatus.getError() == null) {
-                    SyncWorker.update(getApplicationContext());
-                    setResult(RESULT_OK);
-                    finish();
-                }
-            }
-            case ERROR -> {
-                binding.image.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
-                binding.progressCircular.setVisibility(View.GONE);
-                binding.progressText.setVisibility(View.VISIBLE);
-                binding.addButton.setEnabled(true);
-
-                binding.progressCircular.setIndeterminate(false);
-                binding.progressCircular.setMax(syncStatus.getTablesTotalCount().orElse(100));
-                binding.progressCircular.setProgress(syncStatus.getTablesFinishedCount().orElse(0), true);
-                binding.progressCircular.setSecondaryProgress(syncStatus.getTablesFinishedCount().orElse(0) + syncStatus.getTablesInProgress().size());
-
-                if (syncStatus.getError() instanceof AccountAlreadyImportedException) {
-                    binding.progressText.setText(R.string.account_already_imported);
-                } else {
-                    if (syncStatus.getError() != null) {
-                        syncStatus.getError().printStackTrace();
-                        ExceptionDialogFragment.newInstance(syncStatus.getError(), syncStatus.getAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-
-                        if (syncStatus.getError() instanceof ServerNotAvailableException) {
-                            binding.progressText.setText(((ServerNotAvailableException) syncStatus.getError()).getReason().messageRes);
-                        } else {
-                            binding.progressText.setText(syncStatus.getError().getMessage());
-                        }
-                    } else {
-                        binding.progressText.setText(R.string.hint_error_appeared);
-                        new IllegalStateException("Received error step while importing, but exception was null").printStackTrace();
-                    }
-                }
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + syncStatus.getStep());
-        }
-    }
-
-    private void setAddButtonEnabled(@NonNull SyncStatus syncStatus) {
-        binding.addButton.setEnabled(syncStatus.isFinished());
-    }
-
-    private void setAvatar(@Nullable Account account) {
-        if (account == null) {
-            throw new NullPointerException();
-        }
-
-        binding.progressText.setText(getString(R.string.importing_account, account.getDisplayName()));
-        Glide.with(binding.image)
-                .load(avatarUtil.getAvatarUrl(account, binding.image.getWidth()))
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .into(binding.image);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode != REQUEST_AUTH_TOKEN_SSO || resultCode != RESULT_CANCELED) {
+
             try {
                 AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, this);
+
             } catch (AccountImportCancelledException e) {
-                Log.i(TAG, "Account import has been canceled.");
+                vm.accountSelectionFinished(e);
             }
+
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        AccountImporter.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+
+        switch (requestCode) {
+            case REQUEST_GET_ACCOUNTS_PERMISSION: {
+
+                // SSO does not allow us to react to not granted permissions, but shows an exception dialog directly.
+                // We therefore have to manually check the permissions in order to be able to let our ViewModel know about a failed import.
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    AccountImporter.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+
+                } else {
+                    vm.accountSelectionFinished(new AndroidGetAccountsPermissionNotGranted(this));
+
+                }
+            }
+        }
+    }
+
+    @Override
+    public void accountAccessGranted(@NonNull SingleSignOnAccount account) {
+        vm.accountSelectionFinished(new Account(account.url, account.name, account.userId));
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         binding = null;
+        super.onDestroy();
     }
 
     public static Intent createIntent(@NonNull Context context) {

@@ -1,126 +1,82 @@
 package it.niedermann.nextcloud.tables.ui.importaccount;
 
 import android.app.Application;
+import android.util.Log;
 
-import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import java.util.concurrent.atomic.AtomicBoolean;
+import androidx.lifecycle.MediatorLiveData;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
-import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
-import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
-import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatus;
 
 @MainThread
 public class ImportAccountViewModel extends AndroidViewModel {
 
-    private final AccountRepository accountRepository;
+    private static final String TAG = ImportAccountViewModel.class.getSimpleName();
 
-    private final AtomicBoolean importInProgress = new AtomicBoolean(false);
-    private final MutableLiveData<SyncStatus> syncStatus$ = new MutableLiveData<>();
+    private final AccountRepository accountRepository;
+    private final MediatorLiveData<ImportAccountUIState> state$ = new MediatorLiveData<>(new ImportAccountUIState());
+    private volatile LiveData<ImportAccountUIState> currentImport$ = null;
 
     public ImportAccountViewModel(@NonNull Application application) {
         super(application);
         this.accountRepository = new AccountRepository(application);
     }
 
-    @AnyThread
-    @NonNull
-    public LiveData<SyncStatus> createAccount(@NonNull Account accountToCreate) {
-        if (importInProgress.getAndSet(true)) {
-            return new MutableLiveData<>(
-                    new SyncStatus(accountToCreate)
-                            .withError(new IllegalStateException("Account Import already in progress. Next import can only get started after SyncStatus reaches " + SyncStatus.Step.FINISHED + " or " + SyncStatus.Step.ERROR)));
-        }
-
-        return new ReactiveLiveData<>(accountRepository.createAccount(accountToCreate))
-                .tap(syncStatus -> {
-                    if (syncStatus.isFinished()) {
-                        importInProgress.set(false);
-                    }
-                });
-
-//        return new ReactiveLiveData<>(accountRepository.createAccount(accountToCreate));
-//                .map(ImportAccountUIState::new);
-
-//        return syncStatus$;
+    public LiveData<ImportAccountUIState> getState$() {
+        return this.state$;
     }
 
-//    public LiveData<SyncStatus> getSyncStatus$() {
-//        return this.syncStatus$;
-//    }
+    public void accountSelectionStarted() {
+        synchronized (ImportAccountViewModel.this) {
 
-    public static class ImportAccountUIState {
-        private final SyncStatus syncStatus;
+            if (currentImport$ != null) {
+                throw new IllegalStateException("Account Import already in progress. Next import can only get started after SyncStatus reaches " + SyncStatus.Step.FINISHED + " or " + SyncStatus.Step.ERROR);
+            }
 
-        private ImportAccountUIState(@NonNull SyncStatus syncStatus) {
-            this.syncStatus = syncStatus;
+            this.state$.setValue(new ImportAccountUIState(true));
         }
+    }
 
-        @NonNull
-        public Account getAccount() {
-            return syncStatus.getAccount();
-        }
+    public void accountSelectionFinished(@NonNull Account accountToCreate) {
+        synchronized (ImportAccountViewModel.this) {
 
-        public boolean isProgressIndeterminate() {
-            return SyncStatus.Step.PROGRESS.equals(syncStatus.getStep());
-        }
+            if (currentImport$ == null) {
+                this.currentImport$ = new ReactiveLiveData<>(accountRepository.createAccount(accountToCreate))
+                        .map(syncStatus -> new ImportAccountUIState(getApplication(), syncStatus))
+                        .tap(syncStatus -> Log.v(TAG, syncStatus.toString()));
 
-        public int getProgressTotal() {
-            return 100;
-        }
+            } else {
+                throw new IllegalStateException("Account Import already in progress. Next import can only get started after SyncStatus reaches " + SyncStatus.Step.FINISHED + " or " + SyncStatus.Step.ERROR);
+            }
 
-        public int getProgress() {
-            return syncStatus.getTablesFinishedCount().orElse(0);
-        }
+            this.state$.addSource(this.currentImport$, state -> {
 
-        public int getSecondaryProgress() {
-            return syncStatus.getTablesInProgress().size();
-        }
-
-        @Nullable
-        public Throwable getError() {
-            return syncStatus.getError();
-        }
-
-        @Nullable
-        @StringRes
-        public Integer getStatusTextRes() {
-            return switch (syncStatus.getStep()) {
-                case START -> R.string.import_state_import_account;
-                case PROGRESS -> R.string.import_state_import_tables;
-                case FINISHED -> null;
-                case ERROR -> {
-                    if (syncStatus.getError() instanceof AccountAlreadyImportedException) {
-                        yield R.string.account_already_imported;
+                synchronized (ImportAccountViewModel.this) {
+                    if (!state.importRunning()) {
+                        this.state$.removeSource(this.currentImport$);
+                        this.currentImport$ = null;
                     }
-
-                    if (syncStatus.getError() != null) {
-                        syncStatus.getError().printStackTrace();
-//                            ExceptionDialogFragment.newInstance(syncStatus.getError(), syncStatus.getAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-
-                        if (syncStatus.getError() instanceof ServerNotAvailableException) {
-                            yield ((ServerNotAvailableException) syncStatus.getError()).getReason().messageRes;
-                        }
-
-//                        yield syncStatus.getError().getMessage();
-                        yield null;
-                    }
-
-                    yield R.string.hint_error_appeared;
-//                            new IllegalStateException("Received error step while importing, but exception was null").printStackTrace();
                 }
-            };
+
+            });
+
+        }
+    }
+
+    public void accountSelectionFinished(@NonNull Throwable t) {
+        synchronized (ImportAccountViewModel.this) {
+
+            if (currentImport$ != null) {
+                throw new IllegalStateException("Account Import already in progress. Next import can only get started after SyncStatus reaches " + SyncStatus.Step.FINISHED + " or " + SyncStatus.Step.ERROR);
+            }
+
+            this.state$.setValue(new ImportAccountUIState(t));
         }
     }
 }

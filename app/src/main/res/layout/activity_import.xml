@@ -1,81 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="activity"
+            type="it.niedermann.nextcloud.tables.ui.importaccount.ImportAccountActivity" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_above="@+id/welcome_text"
-            android:layout_gravity="center"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/shape_circular"
-            android:clipToOutline="true"
-            android:contentDescription="@null"
-            android:src="@mipmap/ic_launcher"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progress_circular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:indicatorSize="104dp"
-            app:layout_constraintBottom_toBottomOf="@id/image"
-            app:layout_constraintEnd_toEndOf="@id/image"
-            app:layout_constraintStart_toStartOf="@id/image"
-            app:layout_constraintTop_toTopOf="@id/image"
-            app:trackCornerRadius="4dp"
-            app:trackThickness="4dp"
-            tools:visibility="visible" />
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_above="@+id/welcome_text"
+                android:layout_gravity="center"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/shape_circular"
+                android:clipToOutline="true"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_launcher"
+                app:account="@{activity.state$.account()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/welcome_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/spacer_3x"
-            android:layout_marginBottom="48dp"
-            android:gravity="center_horizontal"
-            android:text="@string/welcome_text"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image" />
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="@{activity.state$.isProgressIndeterminate()}"
+                android:max="@{activity.state$.progressTotal}"
+                android:progress="@{activity.state$.progress()}"
+                android:visibility="@{activity.state$.getProgressBarVisibility()}"
+                app:indicatorSize="104dp"
+                app:layout_constraintBottom_toBottomOf="@id/image"
+                app:layout_constraintEnd_toEndOf="@id/image"
+                app:layout_constraintStart_toStartOf="@id/image"
+                app:layout_constraintTop_toTopOf="@id/image"
+                app:trackCornerRadius="4dp"
+                app:trackThickness="4dp"
+                tools:visibility="visible" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:paddingHorizontal="32dp"
-            android:paddingVertical="24dp"
-            android:text="@string/choose_account"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/welcome_text" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/welcome_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/spacer_3x"
+                android:layout_marginBottom="48dp"
+                android:gravity="center_horizontal"
+                android:text="@string/welcome_text"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/progress_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:enabled="@{!activity.state$.importRunning()}"
+                android:onClick="@{activity::accountSelectionStarted}"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="24dp"
+                android:text="@string/choose_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcome_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/spacer_2x"
+                android:text="@{activity.state$.progressText()}"
+                android:visibility="@{activity.state$.getProgressTextVisibility()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_button"
+                tools:maxLength="80"
+                tools:text="@tools:sample/lorem/random" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

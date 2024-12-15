@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.ui.manageaccounts;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static it.niedermann.nextcloud.tables.util.AvatarUtil.getAvatarUrl;
 
 import android.net.Uri;
 import android.text.TextUtils;
@@ -18,11 +19,9 @@ import com.bumptech.glide.request.RequestOptions;
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ItemAccountChooseBinding;
-import it.niedermann.nextcloud.tables.util.AvatarUtil;
 
 public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
 
-    private final AvatarUtil avatarUtil = new AvatarUtil();
     private final ItemAccountChooseBinding binding;
 
     public ManageAccountViewHolder(@NonNull View itemView) {
@@ -38,7 +37,7 @@ public class ManageAccountViewHolder extends RecyclerView.ViewHolder {
         );
         binding.accountHost.setText(Uri.parse(account.getUrl()).getHost());
         Glide.with(itemView.getContext())
-                .load(avatarUtil.getAvatarUrl(account, binding.accountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
+                .load(getAvatarUrl(account, binding.accountItemAvatar.getResources().getDimensionPixelSize(R.dimen.avatar_size)))
                 .apply(RequestOptions.circleCropTransform())
                 .placeholder(R.drawable.ic_baseline_account_circle_24)
                 .error(R.drawable.ic_baseline_account_circle_24)
