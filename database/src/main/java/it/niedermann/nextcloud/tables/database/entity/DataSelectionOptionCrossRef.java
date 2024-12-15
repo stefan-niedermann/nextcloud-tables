@@ -4,8 +4,6 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 
-import java.util.Objects;
-
 @Entity(
         primaryKeys = {"dataId", "selectionOptionId"},
         foreignKeys = {
@@ -27,26 +25,9 @@ import java.util.Objects;
                 @Index(value = {"selectionOptionId"})
         }
 )
-public class DataSelectionOptionCrossRef {
-
-    public long dataId;
-    public long selectionOptionId;
-
-    public DataSelectionOptionCrossRef() {
-        // Default constructor
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DataSelectionOptionCrossRef that = (DataSelectionOptionCrossRef) o;
-        return dataId == that.dataId && selectionOptionId == that.selectionOptionId;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(dataId, selectionOptionId);
-    }
+public record DataSelectionOptionCrossRef(
+        long dataId,
+        long selectionOptionId
+) {
 }
 

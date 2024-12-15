@@ -13,7 +13,9 @@ import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 @Dao
 public interface SelectionOptionDao extends GenericDao<SelectionOption> {
 
-    @Query("SELECT s.* FROM SelectionOption s WHERE s.columnId = :columnId")
+    @Query("SELECT s.* " +
+            "FROM SelectionOption s " +
+            "WHERE s.columnId = :columnId")
     List<SelectionOption> getSelectionOptions(long columnId);
 
     @MapInfo(keyColumn = "remoteId", valueColumn = "id")

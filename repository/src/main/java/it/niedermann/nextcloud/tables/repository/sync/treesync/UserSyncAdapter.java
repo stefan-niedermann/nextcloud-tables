@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
+package it.niedermann.nextcloud.tables.repository.sync.treesync;
 
 import android.content.Context;
 
@@ -17,11 +17,15 @@ class UserSyncAdapter extends AbstractPullOnlySyncAdapter {
         super(context);
     }
 
+    public UserSyncAdapter(@NonNull Context context,
+                           @Nullable SyncStatusReporter reporter) {
+        super(context, reporter);
+    }
+
     @NonNull
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
-                                                     @NonNull Account parentEntity,
-                                                     @Nullable SyncStatusReporter reporter) {
+                                                     @NonNull Account parentEntity) {
         return requestHelper.executeNetworkRequest(account, apis -> apis.ocs().getUser(account.getUserName()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {

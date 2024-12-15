@@ -9,8 +9,8 @@ import androidx.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.repository.sync.paralleltreesync.ParallelTreeSyncAdapter;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
+import it.niedermann.nextcloud.tables.repository.sync.treesync.TreeSyncScheduler;
 
 public interface SyncScheduler {
 
@@ -21,7 +21,7 @@ public interface SyncScheduler {
     class Factory {
         @NonNull
         public SyncScheduler create(@NonNull Context context) {
-            return new ParallelTreeSyncAdapter(context);
+            return new TreeSyncScheduler(context);
         }
     }
 }

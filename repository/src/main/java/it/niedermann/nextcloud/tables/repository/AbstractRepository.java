@@ -30,7 +30,7 @@ public abstract class AbstractRepository {
         this.context = context.getApplicationContext();
         this.db = TablesDatabase.getInstance(this.context);
         this.treeSyncAdapter = syncSchedulerFactory.create(this.context);
-        this.workExecutor = SharedExecutors.CPU;
+        this.workExecutor = SharedExecutors.getCPUExecutor();
     }
 
     protected CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {

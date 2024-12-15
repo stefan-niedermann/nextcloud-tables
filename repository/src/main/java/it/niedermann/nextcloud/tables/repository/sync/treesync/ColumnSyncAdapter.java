@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
+package it.niedermann.nextcloud.tables.repository.sync.treesync;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.allOf;
@@ -49,10 +49,26 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     private final Function<FullColumn, ColumnRequestV1Dto> columnRequestV1Mapper;
 
     public ColumnSyncAdapter(@NonNull Context context) {
-        super(context);
-        this.columnCreator = new DataTypeCreatorServiceRegistry();
-        this.columnRequestMapper = new ColumnV2Mapper();
-        this.columnRequestV1Mapper = new ColumnRequestV1Mapper();
+        this(context, null);
+    }
+
+    public ColumnSyncAdapter(@NonNull Context context,
+                             @Nullable SyncStatusReporter reporter) {
+        this(context, reporter,
+                new DataTypeCreatorServiceRegistry(),
+                new ColumnV2Mapper(),
+                new ColumnRequestV1Mapper());
+    }
+
+    private ColumnSyncAdapter(@NonNull Context context,
+                              @Nullable SyncStatusReporter reporter,
+                              @NonNull DataTypeServiceRegistry<ColumnCreator> columnCreator,
+                              @NonNull Mapper<ColumnV2Dto, FullColumn> columnRequestMapper,
+                              @NonNull Function<FullColumn, ColumnRequestV1Dto> columnRequestV1Mapper) {
+        super(context, reporter);
+        this.columnCreator = columnCreator;
+        this.columnRequestMapper = columnRequestMapper;
+        this.columnRequestV1Mapper = columnRequestV1Mapper;
     }
 
     @NonNull
@@ -192,17 +208,9 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     @NonNull
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
-                                                     @NonNull Table table,
-                                                     @Nullable SyncStatusReporter reporter) {
-        final Long remoteId = table.getRemoteId();
-
-        if (remoteId == null) {
-            final var future = new CompletableFuture<Void>();
-            future.completeExceptionally(new IllegalStateException("Can not update entity " + table + " on server, because remoteId is null. Push this entity and store the resulting remoteId in it."));
-            return future;
-        }
-
-        return requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().getColumns(ENodeTypeV2Dto.TABLE, table.getRemoteId()))
+                                                     @NonNull Table table) {
+        return checkRemoteIdNotNull(table.getRemoteId())
+                .thenComposeAsync(tableRemoteId -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().getColumns(ENodeTypeV2Dto.TABLE, tableRemoteId)), workExecutor)
                 .thenComposeAsync(response -> switch (response.code()) {
                     case 200 -> {
                         final var responseBody = response.body();

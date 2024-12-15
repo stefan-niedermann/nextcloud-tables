@@ -53,6 +53,11 @@ public interface DataDao extends GenericDao<Data> {
             ")")
     void deleteRowIfEmpty(long rowId);
 
-    @Query("SELECT EXISTS(SELECT d.id FROM Data d WHERE d.columnId = :columnId AND d.rowId = :rowId)")
+    @Query("SELECT EXISTS(" +
+            "   SELECT d.id " +
+            "   FROM Data d " +
+            "   WHERE d.columnId = :columnId " +
+            "   AND d.rowId = :rowId" +
+            ")")
     boolean exists(long columnId, long rowId);
 }

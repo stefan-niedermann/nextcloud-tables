@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.remote;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
@@ -70,7 +71,6 @@ public class RequestHelper {
     }
 
     private ExecutorService getNetworkExecutor(@NonNull Account account) {
-        // TODO Maybe one executor per host?
-        return SharedExecutors.IO_NET;
+        return SharedExecutors.getIONetExecutor(Uri.parse(account.getUrl()));
     }
 }

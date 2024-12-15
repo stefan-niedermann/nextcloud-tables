@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
+package it.niedermann.nextcloud.tables.repository.sync.treesync;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -26,15 +26,25 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
     private final Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper;
 
     public CapabilitiesSyncAdapter(@NonNull Context context) {
-        super(context);
-        this.versionMapper = new OcsVersionMapper();
+        this(context, null);
+    }
+
+    public CapabilitiesSyncAdapter(@NonNull Context context,
+                                   @Nullable SyncStatusReporter reporter) {
+        this(context, reporter, new OcsVersionMapper());
+    }
+
+    public CapabilitiesSyncAdapter(@NonNull Context context,
+                                   @Nullable SyncStatusReporter reporter,
+                                   @NonNull Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper) {
+        super(context, reporter);
+        this.versionMapper = versionMapper;
     }
 
     @NonNull
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
-                                                     @NonNull Account entity,
-                                                     @Nullable SyncStatusReporter reporter) {
+                                                     @NonNull Account entity) {
         return requestHelper.executeNetworkRequest(entity, apis -> apis.ocs().getCapabilities(entity.getCapabilitiesETag()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {

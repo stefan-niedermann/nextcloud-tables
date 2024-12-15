@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
+package it.niedermann.nextcloud.tables.repository.sync.treesync;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.CompletableFuture.completedFuture;
@@ -40,14 +40,20 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     private final Mapper<TableV2Dto, Table> tableMapper;
 
     public TableSyncAdapter(@NonNull Context context) {
-        this(context, new TableV2Mapper(), new ColumnSyncAdapter(context), new RowSyncAdapter(context));
+        this(context, null);
     }
 
     private TableSyncAdapter(@NonNull Context context,
+                             @Nullable SyncStatusReporter reporter) {
+        this(context, reporter, new TableV2Mapper(), new ColumnSyncAdapter(context), new RowSyncAdapter(context));
+    }
+
+    private TableSyncAdapter(@NonNull Context context,
+                             @Nullable SyncStatusReporter reporter,
                              @NonNull Mapper<TableV2Dto, Table> tableMapper,
                              @NonNull SyncAdapter<Table> columnSyncAdapter,
                              @NonNull SyncAdapter<Table> rowSyncAdapter) {
-        super(context);
+        super(context, reporter);
         this.tableMapper = tableMapper;
         this.columnSyncAdapter = columnSyncAdapter;
         this.rowSyncAdapter = rowSyncAdapter;
@@ -238,8 +244,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @NonNull
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
-                                                     @NonNull Account parentEntity,
-                                                     @Nullable SyncStatusReporter reporter) {
+                                                     @NonNull Account parentEntity) {
         Log.i(TAG, getClass().getSimpleName() + "#pullRemoteChanges for " + account.getAccountName());
         return requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().getTables())
                 .thenComposeAsync(response -> {
@@ -298,8 +303,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                                             }, db.getSequentialExecutor());
                                                 }
                                             }, workExecutor)
-                                            .thenComposeAsync(v -> columnSyncAdapter.pullRemoteChanges(account, table, reporter), workExecutor)
-                                            .thenComposeAsync(v -> rowSyncAdapter.pullRemoteChanges(account, table, reporter), workExecutor)
+                                            .thenComposeAsync(v -> columnSyncAdapter.pullRemoteChanges(account, table), workExecutor)
+                                            .thenComposeAsync(v -> rowSyncAdapter.pullRemoteChanges(account, table), workExecutor)
                                             .thenRunAsync(() -> Optional.ofNullable(reporter).ifPresent(r -> r.report(state -> state.withTableProgressFinished(table))), workExecutor)
                                     ), workExecutor)
                             .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)

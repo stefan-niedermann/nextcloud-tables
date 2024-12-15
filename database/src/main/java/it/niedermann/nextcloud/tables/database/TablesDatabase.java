@@ -21,6 +21,8 @@ import it.niedermann.nextcloud.tables.database.converter.VersionConverter;
 import it.niedermann.nextcloud.tables.database.dao.AccountDao;
 import it.niedermann.nextcloud.tables.database.dao.ColumnDao;
 import it.niedermann.nextcloud.tables.database.dao.DataDao;
+import it.niedermann.nextcloud.tables.database.dao.DataSelectionOptionCrossRefDao;
+import it.niedermann.nextcloud.tables.database.dao.DataUserGroupCrossRefDao;
 import it.niedermann.nextcloud.tables.database.dao.RowDao;
 import it.niedermann.nextcloud.tables.database.dao.SelectionOptionDao;
 import it.niedermann.nextcloud.tables.database.dao.TableDao;
@@ -70,8 +72,8 @@ public abstract class TablesDatabase extends RoomDatabase {
     private static final String TAG = TablesDatabase.class.getSimpleName();
     private static final String DB_NAME = "nextcloud-tables.sqlite";
 
-    private static final ExecutorService DB_PARALLEL = SharedExecutors.IO_DB_OUTPUT;
-    private static final ExecutorService DB_SEQUENTIAL = SharedExecutors.IO_DB_INPUT;
+    private static final ExecutorService DB_PARALLEL = SharedExecutors.getIODbOutputExecutor();
+    private static final ExecutorService DB_SEQUENTIAL = SharedExecutors.getIODbInputExecutor();
 
     private final ExecutorService parallelExecutor;
     private final ExecutorService sequentialExecutor;
@@ -119,4 +121,8 @@ public abstract class TablesDatabase extends RoomDatabase {
     public abstract RowDao getRowDao();
 
     public abstract DataDao getDataDao();
+
+    public abstract DataSelectionOptionCrossRefDao getDataSelectionOptionCrossRefDao();
+
+    public abstract DataUserGroupCrossRefDao getDataUserGroupCrossRefDao();
 }

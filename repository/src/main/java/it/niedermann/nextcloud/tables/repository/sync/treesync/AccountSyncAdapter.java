@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.paralleltreesync;
+package it.niedermann.nextcloud.tables.repository.sync.treesync;
 
 import static java.util.concurrent.CompletableFuture.allOf;
 
@@ -21,18 +21,24 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
     private final SyncAdapter<Account> tableSyncAdapter;
 
     public AccountSyncAdapter(@NonNull Context context) {
-        this(context,
+        this(context, null);
+    }
+
+    public AccountSyncAdapter(@NonNull Context context,
+                              @Nullable SyncStatusReporter reporter) {
+        this(context, reporter,
                 new CapabilitiesSyncAdapter(context),
                 new UserSyncAdapter(context),
                 new TableSyncAdapter(context));
     }
 
     private AccountSyncAdapter(@NonNull Context context,
+                               @Nullable SyncStatusReporter reporter,
                                @NonNull SyncAdapter<Account> capabilitiesSyncAdapter,
                                @NonNull SyncAdapter<Account> userSyncAdapter,
                                @NonNull SyncAdapter<Account> tableSyncAdapters
     ) {
-        super(context);
+        super(context, reporter);
         this.capabilitiesSyncAdapter = capabilitiesSyncAdapter;
         this.userSyncAdapter = userSyncAdapter;
         this.tableSyncAdapter = tableSyncAdapters;
@@ -74,18 +80,17 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
                 tableSyncAdapter.pushChildChangesWithoutChangedParent(account));
     }
 
-    /// It is guaranteed, that [CapabilitiesSyncAdapter#pullRemoteChanges] will be called and waited for before continuing with anything else.
+    /// It is guaranteed, that [SyncAdapter#pullRemoteChanges] will be called and waited for before continuing with anything else.
     /// This is to ensure that
     /// - the [Account#getTablesVersion] is ready for validations, transformations, ...
     /// - the maintenance mode can be detected properly
     @NonNull
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
-                                                     @NonNull Account parentEntity,
-                                                     @Nullable SyncStatusReporter reporter) {
-        return capabilitiesSyncAdapter.pullRemoteChanges(account, parentEntity, reporter)
+                                                     @NonNull Account parentEntity) {
+        return capabilitiesSyncAdapter.pullRemoteChanges(account, parentEntity)
                 .thenComposeAsync(v -> allOf(
-                        userSyncAdapter.pullRemoteChanges(account, parentEntity, reporter),
-                        tableSyncAdapter.pullRemoteChanges(account, parentEntity, reporter)));
+                        userSyncAdapter.pullRemoteChanges(account, parentEntity),
+                        tableSyncAdapter.pullRemoteChanges(account, parentEntity)));
     }
 }
