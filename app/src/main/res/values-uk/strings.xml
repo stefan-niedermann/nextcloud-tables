@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Таблиці Nextcloud</string>
+    <string name="app_name">Таблиці</string>
     <string name="navigation_drawer_open">Розгорнути скриньку з навігацією</string>
     <string name="navigation_drawer_close">Згорнути скриньку з навігацією</string>
     <string name="action_settings">Налаштування</string>
