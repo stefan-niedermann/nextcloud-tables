@@ -3,12 +3,10 @@ package it.niedermann.nextcloud.tables.ui.main;
 import static androidx.lifecycle.Transformations.switchMap;
 
 import android.app.Application;
-import android.net.NetworkRequest;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -100,20 +98,6 @@ public class MainViewModel extends AndroidViewModel {
 
             return result$;
         });
-    }
-
-    @NonNull
-    public LiveData<Pair<Account, NetworkRequest>> getAccountAndNetworkRequest() {
-        return new ReactiveLiveData<>(getCurrentAccount())
-                .distinctUntilChanged()
-                .filter(Objects::nonNull)
-                .combineWith(preferencesRepository::getNetworkRequest$);
-    }
-
-    @AnyThread
-    @NonNull
-    public CompletableFuture<Void> synchronize(@NonNull Account account) {
-        return this.accountRepository.scheduleSynchronization(account);
     }
 
     @MainThread

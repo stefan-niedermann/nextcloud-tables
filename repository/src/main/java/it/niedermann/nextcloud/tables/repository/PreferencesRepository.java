@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.tables.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.NetworkCapabilities;
-import android.net.NetworkRequest;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +28,6 @@ public class PreferencesRepository {
     public final String pref_key_theme;
     private final LiveData<Boolean> syncOnlyOnWifi$;
     private final LiveData<Instant> lastBackgroundSync$;
-    private final LiveData<NetworkRequest> networkRequest$;
     /**
      * @see AppCompatDelegate
      */
@@ -53,24 +50,6 @@ public class PreferencesRepository {
         theme$ = new ReactiveLiveData<>(new SharedPreferenceStringLiveData(this.sharedPreferences, this.pref_key_theme, String.valueOf(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)))
                 .distinctUntilChanged()
                 .map(Integer::parseInt);
-        networkRequest$ = new ReactiveLiveData<>(this.syncOnlyOnWifi$)
-                .map(syncOnlyOnWifi -> {
-                    final var networkRequestBuilder = new NetworkRequest.Builder()
-                            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                            .addTransportType(NetworkCapabilities.TRANSPORT_BLUETOOTH)
-                            .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET);
-
-                    if (!syncOnlyOnWifi) {
-                        networkRequestBuilder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR);
-                    }
-
-                    return networkRequestBuilder.build();
-                });
-    }
-
-    public LiveData<NetworkRequest> getNetworkRequest$() {
-        return networkRequest$;
     }
 
     public LiveData<Instant> getLastBackgroundSync$() {
@@ -84,6 +63,10 @@ public class PreferencesRepository {
     @WorkerThread
     public boolean syncOnlyOnWifi() {
         return this.sharedPreferences.getBoolean(this.pref_key_sync_only_wifi, true);
+    }
+
+    public LiveData<Boolean> syncOnlyOnWifi$() {
+        return syncOnlyOnWifi$;
     }
 
     @WorkerThread
