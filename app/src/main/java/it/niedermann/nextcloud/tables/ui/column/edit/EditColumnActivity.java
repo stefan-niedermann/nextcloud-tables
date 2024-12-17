@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewbinding.ViewBinding;
 
@@ -137,7 +138,7 @@ public class EditColumnActivity extends AppCompatActivity {
                     : editColumnViewModel.updateColumn(account, table, fullColumn.getColumn());
 
             futureResult.whenCompleteAsync((result, exception) -> {
-                if (exception != null) {
+                if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                     ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }, ContextCompat.getMainExecutor(this));

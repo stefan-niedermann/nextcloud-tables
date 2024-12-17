@@ -5,6 +5,7 @@ import static java.util.function.Predicate.not;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewbinding.ViewBinding;
 
@@ -91,67 +93,73 @@ public class EditRowActivity extends AppCompatActivity {
 
         editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
 
-        editRowViewModel.getNotDeletedColumns(table).thenAcceptAsync(columns -> {
-            binding.columns.removeAllViews();
-            editors.clear();
-            editRowViewModel.getFullData(row).thenAcceptAsync(fullDataGrid -> {
-                for (final var column : columns) {
-                    try {
-                        final var defaultValueSupplier = defaultSupplierRegistry.getService(column.getColumn().getDataType());
-                        final var fullData = Optional
-                                .ofNullable(fullDataGrid.get(column.getColumn().getId()))
-                                .map(src -> defaultValueSupplier.ensureDefaultValue(column, src))
-                                .orElse(defaultValueSupplier.ensureDefaultValue(column, null));
+        editRowViewModel.getNotDeletedColumns(table)
+                .thenComposeAsync(columns -> {
+                    binding.columns.removeAllViews();
+                    editors.clear();
 
-                        Optional.ofNullable(row).map(Row::getId).ifPresent(fullData.getData()::setRowId);
-
-                        final var editor = editorFactoryRegistry
-                                .getService(column.getColumn().getDataType())
-                                .create(this, column, getSupportFragmentManager());
-
-                        editor.setFullData(fullData);
-                        editor.invalidate();
-                        editor.requestLayout();
-
-                        binding.columns.addView(editor);
-                        editors.add(editor);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-
-                        final var layout = new LinearLayout(this);
-                        layout.setOrientation(LinearLayout.VERTICAL);
-
+                    return editRowViewModel.getFullData(row)
+                            .thenApplyAsync(fullDataGrid -> new Pair<>(columns, fullDataGrid));
+                }, ContextCompat.getMainExecutor(this))
+                .thenAcceptAsync(args -> {
+                    final var columns = args.first;
+                    final var fullDataGrid = args.second;
+                    for (final var column : columns) {
                         try {
-                            final var unknownEditor = editorFactoryRegistry
-                                    .getService(EDataType.UNKNOWN)
+                            final var defaultValueSupplier = defaultSupplierRegistry.getService(column.getColumn().getDataType());
+                            final var fullData = Optional
+                                    .ofNullable(fullDataGrid.get(column.getColumn().getId()))
+                                    .map(src -> defaultValueSupplier.ensureDefaultValue(column, src))
+                                    .orElse(defaultValueSupplier.ensureDefaultValue(column, null));
+
+                            Optional.ofNullable(row).map(Row::getId).ifPresent(fullData.getData()::setRowId);
+
+                            final var editor = editorFactoryRegistry
+                                    .getService(column.getColumn().getDataType())
                                     .create(this, column, getSupportFragmentManager());
 
-                            Optional
-                                    .ofNullable(fullDataGrid.get(column.getColumn().getId()))
-                                    .ifPresent(fullData -> {
-                                        unknownEditor.setFullData(fullData);
-                                        unknownEditor.invalidate();
-                                        unknownEditor.requestLayout();
-                                    });
+                            editor.setFullData(fullData);
+                            editor.invalidate();
+                            editor.requestLayout();
 
-                            unknownEditor.setErrorMessage(getString(R.string.could_not_display_column_editor, column.getColumn().getTitle()));
+                            binding.columns.addView(editor);
+                            editors.add(editor);
+                        } catch (Exception e) {
+                            e.printStackTrace();
 
-                            binding.columns.addView(unknownEditor);
-                            editors.add(unknownEditor);
+                            final var layout = new LinearLayout(this);
+                            layout.setOrientation(LinearLayout.VERTICAL);
 
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
+                            try {
+                                final var unknownEditor = editorFactoryRegistry
+                                        .getService(EDataType.UNKNOWN)
+                                        .create(this, column, getSupportFragmentManager());
+
+                                Optional
+                                        .ofNullable(fullDataGrid.get(column.getColumn().getId()))
+                                        .ifPresent(fullData -> {
+                                            unknownEditor.setFullData(fullData);
+                                            unknownEditor.invalidate();
+                                            unknownEditor.requestLayout();
+                                        });
+
+                                unknownEditor.setErrorMessage(getString(R.string.could_not_display_column_editor, column.getColumn().getTitle()));
+
+                                binding.columns.addView(unknownEditor);
+                                editors.add(unknownEditor);
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+
+                            final var btn = new MaterialButton(this);
+                            btn.setText(R.string.simple_exception);
+                            btn.setOnClickListener(v -> ExceptionDialogFragment.newInstance(e, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
+                            layout.addView(btn);
+                            binding.columns.addView(layout);
                         }
-
-                        final var btn = new MaterialButton(this);
-                        btn.setText(R.string.simple_exception);
-                        btn.setOnClickListener(v -> ExceptionDialogFragment.newInstance(e, null).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName()));
-                        layout.addView(btn);
-                        binding.columns.addView(layout);
                     }
-                }
-            }, ContextCompat.getMainExecutor(this));
-        }, ContextCompat.getMainExecutor(this));
+                }, ContextCompat.getMainExecutor(this)); ;
     }
 
     private boolean savePromptRequired() {
@@ -177,7 +185,7 @@ public class EditRowActivity extends AppCompatActivity {
                 : editRowViewModel.updateRow(account, table, row, editors);
 
         futureResult.whenCompleteAsync((result, exception) -> {
-            if (exception != null) {
+            if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                 ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
             }
         }, ContextCompat.getMainExecutor(this));

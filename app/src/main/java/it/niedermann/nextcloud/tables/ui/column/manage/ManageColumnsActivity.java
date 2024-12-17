@@ -60,7 +60,7 @@ public class ManageColumnsActivity extends AppCompatActivity {
 //        final var touchHelper = new ManageColumnsTouchHelper(
 //                adapter,
 //                reorderedIds -> manageColumnsViewModel.reorderColumns(account, table.getId(), reorderedIds).whenCompleteAsync((result, exception) -> {
-//                    if (exception != null) {
+//                    if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
 //                        ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
 //                    }
 //                }, ContextCompat.getMainExecutor(this))

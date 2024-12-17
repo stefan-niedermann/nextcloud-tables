@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Optional;
@@ -86,7 +87,7 @@ public class EditTableActivity extends AppCompatActivity {
                     : editTableViewModel.updateTable(account, table);
 
             futureResult.whenCompleteAsync((result, exception) -> {
-                if (exception != null) {
+                if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                     ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }, ContextCompat.getMainExecutor(this));
