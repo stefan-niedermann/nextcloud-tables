@@ -15,7 +15,6 @@ import it.niedermann.nextcloud.tables.ui.row.edit.factories.number.NumberStarsEd
 import it.niedermann.nextcloud.tables.ui.row.edit.factories.selection.SelectionCheckEditorFactory;
 import it.niedermann.nextcloud.tables.ui.row.edit.factories.selection.SelectionEditorFactory;
 import it.niedermann.nextcloud.tables.ui.row.edit.factories.selection.SelectionMultiEditorFactory;
-import it.niedermann.nextcloud.tables.ui.row.edit.factories.text.TextEditorFactory;
 import it.niedermann.nextcloud.tables.ui.row.edit.factories.text.TextLineEditorFactory;
 import it.niedermann.nextcloud.tables.ui.row.edit.factories.text.TextLinkEditorFactory;
 import it.niedermann.nextcloud.tables.ui.row.edit.factories.text.TextRichEditorFactory;
@@ -30,13 +29,12 @@ public class EditDataTypeServiceRegistry extends DataTypeServiceRegistry<EditorF
     @Override
     public EditorFactory<? extends ViewBinding> getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT -> cache.computeIfAbsent(dataType, t -> new TextEditorFactory());
             case TEXT_LONG, TEXT_RICH ->
                     cache.computeIfAbsent(dataType, t -> new TextRichEditorFactory());
             case TEXT_LINE -> cache.computeIfAbsent(dataType, t -> new TextLineEditorFactory());
             case TEXT_LINK -> cache.computeIfAbsent(dataType, t -> new TextLinkEditorFactory());
 
-            case DATETIME, DATETIME_DATETIME ->
+            case DATETIME ->
                     cache.computeIfAbsent(dataType, t -> new DateTimeEditorFactory());
             case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateEditorFactory());
             case DATETIME_TIME -> cache.computeIfAbsent(dataType, t -> new TimeEditorFactory());
@@ -52,7 +50,7 @@ public class EditDataTypeServiceRegistry extends DataTypeServiceRegistry<EditorF
                     cache.computeIfAbsent(dataType, t -> new NumberProgressEditorFactory());
             case NUMBER_STARS ->
                     cache.computeIfAbsent(dataType, t -> new NumberStarsEditorFactory());
-            case USERGROUP, UNKNOWN ->
+            case  USERGROUP, UNKNOWN ->
                     cache.computeIfAbsent(dataType, t -> new UnknownEditorFactory());
         };
     }

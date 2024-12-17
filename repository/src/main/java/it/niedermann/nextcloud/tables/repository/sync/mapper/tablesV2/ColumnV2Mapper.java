@@ -69,7 +69,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                 .of(entity.getColumn())
                 .map(Column::getDefaultValue)
                 .flatMap(val -> switch (entity.getColumn().getDataType()) {
-                    case DATETIME, DATETIME_DATETIME -> Optional.ofNullable(val.getInstantValue())
+                    case DATETIME -> Optional.ofNullable(val.getInstantValue())
                             .map(TablesV1API.FORMATTER_DATA_DATE_TIME::format);
                     case DATETIME_DATE -> Optional.ofNullable(val.getDateValue())
                             .map(TablesV1API.FORMATTER_DATA_DATE::format);
@@ -87,7 +87,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                 entity.getColumn().getLastEditBy(),
                 entity.getColumn().getLastEditAt(),
                 entity.getColumn().getDataType().getType(),
-                entity.getColumn().getDataType().getSubType(),
+                entity.getColumn().getDataType().getSubType().orElse(""),
                 entity.getColumn().isMandatory(),
                 entity.getColumn().getDescription(),
 

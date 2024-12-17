@@ -25,9 +25,9 @@ public class DataTypeDefaultServiceRegistry extends DataTypeServiceRegistry<Defa
     @Override
     public DefaultValueSupplier getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT, TEXT_LONG, TEXT_RICH, TEXT_LINE, TEXT_LINK ->
+            case TEXT_LONG, TEXT_RICH, TEXT_LINE, TEXT_LINK ->
                     cache.computeIfAbsent(dataType, t -> new TextDefaultSupplier());
-            case DATETIME, DATETIME_DATETIME ->
+            case DATETIME ->
                     cache.computeIfAbsent(dataType, t -> new DateTimeDefaultSupplier());
             case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateDefaultSupplier());
             case DATETIME_TIME -> cache.computeIfAbsent(dataType, t -> new TimeDefaultSupplier());

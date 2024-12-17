@@ -24,9 +24,9 @@ public class TypeRemoteMapperServiceRegistry extends DataTypeServiceRegistry<Dat
     @Override
     public DataV1Mapper getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT, TEXT_LINE, TEXT_LINK, TEXT_RICH, TEXT_LONG ->
+            case TEXT_LINE, TEXT_LINK, TEXT_RICH, TEXT_LONG ->
                     cache.computeIfAbsent(dataType, t -> new TextRemoteMapper());
-            case DATETIME, DATETIME_DATETIME -> new DateTimeRemoteMapper();
+            case DATETIME -> new DateTimeRemoteMapper();
             case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateRemoteMapper());
             case DATETIME_TIME -> cache.computeIfAbsent(dataType, t -> new TimeRemoteMapper());
             case NUMBER, NUMBER_PROGRESS ->

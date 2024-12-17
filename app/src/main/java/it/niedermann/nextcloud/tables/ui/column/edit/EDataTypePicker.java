@@ -1,8 +1,11 @@
 package it.niedermann.nextcloud.tables.ui.column.edit;
 
+import static java.util.stream.Collectors.toUnmodifiableSet;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 
@@ -67,7 +70,33 @@ public class EDataTypePicker extends FrameLayout {
             selectedType$.postValue(newType);
             subTypeAdapter.clear();
             if (newType != null) {
-                subTypeAdapter.addAll(EDataType.getSubTypes(newType));
+                final var typeVariants = EDataType.getTypeVariants(newType);
+
+                if (typeVariants.isEmpty()) {
+                    selectedSubType$.postValue(null);
+                    binding.subTypeWrapper.setVisibility(View.GONE);
+
+                } else if (typeVariants.size() == 1) {
+                    final var subType = typeVariants
+                            .stream()
+                            .findAny()
+                            .flatMap(EDataType::getSubType)
+                            .orElseThrow();
+
+                    subTypeAdapter.addAll(subType);
+                    selectedSubType$.postValue(null);
+                    binding.subTypeWrapper.setVisibility(View.GONE);
+
+                } else {
+                    final var subTypes = typeVariants
+                            .stream()
+                            .map(EDataType::getSubType)
+                            .map(subType -> subType.orElse(""))
+                            .collect(toUnmodifiableSet());
+
+                    subTypeAdapter.addAll(subTypes);
+                    binding.subTypeWrapper.setVisibility(View.VISIBLE);
+                }
             }
             subTypeAdapter.notifyDataSetChanged();
         });

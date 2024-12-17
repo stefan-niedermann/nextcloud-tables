@@ -24,9 +24,9 @@ public class ManageDataTypeServiceRegistry extends DataTypeServiceRegistry<Manag
     @Override
     public ManageFactory<? extends ViewBinding> getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT, TEXT_LONG, TEXT_LINE, TEXT_LINK, TEXT_RICH ->
+            case TEXT_LONG, TEXT_LINE, TEXT_LINK, TEXT_RICH ->
                     cache.computeIfAbsent(dataType, t -> new TextManagerFactory());
-            case DATETIME, DATETIME_DATETIME, DATETIME_DATE ->
+            case DATETIME, DATETIME_DATE ->
                     cache.computeIfAbsent(dataType, t -> new DateManagerFactory());
             case DATETIME_TIME ->
                     cache.computeIfAbsent(dataType, t -> new DateTimeManagerFactory());

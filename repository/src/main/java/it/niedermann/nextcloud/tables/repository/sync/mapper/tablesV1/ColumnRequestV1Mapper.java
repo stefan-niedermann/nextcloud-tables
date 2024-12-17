@@ -58,7 +58,7 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                 numberAttributes.numberDecimals(),
 
                 switch (dataType) {
-                    case DATETIME, DATETIME_DATETIME -> Optional
+                    case DATETIME -> Optional
                             .ofNullable(column.getDefaultValue().getInstantValue())
                             .map(TablesV1API.FORMATTER_DATA_DATE_TIME::format)
                             .orElse(null);

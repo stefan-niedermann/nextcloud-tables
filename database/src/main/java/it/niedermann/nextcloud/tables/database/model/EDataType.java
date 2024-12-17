@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.tables.database.model;
 
+import static java.util.Collections.emptySet;
 import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.text.TextUtils;
 
@@ -10,40 +12,39 @@ import androidx.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public enum EDataType {
 
-    UNKNOWN(0, "", ""),
+    UNKNOWN(0, ""),
 
-    TEXT(1_000, "text", ""),
     /** @noinspection DeprecatedIsStillUsed*/
     @Deprecated(since = "0.5.0")
-    TEXT_LONG(1_001, "text", "long"),
-    TEXT_LINE(1_002, "text", "line"),
-    TEXT_LINK(1_003, "text", "link"),
+    TEXT_LONG(1_000, "text", "long"),
+    TEXT_LINE(1_001, "text", "line"),
+    TEXT_LINK(1_002, "text", "link"),
     /** @since 0.5.0 */
-    TEXT_RICH(1_004, "text", "rich"),
+    TEXT_RICH(1_003, "text", "rich"),
 
-    DATETIME(2_000, "datetime", ""),
-    DATETIME_DATETIME(2_001, "datetime", "datetime"),
-    DATETIME_DATE(2_002, "datetime", "date"),
-    DATETIME_TIME(2_003, "datetime", "time"),
+    DATETIME(2_000, "datetime"),
+    DATETIME_DATE(2_001, "datetime", "date"),
+    DATETIME_TIME(2_002, "datetime", "time"),
 
-    SELECTION(3_000, "selection", ""),
+    SELECTION(3_000, "selection"),
     /** @since 0.5.0 */
     SELECTION_MULTI(3_001, "selection", "multi"),
     SELECTION_CHECK(3_002, "selection", "check"),
 
-    NUMBER(4_000, "number", ""),
+    NUMBER(4_000, "number"),
     NUMBER_PROGRESS(4_001, "number", "progress"),
     NUMBER_STARS(4_002, "number", "stars"),
 
     /** @since 0.8.0 */
-    USERGROUP(5_000, "usergroup", ""),
+    USERGROUP(5_000, "usergroup"),
     ;
 
     private final int id;
@@ -65,7 +66,7 @@ public enum EDataType {
 
     public static EDataType findByType(@Nullable String type, @Nullable String subType) {
         for (final var entry : EDataType.values()) {
-            if (entry.type.equals(type) && entry.subType.equals(subType)) {
+            if (entry.type.equals(type) && Objects.equals(entry.subType, subType)) {
                 return entry;
             }
         }
@@ -78,8 +79,13 @@ public enum EDataType {
     }
 
     EDataType(int id,
+              @NonNull String type) {
+        this(id, type, null);
+    }
+
+    EDataType(int id,
               @NonNull String type,
-              @NonNull String subType) {
+              @Nullable String subType) {
         this.id = id;
         this.type = type;
         this.subType = subType;
@@ -95,8 +101,8 @@ public enum EDataType {
     }
 
     @NonNull
-    public String getSubType() {
-        return this.subType;
+    public Optional<String> getSubType() {
+        return Optional.ofNullable(this.subType);
     }
 
     @NonNull
@@ -105,17 +111,38 @@ public enum EDataType {
                 .stream(values())
                 .map(value -> value.type)
                 .filter(not(TextUtils::isEmpty))
-                .collect(Collectors.toUnmodifiableSet());
+                .collect(toUnmodifiableSet());
     }
 
+    /// @return a [Collection] of other [EDataType]s with the same [#@param type].
+    /// Blank sub types are only returned if there are non-blank sub types, too.
+    ///
+    /// ```
+    /// type1/
+    /// → []
+    ///
+    /// type2/
+    /// type2/subtype1
+    /// → [null, "subtype2"]
+    ///
+    /// type3/subtype1
+    /// → ["subtype1"]
+    ///
+    /// type4/subtype1
+    /// type4/subtype2
+    /// → ["subtype1", "subtype"]
+    ///```
     @NonNull
-    public static Collection<String> getSubTypes(@NonNull String type) {
-        return Arrays
-                .stream(values())
+    public static Collection<EDataType> getTypeVariants(@NonNull String type) {
+        final var sameTypeCollection = Arrays.stream(values())
                 .filter(value -> value.type.equals(type))
-                .map(value -> value.subType)
-//                .filter(not(TextUtils::isEmpty))
-                .collect(Collectors.toUnmodifiableSet());
+                .collect(toUnmodifiableSet());
+
+        if (sameTypeCollection.size() == 1) {
+            return emptySet();
+        }
+
+        return sameTypeCollection;
     }
 
     public boolean hasSelectionOptions() {
@@ -133,8 +160,6 @@ public enum EDataType {
             return "unknown";
         }
 
-        return type.isBlank() ? "?" : type +
-                "/" +
-                (subType.isBlank() ? "?" : subType);
+        return type + getSubType().map(subType -> "/" + subType).orElse("");
     }
 }

@@ -19,9 +19,9 @@ public class DataTypeCreatorServiceRegistry extends DataTypeServiceRegistry<Colu
     @Override
     public ColumnCreator getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT, TEXT_LONG, TEXT_RICH, TEXT_LINE, TEXT_LINK ->
+            case TEXT_LONG, TEXT_RICH, TEXT_LINE, TEXT_LINK ->
                     cache.computeIfAbsent(dataType, t -> new TextCreator());
-            case DATETIME, DATETIME_DATETIME, DATETIME_DATE, DATETIME_TIME ->
+            case DATETIME, DATETIME_DATE, DATETIME_TIME ->
                     cache.computeIfAbsent(dataType, t -> new DateTimeCreator());
             case SELECTION, SELECTION_MULTI, SELECTION_CHECK ->
                     cache.computeIfAbsent(dataType, t -> new SelectionCreator());
