@@ -12,8 +12,10 @@ import java.time.Instant;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.remote.ApiProvider;
+import it.niedermann.nextcloud.tables.remote.tablesV2.adapter.ENodeTypeV2Adapter;
 import it.niedermann.nextcloud.tables.remote.tablesV2.adapter.EUserGroupV2Adapter;
 import it.niedermann.nextcloud.tables.remote.tablesV2.adapter.InstantV2Adapter;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.EUserGroupTypeV2Dto;
 
 @WorkerThread
@@ -26,7 +28,8 @@ public class TablesV2ApiProvider<T> extends ApiProvider<T> {
                                @NonNull Class<T> clazz) throws NextcloudFilesAppAccountNotFoundException {
         this(context, account, clazz, new GsonBuilder()
                 .registerTypeAdapter(Instant.class, new InstantV2Adapter(TablesV2API.FORMATTER_PROPERTIES_DATE_TIME))
-                .registerTypeAdapter(EUserGroupTypeV2Dto.class, new EUserGroupV2Adapter()));
+                .registerTypeAdapter(EUserGroupTypeV2Dto.class, new EUserGroupV2Adapter())
+                .registerTypeAdapter(ENodeTypeV2Dto.class, new ENodeTypeV2Adapter()));
     }
 
     private TablesV2ApiProvider(@NonNull Context context,
