@@ -304,7 +304,8 @@ public class TablesRepository extends AbstractRepository {
                         db.getDataDao().update(fullData.getData());
 
                     } else {
-                        fullData.getData().setId(db.getDataDao().insert(fullData.getData()));
+                        final var insertedDataId = db.getDataDao().insert(fullData.getData());
+                        fullData.getData().setId(insertedDataId);
                     }
 
                     return updateSelectionOptionCrossRefs(fullData);

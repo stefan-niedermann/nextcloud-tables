@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.row.edit.type.selection;
 
+import static java.util.stream.Collectors.toUnmodifiableList;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,10 +13,9 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -26,7 +27,7 @@ import it.niedermann.nextcloud.tables.ui.row.edit.type.DataEditView;
 
 public class SelectionMultiEditor extends DataEditView<EditSelectionMultiBinding> {
 
-    protected final List<SelectionOption> checkedSelectionOptions = new ArrayList<>();
+    protected final Set<SelectionOption> checkedSelectionOptions = ConcurrentHashMap.newKeySet();
     @NonNull
     private final ConcurrentMap<Long, CheckBox> selectionOptionIdAndCheckBoxes;
 
@@ -56,8 +57,10 @@ public class SelectionMultiEditor extends DataEditView<EditSelectionMultiBinding
                 if (isChecked) {
                     checkedSelectionOptions.add(selectionOption);
                 } else {
-                    checkedSelectionOptions.remove(selectionOption);
+                    checkedSelectionOptions.removeIf(checkedSelectionOption -> Objects.equals(checkedSelectionOption.getId(), selectionOption.getId()));
                 }
+
+                onValueChanged();
             });
             selectionOptionIdAndCheckBoxes.put(selectionOption.getId(), checkbox);
             binding.getRoot().addView(checkbox);
@@ -69,7 +72,7 @@ public class SelectionMultiEditor extends DataEditView<EditSelectionMultiBinding
     @Override
     public @Nullable FullData getFullData() {
         Optional.ofNullable(fullData)
-                .ifPresent(val -> val.setSelectionOptions(checkedSelectionOptions));
+                .ifPresent(val -> val.setSelectionOptions(checkedSelectionOptions.stream().collect(toUnmodifiableList())));
 
         return fullData;
     }
