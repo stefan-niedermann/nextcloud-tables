@@ -25,6 +25,12 @@
         <item name="colorTertiary">@color/tertiary</item>
         <item name="colorTertiaryContainer">@color/tertiaryContainer</item>
 
+        <!-- Used by PopupMenus -->
+        <item name="colorSurfaceContainer">@color/surface</item>
+
+        <!-- Used by Material Dialogs & Material SearchBar -->
+        <item name="colorSurfaceContainerHigh">@color/surface</item>
+
         <item name="android:windowBackground">@color/bg_default</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>

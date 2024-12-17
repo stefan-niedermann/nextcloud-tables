@@ -1,14 +1,12 @@
 package it.niedermann.nextcloud.tables.ui.main;
 
-import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
-import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 import android.app.Application;
-import android.net.NetworkRequest;
 
+import androidx.annotation.AnyThread;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -16,48 +14,53 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.model.FullTable;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
+@MainThread
 public class MainViewModel extends AndroidViewModel {
 
-    private final ExecutorService executor;
     private final AccountRepository accountRepository;
     private final TablesRepository tablesRepository;
     private final PreferencesRepository preferencesRepository;
+    private final MutableLiveData<Boolean> isLoading$ = new MutableLiveData<>(true);
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.accountRepository = new AccountRepository(application);
         this.tablesRepository = new TablesRepository(application);
         this.preferencesRepository = new PreferencesRepository(application);
-        this.executor = Executors.newSingleThreadExecutor();
     }
 
-    public CompletableFuture<Void> synchronizeAccountAndTables(@NonNull Account account) {
-        return supplyAsync(() -> {
-            try {
-                this.accountRepository.synchronizeAccount(account);
-                this.tablesRepository.synchronizeTables(account);
-                return null;
-            } catch (Exception e) {
-                throw new CompletionException(e);
-            }
-        }, executor);
+    @NonNull
+    public LiveData<FullTable> getFullTable$() {
+        return new ReactiveLiveData<>(getCurrentTable())
+                .filter(Objects::nonNull)
+                .map(Table::getId)
+                .flatMap(tablesRepository::getFullTable$)
+                .tap(() -> this.isLoading$.setValue(false));
     }
 
+    @NonNull
+    public LiveData<Boolean> isLoading$() {
+        return new ReactiveLiveData<>(this.isLoading$)
+                .distinctUntilChanged();
+    }
+
+    @NonNull
     public LiveData<Account> getCurrentAccount() {
         return accountRepository.getCurrentAccount();
     }
 
+    @NonNull
     public LiveData<Table> getCurrentTable() {
         return switchMap(getCurrentAccount(), account -> {
             if (account == null) {
@@ -65,7 +68,6 @@ public class MainViewModel extends AndroidViewModel {
             }
 
             if (account.getCurrentTable() == null) {
-                executor.submit(() -> accountRepository.guessCurrentTable(account));
                 return new MutableLiveData<>(null);
             }
 
@@ -73,10 +75,7 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<Boolean> currentAccountHasTables() {
-        return map(getTables(), tables -> tables != null && !tables.getOwnTables().isEmpty() && !tables.getSharedTables().isEmpty());
-    }
-
+    @NonNull
     public LiveData<TablesPerAccount> getTables() {
         return switchMap(getCurrentAccount(), account -> {
             final var result$ = new MediatorLiveData<TablesPerAccount>();
@@ -101,33 +100,20 @@ public class MainViewModel extends AndroidViewModel {
         });
     }
 
-    public void setCurrentTable(@NonNull Table table) {
-        executor.submit(() -> accountRepository.setCurrentTable(table.getAccountId(), table.getId()));
-    }
-
-    public CompletableFuture<Void> deleteTable(@NonNull Table table) {
-        return supplyAsync(() -> {
-            try {
-                tablesRepository.deleteTable(table);
-                return null;
-            } catch (Exception e) {
-                throw new CompletionException(e);
-            }
-        }, executor);
-    }
-
+    @MainThread
     @NonNull
-    public LiveData<Pair<Account, NetworkRequest>> getAccountAndNetworkRequest() {
-        return switchMap(getCurrentAccount(), account -> {
-            if (account != null) {
-                return map(preferencesRepository.getNetworkRequest$(), parameter -> new Pair<>(account, parameter));
-            } else {
-                return new MutableLiveData<>();
-            }
-        });
+    public CompletableFuture<Void> setCurrentTable(@NonNull Table table) {
+        this.isLoading$.setValue(true);
+        return accountRepository.setCurrentTable(table.getAccountId(), table.getId());
     }
 
-    static class TablesPerAccount {
+    @AnyThread
+    @NonNull
+    public CompletableFuture<Void> deleteTable(@NonNull Table table) {
+        return tablesRepository.deleteTable(table);
+    }
+
+    public static class TablesPerAccount {
         @NonNull
         private final Account account;
         @NonNull

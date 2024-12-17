@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,15 +22,21 @@ import java.util.Collections;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
-import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
-import it.niedermann.nextcloud.tables.model.EPermission;
 import it.niedermann.nextcloud.tables.model.FullTable;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.EPermissionV2Dto;
+import it.niedermann.nextcloud.tables.repository.defaults.DataTypeDefaultServiceRegistry;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.row.EditRowActivity;
-import it.niedermann.nextcloud.tables.ui.table.view.holder.CellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.types.CellViewHolder;
+import it.niedermann.nextcloud.tables.ui.table.view.types.DataTypeViewerServiceRegistry;
+import it.niedermann.nextcloud.tables.ui.table.view.types.ViewHolderFactory;
 
 public class ViewTableFragment extends Fragment {
 
@@ -37,10 +44,12 @@ public class ViewTableFragment extends Fragment {
     private FragmentTableBinding binding;
     private ViewTableViewModel viewTableViewModel;
     private TableViewAdapter adapter;
+    private DataTypeServiceRegistry<ViewHolderFactory> registry;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        registry = new DataTypeViewerServiceRegistry(new DataTypeDefaultServiceRegistry());
         binding = FragmentTableBinding.inflate(inflater, container, false);
-        adapter = new TableViewAdapter();
+        adapter = new TableViewAdapter(registry);
         binding.tableView.setAdapter(adapter);
         binding.tableView.getCellRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -57,7 +66,8 @@ public class ViewTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
-        viewTableViewModel.getCurrentFullTable().observe(getViewLifecycleOwner(), pair -> {
+        viewTableViewModel.isUserInitiatedSynchronizationActive().observe(getViewLifecycleOwner(), binding.swipeRefreshLayout::setRefreshing);
+        viewTableViewModel.getCurrentFullTable$().observe(getViewLifecycleOwner(), pair -> {
             binding.tableView.getScrollHandler().scrollToRowPosition(0);
             binding.tableView.getScrollHandler().scrollToColumnPosition(0);
             applyCurrentTable(pair.first, pair.second);
@@ -74,18 +84,18 @@ public class ViewTableFragment extends Fragment {
             return;
         }
 
-        Log.i(TAG, "Current table: " + fullTable.getTable());
+        Log.i(TAG, "Current table: " + fullTable.table());
 
-        binding.fab.setVisibility(fullTable.getTable().hasCreatePermission() ? View.VISIBLE : View.GONE);
+        binding.fab.setVisibility(fullTable.table().hasCreatePermission() ? View.VISIBLE : View.GONE);
 
         final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
         final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
 
         // Workaround for https://github.com/stefan-niedermann/nextcloud-tables/issues/16
-        if (fullTable.getRows().isEmpty()) {
+        if (fullTable.fullRows().isEmpty()) {
             adapter.setAllItems(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
         } else {
-            adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), fullTable.getData(), fullTable.getSelectionOptions());
+            adapter.setAllItems(fullTable.fullColumns(), fullTable.fullRows(), fullTable.data());
         }
 
         binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);
@@ -95,23 +105,43 @@ public class ViewTableFragment extends Fragment {
         binding.tableView.setTableViewListener(new DefaultTableViewListener() {
             @Override
             public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
-                if (!fullTable.getTable().hasUpdatePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermission.UPDATE);
+                if (!fullTable.table().hasUpdatePermission()) {
+                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.UPDATE);
                     return;
                 }
 
-                final var row = fullTable.getRows().get(rowPosition);
-                if (row == null) {
-                    ExceptionDialogFragment.newInstance(new IllegalStateException("No row header at position " + rowPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                } else {
-                    startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable(), row));
+                if (rowPosition >= fullTable.fullRows().size()) {
+                    final var exception = new IllegalStateException("Tried to access rowPosition " + rowPosition + " but there were only " + fullTable.fullRows().size() + " rows.");
+
+                    if (FeatureToggle.STRICT_MODE.enabled) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    } else {
+                        exception.printStackTrace();
+                    }
+
+                    return;
                 }
+
+                final var row = fullTable.fullRows().get(rowPosition);
+                if (row == null) {
+                    final var exception = new IllegalStateException("No row header at position " + rowPosition);
+
+                    if (FeatureToggle.STRICT_MODE.enabled) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    } else {
+                        exception.printStackTrace();
+                    }
+
+                    return;
+                }
+
+                startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.table(), row.getRow()));
             }
 
             @Override
             public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
-                if (!fullTable.getTable().hasUpdatePermission() && !fullTable.getTable().hasDeletePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermission.UPDATE + ", " + EPermission.DELETE);
+                if (!fullTable.table().hasUpdatePermission() && !fullTable.table().hasDeletePermission()) {
+                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.UPDATE + ", " + EPermissionV2Dto.DELETE);
                     return;
                 }
 
@@ -123,7 +153,7 @@ public class ViewTableFragment extends Fragment {
                                 ((CellViewHolder) cellView).getQuickActionProvider().ifPresentOrElse(
                                         quickActionProvider -> {
                                             quickActionMenuItem.setVisible(true);
-                                            quickActionMenuItem.setTitle(quickActionProvider.getTitle());
+                                            quickActionMenuItem.setTitle(quickActionProvider.title());
                                         },
                                         () -> quickActionMenuItem.setVisible(false)
                                 );
@@ -139,14 +169,14 @@ public class ViewTableFragment extends Fragment {
                     }
 
                     if (item.getItemId() == R.id.edit_row) {
-                        startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable(), row));
+                        startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.table(), row.getRow()));
                     } else if (item.getItemId() == R.id.delete_row) {
                         new MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(R.string.delete_row)
                                 .setMessage(R.string.delete_row_message)
                                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
-                                    viewTableViewModel.deleteRow(fullTable.getTable(), row).whenCompleteAsync((result, exception) -> {
-                                        if (exception != null) {
+                                    viewTableViewModel.deleteRow(fullTable.table(), row.getRow()).whenCompleteAsync((result, exception) -> {
+                                        if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                                             ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                         }
                                     }, ContextCompat.getMainExecutor(requireContext()));
@@ -165,14 +195,23 @@ public class ViewTableFragment extends Fragment {
 
             @Override
             public void onColumnHeaderLongPressed(@NonNull RecyclerView.ViewHolder columnHeaderView, int columnPosition) {
-                final var column = adapter.getColumnHeaderItem(columnPosition);
-                if (column == null) {
-                    ExceptionDialogFragment.newInstance(new IllegalStateException("No column header at position " + columnPosition), account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                final var fullColumn = adapter.getColumnHeaderItem(columnPosition);
+
+                if (fullColumn == null) {
+                    ExceptionDialogFragment.newInstance(new IllegalStateException("No " + FullColumn.class.getSimpleName() + " header at position " + columnPosition), account)
+                            .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     return;
                 }
 
-                if (!fullTable.getTable().hasManagePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermission.MANAGE);
+                final var column = fullColumn.getColumn();
+                if (column == null) {
+                    ExceptionDialogFragment.newInstance(new IllegalStateException("No " + Column.class.getSimpleName() + " header at position " + columnPosition), account)
+                            .show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    return;
+                }
+
+                if (!fullTable.table().hasManagePermission()) {
+                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.MANAGE);
                     return;
                 }
 
@@ -181,7 +220,7 @@ public class ViewTableFragment extends Fragment {
                 popup.setOnMenuItemClickListener(item -> {
                     if (item.getItemId() == R.id.edit_column) {
                         if (FeatureToggle.EDIT_COLUMN.enabled) {
-                            startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.getTable(), column));
+                            startActivity(EditColumnActivity.createIntent(requireContext(), account, fullTable.table(), fullColumn));
                         } else {
                             Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
                         }
@@ -192,8 +231,8 @@ public class ViewTableFragment extends Fragment {
                                 .setMessage(getString(R.string.delete_item_message, column.getTitle()))
                                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
                                     if (FeatureToggle.DELETE_COLUMN.enabled) {
-                                        viewTableViewModel.deleteColumn(fullTable.getTable(), column).whenCompleteAsync((result, exception) -> {
-                                            if (exception != null) {
+                                        viewTableViewModel.deleteColumn(fullTable.table(), column).whenCompleteAsync((result, exception) -> {
+                                            if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                                                 ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                             }
                                         }, ContextCompat.getMainExecutor(requireContext()));
@@ -214,14 +253,13 @@ public class ViewTableFragment extends Fragment {
             }
         });
 
-        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.getTable())));
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronizeAccountAndTables(account).whenCompleteAsync((result, exception) -> {
-            // TODO fragment gets detached by MainActivity, this code will fail.
-            binding.swipeRefreshLayout.setRefreshing(false);
-            if (exception != null) {
-                ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-            }
-        }, ContextCompat.getMainExecutor(requireContext())));
+        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.table())));
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronize(account)
+                .whenCompleteAsync((result, exception) -> {
+                    if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                }, ContextCompat.getMainExecutor(requireContext())));
     }
 
     @Override

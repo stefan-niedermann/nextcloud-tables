@@ -10,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -51,6 +54,7 @@ public class EditTableActivity extends AppCompatActivity {
         if (table != null) {
             binding.emoji.setText(table.getEmoji());
             binding.title.setText(table.getTitle());
+            binding.description.setText(table.getDescription());
         }
 
         editTableViewModel = new ViewModelProvider(this).get(EditTableViewModel.class);
@@ -74,18 +78,16 @@ public class EditTableActivity extends AppCompatActivity {
                 table = new Table();
             }
 
-            final var newTitle = binding.title.getText();
-            final var newEmoji = binding.emoji.getText();
-
-            table.setTitle(newTitle == null ? "" : newTitle.toString());
-            table.setEmoji(newEmoji == null ? "" : newEmoji.toString());
+            table.setTitle(Optional.ofNullable(binding.title.getText()).map(Object::toString).orElse(""));
+            table.setEmoji(Optional.ofNullable(binding.emoji.getText()).map(Object::toString).orElse(""));
+            table.setDescription(Optional.ofNullable(binding.description.getText()).map(Object::toString).orElse(""));
 
             final var futureResult = table.getRemoteId() == null
                     ? editTableViewModel.createTable(account, table)
                     : editTableViewModel.updateTable(account, table);
 
             futureResult.whenCompleteAsync((result, exception) -> {
-                if (exception != null) {
+                if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                     ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
             }, ContextCompat.getMainExecutor(this));

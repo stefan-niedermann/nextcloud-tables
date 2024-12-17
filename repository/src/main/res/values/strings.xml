@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_title_sync_only_wifi">Sync only on Wi-Fi</string>
+    <string name="pref_title_sync_background">Background synchronization</string>
+    <string name="pref_title_theme">Theme</string>
+
+    <string name="pref_key_sync_only_wifi" translatable="false">sync_on_wifi_only</string>
+    <string name="pref_key_sync_background" translatable="false">background_sync</string>
+    <string name="pref_key_sync_background_last" translatable="false">background_sync_last</string>
+    <string name="pref_key_theme" translatable="false">theme</string>
+
+    <string-array name="pref_values_theme" translatable="false">
+        <item>-1</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="theme_entries">
+        <item>System Default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+</resources>

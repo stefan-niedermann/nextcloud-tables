@@ -1,12 +1,11 @@
 package it.niedermann.nextcloud.tables.ui.main;
 
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.Network;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,13 +25,12 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import it.niedermann.nextcloud.tables.R;
-import it.niedermann.nextcloud.tables.TablesApplication.FeatureToggle;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityMainBinding;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.about.AboutActivity;
 import it.niedermann.nextcloud.tables.ui.accountswitcher.AccountSwitcherDialog;
 import it.niedermann.nextcloud.tables.ui.column.manage.ManageColumnsActivity;
@@ -41,11 +39,13 @@ import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.ui.importaccount.ImportAccountActivity;
 import it.niedermann.nextcloud.tables.ui.settings.PreferencesActivity;
 import it.niedermann.nextcloud.tables.ui.table.edit.EditTableActivity;
-import it.niedermann.nextcloud.tables.ui.util.EmojiDrawable;
+import it.niedermann.nextcloud.tables.util.AvatarUtil;
+import it.niedermann.nextcloud.tables.util.EmojiDrawable;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private final AvatarUtil avatarUtil = new AvatarUtil();
     private ActivityMainBinding binding;
     private MainViewModel mainViewModel;
 
@@ -68,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
+        mainViewModel.getFullTable$().observe(this, rowWithData -> {
+            Log.v("Hello", "World");
+        });
         mainViewModel.getCurrentAccount().observe(this, account -> {
             if (account == null) {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Glide
                         .with(binding.toolbar.getContext())
-                        .load(account.getAvatarUrl(binding.toolbar.getMenu().findItem(R.id.account_switcher).getIcon().getIntrinsicWidth()))
+                        .load(avatarUtil.getAvatarUrl(account, binding.toolbar.getMenu().findItem(R.id.account_switcher).getIcon().getIntrinsicWidth()))
                         .apply(RequestOptions.circleCropTransform())
                         .placeholder(R.drawable.ic_baseline_account_circle_24)
                         .error(R.drawable.ic_baseline_account_circle_24)
@@ -94,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainViewModel.isLoading$().observe(this, loading -> {
+            this.binding.loadingWrapper.setVisibility(loading ? View.VISIBLE : View.GONE);
+            this.binding.fragment.setVisibility(!loading ? View.VISIBLE : View.GONE);
+        });
         mainViewModel.getTables().observe(this, this::updateSidebarMenu);
         mainViewModel.getCurrentTable().observe(this, this::applyCurrentTable);
 
@@ -103,27 +110,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
             }
-        });
-
-        final var connectivityManager = (ConnectivityManager) getSystemService(ConnectivityManager.class);
-        final var networkCallbackReference = new AtomicReference<ConnectivityManager.NetworkCallback>();
-        mainViewModel.getAccountAndNetworkRequest().observe(this, accountAndNetworkRequest -> {
-            if (networkCallbackReference.get() != null) {
-                connectivityManager.unregisterNetworkCallback(networkCallbackReference.get());
-            }
-            networkCallbackReference.set(new ConnectivityManager.NetworkCallback() {
-                @Override
-                public void onAvailable(@NonNull Network network) {
-                    super.onAvailable(network);
-                    Log.i(TAG, "Network available, trigger synchronization for " + accountAndNetworkRequest.first);
-                    mainViewModel.synchronizeAccountAndTables(accountAndNetworkRequest.first).whenCompleteAsync((result, exception) -> {
-                        if (exception != null) {
-                            exception.printStackTrace();
-                        }
-                    }, ContextCompat.getMainExecutor(MainActivity.this));
-                }
-            });
-            connectivityManager.requestNetwork(accountAndNetworkRequest.second, networkCallbackReference.get());
         });
     }
 
