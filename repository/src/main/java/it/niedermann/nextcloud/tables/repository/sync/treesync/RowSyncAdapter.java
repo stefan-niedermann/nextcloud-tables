@@ -151,10 +151,10 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     @Override
     public CompletableFuture<Void> pushLocalDeletions(@NonNull Account account, @NonNull Table table) {
         return supplyAsync(() -> db.getRowDao().getLocallyDeletedRows(account.getId(), table.getId()), db.getParallelExecutor())
-                .thenComposeAsync(rows -> {
+                .thenApplyAsync(rows -> {
                     Log.v(TAG, "------ Pushing " + rows.size() + " local row deletions for " + account.getAccountName());
 
-                    return allOf(rows.stream()
+                    return rows.stream()
                             .peek(row -> Log.i(TAG, "------ → DELETE: " + row.getRemoteId()))
                             .map(row -> {
                                 if (row.getRemoteId() == null) {
@@ -172,8 +172,10 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                 }
                                             });
                                 }
-                            }).toArray(CompletableFuture[]::new));
-                }, workExecutor);
+                            });
+                }, workExecutor)
+                .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
+                .thenComposeAsync(CompletableFuture::allOf, workExecutor);
     }
 
     @NonNull
