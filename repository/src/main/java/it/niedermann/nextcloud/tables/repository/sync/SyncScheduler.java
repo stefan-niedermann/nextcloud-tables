@@ -19,9 +19,16 @@ public interface SyncScheduler {
                                                     @Nullable SyncStatusReporter reporter);
 
     class Factory {
+
+        private final SyncScheduler defaultSyncScheduler;
+
+        public Factory(@NonNull Context context) {
+            defaultSyncScheduler = new TreeSyncScheduler(context.getApplicationContext());
+        }
+
         @NonNull
-        public SyncScheduler create(@NonNull Context context) {
-            return new TreeSyncScheduler(context);
+        public SyncScheduler create() {
+            return defaultSyncScheduler;
         }
     }
 }

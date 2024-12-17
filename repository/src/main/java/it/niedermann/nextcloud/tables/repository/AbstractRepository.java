@@ -22,14 +22,14 @@ public abstract class AbstractRepository {
     private final SyncScheduler treeSyncAdapter;
 
     protected AbstractRepository(@NonNull Context context) {
-        this(context, new SyncScheduler.Factory());
+        this(context, new SyncScheduler.Factory(context));
     }
 
     private AbstractRepository(@NonNull Context context,
                                @NonNull SyncScheduler.Factory syncSchedulerFactory) {
         this.context = context.getApplicationContext();
         this.db = TablesDatabase.getInstance(this.context);
-        this.treeSyncAdapter = syncSchedulerFactory.create(this.context);
+        this.treeSyncAdapter = syncSchedulerFactory.create();
         this.workExecutor = SharedExecutors.getCPUExecutor();
     }
 
