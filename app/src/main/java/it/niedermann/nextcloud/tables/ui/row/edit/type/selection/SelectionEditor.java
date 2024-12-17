@@ -60,8 +60,10 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
             radio.setId(View.generateViewId());
             radio.setText(selectionOption.getLabel());
             radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                checkedSelectionOption = selectionOption;
-                onValueChanged();
+                if (isChecked) {
+                    checkedSelectionOption = selectionOption;
+                    onValueChanged();
+                }
             });
 
             selectionOptionIdAndRadioButtons.put(selectionOption.getId(), radio);

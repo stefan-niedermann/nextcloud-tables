@@ -1,8 +1,12 @@
 package it.niedermann.nextcloud.tables.repository;
 
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
+import android.util.Pair;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
@@ -21,6 +25,7 @@ import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
@@ -235,11 +240,22 @@ public class TablesRepository extends AbstractRepository {
 
         }, workExecutor)
                 .thenApplyAsync(db.getRowDao()::insert, db.getSequentialExecutor())
-                .thenAcceptAsync(insertedRowId -> {
+                .thenAcceptAsync(row::setId, workExecutor)
+                .thenRunAsync(() -> {
 
                     for (final var fullData : fullDataSet) {
-                        fullData.getData().setRowId(insertedRowId);
-                        db.getDataDao().insert(fullData.getData());
+                        fullData.getData().setRowId(row.getId());
+                        final var insertedDataId = db.getDataDao().insert(fullData.getData());
+                        fullData.getData().setId(insertedDataId);
+
+                        if (fullData.getDataType().hasSelectionOptions()) {
+
+                            for (final var selectionOption : fullData.getSelectionOptions()) {
+                                final var crossRef = new DataSelectionOptionCrossRef(fullData.getData().getId(), selectionOption.getId());
+                                db.getDataSelectionOptionCrossRefDao().insert(crossRef);
+                            }
+
+                        }
                     }
 
                 }, db.getSequentialExecutor())
@@ -265,29 +281,76 @@ public class TablesRepository extends AbstractRepository {
             return row;
 
         }, workExecutor)
-                .thenAcceptAsync(preparedRow -> {
-
-                    db.getRowDao().update(preparedRow);
-
-                    for (final var data : fullDataSet) {
-                        data.getData().setRowId(preparedRow.getId());
-                        db.getDataDao().deleteRowIfEmpty(preparedRow.getId());
-
-                        final var exists = db.getDataDao().exists(
-                                data.getData().getColumnId(),
-                                data.getData().getRowId());
-
-                        if (exists) {
-                            db.getDataDao().update(data.getData());
-
-                        } else {
-                            data.getData().setId(db.getDataDao().insert(data.getData()));
-                        }
-                    }
-
-                }, db.getSequentialExecutor())
+                .thenAcceptAsync(db.getRowDao()::update, db.getSequentialExecutor())
+                .thenComposeAsync(v -> updateData(fullDataSet, row))
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
+    }
+
+    @NonNull
+    private CompletableFuture<Void> updateData(@NonNull Collection<FullData> fullDataSet,
+                                               @NonNull Row row) {
+        return completedFuture(fullDataSet)
+                .thenApplyAsync(Collection::stream, workExecutor)
+                .thenApplyAsync(stream -> stream.map(fullData -> {
+                    fullData.getData().setRowId(row.getId());
+                    db.getDataDao().deleteRowIfEmpty(row.getId());
+
+                    final var exists = db.getDataDao().exists(
+                            fullData.getData().getColumnId(),
+                            fullData.getData().getRowId());
+
+                    if (exists) {
+                        db.getDataDao().update(fullData.getData());
+
+                    } else {
+                        fullData.getData().setId(db.getDataDao().insert(fullData.getData()));
+                    }
+
+                    return updateSelectionOptionCrossRefs(fullData);
+                }))
+                .thenApplyAsync(completableFutureStream -> completableFutureStream.toArray(CompletableFuture[]::new), workExecutor)
+                .thenComposeAsync(CompletableFuture::allOf, workExecutor);
+    }
+
+    @NonNull
+    private CompletableFuture<Void> updateSelectionOptionCrossRefs(@NonNull FullData fullData) {
+        if (!fullData.getDataType().hasSelectionOptions()) {
+            return completedFuture(null);
+        }
+
+        return completedFuture(null)
+                .thenApplyAsync(res -> db.getDataSelectionOptionCrossRefDao().getCrossRefs(fullData.getData().getId()), db.getParallelExecutor())
+                .thenApplyAsync(storedCrossRefs -> {
+
+                    final var editedCrossRefs = fullData.getSelectionOptions().stream()
+                            .map(selectionOption -> new DataSelectionOptionCrossRef(fullData.getData().getId(), selectionOption.getId()))
+                            .collect(toUnmodifiableSet());
+
+                    final var toAdd = editedCrossRefs
+                            .stream()
+                            .filter(not(storedCrossRefs::contains))
+                            .collect(toUnmodifiableSet());
+
+                    final var toDelete = storedCrossRefs
+                            .stream()
+                            .filter(not(editedCrossRefs::contains))
+                            .collect(toUnmodifiableSet());
+
+                    return new Pair<>(toAdd, toDelete);
+
+                }, workExecutor)
+                .thenAcceptAsync(args -> {
+
+                    for (final var toAdd : args.first) {
+                        db.getDataSelectionOptionCrossRefDao().insert(toAdd);
+                    }
+
+                    for (final var toDelete : args.second) {
+                        db.getDataSelectionOptionCrossRefDao().delete(toDelete);
+                    }
+
+                }, db.getSequentialExecutor());
     }
 
     @AnyThread
