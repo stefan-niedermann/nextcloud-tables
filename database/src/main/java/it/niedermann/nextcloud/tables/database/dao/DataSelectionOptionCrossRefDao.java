@@ -21,8 +21,8 @@ public interface DataSelectionOptionCrossRefDao {
     @Delete
     void delete(DataSelectionOptionCrossRef... entity);
 
-    @Query("SELECT cf.* " +
-            "FROM DataSelectionOptionCrossRef cf " +
-            "WHERE cf.dataId = :dataId")
+    @Query("SELECT crossRef.* " +
+            "FROM DataSelectionOptionCrossRef crossRef " +
+            "WHERE crossRef.dataId = :dataId")
     List<DataSelectionOptionCrossRef> getCrossRefs(long dataId);
 }

@@ -158,7 +158,10 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
             entity.getColumn().setRemoteId(body.ocs.data.remoteId());
             entity.getColumn().setStatus(DBStatus.VOID);
 
-            return runAsync(() -> db.getColumnDao().update(entity.getColumn()), db.getSequentialExecutor());
+            return runAsync(() -> {
+                db.getColumnDao().update(entity.getColumn());
+                db.getDataDao().updateColumnRemoteIds(entity.getColumn().getId(), requireNonNull(entity.getColumn().getRemoteId()));
+            }, db.getSequentialExecutor());
 
         } else {
             serverErrorHandler.responseToException(response, "Could not push local changes for table " + entity, false).ifPresent(this::throwError);

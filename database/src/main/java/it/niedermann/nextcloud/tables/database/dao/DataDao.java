@@ -60,4 +60,10 @@ public interface DataDao extends GenericDao<Data> {
             "   AND d.rowId = :rowId" +
             ")")
     boolean exists(long columnId, long rowId);
+
+    // TODO maybe this should be a database trigger?
+    @Query("UPDATE DATA " +
+            "SET remoteColumnId = :remoteColumnId " +
+            "WHERE columnId = :columnId")
+    void updateColumnRemoteIds(long columnId, long remoteColumnId);
 }

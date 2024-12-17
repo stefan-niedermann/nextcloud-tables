@@ -156,10 +156,10 @@ public class TreeSyncScheduler implements SyncScheduler {
 
     private CompletableFuture<Void> pushLocalChanges(@NonNull SyncAdapter<Account> syncAdapter,
                                                      @NonNull Account account) {
-        return completedFuture(account.getTablesVersion() == null || account.getNextcloudVersion() == null)
-                .thenComposeAsync(pullPossible -> {
+        return completedFuture(account.getTablesVersion() != null && account.getNextcloudVersion() != null)
+                .thenComposeAsync(pushPossible -> {
 
-                    if (pullPossible) {
+                    if (pushPossible) {
 
                         return completedFuture(null)
                                 .thenComposeAsync(v -> syncAdapter.pushLocalDeletions(account, account), workExecutor)
