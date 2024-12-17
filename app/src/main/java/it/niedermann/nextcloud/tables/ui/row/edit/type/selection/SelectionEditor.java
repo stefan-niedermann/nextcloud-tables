@@ -30,7 +30,7 @@ import it.niedermann.nextcloud.tables.ui.row.edit.type.DataEditView;
 public class SelectionEditor extends DataEditView<EditSelectionBinding> {
 
     @Nullable
-    protected SelectionOption selected;
+    protected SelectionOption checkedSelectionOption;
     @NonNull
     private final Map<Long, RadioButton> selectionOptionIdAndRadioButtons;
 
@@ -60,7 +60,7 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
             radio.setId(View.generateViewId());
             radio.setText(selectionOption.getLabel());
             radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                selected = selectionOption;
+                checkedSelectionOption = selectionOption;
                 onValueChanged();
             });
 
@@ -76,7 +76,7 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
     @Nullable
     public FullData getFullData() {
         final var value = Optional
-                .ofNullable(selected)
+                .ofNullable(checkedSelectionOption)
                 .map(List::of)
                 .orElseGet(Collections::emptyList);
 
@@ -90,20 +90,20 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
     public void setFullData(@NonNull FullData fullData) {
         super.setFullData(fullData);
 
-        Optional.ofNullable(this.selected)
+        Optional.ofNullable(this.checkedSelectionOption)
                 .map(SelectionOption::getId)
                 .map(selectionOptionIdAndRadioButtons::get)
                 .ifPresent(radio -> radio.setChecked(false));
 
-        this.selected = Optional.of(fullData.getSelectionOptions())
+        this.checkedSelectionOption = Optional.of(fullData.getSelectionOptions())
                 .map(List::stream)
                 .flatMap(Stream::findAny)
                 .orElse(null);
 
-        Optional.ofNullable(this.selected)
+        Optional.ofNullable(this.checkedSelectionOption)
                 .map(SelectionOption::getId)
                 .map(selectionOptionIdAndRadioButtons::get)
-                .ifPresent(radio -> radio.setSelected(true));
+                .ifPresent(radio -> radio.setChecked(true));
     }
 
     @Override
