@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -65,6 +66,7 @@ public class ViewTableFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
+        viewTableViewModel.isUserInitiatedSynchronizationActive().observe(getViewLifecycleOwner(), binding.swipeRefreshLayout::setRefreshing);
         viewTableViewModel.getCurrentFullTable$().observe(getViewLifecycleOwner(), pair -> {
             binding.tableView.getScrollHandler().scrollToRowPosition(0);
             binding.tableView.getScrollHandler().scrollToColumnPosition(0);
@@ -174,7 +176,7 @@ public class ViewTableFragment extends Fragment {
                                 .setMessage(R.string.delete_row_message)
                                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
                                     viewTableViewModel.deleteRow(fullTable.table(), row.getRow()).whenCompleteAsync((result, exception) -> {
-                                        if (exception != null) {
+                                        if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                                             ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                         }
                                     }, ContextCompat.getMainExecutor(requireContext()));
@@ -230,7 +232,7 @@ public class ViewTableFragment extends Fragment {
                                 .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
                                     if (FeatureToggle.DELETE_COLUMN.enabled) {
                                         viewTableViewModel.deleteColumn(fullTable.table(), column).whenCompleteAsync((result, exception) -> {
-                                            if (exception != null) {
+                                            if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
                                                 ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                                             }
                                         }, ContextCompat.getMainExecutor(requireContext()));
@@ -252,15 +254,12 @@ public class ViewTableFragment extends Fragment {
         });
 
         binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), account, fullTable.table())));
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronize(account).whenCompleteAsync((result, exception) -> {
-            if (isAdded()) {
-                binding.swipeRefreshLayout.setRefreshing(false);
-
-                if (exception != null) {
-                    ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                }
-            }
-        }, ContextCompat.getMainExecutor(requireContext())));
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronize(account)
+                .whenCompleteAsync((result, exception) -> {
+                    if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                        ExceptionDialogFragment.newInstance(exception, account).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    }
+                }, ContextCompat.getMainExecutor(requireContext())));
     }
 
     @Override

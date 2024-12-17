@@ -29,6 +29,8 @@ public class ViewTableViewModel extends AndroidViewModel {
     private final AccountRepository accountRepository;
     private final TablesRepository tablesRepository;
 
+    private final MutableLiveData<Boolean> userInitiatedSynchronizationActive = new MutableLiveData<>(false);
+
     public ViewTableViewModel(@NonNull Application application) {
         super(application);
         accountRepository = new AccountRepository(application);
@@ -60,6 +62,11 @@ public class ViewTableViewModel extends AndroidViewModel {
     }
 
     @NonNull
+    public LiveData<Boolean> isUserInitiatedSynchronizationActive() {
+        return userInitiatedSynchronizationActive;
+    }
+
+    @NonNull
     public LiveData<FullTable> getFullTable$(@Nullable Table table) {
         if (table == null) {
             return new MutableLiveData<>(null);
@@ -70,10 +77,11 @@ public class ViewTableViewModel extends AndroidViewModel {
                 tablesRepository.getNotDeletedFullColumns$(table));
     }
 
-    @AnyThread
     @NonNull
     public CompletableFuture<Void> synchronize(@NonNull Account account) {
-        return this.accountRepository.scheduleSynchronization(account);
+        userInitiatedSynchronizationActive.setValue(true);
+        return this.accountRepository.scheduleSynchronization(account)
+                .whenCompleteAsync((result, exception) -> userInitiatedSynchronizationActive.postValue(false));
     }
 
     @AnyThread
