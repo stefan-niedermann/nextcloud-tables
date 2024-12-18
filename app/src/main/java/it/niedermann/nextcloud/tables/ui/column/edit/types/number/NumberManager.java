@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.tables.ui.column.edit.types.number;
 
 
+import static java.util.function.Predicate.not;
+
 import android.content.Context;
 import android.text.Editable;
 import android.util.AttributeSet;
@@ -40,27 +42,35 @@ public class NumberManager extends ColumnEditView<ManageNumberBinding> {
     public FullColumn getFullColumn() {
         Optional.ofNullable(binding.numberDefault.getText())
                 .map(String::valueOf)
+                .filter(not(String::isBlank))
                 .map(Double::parseDouble)
-                .ifPresent(fullColumn.getColumn().getDefaultValue()::setDoubleValue);
+                .ifPresentOrElse(
+                        fullColumn.getColumn().getDefaultValue()::setDoubleValue,
+                        () -> fullColumn.getColumn().getDefaultValue().setDoubleValue(null));
 
         fullColumn.getColumn().setNumberAttributes(new NumberAttributes(
                 Optional.ofNullable(binding.numberMin.getText())
                         .map(Editable::toString)
+                        .filter(not(String::isBlank))
                         .map(Double::parseDouble)
                         .orElse(null),
                 Optional.ofNullable(binding.numberMax.getText())
                         .map(Editable::toString)
+                        .filter(not(String::isBlank))
                         .map(Double::parseDouble)
                         .orElse(null),
                 Optional.ofNullable(binding.numberDecimals.getText())
                         .map(Editable::toString)
+                        .filter(not(String::isBlank))
                         .map(Integer::parseInt)
                         .orElse(null),
                 Optional.ofNullable(binding.numberPrefix.getText())
                         .map(Editable::toString)
+                        .filter(not(String::isBlank))
                         .orElse(null),
                 Optional.ofNullable(binding.numberSuffix.getText())
                         .map(Editable::toString)
+                        .filter(not(String::isBlank))
                         .orElse(null)
         ));
 
