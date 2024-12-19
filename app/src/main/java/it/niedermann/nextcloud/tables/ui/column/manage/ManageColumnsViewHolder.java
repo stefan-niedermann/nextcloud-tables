@@ -1,11 +1,13 @@
 package it.niedermann.nextcloud.tables.ui.column.manage;
 
+import static java.util.function.Predicate.not;
+
 import android.text.TextUtils;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
@@ -20,18 +22,14 @@ public class ManageColumnsViewHolder extends RecyclerView.ViewHolder {
         this.binding = binding;
     }
 
-    public void bind(@NonNull FullColumn column, @NonNull Consumer<FullColumn> onEdit) {
-        binding.title.setText(column.getColumn().getTitle());
+    public void bind(@NonNull FullColumn fullColumn, @NonNull Consumer<FullColumn> onEdit) {
+        final var column = fullColumn.getColumn();
+        final var description = Optional.ofNullable(column.getDescription())
+                .filter(not(TextUtils::isEmpty))
+                .orElse(column.getDataType().toHumanReadableString(binding.getRoot().getContext()));
 
-        if (TextUtils.isEmpty(column.getColumn().getDescription())) {
-            binding.description.setText(null);
-            binding.description.setVisibility(View.GONE);
-
-        } else {
-            binding.description.setText(column.getColumn().getDescription());
-            binding.description.setVisibility(View.VISIBLE);
-        }
-
-        binding.edit.setOnClickListener(v -> onEdit.accept(column));
+        binding.title.setText(column.getTitle());
+        binding.description.setText(description);
+        binding.edit.setOnClickListener(v -> onEdit.accept(fullColumn));
     }
 }

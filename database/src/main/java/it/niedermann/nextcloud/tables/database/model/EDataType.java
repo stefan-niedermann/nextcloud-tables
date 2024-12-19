@@ -3,6 +3,8 @@ package it.niedermann.nextcloud.tables.database.model;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -134,22 +136,20 @@ public enum EDataType implements Comparable<EDataType> {
         return group.value;
     }
 
-    private String toString(@NonNull EDataTypeGroup group,
-                            @Nullable String subType) {
-        return Optional.ofNullable(subType)
+    @NonNull
+    @Override
+    public String toString() {
+        return getSubType()
                 .filter(not(String::isBlank))
                 .map(st -> group + "/" + st)
                 .orElseGet(group::toString);
     }
 
     @NonNull
-    @Override
-    public String toString() {
-        if (this == UNKNOWN) {
-            return "unknown";
-        }
-
-        return toString(group, getSubType().orElse(null));
+    public String toHumanReadableString(@NonNull Context context) {
+        return Optional.ofNullable(humanReadableSubTypeStringRes)
+                .map(st -> group.toHumanReadableString(context) + " / " + context.getString(st))
+                .orElse(group.toHumanReadableString(context));
     }
 
     public enum EDataTypeGroup {
@@ -200,6 +200,11 @@ public enum EDataType implements Comparable<EDataType> {
         @Override
         public String toString() {
             return value;
+        }
+
+        @NonNull
+        public String toHumanReadableString(@NonNull Context context) {
+            return context.getString(humanReadableValue);
         }
     }
 }
