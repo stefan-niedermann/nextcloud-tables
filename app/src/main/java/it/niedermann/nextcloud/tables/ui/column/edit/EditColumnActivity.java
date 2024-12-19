@@ -86,9 +86,7 @@ public class EditColumnActivity extends AppCompatActivity {
                     final var fullColumn = new FullColumn(column);
 
                     columnEditView = createManageView(fullColumn);
-                    if (FeatureToggle.EDIT_COLUMN.enabled) {
-                        columnEditView.setEnabled(false);
-                    }
+                    columnEditView.setEnabled(FeatureToggle.EDIT_COLUMN.enabled);
                     binding.managerHolder.removeAllViews();
                     binding.managerHolder.addView(columnEditView);
                 } catch (Exception e) {
