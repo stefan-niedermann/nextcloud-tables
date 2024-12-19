@@ -1,9 +1,10 @@
 package it.niedermann.nextcloud.tables.ui.column.edit;
 
+import static java.util.Objects.requireNonNullElse;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +19,13 @@ import androidx.viewbinding.ViewBinding;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Objects;
-
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditColumnBinding;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.ui.column.edit.types.ColumnEditView;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
@@ -78,8 +78,6 @@ public class EditColumnActivity extends AppCompatActivity {
             binding.typeSelection.setVisibility(View.VISIBLE);
             binding.typeSelection.setOnChangeListener(dataType -> {
 
-                Log.v(TAG, "Type emitted: " + dataType);
-
                 try {
                     final var column = new Column();
                     column.setTableId(table.getId());
@@ -88,12 +86,15 @@ public class EditColumnActivity extends AppCompatActivity {
                     final var fullColumn = new FullColumn(column);
 
                     columnEditView = createManageView(fullColumn);
-                    columnEditView.setEnabled(false);
+                    if (FeatureToggle.EDIT_COLUMN.enabled) {
+                        columnEditView.setEnabled(false);
+                    }
                     binding.managerHolder.removeAllViews();
                     binding.managerHolder.addView(columnEditView);
                 } catch (Exception e) {
                     ExceptionDialogFragment.newInstance(e, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                 }
+
             });
         } else {
             final var column = fullColumn.getColumn();
@@ -124,19 +125,19 @@ public class EditColumnActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            if (this.fullColumn == null) {
+            if (fullColumn == null) {
                 if (columnEditView == null) {
                     Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
                     return false;
                 }
 
-                this.fullColumn = columnEditView.getFullColumn();
+                fullColumn = columnEditView.getFullColumn();
             }
 
             // TODO validate title not null
             final var column = fullColumn.getColumn();
-            column.setTitle(Objects.requireNonNullElse(binding.title.getText(), "").toString());
-            column.setDescription(Objects.requireNonNullElse(binding.description.getText(), "").toString());
+            column.setTitle(requireNonNullElse(binding.title.getText(), "").toString());
+            column.setDescription(requireNonNullElse(binding.description.getText(), "").toString());
             column.setMandatory(binding.mandatory.isChecked());
 
             final var futureResult = column.getRemoteId() == null
