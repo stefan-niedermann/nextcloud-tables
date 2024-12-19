@@ -28,6 +28,9 @@ public class SelectionCheckManager extends ColumnEditView<ManageSelectionCheckBi
     public SelectionCheckManager(@NonNull Context context,
                                  @Nullable FragmentManager fragmentManager) {
         super(context, ManageSelectionCheckBinding.inflate(LayoutInflater.from(context)), fragmentManager);
+
+        binding.defaultValue.setOnCheckedChangeListener((view, checked) ->
+                fullColumn.getColumn().getDefaultValue().setBooleanValue(checked));
     }
 
     @NonNull
