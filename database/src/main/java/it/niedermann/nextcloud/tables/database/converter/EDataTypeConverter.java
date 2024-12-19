@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
 
 import it.niedermann.nextcloud.tables.database.model.EDataType;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class EDataTypeConverter {
 
@@ -15,7 +16,12 @@ public class EDataTypeConverter {
 
         try {
             return EDataType.findById(databaseType);
+
         } catch (NumberFormatException e) {
+            if (FeatureToggle.STRICT_MODE.enabled) {
+                throw e;
+            }
+
             return EDataType.UNKNOWN;
         }
     }

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.ui.column.edit;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,9 +32,12 @@ import it.niedermann.nextcloud.tables.ui.exception.ExceptionHandler;
 
 public class EditColumnActivity extends AppCompatActivity {
 
+    private static final String TAG = EditColumnActivity.class.getSimpleName();
+
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_TABLE = "table";
     private static final String KEY_COLUMN = "column";
+
     private Account account;
     private Table table;
     private FullColumn fullColumn;
@@ -42,7 +46,7 @@ public class EditColumnActivity extends AppCompatActivity {
     private ManageDataTypeServiceRegistry registry;
 
     @Nullable
-    private ColumnEditView columnEditView;
+    private ColumnEditView<?> columnEditView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,8 +76,10 @@ public class EditColumnActivity extends AppCompatActivity {
         if (fullColumn == null) {
             binding.toolbar.setTitle(R.string.add_column);
             binding.typeSelection.setVisibility(View.VISIBLE);
+            binding.typeSelection.setOnChangeListener(dataType -> {
 
-            binding.typeSelection.getDataType$().observe(this, dataType -> {
+                Log.v(TAG, "Type emitted: " + dataType);
+
                 try {
                     final var column = new Column();
                     column.setTableId(table.getId());

@@ -17,12 +17,13 @@ import java.util.concurrent.ForkJoinPool;
 
 public final class SharedExecutors {
 
+    private static final int IO_NET_LIMIT_PER_HOST = 50;
+
     private static final ExecutorService CPU = ForkJoinPool.commonPool();
     private static final ExecutorService IO_DB_INPUT = Executors.newSingleThreadExecutor();
     private static final ExecutorService IO_DB_OUTPUT = Executors.newCachedThreadPool();
-    private static final ExecutorService IO_NET_SHARED = newFixedThreadPool(100);
+    private static final ExecutorService IO_NET_SHARED = newFixedThreadPool(2 * IO_NET_LIMIT_PER_HOST);
 
-    private static final int IO_NET_LIMIT_PER_HOST = 50;
     private static final ConcurrentMap<String, ExecutorService> IO_NET_PER_HOST = new ConcurrentHashMap<>(PROBABLE_ACCOUNT_COUNT);
 
     /// Only for non-blocking tasks
@@ -44,6 +45,7 @@ public final class SharedExecutors {
     }
 
     /// One shared thread pool executor instance for blocking network IO
+    ///
     /// @see #getIONetExecutor(Uri)
     @NonNull
     public static ExecutorService getIoNetSharedExecutor() {

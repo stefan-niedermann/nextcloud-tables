@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="type_unknown">Unknown</string>
+    <string name="type_text">Text</string>
+    <string name="type_number">Number</string>
+    <string name="type_selection">Selection</string>
+    <string name="type_datetime">Date and time</string>
+    <string name="type_usergroup">Users and groups</string>
+
+    <string name="subtype_text_long">Long</string>
+    <string name="subtype_text_line">Line</string>
+    <string name="subtype_text_rich">Rich</string>
+    <string name="subtype_text_link">Link</string>
+    <string name="subtype_number">Default</string>
+    <string name="subtype_number_stars">Stars rating</string>
+    <string name="subtype_number_progress">Progress bar</string>
+    <string name="subtype_selection">Single</string>
+    <string name="subtype_selection_multi">Multi</string>
+    <string name="subtype_selection_check">Check</string>
+    <string name="subtype_datetime">Date and time</string>
+    <string name="subtype_datetime_date">Date</string>
+    <string name="subtype_datetime_time">Time</string>
+</resources>

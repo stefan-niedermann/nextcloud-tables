@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.ui.row.edit.type.number;
 
+import static java.util.function.Predicate.not;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
@@ -93,6 +95,7 @@ public class NumberEditor extends TextEditor {
         final var value = Optional
                 .ofNullable(binding.editText.getText())
                 .map(Editable::toString)
+                .filter(not(String::isBlank))
                 .flatMap(this::parseDouble)
                 .map(val -> val < min ? min : val > max ? max : val)
                 .orElse(null);
@@ -109,6 +112,7 @@ public class NumberEditor extends TextEditor {
         try {
             return Optional
                     .ofNullable(value)
+                    .filter(not(String::isBlank))
                     .map(Double::parseDouble);
         } catch (NumberFormatException e) {
             return Optional.empty();

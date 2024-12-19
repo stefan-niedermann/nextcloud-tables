@@ -1,114 +1,190 @@
 package it.niedermann.nextcloud.tables.ui.column.edit;
 
-import static java.util.stream.Collectors.toUnmodifiableSet;
+import static java.util.Collections.emptySet;
+import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import it.niedermann.android.reactivelivedata.ReactiveLiveData;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
-import it.niedermann.nextcloud.tables.databinding.ViewDatatypePickerBinding;
+import it.niedermann.nextcloud.tables.databinding.ItemOptionBinding;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
-public class EDataTypePicker extends FrameLayout {
+///
+public class EDataTypePicker extends TwoLevelSelect<EDataType.EDataTypeGroup, EDataType, EDataType> {
 
-    private ViewDatatypePickerBinding binding;
-
-    private final MutableLiveData<String> selectedType$ = new ReactiveLiveData<String>().distinctUntilChanged();
-    private final MutableLiveData<String> selectedSubType$ = new ReactiveLiveData<String>().distinctUntilChanged();
-    private final LiveData<EDataType> selectedDataType$ = new ReactiveLiveData<>(selectedType$)
-            .combineWith(() -> selectedSubType$)
-            .map(typePair -> {
-                try {
-                    return EDataType.findByType(typePair.first, typePair.second);
-                } catch (Exception e) {
-                    return EDataType.UNKNOWN;
-                }
-            })
-            .filter(type -> type != EDataType.UNKNOWN)
-            .distinctUntilChanged();
-
-    public EDataTypePicker(Context context) {
-        super(context);
-        onCreate();
+    public EDataTypePicker(@NonNull Context context) {
+        this(context, null);
     }
 
-    public EDataTypePicker(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        onCreate();
-    }
+    public EDataTypePicker(@NonNull Context context,
+                           @Nullable AttributeSet attrs) {
+        super(context, attrs,
+                new TypeAdapter(context, R.layout.item_option),
+                new SubTypeAdapter(context, R.layout.item_option));
 
-    public EDataTypePicker(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        onCreate();
-    }
+        final var firstLevelContent = Arrays.stream(EDataType.EDataTypeGroup.values())
+                .filter(not(EDataType.EDataTypeGroup.UNKNOWN::equals))
+                .sorted()
+                .collect(toUnmodifiableList());
 
-    public EDataTypePicker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        onCreate();
-    }
-
-    private void onCreate() {
-        binding = ViewDatatypePickerBinding.inflate(LayoutInflater.from(getContext()));
-
-        final var typeAdapter = new ArrayAdapter<String>(getContext(), R.layout.item_option);
-        final var subTypeAdapter = new ArrayAdapter<String>(getContext(), R.layout.item_option);
-
-        typeAdapter.addAll(EDataType.getTypes());
-        binding.type.setAdapter(typeAdapter);
-        binding.type.setOnItemClickListener((adapterView, view, position, l) -> {
-            final var newType = typeAdapter.getItem(position);
-            selectedType$.postValue(newType);
-            subTypeAdapter.clear();
-            if (newType != null) {
-                final var typeVariants = EDataType.getTypeVariants(newType);
-
-                if (typeVariants.isEmpty()) {
-                    selectedSubType$.postValue(null);
-                    binding.subTypeWrapper.setVisibility(View.GONE);
-
-                } else if (typeVariants.size() == 1) {
-                    final var subType = typeVariants
-                            .stream()
-                            .findAny()
-                            .flatMap(EDataType::getSubType)
-                            .orElseThrow();
-
-                    subTypeAdapter.addAll(subType);
-                    selectedSubType$.postValue(null);
-                    binding.subTypeWrapper.setVisibility(View.GONE);
-
-                } else {
-                    final var subTypes = typeVariants
-                            .stream()
-                            .map(EDataType::getSubType)
-                            .map(subType -> subType.orElse(""))
-                            .collect(toUnmodifiableSet());
-
-                    subTypeAdapter.addAll(subTypes);
-                    binding.subTypeWrapper.setVisibility(View.VISIBLE);
-                }
-            }
-            subTypeAdapter.notifyDataSetChanged();
-        });
-
-        binding.subType.setAdapter(subTypeAdapter);
-        binding.subType.setOnItemClickListener((adapterView, view, position, l) -> selectedSubType$.postValue(subTypeAdapter.getItem(position)));
-
-        addView(binding.getRoot());
+        setFirstLevelContent(firstLevelContent);
     }
 
     @NonNull
-    public LiveData<EDataType> getDataType$() {
-        return this.selectedDataType$;
+    @Override
+    protected CompletableFuture<Collection<EDataType>> getSecondLevelContent(@Nullable EDataType.EDataTypeGroup firstLevel) {
+        if (firstLevel == null) {
+            return completedFuture(emptySet());
+        }
+
+        final var secondLevelContent = firstLevel
+                .getDataTypes()
+                .stream()
+                .sorted()
+                .collect(toUnmodifiableList());
+
+        return completedFuture(secondLevelContent);
+    }
+
+    @NonNull
+    @Override
+    protected Optional<EDataType> getResult(@NonNull EDataType.EDataTypeGroup firstLevel,
+                                            @Nullable EDataType secondLevel) {
+        if (secondLevel != null) {
+            return Optional.of(secondLevel);
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
+    protected int getFirstLevelHint() {
+        return R.string.simple_type;
+    }
+
+    @Override
+    protected int getSecondLevelHint() {
+        return R.string.simple_subtype;
+    }
+
+    @NonNull
+    @Override
+    protected Optional<String> getFirstLevelLabel(@Nullable EDataType.EDataTypeGroup firstLevel) {
+        return Optional
+                .ofNullable(firstLevel)
+                .map(group -> group.humanReadableValue)
+                .map(getContext()::getString);
+    }
+
+    @NonNull
+    @Override
+    protected Optional<String> getSecondLevelLabel(@Nullable EDataType secondLevel) {
+        return Optional
+                .ofNullable(secondLevel)
+                .flatMap(EDataType::getHumanReadableSubTypeStringRes)
+                .map(getContext()::getString);
+    }
+
+    static class TypeAdapter extends ArrayAdapter<EDataType.EDataTypeGroup> {
+
+        public TypeAdapter(@NonNull Context context, int resource) {
+            super(context, resource);
+        }
+
+        @Override
+        public View getDropDownView(int position, @Nullable View convertView,
+                                    @NonNull ViewGroup parent) {
+            return bind(getItem(position), position, convertView, parent);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            return bind(getItem(position), position, convertView, parent);
+        }
+
+        @NonNull
+        private View bind(@Nullable EDataType.EDataTypeGroup group,
+                          int position,
+                          @Nullable View convertView,
+                          @NonNull ViewGroup parent) {
+
+            if (group == null) {
+                if (FeatureToggle.STRICT_MODE.enabled) {
+                    throw new IllegalStateException("Can not find " + EDataType.EDataTypeGroup.class.getSimpleName() + " at position " + position);
+                }
+
+                return super.getView(position, convertView, parent);
+            }
+
+            final var binding = convertView == null
+                    ? ItemOptionBinding.inflate(LayoutInflater.from(getContext()), parent, false)
+                    : ItemOptionBinding.bind(convertView);
+
+            binding.getRoot().setText(group.humanReadableValue);
+
+            return binding.getRoot();
+        }
+    }
+
+    static class SubTypeAdapter extends ArrayAdapter<EDataType> {
+
+        public SubTypeAdapter(@NonNull Context context, int resource) {
+            super(context, resource);
+        }
+
+        @Override
+        public View getDropDownView(int position, @Nullable View convertView,
+                                    @NonNull ViewGroup parent) {
+            return bind(getItem(position), position, convertView, parent);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            return bind(getItem(position), position, convertView, parent);
+        }
+
+        @NonNull
+        private View bind(@Nullable EDataType dataType,
+                          int position,
+                          @Nullable View convertView,
+                          @NonNull ViewGroup parent) {
+
+            if (dataType == null) {
+                if (FeatureToggle.STRICT_MODE.enabled) {
+                    throw new IllegalStateException("Can not find " + EDataType.class.getSimpleName() + " at position " + position);
+                }
+                return super.getView(position, convertView, parent);
+
+            }
+
+            final var binding = convertView == null
+                    ? ItemOptionBinding.inflate(LayoutInflater.from(getContext()), parent, false)
+                    : ItemOptionBinding.bind(convertView);
+
+            dataType.getHumanReadableSubTypeStringRes()
+                    .ifPresentOrElse(
+                            binding.getRoot()::setText,
+                            () -> binding.getRoot().setText(null));
+
+            return binding.getRoot();
+        }
     }
 }
