@@ -26,10 +26,9 @@ public class ManageDataTypeServiceRegistry extends DataTypeServiceRegistry<Manag
         return switch (dataType) {
             case TEXT_LONG, TEXT_LINE, TEXT_LINK, TEXT_RICH ->
                     cache.computeIfAbsent(dataType, t -> new TextManagerFactory());
-            case DATETIME, DATETIME_DATE ->
-                    cache.computeIfAbsent(dataType, t -> new DateManagerFactory());
-            case DATETIME_TIME ->
+            case DATETIME, DATETIME_TIME ->
                     cache.computeIfAbsent(dataType, t -> new DateTimeManagerFactory());
+            case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateManagerFactory());
             case SELECTION, SELECTION_MULTI, SELECTION_CHECK ->
                     cache.computeIfAbsent(dataType, t -> new SelectionManagerFactory());
             case NUMBER -> cache.computeIfAbsent(dataType, t -> new NumberManagerFactory());
