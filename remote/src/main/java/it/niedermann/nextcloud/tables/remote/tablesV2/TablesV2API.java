@@ -7,6 +7,8 @@ import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 import static java.time.temporal.ChronoField.YEAR;
 
+import android.util.Range;
+
 import androidx.annotation.NonNull;
 
 import com.nextcloud.android.sso.model.ocs.OcsResponse;
@@ -73,7 +75,11 @@ public interface TablesV2API {
             .append(FORMATTER_PROPERTIES_TIME)
             .toFormatter();
 
+    /// The value of a `number/progress` cell is assumed to be a within this range.
+    /// TODO [Create issue](https://github.com/nextcloud/deck/issues/new?template=Feature_request.md) to clarify and document this behavior.
+    Range<Integer> ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE = new Range<>(0, 100);
     /* ****************************************************************************************** *
+
      * api_general                                                                                *
      * ****************************************************************************************** */
 
