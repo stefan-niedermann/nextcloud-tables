@@ -25,9 +25,6 @@ public class ProgressCellViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
-        final var attributes = Optional
-                .of(column.getNumberAttributes());
-
         final var min = TablesV2API.ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE.getLower();
         final var max = TablesV2API.ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE.getUpper();
         final var value = Optional

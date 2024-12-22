@@ -30,11 +30,11 @@ public class NumberCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
         final var value = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
                 .flatMap(doubleValue -> Optional
-                        .ofNullable(column.getNumberAttributes())
+                        .of(column.getNumberAttributes())
                         .map(NumberAttributes::numberDecimals)
                         .map(decimals -> "%." + decimals + "f")
                         .map(formatString -> String.format(Locale.getDefault(), formatString, doubleValue))

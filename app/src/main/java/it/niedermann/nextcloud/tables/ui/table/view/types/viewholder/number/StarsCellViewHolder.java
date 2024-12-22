@@ -28,22 +28,19 @@ public class StarsCellViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
-        try {
-            final var stars = Optional
-                    .of(fullData)
-                    .map(FullData::getData)
-                    .map(Data::getValue)
-                    .map(Value::getDoubleValue)
-                    .map(Math::round)
-                    .map(Long::intValue)
-                    .orElse(0);
-            setStars(stars);
-        } catch (NumberFormatException e) {
-            setStars(0);
-            if (FeatureToggle.STRICT_MODE.enabled) {
-                throw e;
-            }
-        }
+        final var stars = Optional
+                .of(fullData)
+                .map(FullData::getData)
+                .map(Data::getValue)
+                .map(Value::getDoubleValue)
+                .map(Math::round)
+                .map(Long::intValue)
+                .orElseGet(() -> Optional.of(column)
+                        .map(Column::getDefaultValue)
+                        .map(Value::getDoubleValue)
+                        .map(Double::intValue)
+                        .orElse(0));
+        setStars(stars);
     }
 
     private void setStars(int count) {
