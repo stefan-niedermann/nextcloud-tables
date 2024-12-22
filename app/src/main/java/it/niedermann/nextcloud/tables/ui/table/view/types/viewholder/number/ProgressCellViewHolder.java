@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
-import it.niedermann.nextcloud.tables.database.entity.attributes.NumberAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
+import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
 import it.niedermann.nextcloud.tables.ui.table.view.types.CellViewHolder;
 
@@ -28,26 +28,21 @@ public class ProgressCellViewHolder extends CellViewHolder {
         final var attributes = Optional
                 .of(column.getNumberAttributes());
 
-        final var min = attributes
-                .map(NumberAttributes::numberMin)
-                .map(Double::intValue)
-                .orElse(0);
-
-        final var max = attributes
-                .map(NumberAttributes::numberMax)
-                .map(Double::intValue)
-                .orElse(100);
-
+        final var min = TablesV2API.ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE.getLower();
+        final var max = TablesV2API.ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE.getUpper();
         final var value = Optional
                 .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
                 .map(Double::intValue)
-                .map(val -> val < min ? min : val > max ? max : val)
-                .orElse(0);
+                .orElse(Optional.of(column)
+                        .map(Column::getDefaultValue)
+                        .map(Value::getDoubleValue)
+                        .map(Double::intValue)
+                        .orElse(100));
 
         binding.progress.setMin(min);
         binding.progress.setMax(max);
-        binding.progress.setProgressCompat(value, false);
+        binding.progress.setProgressCompat(value < min ? min : value > max ? max : value, false);
     }
 }
