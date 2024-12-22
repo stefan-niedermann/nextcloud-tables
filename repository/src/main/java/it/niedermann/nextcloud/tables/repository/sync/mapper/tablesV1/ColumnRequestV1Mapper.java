@@ -17,7 +17,6 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.Value;
-import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.ColumnRequestV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.EUserGroupTypeV1Dto;
 
@@ -58,18 +57,8 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                 numberAttributes.numberDecimals(),
 
                 switch (dataType) {
-                    case DATETIME -> Optional
-                            .ofNullable(column.getDefaultValue().getInstantValue())
-                            .map(TablesV1API.FORMATTER_DATA_DATE_TIME::format)
-                            .orElse(null);
-                    case DATETIME_DATE -> Optional
-                            .ofNullable(column.getDefaultValue().getDateValue())
-                            .map(TablesV1API.FORMATTER_DATA_DATE::format)
-                            .orElse(null);
-                    case DATETIME_TIME -> Optional
-                            .ofNullable(column.getDefaultValue().getTimeValue())
-                            .map(TablesV1API.FORMATTER_DATA_TIME::format)
-                            .orElse(null);
+                    case DATETIME, DATETIME_DATE, DATETIME_TIME ->
+                            column.getDefaultValue().getStringValue();
                     default -> null;
                 },
 
@@ -86,15 +75,14 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                             })
                             .map(JsonElement::toString)
                             .orElse(new JsonArray().toString());
-                    case SELECTION_MULTI ->
-                            Optional.of(fullColumn)
-                                    .map(FullColumn::getDefaultSelectionOptions)
-                                    .map(List::stream)
-                                    .flatMap(Stream::findAny)
-                                    .map(SelectionOption::getRemoteId)
-                                    .map(JsonPrimitive::new)
-                                    .map(JsonElement::toString)
-                                    .orElse(null);
+                    case SELECTION_MULTI -> Optional.of(fullColumn)
+                            .map(FullColumn::getDefaultSelectionOptions)
+                            .map(List::stream)
+                            .flatMap(Stream::findAny)
+                            .map(SelectionOption::getRemoteId)
+                            .map(JsonPrimitive::new)
+                            .map(JsonElement::toString)
+                            .orElse(null);
                     case SELECTION_CHECK ->
                             Optional.ofNullable(column.getDefaultValue().getBooleanValue())
                                     .map(JsonPrimitive::new)
