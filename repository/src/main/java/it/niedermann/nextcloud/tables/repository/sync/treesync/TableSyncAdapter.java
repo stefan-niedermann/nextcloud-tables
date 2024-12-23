@@ -312,6 +312,6 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                             .thenAcceptAsync(v -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
                             .thenAcceptAsync(v -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSequentialExecutor());
                 }, workExecutor)
-                .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(account.getId()), db.getParallelExecutor());
+                .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(account.getId()), db.getSequentialExecutor());
     }
 }
