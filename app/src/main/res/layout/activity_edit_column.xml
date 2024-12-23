@@ -83,7 +83,7 @@
                     android:text="@string/simple_mandatory" />
             </LinearLayout>
 
-            <it.niedermann.nextcloud.tables.ui.column.edit.EDataTypePicker
+            <it.niedermann.nextcloud.tables.features.column.edit.EDataTypePicker
                 android:id="@+id/typeSelection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

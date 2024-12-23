@@ -15,7 +15,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Nextcloud Tables"
 include ':app'
-include ':database'
-include ':remote'
+include ':ui'
 include ':repository'
+include ':remote'
+include ':database'
 include ':shared'

@@ -14,46 +14,11 @@
         android:layout_marginBottom="@dimen/spacer_1x"
         tools:text="@tools:sample/lorem" />
 
-    <LinearLayout
+    <it.niedermann.nextcloud.tables.ui.stars.Stars xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/stars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@null"
-            android:src="@drawable/baseline_star_border_24" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@null"
-            android:src="@drawable/baseline_star_border_24" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@null"
-            android:src="@drawable/baseline_star_border_24" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@null"
-            android:src="@drawable/baseline_star_border_24" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@null"
-            android:src="@drawable/baseline_star_border_24" />
-    </LinearLayout>
+        app:enabled="true"
+        app:resettable="true" />
 
 </LinearLayout>

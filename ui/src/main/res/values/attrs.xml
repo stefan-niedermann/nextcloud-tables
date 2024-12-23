@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Stars">
+        <attr name="value" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="resettable" format="boolean" />
+        <attr name="readonly" format="boolean" />
+        <attr name="enabled" format="boolean" />
+    </declare-styleable>
+</resources>

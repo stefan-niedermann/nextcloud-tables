@@ -78,6 +78,10 @@ public interface TablesV2API {
     /// The value of a `number/progress` cell is assumed to be a within this range.
     /// TODO [Create issue](https://github.com/nextcloud/deck/issues/new?template=Feature_request.md) to clarify and document this behavior.
     Range<Integer> ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE = new Range<>(0, 100);
+
+    /// The assumed stars count of a `number/stars` cell.
+    /// TODO [Create issue](https://github.com/nextcloud/deck/issues/new?template=Feature_request.md) to clarify and document this behavior.
+    int ASSUMED_COLUMN_NUMBER_STARS_MAX_VALUE = 5;
     /* ****************************************************************************************** *
 
      * api_general                                                                                *
