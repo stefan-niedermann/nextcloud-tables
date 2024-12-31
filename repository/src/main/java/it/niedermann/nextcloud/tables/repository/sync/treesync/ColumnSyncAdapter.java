@@ -82,7 +82,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                 .thenComposeAsync(response -> this.markLocallyAsCreated(fullColumn, response), workExecutor)
                         ), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
-                .thenComposeAsync(CompletableFuture::allOf);
+                .thenComposeAsync(CompletableFuture::allOf, workExecutor);
     }
 
     @NonNull

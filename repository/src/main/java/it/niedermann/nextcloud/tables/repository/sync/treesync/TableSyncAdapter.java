@@ -73,7 +73,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                 .thenComposeAsync(v -> this.rowSyncAdapter.pushLocalCreations(account, table), workExecutor)
                         ), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
-                .thenComposeAsync(CompletableFuture::allOf);
+                .thenComposeAsync(CompletableFuture::allOf, workExecutor);
     }
 
     @NonNull
@@ -100,7 +100,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                 .thenComposeAsync(v -> this.rowSyncAdapter.pushLocalUpdates(account, table), workExecutor)
                         ), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
-                .thenComposeAsync(CompletableFuture::allOf);
+                .thenComposeAsync(CompletableFuture::allOf, workExecutor);
     }
 
     @NonNull
@@ -157,7 +157,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                         }), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
-                .thenComposeAsync(CompletableFuture::allOf);
+                .thenComposeAsync(CompletableFuture::allOf, workExecutor);
     }
 
     @NonNull
