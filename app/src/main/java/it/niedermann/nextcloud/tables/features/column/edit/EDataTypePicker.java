@@ -57,6 +57,7 @@ public class EDataTypePicker extends TwoLevelSelect<EDataType.EDataTypeGroup, ED
         final var secondLevelContent = firstLevel
                 .getDataTypes()
                 .stream()
+                .filter(not(EDataType.TEXT_LONG::equals))
                 .sorted()
                 .collect(toUnmodifiableList());
 
