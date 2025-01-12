@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.tables.database.dao;
 
 import androidx.room.Dao;
-import androidx.room.MapInfo;
+import androidx.room.MapColumn;
 import androidx.room.Query;
 
 import java.util.Collection;
@@ -18,12 +18,11 @@ public interface SelectionOptionDao extends GenericDao<SelectionOption> {
             "WHERE s.columnId = :columnId")
     List<SelectionOption> getSelectionOptions(long columnId);
 
-    @MapInfo(keyColumn = "remoteId", valueColumn = "id")
     @Query("SELECT s.remoteId, s.id " +
             "FROM SelectionOption s " +
             "WHERE s.columnId = :columnId " +
             "AND s.remoteId IN (:remoteColumnIds)")
-    Map<Long, Long> getSelectionOptionRemoteColumnAndLocalIds(long columnId, Collection<Long> remoteColumnIds);
+    Map<@MapColumn(columnName = "remoteId") Long, @MapColumn(columnName = "id") Long> getSelectionOptionRemoteColumnAndLocalIds(long columnId, Collection<Long> remoteColumnIds);
 
     @Query("DELETE FROM SelectionOption " +
             "WHERE columnId = :columnId " +

@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.tables.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.MapInfo;
+import androidx.room.MapColumn;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -16,13 +16,12 @@ import it.niedermann.nextcloud.tables.database.model.FullData;
 public interface DataDao extends GenericDao<Data> {
 
     @Transaction
-    @MapInfo(keyColumn = "columnId")
     @Query("SELECT d.* FROM Data d " +
             "LEFT JOIN `Row` r ON d.rowId = r.id " +
             "LEFT JOIN `Column` c ON d.columnId = c.id " +
             "WHERE d.rowId = :rowId " +
             "ORDER BY r.remoteId, c.remoteId")
-    Map<Long, FullData> getColumnIdAndFullData(long rowId);
+    Map<@MapColumn(columnName = "columnId") Long, FullData> getColumnIdAndFullData(long rowId);
 
     @Query("SELECT d.* FROM Data d " +
             "LEFT JOIN `Row` r ON d.rowId = r.id " +

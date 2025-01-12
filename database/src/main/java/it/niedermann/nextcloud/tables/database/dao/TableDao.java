@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.tables.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.MapInfo;
+import androidx.room.MapColumn;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -53,9 +53,8 @@ public interface TableDao extends GenericDao<Table> {
     @Query("SELECT t.* FROM `Table` t WHERE t.accountId = :accountId AND t.isShared = :isShared AND t.status IS NOT 'LOCAL_DELETED' ORDER by t.title")
     LiveData<List<Table>> getNotDeletedTables$(long accountId, boolean isShared);
 
-    @MapInfo(keyColumn = "remoteId", valueColumn = "id")
     @Query("SELECT t.remoteId, t.id FROM `Table` t WHERE t.accountId = :accountId AND t.remoteId IN (:remoteIds)")
-    Map<Long, Long> getTableRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);
+    Map<@MapColumn(columnName = "remoteId") Long, @MapColumn(columnName = "id") Long> getTableRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);
 
     @Query("DELETE FROM `Table` WHERE accountId = :accountId AND remoteId NOT IN (:remoteIds)")
     void deleteExcept(long accountId, Collection<Long> remoteIds);

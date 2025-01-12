@@ -2,7 +2,7 @@ package it.niedermann.nextcloud.tables.database.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.MapInfo;
+import androidx.room.MapColumn;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -90,9 +90,8 @@ public interface RowDao extends GenericDao<Row> {
     @Query("SELECT r.* FROM `Row` r WHERE r.id = :id")
     Row get(long id);
 
-    @MapInfo(keyColumn = "remoteId", valueColumn = "id")
     @Query("SELECT r.remoteId, r.id FROM `Row` r WHERE r.tableId = :tableId")
-    Map<Long, Long> getRowRemoteAndLocalIds(long tableId);
+    Map<@MapColumn(columnName = "remoteId") Long, @MapColumn(columnName = "id") Long> getRowRemoteAndLocalIds(long tableId);
 
     @Query("SELECT r.id FROM `Row` r WHERE r.tableId = :tableId")
     List<Long> getIds(long tableId);
