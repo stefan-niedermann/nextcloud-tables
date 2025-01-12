@@ -40,6 +40,7 @@ public class TextRemoteMapper extends DataV1Mapper {
                               @NonNull FullColumn fullColumn,
                               @NonNull TablesVersion version) {
         Optional.ofNullable(value)
+                .filter(v -> v != JsonNull.INSTANCE)
                 .map(JsonElement::getAsString)
                 .ifPresent(fullData.getData().getValue()::setStringValue);
     }

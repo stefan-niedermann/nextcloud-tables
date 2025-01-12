@@ -40,6 +40,7 @@ public class UnknownRemoteMapper extends DataV1Mapper {
                               @NonNull FullColumn fullColumn,
                               @NonNull TablesVersion version) {
         Optional.ofNullable(value)
+                .filter(v -> v != JsonNull.INSTANCE)
                 .map(JsonElement::toString)
                 .ifPresent(fullData.getData().getValue()::setStringValue);
     }
