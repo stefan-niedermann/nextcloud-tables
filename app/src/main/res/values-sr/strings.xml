@@ -126,7 +126,7 @@
     <string name="not_yet_synchronized">Још увек није синхронизовано</string>
 
     <string name="reason_not_installed">Није инсталирана апликација Nextcloud Табеле</string>
-    <string name="reason_not_enabled">Није укључкена апликација Nextcloud Табеле</string>
+    <string name="reason_not_enabled">Није укључена апликација Nextcloud Табеле</string>
     <string name="reason_maintenance_mode">Ваша Nextcloud инстанца је тренутно у режиму одржавања</string>
     <string name="reason_server_error">Ваш серевер је послао неисправан одговор</string>
     <string name="reason_tables_not_supported">Верзија Ваше апликације Nextcloud Табеле није подржана</string>
