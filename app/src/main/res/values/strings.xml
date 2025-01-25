@@ -144,7 +144,6 @@
     <string name="validation_number_range">The value must be between %1$s and %2$s</string>
     <string name="validation_number_min">The value must be at least %1$s</string>
     <string name="validation_number_max">The value must be at most %1$s</string>
-    <string name="validation_text_link">The value is not a link</string>
     <string name="validation_mandatory">This is a mandatory field</string>
     <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
 
@@ -176,4 +175,5 @@
     <string name="unsafed_changes">Unsafed changes</string>
     <string name="unsafed_changes_details">Unsafed changes have been detected. Do you want to discard or safe them?</string>
     <string name="simple_discard">Discard</string>
+    <string name="search_hint">Paste link or type to search</string>
 </resources>

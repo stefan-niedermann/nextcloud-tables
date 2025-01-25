@@ -1,6 +1,9 @@
 package it.niedermann.nextcloud.tables.database.model;
 
+import static java.util.Objects.requireNonNull;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
@@ -15,23 +18,24 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 
 public class FullTable {
 
-    @NonNull
+    @Nullable
     @Embedded
-    public Table table;
+    private Table table;
 
-    @NonNull
+    @Nullable
     @Relation(
             parentColumn = "accountId",
             entityColumn = "id"
     )
-    public Account account;
+    private Account account;
 
     @NonNull
     @Relation(
             parentColumn = "id",
-            entityColumn = "tableId"
+            entityColumn = "tableId",
+            entity = Column.class
     )
-    public List<Column> columns;
+    private List<FullColumn> columns = Collections.emptyList();
 
     @NonNull
     @Relation(
@@ -39,19 +43,52 @@ public class FullTable {
             parentColumn = "id",
             entityColumn = "tableId"
     )
-    public List<FullRow> rows;
+    private List<FullRow> rows = Collections.emptyList();
 
     public FullTable() {
-        this.table = new Table();
-        this.account = new Account();
-        this.columns = Collections.emptyList();
-        this.rows = Collections.emptyList();
+        // Default constructor
+    }
+
+    @NonNull
+    public Table getTable() {
+        return requireNonNull(table);
+    }
+
+    public void setTable(@NonNull Table table) {
+        this.table = table;
+    }
+
+    @NonNull
+    public Account getAccount() {
+        return requireNonNull(account);
+    }
+
+    public void setAccount(@NonNull Account account) {
+        this.account = account;
+    }
+
+    @NonNull
+    public List<FullColumn> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(@NonNull List<FullColumn> columns) {
+        this.columns = columns;
+    }
+
+    @NonNull
+    public List<FullRow> getRows() {
+        return rows;
+    }
+
+    public void setRows(@NonNull List<FullRow> rows) {
+        this.rows = rows;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return table.toString();
+        return requireNonNull(table).toString();
     }
 
     @Override

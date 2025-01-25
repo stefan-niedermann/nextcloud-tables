@@ -38,7 +38,7 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
         final var fullColumn = getColumnHeaderItem(columnPosition);
         if (fullColumn == null) {
             if (FeatureToggle.STRICT_MODE.enabled) {
-                throw new IllegalStateException(FullColumn.class.getSimpleName() + " header item on position " + columnPosition + " is null. Can not determine " + EDataType.class.getSimpleName());
+                throw new IllegalStateException(Column.class.getSimpleName() + " header item on position " + columnPosition + " is null. Can not determine " + EDataType.class.getSimpleName());
             } else {
                 return EDataType.UNKNOWN.getId();
             }
@@ -58,25 +58,18 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
                                      @Nullable FullData cellItemModel,
                                      int columnPosition,
                                      int rowPosition) {
-        final var fullColumn = getColumnHeaderItem(columnPosition);
-
         try {
-            if (fullColumn == null) {
-                throw new NullPointerException(FullColumn.class.getSimpleName() + " header was null for [columnPosition: " + columnPosition + " / rowPosition: " + rowPosition + "]");
-            }
-
-            final var column = fullColumn.getColumn();
-
-            if (column == null) {
-                throw new NullPointerException(Column.class.getSimpleName() + " header was null for [columnPosition: " + columnPosition + " / rowPosition: " + rowPosition + "]");
-            }
-
             if (cellItemModel == null) {
                 throw new NullPointerException("cellItemModel was null for [columnPosition: " + columnPosition + " / rowPosition: " + rowPosition + "]");
             }
 
+            final var fullColumn = getColumnHeaderItem(columnPosition);
+            if (fullColumn == null) {
+                throw new NullPointerException(Column.class.getSimpleName() + " header was null for [columnPosition: " + columnPosition + " / rowPosition: " + rowPosition + "]");
+            }
+
             if (holder instanceof CellViewHolder cellViewHolder) {
-                cellViewHolder.bind(cellItemModel, column);
+                cellViewHolder.bind(cellItemModel, fullColumn.getColumn());
 
             } else {
                 throw new IllegalArgumentException("Unknown view holder type " + holder);
@@ -99,17 +92,11 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
     public void onBindColumnHeaderViewHolder(@NonNull AbstractViewHolder holder, @Nullable FullColumn fullColumn, int columnPosition) {
         try {
             if (fullColumn == null) {
-                throw new NullPointerException(FullColumn.class.getSimpleName() + " is null.");
-            }
-
-            final var column = fullColumn.getColumn();
-
-            if (column == null) {
                 throw new NullPointerException(Column.class.getSimpleName() + " is null.");
             }
 
             if (holder instanceof ColumnHeaderViewHolder) {
-                ((ColumnHeaderViewHolder) holder).bind(column);
+                ((ColumnHeaderViewHolder) holder).bind(fullColumn.getColumn());
             } else {
                 throw new IllegalArgumentException("Unknown view holder type " + holder);
             }

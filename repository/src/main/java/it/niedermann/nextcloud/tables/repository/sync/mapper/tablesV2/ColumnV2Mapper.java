@@ -152,6 +152,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                 dto.numberPrefix(),
                 dto.numberSuffix()
         ));
+
         column.setTextAttributes(new TextAttributes(
                 dto.textAllowedPattern(),
                 dto.textMaxLength()

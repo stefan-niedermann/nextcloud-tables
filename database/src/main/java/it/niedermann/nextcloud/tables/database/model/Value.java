@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/// A value is considered being `primitive` if it does not have any sub properties and is serializable without any encoded structure.
 public class Value implements Serializable {
 
     @Nullable
@@ -30,6 +31,9 @@ public class Value implements Serializable {
 
     @Nullable
     private LocalTime timeValue;
+
+    @Nullable
+    private Long linkValueRef;
 
     public Value() {
         // Default constructor
@@ -89,23 +93,32 @@ public class Value implements Serializable {
         this.timeValue = timeValue;
     }
 
+    @Nullable
+    public Long getLinkValueRef() {
+        return linkValueRef;
+    }
+
+    public void setLinkValueRef(@Nullable Long linkValueRef) {
+        this.linkValueRef = linkValueRef;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Value value = (Value) o;
-        return Objects.equals(stringValue, value.stringValue) && Objects.equals(booleanValue, value.booleanValue) && Objects.equals(doubleValue, value.doubleValue) && Objects.equals(instantValue, value.instantValue) && Objects.equals(dateValue, value.dateValue) && Objects.equals(timeValue, value.timeValue);
+        return Objects.equals(stringValue, value.stringValue) && Objects.equals(booleanValue, value.booleanValue) && Objects.equals(doubleValue, value.doubleValue) && Objects.equals(instantValue, value.instantValue) && Objects.equals(dateValue, value.dateValue) && Objects.equals(timeValue, value.timeValue) && Objects.equals(linkValueRef, value.linkValueRef);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(stringValue, booleanValue, doubleValue, instantValue, dateValue, timeValue);
+        return Objects.hash(stringValue, booleanValue, doubleValue, instantValue, dateValue, timeValue, linkValueRef);
     }
 
     @NonNull
     @Override
     public String toString() {
-        return Stream.of(stringValue, booleanValue, doubleValue, instantValue, dateValue, timeValue)
+        return Stream.of(stringValue, booleanValue, doubleValue, instantValue, dateValue, timeValue, linkValueRef)
                 .filter(Objects::nonNull)
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));

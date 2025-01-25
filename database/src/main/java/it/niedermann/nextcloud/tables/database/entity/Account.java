@@ -39,6 +39,10 @@ public class Account extends AbstractEntity {
     private SynchronizationContext capabilitiesSynchronizationContext;
 
     @NonNull
+    @Embedded(prefix = "search_")
+    private SynchronizationContext searchProviderSynchronizationContext;
+
+    @NonNull
     @ColumnInfo(defaultValue = "")
     private String url = "";
 
@@ -86,6 +90,7 @@ public class Account extends AbstractEntity {
         this.displayName = displayName;
         this.userSynchronizationContext = new SynchronizationContext();
         this.capabilitiesSynchronizationContext = new SynchronizationContext();
+        this.searchProviderSynchronizationContext = new SynchronizationContext();
     }
 
     @Ignore
@@ -101,6 +106,7 @@ public class Account extends AbstractEntity {
         this.currentTable = account.getCurrentTable();
         this.userSynchronizationContext = new SynchronizationContext(account.getUserSynchronizationContext());
         this.capabilitiesSynchronizationContext = new SynchronizationContext(account.getCapabilitiesSynchronizationContext());
+        this.searchProviderSynchronizationContext = new SynchronizationContext(account.getSearchProviderSynchronizationContext());
     }
 
     @NonNull
@@ -119,6 +125,15 @@ public class Account extends AbstractEntity {
 
     public void setCapabilitiesSynchronizationContext(@NonNull SynchronizationContext capabilitiesSynchronizationContext) {
         this.capabilitiesSynchronizationContext = capabilitiesSynchronizationContext;
+    }
+
+    @NonNull
+    public SynchronizationContext getSearchProviderSynchronizationContext() {
+        return searchProviderSynchronizationContext;
+    }
+
+    public void setSearchProviderSynchronizationContext(@NonNull SynchronizationContext searchProviderSynchronizationContext) {
+        this.searchProviderSynchronizationContext = searchProviderSynchronizationContext;
     }
 
     @NonNull
@@ -163,6 +178,28 @@ public class Account extends AbstractEntity {
     @Ignore
     public void setCapabilitiesETag(@Nullable String eTag) {
         capabilitiesSynchronizationContext = new SynchronizationContext(capabilitiesSynchronizationContext.status(), eTag);
+    }
+
+    @NonNull
+    @Ignore
+    public DBStatus getSearchProviderStatus() {
+        return Optional.ofNullable(searchProviderSynchronizationContext.status()).orElse(DBStatus.VOID);
+    }
+
+    @Ignore
+    public void setSearchProviderStatus(@Nullable DBStatus status) {
+        searchProviderSynchronizationContext = new SynchronizationContext(status, searchProviderSynchronizationContext.eTag());
+    }
+
+    @Nullable
+    @Ignore
+    public String getSearchProviderETag() {
+        return searchProviderSynchronizationContext.eTag();
+    }
+
+    @Ignore
+    public void setSearchProviderETag(@Nullable String eTag) {
+        searchProviderSynchronizationContext = new SynchronizationContext(searchProviderSynchronizationContext.status(), eTag);
     }
 
     @NonNull
@@ -248,11 +285,11 @@ public class Account extends AbstractEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Account account = (Account) o;
-        return color == account.color && Objects.equals(userSynchronizationContext, account.userSynchronizationContext) && Objects.equals(capabilitiesSynchronizationContext, account.capabilitiesSynchronizationContext) && Objects.equals(url, account.url) && Objects.equals(userName, account.userName) && Objects.equals(accountName, account.accountName) && Objects.equals(nextcloudVersion, account.nextcloudVersion) && Objects.equals(tablesVersion, account.tablesVersion) && Objects.equals(displayName, account.displayName) && Objects.equals(currentTable, account.currentTable);
+        return color == account.color && Objects.equals(userSynchronizationContext, account.userSynchronizationContext) && Objects.equals(capabilitiesSynchronizationContext, account.capabilitiesSynchronizationContext) && Objects.equals(searchProviderSynchronizationContext, account.searchProviderSynchronizationContext) && Objects.equals(url, account.url) && Objects.equals(userName, account.userName) && Objects.equals(accountName, account.accountName) && Objects.equals(nextcloudVersion, account.nextcloudVersion) && Objects.equals(tablesVersion, account.tablesVersion) && Objects.equals(displayName, account.displayName) && Objects.equals(currentTable, account.currentTable);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), userSynchronizationContext, capabilitiesSynchronizationContext, url, userName, accountName, nextcloudVersion, tablesVersion, color, displayName, currentTable);
+        return Objects.hash(super.hashCode(), userSynchronizationContext, capabilitiesSynchronizationContext, searchProviderSynchronizationContext, url, userName, accountName, nextcloudVersion, tablesVersion, color, displayName, currentTable);
     }
 }

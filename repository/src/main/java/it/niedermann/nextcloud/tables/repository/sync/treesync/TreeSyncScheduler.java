@@ -130,7 +130,7 @@ public class TreeSyncScheduler implements SyncScheduler {
 
     }
 
-    /// **Guaranteed executing orders**
+    /// @implNote **Guaranteed executing orders**
     ///
     /// *Step 1 - 4* (may be omitted in case [Account#getTablesVersion] or [Account#getNextcloudVersion] is `null`)
     /// 1. [SyncAdapter#pushLocalDeletions]

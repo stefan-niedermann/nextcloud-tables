@@ -28,7 +28,7 @@ public class RichViewHolder extends CellViewHolder {
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
         final var value = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getStringValue)
                 .map(str -> HtmlCompat.fromHtml(str, 0))

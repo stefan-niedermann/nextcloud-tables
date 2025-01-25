@@ -81,8 +81,4 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
                 ? (CompletionException) throwable
                 : new CompletionException(throwable);
     }
-
-    protected void log(@NonNull Object... messages) {
-
-    }
 }

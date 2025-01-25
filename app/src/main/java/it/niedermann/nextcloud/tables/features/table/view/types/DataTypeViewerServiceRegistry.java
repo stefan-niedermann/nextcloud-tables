@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.tables.features.table.view.types.factories.number
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.selection.SelectionCheckFactory;
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.selection.SelectionFactory;
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.selection.SelectionMultiFactory;
+import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.LinkCellFactory;
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.LongCellFactory;
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.RichViewFactory;
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.TextCellFactory;
@@ -33,8 +34,10 @@ public class DataTypeViewerServiceRegistry extends DataTypeServiceRegistry<ViewH
     @Override
     public ViewHolderFactory getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT_LINK, TEXT_LINE, USERGROUP, UNKNOWN ->
+            case TEXT_LINE, USERGROUP, UNKNOWN ->
                     cache.computeIfAbsent(dataType, t -> new TextCellFactory(defaultSupplierServiceRegistry.getService(dataType)));
+            case TEXT_LINK ->
+                    cache.computeIfAbsent(dataType, t -> new LinkCellFactory(defaultSupplierServiceRegistry.getService(dataType)));
             case TEXT_LONG ->
                     cache.computeIfAbsent(dataType, t -> new LongCellFactory(defaultSupplierServiceRegistry.getService(dataType)));
             case TEXT_RICH ->

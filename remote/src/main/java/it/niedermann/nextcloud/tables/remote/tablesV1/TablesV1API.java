@@ -9,8 +9,6 @@ import static java.time.temporal.ChronoField.YEAR;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.JsonElement;
-
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.SignStyle;
@@ -20,6 +18,7 @@ import it.niedermann.nextcloud.tables.remote.shared.model.RemoteDto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.ColumnRequestV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.FetchRowResponseV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateColumnResponseV1Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateRowRequestV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateRowResponseV1Dto;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,6 +35,9 @@ import retrofit2.http.Query;
 public interface TablesV1API {
 
     int DEFAULT_API_LIMIT_ROWS = 1_000;
+
+    /// Though not available as a SearchProvider, this is a valid `providerId` that can be used in `text/link` columns
+    String TEXT_LINK_PROVIDER_ID_URL = "url";
 
     DateTimeFormatter FORMATTER_PROPERTIES_DATE = DateTimeFormatter.ISO_LOCAL_DATE;
     DateTimeFormatter FORMATTER_PROPERTIES_TIME = DateTimeFormatter.ISO_LOCAL_TIME;
@@ -93,7 +95,7 @@ public interface TablesV1API {
     @PUT("rows/{rowId}")
     Call<UpdateRowResponseV1Dto> updateRow(@Path("rowId")
                                            @Query("id") long rowId,
-                                           @Query("data") @NonNull JsonElement data);
+                                           @Body @NonNull UpdateRowRequestV1Dto payload);
 
     /**
      * @since 0.4.0

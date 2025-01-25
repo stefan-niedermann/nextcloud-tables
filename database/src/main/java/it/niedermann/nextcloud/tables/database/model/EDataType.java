@@ -50,6 +50,7 @@ public enum EDataType implements Comparable<EDataType> {
 
     private static final Collection<EDataType> DATA_TYPES_USING_SELECTION_OPTIONS = Set.of(SELECTION, SELECTION_MULTI);
     private static final Collection<EDataType> DATA_TYPES_USING_USER_GROUPS = Set.of(USERGROUP);
+    private static final Collection<EDataType> DATA_TYPES_USING_LINK_VALUE = Set.of(TEXT_LINK);
 
     private final int id;
 
@@ -129,6 +130,10 @@ public enum EDataType implements Comparable<EDataType> {
 
     public boolean hasUserGroups() {
         return DATA_TYPES_USING_USER_GROUPS.contains(this);
+    }
+
+    public boolean hasLinkValue() {
+        return DATA_TYPES_USING_LINK_VALUE.contains(this);
     }
 
     @NonNull

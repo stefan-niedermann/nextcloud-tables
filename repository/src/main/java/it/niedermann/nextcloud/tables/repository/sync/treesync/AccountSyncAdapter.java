@@ -16,6 +16,7 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
 
     private static final String TAG = AccountSyncAdapter.class.getSimpleName();
 
+    private final SyncAdapter<Account> searchProviderSyncAdapter;
     private final SyncAdapter<Account> capabilitiesSyncAdapter;
     private final SyncAdapter<Account> userSyncAdapter;
     private final SyncAdapter<Account> tableSyncAdapter;
@@ -29,19 +30,22 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
         this(context, reporter,
                 new CapabilitiesSyncAdapter(context),
                 new UserSyncAdapter(context),
-                new TableSyncAdapter(context));
+                new TableSyncAdapter(context),
+                new SearchProviderSyncAdapter(context));
     }
 
     private AccountSyncAdapter(@NonNull Context context,
                                @Nullable SyncStatusReporter reporter,
                                @NonNull SyncAdapter<Account> capabilitiesSyncAdapter,
                                @NonNull SyncAdapter<Account> userSyncAdapter,
-                               @NonNull SyncAdapter<Account> tableSyncAdapters
+                               @NonNull SyncAdapter<Account> tableSyncAdapters,
+                               @NonNull SyncAdapter<Account> searchProviderSyncAdapter
     ) {
         super(context, reporter);
         this.capabilitiesSyncAdapter = capabilitiesSyncAdapter;
         this.userSyncAdapter = userSyncAdapter;
         this.tableSyncAdapter = tableSyncAdapters;
+        this.searchProviderSyncAdapter = searchProviderSyncAdapter;
     }
 
     @NonNull
@@ -50,7 +54,8 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
         return allOf(
                 capabilitiesSyncAdapter.pushLocalCreations(account, parentEntity),
                 userSyncAdapter.pushLocalCreations(account, parentEntity),
-                tableSyncAdapter.pushLocalCreations(account, parentEntity));
+                tableSyncAdapter.pushLocalCreations(account, parentEntity),
+                searchProviderSyncAdapter.pushLocalCreations(account, parentEntity));
     }
 
     @NonNull
@@ -59,7 +64,8 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
         return allOf(
                 capabilitiesSyncAdapter.pushLocalUpdates(account, parentEntity),
                 userSyncAdapter.pushLocalUpdates(account, parentEntity),
-                tableSyncAdapter.pushLocalUpdates(account, parentEntity));
+                tableSyncAdapter.pushLocalUpdates(account, parentEntity),
+                searchProviderSyncAdapter.pushLocalUpdates(account, parentEntity));
     }
 
     @NonNull
@@ -68,7 +74,8 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
         return allOf(
                 capabilitiesSyncAdapter.pushLocalDeletions(account, parentEntity),
                 userSyncAdapter.pushLocalDeletions(account, parentEntity),
-                tableSyncAdapter.pushLocalDeletions(account, parentEntity));
+                tableSyncAdapter.pushLocalDeletions(account, parentEntity),
+                searchProviderSyncAdapter.pushLocalDeletions(account, parentEntity));
     }
 
     @NonNull
@@ -77,10 +84,14 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
         return allOf(
                 capabilitiesSyncAdapter.pushChildChangesWithoutChangedParent(account),
                 userSyncAdapter.pushChildChangesWithoutChangedParent(account),
-                tableSyncAdapter.pushChildChangesWithoutChangedParent(account));
+                tableSyncAdapter.pushChildChangesWithoutChangedParent(account),
+                searchProviderSyncAdapter.pushChildChangesWithoutChangedParent(account));
     }
 
+    /// @implNote **Guaranteed executing orders**
+    ///
     /// It is guaranteed, that [SyncAdapter#pullRemoteChanges] will be called and waited for before continuing with anything else.
+    ///
     /// This is to ensure that
     /// - the [Account#getTablesVersion] is ready for validations, transformations, ...
     /// - the maintenance mode can be detected properly
@@ -91,6 +102,7 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
         return capabilitiesSyncAdapter.pullRemoteChanges(account, parentEntity)
                 .thenComposeAsync(v -> allOf(
                         userSyncAdapter.pullRemoteChanges(account, parentEntity),
-                        tableSyncAdapter.pullRemoteChanges(account, parentEntity)));
+                        searchProviderSyncAdapter.pullRemoteChanges(account, parentEntity)
+                                .thenComposeAsync(v2 -> tableSyncAdapter.pullRemoteChanges(account, parentEntity))));
     }
 }

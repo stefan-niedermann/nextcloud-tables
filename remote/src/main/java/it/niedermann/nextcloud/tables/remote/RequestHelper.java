@@ -38,7 +38,7 @@ public class RequestHelper {
      */
     @NonNull
     public <TResponse> CompletableFuture<Response<TResponse>> executeNetworkRequest(@NonNull Account account,
-                                                                                       @NonNull Function<ApiProvider.ApiTuple, Call<TResponse>> api) {
+                                                                                    @NonNull Function<ApiProvider.ApiTuple, Call<TResponse>> api) {
         return supplyAsync(() -> {
             final var ocsProviderRef = new AtomicReference<ApiProvider<OcsAPI>>();
             final var apiV2ProviderRef = new AtomicReference<ApiProvider<TablesV2API>>();

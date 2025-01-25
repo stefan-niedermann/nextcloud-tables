@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.features.table.view.types.viewholder.text;
 
+import android.text.util.Linkify;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -26,12 +27,13 @@ public class TextCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
         final var value = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getStringValue)
                 .orElse(null);
 
         binding.data.setText(value);
+        binding.data.setAutoLinkMask(Linkify.WEB_URLS);
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.data.requestLayout();

@@ -36,14 +36,14 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeCollectionV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.FetchRowResponseV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.FetchAndPutRowV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.CreateRowResponseV2Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
 class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
     private static final String TAG = RowSyncAdapter.class.getSimpleName();
-    private final FetchRowResponseV1Mapper fetchRowV1Mapper;
+    private final FetchAndPutRowV1Mapper fetchRowV1Mapper;
     private final CreateRowResponseV2Mapper createRowV2Mapper;
 
     public RowSyncAdapter(@NonNull Context context) {
@@ -53,13 +53,13 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     private RowSyncAdapter(@NonNull Context context,
                            @Nullable SyncStatusReporter reporter) {
         this(context, reporter,
-                new FetchRowResponseV1Mapper(),
+                new FetchAndPutRowV1Mapper(),
                 new CreateRowResponseV2Mapper());
     }
 
     private RowSyncAdapter(@NonNull Context context,
                            @Nullable SyncStatusReporter reporter,
-                           @NonNull FetchRowResponseV1Mapper fetchRowV1Mapper,
+                           @NonNull FetchAndPutRowV1Mapper fetchRowV1Mapper,
                            @NonNull CreateRowResponseV2Mapper createRowV2Mapper) {
         super(context, reporter);
         this.fetchRowV1Mapper = fetchRowV1Mapper;
@@ -123,8 +123,8 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                     return allOf(fullRowsToUpdate.stream()
                             .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
                             .map(fullRow -> {
-                                final var createRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
-                                return requestHelper.executeNetworkRequest(account, apis -> apis.apiV1().updateRow(requireNonNull(fullRow.getRow().getRemoteId()), createRowDto))
+                                final var updateRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
+                                return requestHelper.executeNetworkRequest(account, apis -> apis.apiV1().updateRow(requireNonNull(fullRow.getRow().getRemoteId()), updateRowDto))
                                         .thenComposeAsync(response -> {
                                             Log.i(TAG, "------ → HTTP " + response.code());
 
@@ -280,7 +280,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                 .thenComposeAsync(rowAndRowId -> upsertRow(rowAndRowId.first, rowAndRowId.second.orElse(null)), workExecutor)
                                 .thenComposeAsync(fullRow -> allOf(fullRow
                                         .getFullData().stream()
-                                        .map(fullData -> upsertData(fullData, columnRemoteIdsToColumnLocalIds))
+                                        .map(fullData -> upsertData(account.getId(), fullData, columnRemoteIdsToColumnLocalIds))
                                         .toArray(CompletableFuture[]::new))
                                         .thenComposeAsync(v -> {
                                             target.add(fullRow.getRow().getId());
@@ -309,68 +309,142 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     }
 
     @NonNull
-    public CompletableFuture<Void> upsertData(@NonNull final FullData fullData,
+    public CompletableFuture<Void> upsertData(long accountId,
+                                              @NonNull final FullData fullData,
                                               @NonNull final Map<Long, Long> columnRemoteAndLocalIds) {
+        final var data = fullData.getData();
+
+        if (!columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
+            // Data deletion is handled by database constraints
+            Log.w(TAG, "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
+            return completedFuture(null);
+        }
+
+        return supplyAsync(() -> db.getDataDao().getDataIdForCoordinates(data.getRemoteColumnId(), data.getRowId()), db.getParallelExecutor())
+                .thenApplyAsync(Optional::ofNullable, workExecutor)
+                .thenComposeAsync(existingDataId -> {
+                    existingDataId.ifPresent(data::setId);
+
+                    final var dataType = fullData.getDataType();
+
+                    return completedFuture(null)
+
+                            .thenComposeAsync(v -> dataType.hasLinkValue()
+                                    ? resolveLinkValueRef(accountId, fullData)
+                                    : completedFuture(null), workExecutor)
+
+                            .thenComposeAsync(v -> existingDataId.isPresent()
+                                    ? runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor())
+                                    : supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
+                                    .thenAcceptAsync(data::setId, workExecutor)
+                                    .thenComposeAsync(v2 -> dataType.hasSelectionOptions()
+                                            ? insertDependingLinkValues(fullData)
+                                            : completedFuture(null), workExecutor))
+
+                            .thenComposeAsync(v -> dataType.hasSelectionOptions()
+                                    ? updateSelectionOptionsCrossRefs(fullData)
+                                    : completedFuture(null), workExecutor)
+
+                            .thenComposeAsync(v -> dataType.hasUserGroups()
+                                    ? updateUserGroupsCrossRefs(fullData)
+                                    : completedFuture(null), workExecutor);
+
+                }, workExecutor);
+    }
+
+    @NonNull
+    private CompletableFuture<Void> updateSelectionOptionsCrossRefs(@NonNull FullData fullData) {
         return completedFuture(null)
-                .thenComposeAsync(v -> {
-                    final var data = fullData.getData();
-                    if (columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
-                        return supplyAsync(() -> db.getDataDao().getDataIdForCoordinates(
-                                data.getRemoteColumnId(),
-                                data.getRowId()), db.getParallelExecutor())
+                .thenApplyAsync(v -> db.getDataSelectionOptionCrossRefDao().getCrossRefs(fullData.getData().getId()), db.getParallelExecutor())
+                .thenApplyAsync(crossRefs -> new Pair<>(fullData.getSelectionOptions().stream()
+                        .map(selectionOption -> new DataSelectionOptionCrossRef(fullData.getData().getId(), selectionOption.getId()))
+                        .collect(toUnmodifiableSet()), crossRefs), workExecutor)
+                .thenApplyAsync(args -> {
 
-                                .thenComposeAsync(existingData -> {
-                                    if (existingData == null) {
-                                        return supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
-                                                .thenAcceptAsync(data::setId, workExecutor);
+                    final var fetchedCrossRefs = args.first;
+                    final var storedCrossRefs = args.second;
 
-                                    } else {
-                                        data.setId(existingData);
-                                        return runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor());
-                                    }
-                                }, workExecutor)
-                                .thenApplyAsync(res -> new Pair<>(
-                                        fullData.getSelectionOptions(),
-                                        db.getDataSelectionOptionCrossRefDao().getCrossRefs(fullData.getData().getId())
-                                ), db.getParallelExecutor())
-                                .thenApplyAsync(args -> new Pair<>(args.first.stream()
-                                        .map(selectionOption -> new DataSelectionOptionCrossRef(data.getId(), selectionOption.getId()))
-                                        .collect(toUnmodifiableSet()), args.second), workExecutor)
-                                .thenApplyAsync(args -> {
+                    final var toAdd = fetchedCrossRefs
+                            .stream()
+                            .filter(not(storedCrossRefs::contains))
+                            .collect(toUnmodifiableSet());
 
-                                    final var fetchedCrossRefs = args.first;
-                                    final var storedCrossRefs = args.second;
+                    final var toDelete = storedCrossRefs
+                            .stream()
+                            .filter(not(fetchedCrossRefs::contains))
+                            .collect(toUnmodifiableSet());
 
-                                    final var toAdd = fetchedCrossRefs
-                                            .stream()
-                                            .filter(not(storedCrossRefs::contains))
-                                            .collect(toUnmodifiableSet());
+                    return new Pair<>(toAdd, toDelete);
 
-                                    final var toDelete = storedCrossRefs
-                                            .stream()
-                                            .filter(not(fetchedCrossRefs::contains))
-                                            .collect(toUnmodifiableSet());
+                }, workExecutor)
+                .thenAcceptAsync(args -> {
 
-                                    return new Pair<>(toAdd, toDelete);
+                    for (final var toAdd : args.first) {
+                        db.getDataSelectionOptionCrossRefDao().insert(toAdd);
+                    }
 
-                                }, workExecutor)
-                                .thenAcceptAsync(args -> {
+                    for (final var toDelete : args.second) {
+                        db.getDataSelectionOptionCrossRefDao().delete(toDelete);
+                    }
 
-                                    for (final var toAdd : args.first) {
-                                        db.getDataSelectionOptionCrossRefDao().insert(toAdd);
-                                    }
+                }, db.getSequentialExecutor());
+    }
 
-                                    for (final var toDelete : args.second) {
-                                        db.getDataSelectionOptionCrossRefDao().delete(toDelete);
-                                    }
+    @NonNull
+    private CompletableFuture<Void> updateUserGroupsCrossRefs(@NonNull FullData fullData) {
+        // TODO implement
+        return completedFuture(null);
+    }
 
-                                }, db.getSequentialExecutor());
+    @NonNull
+    private CompletableFuture<Void> resolveLinkValueRef(long accountId, @NonNull FullData fullData) {
+        final var dataId = fullData.getData().getId();
+        final var linkValueWithProviderRemoteId = fullData.getLinkValueWithProviderRemoteId();
 
-                    } else {
-                        // Data deletion is handled by database constraints
-                        Log.w(TAG, "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
+        // Link has been deleted remote, let's delete it physically.
+        // Probably not necessary, because the Data object will get deleted too and the Foreign Key constraints will ensure the LinkValue gets deleted, too.
+        if (linkValueWithProviderRemoteId == null) {
+            fullData.getData().getValue().setLinkValueRef(null);
+            return runAsync(() -> db.getLinkValueDao().delete(dataId), db.getSequentialExecutor());
+        }
+
+        final var searchProviderRemoteId = linkValueWithProviderRemoteId.getProviderId();
+
+        return supplyAsync(() -> db.getSearchProviderDao().getSearchProviderId(accountId, searchProviderRemoteId), db.getParallelExecutor())
+                .thenApplyAsync(searchProviderId -> {
+                    fullData.getData().getValue().setLinkValueRef(dataId > 0 ? dataId : null);
+
+                    final var linkValue = fullData.getLinkValueWithProviderRemoteId().getLinkValue();
+                    linkValue.setDataId(dataId);
+                    linkValue.setProviderId(searchProviderId);
+                    return linkValue;
+                }, workExecutor)
+                .thenAcceptAsync(linkValue -> {
+                    // Prevent Foreign Key Exception in case LinkValue.getDataId does not exist yet
+                    if (linkValue.getDataId() > 0) {
+                        db.getLinkValueDao().upsert(linkValue);
+                    }
+                }, db.getSequentialExecutor());
+    }
+
+    @NonNull
+    private CompletableFuture<Void> insertDependingLinkValues(@NonNull FullData fullData) {
+        return completedFuture(fullData.getLinkValueWithProviderRemoteId())
+                .thenComposeAsync(linkValueWithProviderRemoteId -> {
+
+                    // We are only looking for cases where data gets inserted, not deleted
+                    if (linkValueWithProviderRemoteId == null) {
                         return completedFuture(null);
                     }
+
+                    final var linkValue = linkValueWithProviderRemoteId.getLinkValue();
+                    final var dataId = fullData.getData().getId();
+                    linkValue.setDataId(dataId);
+
+                    return runAsync(() -> {
+                        db.getLinkValueDao().upsert(linkValue);
+                        db.getDataDao().update(fullData.getData());
+                    }, db.getSequentialExecutor());
 
                 }, workExecutor);
     }

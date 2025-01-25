@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.util.ColorUtil;
@@ -87,16 +88,16 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
                         entity.setNextcloudVersion(nextcloudVersion);
                         entity.setCapabilitiesETag(response.headers().get(HEADER_ETAG));
                         entity.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities().theming().color)));
-                        yield entity;
+                        yield Optional.of(entity);
                     }
                     default -> {
                         final var exception = serverErrorHandler.responseToException(response, "Could not fetch capabilities for " + entity.getAccountName(), true);
 
                         exception.ifPresent(this::throwError);
 
-                        yield entity;
+                        yield Optional.<Account>empty();
                     }
                 })
-                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor());
+                .thenAcceptAsync(accountWithNewCapabilities -> accountWithNewCapabilities.ifPresent(db.getAccountDao()::update), db.getSequentialExecutor());
     }
 }

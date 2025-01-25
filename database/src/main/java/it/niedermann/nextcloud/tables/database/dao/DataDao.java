@@ -40,12 +40,13 @@ public interface DataDao extends GenericDao<Data> {
 
     @Query("DELETE FROM Data " +
             "WHERE rowId = :rowId " +
-            "AND data_booleanValue IS NULL " +
-            "AND data_dateValue IS NULL " +
-            "AND data_doubleValue IS NULL " +
-            "AND data_instantValue IS NULL " +
-            "AND data_stringValue IS NULL " +
-            "AND data_timeValue IS NULL " +
+            "AND booleanValue IS NULL " +
+            "AND dateValue IS NULL " +
+            "AND doubleValue IS NULL " +
+            "AND instantValue IS NULL " +
+            "AND stringValue IS NULL " +
+            "AND timeValue IS NULL " +
+            "AND linkValueRef IS NULL " +
             "AND id NOT IN (" +
             "SELECT xRef.dataId FROM DataSelectionOptionCrossRef xRef " +
             "WHERE xRef.dataId = id " +
@@ -56,7 +57,8 @@ public interface DataDao extends GenericDao<Data> {
             "   SELECT d.id " +
             "   FROM Data d " +
             "   WHERE d.columnId = :columnId " +
-            "   AND d.rowId = :rowId" +
+            "   AND d.rowId = :rowId " +
+            "   LIMIT 1" +
             ")")
     boolean exists(long columnId, long rowId);
 

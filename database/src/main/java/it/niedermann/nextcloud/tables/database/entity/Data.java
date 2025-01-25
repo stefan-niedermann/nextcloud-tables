@@ -26,10 +26,19 @@ import it.niedermann.nextcloud.tables.database.model.Value;
                         parentColumns = "id",
                         childColumns = "columnId",
                         onDelete = ForeignKey.CASCADE
+                ),
+                // In case a LinkValue entry gets deleted (for example after removing available
+                // SearchProviders after synchronization), the value needs to be set `null` here.
+                @ForeignKey(
+                        entity = LinkValue.class,
+                        parentColumns = "dataId",
+                        childColumns = "linkValueRef",
+                        onDelete = ForeignKey.SET_NULL
                 )
         },
         indices = {
                 @Index(value = "columnId"),
+                @Index(value = {"linkValueRef"}, unique = true),
                 @Index(value = {"rowId", "columnId"}, unique = true),
                 @Index(value = {"rowId", "remoteColumnId"}, unique = true),
         }
@@ -41,7 +50,7 @@ public class Data extends AbstractEntity {
     private long remoteColumnId;
 
     @NonNull
-    @Embedded(prefix = "data_")
+    @Embedded
     private Value value;
 
     public Data() {

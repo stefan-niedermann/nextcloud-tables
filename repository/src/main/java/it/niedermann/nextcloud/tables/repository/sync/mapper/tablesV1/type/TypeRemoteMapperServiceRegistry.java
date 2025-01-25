@@ -12,6 +12,7 @@ import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.numbe
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionCheckDataV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionMultiDataV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionSingleDataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.text.TextLinkRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.text.TextRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.unknown.UnknownRemoteMapper;
 
@@ -24,14 +25,16 @@ public class TypeRemoteMapperServiceRegistry extends DataTypeServiceRegistry<Dat
     @Override
     public DataV1Mapper getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT_LINE, TEXT_LINK, TEXT_RICH, TEXT_LONG ->
+            case TEXT_LINE, TEXT_RICH, TEXT_LONG ->
                     cache.computeIfAbsent(dataType, t -> new TextRemoteMapper());
+            case TEXT_LINK -> cache.computeIfAbsent(dataType, t -> new TextLinkRemoteMapper());
             case DATETIME -> new DateTimeRemoteMapper();
             case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateRemoteMapper());
             case DATETIME_TIME -> cache.computeIfAbsent(dataType, t -> new TimeRemoteMapper());
             case NUMBER, NUMBER_PROGRESS ->
                     cache.computeIfAbsent(dataType, t -> new NumberRemoteMapper());
-            case NUMBER_STARS -> cache.computeIfAbsent(dataType, t -> new NumberStarsRemoteMapper());
+            case NUMBER_STARS ->
+                    cache.computeIfAbsent(dataType, t -> new NumberStarsRemoteMapper());
             case SELECTION ->
                     cache.computeIfAbsent(dataType, t -> new SelectionSingleDataV1Mapper());
             case SELECTION_MULTI ->

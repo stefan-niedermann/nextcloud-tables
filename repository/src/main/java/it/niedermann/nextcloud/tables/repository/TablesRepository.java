@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.repository;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toUnmodifiableSet;
@@ -17,6 +18,7 @@ import androidx.lifecycle.LiveData;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -26,12 +28,14 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.LinkValue;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.FullTable;
+import it.niedermann.nextcloud.tables.database.model.LinkValueWithProviderId;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.EPermissionV2Dto;
 import it.niedermann.nextcloud.tables.repository.exception.InsufficientPermissionException;
 import it.niedermann.nextcloud.tables.repository.util.ColumnReorderUtil;
@@ -248,10 +252,22 @@ public class TablesRepository extends AbstractRepository {
                         final var insertedDataId = db.getDataDao().insert(fullData.getData());
                         fullData.getData().setId(insertedDataId);
 
+                        if (fullData.getDataType().hasLinkValue()) {
+
+                            Optional.ofNullable(fullData.getLinkValueWithProviderRemoteId())
+                                    .map(LinkValueWithProviderId::getLinkValue)
+                                    .map(linkValue -> {
+                                        linkValue.setDataId(insertedDataId);
+                                        return linkValue;
+                                    })
+                                    .ifPresent(db.getLinkValueDao()::insertLinkValueAndUpdateData);
+
+                        }
+
                         if (fullData.getDataType().hasSelectionOptions()) {
 
                             for (final var selectionOption : fullData.getSelectionOptions()) {
-                                final var crossRef = new DataSelectionOptionCrossRef(fullData.getData().getId(), selectionOption.getId());
+                                final var crossRef = new DataSelectionOptionCrossRef(insertedDataId, selectionOption.getId());
                                 db.getDataSelectionOptionCrossRefDao().insert(crossRef);
                             }
 
@@ -282,7 +298,8 @@ public class TablesRepository extends AbstractRepository {
 
         }, workExecutor)
                 .thenAcceptAsync(db.getRowDao()::update, db.getSequentialExecutor())
-                .thenComposeAsync(v -> updateData(fullDataSet, row))
+                .thenComposeAsync(v -> updateData(fullDataSet, row), workExecutor)
+                .thenAcceptAsync(v -> db.getDataDao().deleteRowIfEmpty(row.getId()), db.getSequentialExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
@@ -292,35 +309,35 @@ public class TablesRepository extends AbstractRepository {
                                                @NonNull Row row) {
         return completedFuture(fullDataSet)
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(stream -> stream.map(fullData -> {
-                    fullData.getData().setRowId(row.getId());
-                    db.getDataDao().deleteRowIfEmpty(row.getId());
+                .thenApplyAsync(stream -> stream.map(fullData -> runAsync(() -> fullData.getData().setRowId(row.getId()), workExecutor)
+                        .thenApplyAsync(v -> db.getDataDao().exists(
+                                fullData.getData().getColumnId(),
+                                fullData.getData().getRowId()), db.getParallelExecutor())
+                        .thenApplyAsync(exists -> {
+                            if (exists) {
+                                db.getDataDao().update(fullData.getData());
 
-                    final var exists = db.getDataDao().exists(
-                            fullData.getData().getColumnId(),
-                            fullData.getData().getRowId());
+                            } else {
+                                final var insertedDataId = db.getDataDao().insert(fullData.getData());
+                                fullData.getData().setId(insertedDataId);
+                            }
 
-                    if (exists) {
-                        db.getDataDao().update(fullData.getData());
-
-                    } else {
-                        final var insertedDataId = db.getDataDao().insert(fullData.getData());
-                        fullData.getData().setId(insertedDataId);
-                    }
-
-                    return updateSelectionOptionCrossRefs(fullData);
-                }))
+                            return fullData;
+                        }, db.getSequentialExecutor())
+                        .thenComposeAsync(this::updateSelectionOptionCrossRefs, workExecutor)
+                        .thenComposeAsync(this::updateLinkValue, workExecutor)
+                ), workExecutor)
                 .thenApplyAsync(completableFutureStream -> completableFutureStream.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor);
     }
 
     @NonNull
-    private CompletableFuture<Void> updateSelectionOptionCrossRefs(@NonNull FullData fullData) {
+    private CompletableFuture<FullData> updateSelectionOptionCrossRefs(@NonNull FullData fullData) {
         if (!fullData.getDataType().hasSelectionOptions()) {
-            return completedFuture(null);
+            return completedFuture(fullData);
         }
 
-        return completedFuture(null)
+        return completedFuture(fullData)
                 .thenApplyAsync(res -> db.getDataSelectionOptionCrossRefDao().getCrossRefs(fullData.getData().getId()), db.getParallelExecutor())
                 .thenApplyAsync(storedCrossRefs -> {
 
@@ -341,7 +358,7 @@ public class TablesRepository extends AbstractRepository {
                     return new Pair<>(toAdd, toDelete);
 
                 }, workExecutor)
-                .thenAcceptAsync(args -> {
+                .thenApplyAsync(args -> {
 
                     for (final var toAdd : args.first) {
                         db.getDataSelectionOptionCrossRefDao().insert(toAdd);
@@ -351,7 +368,42 @@ public class TablesRepository extends AbstractRepository {
                         db.getDataSelectionOptionCrossRefDao().delete(toDelete);
                     }
 
+                    return fullData;
+
                 }, db.getSequentialExecutor());
+    }
+
+    @NonNull
+    private CompletableFuture<FullData> updateLinkValue(@NonNull FullData fullData) {
+        if (!fullData.getDataType().hasLinkValue()) {
+            return completedFuture(fullData);
+        }
+
+        final var linkValue = Optional
+                .of(fullData)
+                .map(FullData::getLinkValueWithProviderRemoteId);
+
+        if (linkValue.isEmpty()) {
+            return completedFuture(fullData);
+        }
+
+        return supplyAsync(() -> linkValue
+                .map(LinkValueWithProviderId::getLinkValue)
+                .map(LinkValue::getDataId)
+                .map(id -> id != 0L)
+                .orElse(false), workExecutor)
+                .thenApplyAsync(linkValueIsPresent -> {
+                    if (linkValueIsPresent) {
+                        db.getLinkValueDao().upsertLinkValueAndUpdateData(linkValue.map(LinkValueWithProviderId::getLinkValue).get());
+                        fullData.getData().getValue().setLinkValueRef(fullData.getData().getId());
+                    } else {
+                        db.getLinkValueDao().delete(fullData.getData().getId());
+                        fullData.getData().getValue().setLinkValueRef(null);
+                    }
+
+                    return fullData.getData();
+                }, db.getSequentialExecutor())
+                .thenApplyAsync(v -> fullData, workExecutor);
     }
 
     @AnyThread

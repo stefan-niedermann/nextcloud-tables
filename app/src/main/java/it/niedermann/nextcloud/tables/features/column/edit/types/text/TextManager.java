@@ -47,7 +47,7 @@ public class TextManager extends ColumnEditView<ManageTextBinding> {
         fullColumn.getColumn().setTextAttributes(new TextAttributes(
                 Optional.ofNullable(binding.textAllowedPattern.getText())
                         .map(Editable::toString)
-                        .orElse(null),
+                        .orElse(fullColumn.getColumn().getTextAttributes().textAllowedPattern()),
 
                 Optional.ofNullable(binding.textMaxLength.getText())
                         .map(Object::toString)

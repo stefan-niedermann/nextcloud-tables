@@ -5,9 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Update;
 import androidx.room.Upsert;
 
-import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
-
-public interface GenericDao<T extends AbstractEntity> {
+public interface GenericDao<T> {
 
     @Insert
     long insert(T entity);
@@ -20,7 +18,9 @@ public interface GenericDao<T extends AbstractEntity> {
     @Update
     void update(T... entity);
 
-    /** @noinspection unchecked */
+    /**
+     * @noinspection unchecked
+     */
     @Upsert
     void upsert(T... entity);
 

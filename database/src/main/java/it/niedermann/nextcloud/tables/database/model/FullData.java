@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.database.model;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Embedded;
 import androidx.room.Ignore;
 import androidx.room.Junction;
@@ -16,6 +17,7 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.DataUserGroupCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.LinkValue;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 
@@ -58,6 +60,15 @@ public class FullData implements Serializable {
     )
     private EDataType dataType;
 
+
+    @Nullable
+    @Relation(
+            entity = LinkValue.class,
+            parentColumn = "linkValueRef",
+            entityColumn = "dataId"
+    )
+    private LinkValueWithProviderId linkValueWithProviderRemoteId;
+
     public FullData() {
         this(new Data());
     }
@@ -87,6 +98,7 @@ public class FullData implements Serializable {
         this.selectionOptions = fullData.getSelectionOptions().stream().map(SelectionOption::new).collect(Collectors.toUnmodifiableList());
         this.userGroups = fullData.getUserGroups();
         this.dataType = fullData.getDataType();
+        this.linkValueWithProviderRemoteId = fullData.getLinkValueWithProviderRemoteId();
     }
 
     @NonNull
@@ -125,16 +137,25 @@ public class FullData implements Serializable {
         this.dataType = dataType;
     }
 
+    @Nullable
+    public LinkValueWithProviderId getLinkValueWithProviderRemoteId() {
+        return linkValueWithProviderRemoteId;
+    }
+
+    public void setLinkValueWithProviderRemoteId(@Nullable LinkValueWithProviderId linkValueWithProviderRemoteId) {
+        this.linkValueWithProviderRemoteId = linkValueWithProviderRemoteId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FullData that = (FullData) o;
-        return Objects.equals(data, that.data) && Objects.equals(selectionOptions, that.selectionOptions) && Objects.equals(userGroups, that.userGroups) && dataType == that.dataType;
+        FullData fullData = (FullData) o;
+        return Objects.equals(data, fullData.data) && Objects.equals(selectionOptions, fullData.selectionOptions) && Objects.equals(userGroups, fullData.userGroups) && dataType == fullData.dataType && Objects.equals(linkValueWithProviderRemoteId, fullData.linkValueWithProviderRemoteId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(data, selectionOptions, userGroups, dataType);
+        return Objects.hash(data, selectionOptions, userGroups, dataType, linkValueWithProviderRemoteId);
     }
 }

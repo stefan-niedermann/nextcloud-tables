@@ -23,7 +23,7 @@ import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.ItemManageOptionMultiBinding;
 import it.niedermann.nextcloud.tables.databinding.ManageSelectionMultiBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
-import it.niedermann.nextcloud.tables.features.row.edit.OnTextChangedListener;
+import it.niedermann.nextcloud.tables.features.row.editor.OnTextChangedListener;
 
 public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBinding> {
 

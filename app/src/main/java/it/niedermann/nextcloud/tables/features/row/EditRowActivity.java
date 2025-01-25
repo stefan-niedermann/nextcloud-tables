@@ -35,8 +35,9 @@ import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditRowBinding;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
-import it.niedermann.nextcloud.tables.features.row.edit.factories.EditorFactory;
-import it.niedermann.nextcloud.tables.features.row.edit.type.DataEditView;
+import it.niedermann.nextcloud.tables.features.row.editor.EditorServiceRegistry;
+import it.niedermann.nextcloud.tables.features.row.editor.factories.EditorFactory;
+import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
 import it.niedermann.nextcloud.tables.repository.defaults.DataTypeDefaultServiceRegistry;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
 
@@ -66,13 +67,16 @@ public class EditRowActivity extends AppCompatActivity {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_TABLE + " must be provided.");
         }
 
+
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         this.table = (Table) intent.getSerializableExtra(KEY_TABLE);
         this.row = (Row) intent.getSerializableExtra(KEY_ROW);
-        this.defaultSupplierRegistry = new DataTypeDefaultServiceRegistry();
-        this.editorFactoryRegistry = new EditDataTypeServiceRegistry();
 
-        binding = ActivityEditRowBinding.inflate(getLayoutInflater());
+        this.binding = ActivityEditRowBinding.inflate(getLayoutInflater());
+        this.editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
+        this.editorFactoryRegistry = new EditorServiceRegistry(editRowViewModel);
+        this.defaultSupplierRegistry = new DataTypeDefaultServiceRegistry();
+
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
@@ -90,8 +94,6 @@ public class EditRowActivity extends AppCompatActivity {
             };
             getOnBackPressedDispatcher().addCallback(this, callback);
         }
-
-        editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
 
         editRowViewModel.getNotDeletedColumns(table)
                 .thenComposeAsync(columns -> {
@@ -116,7 +118,7 @@ public class EditRowActivity extends AppCompatActivity {
 
                             final var editor = editorFactoryRegistry
                                     .getService(column.getColumn().getDataType())
-                                    .create(this, column, getSupportFragmentManager());
+                                    .create(account, this, column, getSupportFragmentManager());
 
                             editor.setFullData(fullData);
                             editor.invalidate();
@@ -133,7 +135,7 @@ public class EditRowActivity extends AppCompatActivity {
                             try {
                                 final var unknownEditor = editorFactoryRegistry
                                         .getService(EDataType.UNKNOWN)
-                                        .create(this, column, getSupportFragmentManager());
+                                        .create(account, this, column, getSupportFragmentManager());
 
                                 Optional
                                         .ofNullable(fullDataGrid.get(column.getColumn().getId()))
@@ -159,7 +161,8 @@ public class EditRowActivity extends AppCompatActivity {
                             binding.columns.addView(layout);
                         }
                     }
-                }, ContextCompat.getMainExecutor(this)); ;
+                }, ContextCompat.getMainExecutor(this));
+        ;
     }
 
     private boolean savePromptRequired() {

@@ -14,7 +14,7 @@ import it.niedermann.nextcloud.tables.remote.ApiProvider;
 @WorkerThread
 public class OcsApiProvider<T> extends ApiProvider<T> {
 
-    private static final String API_ENDPOINT_OCS = "/ocs/v2.php/cloud/";
+    private static final String API_ENDPOINT_OCS = "/ocs/v2.php/";
 
     public OcsApiProvider(@NonNull Context context,
                           @NonNull Account account,

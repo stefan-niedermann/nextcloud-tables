@@ -16,6 +16,7 @@ import it.niedermann.nextcloud.tables.database.converter.InstantConverter;
 import it.niedermann.nextcloud.tables.database.converter.JsonElementConverter;
 import it.niedermann.nextcloud.tables.database.converter.LocalDateConverter;
 import it.niedermann.nextcloud.tables.database.converter.LocalTimeConverter;
+import it.niedermann.nextcloud.tables.database.converter.UriConverter;
 import it.niedermann.nextcloud.tables.database.converter.UserGroupTypeConverter;
 import it.niedermann.nextcloud.tables.database.converter.VersionConverter;
 import it.niedermann.nextcloud.tables.database.dao.AccountDao;
@@ -23,7 +24,9 @@ import it.niedermann.nextcloud.tables.database.dao.ColumnDao;
 import it.niedermann.nextcloud.tables.database.dao.DataDao;
 import it.niedermann.nextcloud.tables.database.dao.DataSelectionOptionCrossRefDao;
 import it.niedermann.nextcloud.tables.database.dao.DataUserGroupCrossRefDao;
+import it.niedermann.nextcloud.tables.database.dao.LinkValueDao;
 import it.niedermann.nextcloud.tables.database.dao.RowDao;
+import it.niedermann.nextcloud.tables.database.dao.SearchProviderDao;
 import it.niedermann.nextcloud.tables.database.dao.SelectionOptionDao;
 import it.niedermann.nextcloud.tables.database.dao.TableDao;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -33,9 +36,12 @@ import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRe
 import it.niedermann.nextcloud.tables.database.entity.DataUserGroupCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.DefaultValueSelectionOptionCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.DefaultValueUserGroupCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.LinkValue;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SearchProvider;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.entity.TextAllowedPattern;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 import it.niedermann.nextcloud.tables.database.migration.Migration_1_2;
 import it.niedermann.nextcloud.tables.shared.SharedExecutors;
@@ -52,7 +58,10 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
                 DataSelectionOptionCrossRef.class,
                 DataUserGroupCrossRef.class,
                 DefaultValueSelectionOptionCrossRef.class,
-                DefaultValueUserGroupCrossRef.class
+                DefaultValueUserGroupCrossRef.class,
+                SearchProvider.class,
+                TextAllowedPattern.class,
+                LinkValue.class,
         },
         exportSchema = false,
         version = 2
@@ -65,7 +74,8 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
         JsonElementConverter.class,
         VersionConverter.class,
         UserGroupTypeConverter.class,
-        EDataTypeConverter.class
+        EDataTypeConverter.class,
+        UriConverter.class,
 })
 public abstract class TablesDatabase extends RoomDatabase {
 
@@ -125,4 +135,8 @@ public abstract class TablesDatabase extends RoomDatabase {
     public abstract DataSelectionOptionCrossRefDao getDataSelectionOptionCrossRefDao();
 
     public abstract DataUserGroupCrossRefDao getDataUserGroupCrossRefDao();
+
+    public abstract SearchProviderDao getSearchProviderDao();
+
+    public abstract LinkValueDao getLinkValueDao();
 }
