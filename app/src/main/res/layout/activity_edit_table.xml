@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -21,63 +19,74 @@
             app:title="@string/edit_table" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emojiWrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/spacer_2x"
-        android:layout_marginEnd="@dimen/spacer_1x"
-        android:hint="@string/simple_emoji"
-        app:layout_constraintBottom_toBottomOf="@id/titleWrapper"
-        app:layout_constraintEnd_toStartOf="@id/titleWrapper"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/titleWrapper">
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.emoji2.widget.EmojiEditText
-            android:id="@+id/emoji"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:enabled="false"
-            android:gravity="center"
-            android:maxLength="2"
-            android:text="🙂"
-            tools:ignore="HardcodedText" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/titleWrapper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacer_1x"
-        android:layout_marginTop="@dimen/spacer_2x"
-        android:layout_marginEnd="@dimen/spacer_2x"
-        android:hint="@string/simple_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/emojiWrapper"
-        app:layout_constraintTop_toBottomOf="@id/appbar">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/title"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/descriptionWrapper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacer_2x"
-        android:layout_marginTop="@dimen/spacer_2x"
-        android:hint="@string/simple_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emojiWrapper">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emojiWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/spacer_2x"
+                android:layout_marginEnd="@dimen/spacer_1x"
+                android:hint="@string/simple_emoji"
+                app:layout_constraintBottom_toBottomOf="@id/titleWrapper"
+                app:layout_constraintEnd_toStartOf="@id/titleWrapper"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/titleWrapper">
 
-        <it.niedermann.android.markdown.MarkdownEditorImpl
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/spacer_2x" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <androidx.emoji2.widget.EmojiEditText
+                    android:id="@+id/emoji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:maxLength="2"
+                    android:text="🙂"
+                    tools:ignore="HardcodedText" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/titleWrapper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacer_1x"
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:layout_marginEnd="@dimen/spacer_2x"
+                android:hint="@string/simple_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/emojiWrapper"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/descriptionWrapper"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacer_2x"
+                android:layout_marginTop="@dimen/spacer_2x"
+                android:hint="@string/simple_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emojiWrapper">
+
+                <it.niedermann.android.markdown.MarkdownEditorImpl
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacer_2x" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,86 +17,94 @@
             app:title="@string/edit_column" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/experimentalFeature"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorErrorContainer"
-        android:drawablePadding="@dimen/spacer_2x"
-        android:paddingHorizontal="@dimen/spacer_2x"
-        android:paddingVertical="@dimen/spacer_1x"
-        android:text="@string/experimental_feature_column_manage"
-        android:textColor="?attr/colorOnErrorContainer"
-        app:drawableStartCompat="@drawable/baseline_warning_amber_24" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/titleWrapper"
+            <TextView
+                android:id="@+id/experimentalFeature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacer_2x"
-                android:layout_marginTop="@dimen/spacer_2x"
-                android:hint="@string/simple_title">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/descriptionWrapper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacer_2x"
-                android:layout_marginTop="@dimen/spacer_2x"
-                android:hint="@string/simple_description">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:background="?attr/colorErrorContainer"
+                android:drawablePadding="@dimen/spacer_2x"
+                android:paddingHorizontal="@dimen/spacer_2x"
+                android:paddingVertical="@dimen/spacer_1x"
+                android:text="@string/experimental_feature_column_manage"
+                android:textColor="?attr/colorOnErrorContainer"
+                app:drawableStartCompat="@drawable/baseline_warning_amber_24" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacer_2x"
-                android:layout_marginTop="@dimen/spacer_2x"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/mandatory"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/titleWrapper"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/simple_mandatory" />
+                    android:layout_marginHorizontal="@dimen/spacer_2x"
+                    android:layout_marginTop="@dimen/spacer_2x"
+                    android:hint="@string/simple_title">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descriptionWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacer_2x"
+                    android:layout_marginTop="@dimen/spacer_2x"
+                    android:hint="@string/simple_description">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacer_2x"
+                    android:layout_marginTop="@dimen/spacer_2x"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/mandatory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/simple_mandatory" />
+                </LinearLayout>
+
+                <it.niedermann.nextcloud.tables.features.column.edit.EDataTypePicker
+                    android:id="@+id/typeSelection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacer_2x"
+                    android:layout_marginTop="@dimen/spacer_2x" />
+
+                <FrameLayout
+                    android:id="@+id/managerHolder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacer_2x"
+                    android:layout_marginTop="@dimen/spacer_2x" />
+
             </LinearLayout>
-
-            <it.niedermann.nextcloud.tables.features.column.edit.EDataTypePicker
-                android:id="@+id/typeSelection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacer_2x"
-                android:layout_marginTop="@dimen/spacer_2x" />
-
-            <FrameLayout
-                android:id="@+id/managerHolder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/spacer_2x"
-                android:layout_marginTop="@dimen/spacer_2x" />
-
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

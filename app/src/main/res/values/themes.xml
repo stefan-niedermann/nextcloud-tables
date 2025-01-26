@@ -51,9 +51,16 @@
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar">@bool/isDayMode</item>
+        <item name="appBarLayoutStyle">@style/AppBarLayoutStyle</item>
     </style>
 
-    <style name="NavigationView">
+    <!-- See https://github.com/material-components/material-components-android/blob/master/docs/components/TopAppBar.md#status-bar-and-edge-to-edge -->
+    <style name="AppBarLayoutStyle" parent="@style/Widget.Material3.AppBarLayout">
+        <item name="statusBarForeground">?attr/colorSurface</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="NavigationViewStyle">
         <item name="android:listDivider">@null</item>
     </style>
 </resources>

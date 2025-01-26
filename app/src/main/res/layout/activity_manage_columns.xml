@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:subtitleTextAppearance="?attr/hintTextAppearance"
+            app:title="@string/manage_columns" />
+        <!--            app:subtitle="@string/manage_columns_subtitle"-->
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/experimentalFeature"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="?attr/colorErrorContainer"-->
+    <!--            app:drawableStartCompat="@drawable/baseline_warning_amber_24"-->
+    <!--            android:drawablePadding="@dimen/spacer_2x"-->
+    <!--            android:paddingHorizontal="@dimen/spacer_2x"-->
+    <!--            android:paddingVertical="@dimen/spacer_1x"-->
+    <!--            android:text="@string/experimental_feature_column_reordering"-->
+    <!--            android:textColor="?attr/colorOnErrorContainer" />-->
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:paddingBottom="80dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-                app:subtitleTextAppearance="?attr/hintTextAppearance"
-                app:title="@string/manage_columns" />
-<!--            app:subtitle="@string/manage_columns_subtitle"-->
-        </com.google.android.material.appbar.AppBarLayout>
-
-<!--        <TextView-->
-<!--            android:id="@+id/experimentalFeature"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="?attr/colorErrorContainer"-->
-<!--            app:drawableStartCompat="@drawable/baseline_warning_amber_24"-->
-<!--            android:drawablePadding="@dimen/spacer_2x"-->
-<!--            android:paddingHorizontal="@dimen/spacer_2x"-->
-<!--            android:paddingVertical="@dimen/spacer_1x"-->
-<!--            android:text="@string/experimental_feature_column_reordering"-->
-<!--            android:textColor="?attr/colorOnErrorContainer" />-->
-
-        <ScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="80dp">
-
-            <androidx.recyclerview.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="5"
-                tools:listitem="@layout/item_column" />
-        </ScrollView>
-    </LinearLayout>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_column" />
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"

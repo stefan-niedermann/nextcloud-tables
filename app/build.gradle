@@ -4,14 +4,14 @@ plugins {
 
 android {
     namespace 'it.niedermann.nextcloud.tables'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "it.niedermann.nextcloud.tables"
         minSdk 26
-        targetSdk 34
-        versionCode 1001003
-        versionName "1.1.3"
+        targetSdk 35
+        versionCode 2000000
+        versionName "2.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
