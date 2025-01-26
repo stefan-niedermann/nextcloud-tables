@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -18,10 +19,9 @@ import it.niedermann.nextcloud.tables.database.entity.attributes.TextAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.EditRichBinding;
-import it.niedermann.nextcloud.tables.features.row.editor.OnTextChangedListener;
 import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
 
-public class TextRichEditor extends DataEditView<EditRichBinding> implements OnTextChangedListener {
+public class TextRichEditor extends DataEditView<EditRichBinding> implements Consumer<CharSequence> {
 
     public TextRichEditor(@NonNull Context context) {
         super(context, EditRichBinding.inflate(LayoutInflater.from(context)));
@@ -35,7 +35,7 @@ public class TextRichEditor extends DataEditView<EditRichBinding> implements OnT
                           @NonNull Column column) {
         super(context, EditRichBinding.inflate(LayoutInflater.from(context)), column);
 
-        binding.editText.addTextChangedListener(this);
+        binding.editText.setMarkdownStringChangedListener(this);
         binding.getRoot().setHint(column.getTitle());
 
         final var maxLength = Optional
@@ -76,17 +76,24 @@ public class TextRichEditor extends DataEditView<EditRichBinding> implements OnT
                 .map(Value::getStringValue)
                 .orElse(null);
 
-        binding.editText.setText(value);
+        binding.editText.setMarkdownStringChangedListener(null);
+        binding.editText.setMarkdownString(value);
+        binding.editText.setMarkdownStringChangedListener(this);
+    }
+
+    @Override
+    public void accept(CharSequence charSequence) {
+        Optional
+                .ofNullable(fullData)
+                .map(FullData::getData)
+                .map(Data::getValue)
+                .ifPresent(value -> value.setStringValue(Optional.ofNullable(charSequence).map(CharSequence::toString).orElse(null)));
+        onValueChanged();
     }
 
     @Override
     public void setErrorMessage(@Nullable String message) {
         binding.getRoot().setError(message);
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        onValueChanged();
     }
 
     @NonNull

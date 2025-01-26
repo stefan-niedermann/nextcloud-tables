@@ -24,7 +24,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -108,7 +112,9 @@ public class EditRowActivity extends AppCompatActivity {
                 @Override
                 public void handleOnBackPressed() {
                     if (savePromptRequired()) {
-                        showSavePromptGuard(EditRowActivity.this::finish);
+                        showSavePromptGuard().thenRun(EditRowActivity.this::finish);
+                    } else {
+                        finish();
                     }
                 }
             };
@@ -192,23 +198,35 @@ public class EditRowActivity extends AppCompatActivity {
         return editors.stream().anyMatch(not(DataEditView::isPristine));
     }
 
-    private void showSavePromptGuard(@NonNull Runnable closeFunction) {
+    /// Future completes after the save prompt guard has been closed with an action (*not* cancelled)
+    private CompletableFuture<Void> showSavePromptGuard() {
+        final var future = new CompletableFuture<Void>();
         new MaterialAlertDialogBuilder(EditRowActivity.this)
                 .setTitle(R.string.unsafed_changes)
                 .setMessage(R.string.unsafed_changes_details)
                 .setPositiveButton(R.string.simple_save, (dialog, which) -> {
                     save();
-                    closeFunction.run();
+                    future.complete(null);
                 })
-                .setNegativeButton(R.string.simple_discard, (dialog, which) -> closeFunction.run())
-                .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .setNegativeButton(R.string.simple_discard, (dialog, which) -> future.complete(null))
+                .setNeutralButton(android.R.string.cancel, (dialog, which) -> {
+                    dialog.dismiss();
+                    future.completeExceptionally(new CancellationException());
+                })
                 .show();
+        return future;
     }
 
     private void save() {
+        //noinspection DataFlowIssue
+        final var editorData = editors.stream()
+                .filter(Objects::nonNull)
+                .map(DataEditView::getFullData)
+                .collect(Collectors.toUnmodifiableList());
+
         final var futureResult = duplicate || row == null
-                ? editRowViewModel.createRow(account, table, editors)
-                : editRowViewModel.updateRow(account, table, row, editors);
+                ? editRowViewModel.createRow(account, table, editorData)
+                : editRowViewModel.updateRow(account, table, row, editorData);
 
         futureResult.whenCompleteAsync((result, exception) -> {
             if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
@@ -220,7 +238,7 @@ public class EditRowActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         if (savePromptRequired()) {
-            showSavePromptGuard(super::onSupportNavigateUp);
+            showSavePromptGuard().thenRun(super::onSupportNavigateUp);
             return true;
         }
 

@@ -16,11 +16,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -31,7 +29,6 @@ import it.niedermann.nextcloud.tables.database.entity.attributes.TextAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.features.row.editor.ProposalProvider;
-import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchResultEntry;
 import it.niedermann.nextcloud.tables.repository.SearchRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
@@ -53,29 +50,21 @@ public class EditRowViewModel extends AndroidViewModel implements ProposalProvid
 
     public CompletableFuture<Void> createRow(@NonNull Account account,
                                              @NonNull Table table,
-                                             @NonNull Collection<DataEditView<?>> editors) {
-        //noinspection DataFlowIssue
-        final var data = editors.stream()
-                .filter(Objects::nonNull)
-                .map(DataEditView::getFullData)
-                .collect(Collectors.toUnmodifiableList());
+                                             @NonNull Collection<FullData> fullDataSet) {
         final var row = new Row();
         row.setCreatedBy(account.getUserName());
         row.setCreatedAt(Instant.now());
         row.setLastEditBy(account.getUserName());
         row.setLastEditAt(row.getCreatedAt());
         row.setTableId(table.getId());
-        return tablesRepository.createRow(account, table, row, data);
+        return tablesRepository.createRow(account, table, row, fullDataSet);
     }
 
     public CompletableFuture<Void> updateRow(@NonNull Account account,
                                              @NonNull Table table,
                                              @NonNull Row row,
-                                             @NonNull Collection<DataEditView<?>> editors) {
-        final var data = editors.stream()
-                .map(DataEditView::getFullData)
-                .collect(Collectors.toUnmodifiableList());
-        return tablesRepository.updateRow(account, table, row, data);
+                                             @NonNull Collection<FullData> fullDataSet) {
+        return tablesRepository.updateRow(account, table, row, fullDataSet);
     }
 
     public CompletableFuture<Map<Long, FullData>> getFullData(@Nullable Long rowId) {

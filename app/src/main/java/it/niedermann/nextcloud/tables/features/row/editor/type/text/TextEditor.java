@@ -80,12 +80,14 @@ public class TextEditor extends DataEditView<EditTextviewBinding> implements OnT
         super.setFullData(fullData);
 
         final var value = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getStringValue)
                 .orElse(null);
 
+        binding.editText.removeTextChangedListener(this);
         binding.editText.setText(value);
+        binding.editText.addTextChangedListener(this);
     }
 
     @Override
@@ -95,6 +97,12 @@ public class TextEditor extends DataEditView<EditTextviewBinding> implements OnT
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        Optional
+                .ofNullable(fullData)
+                .map(FullData::getData)
+                .map(Data::getValue)
+                .ifPresent(value -> value.setStringValue(Optional.ofNullable(s).map(CharSequence::toString).orElse(null)));
+
         onValueChanged();
     }
 

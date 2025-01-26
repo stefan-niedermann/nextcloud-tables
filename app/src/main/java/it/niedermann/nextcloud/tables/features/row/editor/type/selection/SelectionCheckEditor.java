@@ -52,12 +52,14 @@ public class SelectionCheckEditor extends DataEditView<EditSelectionCheckBinding
         super.setFullData(fullData);
 
         final var value = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getBooleanValue)
                 .orElse(false);
 
+        binding.data.setOnCheckedChangeListener(null);
         binding.getRoot().setChecked(value);
+        binding.data.setOnCheckedChangeListener(this);
     }
 
     @Override
