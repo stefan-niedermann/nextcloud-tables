@@ -14,15 +14,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
-import it.niedermann.nextcloud.tables.database.model.FullTable;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
-import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
 @MainThread
@@ -30,23 +27,12 @@ public class MainViewModel extends AndroidViewModel {
 
     private final AccountRepository accountRepository;
     private final TablesRepository tablesRepository;
-    private final PreferencesRepository preferencesRepository;
     private final MutableLiveData<Boolean> isLoading$ = new MutableLiveData<>(true);
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.accountRepository = new AccountRepository(application);
         this.tablesRepository = new TablesRepository(application);
-        this.preferencesRepository = new PreferencesRepository(application);
-    }
-
-    @NonNull
-    public LiveData<FullTable> getFullTable$() {
-        return new ReactiveLiveData<>(getCurrentTable())
-                .filter(Objects::nonNull)
-                .map(Table::getId)
-                .flatMap(tablesRepository::getFullTable$)
-                .tap(() -> this.isLoading$.setValue(false));
     }
 
     @NonNull
@@ -71,7 +57,8 @@ public class MainViewModel extends AndroidViewModel {
                 return new MutableLiveData<>(null);
             }
 
-            return tablesRepository.getNotDeletedTable$(account.getCurrentTable());
+            return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
+                    .tap(() -> this.isLoading$.setValue(false));
         });
     }
 
