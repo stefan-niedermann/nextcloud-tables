@@ -1,0 +1,2 @@
+Tables Android 2.0 is a complete rewrite with a maintainable and extensible long term architecture in mind.
+We believe that we roughly reached feature parity with Tables Android 1.0, so don't expect many new features in this release, but you can look forward to more frequent releases in the future.
