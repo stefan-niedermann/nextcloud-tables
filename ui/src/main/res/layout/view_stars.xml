@@ -17,5 +17,5 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/stars_clear"
-        android:src="@drawable/baseline_restart_alt_24" />
+        android:src="@drawable/baseline_clear_24" />
 </LinearLayout>
