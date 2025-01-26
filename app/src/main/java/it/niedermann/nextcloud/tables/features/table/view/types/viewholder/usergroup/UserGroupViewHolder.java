@@ -4,10 +4,6 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.JsonElement;
-
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +27,7 @@ public class UserGroupViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
-        final var userNames = Optional.ofNullable(fullData.getUserGroups())
+        final var userNames = Optional.of(fullData.getUserGroups())
                 .map(List::stream)
                 .map(userGroups -> userGroups
                         .map(UserGroup::getRemoteId)
@@ -47,24 +43,5 @@ public class UserGroupViewHolder extends CellViewHolder {
 
         binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.getRoot().requestLayout();
-    }
-
-    @NonNull
-    private Collection<String> getUserNames(@NonNull JsonElement value) {
-        if (!value.isJsonArray()) {
-            return Collections.emptySet();
-        }
-
-        return value
-                .getAsJsonArray()
-                .asList()
-                .stream()
-                .filter(JsonElement::isJsonObject)
-                .map(JsonElement::getAsJsonObject)
-                .filter(user -> user.has("id"))
-                .map(user -> user.get("id"))
-                .filter(JsonElement::isJsonPrimitive)
-                .map(JsonElement::getAsString)
-                .collect(Collectors.toUnmodifiableSet());
     }
 }

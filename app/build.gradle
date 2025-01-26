@@ -75,7 +75,7 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$version_desugar"
 
     implementation project(path: ':ui')
     implementation project(path: ':shared')
@@ -84,7 +84,7 @@ dependencies {
     implementation project(path: ':repository')
 
     // Nextcloud SSO
-    implementation 'com.github.nextcloud.android-common:ui:0.24.0'
+    implementation "com.github.nextcloud.android-common:ui:$version_nextcloud_common"
     implementation "com.github.stefan-niedermann:android-commons:$version_android_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$version_nextcloud_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$version_nextcloud_commons"
