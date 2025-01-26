@@ -9,13 +9,13 @@ import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 public class EDataTypeConverter {
 
     @TypeConverter
-    public static EDataType databaseTypeFromString(@Nullable Integer databaseType) {
-        if (databaseType == null) {
+    public static EDataType databaseTypeFromString(@Nullable Integer dataType) {
+        if (dataType == null) {
             return EDataType.UNKNOWN;
         }
 
         try {
-            return EDataType.findById(databaseType);
+            return EDataType.findById(dataType);
 
         } catch (NumberFormatException e) {
             if (FeatureToggle.STRICT_MODE.enabled) {
@@ -27,12 +27,12 @@ public class EDataTypeConverter {
     }
 
     @TypeConverter
-    public static Integer databaseTypeToString(@Nullable EDataType databaseType) {
-        if (databaseType == null || EDataType.UNKNOWN.equals(databaseType)) {
+    public static Integer databaseTypeToString(@Nullable EDataType dataType) {
+        if (dataType == null || EDataType.UNKNOWN.equals(dataType)) {
             return null;
         }
 
-        return databaseType.getId();
+        return dataType.getId();
     }
 
 }

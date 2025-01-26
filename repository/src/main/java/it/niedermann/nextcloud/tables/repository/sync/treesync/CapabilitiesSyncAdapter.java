@@ -95,6 +95,11 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
 
                         exception.ifPresent(this::throwError);
 
+                        final var tablesVersion = Optional.ofNullable(account.getTablesVersion());
+                        if (tablesVersion.map(TablesVersion::isSupported).orElse(false)) {
+                            throwError(new ServerNotAvailableException(ServerNotAvailableException.Reason.TABLES_NOT_SUPPORTED));
+                        }
+
                         yield Optional.<Account>empty();
                     }
                 })

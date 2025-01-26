@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
@@ -20,6 +21,14 @@ import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 
 @Entity(
         inheritSuperIndices = true,
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Table.class,
+                        parentColumns = "id",
+                        childColumns = "currentTable",
+                        onDelete = ForeignKey.SET_NULL
+                )
+        },
         indices = {
                 @Index(value = "user_status"),
                 @Index(value = "capabilities_status"),

@@ -40,7 +40,8 @@ public class Column extends AbstractTableRelatedEntity {
     private Instant lastEditAt;
 
     @NonNull
-    private EDataType dataType;
+    @ColumnInfo(defaultValue = "0")
+    private EDataType dataType = EDataType.UNKNOWN;
 
     private boolean mandatory;
 

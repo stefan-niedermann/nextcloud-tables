@@ -15,6 +15,7 @@ import androidx.lifecycle.SavedStateHandle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -71,7 +72,11 @@ public class ViewTableViewModel extends AndroidViewModel {
                             .map(args -> {
                                 final var fullTable = args.first;
                                 final var syncActive = args.second;
-                                return new UiState(syncActive, account, fullTable, dataToGrid(fullTable));
+                                final var dataGrid = Optional
+                                        .ofNullable(fullTable)
+                                        .map(this::dataToGrid)
+                                        .orElseGet(Collections::emptyList);
+                                return new UiState(syncActive, account, fullTable, dataGrid);
                             })
                             .distinctUntilChanged();
                 });
