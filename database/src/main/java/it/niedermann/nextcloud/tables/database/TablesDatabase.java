@@ -63,7 +63,7 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
                 LinkValue.class,
         },
         exportSchema = false,
-        version = 1
+        version = 2
 )
 @TypeConverters({
         DBStatusConverter.class,
