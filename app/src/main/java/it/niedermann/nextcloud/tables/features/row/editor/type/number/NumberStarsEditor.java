@@ -2,14 +2,13 @@ package it.niedermann.nextcloud.tables.features.row.editor.type.number;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Range;
 import android.view.LayoutInflater;
 
-import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -18,13 +17,9 @@ import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.EditNumberStarsBinding;
 import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
 
-public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> {
+public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> implements Consumer<Integer> {
 
     private static final String TAG = NumberStarsEditor.class.getSimpleName();
-
-    private final Range<Integer> validRange = new Range<>(0, 5);
-    @IntRange(from = 0, to = 5)
-    protected int value = 0;
 
     public NumberStarsEditor(@NonNull Context context) {
         super(context, EditNumberStarsBinding.inflate(LayoutInflater.from(context)));
@@ -40,17 +35,7 @@ public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> {
         super(context, EditNumberStarsBinding.inflate(LayoutInflater.from(context)), column);
 
         binding.title.setText(column.getTitle());
-    }
-
-    @Override
-    @Nullable
-    public FullData getFullData() {
-        Optional.ofNullable(fullData)
-                .map(FullData::getData)
-                .map(Data::getValue)
-                .ifPresent(val -> val.setDoubleValue((double) value));
-
-        return fullData;
+        binding.stars.setValueChangedListener(this);
     }
 
     @Override
@@ -71,5 +56,20 @@ public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> {
     @Override
     public void setErrorMessage(@Nullable String message) {
         // TODO
+    }
+
+    @Override
+    public void accept(Integer newValue) {
+        if (newValue == null) {
+            throw new NullPointerException("newValue must not be null for stars.");
+        }
+
+        Optional
+                .ofNullable(fullData)
+                .map(FullData::getData)
+                .map(Data::getValue)
+                .ifPresent(value -> value.setDoubleValue(newValue.doubleValue()));
+
+        onValueChanged();
     }
 }

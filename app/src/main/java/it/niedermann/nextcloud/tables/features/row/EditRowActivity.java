@@ -28,10 +28,12 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditRowBinding;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
@@ -46,9 +48,11 @@ public class EditRowActivity extends AppCompatActivity {
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_TABLE = "table";
     private static final String KEY_ROW = "row";
+    private static final String KEY_DUPLICATE = "duplicate";
     private Account account;
     private Table table;
     private Row row;
+    private boolean duplicate;
     private EditRowViewModel editRowViewModel;
     private ActivityEditRowBinding binding;
     private final Collection<DataEditView<?>> editors = new ArrayList<>();
@@ -71,6 +75,16 @@ public class EditRowActivity extends AppCompatActivity {
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         this.table = (Table) intent.getSerializableExtra(KEY_TABLE);
         this.row = (Row) intent.getSerializableExtra(KEY_ROW);
+        this.duplicate = intent.getBooleanExtra(KEY_DUPLICATE, false);
+
+        /// In case of duplicating this is the source ID9
+        final Long originRowId = Optional.ofNullable(this.row).map(Row::getId).orElse(null);
+        if (duplicate) {
+            if (this.row == null) {
+                throw new IllegalStateException(KEY_ROW + " must be provided when " + KEY_DUPLICATE + " is set to true.");
+            }
+            this.row = new Row(this.row);
+        }
 
         this.binding = ActivityEditRowBinding.inflate(getLayoutInflater());
         this.editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
@@ -80,7 +94,13 @@ public class EditRowActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        binding.toolbar.setTitle(row == null ? R.string.add_row : R.string.edit_row);
+        if (this.duplicate) {
+            binding.toolbar.setTitle(R.string.duplicate_row);
+        } else if (row == null) {
+            binding.toolbar.setTitle(R.string.add_row);
+        } else {
+            binding.toolbar.setTitle(R.string.edit_row);
+        }
         binding.toolbar.setSubtitle(table.getTitleWithEmoji());
 
         if (this.row != null) {
@@ -100,7 +120,7 @@ public class EditRowActivity extends AppCompatActivity {
                     binding.columns.removeAllViews();
                     editors.clear();
 
-                    return editRowViewModel.getFullData(row)
+                    return editRowViewModel.getFullData(originRowId)
                             .thenApplyAsync(fullDataGrid -> new Pair<>(columns, fullDataGrid));
                 }, ContextCompat.getMainExecutor(this))
                 .thenAcceptAsync(args -> {
@@ -110,11 +130,14 @@ public class EditRowActivity extends AppCompatActivity {
                         try {
                             final var defaultValueSupplier = defaultSupplierRegistry.getService(column.getColumn().getDataType());
                             final var fullData = Optional
-                                    .ofNullable(fullDataGrid.get(column.getColumn().getId()))
+                                    .of(column)
+                                    .map(FullColumn::getColumn)
+                                    .map(Column::getId)
+                                    .map(fullDataGrid::get)
                                     .map(src -> defaultValueSupplier.ensureDefaultValue(column, src))
                                     .orElse(defaultValueSupplier.ensureDefaultValue(column, null));
 
-                            Optional.ofNullable(row).map(Row::getId).ifPresent(fullData.getData()::setRowId);
+                            fullData.getData().setRowId(Optional.ofNullable(originRowId).orElse(0L));
 
                             final var editor = editorFactoryRegistry
                                     .getService(column.getColumn().getDataType())
@@ -183,7 +206,7 @@ public class EditRowActivity extends AppCompatActivity {
     }
 
     private void save() {
-        final var futureResult = row == null
+        final var futureResult = duplicate || row == null
                 ? editRowViewModel.createRow(account, table, editors)
                 : editRowViewModel.updateRow(account, table, row, editors);
 
@@ -220,19 +243,24 @@ public class EditRowActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static Intent createIntent(@NonNull Context context,
-                                      @NonNull Account account,
-                                      @NonNull Table table) {
+    public static Intent createAddIntent(@NonNull Context context,
+                                         @NonNull Account account,
+                                         @NonNull Table table) {
         return new Intent(context, EditRowActivity.class)
                 .putExtra(KEY_ACCOUNT, account)
                 .putExtra(KEY_TABLE, table);
     }
 
-    public static Intent createIntent(@NonNull Context context,
-                                      @NonNull Account account,
-                                      @NonNull Table table,
-                                      @NonNull Row row) {
-        return createIntent(context, account, table)
+    public static Intent createEditIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table, @NonNull Row row) {
+        return createAddIntent(context, account, table)
                 .putExtra(KEY_ROW, row);
+    }
+
+    /**
+     * If {@param duplicate} is <code>true</code>, it will open the activity in edit mode prepopulating the information from the given {@param row}.
+     */
+    public static Intent createDuplicateIntent(@NonNull Context context, @NonNull Account account, @NonNull Table table, @NonNull Row row) {
+        return createEditIntent(context, account, table, row)
+                .putExtra(KEY_DUPLICATE, true);
     }
 }

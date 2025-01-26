@@ -133,7 +133,7 @@ public class ViewTableFragment extends Fragment {
                     return;
                 }
 
-                startActivity(EditRowActivity.createIntent(requireContext(), state.account(), fullTable.getTable(), row.getRow()));
+                startActivity(EditRowActivity.createEditIntent(requireContext(), state.account(), fullTable.getTable(), row.getRow()));
             }
 
             @Override
@@ -167,7 +167,9 @@ public class ViewTableFragment extends Fragment {
                     }
 
                     if (item.getItemId() == R.id.edit_row) {
-                        startActivity(EditRowActivity.createIntent(requireContext(), state.account(), fullTable.getTable(), row.getRow()));
+                        startActivity(EditRowActivity.createEditIntent(requireContext(), state.account(), fullTable.getTable(), row.getRow()));
+                    } else if (item.getItemId() == R.id.duplicate_row) {
+                        startActivity(EditRowActivity.createDuplicateIntent(requireContext(), state.account(), fullTable.getTable(), row.getRow()));
                     } else if (item.getItemId() == R.id.delete_row) {
                         new MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(R.string.delete_row)
@@ -244,7 +246,7 @@ public class ViewTableFragment extends Fragment {
             }
         });
 
-        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createIntent(requireContext(), state.account(), fullTable.getTable())));
+        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createAddIntent(requireContext(), state.account(), fullTable.getTable())));
         binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronize(state.account())
                 .whenCompleteAsync((result, exception) -> {
                     if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {

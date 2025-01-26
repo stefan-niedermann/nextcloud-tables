@@ -248,6 +248,8 @@ public class TablesRepository extends AbstractRepository {
                 .thenRunAsync(() -> {
 
                     for (final var fullData : fullDataSet) {
+                        // In case of cloning
+                        fullData.getData().setId(0L);
                         fullData.getData().setRowId(row.getId());
                         final var insertedDataId = db.getDataDao().insert(fullData.getData());
                         fullData.getData().setId(insertedDataId);

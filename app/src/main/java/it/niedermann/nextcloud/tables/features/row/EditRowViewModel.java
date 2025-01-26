@@ -78,10 +78,10 @@ public class EditRowViewModel extends AndroidViewModel implements ProposalProvid
         return tablesRepository.updateRow(account, table, row, data);
     }
 
-    public CompletableFuture<Map<Long, FullData>> getFullData(@Nullable Row row) {
-        return row == null
+    public CompletableFuture<Map<Long, FullData>> getFullData(@Nullable Long rowId) {
+        return rowId == null
                 ? completedFuture(emptyMap())
-                : tablesRepository.getRawColumnIdAndFullData(row.getId());
+                : tablesRepository.getRawColumnIdAndFullData(rowId);
     }
 
     @NonNull

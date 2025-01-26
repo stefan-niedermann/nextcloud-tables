@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
+import java.util.function.Consumer;
+
 import it.niedermann.nextcloud.tables.ui.R;
 import it.niedermann.nextcloud.tables.ui.databinding.ViewStarsBinding;
 import it.niedermann.nextcloud.tables.ui.databinding.ViewStarsSingleBinding;
@@ -28,6 +30,7 @@ public class Stars extends FrameLayout {
     private int stars;
     private boolean readonly;
     private boolean resettable;
+    private Consumer<Integer> valueChangedListener;
 
     public Stars(Context context) {
         this(context, null);
@@ -54,6 +57,7 @@ public class Stars extends FrameLayout {
 
             if (isEnabled() && !readonly) {
                 setValue(0);
+                notifyListener();
             }
         });
 
@@ -77,6 +81,11 @@ public class Stars extends FrameLayout {
 
         this.value = value;
         this.bind(value, stars, readonly, resettable, isEnabled());
+    }
+
+    /// Triggers when the value was changed by the user (*not* programmatically)
+    public void setValueChangedListener(@Nullable Consumer<Integer> valueChangedListener) {
+        this.valueChangedListener = valueChangedListener;
     }
 
     /// Max must be greater than `0`. Lowers current value if necessary to match new max.
@@ -162,6 +171,7 @@ public class Stars extends FrameLayout {
                     binding.getRoot().setOnClickListener(v -> {
                         if (enabled && !readonly) {
                             setValue(finalStar);
+                            notifyListener();
                         }
                     });
                     this.binding.stars.addView(binding.getRoot());
@@ -173,6 +183,12 @@ public class Stars extends FrameLayout {
 
                 binding.getRoot().setSelected(star <= value);
             }
+        }
+    }
+
+    private void notifyListener() {
+        if(this.valueChangedListener != null) {
+            this.valueChangedListener.accept(this.value);
         }
     }
 }
