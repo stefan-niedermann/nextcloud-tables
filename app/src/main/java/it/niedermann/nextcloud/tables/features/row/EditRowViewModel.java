@@ -10,10 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21,9 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
@@ -58,7 +56,7 @@ public class EditRowViewModel extends AndroidViewModel implements ProposalProvid
                                              @NonNull Collection<DataEditView<?>> editors) {
         //noinspection DataFlowIssue
         final var data = editors.stream()
-                .filter(Objects::isNull)
+                .filter(Objects::nonNull)
                 .map(DataEditView::getFullData)
                 .collect(Collectors.toUnmodifiableList());
         final var row = new Row();
@@ -91,34 +89,14 @@ public class EditRowViewModel extends AndroidViewModel implements ProposalProvid
     public LiveData<Collection<Pair<SearchProvider, OcsSearchResultEntry>>> getProposals(@NonNull Account account,
                                                                                          @NonNull Column column,
                                                                                          @NonNull String term) {
-        final var searchUrlLiveData = Optional.of(column)
+
+        final var searchProviderIds = Optional.of(column)
                 .map(Column::getTextAttributes)
                 .map(TextAttributes::textAllowedPattern)
                 .map(pattern -> pattern.split(","))
                 .map(Set::of)
-                .filter(set -> set.contains("url"))
-                .map(v -> searchRepository.searchUrl(account, term))
-                .orElseGet(MutableLiveData::new);
+                .orElseGet(Collections::emptySet);
 
-        return new ReactiveLiveData<>(searchRepository.search(account, column, term))
-                .combineWith(() -> searchUrlLiveData)
-                .map(args -> {
-                            final var searchResults = args.first;
-                            final var searchUrlResult = args.second;
-                            final var combinedSearchResults = searchResults
-                                    .entrySet()
-                                    .stream()
-                                    .flatMap(entry -> entry
-                                            .getValue()
-                                            .stream()
-                                            .map(value -> new Pair<>(entry.getKey(), value)));
-
-                            return (Collection<Pair<SearchProvider, OcsSearchResultEntry>>) Stream.concat(
-                                            combinedSearchResults,
-                                            Stream.of(new Pair<SearchProvider, OcsSearchResultEntry>(null, searchUrlResult)))
-                                    .collect(Collectors.toUnmodifiableList());
-                        }
-                )
-                .distinctUntilChanged();
+        return searchRepository.search(account, searchProviderIds, term);
     }
 }

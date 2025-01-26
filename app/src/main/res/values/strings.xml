@@ -176,4 +176,6 @@
     <string name="unsafed_changes_details">Unsafed changes have been detected. Do you want to discard or safe them?</string>
     <string name="simple_discard">Discard</string>
     <string name="search_hint">Paste link or type to search</string>
+
+    <string name="format_text_link">%1$s (%2$s)</string>
 </resources>

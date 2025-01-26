@@ -21,14 +21,13 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.FetchRowResponseV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateRowRequestV1Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.TypeRemoteMapperServiceRegistry;
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class FetchAndPutRowV1Mapper {
 
     private static final String TAG = FetchAndPutRowV1Mapper.class.getSimpleName();
 
-    private final TypeRemoteMapperServiceRegistry registry = new TypeRemoteMapperServiceRegistry();
+    private final TypeRemoteV1MapperServiceRegistry registry = new TypeRemoteV1MapperServiceRegistry();
 
     public FullRow toEntity(long accountId,
                             @NonNull FetchRowResponseV1Dto dto,

@@ -18,11 +18,11 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowResponseV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.TypeRemoteMapperServiceRegistry;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.TypeRemoteV1MapperServiceRegistry;
 
 public class CreateRowResponseV2Mapper {
 
-    private final TypeRemoteMapperServiceRegistry registry = new TypeRemoteMapperServiceRegistry();
+    private final TypeRemoteV1MapperServiceRegistry registry = new TypeRemoteV1MapperServiceRegistry();
 
     public FullRow toEntity(long accountId,
                             @NonNull CreateRowResponseV2Dto dto,

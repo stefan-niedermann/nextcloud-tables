@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type;
+package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 
 import androidx.annotation.NonNull;
 
@@ -16,14 +16,14 @@ import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.text.
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.text.TextRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.unknown.UnknownRemoteMapper;
 
-public class TypeRemoteMapperServiceRegistry extends DataTypeServiceRegistry<DataV1Mapper> {
+public class TypeRemoteV2MapperServiceRegistry extends DataTypeServiceRegistry<it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.DataV1Mapper> {
 
-    public TypeRemoteMapperServiceRegistry() {
+    public TypeRemoteV2MapperServiceRegistry() {
         super();
     }
 
     @Override
-    public DataV1Mapper getService(@NonNull EDataType dataType) {
+    public it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.DataV1Mapper getService(@NonNull EDataType dataType) {
         return switch (dataType) {
             case TEXT_LINE, TEXT_RICH, TEXT_LONG ->
                     cache.computeIfAbsent(dataType, t -> new TextRemoteMapper());

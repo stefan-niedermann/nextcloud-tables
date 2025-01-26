@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.LinkValue;
 import it.niedermann.nextcloud.tables.database.model.FullData;
@@ -23,14 +24,24 @@ public class LinkCellViewHolder extends TextCellViewHolder {
 
     @Override
     public void bind(@NonNull FullData fullData, @NonNull Column column) {
-        final var value = Optional
+        final var linkValue = Optional
                 .of(fullData)
                 .map(FullData::getLinkValueWithProviderRemoteId)
-                .map(LinkValueWithProviderId::getLinkValue)
+                .map(LinkValueWithProviderId::getLinkValue);
+
+        final var value = linkValue
                 .map(LinkValue::getValue)
                 .map(Uri::toString);
 
-        binding.data.setText(value.orElse(null));
+        final var title = linkValue
+                .map(LinkValue::getTitle);
+
+        final var context = binding.getRoot().getContext();
+        if (title.isPresent()) {
+            binding.data.setText(context.getString(R.string.format_text_link, title.get(), value.get()));
+        } else {
+            binding.data.setText(value.orElse(null));
+        }
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.data.requestLayout();

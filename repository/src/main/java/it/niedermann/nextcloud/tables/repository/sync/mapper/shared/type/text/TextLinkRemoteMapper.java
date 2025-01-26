@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.text;
 
+import static java.util.function.Predicate.not;
+
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -49,7 +52,7 @@ public class TextLinkRemoteMapper extends DataV1Mapper {
                             .orElse("");
 
                     final var title = linkValue.map(LinkValue::getTitle)
-                            .filter(String::isBlank)
+                            .filter(not(String::isBlank))
                             .orElse(value);
 
                     json.addProperty("title", title);
@@ -57,11 +60,23 @@ public class TextLinkRemoteMapper extends DataV1Mapper {
                     linkValue.map(LinkValue::getSubline)
                             .ifPresent(subline -> json.addProperty("subline", subline));
 
+                    json.addProperty("resourceUrl", value);
                     json.addProperty("value", value);
 
                     json.addProperty("providerId", searchProvider);
 
-                    return json;
+                    // Can also be:
+                    // {
+                    // \"thumbnailUrl\":\"https://example.com/apps/tables/img/app-dark.svg\",
+                    // \"title\":\"👥 usergropus\",
+                    // \"subline\":\"Nextcloud tables\",
+                    // \"resourceUrl\":\"https://example.com/index.php/apps/tables/#/table/7\",
+                    // \"icon\":\"\",
+                    // \"rounded\":false,
+                    // \"attributes\":[],
+                    // \"providerId\":\"tables-search-tables\",
+                    // \"value\":\"https://example.com/index.php/apps/tables/#/table/7\"}
+                    return new JsonPrimitive(json.toString()); // TODO check whether double string escape is actually necessary
                 })
                 .map(JsonElement.class::cast)
                 .orElse(JsonNull.INSTANCE);

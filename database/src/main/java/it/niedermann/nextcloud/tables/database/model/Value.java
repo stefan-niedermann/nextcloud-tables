@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.database.model;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.Ignore;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -37,6 +38,17 @@ public class Value implements Serializable {
 
     public Value() {
         // Default constructor
+    }
+
+    @Ignore
+    public Value(@NonNull Value value) {
+        this.stringValue = value.stringValue;
+        this.booleanValue = value.booleanValue;
+        this.doubleValue = value.doubleValue;
+        this.instantValue = value.instantValue;
+        this.dateValue = value.dateValue;
+        this.timeValue = value.timeValue;
+        this.linkValueRef = value.linkValueRef;
     }
 
     @Nullable

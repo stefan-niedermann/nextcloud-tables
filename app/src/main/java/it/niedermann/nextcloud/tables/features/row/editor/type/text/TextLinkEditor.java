@@ -63,9 +63,13 @@ public class TextLinkEditor extends DataEditViewWithProposalProvider<EditTextLin
                 throw new IllegalStateException("fullData was null while choosing a text link");
             }
 
-            final var value = mapProposalToValue(clickedEntry, fullData.getData().getId());
-            fullData.setLinkValueWithProviderRemoteId(value);
-            onValueChanged();
+            try {
+                final var value = mapProposalToValue(clickedEntry, fullData.getData().getId());
+                fullData.setLinkValueWithProviderRemoteId(value);
+                onValueChanged();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
         });
         binding.search.setAdapter(adapter);
 
@@ -84,6 +88,10 @@ public class TextLinkEditor extends DataEditViewWithProposalProvider<EditTextLin
                             // TODO Accept current link as value. We may be offline here.
                         });
                     } else {
+                        Optional.ofNullable(fullData).ifPresent(f -> {
+                            f.getData().getValue().setLinkValueRef(null);
+                            f.setLinkValueWithProviderRemoteId(null);
+                        });
                         binding.searchWrapper.setEndIconDrawable(R.drawable.ic_baseline_check_24);
                         binding.searchWrapper.setEndIconOnClickListener(v -> {
                             // TODO Accept current link as value. We may be offline here.
@@ -106,16 +114,49 @@ public class TextLinkEditor extends DataEditViewWithProposalProvider<EditTextLin
         binding.searchWrapper.setEndIconOnClickListener(v -> binding.search.setText(null));
     }
 
+    @Override
+    public void setFullData(@NonNull FullData fullData) {
+        super.setFullData(fullData);
+        Optional.of(fullData)
+                .map(FullData::getLinkValueWithProviderRemoteId)
+                .map(LinkValueWithProviderId::getLinkValue)
+                .map(LinkValue::getValue)
+                .filter(Objects::nonNull)
+                .map(Uri::toString)
+                .ifPresent(binding.search::setText);
+    }
+
     @NonNull
     private LinkValueWithProviderId mapProposalToValue(@NonNull Pair<SearchProvider, OcsSearchResultEntry> proposal, long dataId) {
         final var searchProvider = Optional.ofNullable(proposal.first);
-        final var entry = proposal.second;
+        final var entry = Optional.of(proposal.second);
 
         final var linkValue = new LinkValue();
         linkValue.setDataId(dataId);
-        linkValue.setTitle(entry.title());
-        linkValue.setSubline(entry.subline());
-        linkValue.setValue(Uri.parse(entry.resourceUrl()));
+        final var value = entry
+                .map(OcsSearchResultEntry::resourceUrl)
+                .filter(not(String::isBlank))
+                .map(Uri::parse);
+
+        if (value.isEmpty()) {
+            throw new IllegalArgumentException("Can not map proposal because resourceUrl is empty");
+        }
+
+        final var subline = entry
+                .map(OcsSearchResultEntry::subline)
+                .filter(not(String::isBlank))
+                .orElse(searchProvider
+                        .map(SearchProvider::getName)
+                        .orElse(null));
+
+        final var title = entry
+                .map(OcsSearchResultEntry::title)
+                .filter(not(String::isBlank))
+                .orElse(subline);
+
+        linkValue.setTitle(title);
+        linkValue.setSubline(subline);
+        linkValue.setValue(value.get());
 
         searchProvider
                 .map(SearchProvider::getId)
@@ -200,12 +241,34 @@ public class TextLinkEditor extends DataEditViewWithProposalProvider<EditTextLin
                     ? ItemLinkBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
                     : ItemLinkBinding.bind(convertView);
 
-            final var item = getItem(position);
-            final var entry = Optional.ofNullable(getItem(position))
-                    .map(pair -> pair.second);
+            final var item = Optional.ofNullable(getItem(position));
+            final var searchProvider = item.map(pair -> pair.first);
+            final var entry = item.map(pair -> pair.second);
 
-            binding.title.setText(entry.map(OcsSearchResultEntry::title).orElse(null));
-            binding.subline.setText(entry.map(OcsSearchResultEntry::subline).orElse(null));
+            final var value = entry
+                    .map(OcsSearchResultEntry::resourceUrl)
+                    .filter(not(String::isBlank))
+                    .map(Uri::parse);
+
+            if (value.isEmpty()) {
+                throw new IllegalArgumentException("Can not map proposal because resourceUrl is empty");
+            }
+
+            final var subline = entry
+                    .map(OcsSearchResultEntry::subline)
+                    .filter(not(String::isBlank))
+                    .orElse(searchProvider
+                            .map(SearchProvider::getName)
+                            .orElse(null));
+
+            final var title = entry
+                    .map(OcsSearchResultEntry::title)
+                    .filter(not(String::isBlank))
+                    .orElse(subline);
+
+
+            binding.title.setText(title);
+            binding.subline.setText(subline);
 
             final var iconUrl = entry.map(OcsSearchResultEntry::icon)
                     .filter(not(TextUtils::isEmpty))
@@ -224,7 +287,7 @@ public class TextLinkEditor extends DataEditViewWithProposalProvider<EditTextLin
                             .into(binding.thumb));
 
             binding.getRoot().setPaddingRelative(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
-            binding.getRoot().setOnClickListener(v -> onClick.accept(item));
+            binding.getRoot().setOnClickListener(v -> onClick.accept(item.get()));
 
             return binding.getRoot();
         }

@@ -25,7 +25,8 @@
             android:autofillHints="@null"
             android:imeOptions="actionSearch|actionDone"
             android:inputType="textUri"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:selectAllOnFocus="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
