@@ -62,7 +62,7 @@ public class ViewTableViewModel extends AndroidViewModel {
                     }
 
                     if (account.getCurrentTable() == null) {
-                        return new MutableLiveData<>(null);
+                        return new MutableLiveData<>(new UiState(false, account, null, Collections.emptyList()));
                     }
 
                     return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
