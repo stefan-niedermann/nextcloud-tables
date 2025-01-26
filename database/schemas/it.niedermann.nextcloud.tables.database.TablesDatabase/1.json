@@ -1,0 +1,1030 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "fbd843452b0447da6fcce389a8d97840",
+    "entities": [
+      {
+        "tableName": "Account",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL DEFAULT '', `userName` TEXT NOT NULL DEFAULT '', `accountName` TEXT NOT NULL DEFAULT '', `nextcloudVersion` TEXT, `tablesVersion` TEXT, `color` INTEGER NOT NULL DEFAULT -16743735, `displayName` TEXT, `currentTable` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`currentTable`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "userName",
+            "columnName": "userName",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "accountName",
+            "columnName": "accountName",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "nextcloudVersion",
+            "columnName": "nextcloudVersion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tablesVersion",
+            "columnName": "tablesVersion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "-16743735"
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentTable",
+            "columnName": "currentTable",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "IDX_ACCOUNT_URL",
+            "unique": false,
+            "columnNames": [
+              "url"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_ACCOUNT_URL` ON `${TABLE_NAME}` (`url`)"
+          },
+          {
+            "name": "IDX_ACCOUNT_USERNAME",
+            "unique": false,
+            "columnNames": [
+              "userName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_ACCOUNT_USERNAME` ON `${TABLE_NAME}` (`userName`)"
+          },
+          {
+            "name": "IDX_ACCOUNT_ACCOUNTNAME",
+            "unique": true,
+            "columnNames": [
+              "accountName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `IDX_ACCOUNT_ACCOUNTNAME` ON `${TABLE_NAME}` (`accountName`)"
+          },
+          {
+            "name": "IDX_ACCOUNT_CURRENT_TABLE",
+            "unique": false,
+            "columnNames": [
+              "currentTable"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_ACCOUNT_CURRENT_TABLE` ON `${TABLE_NAME}` (`currentTable`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Table",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "currentTable"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL DEFAULT '', `emoji` TEXT DEFAULT '', `ownership` TEXT DEFAULT '', `ownerDisplayName` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` TEXT DEFAULT '', `isShared` INTEGER NOT NULL, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, `read` INTEGER, `create` INTEGER, `update` INTEGER, `delete` INTEGER, `manage` INTEGER, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "emoji",
+            "columnName": "emoji",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "ownership",
+            "columnName": "ownership",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "ownerDisplayName",
+            "columnName": "ownerDisplayName",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastEditBy",
+            "columnName": "lastEditBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "lastEditAt",
+            "columnName": "lastEditAt",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "isShared",
+            "columnName": "isShared",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSharePermission.read",
+            "columnName": "read",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "onSharePermission.create",
+            "columnName": "create",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "onSharePermission.update",
+            "columnName": "update",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "onSharePermission.delete",
+            "columnName": "delete",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "onSharePermission.manage",
+            "columnName": "manage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Table_accountId_id_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Table_accountId_id_remoteId` ON `${TABLE_NAME}` (`accountId`, `id`, `remoteId`)"
+          },
+          {
+            "name": "index_Table_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Table_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Table_accountId_id",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Table_accountId_id` ON `${TABLE_NAME}` (`accountId`, `id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Column",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `title` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `type` TEXT DEFAULT '', `subtype` TEXT DEFAULT '', `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `numberDefault` REAL, `numberMin` REAL, `numberMax` REAL, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textDefault` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `selectionDefault` TEXT, `datetimeDefault` TEXT, `usergroupDefault` TEXT, `usergroupMultipleItems` INTEGER NOT NULL, `usergroupSelectUsers` INTEGER NOT NULL, `usergroupSelectGroups` INTEGER NOT NULL, `showUserStatus` INTEGER NOT NULL, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "tableId",
+            "columnName": "tableId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastEditBy",
+            "columnName": "lastEditBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "lastEditAt",
+            "columnName": "lastEditAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "subtype",
+            "columnName": "subtype",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "mandatory",
+            "columnName": "mandatory",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "orderWeight",
+            "columnName": "orderWeight",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberDefault",
+            "columnName": "numberDefault",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberMin",
+            "columnName": "numberMin",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberMax",
+            "columnName": "numberMax",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberDecimals",
+            "columnName": "numberDecimals",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberPrefix",
+            "columnName": "numberPrefix",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberSuffix",
+            "columnName": "numberSuffix",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "textDefault",
+            "columnName": "textDefault",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "textAllowedPattern",
+            "columnName": "textAllowedPattern",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "textMaxLength",
+            "columnName": "textMaxLength",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "selectionDefault",
+            "columnName": "selectionDefault",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "datetimeDefault",
+            "columnName": "datetimeDefault",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "usergroupDefault",
+            "columnName": "usergroupDefault",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "usergroupMultipleItems",
+            "columnName": "usergroupMultipleItems",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usergroupSelectUsers",
+            "columnName": "usergroupSelectUsers",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usergroupSelectGroups",
+            "columnName": "usergroupSelectGroups",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showUserStatus",
+            "columnName": "showUserStatus",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "IDX_COLUMN_ACCOUNT_ID_REMOTE_D",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `IDX_COLUMN_ACCOUNT_ID_REMOTE_D` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "IDX_COLUMN_TABLE_ID",
+            "unique": false,
+            "columnNames": [
+              "tableId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_COLUMN_TABLE_ID` ON `${TABLE_NAME}` (`tableId`)"
+          },
+          {
+            "name": "index_Column_accountId_id_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Column_accountId_id_remoteId` ON `${TABLE_NAME}` (`accountId`, `id`, `remoteId`)"
+          },
+          {
+            "name": "index_Column_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Column_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Column_accountId_id",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Column_accountId_id` ON `${TABLE_NAME}` (`accountId`, `id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Table",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "tableId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Row",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tableId` INTEGER NOT NULL, `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`tableId`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "tableId",
+            "columnName": "tableId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastEditBy",
+            "columnName": "lastEditBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "lastEditAt",
+            "columnName": "lastEditAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "IDX_ROW_ACCOUNT_ID_REMOTE_ID",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `IDX_ROW_ACCOUNT_ID_REMOTE_ID` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "IDX_ROW_TABLE_ID",
+            "unique": false,
+            "columnNames": [
+              "tableId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_ROW_TABLE_ID` ON `${TABLE_NAME}` (`tableId`)"
+          },
+          {
+            "name": "index_Row_accountId_id_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Row_accountId_id_remoteId` ON `${TABLE_NAME}` (`accountId`, `id`, `remoteId`)"
+          },
+          {
+            "name": "index_Row_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Row_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_Row_accountId_id",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Row_accountId_id` ON `${TABLE_NAME}` (`accountId`, `id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Table",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "tableId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `rowId` INTEGER NOT NULL, `remoteColumnId` INTEGER, `value` TEXT, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`accountId`, `remoteColumnId`) REFERENCES `Column`(`accountId`, `remoteId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`rowId`) REFERENCES `Row`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "columnId",
+            "columnName": "columnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rowId",
+            "columnName": "rowId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteColumnId",
+            "columnName": "remoteColumnId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "IDX_DATA_ACCOUNT_ID_REMOTE_COLUMN_ID",
+            "unique": false,
+            "columnNames": [
+              "accountId",
+              "remoteColumnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_DATA_ACCOUNT_ID_REMOTE_COLUMN_ID` ON `${TABLE_NAME}` (`accountId`, `remoteColumnId`)"
+          },
+          {
+            "name": "IDX_DATA_COLUMN_ID_ROW_ID",
+            "unique": true,
+            "columnNames": [
+              "columnId",
+              "rowId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `IDX_DATA_COLUMN_ID_ROW_ID` ON `${TABLE_NAME}` (`columnId`, `rowId`)"
+          },
+          {
+            "name": "IDX_DATA_COLUMN_ID",
+            "unique": false,
+            "columnNames": [
+              "columnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_DATA_COLUMN_ID` ON `${TABLE_NAME}` (`columnId`)"
+          },
+          {
+            "name": "IDX_DATA_ROW_ID",
+            "unique": false,
+            "columnNames": [
+              "rowId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_DATA_ROW_ID` ON `${TABLE_NAME}` (`rowId`)"
+          },
+          {
+            "name": "index_Data_accountId_id",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Data_accountId_id` ON `${TABLE_NAME}` (`accountId`, `id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Column",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Column",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId",
+              "remoteColumnId"
+            ],
+            "referencedColumns": [
+              "accountId",
+              "remoteId"
+            ]
+          },
+          {
+            "table": "Row",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rowId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "SelectionOption",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `label` TEXT, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `eTag` TEXT, `status` TEXT NOT NULL, FOREIGN KEY(`accountId`) REFERENCES `Account`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "columnId",
+            "columnName": "columnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_SelectionOption_accountId_id_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_SelectionOption_accountId_id_remoteId` ON `${TABLE_NAME}` (`accountId`, `id`, `remoteId`)"
+          },
+          {
+            "name": "index_SelectionOption_accountId_id",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_SelectionOption_accountId_id` ON `${TABLE_NAME}` (`accountId`, `id`)"
+          },
+          {
+            "name": "IDX_SELECTION_OPTION_COLUMN_ID",
+            "unique": false,
+            "columnNames": [
+              "columnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `IDX_SELECTION_OPTION_COLUMN_ID` ON `${TABLE_NAME}` (`columnId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Account",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "accountId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Column",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fbd843452b0447da6fcce389a8d97840')"
+    ]
+  }
+}

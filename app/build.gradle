@@ -74,32 +74,23 @@ android {
     }
 }
 
-ext {
-    version_nextcloud_commons = '2.3.0'
-    version_glide = '4.16.0'
-    version_room = '2.6.1'
-    version_emoji = '1.5.0'
-}
-
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.2'
 
+    implementation project(path: ':ui')
+    implementation project(path: ':shared')
+    implementation project(path: ':database')
+    implementation project(path: ':remote')
+    implementation project(path: ':repository')
+
     // Nextcloud SSO
-    implementation 'com.github.nextcloud.android-common:ui:0.23.0'
-    implementation 'com.github.nextcloud:Android-SingleSignOn:1.2.0'
-    implementation 'com.github.stefan-niedermann:android-commons:1.0.0'
+    implementation 'com.github.nextcloud.android-common:ui:0.23.1'
+    implementation "com.github.stefan-niedermann:android-commons:$version_android_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:sso-glide:$version_nextcloud_commons"
     implementation "com.github.stefan-niedermann.nextcloud-commons:exception:$version_nextcloud_commons"
     implementation("com.github.stefan-niedermann.nextcloud-commons:markdown:$version_nextcloud_commons") {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
-
-    // Database
-    implementation "androidx.room:room-runtime:$version_room"
-    annotationProcessor "androidx.room:room-compiler:$version_room"
-
-    // Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"

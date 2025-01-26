@@ -1,0 +1,1532 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "5d9a6c98f1e32a9ceebf4bb1b5794cbe",
+    "entities": [
+      {
+        "tableName": "Account",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL DEFAULT '', `userName` TEXT NOT NULL DEFAULT '', `accountName` TEXT NOT NULL DEFAULT '', `nextcloudVersion` TEXT, `tablesVersion` TEXT, `color` INTEGER NOT NULL DEFAULT -16743735, `displayName` TEXT, `currentTable` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_status` TEXT, `user_eTag` TEXT, `capabilities_status` TEXT, `capabilities_eTag` TEXT, `search_status` TEXT, `search_eTag` TEXT, FOREIGN KEY(`currentTable`) REFERENCES `Table`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "userName",
+            "columnName": "userName",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "accountName",
+            "columnName": "accountName",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "nextcloudVersion",
+            "columnName": "nextcloudVersion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tablesVersion",
+            "columnName": "tablesVersion",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "-16743735"
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentTable",
+            "columnName": "currentTable",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userSynchronizationContext.status",
+            "columnName": "user_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userSynchronizationContext.eTag",
+            "columnName": "user_eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "capabilitiesSynchronizationContext.status",
+            "columnName": "capabilities_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "capabilitiesSynchronizationContext.eTag",
+            "columnName": "capabilities_eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "searchProviderSynchronizationContext.status",
+            "columnName": "search_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "searchProviderSynchronizationContext.eTag",
+            "columnName": "search_eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Account_user_status",
+            "unique": false,
+            "columnNames": [
+              "user_status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Account_user_status` ON `${TABLE_NAME}` (`user_status`)"
+          },
+          {
+            "name": "index_Account_capabilities_status",
+            "unique": false,
+            "columnNames": [
+              "capabilities_status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Account_capabilities_status` ON `${TABLE_NAME}` (`capabilities_status`)"
+          },
+          {
+            "name": "index_Account_userName_url",
+            "unique": true,
+            "columnNames": [
+              "userName",
+              "url"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Account_userName_url` ON `${TABLE_NAME}` (`userName`, `url`)"
+          },
+          {
+            "name": "index_Account_accountName",
+            "unique": true,
+            "columnNames": [
+              "accountName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Account_accountName` ON `${TABLE_NAME}` (`accountName`)"
+          },
+          {
+            "name": "index_Account_currentTable",
+            "unique": false,
+            "columnNames": [
+              "currentTable"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Account_currentTable` ON `${TABLE_NAME}` (`currentTable`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Table",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "currentTable"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT NOT NULL DEFAULT '', `description` TEXT DEFAULT '', `emoji` TEXT DEFAULT '', `ownership` TEXT DEFAULT '', `ownerDisplayName` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `isShared` INTEGER NOT NULL, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `read` INTEGER NOT NULL, `create` INTEGER NOT NULL, `update` INTEGER NOT NULL, `delete` INTEGER NOT NULL, `manage` INTEGER NOT NULL, `status` TEXT, `eTag` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "emoji",
+            "columnName": "emoji",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "ownership",
+            "columnName": "ownership",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "ownerDisplayName",
+            "columnName": "ownerDisplayName",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastEditBy",
+            "columnName": "lastEditBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "lastEditAt",
+            "columnName": "lastEditAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isShared",
+            "columnName": "isShared",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSharePermission.read",
+            "columnName": "read",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSharePermission.create",
+            "columnName": "create",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSharePermission.update",
+            "columnName": "update",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSharePermission.delete",
+            "columnName": "delete",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "onSharePermission.manage",
+            "columnName": "manage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "synchronizationContext.status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "synchronizationContext.eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Table_title",
+            "unique": false,
+            "columnNames": [
+              "title"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Table_title` ON `${TABLE_NAME}` (`title`)"
+          },
+          {
+            "name": "index_Table_isShared",
+            "unique": false,
+            "columnNames": [
+              "isShared"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Table_isShared` ON `${TABLE_NAME}` (`isShared`)"
+          },
+          {
+            "name": "index_Table_manage",
+            "unique": false,
+            "columnNames": [
+              "manage"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Table_manage` ON `${TABLE_NAME}` (`manage`)"
+          },
+          {
+            "name": "index_Table_read",
+            "unique": false,
+            "columnNames": [
+              "read"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Table_read` ON `${TABLE_NAME}` (`read`)"
+          },
+          {
+            "name": "index_Table_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Table_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_Table_remoteId_accountId",
+            "unique": true,
+            "columnNames": [
+              "remoteId",
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Table_remoteId_accountId` ON `${TABLE_NAME}` (`remoteId`, `accountId`)"
+          },
+          {
+            "name": "index_Table_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Table_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Column",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT DEFAULT '', `createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `dataType` INTEGER NOT NULL DEFAULT 0, `mandatory` INTEGER NOT NULL, `description` TEXT DEFAULT '', `orderWeight` INTEGER, `tableId` INTEGER NOT NULL, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `default_stringValue` TEXT, `default_booleanValue` INTEGER, `default_doubleValue` REAL, `default_instantValue` INTEGER, `default_dateValue` INTEGER, `default_timeValue` INTEGER, `default_linkValueRef` INTEGER, `numberMin` REAL, `numberMax` REAL, `numberDecimals` INTEGER, `numberPrefix` TEXT, `numberSuffix` TEXT, `textAllowedPattern` TEXT, `textMaxLength` INTEGER, `usergroupMultipleItems` INTEGER NOT NULL, `usergroupSelectUsers` INTEGER NOT NULL, `usergroupSelectGroups` INTEGER NOT NULL, `showUserStatus` INTEGER NOT NULL, `status` TEXT, `eTag` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastEditBy",
+            "columnName": "lastEditBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "lastEditAt",
+            "columnName": "lastEditAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dataType",
+            "columnName": "dataType",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "mandatory",
+            "columnName": "mandatory",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "orderWeight",
+            "columnName": "orderWeight",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tableId",
+            "columnName": "tableId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaultValue.stringValue",
+            "columnName": "default_stringValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defaultValue.booleanValue",
+            "columnName": "default_booleanValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defaultValue.doubleValue",
+            "columnName": "default_doubleValue",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defaultValue.instantValue",
+            "columnName": "default_instantValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defaultValue.dateValue",
+            "columnName": "default_dateValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defaultValue.timeValue",
+            "columnName": "default_timeValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "defaultValue.linkValueRef",
+            "columnName": "default_linkValueRef",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberAttributes.numberMin",
+            "columnName": "numberMin",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberAttributes.numberMax",
+            "columnName": "numberMax",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberAttributes.numberDecimals",
+            "columnName": "numberDecimals",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberAttributes.numberPrefix",
+            "columnName": "numberPrefix",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numberAttributes.numberSuffix",
+            "columnName": "numberSuffix",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "textAttributes.textAllowedPattern",
+            "columnName": "textAllowedPattern",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "textAttributes.textMaxLength",
+            "columnName": "textMaxLength",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userGroupAttributes.usergroupMultipleItems",
+            "columnName": "usergroupMultipleItems",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userGroupAttributes.usergroupSelectUsers",
+            "columnName": "usergroupSelectUsers",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userGroupAttributes.usergroupSelectGroups",
+            "columnName": "usergroupSelectGroups",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userGroupAttributes.showUserStatus",
+            "columnName": "showUserStatus",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "synchronizationContext.status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "synchronizationContext.eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Column_orderWeight",
+            "unique": false,
+            "columnNames": [
+              "orderWeight"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_orderWeight` ON `${TABLE_NAME}` (`orderWeight`)"
+          },
+          {
+            "name": "index_Column_tableId",
+            "unique": false,
+            "columnNames": [
+              "tableId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_tableId` ON `${TABLE_NAME}` (`tableId`)"
+          },
+          {
+            "name": "index_Column_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_Column_remoteId_accountId",
+            "unique": true,
+            "columnNames": [
+              "remoteId",
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Column_remoteId_accountId` ON `${TABLE_NAME}` (`remoteId`, `accountId`)"
+          },
+          {
+            "name": "index_Column_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Column_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Row",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`createdBy` TEXT DEFAULT '', `createdAt` INTEGER, `lastEditBy` TEXT DEFAULT '', `lastEditAt` INTEGER, `tableId` INTEGER NOT NULL, `remoteId` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `status` TEXT, `eTag` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastEditBy",
+            "columnName": "lastEditBy",
+            "affinity": "TEXT",
+            "notNull": false,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "lastEditAt",
+            "columnName": "lastEditAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tableId",
+            "columnName": "tableId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "synchronizationContext.status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "synchronizationContext.eTag",
+            "columnName": "eTag",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Row_tableId",
+            "unique": false,
+            "columnNames": [
+              "tableId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Row_tableId` ON `${TABLE_NAME}` (`tableId`)"
+          },
+          {
+            "name": "index_Row_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Row_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_Row_remoteId_accountId",
+            "unique": true,
+            "columnNames": [
+              "remoteId",
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Row_remoteId_accountId` ON `${TABLE_NAME}` (`remoteId`, `accountId`)"
+          },
+          {
+            "name": "index_Row_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Row_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rowId` INTEGER NOT NULL, `columnId` INTEGER NOT NULL, `remoteColumnId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `stringValue` TEXT, `booleanValue` INTEGER, `doubleValue` REAL, `instantValue` INTEGER, `dateValue` INTEGER, `timeValue` INTEGER, `linkValueRef` INTEGER, FOREIGN KEY(`rowId`) REFERENCES `Row`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`linkValueRef`) REFERENCES `LinkValue`(`dataId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "rowId",
+            "columnName": "rowId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "columnId",
+            "columnName": "columnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteColumnId",
+            "columnName": "remoteColumnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value.stringValue",
+            "columnName": "stringValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value.booleanValue",
+            "columnName": "booleanValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value.doubleValue",
+            "columnName": "doubleValue",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value.instantValue",
+            "columnName": "instantValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value.dateValue",
+            "columnName": "dateValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value.timeValue",
+            "columnName": "timeValue",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value.linkValueRef",
+            "columnName": "linkValueRef",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Data_columnId",
+            "unique": false,
+            "columnNames": [
+              "columnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Data_columnId` ON `${TABLE_NAME}` (`columnId`)"
+          },
+          {
+            "name": "index_Data_linkValueRef",
+            "unique": true,
+            "columnNames": [
+              "linkValueRef"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Data_linkValueRef` ON `${TABLE_NAME}` (`linkValueRef`)"
+          },
+          {
+            "name": "index_Data_rowId_columnId",
+            "unique": true,
+            "columnNames": [
+              "rowId",
+              "columnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Data_rowId_columnId` ON `${TABLE_NAME}` (`rowId`, `columnId`)"
+          },
+          {
+            "name": "index_Data_rowId_remoteColumnId",
+            "unique": true,
+            "columnNames": [
+              "rowId",
+              "remoteColumnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Data_rowId_remoteColumnId` ON `${TABLE_NAME}` (`rowId`, `remoteColumnId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Row",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rowId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Column",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "LinkValue",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "linkValueRef"
+            ],
+            "referencedColumns": [
+              "dataId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "SelectionOption",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`remoteId` INTEGER, `columnId` INTEGER NOT NULL, `label` TEXT, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "columnId",
+            "columnName": "columnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_SelectionOption_remoteId",
+            "unique": false,
+            "columnNames": [
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SelectionOption_remoteId` ON `${TABLE_NAME}` (`remoteId`)"
+          },
+          {
+            "name": "index_SelectionOption_columnId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "columnId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_SelectionOption_columnId_remoteId` ON `${TABLE_NAME}` (`columnId`, `remoteId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Column",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "UserGroup",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`remoteId` TEXT, `key` TEXT, `type` INTEGER, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_UserGroup_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_UserGroup_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_UserGroup_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_UserGroup_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "DataSelectionOptionCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dataId` INTEGER NOT NULL, `selectionOptionId` INTEGER NOT NULL, PRIMARY KEY(`dataId`, `selectionOptionId`), FOREIGN KEY(`dataId`) REFERENCES `Data`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`selectionOptionId`) REFERENCES `SelectionOption`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "dataId",
+            "columnName": "dataId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "selectionOptionId",
+            "columnName": "selectionOptionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "dataId",
+            "selectionOptionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_DataSelectionOptionCrossRef_dataId",
+            "unique": false,
+            "columnNames": [
+              "dataId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DataSelectionOptionCrossRef_dataId` ON `${TABLE_NAME}` (`dataId`)"
+          },
+          {
+            "name": "index_DataSelectionOptionCrossRef_selectionOptionId",
+            "unique": false,
+            "columnNames": [
+              "selectionOptionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DataSelectionOptionCrossRef_selectionOptionId` ON `${TABLE_NAME}` (`selectionOptionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Data",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "dataId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "SelectionOption",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "selectionOptionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "DataUserGroupCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dataId` INTEGER NOT NULL, `userGroupId` INTEGER NOT NULL, PRIMARY KEY(`dataId`, `userGroupId`), FOREIGN KEY(`dataId`) REFERENCES `Data`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userGroupId`) REFERENCES `UserGroup`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "dataId",
+            "columnName": "dataId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userGroupId",
+            "columnName": "userGroupId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "dataId",
+            "userGroupId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_DataUserGroupCrossRef_dataId",
+            "unique": false,
+            "columnNames": [
+              "dataId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DataUserGroupCrossRef_dataId` ON `${TABLE_NAME}` (`dataId`)"
+          },
+          {
+            "name": "index_DataUserGroupCrossRef_userGroupId",
+            "unique": false,
+            "columnNames": [
+              "userGroupId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DataUserGroupCrossRef_userGroupId` ON `${TABLE_NAME}` (`userGroupId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Data",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "dataId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "UserGroup",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userGroupId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "DefaultValueSelectionOptionCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `selectionOptionId` INTEGER NOT NULL, PRIMARY KEY(`columnId`, `selectionOptionId`), FOREIGN KEY(`columnId`) REFERENCES `Data`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`selectionOptionId`) REFERENCES `SelectionOption`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "columnId",
+            "columnName": "columnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "selectionOptionId",
+            "columnName": "selectionOptionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "columnId",
+            "selectionOptionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_DefaultValueSelectionOptionCrossRef_columnId",
+            "unique": false,
+            "columnNames": [
+              "columnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DefaultValueSelectionOptionCrossRef_columnId` ON `${TABLE_NAME}` (`columnId`)"
+          },
+          {
+            "name": "index_DefaultValueSelectionOptionCrossRef_selectionOptionId",
+            "unique": false,
+            "columnNames": [
+              "selectionOptionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DefaultValueSelectionOptionCrossRef_selectionOptionId` ON `${TABLE_NAME}` (`selectionOptionId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Data",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "SelectionOption",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "selectionOptionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "DefaultValueUserGroupCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `userGroupId` INTEGER NOT NULL, PRIMARY KEY(`columnId`, `userGroupId`), FOREIGN KEY(`columnId`) REFERENCES `Data`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userGroupId`) REFERENCES `UserGroup`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "columnId",
+            "columnName": "columnId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userGroupId",
+            "columnName": "userGroupId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "columnId",
+            "userGroupId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_DefaultValueUserGroupCrossRef_columnId",
+            "unique": false,
+            "columnNames": [
+              "columnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DefaultValueUserGroupCrossRef_columnId` ON `${TABLE_NAME}` (`columnId`)"
+          },
+          {
+            "name": "index_DefaultValueUserGroupCrossRef_userGroupId",
+            "unique": false,
+            "columnNames": [
+              "userGroupId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DefaultValueUserGroupCrossRef_userGroupId` ON `${TABLE_NAME}` (`userGroupId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Data",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "columnId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "UserGroup",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userGroupId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "SearchProvider",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`remoteId` TEXT NOT NULL, `appId` TEXT, `name` TEXT, `icon` TEXT, `order` INTEGER NOT NULL, `inAppSearch` INTEGER NOT NULL, `accountId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "order",
+            "columnName": "order",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inAppSearch",
+            "columnName": "inAppSearch",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_SearchProvider_accountId_remoteId",
+            "unique": true,
+            "columnNames": [
+              "accountId",
+              "remoteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_SearchProvider_accountId_remoteId` ON `${TABLE_NAME}` (`accountId`, `remoteId`)"
+          },
+          {
+            "name": "index_SearchProvider_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SearchProvider_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "TextAllowedPattern",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pattern` TEXT, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "pattern",
+            "columnName": "pattern",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "LinkValue",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dataId` INTEGER NOT NULL, `providerId` INTEGER, `title` TEXT, `subline` TEXT, `value` TEXT NOT NULL, PRIMARY KEY(`dataId`), FOREIGN KEY(`dataId`) REFERENCES `Data`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`providerId`) REFERENCES `SearchProvider`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "dataId",
+            "columnName": "dataId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "providerId",
+            "columnName": "providerId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "subline",
+            "columnName": "subline",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "dataId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_LinkValue_providerId",
+            "unique": false,
+            "columnNames": [
+              "providerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_LinkValue_providerId` ON `${TABLE_NAME}` (`providerId`)"
+          },
+          {
+            "name": "index_LinkValue_dataId",
+            "unique": true,
+            "columnNames": [
+              "dataId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_LinkValue_dataId` ON `${TABLE_NAME}` (`dataId`)"
+          },
+          {
+            "name": "index_LinkValue_dataId_providerId",
+            "unique": true,
+            "columnNames": [
+              "dataId",
+              "providerId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_LinkValue_dataId_providerId` ON `${TABLE_NAME}` (`dataId`, `providerId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Data",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "dataId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "SearchProvider",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "providerId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5d9a6c98f1e32a9ceebf4bb1b5794cbe')"
+    ]
+  }
+}
