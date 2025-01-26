@@ -68,7 +68,7 @@ public class ViewTableViewModel extends AndroidViewModel {
 
                     return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
                             .flatMap(this::getFullTable$)
-                            .combineWith(() -> this.userInitiatedTableChangeActive)
+                            .combineWith(() -> this.userInitiatedSynchronizationActive)
                             .map(args -> {
                                 final var fullTable = args.first;
                                 final var syncActive = args.second;
@@ -77,9 +77,9 @@ public class ViewTableViewModel extends AndroidViewModel {
                                         .map(this::dataToGrid)
                                         .orElseGet(Collections::emptyList);
                                 return new UiState(syncActive, account, fullTable, dataGrid);
-                            })
-                            .distinctUntilChanged();
-                });
+                            });
+                })
+                .distinctUntilChanged();
     }
 
     @NonNull
