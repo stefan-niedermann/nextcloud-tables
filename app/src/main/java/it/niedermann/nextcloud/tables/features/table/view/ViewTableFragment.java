@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
@@ -54,6 +56,18 @@ public class ViewTableFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstCompletelyVisibleItemPosition() == 0);
             }
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.fab, (v, windowInsets) -> {
+            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            final var defaultMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+            mlp.topMargin = insets.top + defaultMargin;
+            mlp.leftMargin = insets.left + defaultMargin;
+            mlp.bottomMargin = insets.bottom + defaultMargin;
+            mlp.rightMargin = insets.right + defaultMargin;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
         });
 
         return binding.getRoot();

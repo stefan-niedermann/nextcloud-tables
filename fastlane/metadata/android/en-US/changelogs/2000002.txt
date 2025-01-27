@@ -1,0 +1,1 @@
+fix(ui): Fix missing create row button and invisible table content off screen

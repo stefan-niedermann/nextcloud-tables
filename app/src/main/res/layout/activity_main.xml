@@ -19,40 +19,37 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_scrollFlags="enterAlways"
                 app:menu="@menu/menu_main_toolbar" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment"
+            android:name="it.niedermann.nextcloud.tables.features.table.view.ViewTableFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:tag="activity_main_fragment"
+            android:visibility="gone"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:visibility="gone" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/loadingWrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment"
-                android:name="it.niedermann.nextcloud.tables.features.table.view.ViewTableFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:tag="activity_main_fragment"
-                android:visibility="gone"
-                tools:visibility="gone" />
-
-            <FrameLayout
-                android:id="@+id/loadingWrapper"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/loading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true"
-                    tools:indeterminate="false"
-                    tools:progress="66" />
-            </FrameLayout>
-        </LinearLayout>
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                tools:indeterminate="false"
+                tools:progress="66" />
+        </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
