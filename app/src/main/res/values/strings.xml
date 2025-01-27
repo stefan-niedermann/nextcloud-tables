@@ -27,7 +27,7 @@
     <string name="simple_prefix">Prefix</string>
     <string name="simple_suffix">Suffix</string>
     <string name="simple_label">Label</string>
-    <string name="simple_hint">Hinweis</string>
+    <string name="simple_hint">Hint</string>
 
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>
@@ -173,10 +173,10 @@
     <string name="column_type_is_required">Column type is required</string>
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
     <string name="number_only_us_format">Please note that editing numbers is currently only possible in US format (use comma for thousand separators and a dot for decimal separator)</string>
-    <string name="unsafed_changes">Unsafed changes</string>
-    <string name="unsafed_changes_details">Unsafed changes have been detected. Do you want to discard or safe them?</string>
+    <string name="unsafed_changes">Unsaved changes</string>
+    <string name="unsafed_changes_details">Unsaved changes have been detected. Do you want to discard or safe them?</string>
     <string name="simple_discard">Discard</string>
     <string name="search_hint">Paste link or type to search</string>
-
+    <!-- TRANSLATORS Please add context -->
     <string name="format_text_link">%1$s (%2$s)</string>
 </resources>
