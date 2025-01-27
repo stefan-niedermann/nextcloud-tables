@@ -62,7 +62,7 @@ public class NumberEditor extends TextEditor {
                 ? InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
                 : InputType.TYPE_CLASS_NUMBER;
 
-        binding.editText.setInputType(inputType);
+        applyChangesWithoutChangingPristineState(() -> binding.editText.setInputType(inputType));
         binding.getRoot().setPrefixText(attributes.numberPrefix());
         binding.getRoot().setSuffixText(attributes.numberSuffix());
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_numbers_24);
@@ -131,7 +131,7 @@ public class NumberEditor extends TextEditor {
                 .map(format::format)
                 .orElse(null);
 
-        binding.editText.setText(value);
+        applyChangesWithoutChangingPristineState(() -> binding.editText.setText(value));
     }
 
     @NonNull

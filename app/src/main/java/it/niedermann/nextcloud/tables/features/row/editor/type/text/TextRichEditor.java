@@ -83,11 +83,6 @@ public class TextRichEditor extends DataEditView<EditRichBinding> implements Con
 
     @Override
     public void accept(CharSequence charSequence) {
-        Optional
-                .ofNullable(fullData)
-                .map(FullData::getData)
-                .map(Data::getValue)
-                .ifPresent(value -> value.setStringValue(Optional.ofNullable(charSequence).map(CharSequence::toString).orElse(null)));
         onValueChanged();
     }
 

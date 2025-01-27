@@ -1,1 +1,2 @@
 fix(ui): Fix missing create row button and invisible table content off screen
+fix(edit): Fix change detection of number editor, so it does not ask to save unchanged values everytime

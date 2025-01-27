@@ -85,9 +85,7 @@ public class TextEditor extends DataEditView<EditTextviewBinding> implements OnT
                 .map(Value::getStringValue)
                 .orElse(null);
 
-        binding.editText.removeTextChangedListener(this);
-        binding.editText.setText(value);
-        binding.editText.addTextChangedListener(this);
+        applyChangesWithoutChangingPristineState(() -> binding.editText.setText(value));
     }
 
     @Override
@@ -97,13 +95,13 @@ public class TextEditor extends DataEditView<EditTextviewBinding> implements OnT
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        Optional
-                .ofNullable(fullData)
-                .map(FullData::getData)
-                .map(Data::getValue)
-                .ifPresent(value -> value.setStringValue(Optional.ofNullable(s).map(CharSequence::toString).orElse(null)));
-
         onValueChanged();
+    }
+
+    protected void applyChangesWithoutChangingPristineState(@NonNull Runnable r) {
+        binding.editText.removeTextChangedListener(this);
+        r.run();
+        binding.editText.addTextChangedListener(this);
     }
 
     @NonNull
