@@ -17,7 +17,15 @@
     <string name="simple_emoji">Emotikon</string>
     <string name="simple_mandatory">Povinné</string>
     <string name="simple_description">Popis</string>
-
+    <string name="simple_type">Typ</string>
+    <string name="simple_default_value">Predvolená hodnota</string>
+    <string name="simple_max_length">Max dĺžka</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Desatinné</string>
+    <string name="simple_prefix">Predvoľba</string>
+    <string name="simple_suffix">Prípona</string>
+    <string name="simple_label">Názov</string>
     <string name="add_table">Pridať tabuľku</string>
     <string name="add_row">Pridať riadok</string>
     <string name="edit_row">Upraviť riadok</string>
@@ -42,16 +50,6 @@
     <string name="delete_item_message">Toto navždy vymaže %1$s.</string>
     <string name="delete_row">Odstrániť riadok</string>
     <string name="delete_row_message">Toto navždy vymaže tento riadok.</string>
-
-    <string name="pref_title_sync_only_wifi">Synchronizovať len na Wi-Fi</string>
-    <string name="pref_title_sync_background">Synchronizácia na pozadí</string>
-    <string name="pref_title_theme">Vzhľad</string>
-
-    <string-array name="theme_entries">
-        <item>Predvolené systémom</item>
-        <item>Svetlé</item>
-        <item>Tmavé</item>
-    </string-array>
 
     <string name="about">O aplikácii</string>
     <string name="about_version_title">Verzia</string>
@@ -125,14 +123,12 @@
     <string name="import_state_import_tables">Importujem tabuľky. Môže to trvať niekoľko minút</string>
     <string name="not_yet_synchronized">Zatiaľ nesynchronizované</string>
 
-    <string name="reason_not_installed">Nextcloud Tabuľky nie sú nainštalované</string>
-    <string name="reason_not_enabled">Nextcloud Tabuľky nie sú povolené</string>
-    <string name="reason_maintenance_mode">Vaša inštancia Nextcloudu je teraz v móde údžby</string>
-    <string name="reason_server_error">Váš server odpovedal neplatnou správou</string>
-    <string name="reason_tables_not_supported">Vaša verzia Nextcloud Tabuľky nie je podporovaná</string>
-    <string name="reason_nextcloud_not_supported">Vaša verzia Nextcloud nie je podporovaná</string>
-    <string name="reason_unknown">Nastala neznáma chyba</string>
-    <string name="reason_offline">Momentálne ste offline.</string>
+    <string name="validation_number_not_parsable">Hodnota nie je číslo</string>
+    <string name="validation_number_range">Hodnota musí byť medzi %1$s a %2$s</string>
+    <string name="validation_number_min">Hodnota musí byť minimálne %1$s</string>
+    <string name="validation_number_max">Hodnota musí byť maximálne %1$s</string>
+    <string name="validation_mandatory">Toto pole je povinné</string>
+    <string name="validation_time_missing">Pre pole DateTime musí byť zadaný čas.</string>
 
     <string name="missing_permission_read">Chýba oprávnenie pre čítanie</string>
     <string name="missing_permission_create">Chýba oprávnenie pre vytváranie</string>
@@ -140,17 +136,8 @@
     <string name="missing_permission_delete">Chýba oprávnenie pre mazanie</string>
     <string name="missing_permission_manage">Chýba oprávnenie pre správu</string>
 
-    <string name="validation_number_not_parsable">Hodnota nie je číslo</string>
-    <string name="validation_number_range">Hodnota musí byť medzi %1$s a %2$s</string>
-    <string name="validation_number_min">Hodnota musí byť minimálne %1$s</string>
-    <string name="validation_number_max">Hodnota musí byť maximálne %1$s</string>
-    <string name="validation_text_link">Hodnota nie je odkaz</string>
-    <string name="validation_mandatory">Toto pole je povinné</string>
-    <string name="validation_time_missing">Pre pole DateTime musí byť zadaný čas.</string>
-
     <string name="order_weight">Váha triedenia</string>
     <string name="add_column">Pridať stĺpec</string>
-    <string name="unsupported_column_type">Úprava stĺpcov typu %1$s nie je zatiaľ podporované.</string>
     <string name="navigation_my_tables">Moje tabuľky</string>
     <string name="navigation_shared_tables">Zdieľané tabuľky</string>
     <string name="could_not_display_column_editor">%1$s nie je možné zobraziť</string>
@@ -158,7 +145,11 @@
     <string name="last_background_sync">Posledná synchronizácia na pozadí:</string>
     <string name="simple_disabled">zakázané</string>
     <string name="manage_columns_subtitle">Presunutím myšou zmeníte poradie</string>
-
+    <string name="text_allowed_pattern">Povolený vzor</string>
+    <string name="add_option">Pridajte možnosť</string>
+    <string name="delete_option">Odstrániť voľbu</string>
     <string name="experimental_feature_column_reordering">Zmena poradia stĺpcov je experimentálna funkcia, ktorá môže mať neúmyselné vedľajšie účinky aj na iné konfigurácie stĺpcov v tejto tabuľke.</string>
     <string name="experimental_feature_column_manage">Úprava stĺpcov je experimentálna funkcia, ktorá môže mať neúmyselné vedľajšie účinky aj na iné konfigurácie tohto stĺpca.</string>
-</resources>
+    <string name="unsupported_column_type">Úprava stĺpcov typu %1$s nie je zatiaľ podporované.</string>
+    <string name="simple_discard">Odstrániť</string>
+    </resources>

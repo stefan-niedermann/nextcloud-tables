@@ -17,7 +17,14 @@
     <string name="simple_emoji">表情符號</string>
     <string name="simple_mandatory">必填欄位</string>
     <string name="simple_description">描述</string>
-
+    <string name="simple_type">類型</string>
+    <string name="simple_default_value">預設值</string>
+    <string name="simple_max_length">最大長度</string>
+    <string name="simple_min_value">最小</string>
+    <string name="simple_max_value">最大</string>
+    <string name="simple_decimals">小數點</string>
+    <string name="simple_prefix">前綴</string>
+    <string name="simple_suffix">後綴</string>
     <string name="add_table">新增表格</string>
     <string name="add_row">新增列</string>
     <string name="edit_row">編輯列</string>
@@ -42,16 +49,6 @@
     <string name="delete_item_message">這將會永久刪除 %1$s。</string>
     <string name="delete_row">刪除列</string>
     <string name="delete_row_message">這將會永久刪除此列。</string>
-
-    <string name="pref_title_sync_only_wifi">只在有 Wi-Fi 時同步</string>
-    <string name="pref_title_sync_background">背景同步</string>
-    <string name="pref_title_theme">佈景主題</string>
-
-    <string-array name="theme_entries">
-        <item>系統預設</item>
-        <item>淺色</item>
-        <item>深色</item>
-    </string-array>
 
     <string name="about">關於</string>
     <string name="about_version_title">版本</string>
@@ -125,14 +122,12 @@
     <string name="import_state_import_tables">正在匯入表格。這可能需要幾分鐘。</string>
     <string name="not_yet_synchronized">尚未同步</string>
 
-    <string name="reason_not_installed">Nextcloud 表格未安裝</string>
-    <string name="reason_not_enabled">Nextcloud 表格未啟用</string>
-    <string name="reason_maintenance_mode">您的 Nextcloud 站台目前處於維護模式</string>
-    <string name="reason_server_error">您的伺服器回應了無效的回應</string>
-    <string name="reason_tables_not_supported">您的 Nextcloud 表格應用程式版本不受支援</string>
-    <string name="reason_nextcloud_not_supported">您的 Nextcloud 版本不受支援</string>
-    <string name="reason_unknown">發生未知的錯誤</string>
-    <string name="reason_offline">目前離線中。</string>
+    <string name="validation_number_not_parsable">值似乎不是數字</string>
+    <string name="validation_number_range">值必須在 %1$s 至 %2$s 間</string>
+    <string name="validation_number_min">值必須至少 %1$s</string>
+    <string name="validation_number_max">值最多為 %1$s</string>
+    <string name="validation_mandatory">此為必填欄位</string>
+    <string name="validation_time_missing">DateTime 欄位必須提供時間。</string>
 
     <string name="missing_permission_read">缺少讀取權限</string>
     <string name="missing_permission_create">缺少建立權限</string>
@@ -140,17 +135,8 @@
     <string name="missing_permission_delete">缺少刪除權限</string>
     <string name="missing_permission_manage">缺少管理權限</string>
 
-    <string name="validation_number_not_parsable">值似乎不是數字</string>
-    <string name="validation_number_range">值必須在 %1$s 至 %2$s 間</string>
-    <string name="validation_number_min">值必須至少 %1$s</string>
-    <string name="validation_number_max">值最多為 %1$s</string>
-    <string name="validation_text_link">值不是連結</string>
-    <string name="validation_mandatory">此為必填欄位</string>
-    <string name="validation_time_missing">DateTime 欄位必須提供時間。</string>
-
     <string name="order_weight">順序權重</string>
     <string name="add_column">新增欄位</string>
-    <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
     <string name="navigation_my_tables">我的表格</string>
     <string name="navigation_shared_tables">已分享的表格</string>
     <string name="could_not_display_column_editor">%1$s 無法顯示。</string>
@@ -158,7 +144,11 @@
     <string name="last_background_sync">上次背景同步時間：</string>
     <string name="simple_disabled">已停用</string>
     <string name="manage_columns_subtitle">拖放以重新排序</string>
-
+    <string name="text_allowed_pattern">允許的模式</string>
+    <string name="add_option">新增選項</string>
+    <string name="delete_option">刪除選項</string>
     <string name="experimental_feature_column_reordering">重新排序欄位是實驗性的功能，可能會對該表格的欄位或其他設定產生意想不到的副作用。</string>
     <string name="experimental_feature_column_manage">編輯欄位是實驗性的功能，可能會對該欄位或其他設定產生意想不到的副作用。</string>
-</resources>
+    <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
+    <string name="simple_discard">放棄</string>
+    </resources>

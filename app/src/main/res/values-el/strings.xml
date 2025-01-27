@@ -14,7 +14,6 @@
     <string name="simple_appearance">Εμφάνιση</string>
     <string name="simple_mandatory">Υποχρεωτικό</string>
     <string name="simple_description">Περιγραφή</string>
-
     <string name="edit_row">Επεξεργασία γραμμής</string>
     <string name="edit_column">Επεξεργασία στήλης</string>
     <string name="delete_column">Διαγραφή στήλης</string>
@@ -32,15 +31,6 @@
 
     <string name="delete_item">Διαγραφή %1$s</string>
     <string name="delete_row">Διαγραφή γραμμής</string>
-    <string name="pref_title_sync_only_wifi">Συγχρονισμός μόνο σε Wi-Fi</string>
-    <string name="pref_title_sync_background">Συγχρονισμός στο παρασκήνιο</string>
-    <string name="pref_title_theme">Θέμα</string>
-
-    <string-array name="theme_entries">
-        <item>Προεπιλογή συστήματος</item>
-        <item>Σκούρο</item>
-    </string-array>
-
     <string name="about">Σχετικά με</string>
     <string name="about_version_title">Έκδοση</string>
     <string name="about_version">Αυτή τη στιγμή χρησιμοποιείτε %1$s</string>
@@ -97,10 +87,10 @@
     <string name="error_action_update_files_app">Ενημέρωση</string>
     <string name="error_action_open_battery_settings">Ρυθμίσεις μπαταρίας</string>
 
-    <string name="reason_unknown">Προέκυψε ένα άγνωστο σφάλμα</string>
     <string name="add_column">Προσθήκη στήλης</string>
     <string name="navigation_my_tables">Οι πίνακές μου</string>
     <string name="navigation_shared_tables">Κοινόχρηστοι πίνακες</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
+    <string name="add_option">Προσθήκη επιλογής</string>
     </resources>

@@ -14,7 +14,14 @@
     <string name="simple_appearance">외형</string>
     <string name="simple_mandatory">필수</string>
     <string name="simple_description">설명</string>
-
+    <string name="simple_type">종류</string>
+    <string name="simple_default_value">기본값</string>
+    <string name="simple_min_value">분</string>
+    <string name="simple_max_value">최대치</string>
+    <string name="simple_decimals">십진법</string>
+    <string name="simple_prefix">접두사</string>
+    <string name="simple_suffix">접미사</string>
+    <string name="simple_label">이름표</string>
     <string name="edit_row">행 수정</string>
     <string name="edit_column">행 편집</string>
     <string name="delete_column">열 삭제</string>
@@ -31,16 +38,6 @@
     <string name="hint_error_appeared">오류가 나타남</string>
 
     <string name="delete_item">%1$s 삭제</string>
-    <string name="pref_title_sync_only_wifi">Wi-Fi만 사용해 동기화</string>
-    <string name="pref_title_sync_background">백그라운드 동기화</string>
-    <string name="pref_title_theme">테마</string>
-
-    <string-array name="theme_entries">
-        <item>시스템 기본값</item>
-        <item>밝게</item>
-        <item>어둡게</item>
-    </string-array>
-
     <string name="about_version_title">버전</string>
     <string name="about_version"> 현재 %1$s사용 중</string>
     <string name="about_maintainer_title">관리자</string>
@@ -95,10 +92,9 @@
     <string name="error_action_update_files_app">업데이트</string>
     <string name="error_action_open_battery_settings">배터리 설정</string>
 
-    <string name="reason_maintenance_mode">이 Nextcloud 인스턴스는 현재 유지 보수 모드입니다</string>
-    <string name="reason_unknown">알 수 없는 오류가 발생했습니다.</string>
     <string name="add_column">열 추가</string>
     <string name="navigation_my_tables">내 표</string>
     <string name="last_background_sync">마지막 백그라운드 동기화:</string>
     <string name="simple_disabled">비활성화</string>
+    <string name="add_option">옵션을 추가하다</string>
     </resources>

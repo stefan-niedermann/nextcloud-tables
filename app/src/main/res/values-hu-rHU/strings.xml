@@ -17,7 +17,11 @@
     <string name="simple_emoji">Emodzsi</string>
     <string name="simple_mandatory">Kötelező</string>
     <string name="simple_description">Leírás</string>
-
+    <string name="simple_type">Típus</string>
+    <string name="simple_default_value">Alapértelmezett érték</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Számjegyek</string>
+    <string name="simple_label">Címke</string>
     <string name="add_table">Táblázat hozzáadása</string>
     <string name="add_row">Sor hozzáadása</string>
     <string name="edit_row">Sor szerkesztése</string>
@@ -42,16 +46,6 @@
     <string name="delete_item_message">Ez véglegesen törli a következőt: %1$s.</string>
     <string name="delete_row">Sor törlése</string>
     <string name="delete_row_message">Ez véglegesen törli ezt a sort.</string>
-
-    <string name="pref_title_sync_only_wifi">Szinkronizálás csak Wi-Fin</string>
-    <string name="pref_title_sync_background">Háttér-szinkronizálás</string>
-    <string name="pref_title_theme">Téma</string>
-
-    <string-array name="theme_entries">
-        <item>Rendszer alapértelmezése</item>
-        <item>Világos</item>
-        <item>Sötét</item>
-    </string-array>
 
     <string name="about">Névjegy</string>
     <string name="about_version_title">Verzió</string>
@@ -125,14 +119,12 @@
     <string name="import_state_import_tables">Táblázatok importálása. Ez eltarthat néhány percig.</string>
     <string name="not_yet_synchronized">Még nincs szinkronizálva</string>
 
-    <string name="reason_not_installed">A Nextcloud Táblázatok nincs telepítve</string>
-    <string name="reason_not_enabled">A Nextcloud Táblázatok nincs engedélyezve</string>
-    <string name="reason_maintenance_mode">Ez a Nextcloud példány jelenleg karbantartási módban van</string>
-    <string name="reason_server_error">A kiszolgáló érvénytelen választ adott</string>
-    <string name="reason_tables_not_supported">A Nextcloud Táblázatok alkalmazásverziója nem támogatott</string>
-    <string name="reason_nextcloud_not_supported">A Nextcloud verziója nem támogatott</string>
-    <string name="reason_unknown">Ismeretlen hiba történt</string>
-    <string name="reason_offline">Jelenleg nincs kapcsolat.</string>
+    <string name="validation_number_not_parsable">Az érték nem tűnik számnak</string>
+    <string name="validation_number_range">Az értéknek %1$s és %2$s között kell lennie</string>
+    <string name="validation_number_min">Az érték legalább %1$s lehet</string>
+    <string name="validation_number_max">Az érték legfeljebb %1$s lehet</string>
+    <string name="validation_mandatory">Ez egy kötelező mező</string>
+    <string name="validation_time_missing">Időt kell megadni a „Dátum és idő” típusú mezőben.</string>
 
     <string name="missing_permission_read">Hiányzó olvasási engedély</string>
     <string name="missing_permission_create">Hiányzó létrehozási engedély</string>
@@ -140,17 +132,8 @@
     <string name="missing_permission_delete">Hiányzó törlési engedély</string>
     <string name="missing_permission_manage">Hiányzó kezelési engedély</string>
 
-    <string name="validation_number_not_parsable">Az érték nem tűnik számnak</string>
-    <string name="validation_number_range">Az értéknek %1$s és %2$s között kell lennie</string>
-    <string name="validation_number_min">Az érték legalább %1$s lehet</string>
-    <string name="validation_number_max">Az érték legfeljebb %1$s lehet</string>
-    <string name="validation_text_link">Az érték nem hivatkozás</string>
-    <string name="validation_mandatory">Ez egy kötelező mező</string>
-    <string name="validation_time_missing">Időt kell megadni a „Dátum és idő” típusú mezőben.</string>
-
     <string name="order_weight">Rendezés súlya</string>
     <string name="add_column">Oszlop hozzáadása</string>
-    <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
     <string name="navigation_my_tables">Saját táblázatok</string>
     <string name="navigation_shared_tables">Megosztott táblázatok</string>
     <string name="could_not_display_column_editor">A(z) %1$s nem jeleníthető meg</string>
@@ -158,7 +141,8 @@
     <string name="last_background_sync">Legutóbbi szinkronizálás:</string>
     <string name="simple_disabled">letiltva</string>
     <string name="manage_columns_subtitle">Húzza át az átrendezéshez</string>
-
+    <string name="add_option">Lehetőség hozzáadása</string>
     <string name="experimental_feature_column_reordering">Az oszlopok újrarendezése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek a táblázat oszlopainak más beállításaira.</string>
     <string name="experimental_feature_column_manage">Az oszlopok szerkesztése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek az oszlop más beállításaira.</string>
-</resources>
+    <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
+    </resources>

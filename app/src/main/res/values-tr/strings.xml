@@ -17,7 +17,15 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Zorunlu</string>
     <string name="simple_description">Açıklama</string>
-
+    <string name="simple_type">Tür</string>
+    <string name="simple_default_value">Varsayılan değer</string>
+    <string name="simple_max_length">En fazla uzunluk</string>
+    <string name="simple_min_value">Dak</string>
+    <string name="simple_max_value">En fazla</string>
+    <string name="simple_decimals">Ondalık hane</string>
+    <string name="simple_prefix">Ön ek</string>
+    <string name="simple_suffix">Son ek</string>
+    <string name="simple_label">Etiket</string>
     <string name="add_table">Tablo ekle</string>
     <string name="add_row">Satır ekle</string>
     <string name="edit_row">Satırı düzenle</string>
@@ -42,16 +50,6 @@
     <string name="delete_item_message">Bu işlem %1$s ögesini kalıcı olarak silecek.</string>
     <string name="delete_row">Satırı sil</string>
     <string name="delete_row_message">Bu işlem bu satırı kalıcı olarak silecek.</string>
-
-    <string name="pref_title_sync_only_wifi">Yalnızca Wi-Fi ile eşitlensin</string>
-    <string name="pref_title_sync_background">Arka planda eşitleme</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>Sistem varsayılanı</item>
-        <item>Açık</item>
-        <item>Koyu</item>
-    </string-array>
 
     <string name="about">Hakkında</string>
     <string name="about_version_title">Sürüm</string>
@@ -125,14 +123,12 @@
     <string name="import_state_import_tables">Tablolar içe aktarılıyor. Tamamlanması bir kaç dakika alabilir.</string>
     <string name="not_yet_synchronized">Henüz eşitlenmemiş</string>
 
-    <string name="reason_not_installed">Nextcloud Tablolar uygulaması kurulu değil</string>
-    <string name="reason_not_enabled">Nextcloud Tablolar uygulaması kullanıma alınmamış</string>
-    <string name="reason_maintenance_mode">Bu Nextcloud kopyası şu anda bakım kipinde.</string>
-    <string name="reason_server_error">Sunucunuzun verdiği yanıt geçersiz</string>
-    <string name="reason_tables_not_supported">Nextcloud Tablolar uygulamasının sürümü desteklenmiyor</string>
-    <string name="reason_nextcloud_not_supported">Bu Nextcloud sürümü desteklenmiyor</string>
-    <string name="reason_unknown">Bilinmeyen bir sorun çıktı</string>
-    <string name="reason_offline">Şu anda çevrim dışısınız.</string>
+    <string name="validation_number_not_parsable">Değer bir sayı değil gibi görünüyor</string>
+    <string name="validation_number_range">Değer %1$s ile %2$s arasında olmalıdır</string>
+    <string name="validation_number_min">Değer en az %1$s olmalıdır</string>
+    <string name="validation_number_max">Değer en fazla %1$s olmalıdır</string>
+    <string name="validation_mandatory">Bu alanın doldurulması zorunludur</string>
+    <string name="validation_time_missing">Bir TarihSaat alanı için saat belirtilmelidir.</string>
 
     <string name="missing_permission_read">Okuma (read) izni eksik</string>
     <string name="missing_permission_create">Oluşturma (create) izni eksik</string>
@@ -140,17 +136,8 @@
     <string name="missing_permission_delete">Silme (delete) izni eksik</string>
     <string name="missing_permission_manage">Yönetme (manage) izni eksik</string>
 
-    <string name="validation_number_not_parsable">Değer bir sayı değil gibi görünüyor</string>
-    <string name="validation_number_range">Değer %1$s ile %2$s arasında olmalıdır</string>
-    <string name="validation_number_min">Değer en az %1$s olmalıdır</string>
-    <string name="validation_number_max">Değer en fazla %1$s olmalıdır</string>
-    <string name="validation_text_link">Değer bir bağlantı değil</string>
-    <string name="validation_mandatory">Bu alanın doldurulması zorunludur</string>
-    <string name="validation_time_missing">Bir TarihSaat alanı için saat belirtilmelidir.</string>
-
     <string name="order_weight">Sıralama</string>
     <string name="add_column">Sütun ekle</string>
-    <string name="unsupported_column_type">%1$s türündeki sütunların düzenlenmesi henüz desteklenmiyor.</string>
     <string name="navigation_my_tables">Tablolarım</string>
     <string name="navigation_shared_tables">Paylaşılmış tablolar</string>
     <string name="could_not_display_column_editor">%1$s görüntülenemedi.</string>
@@ -158,7 +145,11 @@
     <string name="last_background_sync">Son arka planda eşitleme:</string>
     <string name="simple_disabled">kullanımdan kaldırılmış</string>
     <string name="manage_columns_subtitle">Sıralamak için sürükleyip bırakın</string>
-
+    <string name="text_allowed_pattern">İzin verilen model</string>
+    <string name="add_option">Seçenek ekle</string>
+    <string name="delete_option">Seçeneği sil</string>
     <string name="experimental_feature_column_reordering">Sütun sırasını değiştirmek henüz deneysel bir özelliktir ve bu tablonun sütunlarının diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
     <string name="experimental_feature_column_manage">Sütunları düzenlemek henüz deneysel bir özelliktir ve bu sütunun diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
-</resources>
+    <string name="unsupported_column_type">%1$s türündeki sütunların düzenlenmesi henüz desteklenmiyor.</string>
+    <string name="simple_discard">Yok say</string>
+    </resources>

@@ -16,7 +16,6 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="simple_description">Beskrivelse</string>
-
     <string name="add_table">Tilføj tabel</string>
     <string name="add_row">Tilføj række</string>
     <string name="edit_row">Rediger række</string>
@@ -41,16 +40,6 @@
     <string name="delete_item_message">Dette vil permanent slette %1$s.</string>
     <string name="delete_row">Slet række</string>
     <string name="delete_row_message">Dette sletter denne række permanent.</string>
-
-    <string name="pref_title_sync_only_wifi">Synkronisér kun på Wi-Fi</string>
-    <string name="pref_title_sync_background">Synkronisering i baggrunden</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>System Standard</item>
-        <item>Lys</item>
-        <item>Mørk</item>
-    </string-array>
 
     <string name="about">Om</string>
     <string name="about_version_title">Version</string>
@@ -99,11 +88,11 @@
     <string name="error_action_update_files_app">Opdater</string>
     <string name="error_action_open_battery_settings">Batteriindstillinger</string>
 
-    <string name="reason_unknown">En ukendt fejl er opstået</string>
     <string name="order_weight">Rækkefølge orden</string>
     <string name="add_column">Tilføj kolonne</string>
     <string name="navigation_my_tables">Mine tabeller</string>
     <string name="navigation_shared_tables">Fælles tabeller</string>
     <string name="last_background_sync">Seneste baggrundssynkronisering:</string>
     <string name="simple_disabled">slået fra</string>
+    <string name="add_option">Tilføj valg</string>
     </resources>

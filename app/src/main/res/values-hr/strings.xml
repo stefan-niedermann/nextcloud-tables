@@ -14,7 +14,8 @@
     <string name="simple_appearance">Izgled</string>
     <string name="simple_mandatory">Obavezno</string>
     <string name="simple_description">Opis</string>
-
+    <string name="simple_max_value">Maks.</string>
+    <string name="simple_label">Oznaka</string>
     <string name="delete_column">Izbriši stupac</string>
     <string name="preferences">Preferencije</string>
     <string name="import_account">Uvezi račun</string>
@@ -27,16 +28,6 @@
     <string name="hint_error_appeared">Pojavila se pogreška</string>
 
     <string name="delete_item">Izbriši %1$s</string>
-    <string name="pref_title_sync_only_wifi">Sinkroniziraj samo putem bežične (Wi-Fi) mreže</string>
-    <string name="pref_title_sync_background">Pozadinska sinkronizacija</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>Zadana postavka sustava</item>
-        <item>Svijetlo</item>
-        <item>Tamno</item>
-    </string-array>
-
     <string name="about">Informacije</string>
     <string name="about_version_title">Inačica</string>
     <string name="about_version">Trenutno se koristite %1$s</string>
@@ -91,8 +82,8 @@
     <string name="error_action_update_files_app">Ažuriraj</string>
     <string name="error_action_open_battery_settings">Postavke baterije</string>
 
-    <string name="reason_unknown">Došlo je do nepoznate greške</string>
     <string name="add_column">Dodaj stupac</string>
     <string name="last_background_sync">Posljednja pozadinska sinkronizacija:</string>
     <string name="simple_disabled">onemogućeno</string>
+    <string name="add_option">Dodaj mogućnost</string>
     </resources>

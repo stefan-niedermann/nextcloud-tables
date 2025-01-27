@@ -15,7 +15,6 @@
     <string name="simple_synchronization">Sincronización</string>
     <string name="simple_appearance">Aspeutu</string>
     <string name="simple_description">Descripción</string>
-
     <string name="add_table">Amestar una tabla</string>
     <string name="add_row">Amestar una filera</string>
     <string name="edit_row">Editar la filera</string>
@@ -39,14 +38,6 @@
     <string name="delete_item_message">Esta aición va desaniciar permanentemente «%1$s».</string>
     <string name="delete_row">Desanciar la filera</string>
     <string name="delete_row_message">Esta aición va desaniciar permanentemente esta filera.</string>
-
-    <string name="pref_title_sync_background">Sincronización en segundu planu</string>
-    <string name="pref_title_theme">Estilu</string>
-
-    <string-array name="theme_entries">
-        <item>Claridá</item>
-        <item>Escuridá</item>
-    </string-array>
 
     <string name="about">Tocante</string>
     <string name="about_version_title">Versión</string>
@@ -83,6 +74,4 @@
 
     <string name="welcome_text">Afáyate en Nextcloud Tables</string>
     <string name="account_already_imported">Yá s\'importó la cuenta</string>
-    <string name="reason_unknown">Asocedió un fallu desconocíu</string>
-    <string name="validation_text_link">El valor nun ye un enllaz</string>
     </resources>

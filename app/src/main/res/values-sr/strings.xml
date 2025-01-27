@@ -17,7 +17,14 @@
     <string name="simple_emoji">Емођи</string>
     <string name="simple_mandatory">Обавезно</string>
     <string name="simple_description">Опис</string>
-
+    <string name="simple_type">Тип</string>
+    <string name="simple_default_value">Подразумевана вредност</string>
+    <string name="simple_max_length">Макс дужина</string>
+    <string name="simple_min_value">Мин</string>
+    <string name="simple_max_value">Максимално</string>
+    <string name="simple_decimals">Децимале</string>
+    <string name="simple_prefix">Префикс</string>
+    <string name="simple_suffix">Суфикс</string>
     <string name="add_table">Додај табелу</string>
     <string name="add_row">Додај ред</string>
     <string name="edit_row">Уреди ред</string>
@@ -42,16 +49,6 @@
     <string name="delete_item_message">Ово ће трајно да обрише %1$s.</string>
     <string name="delete_row">Брисање реда</string>
     <string name="delete_row_message">Ово ће трајно да обрише овај ред.</string>
-
-    <string name="pref_title_sync_only_wifi">Синхронизуј само преко бежичне везе</string>
-    <string name="pref_title_sync_background">Позадинска синхронизација</string>
-    <string name="pref_title_theme">Тема</string>
-
-    <string-array name="theme_entries">
-        <item>системска</item>
-        <item>светла</item>
-        <item>тамна</item>
-    </string-array>
 
     <string name="about">О програму</string>
     <string name="about_version_title">Верзија</string>
@@ -125,14 +122,12 @@
     <string name="import_state_import_tables">Увозе се табеле. Ово може да потраје неколико минута.</string>
     <string name="not_yet_synchronized">Још увек није синхронизовано</string>
 
-    <string name="reason_not_installed">Није инсталирана апликација Nextcloud Табеле</string>
-    <string name="reason_not_enabled">Није укључена апликација Nextcloud Табеле</string>
-    <string name="reason_maintenance_mode">Ваша Nextcloud инстанца је тренутно у режиму одржавања</string>
-    <string name="reason_server_error">Ваш серевер је послао неисправан одговор</string>
-    <string name="reason_tables_not_supported">Верзија Ваше апликације Nextcloud Табеле није подржана</string>
-    <string name="reason_nextcloud_not_supported">Верзија Ваше Nextcloud апликације није подржана</string>
-    <string name="reason_unknown">Десила се непозната грешка</string>
-    <string name="reason_offline">Тренутно сте ван мреже.</string>
+    <string name="validation_number_not_parsable">Изгледа да вредност није број</string>
+    <string name="validation_number_range">Вредност мора да буде између %1$s и %2$s</string>
+    <string name="validation_number_min">Вредност мора да буде барем %1$s</string>
+    <string name="validation_number_max">Вредност мора да буде највише %1$s</string>
+    <string name="validation_mandatory">Ово је обавезно поље</string>
+    <string name="validation_time_missing">За DateTime поље мора да се наведе време.</string>
 
     <string name="missing_permission_read">Недостаје дозвола за читање</string>
     <string name="missing_permission_create">Недостаје дозвола за креирање</string>
@@ -140,17 +135,8 @@
     <string name="missing_permission_delete">Недостаје дозвола за брисање</string>
     <string name="missing_permission_manage">Недостаје дозвола за управљање</string>
 
-    <string name="validation_number_not_parsable">Изгледа да вредност није број</string>
-    <string name="validation_number_range">Вредност мора да буде између %1$s и %2$s</string>
-    <string name="validation_number_min">Вредност мора да буде барем %1$s</string>
-    <string name="validation_number_max">Вредност мора да буде највише %1$s</string>
-    <string name="validation_text_link">Вредност није линк</string>
-    <string name="validation_mandatory">Ово је обавезно поље</string>
-    <string name="validation_time_missing">За DateTime поље мора да се наведе време.</string>
-
     <string name="order_weight">Тежина наруџбине</string>
     <string name="add_column">Додај колону</string>
-    <string name="unsupported_column_type">Уређивање колоне типа %1$s се још увек не подржава</string>
     <string name="navigation_my_tables">Моје табеле</string>
     <string name="navigation_shared_tables">Дељене табеле</string>
     <string name="could_not_display_column_editor"> %1$s не може да се прикаже.</string>
@@ -158,7 +144,11 @@
     <string name="last_background_sync">Последња синх.:</string>
     <string name="simple_disabled">искључено</string>
     <string name="manage_columns_subtitle">Превуците и упустите да промените редослед</string>
-
+    <string name="text_allowed_pattern">Шаблон дозвољених</string>
+    <string name="add_option">Додај ставку</string>
+    <string name="delete_option">Обриши опцију</string>
     <string name="experimental_feature_column_reordering">Промена редоследа колона је експерментална функција која такође може имати нежељене споредне ефекте на остале конфигурације колона ове табеле.</string>
     <string name="experimental_feature_column_manage">Уређивање колона је експерментална функција која такође може имати нежељене споредне ефекте на остале конфигурације колона ове табеле.</string>
-</resources>
+    <string name="unsupported_column_type">Уређивање колоне типа %1$s се још увек не подржава</string>
+    <string name="simple_discard">Одбаци</string>
+    </resources>

@@ -17,7 +17,6 @@
     <string name="simple_emoji">الصور التعبيرية emoji</string>
     <string name="simple_mandatory">إلزامي</string>
     <string name="simple_description">الوصف</string>
-
     <string name="add_table">إضافة جدول</string>
     <string name="add_row">إضافة صف</string>
     <string name="edit_row">تعديل صف</string>
@@ -42,16 +41,6 @@
     <string name="delete_item_message">هذا سيؤدي إلى الحذف نهائيّاً %1$s.</string>
     <string name="delete_row">حذف صف</string>
     <string name="delete_row_message">هذا سيؤدي إلى حذف هذا الصف نهائيّاً</string>
-
-    <string name="pref_title_sync_only_wifi">المزامنة فقط على الواي فاي</string>
-    <string name="pref_title_sync_background">مزامنة في الخلفية</string>
-    <string name="pref_title_theme">الثيمة</string>
-
-    <string-array name="theme_entries">
-        <item>النظام الافتراضي </item>
-        <item>فاتح</item>
-        <item>غامق</item>
-    </string-array>
 
     <string name="about">حول</string>
     <string name="about_version_title">الإصدار</string>
@@ -125,14 +114,12 @@
     <string name="import_state_import_tables">إستيراد جداول. هذا يمكن أن يستغرق بضعة دقائق.</string>
     <string name="not_yet_synchronized">لم تتم المزامنة بعدُ</string>
 
-    <string name="reason_not_installed">تطبيق جداول نكست كلاود لم يتم تنصيبه</string>
-    <string name="reason_not_enabled">تطبيق جداول نكست كلاود غير مفعّل</string>
-    <string name="reason_maintenance_mode">خادم نكست كلاود هذا تحت الصيانة الآن</string>
-    <string name="reason_server_error">استجابة الخادم غير صحيحة</string>
-    <string name="reason_tables_not_supported">هذا الإصدار من تطبيق جداول نكست كلاود غير مدعوم</string>
-    <string name="reason_nextcloud_not_supported">هذا الإصدار من نكست كلاود غير مدعوم</string>
-    <string name="reason_unknown">حدث خلل غير مُحدّد</string>
-    <string name="reason_offline">أنت الآن غير متصل.</string>
+    <string name="validation_number_not_parsable">يبدو أن القيمة ليست رقماً</string>
+    <string name="validation_number_range">القيمة يجب أن تكون ما بين %1$s و %2$s</string>
+    <string name="validation_number_min">القيمة يجب ألّا تقل عن  %1$s </string>
+    <string name="validation_number_max">القيمة يجب ألّا تزيد عن %1$s</string>
+    <string name="validation_mandatory">هذا حقل إلزامي</string>
+    <string name="validation_time_missing">يجب تعيين الوقت في خانة الوقت و التاريخ DataTime.</string>
 
     <string name="missing_permission_read">لا يوجد تخويل بالقراءة</string>
     <string name="missing_permission_create">لا يوجد تخويل بالإنشاء</string>
@@ -140,17 +127,8 @@
     <string name="missing_permission_delete">لا يوجد تخويل بالحذف</string>
     <string name="missing_permission_manage">لا يوجد تخويل بالإدارة</string>
 
-    <string name="validation_number_not_parsable">يبدو أن القيمة ليست رقماً</string>
-    <string name="validation_number_range">القيمة يجب أن تكون ما بين %1$s و %2$s</string>
-    <string name="validation_number_min">القيمة يجب ألّا تقل عن  %1$s </string>
-    <string name="validation_number_max">القيمة يجب ألّا تزيد عن %1$s</string>
-    <string name="validation_text_link">القيمة ليست رابطاً</string>
-    <string name="validation_mandatory">هذا حقل إلزامي</string>
-    <string name="validation_time_missing">يجب تعيين الوقت في خانة الوقت و التاريخ DataTime.</string>
-
     <string name="order_weight">وزن الترتيب</string>
     <string name="add_column">إضافة عمود</string>
-    <string name="unsupported_column_type">تعديل أعمدة من النوع %1$s غير مدعومة بعد.</string>
     <string name="navigation_my_tables">جداولي</string>
     <string name="navigation_shared_tables">جداول مشتركة</string>
     <string name="could_not_display_column_editor">%1$s لا يمكن عرضها.</string>
@@ -158,7 +136,7 @@
     <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
     <string name="simple_disabled">معطّل</string>
     <string name="manage_columns_subtitle">ِإسْحَبْ و أَفْلِتْ للترتيب</string>
-
     <string name="experimental_feature_column_reordering">إعادة ترتيب الأعمدة ما زالت ميزة تجريبية حتى الآن، و قد يكون لها آثار جانبية غير مقصودة على التكوينات الأخرى لأعمدة هذا الجدول أيضًا.</string>
     <string name="experimental_feature_column_manage">تعد إعادة ترتيب الأعمدة ميزة تجريبية قد يكون لها آثار جانبية غير مقصودة على التكوينات الأخرى لهذا العمود أيضًا.</string>
-</resources>
+    <string name="unsupported_column_type">تعديل أعمدة من النوع %1$s غير مدعومة بعد.</string>
+    </resources>

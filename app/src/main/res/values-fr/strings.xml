@@ -17,7 +17,10 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatoire</string>
     <string name="simple_description">Description</string>
-
+    <string name="simple_max_value">Max.</string>
+    <string name="simple_prefix">Préfixe</string>
+    <string name="simple_suffix">Suffixe</string>
+    <string name="simple_label">Libellé</string>
     <string name="add_table">Ajouter un tableau</string>
     <string name="add_row">Ajouter une ligne</string>
     <string name="edit_row">Modifier la ligne</string>
@@ -42,16 +45,6 @@
     <string name="delete_item_message">Cette action supprimera définitivement %1$s.</string>
     <string name="delete_row">Supprimer la ligne</string>
     <string name="delete_row_message">Cette action supprimera définitivement la ligne.</string>
-
-    <string name="pref_title_sync_only_wifi">Synchroniser uniquement en Wi-Fi</string>
-    <string name="pref_title_sync_background">Synchronisation en tâche de fond</string>
-    <string name="pref_title_theme">Thème</string>
-
-    <string-array name="theme_entries">
-        <item>Paramètres système</item>
-        <item>Clair</item>
-        <item>Sombre</item>
-    </string-array>
 
     <string name="about">À propos</string>
     <string name="about_version_title">Version</string>
@@ -125,14 +118,12 @@
     <string name="import_state_import_tables">Importation des tableaux. Cette opération peut prendre plusieurs minutes.</string>
     <string name="not_yet_synchronized">Non synchronisé actuellement</string>
 
-    <string name="reason_not_installed">Nextcloud Tables n\'est pas installé</string>
-    <string name="reason_not_enabled">Nextcloud Tables n\'est pas activé</string>
-    <string name="reason_maintenance_mode">Votre instance de Nextcloud est actuellement en mode maintenance.</string>
-    <string name="reason_server_error">Votre serveur a fourni une réponse non valide</string>
-    <string name="reason_tables_not_supported">Votre version de l\'application Nextcloud Tables n\'est pas prise en charge</string>
-    <string name="reason_nextcloud_not_supported">Votre version Nextcloud n\'est pas prise en charge</string>
-    <string name="reason_unknown">Une erreur inconnue est survenue</string>
-    <string name="reason_offline">Vous êtes actuellement hors ligne.</string>
+    <string name="validation_number_not_parsable">La valeur n\'est pas un nombre</string>
+    <string name="validation_number_range">La valeur doit être comprise entre %1$s et %2$s</string>
+    <string name="validation_number_min">La valeur doit être au moins de %1$s</string>
+    <string name="validation_number_max">La valeur doit être au maximum de %1$s</string>
+    <string name="validation_mandatory">Ce champ est obligatoire</string>
+    <string name="validation_time_missing">L\'heure doit être fournie pour un champ DateHeure.</string>
 
     <string name="missing_permission_read">Autorisation de lecture manquante</string>
     <string name="missing_permission_create">Autorisation de création manquante</string>
@@ -140,17 +131,8 @@
     <string name="missing_permission_delete">Autorisation de suppression manquante</string>
     <string name="missing_permission_manage">Autorisation de gestion manquante</string>
 
-    <string name="validation_number_not_parsable">La valeur n\'est pas un nombre</string>
-    <string name="validation_number_range">La valeur doit être comprise entre %1$s et %2$s</string>
-    <string name="validation_number_min">La valeur doit être au moins de %1$s</string>
-    <string name="validation_number_max">La valeur doit être au maximum de %1$s</string>
-    <string name="validation_text_link">La valeur n\'est pas un lien</string>
-    <string name="validation_mandatory">Ce champ est obligatoire</string>
-    <string name="validation_time_missing">L\'heure doit être fournie pour un champ DateHeure.</string>
-
     <string name="order_weight">Poids de la commande</string>
     <string name="add_column"> Ajouter une colonne</string>
-    <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
     <string name="navigation_my_tables">Mes tableaux</string>
     <string name="navigation_shared_tables">Tableaux partagés</string>
     <string name="could_not_display_column_editor">%1$s n\'a pas pu être affiché.</string>
@@ -158,7 +140,8 @@
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
     <string name="simple_disabled">désactivé</string>
     <string name="manage_columns_subtitle">Glissez-déposez pour réorganiser</string>
-
+    <string name="add_option">Ajouter une option</string>
     <string name="experimental_feature_column_reordering">La réorganisation des colonnes est une fonctionnalité expérimentale qui peut avoir des effets indésirables sur d\'autres configurations des colonnes sur ce tableau.</string>
     <string name="experimental_feature_column_manage">La modification des colonnes est une fonctionnalité expérimentale qui peut avoir des effets secondaires involontaires sur d\'autres configurations de cette colonne.</string>
-</resources>
+    <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
+    </resources>

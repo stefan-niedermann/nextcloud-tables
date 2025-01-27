@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nextcloud-taulukot</string>
+    <string name="app_name">Nextcloud Taulukot</string>
     <string name="navigation_drawer_open">Avaa hakuvalikko</string>
     <string name="navigation_drawer_close">Sulje hakuvalikko</string>
     <string name="action_settings">Asetukset</string>
@@ -14,9 +14,11 @@
     <string name="simple_about">Tietoja</string>
     <string name="simple_synchronization">Synkronointi</string>
     <string name="simple_appearance">Ulkoasu</string>
+    <string name="simple_emoji">Hymiö</string>
     <string name="simple_mandatory">Pakollinen</string>
     <string name="simple_description">Kuvaus</string>
-
+    <string name="simple_max_value">Enintään</string>
+    <string name="simple_label">Nimike</string>
     <string name="add_table">Lisää taulukko</string>
     <string name="add_row">Lisää sarake</string>
     <string name="edit_row">Muokkaa riviä</string>
@@ -33,20 +35,14 @@
     <string name="edit_table">Muokkaa taulukkoa</string>
     <string name="edit_item">Muokkaa tunnistetta %1$s</string>
     <string name="share_table">Jaa taulukko</string>
+    <string name="not_implemented">Tämä toiminto ei ole vielä käytettävissä</string>
     <string name="delete_table">Poista taulukko</string>
     <string name="hint_error_appeared">Tapahtui virhe</string>
 
     <string name="delete_item">Poista %1$s</string>
+    <string name="delete_item_message">%1$s poistetaan pysyvästi.</string>
     <string name="delete_row">Poista rivi</string>
-    <string name="pref_title_sync_only_wifi">Synkronoi vain wifi-yhteydellä</string>
-    <string name="pref_title_sync_background">Taustasynkronointi</string>
-    <string name="pref_title_theme">Teema</string>
-
-    <string-array name="theme_entries">
-        <item>Järjestelmän oletus</item>
-        <item>Vaalea</item>
-        <item>Tumma</item>
-    </string-array>
+    <string name="delete_row_message">Rivi poistetaan pysyvästi.</string>
 
     <string name="about">Tietoja</string>
     <string name="about_version_title">Versio</string>
@@ -76,19 +72,33 @@
 
     <string name="error_dialog_title">Voi ei - Mitä nyt? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Yritä pakottaa sovelluksen sulkeminen ja käynnistä se uudelleen. Nextcloud-sovellukseen on saattanut olla virheellinen yhteys.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jos ongelma jatkuu, yritä tyhjentää sovellusten Nextcloud ja Nextcloud Taulukot tallennustila ongelman ratkaisemiseksi.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Tietokannan päivittäminen epäonnistui. Ole hyvä ja raportoi ongelmasta ja tyhjennä tallennustila käyttääksesi sovellusta normaalisti.</string>
     <string name="error_dialog_tip_clear_storage">Voit tyhjentää tallennustilan avaamalla sovelluksen tiedot ja valitsemalla Tallennustila → Tyhjennä tallennustila.</string>
+    <string name="error_dialog_tip_offline_no_internet">Näyttää siltä, että yritit käynnistää synkronoinnin ilman internet-yhteyttä.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Yhteys estettiin, varmista että palvelimesi on tavoitettavissa selaimella.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Yhteys on katkennut, varmista että olet yhteydessä internetiin. Tämä voi tapahtua myös silloin, kun palvelin on ruuhkautunut.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Jos olet ottanut käyttöön \"Synkronoi vain Wi-Fi-yhteydellä\" -asetuksen, voit synkronoida vain Wi-Fi-verkkoon yhdistäneenä.</string>
+    <string name="error_dialog_tip_files_force_stop">Nextcloud-sovelluksessasi näyttää olevan jotain vikaa. Yritä pysäyttää sekä Nextcloud-sovellus että Nextcloud Taulukot -sovellus.</string>
     <string name="error_dialog_tip_files_delete_storage">Jos pakotettu lopettaminen ei auta, voit yrittää tyhjentää sovelluksien tallennustilan.</string>
     <string name="error_dialog_timeout_instance">Palvelimen aikakatkaisu. Varmista, että se on toiminnassa.</string>
     <string name="error_dialog_timeout_toggle">Tarkista verkkoyhteytesi. Joskus mobiilidatan tai Wi-Fin kytkeminen pois päältä ja päälle saattaa ratkaista ongelman.</string>
+    <string name="error_dialog_check_server">Palvelin vastasi virheellisesti. Tarkista, voitko käyttää Nextcloud Taulukot-sovellusta web-käyttöliittymän kautta.</string>
     <string name="error_dialog_check_server_logs">Nextcloud-asennuksessasi on ongelma. Katso lisätietoja palvelimen lokitiedostoista.</string>
     <string name="error_dialog_check_maintenance">Varmista, ettei Nextcloud-palvelin ole ylläpitotilassa.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud-palvelimellasi ei ole vapaata tallennustilaa. Poista tiedostoja, jotta paikallisten muutosten synkronointi pilveen onnistuu.</string>
     <string name="error_dialog_we_need_info">Tarvitsemme seuraavat tekniset tiedot auttaaksemme sinua:</string>
+    <string name="error_dialog_redirect">Palvelimesi vastasi HTTP 302 -tilakoodilla, mikä viittaa siihen, että et ole asentanut Tables-sovellusta palvelimellesi tai jotkin määritykset ovat väärin. Tämä voi johtua .htaccess-tiedoston mukautetuista ohituksista tai Nextcloud-sovelluksista, kuten OID Clientista.</string>
+    <string name="error_dialog_forbidden">Sinulla ei ole riittäviä oikeuksia. Tarkista taulukot, jotka on jaettu sinulle ja joita on muutettu hiljattain.</string>
+    <string name="error_dialog_version_not_parsable">Emme pystyneet määrittämään palvelinpuolen Nextcloud Taulukot-sovelluksen versiota. Varmista, että se on asennettu ja käytössä.</string>
     <string name="error_dialog_account_might_not_be_authorized">Tilisi valtuutus Nextcloud-sovellukseen saattaa olla päättynyt.</string>
     <string name="error_dialog_user_not_found_in_database">Käyttäjää ei löydy tietokannastamme. Jos  LDAP on käytössä Nextcloudissa, Nextcloud-sovellksessa saattaa olla tallennettuna vanha käyttäjän tunnus.</string>
     <string name="error_dialog_capabilities_not_parsable">Palvelimesi ominaisuuksia ei voitu hakea. Varmista, että palvelin on käynnissä ja muut asiakasohjelmat saavat yhteyden Nextcloudiin.</string>
     <string name="error_dialog_attachment_upload_failed">Liitettä ei voitu lähettää. Yritä jakaa se toista kautta ja kerro meille tästä bugista.</string>
+    <string name="error_dialog_certificate">Palvelimen varmenteessa näyttää olevan jotain vikaa. Tarkista kaikki tilit Nextcloud-sovelluksessa saadaksesi lisätietoja.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Poista kaikki Nextcloudin ja Nextcloud Taulukot-sovelluksen akkuoptimoinnit käytöstä.</string>
+    <string name="error_dialog_unknown_error">Nextcloud-palvelimesi ei ole tavoitettavissa. Tarkista internetyhteytesi ja pystytkö muodostamaan yhteyden palvelimeen selaimen kautta.</string>
+    <string name="error_dialog_min_version">Nextcloud Taulukot -sovellus edellyttää, että Nextcloudin android-sovelluksen versio on vähintään 3.18.</string>
     <string name="error_action_open_app_info">Avaa sovelluksen tiedot</string>
     <string name="error_action_open_nextcloud_app">Avaa Nextcloud-sovellus</string>
     <string name="error_action_open_network">Verkkoasetukset</string>
@@ -99,19 +109,36 @@
     <string name="error_action_update_files_app">Päivitä</string>
     <string name="error_action_open_battery_settings">Akkuasetukset</string>
 
+    <string name="welcome_text">Tervetuloa Nextcloud Taulukoihin</string>
+    <string name="importing_account">Tuodaan käyttäjätiliä %1$s</string>
     <string name="account_already_imported">Tili on jo tuotu</string>
     <string name="import_state_import_account">Tuodaan tiliä</string>
     <string name="import_state_import_tables">Tuodaan taulukoita. Tämä saattaa kestää useita minuutteja.</string>
     <string name="not_yet_synchronized">Ei vielä synkronoitu</string>
 
-    <string name="reason_nextcloud_not_supported">Käyttämäsi Nextcloud-versio ei ole tuettu</string>
-    <string name="reason_unknown">Tapahtui tuntematon virhe</string>
     <string name="validation_number_not_parsable">Arvo ei vaikuta olevan numero</string>
-    <string name="validation_text_link">Arvo ei ole linkki</string>
+    <string name="validation_number_range">Arvon tulee olle väliltä %1$s ja %2$s</string>
+    <string name="validation_number_min">Arvon tulee olla vähintään %1$s</string>
+    <string name="validation_number_max">Arvon tulee olla enintään %1$s</string>
     <string name="validation_mandatory">Tämä on pakollinen kenttä</string>
+    <string name="validation_time_missing">Pävämääräkenttään on syötettävä arvo</string>
+
+    <string name="missing_permission_read">Puuttuva lukuoikeus</string>
+    <string name="missing_permission_create">Puuttuva luontioikeus</string>
+    <string name="missing_permission_update">Puuttuva päivitysoikeus</string>
+    <string name="missing_permission_delete">Puuttuva poisto-oikeus</string>
+    <string name="missing_permission_manage">Puuttuva hallintaoikeus</string>
+
     <string name="add_column">Lisää sarake</string>
     <string name="navigation_my_tables">Omat taulukot</string>
     <string name="navigation_shared_tables">Jaetut taulukot</string>
+    <string name="could_not_display_column_editor">%1$s ei voitu näyttää.</string>
+    <string name="choose_table_from_the_sidebar">Valitse taulukko sivupalkista</string>
     <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
     <string name="simple_disabled">poistettu käytöstä</string>
+    <string name="manage_columns_subtitle">Järjestä uudelleen vetämällä ja pudottamalla</string>
+    <string name="add_option">Lisää valinta</string>
+    <string name="experimental_feature_column_reordering">Sarakkeiden uudelleenjärjestäminen on kokeellinen ominaisuus, jolla voi olla odottamattomia vaikutuksia taulukon muihin sarakkeisiin.</string>
+    <string name="experimental_feature_column_manage">Sarakkeiden muokkaaminen on kokeellinen ominaisuus, jolla voi olla vaikutuksia  myös muihin sarakkeisiin.</string>
+    <string name="unsupported_column_type">Tyypin %1$s sarakkeiden muokkaamista ei vielä tueta.</string>
     </resources>

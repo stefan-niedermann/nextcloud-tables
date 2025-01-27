@@ -17,7 +17,14 @@
     <string name="simple_emoji">Izrazne ikone</string>
     <string name="simple_mandatory">Obvezno polje</string>
     <string name="simple_description">Opis</string>
-
+    <string name="simple_type">Vrsta</string>
+    <string name="simple_default_value">Privzeta vrednosti</string>
+    <string name="simple_max_length">Največja dolžina</string>
+    <string name="simple_min_value">Najmanj</string>
+    <string name="simple_max_value">Največ</string>
+    <string name="simple_decimals">Decimalna mesta</string>
+    <string name="simple_prefix">Predpona</string>
+    <string name="simple_suffix">Pripona</string>
     <string name="add_table">Dodaj razpredelnico</string>
     <string name="add_row">Dodaj vrstico</string>
     <string name="edit_row">Uredi vrstico</string>
@@ -42,16 +49,6 @@
     <string name="delete_item_message">S tem boste trajno izbrisali %1$s.</string>
     <string name="delete_row">Izbriši vrstico</string>
     <string name="delete_row_message">S tem boste trajno izbrisali to vrstico.</string>
-
-    <string name="pref_title_sync_only_wifi">Uskladi le na Wi-Fi</string>
-    <string name="pref_title_sync_background"> Usklajevanje v ozadju</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>Sistemsko privzeto</item>
-        <item>Svetla</item>
-        <item>Temna</item>
-    </string-array>
 
     <string name="about">O programu</string>
     <string name="about_version_title">Različica</string>
@@ -123,35 +120,28 @@
     <string name="import_state_import_tables">Poteka uvažanje razpredelnic. Opravilo je lahko dolgotrajno.</string>
     <string name="not_yet_synchronized">Podatki še niso usklajeni</string>
 
-    <string name="reason_not_installed">Program Nextcloud Tables ni nameščen</string>
-    <string name="reason_not_enabled">Program Nextcloud Tables ni nameščen</string>
-    <string name="reason_maintenance_mode">Seja oblaka Nextcloud je trenutno v vzdrževalnem načinu.</string>
-    <string name="reason_server_error">Odziv strežnika ni veljaven za to zahtevo</string>
-    <string name="reason_tables_not_supported">Različica programa Nextcloud Tables ni podprta</string>
-    <string name="reason_nextcloud_not_supported">Različica oblaka Nextcloud ni podprta</string>
-    <string name="reason_unknown">Prišlo je do neznane napake!</string>
-    <string name="reason_offline">Trenutno povezava z omrežjem ni na voljo.</string>
-
+    <string name="validation_number_not_parsable">Kaže, da vrednost ni številka</string>
+    <string name="validation_number_range">Vrednost mora biti med %1$s in %2$s.</string>
+    <string name="validation_number_min">Vrednost mora biti vsaj %1$s</string>
+    <string name="validation_number_max">Vrednost mora biti največ %1$s</string>
+    <string name="validation_mandatory">To polje je obvezno</string>
     <string name="missing_permission_read">Ni dovoljenja za branje</string>
     <string name="missing_permission_create">Ni dovoljenja za ustvarjanje</string>
     <string name="missing_permission_update">Ni dovoljenja za posodabljanje</string>
     <string name="missing_permission_delete">Ni dovoljenja za brisanje</string>
     <string name="missing_permission_manage">Ni dovoljenja za upravljanje</string>
 
-    <string name="validation_number_not_parsable">Kaže, da vrednost ni številka</string>
-    <string name="validation_number_range">Vrednost mora biti med %1$s in %2$s.</string>
-    <string name="validation_number_min">Vrednost mora biti vsaj %1$s</string>
-    <string name="validation_number_max">Vrednost mora biti največ %1$s</string>
-    <string name="validation_text_link">Vrednost ni povezava</string>
-    <string name="validation_mandatory">To polje je obvezno</string>
     <string name="order_weight">Razvrstilnik</string>
     <string name="add_column">Dodaj stolpec</string>
-    <string name="unsupported_column_type">Urejanje stolpca vrste %1$s še ni podprto.</string>
     <string name="navigation_my_tables">Moje razpredelnice</string>
     <string name="navigation_shared_tables">Razpredelnice v souporabi</string>
     <string name="choose_table_from_the_sidebar">Izberite razpredelnico iz bočnega okna</string>
     <string name="last_background_sync">Zadnje usklajevanje:</string>
     <string name="simple_disabled">onemogočeno</string>
     <string name="manage_columns_subtitle">S potegom lahko predmete preuredite</string>
-
+    <string name="text_allowed_pattern">Dovoljen vzorec</string>
+    <string name="add_option">Dodaj možnost</string>
+    <string name="delete_option">Izbriši možnost</string>
+    <string name="unsupported_column_type">Urejanje stolpca vrste %1$s še ni podprto.</string>
+    <string name="simple_discard">Opusti</string>
     </resources>

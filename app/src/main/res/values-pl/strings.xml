@@ -17,7 +17,12 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obowiązkowe</string>
     <string name="simple_description">Opis</string>
-
+    <string name="simple_type">Rodzaj</string>
+    <string name="simple_max_length">Maks. długość</string>
+    <string name="simple_min_value">Min.</string>
+    <string name="simple_max_value">Maks.</string>
+    <string name="simple_decimals">Ułamki dziesiętne</string>
+    <string name="simple_label">Etykieta</string>
     <string name="add_table">Dodaj tabelę</string>
     <string name="add_row">Dodaj wiersz</string>
     <string name="edit_row">Edytuj wiersz</string>
@@ -42,16 +47,6 @@
     <string name="delete_item_message">Spowoduje to trwałe usunięcie %1$s.</string>
     <string name="delete_row">Usuń wiersz</string>
     <string name="delete_row_message">Spowoduje to trwałe usunięcie tego wiersza.</string>
-
-    <string name="pref_title_sync_only_wifi">Synchronizuj tylko przez Wi-Fi</string>
-    <string name="pref_title_sync_background">Synchronizacja w tle</string>
-    <string name="pref_title_theme">Motyw</string>
-
-    <string-array name="theme_entries">
-        <item>Domyślne ustawienia systemu</item>
-        <item>Jasny</item>
-        <item>Ciemny</item>
-    </string-array>
 
     <string name="about">O aplikacji</string>
     <string name="about_version_title">Wersja</string>
@@ -125,14 +120,12 @@
     <string name="import_state_import_tables">Importowanie tabel. To może zająć kilka minut.</string>
     <string name="not_yet_synchronized">Jeszcze nie zsynchronizowane</string>
 
-    <string name="reason_not_installed">Tabele Nextcloud nie są zainstalowane</string>
-    <string name="reason_not_enabled">Tabele Nextcloud nie są włączone</string>
-    <string name="reason_maintenance_mode">Twoja instancja Nextcloud jest obecnie w trybie konserwacji</string>
-    <string name="reason_server_error">Twój serwer odpowiedział nieprawidłową odpowiedzią</string>
-    <string name="reason_tables_not_supported">Twoja wersja aplikacji Tabele Nextcloud nie jest obsługiwana</string>
-    <string name="reason_nextcloud_not_supported">Twoja wersja Nextcloud nie jest obsługiwana</string>
-    <string name="reason_unknown">Wystąpił nieznany błąd</string>
-    <string name="reason_offline">Obecnie jesteś w trybie offline</string>
+    <string name="validation_number_not_parsable">Wartość wydaje się nie być liczbą</string>
+    <string name="validation_number_range">Wartość musi znajdować się pomiędzy %1$s i %2$s</string>
+    <string name="validation_number_min">Wartość musi wynosić co najmniej %1$s</string>
+    <string name="validation_number_max">Wartość musi wynosić co najwyżej %1$s</string>
+    <string name="validation_mandatory">Jest to pole obowiązkowe</string>
+    <string name="validation_time_missing">W polu DateTime należy podać godzinę.</string>
 
     <string name="missing_permission_read">Brak uprawnień do odczytu</string>
     <string name="missing_permission_create">Brak uprawnień do tworzenia</string>
@@ -140,17 +133,8 @@
     <string name="missing_permission_delete">Brak uprawnień do usuwania</string>
     <string name="missing_permission_manage">Brak uprawnień do zarządzania</string>
 
-    <string name="validation_number_not_parsable">Wartość wydaje się nie być liczbą</string>
-    <string name="validation_number_range">Wartość musi znajdować się pomiędzy %1$s i %2$s</string>
-    <string name="validation_number_min">Wartość musi wynosić co najmniej %1$s</string>
-    <string name="validation_number_max">Wartość musi wynosić co najwyżej %1$s</string>
-    <string name="validation_text_link">Wartość nie jest łączem</string>
-    <string name="validation_mandatory">Jest to pole obowiązkowe</string>
-    <string name="validation_time_missing">W polu DateTime należy podać godzinę.</string>
-
     <string name="order_weight">Kolejność znaczenia</string>
     <string name="add_column">Dodaj kolumnę</string>
-    <string name="unsupported_column_type">Edytowanie kolumn typu %1$s nie jest jeszcze obsługiwane.</string>
     <string name="navigation_my_tables">Moje tabele</string>
     <string name="navigation_shared_tables">Wspólne tabele</string>
     <string name="could_not_display_column_editor">Nie można było wyświetlić %1$s.</string>
@@ -158,7 +142,9 @@
     <string name="last_background_sync">Ostatnia synchronizacja w tle:</string>
     <string name="simple_disabled">wyłączony</string>
     <string name="manage_columns_subtitle">Przeciągnij i upuść, aby zmienić kolejność</string>
-
+    <string name="text_allowed_pattern">Dozwolony wzór</string>
+    <string name="add_option">Dodaj opcję</string>
     <string name="experimental_feature_column_reordering">Zmiana kolejności kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji kolumn tej tabeli.</string>
     <string name="experimental_feature_column_manage">Edycja kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji tej kolumny.</string>
-</resources>
+    <string name="unsupported_column_type">Edytowanie kolumn typu %1$s nie jest jeszcze obsługiwane.</string>
+    </resources>

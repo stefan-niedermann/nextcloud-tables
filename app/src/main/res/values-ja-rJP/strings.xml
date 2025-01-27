@@ -17,7 +17,11 @@
     <string name="simple_emoji">絵文字</string>
     <string name="simple_mandatory">必須</string>
     <string name="simple_description">説明</string>
-
+    <string name="simple_type">タイプ</string>
+    <string name="simple_default_value">初期値</string>
+    <string name="simple_max_value">最大</string>
+    <string name="simple_decimals">小数点以下</string>
+    <string name="simple_label">ラベル</string>
     <string name="add_table">表の追加</string>
     <string name="add_row">行を追加</string>
     <string name="edit_row">行を編集</string>
@@ -42,16 +46,6 @@
     <string name="delete_item_message">これにより%1$sは完全に削除されます</string>
     <string name="delete_row">行を削除</string>
     <string name="delete_row_message">これにより、この行は完全に削除されます</string>
-
-    <string name="pref_title_sync_only_wifi">Wi-Fi接続時のみ同期する</string>
-    <string name="pref_title_sync_background">バックグラウンド同期</string>
-    <string name="pref_title_theme">テーマ</string>
-
-    <string-array name="theme_entries">
-        <item>システムのデフォルト</item>
-        <item>明るい</item>
-        <item>暗い</item>
-    </string-array>
 
     <string name="about">詳細</string>
     <string name="about_version_title">バージョン</string>
@@ -125,23 +119,16 @@
     <string name="import_state_import_tables">表をインポート中。この操作には数分かかります。</string>
     <string name="not_yet_synchronized">まだ同期されていません</string>
 
-    <string name="reason_not_installed">Nextcloud Tables がインストールされていません</string>
-    <string name="reason_not_enabled">Nextcloud Tables が有効化されていません</string>
-    <string name="reason_maintenance_mode">あなたのNextcloudインスタンスは、現在メンテナンスモードです</string>
-    <string name="reason_server_error">サーバーが不正なレスポンスを返しました</string>
-    <string name="reason_tables_not_supported">この Nextcloud Tables アプリのバージョンはサポートされていません</string>
-    <string name="reason_nextcloud_not_supported">この Nextcloud のバージョンはサポートされていません</string>
-    <string name="reason_unknown">不明なエラーが発生しました</string>
     <string name="validation_number_not_parsable">内容が数値では無いようです</string>
-    <string name="validation_text_link">値がリンクではありません</string>
     <string name="validation_mandatory">これは必須フィールドです</string>
     <string name="validation_time_missing">DateTimeフィールドに時間が必要です</string>
 
     <string name="order_weight">順番のウェイト</string>
     <string name="add_column">列を追加</string>
-    <string name="unsupported_column_type">%1$s型の列の編集は未サポートです。</string>
     <string name="navigation_my_tables">マイテーブル</string>
     <string name="navigation_shared_tables">共有された表</string>
     <string name="last_background_sync">最後のバックグラウンド同期：</string>
     <string name="simple_disabled">無効</string>
+    <string name="add_option">オプションを追加</string>
+    <string name="unsupported_column_type">%1$s型の列の編集は未サポートです。</string>
     </resources>

@@ -17,7 +17,10 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Éigeantach</string>
     <string name="simple_description">Cur síos</string>
-
+    <string name="simple_max_value">Uas</string>
+    <string name="simple_prefix">Réimír</string>
+    <string name="simple_suffix">Iarmhír</string>
+    <string name="simple_label">Lipéad</string>
     <string name="add_table">Cuir tábla leis</string>
     <string name="add_row">Cuir ró</string>
     <string name="edit_row">Cuir ró in eagar</string>
@@ -42,16 +45,6 @@
     <string name="delete_item_message">Scriosfaidh sé seo %1$s go buan.</string>
     <string name="delete_row">Scrios ró</string>
     <string name="delete_row_message">Scriosfaidh sé seo an ró seo go buan.</string>
-
-    <string name="pref_title_sync_only_wifi">Sioncronaigh ar Wi-Fi amháin</string>
-    <string name="pref_title_sync_background">Sioncronú cúlra</string>
-    <string name="pref_title_theme">Téama</string>
-
-    <string-array name="theme_entries">
-        <item>Réamhshocrú Córais</item>
-        <item>Solas</item>
-        <item>Dorcha</item>
-    </string-array>
 
     <string name="about">Faoi</string>
     <string name="about_version_title">Leagan</string>
@@ -125,14 +118,12 @@
     <string name="import_state_import_tables">Táblaí á n-iompórtáil. Féadfaidh sé seo roinnt nóiméad a ghlacadh.</string>
     <string name="not_yet_synchronized">Gan sioncronaithe fós</string>
 
-    <string name="reason_not_installed">Níl Nextcloud Táblaí suiteáilte</string>
-    <string name="reason_not_enabled">Níl Nextcloud Táblaí cumasaithe</string>
-    <string name="reason_maintenance_mode">Tá do shampla Nextcloud i mód cothabhála faoi láthair</string>
-    <string name="reason_server_error">D\'fhreagair do fhreastalaí le freagra neamhbhailí</string>
-    <string name="reason_tables_not_supported">Ní thacaítear le do leagan den aip Nextcloud Táblaí</string>
-    <string name="reason_nextcloud_not_supported">Ní thacaítear le do leagan Nextcloud</string>
-    <string name="reason_unknown">Tharla earráid anaithnid</string>
-    <string name="reason_offline">Tá tú as líne faoi láthair.</string>
+    <string name="validation_number_not_parsable">Is cosúil nach uimhir an luach</string>
+    <string name="validation_number_range">Caithfidh an luach a bheith idir %1$s agus %2$s</string>
+    <string name="validation_number_min">Caithfidh an luach a bheith %1$s ar a laghad</string>
+    <string name="validation_number_max">Caithfidh an luach a bheith %1$s ar a mhéad</string>
+    <string name="validation_mandatory">Is réimse éigeantach é seo</string>
+    <string name="validation_time_missing">Ní mór am a sholáthar do réimse DateTime.</string>
 
     <string name="missing_permission_read">Cead léite ar iarraidh</string>
     <string name="missing_permission_create">Cead cruthaithe in easnamh</string>
@@ -140,17 +131,8 @@
     <string name="missing_permission_delete">Cead scriosta in easnamh</string>
     <string name="missing_permission_manage">Cead bainistithe in easnamh</string>
 
-    <string name="validation_number_not_parsable">Is cosúil nach uimhir an luach</string>
-    <string name="validation_number_range">Caithfidh an luach a bheith idir %1$s agus %2$s</string>
-    <string name="validation_number_min">Caithfidh an luach a bheith %1$s ar a laghad</string>
-    <string name="validation_number_max">Caithfidh an luach a bheith %1$s ar a mhéad</string>
-    <string name="validation_text_link">Ní nasc é an luach</string>
-    <string name="validation_mandatory">Is réimse éigeantach é seo</string>
-    <string name="validation_time_missing">Ní mór am a sholáthar do réimse DateTime.</string>
-
     <string name="order_weight">Ordú meáchan</string>
     <string name="add_column">Cuir colún leis</string>
-    <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
     <string name="navigation_my_tables">Mo táblaí</string>
     <string name="navigation_shared_tables">Táblaí roinnte</string>
     <string name="could_not_display_column_editor">Níorbh fhéidir %1$s a thaispeáint.</string>
@@ -158,7 +140,8 @@
     <string name="last_background_sync">Sioncronú cúlra is déanaí:</string>
     <string name="simple_disabled">faoi ​​mhíchumas</string>
     <string name="manage_columns_subtitle">Tarraing agus scaoil chun athordú</string>
-
+    <string name="add_option">Cuir rogha leis</string>
     <string name="experimental_feature_column_reordering">Is gné thurgnamhach é colúin a athordú a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile de cholúin an tábla seo freisin.</string>
     <string name="experimental_feature_column_manage">Is gné thurgnamhach é eagarthóireacht na gcolún a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile den cholún seo freisin.</string>
-</resources>
+    <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
+    </resources>

@@ -12,7 +12,8 @@
     <string name="simple_about">Tentang</string>
     <string name="simple_appearance">Tampilan</string>
     <string name="simple_description">Deskrisi</string>
-
+    <string name="simple_type">tipe</string>
+    <string name="simple_max_value">Maksimum</string>
     <string name="preferences">Preferensi</string>
     <string name="choose_account">Pilih akun</string>
     <string name="app_logo">Logo aplikasi</string>
@@ -22,16 +23,6 @@
     <string name="hint_error_appeared">Sebuah kesalahan muncul</string>
 
     <string name="delete_item">Hapus %1$s</string>
-    <string name="pref_title_sync_only_wifi">Sinkronkan saja pada Wi-Fi</string>
-    <string name="pref_title_sync_background">Sinkronisasi latar belakang</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>Bawaan Sistem</item>
-        <item>Terang</item>
-        <item>Gelap</item>
-    </string-array>
-
     <string name="about">Tentang</string>
     <string name="about_version_title">Versi</string>
     <string name="about_version">Anda sedang menggunakan %1$s</string>

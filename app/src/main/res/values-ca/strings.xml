@@ -14,7 +14,6 @@
     <string name="simple_appearance">Aparença</string>
     <string name="simple_mandatory">Obligatori</string>
     <string name="simple_description">Descripció</string>
-
     <string name="add_table">Afegeix taula</string>
     <string name="edit_row">Edició fila</string>
     <string name="delete_column">Suprimeix la columna</string>
@@ -32,16 +31,6 @@
 
     <string name="delete_item">Elimina %1$s</string>
     <string name="delete_row">Suprimeix la fila</string>
-    <string name="pref_title_sync_only_wifi">Sincronitza només per la connexió sense fil</string>
-    <string name="pref_title_sync_background">Sincronització en segon pla</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>Per defecte del sistema</item>
-        <item>Clar</item>
-        <item>Fosc</item>
-    </string-array>
-
     <string name="about">Quant a</string>
     <string name="about_version_title">Versió</string>
     <string name="about_version">Actualment, teniu la versió %1$s</string>
@@ -99,7 +88,6 @@
     <string name="error_action_update_files_app">Actualitzar</string>
     <string name="error_action_open_battery_settings">Paràmetres de la bateria</string>
 
-    <string name="reason_unknown">S\'ha produït un error desconegut</string>
     <string name="order_weight">Pes de la comanda</string>
     <string name="add_column">Afegeix una columna</string>
     <string name="navigation_my_tables">Les meves taules</string>

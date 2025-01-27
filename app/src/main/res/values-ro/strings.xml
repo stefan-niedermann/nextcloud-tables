@@ -15,7 +15,8 @@
     <string name="simple_appearance">Aspect</string>
     <string name="simple_emoji">Emoticoane</string>
     <string name="simple_description">Descriere</string>
-
+    <string name="simple_type">Tip</string>
+    <string name="simple_label">Etichetă</string>
     <string name="preferences">Preferințe</string>
     <string name="choose_account">Alege contul</string>
     <string name="app_logo">Logo-ul aplicației </string>
@@ -25,16 +26,6 @@
     <string name="hint_error_appeared">A apărut o eroare</string>
 
     <string name="delete_item">Șterge %1$s</string>
-    <string name="pref_title_sync_only_wifi">Sincronizare doare pe Wi-Fi</string>
-    <string name="pref_title_sync_background">Sincronizare de fundal</string>
-    <string name="pref_title_theme">Temă</string>
-
-    <string-array name="theme_entries">
-        <item>Setare implicită a sistemului</item>
-        <item>Deschis</item>
-        <item>Întunecat</item>
-    </string-array>
-
     <string name="about">Despre</string>
     <string name="about_version_title">Versiune</string>
     <string name="about_version">În momentul de față folosești %1$s</string>
@@ -94,4 +85,5 @@
 
     <string name="last_background_sync">Ultima sincronizare de fundal:</string>
     <string name="simple_disabled">dezactivat</string>
+    <string name="simple_discard">Anulează</string>
     </resources>

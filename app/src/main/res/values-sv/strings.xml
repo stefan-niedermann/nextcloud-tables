@@ -15,7 +15,13 @@
     <string name="simple_appearance">Utseende</string>
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="simple_description">Beskrivning</string>
-
+    <string name="simple_type">Typ</string>
+    <string name="simple_default_value">Standardvärde</string>
+    <string name="simple_max_length">Maxlängd</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Decimaler</string>
+    <string name="simple_label">Etikett</string>
     <string name="edit_row">Redigera rad</string>
     <string name="edit_column">Redigera kolumn</string>
     <string name="delete_column">Radera kolumn</string>
@@ -33,16 +39,6 @@
 
     <string name="delete_item">Ta bort %1$s</string>
     <string name="delete_row">Ta bort rad</string>
-    <string name="pref_title_sync_only_wifi">Synkronisera endast med Wi-Fi</string>
-    <string name="pref_title_sync_background">Bakgrundssynkronisering</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>Systemstandard</item>
-        <item>Ljust</item>
-        <item>Mörkt</item>
-    </string-array>
-
     <string name="about">Om</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Du använder %1$s för närvarande</string>
@@ -102,11 +98,14 @@
     <string name="error_action_open_battery_settings">Batteriinställningar</string>
 
     <string name="welcome_text">Välkommen till Nextcloud Tabeller</string>
-    <string name="reason_unknown">Ett okänt fel uppstod</string>
     <string name="order_weight">Beställningsvikt</string>
     <string name="add_column">Lägg till kolumn</string>
     <string name="navigation_my_tables">Mina tabeller</string>
     <string name="navigation_shared_tables">Delade tabeller</string>
     <string name="last_background_sync">Senaste bakgrundssynk:</string>
     <string name="simple_disabled">inaktiverad</string>
+    <string name="text_allowed_pattern">Tillåtet mönster</string>
+    <string name="add_option">Lägg till alternativ</string>
+    <string name="delete_option">Ta bort alternativ</string>
+    <string name="simple_discard">Ignorera</string>
     </resources>

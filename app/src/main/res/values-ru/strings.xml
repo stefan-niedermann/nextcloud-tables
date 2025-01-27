@@ -17,7 +17,10 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Обязательный</string>
     <string name="simple_description">Описание</string>
-
+    <string name="simple_type">Тип</string>
+    <string name="simple_default_value">Значение по умолчанию</string>
+    <string name="simple_max_value">Макс</string>
+    <string name="simple_label">Метка</string>
     <string name="add_table">Добавить таблицу</string>
     <string name="add_row">Добавить строку</string>
     <string name="edit_row">Изменить строку</string>
@@ -42,16 +45,6 @@
     <string name="delete_item_message">Это действие приведёт к удалению %1$s.</string>
     <string name="delete_row">Удалить строку</string>
     <string name="delete_row_message">Это действие приведёт к удалению этой строки.</string>
-
-    <string name="pref_title_sync_only_wifi">Синхр. только по Wi-Fi</string>
-    <string name="pref_title_sync_background">Синхр. в фоновом режиме</string>
-    <string name="pref_title_theme">Оформление</string>
-
-    <string-array name="theme_entries">
-        <item>Система по умолчанию</item>
-        <item>Светлое</item>
-        <item>Тёмное</item>
-    </string-array>
 
     <string name="about">О себе</string>
     <string name="about_version_title">Версия</string>
@@ -125,14 +118,12 @@
     <string name="import_state_import_tables">Импорт таблиц. Это займет несколько минут.</string>
     <string name="not_yet_synchronized">Еще не синхронизировано</string>
 
-    <string name="reason_not_installed">Приложение Nextcloud Tables не установлено</string>
-    <string name="reason_not_enabled">Приложение Nextcloud Tables не включено</string>
-    <string name="reason_maintenance_mode">Ваш экземпляр Nextcloud в настоящее время находится в режиме обслуживания</string>
-    <string name="reason_server_error">Ваш сервер ответил недопустимым ответом</string>
-    <string name="reason_tables_not_supported">Ваша версия приложения Nextcloud Tables не поддерживается</string>
-    <string name="reason_nextcloud_not_supported">Ваша версия Nextcloud не поддерживается</string>
-    <string name="reason_unknown">Произошла неизвестная ошибка</string>
-    <string name="reason_offline">Нет подключения к интернету.</string>
+    <string name="validation_number_not_parsable">Значение не является числом</string>
+    <string name="validation_number_range">Значение должно быть между %1$s и %2$s</string>
+    <string name="validation_number_min">Значения должно быть не меньше %1$s</string>
+    <string name="validation_number_max">Значения должно быть не больше %1$s</string>
+    <string name="validation_mandatory">Это обязательное поле</string>
+    <string name="validation_time_missing">Время должно быть указано для поля DateTime.</string>
 
     <string name="missing_permission_read">Отсутствуют права на чтение</string>
     <string name="missing_permission_create">Отсутствуют права на создание</string>
@@ -140,17 +131,8 @@
     <string name="missing_permission_delete">Отсутствуют права на удаление</string>
     <string name="missing_permission_manage">Отсутствуют права на управление</string>
 
-    <string name="validation_number_not_parsable">Значение не является числом</string>
-    <string name="validation_number_range">Значение должно быть между %1$s и %2$s</string>
-    <string name="validation_number_min">Значения должно быть не меньше %1$s</string>
-    <string name="validation_number_max">Значения должно быть не больше %1$s</string>
-    <string name="validation_text_link">Значение не является ссылкой</string>
-    <string name="validation_mandatory">Это обязательное поле</string>
-    <string name="validation_time_missing">Время должно быть указано для поля DateTime.</string>
-
     <string name="order_weight">Порядковый номер</string>
     <string name="add_column">Добавить стопку</string>
-    <string name="unsupported_column_type">Редактирование столбцов типа %1$s еще не поддерживается.</string>
     <string name="navigation_my_tables">Мои таблицы</string>
     <string name="navigation_shared_tables">Общие таблицы</string>
     <string name="could_not_display_column_editor">Не удалось отобразить %1$s.</string>
@@ -158,7 +140,10 @@
     <string name="last_background_sync">Последняя фоновая синхронизация:</string>
     <string name="simple_disabled">отключено</string>
     <string name="manage_columns_subtitle">Перетащите, чтобы изменить порядок</string>
-
+    <string name="add_option">Добавить вариант</string>
+    <string name="delete_option">Удалить вариант</string>
     <string name="experimental_feature_column_reordering">Изменение порядка столбцов - это экспериментальная функция, которая может иметь непреднамеренные побочные эффекты и для других конфигураций столбцов этой таблицы.</string>
     <string name="experimental_feature_column_manage">Редактирование столбцов — это экспериментальная функция, которая может иметь непредвиденные побочные эффекты и для других конфигураций этого столбца.</string>
-</resources>
+    <string name="unsupported_column_type">Редактирование столбцов типа %1$s еще не поддерживается.</string>
+    <string name="simple_discard">Отмена</string>
+    </resources>

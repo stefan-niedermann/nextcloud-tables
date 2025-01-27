@@ -14,7 +14,12 @@
     <string name="simple_appearance">Uiterlijk</string>
     <string name="simple_mandatory">Verplicht</string>
     <string name="simple_description">Omschrijving</string>
-
+    <string name="simple_type">Type</string>
+    <string name="simple_max_length">Max lengte</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Decimalen</string>
+    <string name="simple_label">Label</string>
     <string name="add_table">Voeg een tabel toe</string>
     <string name="delete_column">Verwijder kolom</string>
     <string name="preferences">Voorkeuren</string>
@@ -29,16 +34,6 @@
     <string name="hint_error_appeared">Er is een fout verschenen</string>
 
     <string name="delete_item">Verwijder %1$s</string>
-    <string name="pref_title_sync_only_wifi">Alleen met Wi-Fi synchroniseren</string>
-    <string name="pref_title_sync_background">Achtergrondsynchronisatie</string>
-    <string name="pref_title_theme">Thema</string>
-
-    <string-array name="theme_entries">
-        <item>Systeem Standaard</item>
-        <item>Licht</item>
-        <item>Donker</item>
-    </string-array>
-
     <string name="about">Over</string>
     <string name="about_version_title">Versie</string>
     <string name="about_version">Je gebruikt nu %1$s</string>
@@ -97,10 +92,11 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="error_action_update_files_app">Update</string>
     <string name="error_action_open_battery_settings">Batterij instellingen</string>
 
-    <string name="reason_unknown">Een onbekend probleem vond plaats</string>
     <string name="add_column">Toevoegen kolom</string>
     <string name="navigation_my_tables">Mijn tabellen</string>
     <string name="navigation_shared_tables">Gedeelde tabellen</string>
     <string name="last_background_sync">Laatste achtergrond sync:</string>
     <string name="simple_disabled">uitgeschakeld</string>
+    <string name="text_allowed_pattern">Toegestaan patroon</string>
+    <string name="add_option">Voeg een optie toe</string>
     </resources>

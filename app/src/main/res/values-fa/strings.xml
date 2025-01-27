@@ -17,7 +17,8 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Mandatory</string>
     <string name="simple_description">توضیحات</string>
-
+    <string name="simple_max_value">Max</string>
+    <string name="simple_label">برچسب</string>
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>
     <string name="edit_row">Edit row</string>
@@ -42,16 +43,6 @@
     <string name="delete_item_message">This will permanently delete %1$s.</string>
     <string name="delete_row">Delete row</string>
     <string name="delete_row_message">This will permanently delete this row.</string>
-
-    <string name="pref_title_sync_only_wifi">همگام سازی فقط در Wi-Fi</string>
-    <string name="pref_title_sync_background">همگام سازی پس زمینه</string>
-    <string name="pref_title_theme">تم تاریک</string>
-
-    <string-array name="theme_entries">
-        <item>پیش‌فرض سامانه</item>
-        <item>روشن</item>
-        <item>تاریک</item>
-    </string-array>
 
     <string name="about">About</string>
     <string name="about_version_title">نسخه</string>
@@ -125,14 +116,12 @@
     <string name="import_state_import_tables">Importing tables. This may take several minutes.</string>
     <string name="not_yet_synchronized">Not yet synchronized</string>
 
-    <string name="reason_not_installed">Nextcloud Tables is not installed</string>
-    <string name="reason_not_enabled">Nextcloud Tables is not enabled</string>
-    <string name="reason_maintenance_mode">Your Nextcloud instance is currently in maintenance mode</string>
-    <string name="reason_server_error">Your server responded with an invalid response</string>
-    <string name="reason_tables_not_supported">Your Nextcloud Tables app version is not supported</string>
-    <string name="reason_nextcloud_not_supported">Your Nextcloud version is not supported</string>
-    <string name="reason_unknown">An unknown error occurred</string>
-    <string name="reason_offline">You are currently offline. </string>
+    <string name="validation_number_not_parsable">The value seems not to be a number</string>
+    <string name="validation_number_range">The value must be between %1$s and %2$s</string>
+    <string name="validation_number_min">The value must be at least %1$s</string>
+    <string name="validation_number_max">The value must be at most %1$s</string>
+    <string name="validation_mandatory">This is a mandatory field</string>
+    <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
 
     <string name="missing_permission_read">Missing read permission</string>
     <string name="missing_permission_create">Missing create permission</string>
@@ -140,17 +129,8 @@
     <string name="missing_permission_delete">Missing delete permission</string>
     <string name="missing_permission_manage">Missing manage permission</string>
 
-    <string name="validation_number_not_parsable">The value seems not to be a number</string>
-    <string name="validation_number_range">The value must be between %1$s and %2$s</string>
-    <string name="validation_number_min">The value must be at least %1$s</string>
-    <string name="validation_number_max">The value must be at most %1$s</string>
-    <string name="validation_text_link">The value is not a link</string>
-    <string name="validation_mandatory">This is a mandatory field</string>
-    <string name="validation_time_missing">Time must be provided for a DateTime field.</string>
-
     <string name="order_weight">Order weight</string>
     <string name="add_column">ستون را اضافه کنید</string>
-    <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
     <string name="navigation_my_tables">My tables</string>
     <string name="navigation_shared_tables">Shared tables</string>
     <string name="could_not_display_column_editor">%1$s could not be displayed.</string>
@@ -158,7 +138,8 @@
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
     <string name="simple_disabled">غیر فعال</string>
     <string name="manage_columns_subtitle">Drag and drop to reorder</string>
-
+    <string name="add_option">افزودن گزینه</string>
     <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
     <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
-</resources>
+    <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
+    </resources>

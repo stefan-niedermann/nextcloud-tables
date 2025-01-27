@@ -14,7 +14,8 @@
     <string name="simple_appearance">Išvaizda</string>
     <string name="simple_mandatory">Privalomas</string>
     <string name="simple_description">Aprašas</string>
-
+    <string name="simple_type">Tipas</string>
+    <string name="simple_label">Etiketė</string>
     <string name="edit_row">Taisyti eilutę</string>
     <string name="delete_column">Ištrinti stulpelį</string>
     <string name="preferences">Nuostatos</string>
@@ -29,16 +30,6 @@
 
     <string name="delete_item">Ištrinti %1$s</string>
     <string name="delete_row">Ištrinti eilutę</string>
-    <string name="pref_title_sync_only_wifi">Sinchronizuoti tik naudojant belaidį (Wi-Fi)</string>
-    <string name="pref_title_sync_background">Foninis sinchronizavimas</string>
-    <string name="pref_title_theme">Apipavidalinimas</string>
-
-    <string-array name="theme_entries">
-        <item>Sistemos numatytasis</item>
-        <item>Šviesus</item>
-        <item>Tamsus</item>
-    </string-array>
-
     <string name="about">Apie</string>
     <string name="about_version_title">Versija</string>
     <string name="about_version">Šiuo metu naudojate %1$s</string>
@@ -77,10 +68,10 @@
     <string name="error_action_update_files_app">Atnaujinti</string>
     <string name="error_action_open_battery_settings">Akumuliatoriaus nustatymai</string>
 
-    <string name="reason_unknown">Įvyko nežinoma klaida</string>
     <string name="add_column">Pridėti stulpelį</string>
     <string name="navigation_my_tables">Mano lentelės</string>
     <string name="navigation_shared_tables">Bendrinamos lentelės</string>
     <string name="last_background_sync">Paskutinis foninis sinchronizavimas:</string>
     <string name="simple_disabled">išjungta</string>
+    <string name="add_option">Pridėti variantą</string>
     </resources>

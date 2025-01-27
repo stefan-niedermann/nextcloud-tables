@@ -15,7 +15,9 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatòriu</string>
     <string name="simple_description">Descritzione</string>
-
+    <string name="simple_type">Genia</string>
+    <string name="simple_max_value">Màssimu</string>
+    <string name="simple_label">Eticheta</string>
     <string name="add_table">Agiunghe una tabella</string>
     <string name="preferences">Preferèntzias</string>
     <string name="import_account">Importa contu</string>
@@ -28,16 +30,6 @@
     <string name="hint_error_appeared">Ddoe at àpidu un errore</string>
 
     <string name="delete_item">Cantzella %1$s</string>
-    <string name="pref_title_sync_only_wifi">Sincroniza isceti in Wi-Fi</string>
-    <string name="pref_title_sync_background">Sincronizatzione isfundu</string>
-    <string name="pref_title_theme">Tema</string>
-
-    <string-array name="theme_entries">
-        <item>Predefinidu de sistema</item>
-        <item>Craru</item>
-        <item>Iscuru</item>
-    </string-array>
-
     <string name="about">In contu de</string>
     <string name="about_version_title">Versione</string>
     <string name="about_version">Immoe ses impreende %1$s</string>
@@ -95,4 +87,7 @@
 
     <string name="last_background_sync">Ùrtima sincronizatzione in background:</string>
     <string name="simple_disabled">disativadu</string>
+    <string name="add_option">Agiunghe sèberu</string>
+    <string name="delete_option">Cantzella sèberu</string>
+    <string name="simple_discard">Iscarta</string>
     </resources>

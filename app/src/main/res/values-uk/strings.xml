@@ -17,7 +17,11 @@
     <string name="simple_emoji">Емоційки</string>
     <string name="simple_mandatory">Обов\'язково</string>
     <string name="simple_description">Опис</string>
-
+    <string name="simple_type">Тип</string>
+    <string name="simple_default_value">Типове значення</string>
+    <string name="simple_max_value">Щонайбільше</string>
+    <string name="simple_decimals">Знак після коми</string>
+    <string name="simple_label">Мітка</string>
     <string name="add_table">Додати таблицю</string>
     <string name="add_row">Додати рядок</string>
     <string name="edit_row">Редагувати рядок</string>
@@ -42,16 +46,6 @@
     <string name="delete_item_message">Це призведе до вилучення без можливості відновлення %1$s.</string>
     <string name="delete_row">Вилучити рядок</string>
     <string name="delete_row_message">Це призведе до вилучення цього рядка.</string>
-
-    <string name="pref_title_sync_only_wifi">Синхронізація тільки за допомогою WI-Fi</string>
-    <string name="pref_title_sync_background">Фонова синхронізація</string>
-    <string name="pref_title_theme">Тема</string>
-
-    <string-array name="theme_entries">
-        <item>Системна</item>
-        <item>Світла</item>
-        <item>Темна</item>
-    </string-array>
 
     <string name="about">Про застосунок</string>
     <string name="about_version_title">Версія</string>
@@ -125,14 +119,12 @@
     <string name="import_state_import_tables">Імпорт таблиць. Це може зайняти кілька хвилин.</string>
     <string name="not_yet_synchronized">Поки не синхронізовано</string>
 
-    <string name="reason_not_installed">Застосунок Таблиці Nextcloud не встановлено</string>
-    <string name="reason_not_enabled">Застосунок Таблиці Nextcloud не увімкнено</string>
-    <string name="reason_maintenance_mode">Ваша хмара Nextcloud перебуває в режимі обслуговування</string>
-    <string name="reason_server_error">Отримано недійсну відповідь від вашого сервера</string>
-    <string name="reason_tables_not_supported">Ваша версія застосунку Таблиці Nextcloud не підтримується</string>
-    <string name="reason_nextcloud_not_supported">Ваша версія Nextcloud не підтримується</string>
-    <string name="reason_unknown">Невідома помилка</string>
-    <string name="reason_offline">Відсутнє з\'єднання з мережею.</string>
+    <string name="validation_number_not_parsable">Схоже, що це значення не є цифровим</string>
+    <string name="validation_number_range">Це значення має бути в діапазоні між %1$s та %2$s</string>
+    <string name="validation_number_min">Це значення має бути мінімум %1$s</string>
+    <string name="validation_number_max">Це значення має бути максимум %1$s</string>
+    <string name="validation_mandatory">Обов\'язкове поле</string>
+    <string name="validation_time_missing">Потрібно зазначити у полі DateTime часове значення</string>
 
     <string name="missing_permission_read">Відсутній дозвіл на читання</string>
     <string name="missing_permission_create">Відсутній дозвіл на створення</string>
@@ -140,17 +132,8 @@
     <string name="missing_permission_delete">Відсутній дозвіл на вилучення</string>
     <string name="missing_permission_manage">Відсутній дозвіл на керування</string>
 
-    <string name="validation_number_not_parsable">Схоже, що це значення не є цифровим</string>
-    <string name="validation_number_range">Це значення має бути в діапазоні між %1$s та %2$s</string>
-    <string name="validation_number_min">Це значення має бути мінімум %1$s</string>
-    <string name="validation_number_max">Це значення має бути максимум %1$s</string>
-    <string name="validation_text_link">Це значення не є посиланням</string>
-    <string name="validation_mandatory">Обов\'язкове поле</string>
-    <string name="validation_time_missing">Потрібно зазначити у полі DateTime часове значення</string>
-
     <string name="order_weight">Порядок у списку</string>
     <string name="add_column">Додати стовпчик</string>
-    <string name="unsupported_column_type">Редагування стовпця типу%1$s поки не підтримується.</string>
     <string name="navigation_my_tables">Мої таблиці</string>
     <string name="navigation_shared_tables">Спільні таблиці</string>
     <string name="could_not_display_column_editor">Неможливо показати %1$s.</string>
@@ -158,7 +141,10 @@
     <string name="last_background_sync">Остання фонова синхронізація:</string>
     <string name="simple_disabled">вимкнено</string>
     <string name="manage_columns_subtitle">Пересуньте для зміни порядку</string>
-
+    <string name="add_option">Додати варіант</string>
+    <string name="delete_option">Вилучити опцію</string>
     <string name="experimental_feature_column_reordering">Зміна порядку стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
     <string name="experimental_feature_column_manage">Редагування стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
-</resources>
+    <string name="unsupported_column_type">Редагування стовпця типу%1$s поки не підтримується.</string>
+    <string name="simple_discard">Відхилити</string>
+    </resources>

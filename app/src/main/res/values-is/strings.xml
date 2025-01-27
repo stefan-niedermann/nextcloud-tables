@@ -12,7 +12,8 @@
     <string name="simple_about">Um</string>
     <string name="simple_appearance">Útlit</string>
     <string name="simple_description">Lýsing</string>
-
+    <string name="simple_type">Tegund</string>
+    <string name="simple_label">Skýring</string>
     <string name="delete_column">Eyða dálki</string>
     <string name="preferences">Kjörstillingar</string>
     <string name="import_account">Flytja inn aðgang</string>
@@ -24,12 +25,6 @@
     <string name="hint_error_appeared">Villa kom upp</string>
 
     <string name="delete_item">Eyða \'%s\'?</string>
-    <string name="pref_title_sync_only_wifi">Aðeins samstilla á WiFi-neti</string>
-    <string name="pref_title_sync_background">Samstilling í bakgrunni</string>
-    <string-array name="theme_entries">
-        <item>Sjálfgefið kerfi</item>
-    </string-array>
-
     <string name="about">Um</string>
     <string name="about_version_title">Útgáfa</string>
     <string name="about_version">Þú ert núna að nota %1$s</string>
@@ -88,8 +83,8 @@
     <string name="error_action_update_files_app">Uppfæra</string>
     <string name="error_action_open_battery_settings">Stillingar rafhlöðu</string>
 
-    <string name="reason_unknown">Óþekkt villa kom upp</string>
     <string name="add_column">Bæta við dálki</string>
     <string name="last_background_sync">Síðasta samstilling í bakgrunni:</string>
     <string name="simple_disabled">óvirkt</string>
+    <string name="add_option">Bæta við valkosti</string>
     </resources>

@@ -17,7 +17,9 @@
     <string name="simple_emoji">Emotikonoa</string>
     <string name="simple_mandatory">Nahitaezkoa</string>
     <string name="simple_description">Deskripzioa</string>
-
+    <string name="simple_max_value">Maximoa</string>
+    <string name="simple_prefix">Aurrizkia</string>
+    <string name="simple_label">Etiketa</string>
     <string name="add_table">Gehitu taula</string>
     <string name="add_row">Gehitu errenkada</string>
     <string name="edit_row">Editatu errenkada</string>
@@ -42,16 +44,6 @@
     <string name="delete_item_message">Honek %1$s betiko ezabatuko du.</string>
     <string name="delete_row">Ezabatu errenkada</string>
     <string name="delete_row_message">Honek betiko ezabatuko du errenkada hau.</string>
-
-    <string name="pref_title_sync_only_wifi">Sinkronizatu Wi-Fiarekin soilik</string>
-    <string name="pref_title_sync_background">Atzeko planoko sinkronizazioa</string>
-    <string name="pref_title_theme">Gaia</string>
-
-    <string-array name="theme_entries">
-        <item>Sistemaren ezarpen lehenetsiak</item>
-        <item>Argia</item>
-        <item>Iluna</item>
-    </string-array>
 
     <string name="about">Honi buruz</string>
     <string name="about_version_title">Bertsioa</string>
@@ -125,14 +117,12 @@
     <string name="import_state_import_tables">Taulak inportatzea. Hainbat minutu iraun ditzake.</string>
     <string name="not_yet_synchronized">Oraindik sinkronizatu gabe</string>
 
-    <string name="reason_not_installed">Nextcloud Taulak ez dago instalatuta</string>
-    <string name="reason_not_enabled">Nextcloud Taulak ez dago gaituta</string>
-    <string name="reason_maintenance_mode">Zure Nextcloud instantzia mantentze moduan dago une honetan</string>
-    <string name="reason_server_error">Zure zerbitzariak erantzun baliogabe batekin erantzun du</string>
-    <string name="reason_tables_not_supported">Zure Nextcloud Taulak aplikazioaren bertsioa ez da onartzen</string>
-    <string name="reason_nextcloud_not_supported">Zure Nextcloud bertsioa ez da onartzen</string>
-    <string name="reason_unknown">Akats ezezagun bat gertatu da</string>
-    <string name="reason_offline">Une honetan konexiorik gabe zaude.</string>
+    <string name="validation_number_not_parsable">Badirudi balioa ez dela zenbaki bat</string>
+    <string name="validation_number_range">Balioa %1$s eta %2$s artean egon behar da</string>
+    <string name="validation_number_min">Balioa gutxienez %1$s izan behar da</string>
+    <string name="validation_number_max">Balioa gehienez %1$s izan behar da</string>
+    <string name="validation_mandatory">Hau nahitaezko eremua da</string>
+    <string name="validation_time_missing">Ordua eman behar da DateTime eremu baterako.</string>
 
     <string name="missing_permission_read">Irakurtzeko baimena falta da</string>
     <string name="missing_permission_create">Sortzeko baimena falta da</string>
@@ -140,17 +130,8 @@
     <string name="missing_permission_delete">Ezabatzeko baimena falta da</string>
     <string name="missing_permission_manage">Kudeatzeko baimena falta da</string>
 
-    <string name="validation_number_not_parsable">Badirudi balioa ez dela zenbaki bat</string>
-    <string name="validation_number_range">Balioa %1$s eta %2$s artean egon behar da</string>
-    <string name="validation_number_min">Balioa gutxienez %1$s izan behar da</string>
-    <string name="validation_number_max">Balioa gehienez %1$s izan behar da</string>
-    <string name="validation_text_link">Balioa ez da esteka bat</string>
-    <string name="validation_mandatory">Hau nahitaezko eremua da</string>
-    <string name="validation_time_missing">Ordua eman behar da DateTime eremu baterako.</string>
-
     <string name="order_weight">Eskaeraren pisua</string>
     <string name="add_column">Gehitu zutabea</string>
-    <string name="unsupported_column_type">%1$smotako zutabeak editatzea ez da onartzen oraindik. </string>
     <string name="navigation_my_tables">Nire taulak</string>
     <string name="navigation_shared_tables">Partekatutako taulak</string>
     <string name="could_not_display_column_editor">%1$s ezin izan da bistaratu.</string>
@@ -158,7 +139,8 @@
     <string name="last_background_sync">Azken atzeko planoko sinkronizazioa:</string>
     <string name="simple_disabled">desgaituta</string>
     <string name="manage_columns_subtitle">Arrastatu eta utzi ordenatzeko</string>
-
+    <string name="add_option">Gehitu aukera</string>
     <string name="experimental_feature_column_reordering">Zutabeak ordenatzea ezaugarri esperimentala da eta ustekabeko efektuak izan ditzake taula honetako beste zutabeen konfigurazioan ere.</string>
     <string name="experimental_feature_column_manage">Zutabeak editatzea ezaugarri esperimentala da eta ustekabeko efektuak izan ditzake zutabe honetako konfigurazioan ere.</string>
-</resources>
+    <string name="unsupported_column_type">%1$smotako zutabeak editatzea ez da onartzen oraindik. </string>
+    </resources>
