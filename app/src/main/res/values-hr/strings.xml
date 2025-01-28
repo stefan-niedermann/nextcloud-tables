@@ -14,6 +14,7 @@
     <string name="simple_appearance">Izgled</string>
     <string name="simple_mandatory">Obavezno</string>
     <string name="simple_description">Opis</string>
+    <string name="simple_type">Vrsta</string>
     <string name="simple_max_value">Maks.</string>
     <string name="simple_label">Oznaka</string>
     <string name="delete_column">Izbriši stupac</string>
@@ -86,4 +87,7 @@
     <string name="last_background_sync">Posljednja pozadinska sinkronizacija:</string>
     <string name="simple_disabled">onemogućeno</string>
     <string name="add_option">Dodaj mogućnost</string>
+    <string name="delete_option">Izbriši mogućnost</string>
+    <string name="unsafed_changes">Nespremljene promjene</string>
+    <string name="simple_discard">Odbaci</string>
     </resources>

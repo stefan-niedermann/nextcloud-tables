@@ -18,6 +18,8 @@
     <string name="simple_mandatory">Obbligatorio</string>
     <string name="simple_description">Descrizione</string>
     <string name="simple_type">Tipo</string>
+    <string name="simple_max_length">Lunghezza massima</string>
+    <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimali</string>
     <string name="simple_label">Etichetta</string>
@@ -140,8 +142,12 @@
     <string name="last_background_sync">Ultima sincronizzazione in background:</string>
     <string name="simple_disabled">disabilitato</string>
     <string name="manage_columns_subtitle">Trascina e rilascia per riordinare</string>
+    <string name="text_allowed_pattern">Impossibile recuperare le colonne della tabella</string>
     <string name="add_option">Aggiungi opzione</string>
+    <string name="delete_option">Elimina opzione</string>
     <string name="experimental_feature_column_reordering">Il riordino delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni delle colonne di questa tabella.</string>
     <string name="experimental_feature_column_manage">La modifica delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni di questa colonna.</string>
     <string name="unsupported_column_type">La modifica di colonne di tipo %1$s non è ancora supportata</string>
+    <string name="unsafed_changes">Modifiche non salvate</string>
+    <string name="simple_discard">Scarta</string>
     </resources>

@@ -13,6 +13,13 @@
     <string name="simple_about">Относно</string>
     <string name="simple_appearance">Изглед</string>
     <string name="simple_mandatory">Задължително</string>
+    <string name="simple_type">Тип</string>
+    <string name="simple_default_value">Стойност по подразбиране</string>
+    <string name="simple_max_length">Максимална дължина</string>
+    <string name="simple_min_value">Мин</string>
+    <string name="simple_max_value">Макс</string>
+    <string name="simple_decimals">Десетични знаци</string>
+    <string name="simple_prefix">Префикс /Обръщение/</string>
     <string name="add_table">Добавяне на таблица</string>
     <string name="edit_row">Редактиране на ред</string>
     <string name="preferences">Предпочитания</string>
@@ -91,4 +98,8 @@
     <string name="navigation_shared_tables">Споделени таблици</string>
     <string name="last_background_sync">Последна фонова синхронизация:</string>
     <string name="simple_disabled">изключено/деактивирано/</string>
+    <string name="text_allowed_pattern">Разрешен шаблон</string>
+    <string name="add_option">Добавяне на опция</string>
+    <string name="delete_option">Изтриване на опция</string>
+    <string name="simple_discard">Отхвърляне</string>
     </resources>

@@ -14,6 +14,12 @@
     <string name="simple_appearance">Aparença</string>
     <string name="simple_mandatory">Obligatori</string>
     <string name="simple_description">Descripció</string>
+    <string name="simple_type">Tipus</string>
+    <string name="simple_max_length">Longitud màxima</string>
+    <string name="simple_min_value">Mínim</string>
+    <string name="simple_max_value">Màx</string>
+    <string name="simple_decimals">Decimals</string>
+    <string name="simple_label">Etiqueta</string>
     <string name="add_table">Afegeix taula</string>
     <string name="edit_row">Edició fila</string>
     <string name="delete_column">Suprimeix la columna</string>
@@ -94,4 +100,8 @@
     <string name="navigation_shared_tables">Taules compartides</string>
     <string name="last_background_sync">Última sincronització en segon pla:</string>
     <string name="simple_disabled">inhabilitat</string>
+    <string name="text_allowed_pattern">Patró permès</string>
+    <string name="add_option">Afegeix una opció</string>
+    <string name="delete_option">Suprimir opció</string>
+    <string name="simple_discard">Descarta\'l</string>
     </resources>

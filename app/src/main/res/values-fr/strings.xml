@@ -17,7 +17,12 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatoire</string>
     <string name="simple_description">Description</string>
+    <string name="simple_type">Type</string>
+    <string name="simple_default_value">Valeur par défaut</string>
+    <string name="simple_max_length">Longueur maximale</string>
+    <string name="simple_min_value">Min.</string>
     <string name="simple_max_value">Max.</string>
+    <string name="simple_decimals">Décimales</string>
     <string name="simple_prefix">Préfixe</string>
     <string name="simple_suffix">Suffixe</string>
     <string name="simple_label">Libellé</string>
@@ -140,8 +145,12 @@
     <string name="last_background_sync">Dernière synchro en tâche de fond :</string>
     <string name="simple_disabled">désactivé</string>
     <string name="manage_columns_subtitle">Glissez-déposez pour réorganiser</string>
+    <string name="text_allowed_pattern">Motif autorisé</string>
     <string name="add_option">Ajouter une option</string>
+    <string name="delete_option">Supprimer ce choix</string>
     <string name="experimental_feature_column_reordering">La réorganisation des colonnes est une fonctionnalité expérimentale qui peut avoir des effets indésirables sur d\'autres configurations des colonnes sur ce tableau.</string>
     <string name="experimental_feature_column_manage">La modification des colonnes est une fonctionnalité expérimentale qui peut avoir des effets secondaires involontaires sur d\'autres configurations de cette colonne.</string>
     <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
+    <string name="unsafed_changes">Modifications non enregistrées</string>
+    <string name="simple_discard">ignorer</string>
     </resources>

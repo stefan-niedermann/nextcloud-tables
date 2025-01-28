@@ -89,5 +89,6 @@
     <string name="simple_disabled">disativadu</string>
     <string name="add_option">Agiunghe sèberu</string>
     <string name="delete_option">Cantzella sèberu</string>
+    <string name="unsafed_changes">Mudas non sarvadas</string>
     <string name="simple_discard">Iscarta</string>
     </resources>

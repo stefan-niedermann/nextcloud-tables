@@ -17,8 +17,14 @@
     <string name="simple_emoji">Emotikonoa</string>
     <string name="simple_mandatory">Nahitaezkoa</string>
     <string name="simple_description">Deskripzioa</string>
+    <string name="simple_type">Mota</string>
+    <string name="simple_default_value">Balio lehenetsia</string>
+    <string name="simple_max_length">Luzera maximoa</string>
+    <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Maximoa</string>
+    <string name="simple_decimals">Dezimalak</string>
     <string name="simple_prefix">Aurrizkia</string>
+    <string name="simple_suffix">Atzizkia</string>
     <string name="simple_label">Etiketa</string>
     <string name="add_table">Gehitu taula</string>
     <string name="add_row">Gehitu errenkada</string>
@@ -139,8 +145,12 @@
     <string name="last_background_sync">Azken atzeko planoko sinkronizazioa:</string>
     <string name="simple_disabled">desgaituta</string>
     <string name="manage_columns_subtitle">Arrastatu eta utzi ordenatzeko</string>
+    <string name="text_allowed_pattern">Baimendutako eredua</string>
     <string name="add_option">Gehitu aukera</string>
+    <string name="delete_option">Ezabatu aukera</string>
     <string name="experimental_feature_column_reordering">Zutabeak ordenatzea ezaugarri esperimentala da eta ustekabeko efektuak izan ditzake taula honetako beste zutabeen konfigurazioan ere.</string>
     <string name="experimental_feature_column_manage">Zutabeak editatzea ezaugarri esperimentala da eta ustekabeko efektuak izan ditzake zutabe honetako konfigurazioan ere.</string>
     <string name="unsupported_column_type">%1$smotako zutabeak editatzea ez da onartzen oraindik. </string>
+    <string name="unsafed_changes">Gorde gabeko aldaketak</string>
+    <string name="simple_discard">Baztertu</string>
     </resources>

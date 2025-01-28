@@ -17,7 +17,12 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Mandatory</string>
     <string name="simple_description">توضیحات</string>
+    <string name="simple_type">نوع</string>
+    <string name="simple_default_value">Default value</string>
+    <string name="simple_max_length">Max length</string>
+    <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Decimals</string>
     <string name="simple_label">برچسب</string>
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>
@@ -138,8 +143,12 @@
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
     <string name="simple_disabled">غیر فعال</string>
     <string name="manage_columns_subtitle">Drag and drop to reorder</string>
+    <string name="text_allowed_pattern">Allowed pattern</string>
     <string name="add_option">افزودن گزینه</string>
+    <string name="delete_option">گزینه حذف</string>
     <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
     <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
+    <string name="unsafed_changes">Unsaved changes</string>
+    <string name="simple_discard">لغو تغییرات</string>
     </resources>

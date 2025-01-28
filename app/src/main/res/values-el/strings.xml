@@ -14,6 +14,14 @@
     <string name="simple_appearance">Εμφάνιση</string>
     <string name="simple_mandatory">Υποχρεωτικό</string>
     <string name="simple_description">Περιγραφή</string>
+    <string name="simple_type">Τύπος</string>
+    <string name="simple_default_value">Προεπιλεγμένη τιμή</string>
+    <string name="simple_max_length">Μέγιστο μήκος</string>
+    <string name="simple_min_value">Ελάχιστο</string>
+    <string name="simple_max_value">Μέγιστο</string>
+    <string name="simple_decimals">Δεκαδικά ψηφία</string>
+    <string name="simple_suffix">Επίθεμα</string>
+    <string name="simple_label">Ετικέτα</string>
     <string name="edit_row">Επεξεργασία γραμμής</string>
     <string name="edit_column">Επεξεργασία στήλης</string>
     <string name="delete_column">Διαγραφή στήλης</string>
@@ -92,5 +100,8 @@
     <string name="navigation_shared_tables">Κοινόχρηστοι πίνακες</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
     <string name="simple_disabled">απενεργοποιημένο</string>
+    <string name="text_allowed_pattern">Επιτρεπόμενο μοτίβο</string>
     <string name="add_option">Προσθήκη επιλογής</string>
+    <string name="delete_option">Διαγραφή επιλογής</string>
+    <string name="simple_discard">Απόρριψη</string>
     </resources>

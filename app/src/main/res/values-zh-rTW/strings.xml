@@ -150,5 +150,6 @@
     <string name="experimental_feature_column_reordering">重新排序欄位是實驗性的功能，可能會對該表格的欄位或其他設定產生意想不到的副作用。</string>
     <string name="experimental_feature_column_manage">編輯欄位是實驗性的功能，可能會對該欄位或其他設定產生意想不到的副作用。</string>
     <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
+    <string name="unsafed_changes">未儲存變更</string>
     <string name="simple_discard">放棄</string>
     </resources>

@@ -17,7 +17,12 @@
     <string name="simple_emoji">«Emoji»</string>
     <string name="simple_mandatory">Obrigatorio</string>
     <string name="simple_description">Descrición</string>
+    <string name="simple_type">Escribir</string>
+    <string name="simple_default_value">Valor predeterminado</string>
+    <string name="simple_max_length">Lonxitude máxima</string>
+    <string name="simple_min_value">Mín</string>
     <string name="simple_max_value">Máx</string>
+    <string name="simple_decimals">Decimais</string>
     <string name="simple_prefix">Prefixo</string>
     <string name="simple_suffix">Sufixo</string>
     <string name="simple_label">Etiqueta</string>
@@ -140,8 +145,12 @@
     <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
     <string name="simple_disabled">desactivado</string>
     <string name="manage_columns_subtitle">Arrastre e solte para reordenar</string>
+    <string name="text_allowed_pattern">Patrón permitido</string>
     <string name="add_option">Engadir unha opción</string>
+    <string name="delete_option">Eliminar opción</string>
     <string name="experimental_feature_column_reordering">A reordenación de columnas é unha función experimental que tamén pode ter efectos secundarios non desexados para outras configuracións das columnas desta táboa.</string>
     <string name="experimental_feature_column_manage">A edición de columnas é unha función experimental que tamén pode ter efectos secundarios non desexados para outras configuracións desta columna.</string>
     <string name="unsupported_column_type">Aínda non se admite a edición de columnas de tipo %1$s.</string>
+    <string name="unsafed_changes">Cambios sen gardar</string>
+    <string name="simple_discard">Desbortar</string>
     </resources>

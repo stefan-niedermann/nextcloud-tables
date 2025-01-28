@@ -16,6 +16,13 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="simple_description">Beskrivelse</string>
+    <string name="simple_type">Type</string>
+    <string name="simple_default_value">Standard værdi</string>
+    <string name="simple_max_length">Max længde</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Decimaler</string>
+    <string name="simple_label">Mærkat</string>
     <string name="add_table">Tilføj tabel</string>
     <string name="add_row">Tilføj række</string>
     <string name="edit_row">Rediger række</string>
@@ -94,5 +101,8 @@
     <string name="navigation_shared_tables">Fælles tabeller</string>
     <string name="last_background_sync">Seneste baggrundssynkronisering:</string>
     <string name="simple_disabled">slået fra</string>
+    <string name="text_allowed_pattern">Tilladt mønster</string>
     <string name="add_option">Tilføj valg</string>
+    <string name="delete_option">Slet valg</string>
+    <string name="simple_discard">Kassér</string>
     </resources>

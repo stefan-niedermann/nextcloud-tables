@@ -87,5 +87,6 @@
 
     <string name="last_background_sync">Đồng bộ trong nền lần cuối:</string>
     <string name="simple_disabled">đã tắt</string>
+    <string name="unsafed_changes">Thay đổi chưa được lưu</string>
     <string name="simple_discard">Bỏ qua thay đổi</string>
     </resources>

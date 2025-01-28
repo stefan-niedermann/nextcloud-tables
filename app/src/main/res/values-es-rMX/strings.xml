@@ -12,6 +12,8 @@
     <string name="simple_about">Acerca</string>
     <string name="simple_appearance">Apariencia</string>
     <string name="simple_description">Descripción</string>
+    <string name="simple_type">Tipo</string>
+    <string name="simple_decimals">Decimales</string>
     <string name="simple_label">Etiqueta</string>
     <string name="preferences">Preferencias</string>
     <string name="import_account">Importar cuenta</string>
@@ -81,4 +83,6 @@
 
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">deshabilitado</string>
+    <string name="unsafed_changes">Cambios no guardados</string>
+    <string name="simple_discard">Descartar</string>
     </resources>

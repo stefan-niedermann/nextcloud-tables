@@ -145,5 +145,6 @@
     <string name="experimental_feature_column_reordering">Изменение порядка столбцов - это экспериментальная функция, которая может иметь непреднамеренные побочные эффекты и для других конфигураций столбцов этой таблицы.</string>
     <string name="experimental_feature_column_manage">Редактирование столбцов — это экспериментальная функция, которая может иметь непредвиденные побочные эффекты и для других конфигураций этого столбца.</string>
     <string name="unsupported_column_type">Редактирование столбцов типа %1$s еще не поддерживается.</string>
+    <string name="unsafed_changes">Несохранённые изменения</string>
     <string name="simple_discard">Отмена</string>
     </resources>

@@ -17,7 +17,11 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Éigeantach</string>
     <string name="simple_description">Cur síos</string>
+    <string name="simple_type">Cineál</string>
+    <string name="simple_default_value">Luach réamhshocraithe</string>
+    <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Uas</string>
+    <string name="simple_decimals">Deachúlacha</string>
     <string name="simple_prefix">Réimír</string>
     <string name="simple_suffix">Iarmhír</string>
     <string name="simple_label">Lipéad</string>
@@ -141,7 +145,10 @@
     <string name="simple_disabled">faoi ​​mhíchumas</string>
     <string name="manage_columns_subtitle">Tarraing agus scaoil chun athordú</string>
     <string name="add_option">Cuir rogha leis</string>
+    <string name="delete_option">Scrios rogha</string>
     <string name="experimental_feature_column_reordering">Is gné thurgnamhach é colúin a athordú a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile de cholúin an tábla seo freisin.</string>
     <string name="experimental_feature_column_manage">Is gné thurgnamhach é eagarthóireacht na gcolún a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile den cholún seo freisin.</string>
     <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
+    <string name="unsafed_changes">Athruithe gan sábháil</string>
+    <string name="simple_discard">Caith amach</string>
     </resources>

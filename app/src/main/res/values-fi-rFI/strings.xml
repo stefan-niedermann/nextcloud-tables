@@ -17,7 +17,11 @@
     <string name="simple_emoji">Hymiö</string>
     <string name="simple_mandatory">Pakollinen</string>
     <string name="simple_description">Kuvaus</string>
+    <string name="simple_type">Tyyppi</string>
+    <string name="simple_default_value">Oletusarvo</string>
+    <string name="simple_max_length">Enimmäispituus</string>
     <string name="simple_max_value">Enintään</string>
+    <string name="simple_decimals">Desimaalit</string>
     <string name="simple_label">Nimike</string>
     <string name="add_table">Lisää taulukko</string>
     <string name="add_row">Lisää sarake</string>
@@ -137,8 +141,12 @@
     <string name="last_background_sync">Viimeisin taustasynkronointi:</string>
     <string name="simple_disabled">poistettu käytöstä</string>
     <string name="manage_columns_subtitle">Järjestä uudelleen vetämällä ja pudottamalla</string>
+    <string name="text_allowed_pattern">Sallittu kaava</string>
     <string name="add_option">Lisää valinta</string>
+    <string name="delete_option">Poista valinta</string>
     <string name="experimental_feature_column_reordering">Sarakkeiden uudelleenjärjestäminen on kokeellinen ominaisuus, jolla voi olla odottamattomia vaikutuksia taulukon muihin sarakkeisiin.</string>
     <string name="experimental_feature_column_manage">Sarakkeiden muokkaaminen on kokeellinen ominaisuus, jolla voi olla vaikutuksia  myös muihin sarakkeisiin.</string>
     <string name="unsupported_column_type">Tyypin %1$s sarakkeiden muokkaamista ei vielä tueta.</string>
+    <string name="unsafed_changes">Tallentamattomia muutoksia</string>
+    <string name="simple_discard">Hylkää</string>
     </resources>

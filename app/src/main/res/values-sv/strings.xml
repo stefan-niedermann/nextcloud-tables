@@ -107,5 +107,6 @@
     <string name="text_allowed_pattern">Tillåtet mönster</string>
     <string name="add_option">Lägg till alternativ</string>
     <string name="delete_option">Ta bort alternativ</string>
+    <string name="unsafed_changes">Ej sparade ändringar</string>
     <string name="simple_discard">Ignorera</string>
     </resources>

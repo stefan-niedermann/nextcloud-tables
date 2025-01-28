@@ -18,6 +18,7 @@
     <string name="simple_mandatory">Обавезно</string>
     <string name="simple_description">Опис</string>
     <string name="simple_type">Тип</string>
+    <string name="simple_subtype">Подтип</string>
     <string name="simple_default_value">Подразумевана вредност</string>
     <string name="simple_max_length">Макс дужина</string>
     <string name="simple_min_value">Мин</string>
@@ -25,8 +26,10 @@
     <string name="simple_decimals">Децимале</string>
     <string name="simple_prefix">Префикс</string>
     <string name="simple_suffix">Суфикс</string>
+    <string name="simple_label">Ознака</string>
     <string name="add_table">Додај табелу</string>
     <string name="add_row">Додај ред</string>
+    <string name="duplicate_row">Дуплирај ред</string>
     <string name="edit_row">Уреди ред</string>
     <string name="manage_columns">Управљај колонама</string>
     <string name="edit_column">Уреди колону</string>
@@ -145,10 +148,18 @@
     <string name="simple_disabled">искључено</string>
     <string name="manage_columns_subtitle">Превуците и упустите да промените редослед</string>
     <string name="text_allowed_pattern">Шаблон дозвољених</string>
+    <string name="use_now_as_default">Користи сада као подразумевано</string>
+    <string name="use_today_as_default">Користи данас као подразумевано</string>
     <string name="add_option">Додај ставку</string>
     <string name="delete_option">Обриши опцију</string>
     <string name="experimental_feature_column_reordering">Промена редоследа колона је експерментална функција која такође може имати нежељене споредне ефекте на остале конфигурације колона ове табеле.</string>
     <string name="experimental_feature_column_manage">Уређивање колона је експерментална функција која такође може имати нежељене споредне ефекте на остале конфигурације колона ове табеле.</string>
+    <string name="column_type_is_required">Потребан је тип колоне</string>
     <string name="unsupported_column_type">Уређивање колоне типа %1$s се још увек не подржава</string>
+    <string name="number_only_us_format">Молимо вас да имате на уму да је уређивање бројева тренутно могуће само у америчком формату (за граничника хиљада се користи запета, а тачка за раздвајање децималног дела)</string>
+    <string name="unsafed_changes">Несачуване измене</string>
     <string name="simple_discard">Одбаци</string>
-    </resources>
+    <string name="search_hint">Да почнете претрагу, налепите линк или куцајте</string>
+    <!-- TRANSLATORS Please add context -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+</resources>

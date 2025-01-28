@@ -17,7 +17,12 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatorio</string>
     <string name="simple_description">Descripción</string>
+    <string name="simple_type">Tipo</string>
+    <string name="simple_default_value">Valor predeterminado</string>
+    <string name="simple_max_length">Longitud máxima</string>
+    <string name="simple_min_value">Mín</string>
     <string name="simple_max_value">Máx.</string>
+    <string name="simple_decimals">Decimales</string>
     <string name="simple_label">Etiqueta</string>
     <string name="add_table">Agregar tabla</string>
     <string name="add_row">Agregar fila</string>
@@ -138,8 +143,12 @@
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">desactivado</string>
     <string name="manage_columns_subtitle">Arrastra y suelta para reordenar</string>
+    <string name="text_allowed_pattern">Patrón permitido</string>
     <string name="add_option">Agregar opción</string>
+    <string name="delete_option">Eliminar opción</string>
     <string name="experimental_feature_column_reordering">La reordenación de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de las columnas de esta tabla.</string>
     <string name="experimental_feature_column_manage">La edición de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de esta columna.</string>
     <string name="unsupported_column_type">No se admite la edición de columnas de tipo %1$s.</string>
+    <string name="unsafed_changes">Cambios no guardados</string>
+    <string name="simple_discard">Descartar</string>
     </resources>

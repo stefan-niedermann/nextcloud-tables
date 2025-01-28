@@ -149,5 +149,6 @@
     <string name="experimental_feature_column_reordering">ئىستونلارنى رەتلەش بىر تەجرىبە ئالاھىدىلىكى بولۇپ ، بۇ جەدۋەلنىڭ باشقا سەپلىمىلىرىگىمۇ ئويلىمىغان ئەكىس تەسىرلەر بولۇشى مۇمكىن.</string>
     <string name="experimental_feature_column_manage">ستونلارنى تەھرىرلەش تەجرىبە ئىقتىدارى بولۇپ ، بۇ ئىستوننىڭ باشقا سەپلىمىلىرىگىمۇ ئويلىمىغان ئەكىس تەسىرلەر بولۇشى مۇمكىن.</string>
     <string name="unsupported_column_type">% 1 $ s تىپىدىكى ئىستونلارنى تەھرىرلەش تېخى قوللىمايدۇ.</string>
+    <string name="unsafed_changes">ساقلانمىغان ئۆزگەرتىش</string>
     <string name="simple_discard">تاشلىۋېتىش</string>
     </resources>

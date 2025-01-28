@@ -151,5 +151,6 @@
     <string name="experimental_feature_column_reordering">Reordenar colunas é um recurso experimental que também pode ter efeitos colaterais indesejados em outras configurações das colunas desta tabela.</string>
     <string name="experimental_feature_column_manage">A edição de colunas é um recurso experimental que também pode ter efeitos colaterais indesejados em outras configurações dessa coluna.</string>
     <string name="unsupported_column_type">Editando colunas do tipo %1$s ainda não é suportado.</string>
+    <string name="unsafed_changes">Alterações não salvas</string>
     <string name="simple_discard">Descartar</string>
     </resources>

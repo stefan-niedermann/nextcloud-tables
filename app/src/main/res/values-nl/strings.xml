@@ -99,4 +99,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="text_allowed_pattern">Toegestaan patroon</string>
     <string name="add_option">Voeg een optie toe</string>
+    <string name="delete_option">Verwijder optie</string>
+    <string name="unsafed_changes">Niet opgeslagen veranderingen</string>
+    <string name="simple_discard">Weggooien</string>
     </resources>

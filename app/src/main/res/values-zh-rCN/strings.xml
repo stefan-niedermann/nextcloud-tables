@@ -107,5 +107,6 @@
     <string name="simple_disabled">已禁用</string>
     <string name="add_option">添加选项</string>
     <string name="delete_option">删除选项</string>
+    <string name="unsafed_changes">未保存的更改</string>
     <string name="simple_discard">丢弃</string>
     </resources>

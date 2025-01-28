@@ -151,5 +151,6 @@
     <string name="experimental_feature_column_reordering">Zmena poradia stĺpcov je experimentálna funkcia, ktorá môže mať neúmyselné vedľajšie účinky aj na iné konfigurácie stĺpcov v tejto tabuľke.</string>
     <string name="experimental_feature_column_manage">Úprava stĺpcov je experimentálna funkcia, ktorá môže mať neúmyselné vedľajšie účinky aj na iné konfigurácie tohto stĺpca.</string>
     <string name="unsupported_column_type">Úprava stĺpcov typu %1$s nie je zatiaľ podporované.</string>
+    <string name="unsafed_changes">Neuložené zmeny</string>
     <string name="simple_discard">Odstrániť</string>
     </resources>

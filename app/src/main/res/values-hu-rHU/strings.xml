@@ -19,6 +19,8 @@
     <string name="simple_description">Leírás</string>
     <string name="simple_type">Típus</string>
     <string name="simple_default_value">Alapértelmezett érték</string>
+    <string name="simple_max_length">Legnagyobb hossz</string>
+    <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Számjegyek</string>
     <string name="simple_label">Címke</string>
@@ -141,8 +143,12 @@
     <string name="last_background_sync">Legutóbbi szinkronizálás:</string>
     <string name="simple_disabled">letiltva</string>
     <string name="manage_columns_subtitle">Húzza át az átrendezéshez</string>
+    <string name="text_allowed_pattern">Engedélyezett minta</string>
     <string name="add_option">Lehetőség hozzáadása</string>
+    <string name="delete_option">Lehetőség törlése</string>
     <string name="experimental_feature_column_reordering">Az oszlopok újrarendezése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek a táblázat oszlopainak más beállításaira.</string>
     <string name="experimental_feature_column_manage">Az oszlopok szerkesztése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek az oszlop más beállításaira.</string>
     <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
+    <string name="unsafed_changes">Mentetlen változtatások</string>
+    <string name="simple_discard">Elvetés</string>
     </resources>

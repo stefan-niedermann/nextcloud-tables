@@ -87,4 +87,7 @@
     <string name="last_background_sync">Síðasta samstilling í bakgrunni:</string>
     <string name="simple_disabled">óvirkt</string>
     <string name="add_option">Bæta við valkosti</string>
+    <string name="delete_option">Eyða valkosti</string>
+    <string name="unsafed_changes">Óvistaðar breytingar</string>
+    <string name="simple_discard">Fleygja</string>
     </resources>

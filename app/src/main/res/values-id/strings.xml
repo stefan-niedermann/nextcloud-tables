@@ -80,4 +80,5 @@
 
     <string name="last_background_sync">Sinkronisasi latar belakang terakhir:</string>
     <string name="simple_disabled">nonaktifkan</string>
+    <string name="simple_discard">Abaikan</string>
     </resources>

@@ -19,6 +19,7 @@
     <string name="simple_description">説明</string>
     <string name="simple_type">タイプ</string>
     <string name="simple_default_value">初期値</string>
+    <string name="simple_min_value">min</string>
     <string name="simple_max_value">最大</string>
     <string name="simple_decimals">小数点以下</string>
     <string name="simple_label">ラベル</string>
@@ -130,5 +131,8 @@
     <string name="last_background_sync">最後のバックグラウンド同期：</string>
     <string name="simple_disabled">無効</string>
     <string name="add_option">オプションを追加</string>
+    <string name="delete_option">選択肢を削除</string>
     <string name="unsupported_column_type">%1$s型の列の編集は未サポートです。</string>
+    <string name="unsafed_changes">未保存の変更点</string>
+    <string name="simple_discard">破棄</string>
     </resources>

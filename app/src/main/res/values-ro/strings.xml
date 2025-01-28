@@ -85,5 +85,6 @@
 
     <string name="last_background_sync">Ultima sincronizare de fundal:</string>
     <string name="simple_disabled">dezactivat</string>
+    <string name="unsafed_changes">Modificări nesalvate</string>
     <string name="simple_discard">Anulează</string>
     </resources>

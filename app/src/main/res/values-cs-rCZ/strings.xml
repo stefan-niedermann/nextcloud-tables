@@ -17,6 +17,14 @@
     <string name="simple_emoji">Emotikona</string>
     <string name="simple_mandatory">Povinné</string>
     <string name="simple_description">Popis</string>
+    <string name="simple_type">Typ</string>
+    <string name="simple_default_value">Výchozí hodnota</string>
+    <string name="simple_max_length">Nejvyšší umožněná délka</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Desetinná čísla</string>
+    <string name="simple_prefix">Předpona</string>
+    <string name="simple_suffix">Přípona</string>
     <string name="add_table">Přidat tabulku</string>
     <string name="add_row">Přidat řádek</string>
     <string name="edit_row">Upravit řádek</string>
@@ -136,7 +144,11 @@
     <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
     <string name="simple_disabled">vypnuto</string>
     <string name="manage_columns_subtitle">Pořadí změníte přetahováním</string>
+    <string name="text_allowed_pattern">Vzory umožněného</string>
+    <string name="add_option">Přidat volbu</string>
+    <string name="delete_option">Smazat volbu</string>
     <string name="experimental_feature_column_reordering">Změna pořadí sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
     <string name="experimental_feature_column_manage">Upravování sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
     <string name="unsupported_column_type">Upravování sloupců typu %1$s zatím není podporováno.</string>
+    <string name="simple_discard">Zahodit</string>
     </resources>
