@@ -150,5 +150,6 @@
     <string name="experimental_feature_column_reordering">Změna pořadí sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
     <string name="experimental_feature_column_manage">Upravování sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
     <string name="unsupported_column_type">Upravování sloupců typu %1$s zatím není podporováno.</string>
+    <string name="unsafed_changes">Neuložené změny</string>
     <string name="simple_discard">Zahodit</string>
     </resources>

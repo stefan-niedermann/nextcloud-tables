@@ -12,17 +12,28 @@
     <string name="simple_delete">Radera</string>
     <string name="simple_settings">Inställningar</string>
     <string name="simple_about">Om</string>
+    <string name="simple_synchronization">Synkronisering</string>
     <string name="simple_appearance">Utseende</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="simple_description">Beskrivning</string>
     <string name="simple_type">Typ</string>
+    <string name="simple_subtype">Undertyp</string>
     <string name="simple_default_value">Standardvärde</string>
     <string name="simple_max_length">Maxlängd</string>
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimaler</string>
+    <string name="simple_prefix">Prefix</string>
+    <string name="simple_suffix">Suffix</string>
     <string name="simple_label">Etikett</string>
+    <string name="simple_hint">Tips</string>
+
+    <string name="add_table">Lägg till tabell</string>
+    <string name="add_row">Lägg till rad</string>
+    <string name="duplicate_row">Duplicera rad</string>
     <string name="edit_row">Redigera rad</string>
+    <string name="manage_columns">Hantera kolumner</string>
     <string name="edit_column">Redigera kolumn</string>
     <string name="delete_column">Radera kolumn</string>
     <string name="preferences">Inställningar</string>
@@ -34,11 +45,16 @@
     <string name="add_account">Lägg till konto</string>
     <string name="edit_table">Redigera tabell</string>
     <string name="edit_item">Redigera %1$s</string>
+    <string name="share_table">Dela tabell</string>
+    <string name="not_implemented">Den här funktionen har ännu inte implementerats</string>
     <string name="delete_table">Ta bort tabell</string>
     <string name="hint_error_appeared">Ett fel uppstod</string>
 
     <string name="delete_item">Ta bort %1$s</string>
+    <string name="delete_item_message">Detta kommer att permanent radera %1$s.</string>
     <string name="delete_row">Ta bort rad</string>
+    <string name="delete_row_message">Detta kommer att radera den här raden permanent.</string>
+
     <string name="about">Om</string>
     <string name="about_version_title">Version</string>
     <string name="about_version">Du använder %1$s för närvarande</string>
@@ -67,6 +83,7 @@
 
     <string name="error_dialog_title">Å nej - Vad händer nu?🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Försök med att Tvinga appen att stänga och återstarta. En felaktig anslutning till Nextcloud-appen kan ha förekommit.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Om problemet kvarstår, försök att rensa lagringen för båda apparna: Nextcloud och Nextcloud Tables.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Uppgraderingen av databasen misslyckades. Var god anmäl problemet, rensa sedan appens data för att kunna återgå till normal användning.</string>
     <string name="error_dialog_tip_clear_storage">Du kan rensa diskutrymmet genom att öppna appens info, välj Lagring -> Rensa data</string>
     <string name="error_dialog_tip_offline_no_internet">Det ser ut som om du försökte starta en synkronisering utan en internetanslutning.</string>
@@ -77,16 +94,22 @@
     <string name="error_dialog_tip_files_delete_storage">Om tvångsavslutning ej hjälper kan du försöka rensa datan på båda appar.</string>
     <string name="error_dialog_timeout_instance">Din server svarade inte inom den angivna tiden. Kontrollera att den fungerar normalt.</string>
     <string name="error_dialog_timeout_toggle">Kontrollera din nätverksanslutning. Ibland kan det hjälpa att slå av och på mobildata eller Wi-Fi.</string>
+    <string name="error_dialog_check_server">Svaret från din server var inte korrekt. Kontrollera om du kan komma åt Tables-appen via webbgränssnittet.</string>
     <string name="error_dialog_check_server_logs">Det finns problem med din Nextcloud-installation. Ta gärna en titt i serverns loggfiler. </string>
     <string name="error_dialog_check_maintenance">Kontrollera att underhållsläge inte är aktivt på Nextcloud-installation.</string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-installation har slut på diskutrymme. Ta bort några filer för att kunna synkronisera ändringar till ditt moln.</string>
     <string name="error_dialog_we_need_info">Vi behöver följande teknisk information för att kunna hjälpa dig:</string>
+    <string name="error_dialog_redirect">Din server svarade med en HTTP 302-statuskod, vilket antyder att du antingen inte har installerat Tables-appen på din server eller att något är felkonfigurerat. Detta kan orsakas av anpassade överskrivningar i en .htaccess-fil eller av Nextcloud-appar som OID Client.</string>
+    <string name="error_dialog_forbidden">Du har otillräckliga behörigheter. Kontrollera tabeller som har delats med dig och som nyligen har ändrats.</string>
+    <string name="error_dialog_version_not_parsable">Vi kunde inte fastställa versionen av Tables-appen på servern. Kontrollera att den är installerad och aktiverad.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ditt Nextcloud-konto är eventuellt inte längre auktoriserat. </string>
     <string name="error_dialog_user_not_found_in_database">Den nuvarande användaren matchar inte användaren vi har i vår databas. Om ni använder LDAP i er Nextcloud-instans kan din Nextcloud-app ha lagrat ett gammalt användar-ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Vi kunde inte hämta er servers förmågor. Vänligen säkerställ att er server fungerar som den ska och att klient-appar kan komma åt Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">En bifogad fil kunde inte laddas upp. Försök dela den på ett annat och sätt och vänligen berätta för oss om det här felet.</string>
     <string name="error_dialog_certificate">Något är fel med certifikatet på servern. Kontrollera alla konton i Nextcloud-appen för mer information.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Inaktivera alla batterioptimeringar för Nextcloud och Tables-appen.</string>
     <string name="error_dialog_unknown_error">Det går inte att nå din Nextcloud-instans. Kontrollera din internetanslutning och om du kan nå din instans via en webbläsare.</string>
+    <string name="error_dialog_min_version">Tables-appen för Android kräver att Nextcloud-appen för Android är minst version 3.18.</string>
     <string name="error_action_open_app_info">Öppna appinformation</string>
     <string name="error_action_open_nextcloud_app">Öppna Nextcloud-appen</string>
     <string name="error_action_open_network">Nätverksinställningar</string>
@@ -98,15 +121,48 @@
     <string name="error_action_open_battery_settings">Batteriinställningar</string>
 
     <string name="welcome_text">Välkommen till Nextcloud Tabeller</string>
+    <string name="importing_account">Importerar konto %1$s</string>
+    <string name="account_already_imported">Kontot är redan importerat</string>
+    <string name="import_state_import_account">Importera konto</string>
+    <string name="import_state_import_tables">Importerar tabeller. Detta kan ta flera minuter.</string>
+    <string name="not_yet_synchronized">Inte synkroniserad ännu</string>
+
+    <string name="validation_number_not_parsable">Värdet verkar inte vara en siffra</string>
+    <string name="validation_number_range">Värdet måste vara mellan %1$s och %2$s</string>
+    <string name="validation_number_min">Värdet måste vara minst %1$s</string>
+    <string name="validation_number_max">Värdet får vara högst %1$s</string>
+    <string name="validation_mandatory">Detta är ett obligatoriskt fält</string>
+    <string name="validation_time_missing">Tid måste anges för ett DatumTid-fält.</string>
+
+    <string name="missing_permission_read">Saknar läsbehörighet</string>
+    <string name="missing_permission_create">Saknar behörighet att skapa</string>
+    <string name="missing_permission_update">Saknar behörighet att uppdatera</string>
+    <string name="missing_permission_delete">Saknar behörighet att radera</string>
+    <string name="missing_permission_manage">Saknar behörighet att hantera</string>
+
     <string name="order_weight">Beställningsvikt</string>
     <string name="add_column">Lägg till kolumn</string>
     <string name="navigation_my_tables">Mina tabeller</string>
     <string name="navigation_shared_tables">Delade tabeller</string>
+    <string name="could_not_display_column_editor">%1$s kunde inte visas.</string>
+    <string name="choose_table_from_the_sidebar">Välj tabell från sidopanelen</string>
     <string name="last_background_sync">Senaste bakgrundssynk:</string>
     <string name="simple_disabled">inaktiverad</string>
+    <string name="manage_columns_subtitle">Dra och släpp för att ändra ordning</string>
     <string name="text_allowed_pattern">Tillåtet mönster</string>
+    <string name="use_now_as_default">Använd nu som standard</string>
+    <string name="use_today_as_default">Använd idag som standard</string>
     <string name="add_option">Lägg till alternativ</string>
     <string name="delete_option">Ta bort alternativ</string>
+    <string name="experimental_feature_column_reordering">Omordning av kolumner är en experimentell funktion som kan ha oavsiktliga bieffekter på andra konfigurationer av kolumnerna i denna tabell.</string>
+    <string name="experimental_feature_column_manage">Redigering av kolumner är en experimentell funktion som kan ha oavsiktliga bieffekter på andra konfigurationer av denna kolumn.</string>
+    <string name="column_type_is_required">Kolumntyp är obligatorisk</string>
+    <string name="unsupported_column_type">Redigering av kolumner av typen %1$s stöds ännu inte.</string>
+    <string name="number_only_us_format">Observera att redigering av siffror för närvarande endast är möjligt i US-format (använd komma som tusentalsavgränsare och punkt som decimalavgränsare).</string>
     <string name="unsafed_changes">Ej sparade ändringar</string>
+    <string name="unsafed_changes_details">Osparade ändringar har upptäckts. Vill du ignorera eller spara dem?</string>
     <string name="simple_discard">Ignorera</string>
-    </resources>
+    <string name="search_hint">Klistra in länk eller skriv för att söka</string>
+    <!-- TRANSLATORS Please add context -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+</resources>
