@@ -18,7 +18,7 @@
     <string name="simple_mandatory">Pflichtfeld</string>
     <string name="simple_description">Beschreibung</string>
     <string name="simple_type">Typ</string>
-    <string name="simple_subtype">Untertpy</string>
+    <string name="simple_subtype">Untertyp</string>
     <string name="simple_default_value">Standardwert</string>
     <string name="simple_max_length">Maximale Länge</string>
     <string name="simple_min_value">Min</string>
@@ -27,6 +27,8 @@
     <string name="simple_prefix">Präfix</string>
     <string name="simple_suffix">Suffix</string>
     <string name="simple_label">Beschriftung</string>
+    <string name="simple_hint">Hinweis</string>
+
     <string name="add_table">Tabelle hinzufügen</string>
     <string name="add_row">Zeile hinzufügen</string>
     <string name="duplicate_row">Zeile duplizieren</string>
@@ -157,6 +159,8 @@
     <string name="column_type_is_required">Spaltentyp ist erforderlich</string>
     <string name="unsupported_column_type">Die Bearbeitung von Spalten des Typs %1$s wird noch nicht unterstützt.</string>
     <string name="number_only_us_format">Bitte beachten Sie, dass die Bearbeitung von Zahlen derzeit nur im US-Format möglich ist (verwenden Sie Kommas als Tausendertrennzeichen und einen Punkt als Dezimaltrennzeichen)</string>
+    <string name="unsafed_changes">Ungespeicherte Änderungen</string>
+    <string name="unsafed_changes_details">Es wurden nicht gespeicherte Änderungen erkannt. Möchten Sie diese verwerfen oder speichern?</string>
     <string name="simple_discard">Verwerfen</string>
     <string name="search_hint">Link einfügen oder eingeben, um zu suchen</string>
     <!-- TRANSLATORS Please add context -->
