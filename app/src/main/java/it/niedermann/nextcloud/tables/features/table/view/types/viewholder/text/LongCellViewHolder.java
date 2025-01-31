@@ -7,6 +7,7 @@ import androidx.core.text.HtmlCompat;
 
 import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.model.FullData;
@@ -22,7 +23,7 @@ public class LongCellViewHolder extends TextCellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull FullData fullData, @NonNull Column column) {
+    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull Column column) {
         final var value = Optional
                 .ofNullable(fullData.getData())
                 .map(Data::getValue)

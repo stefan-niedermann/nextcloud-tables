@@ -146,6 +146,6 @@
     <string name="experimental_feature_column_reordering">Зміна порядку стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
     <string name="experimental_feature_column_manage">Редагування стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
     <string name="unsupported_column_type">Редагування стовпця типу%1$s поки не підтримується.</string>
-    <string name="unsafed_changes">Незбережені зміни</string>
+    <string name="unsaved_changes">Незбережені зміни</string>
     <string name="simple_discard">Відхилити</string>
     </resources>

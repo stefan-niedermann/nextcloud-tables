@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.model.FullData;
@@ -25,7 +26,7 @@ public class SelectionViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull FullData fullData,
+    public void bind(@NonNull Account account, @NonNull FullData fullData,
                      @NonNull Column column) {
         binding.data.setText(formatValue(fullData, column));
 

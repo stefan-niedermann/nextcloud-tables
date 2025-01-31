@@ -149,6 +149,6 @@
     <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
     <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
-    <string name="unsafed_changes">Unsaved changes</string>
+    <string name="unsaved_changes">Unsaved changes</string>
     <string name="simple_discard">لغو تغییرات</string>
     </resources>

@@ -159,7 +159,7 @@
     <string name="column_type_is_required">縱列類型為必填項</string>
     <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
     <string name="number_only_us_format">請注意，目前編輯數字僅支持美國格式（使用逗號作為千位分隔符，使用點作為小數點分隔符）。</string>
-    <string name="unsafed_changes">未儲存變更</string>
+    <string name="unsaved_changes">未儲存變更</string>
     <string name="unsafed_changes_details">檢測到未保存的更新。您想放棄還是保存這些更新？</string>
     <string name="simple_discard">取消</string>
     <string name="search_hint">粘貼連結或輸入以搜索</string>

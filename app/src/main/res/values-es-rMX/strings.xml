@@ -83,6 +83,6 @@
 
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">deshabilitado</string>
-    <string name="unsafed_changes">Cambios no guardados</string>
+    <string name="unsaved_changes">Cambios no guardados</string>
     <string name="simple_discard">Descartar</string>
     </resources>

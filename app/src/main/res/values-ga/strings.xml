@@ -149,6 +149,6 @@
     <string name="experimental_feature_column_reordering">Is gné thurgnamhach é colúin a athordú a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile de cholúin an tábla seo freisin.</string>
     <string name="experimental_feature_column_manage">Is gné thurgnamhach é eagarthóireacht na gcolún a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile den cholún seo freisin.</string>
     <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
-    <string name="unsafed_changes">Athruithe gan sábháil</string>
+    <string name="unsaved_changes">Athruithe gan sábháil</string>
     <string name="simple_discard">Caith amach</string>
     </resources>

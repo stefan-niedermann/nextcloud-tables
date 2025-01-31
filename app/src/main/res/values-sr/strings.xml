@@ -159,7 +159,7 @@
     <string name="column_type_is_required">Потребан је тип колоне</string>
     <string name="unsupported_column_type">Уређивање колоне типа %1$s се још увек не подржава</string>
     <string name="number_only_us_format">Молимо вас да имате на уму да је уређивање бројева тренутно могуће само у америчком формату (за граничника хиљада се користи запета, а тачка за раздвајање децималног дела)</string>
-    <string name="unsafed_changes">Несачуване измене</string>
+    <string name="unsaved_changes">Несачуване измене</string>
     <string name="unsafed_changes_details">Откривене су несачуване измене. Желите ли да их одбаците, или да их сачувате?</string>
     <string name="simple_discard">Одбаци</string>
     <string name="search_hint">Да почнете претрагу, налепите линк или куцајте</string>

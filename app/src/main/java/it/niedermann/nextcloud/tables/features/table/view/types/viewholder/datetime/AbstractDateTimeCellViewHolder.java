@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.model.FullData;
@@ -25,7 +26,7 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull FullData fullData, @NonNull Column column) {
+    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull Column column) {
         final var value = Optional
                 .ofNullable(fullData.getData())
                 .map(this::formatValue)

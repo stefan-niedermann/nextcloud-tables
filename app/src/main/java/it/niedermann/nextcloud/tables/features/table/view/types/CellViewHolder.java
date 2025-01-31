@@ -9,6 +9,7 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
 import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
@@ -23,7 +24,9 @@ public abstract class CellViewHolder extends AbstractViewHolder {
         this.defaultValueSupplier = defaultValueSupplier;
     }
 
-    public abstract void bind(@NonNull FullData fullData, @NonNull Column column);
+    public abstract void bind(@NonNull Account account,
+                              @NonNull FullData fullData,
+                              @NonNull Column column);
 
     @NonNull
     public Optional<QuickActionProvider> getQuickActionProvider() {

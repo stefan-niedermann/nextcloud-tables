@@ -159,7 +159,7 @@
     <string name="column_type_is_required">Column type is required</string>
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
     <string name="number_only_us_format">Please note that editing numbers is currently only possible in US format (use comma for thousand separators and a dot for decimal separator)</string>
-    <string name="unsafed_changes">Unsaved changes</string>
+    <string name="unsaved_changes">Unsaved changes</string>
     <string name="unsafed_changes_details">Unsaved changes have been detected. Do you want to discard or save them?</string>
     <string name="simple_discard">Discard</string>
     <string name="search_hint">Paste link or type to search</string>

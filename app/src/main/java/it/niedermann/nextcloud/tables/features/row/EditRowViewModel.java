@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
@@ -28,12 +29,12 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.entity.attributes.TextAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
-import it.niedermann.nextcloud.tables.features.row.editor.ProposalProvider;
+import it.niedermann.nextcloud.tables.remote.ocs.model.OcsAutocompleteResult;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchResultEntry;
 import it.niedermann.nextcloud.tables.repository.SearchRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
-public class EditRowViewModel extends AndroidViewModel implements ProposalProvider<Collection<Pair<SearchProvider, OcsSearchResultEntry>>> {
+public class EditRowViewModel extends AndroidViewModel {
 
     private final TablesRepository tablesRepository;
     private final SearchRepository searchRepository;
@@ -74,10 +75,9 @@ public class EditRowViewModel extends AndroidViewModel implements ProposalProvid
     }
 
     @NonNull
-    @Override
-    public LiveData<Collection<Pair<SearchProvider, OcsSearchResultEntry>>> getProposals(@NonNull Account account,
-                                                                                         @NonNull Column column,
-                                                                                         @NonNull String term) {
+    public LiveData<Collection<Pair<SearchProvider, OcsSearchResultEntry>>> getSearchResultProposals(@NonNull Account account,
+                                                                                                     @NonNull Column column,
+                                                                                                     @NonNull String term) {
 
         final var searchProviderIds = Optional.of(column)
                 .map(Column::getTextAttributes)
@@ -87,5 +87,13 @@ public class EditRowViewModel extends AndroidViewModel implements ProposalProvid
                 .orElseGet(Collections::emptySet);
 
         return searchRepository.search(account, searchProviderIds, term);
+    }
+
+    @NonNull
+    public LiveData<Collection<OcsAutocompleteResult>> getAutocompleteProposals(@NonNull Account account,
+                                                                                @NonNull Column column,
+                                                                                @NonNull String term) {
+        return new ReactiveLiveData<>(searchRepository.searchUser(account, column.getUserGroupAttributes(), term))
+                .map(results -> results);
     }
 }

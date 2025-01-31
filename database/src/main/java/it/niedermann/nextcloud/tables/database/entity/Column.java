@@ -9,6 +9,7 @@ import androidx.room.Index;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.attributes.DateTimeAttributes;
 import it.niedermann.nextcloud.tables.database.entity.attributes.NumberAttributes;
@@ -24,7 +25,7 @@ import it.niedermann.nextcloud.tables.database.model.Value;
                 @Index(value = "orderWeight"),
         }
 )
-public class Column extends AbstractTableRelatedEntity {
+public class Column extends AbstractTableRelatedEntity implements Comparable<Column> {
 
     @ColumnInfo(defaultValue = "")
     private String title = "";
@@ -235,6 +236,13 @@ public class Column extends AbstractTableRelatedEntity {
     @Override
     public String toString() {
         return title + " (ID: " + id + ", Remote ID: " + remoteId + ", Status: " + getStatus() + ", Table ID: " + getTableId() + ")";
+    }
+
+    @Override
+    public int compareTo(Column o) {
+        final int o1OrderWeight = Optional.ofNullable(orderWeight).orElse(-1);
+        final int o2OrderWeight = Optional.ofNullable(o).map(Column::getOrderWeight).orElse(-1);
+        return Integer.compare(o1OrderWeight, o2OrderWeight);
     }
 
     @Override

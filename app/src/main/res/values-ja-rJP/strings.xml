@@ -133,6 +133,6 @@
     <string name="add_option">オプションを追加</string>
     <string name="delete_option">選択肢を削除</string>
     <string name="unsupported_column_type">%1$s型の列の編集は未サポートです。</string>
-    <string name="unsafed_changes">未保存の変更点</string>
+    <string name="unsaved_changes">未保存の変更点</string>
     <string name="simple_discard">破棄</string>
     </resources>

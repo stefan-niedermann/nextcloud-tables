@@ -151,6 +151,6 @@
     <string name="experimental_feature_column_reordering">Omorganisering av kolonner er en eksperimentell funksjon som også kan ha utilsiktede bivirkninger for andre konfigurasjoner av kolonnene i denne tabellen.</string>
     <string name="experimental_feature_column_manage">Redigering av kolonner er en eksperimentell funksjon som også kan ha utilsiktede bivirkninger for andre konfigurasjoner av denne kolonnen.</string>
     <string name="unsupported_column_type">Redigering av kolonner av typen %1$s støttes ikke enda.</string>
-    <string name="unsafed_changes">Ulagrede endringer</string>
+    <string name="unsaved_changes">Ulagrede endringer</string>
     <string name="simple_discard">Slett</string>
     </resources>

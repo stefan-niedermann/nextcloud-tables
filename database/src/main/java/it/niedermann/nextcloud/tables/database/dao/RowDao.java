@@ -84,7 +84,7 @@ public interface RowDao extends GenericDao<Row> {
     @Query("SELECT r.* FROM `Row` r " +
             "WHERE r.tableId = :tableId " +
             "AND r.status IS NOT 'LOCAL_DELETED' " +
-            "ORDER BY r.remoteId IS NULL OR r.remoteId = '', r.remoteId")
+            "ORDER BY r.createdAt DESC")
     LiveData<List<FullRow>> getNotDeletedRows$(long tableId);
 
     @Query("SELECT r.* FROM `Row` r WHERE r.id = :id")

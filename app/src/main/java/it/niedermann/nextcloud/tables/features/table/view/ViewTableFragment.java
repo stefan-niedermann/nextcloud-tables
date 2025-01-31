@@ -89,7 +89,7 @@ public class ViewTableFragment extends Fragment {
 
         if (fullTable == null) {
             Log.i(TAG, "Current table: " + null);
-            adapter.setAllItems(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+            adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
             binding.tableView.setTableViewListener(null);
             binding.fab.setVisibility(View.GONE);
             binding.swipeRefreshLayout.setOnRefreshListener(null);
@@ -105,9 +105,9 @@ public class ViewTableFragment extends Fragment {
 
         // Workaround for https://github.com/stefan-niedermann/nextcloud-tables/issues/16
         if (fullTable.getRows().isEmpty()) {
-            adapter.setAllItems(Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+            adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
         } else {
-            adapter.setAllItems(fullTable.getColumns(), fullTable.getRows(), state.dataGrid());
+            adapter.setAllItems(state.account(), fullTable.getColumns(), fullTable.getRows(), state.dataGrid());
         }
 
         binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import java.util.Objects;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 
-public class FullRow {
+public class FullRow implements Serializable, Comparable<FullRow> {
 
     @NonNull
     @Embedded
@@ -65,5 +66,10 @@ public class FullRow {
     @Override
     public int hashCode() {
         return Objects.hash(row, fullData);
+    }
+
+    @Override
+    public int compareTo(FullRow o) {
+        return row.compareTo(o.getRow());
     }
 }

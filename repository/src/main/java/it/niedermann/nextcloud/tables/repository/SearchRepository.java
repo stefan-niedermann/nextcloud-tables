@@ -20,9 +20,12 @@ import androidx.lifecycle.LiveData;
 import com.nextcloud.android.sso.exceptions.NextcloudHttpRequestFailedException;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -33,7 +36,9 @@ import java.util.stream.Stream;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.SearchProvider;
+import it.niedermann.nextcloud.tables.database.entity.attributes.UserGroupAttributes;
 import it.niedermann.nextcloud.tables.remote.RequestHelper;
+import it.niedermann.nextcloud.tables.remote.ocs.model.OcsAutocompleteResult;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchResult;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchResultEntry;
 import retrofit2.Response;
@@ -47,6 +52,53 @@ public class SearchRepository extends AbstractRepository {
     public SearchRepository(@NonNull Context context) {
         super(context);
         this.requestHelper = new RequestHelper(context);
+    }
+
+    @NonNull
+    public LiveData<List<OcsAutocompleteResult>> searchUser(@NonNull Account account,
+                                                            @NonNull UserGroupAttributes userGroupAttributes,
+                                                            @NonNull String term) {
+        final var liveData = new ReactiveLiveData<List<OcsAutocompleteResult>>(Collections.emptyList());
+
+
+        // TODO Implement offline cache search
+        if (!term.isEmpty()) {
+            searchUserOnline(account, userGroupAttributes, term)
+                    .thenAcceptAsync(liveData::postValue, workExecutor);
+        }
+
+        return liveData;
+    }
+
+    @NonNull
+    public CompletableFuture<List<OcsAutocompleteResult>> searchUserOnline(@NonNull Account account,
+                                                                           @NonNull UserGroupAttributes userGroupAttributes,
+                                                                           @NonNull String term) {
+        final var sources = new ArrayList<OcsAutocompleteResult.OcsAutocompleteSource>(2);
+        if (userGroupAttributes.usergroupSelectUsers()) {
+            sources.add(OcsAutocompleteResult.OcsAutocompleteSource.USERS);
+        }
+        if (userGroupAttributes.usergroupSelectGroups()) {
+            sources.add(OcsAutocompleteResult.OcsAutocompleteSource.GROUPS);
+        }
+
+        return requestHelper.executeNetworkRequest(account, apiTuple -> apiTuple.ocs().searchUser(
+                        null, term,
+                        sources.stream().mapToInt(st -> st.shareType).boxed().collect(Collectors.toUnmodifiableList()),
+                        null, null, 10))
+                .handleAsync((response, exception) -> {
+                    if (exception != null) {
+                        exception.printStackTrace();
+                        return Collections.emptyList();
+                    }
+
+                    return Optional.ofNullable(response)
+                            .map(Response::body)
+                            .map(ocsResponse -> ocsResponse.ocs)
+                            .filter(ocs -> ocs.meta.statusCode == HttpURLConnection.HTTP_OK)
+                            .map(ocs -> ocs.data)
+                            .orElseGet(Collections::emptyList);
+                }, workExecutor);
     }
 
     @AnyThread
@@ -98,7 +150,11 @@ public class SearchRepository extends AbstractRepository {
                                                               @NonNull String term) {
         final var searchResult = new ReactiveLiveData<OcsSearchResultEntry>();
 
-        if (Patterns.WEB_URL.matcher(term).matches()) {
+        if (Patterns.DOMAIN_NAME.matcher(term).matches()) {
+            searchResult.postValue(createUrlSearchResultEntry(String.format("https://%s", term)));
+            return Optional.of(searchResult);
+
+        } else if (Patterns.WEB_URL.matcher(term).matches()) {
             searchResult.postValue(createUrlSearchResultEntry(term));
 
 //        requestHelper.executeNetworkRequest(account, apiTuple -> apiTuple.ocs().resolve(null, Uri.parse(term)))
@@ -110,9 +166,6 @@ public class SearchRepository extends AbstractRepository {
 
             return Optional.of(searchResult);
 
-        } else if (Patterns.DOMAIN_NAME.matcher(term).matches()) {
-            searchResult.postValue(createUrlSearchResultEntry(String.format("https://%s", term)));
-            return Optional.of(searchResult);
         }
 
         return Optional.empty();

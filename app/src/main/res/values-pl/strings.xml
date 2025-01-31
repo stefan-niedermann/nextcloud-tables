@@ -148,6 +148,6 @@
     <string name="experimental_feature_column_reordering">Zmiana kolejności kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji kolumn tej tabeli.</string>
     <string name="experimental_feature_column_manage">Edycja kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji tej kolumny.</string>
     <string name="unsupported_column_type">Edytowanie kolumn typu %1$s nie jest jeszcze obsługiwane.</string>
-    <string name="unsafed_changes">Niezapisane zmiany</string>
+    <string name="unsaved_changes">Niezapisane zmiany</string>
     <string name="simple_discard">Odrzuć</string>
     </resources>

@@ -148,6 +148,6 @@
     <string name="experimental_feature_column_reordering">Il riordino delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni delle colonne di questa tabella.</string>
     <string name="experimental_feature_column_manage">La modifica delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni di questa colonna.</string>
     <string name="unsupported_column_type">La modifica di colonne di tipo %1$s non è ancora supportata</string>
-    <string name="unsafed_changes">Modifiche non salvate</string>
+    <string name="unsaved_changes">Modifiche non salvate</string>
     <string name="simple_discard">Scarta</string>
     </resources>

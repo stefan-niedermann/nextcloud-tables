@@ -159,8 +159,8 @@
     <string name="column_type_is_required">Kolumntyp är obligatorisk</string>
     <string name="unsupported_column_type">Redigering av kolumner av typen %1$s stöds ännu inte.</string>
     <string name="number_only_us_format">Observera att redigering av siffror för närvarande endast är möjligt i US-format (använd komma som tusentalsavgränsare och punkt som decimalavgränsare).</string>
-    <string name="unsafed_changes">Ej sparade ändringar</string>
-    <string name="unsafed_changes_details">Osparade ändringar har upptäckts. Vill du ignorera eller spara dem?</string>
+    <string name="unsaved_changes">Ej sparade ändringar</string>
+    <string name="unsaved_changes_details">Osparade ändringar har upptäckts. Vill du ignorera eller spara dem?</string>
     <string name="simple_discard">Ignorera</string>
     <string name="search_hint">Klistra in länk eller skriv för att söka</string>
     <!-- TRANSLATORS Please add context -->

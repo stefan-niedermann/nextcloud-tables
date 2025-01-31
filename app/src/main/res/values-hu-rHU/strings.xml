@@ -149,6 +149,6 @@
     <string name="experimental_feature_column_reordering">Az oszlopok újrarendezése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek a táblázat oszlopainak más beállításaira.</string>
     <string name="experimental_feature_column_manage">Az oszlopok szerkesztése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek az oszlop más beállításaira.</string>
     <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
-    <string name="unsafed_changes">Mentetlen változtatások</string>
+    <string name="unsaved_changes">Mentetlen változtatások</string>
     <string name="simple_discard">Elvetés</string>
     </resources>

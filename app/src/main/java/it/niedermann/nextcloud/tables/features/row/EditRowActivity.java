@@ -95,7 +95,9 @@ public class EditRowActivity extends AppCompatActivity {
 
         this.binding = ActivityEditRowBinding.inflate(getLayoutInflater());
         this.editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
-        this.editorFactoryRegistry = new EditorServiceRegistry(editRowViewModel);
+        this.editorFactoryRegistry = new EditorServiceRegistry(
+                (account, column, term) -> editRowViewModel.getSearchResultProposals(account, column, term),
+                (account, column, term) -> editRowViewModel.getAutocompleteProposals(account, column, term));
         this.defaultSupplierRegistry = new DataTypeDefaultServiceRegistry();
 
         setContentView(binding.getRoot());
@@ -224,8 +226,8 @@ public class EditRowActivity extends AppCompatActivity {
     private CompletableFuture<Void> showSavePromptGuard() {
         final var future = new CompletableFuture<Void>();
         new MaterialAlertDialogBuilder(EditRowActivity.this)
-                .setTitle(R.string.unsafed_changes)
-                .setMessage(R.string.unsafed_changes_details)
+                .setTitle(R.string.unsaved_changes)
+                .setMessage(R.string.unsaved_changes_details)
                 .setPositiveButton(R.string.simple_save, (dialog, which) -> {
                     save();
                     future.complete(null);

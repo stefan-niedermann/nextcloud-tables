@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import androidx.viewbinding.ViewBinding;
 
-import java.util.Collection;
-
 import it.niedermann.nextcloud.tables.database.entity.SearchProvider;
 import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
@@ -23,15 +21,21 @@ import it.niedermann.nextcloud.tables.features.row.editor.factories.text.TextLin
 import it.niedermann.nextcloud.tables.features.row.editor.factories.text.TextLinkEditorFactory;
 import it.niedermann.nextcloud.tables.features.row.editor.factories.text.TextRichEditorFactory;
 import it.niedermann.nextcloud.tables.features.row.editor.factories.unknown.UnknownEditorFactory;
+import it.niedermann.nextcloud.tables.features.row.editor.factories.usergroup.UserGroupEditorFactory;
+import it.niedermann.nextcloud.tables.remote.ocs.model.OcsAutocompleteResult;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchResultEntry;
 
 public class EditorServiceRegistry extends DataTypeServiceRegistry<EditorFactory<? extends ViewBinding>> {
 
-    private final ProposalProvider<Collection<Pair<SearchProvider, OcsSearchResultEntry>>> searchProposalProvider;
+    private final ProposalProvider<Pair<SearchProvider, OcsSearchResultEntry>> searchProposalProvider;
+    private final ProposalProvider<OcsAutocompleteResult> autocompleteProposalProvider;
 
-    public EditorServiceRegistry(@NonNull ProposalProvider<Collection<Pair<SearchProvider, OcsSearchResultEntry>>> searchProposalProvider) {
+    public EditorServiceRegistry(
+            @NonNull ProposalProvider<Pair<SearchProvider, OcsSearchResultEntry>> searchProposalProvider,
+            @NonNull ProposalProvider<OcsAutocompleteResult> autocompleteProposalProvider) {
         super(true);
         this.searchProposalProvider = searchProposalProvider;
+        this.autocompleteProposalProvider = autocompleteProposalProvider;
     }
 
     @Override
@@ -59,8 +63,10 @@ public class EditorServiceRegistry extends DataTypeServiceRegistry<EditorFactory
             case NUMBER_STARS ->
                     cache.computeIfAbsent(dataType, t -> new NumberStarsEditorFactory());
 
-            case USERGROUP, UNKNOWN ->
-                    cache.computeIfAbsent(dataType, t -> new UnknownEditorFactory());
+            case USERGROUP ->
+                    cache.computeIfAbsent(dataType, t -> new UserGroupEditorFactory(autocompleteProposalProvider));
+
+            case UNKNOWN -> cache.computeIfAbsent(dataType, t -> new UnknownEditorFactory());
         };
     }
 }

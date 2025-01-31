@@ -116,6 +116,12 @@ public class ViewTableViewModel extends AndroidViewModel {
         final var fullRows = fullTable.getRows();
         final var fullColumns = fullTable.getColumns();
 
+        // TODO Migrate FullData to a database View
+        // We must sort our data here because Rooms @Relation does not allow ordering within FullTable
+        // However, we only have to sort the columns and the rows, not the data itself because accessing the data happens via an index based access to the dataGrid
+        Collections.sort(fullColumns);
+        Collections.sort(fullRows);
+
         if (fullRows.isEmpty() || fullColumns.isEmpty()) {
             return Collections.emptyList();
         }

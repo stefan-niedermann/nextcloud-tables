@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.tables.database.entity.DefaultValueUserGroupCross
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 
-public class FullColumn implements Serializable {
+public class FullColumn implements Serializable, Comparable<FullColumn> {
 
     @NonNull
     @Embedded
@@ -114,5 +114,10 @@ public class FullColumn implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(column, selectionOptions, defaultSelectionOptions, defaultUserGroups);
+    }
+
+    @Override
+    public int compareTo(FullColumn o) {
+        return column.compareTo(o.getColumn());
     }
 }

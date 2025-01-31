@@ -159,8 +159,8 @@
     <string name="column_type_is_required">Precisase do tipo de columna</string>
     <string name="unsupported_column_type">Aínda non se admite a edición de columnas de tipo %1$s.</string>
     <string name="number_only_us_format">Teña en conta que a edición de números actualmente só é posíbel en formato estadounidense (uso da coma para separar milleiros e do punto como separador decimal)</string>
-    <string name="unsafed_changes">Cambios sen gardar</string>
-    <string name="unsafed_changes_details">Detectáronse cambios sen gardar. Quere desbotalos ou gardalos?</string>
+    <string name="unsaved_changes">Cambios sen gardar</string>
+    <string name="unsaved_changes_details">Detectáronse cambios sen gardar. Quere desbotalos ou gardalos?</string>
     <string name="simple_discard">Desbortar</string>
     <string name="search_hint">Pegue unha ligazón ou escriba para buscar</string>
     <!-- TRANSLATORS Please add context -->

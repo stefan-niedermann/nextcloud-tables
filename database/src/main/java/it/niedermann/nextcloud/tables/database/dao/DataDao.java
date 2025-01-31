@@ -30,7 +30,7 @@ public interface DataDao extends GenericDao<Data> {
             "AND c.tableId = :tableId " +
             "AND c.status IS NOT 'LOCAL_DELETED' " +
             "AND r.status IS NOT 'LOCAL_DELETED' " +
-            "ORDER BY r.remoteId, c.orderWeight")
+            "ORDER BY r.createdAt DESC, d.stringValue, d.instantValue, d.doubleValue, d.dateValue, d.booleanValue, d.timeValue" )
     LiveData<List<Data>> getData(long tableId);
 
     @Query("SELECT d.id FROM Data d " +

@@ -7,11 +7,12 @@ import androidx.room.Ignore;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(
         inheritSuperIndices = true
 )
-public class Row extends AbstractTableRelatedEntity {
+public class Row extends AbstractTableRelatedEntity implements Comparable<Row> {
 
     @ColumnInfo(defaultValue = "")
     private String createdBy;
@@ -96,4 +97,10 @@ public class Row extends AbstractTableRelatedEntity {
         return Objects.hash(super.hashCode(), createdBy, createdAt, lastEditBy, lastEditAt);
     }
 
+    @Override
+    public int compareTo(Row o) {
+        final long o1CreatedAt = Optional.ofNullable(createdAt).map(Instant::toEpochMilli).orElse(-1L);
+        final long o2CreatedAt = Optional.ofNullable(o).map(Row::getCreatedAt).map(Instant::toEpochMilli).orElse(-1L);
+        return Long.compare(o1CreatedAt, o2CreatedAt);
+    }
 }

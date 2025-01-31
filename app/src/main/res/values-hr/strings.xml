@@ -88,6 +88,6 @@
     <string name="simple_disabled">onemogućeno</string>
     <string name="add_option">Dodaj mogućnost</string>
     <string name="delete_option">Izbriši mogućnost</string>
-    <string name="unsafed_changes">Nespremljene promjene</string>
+    <string name="unsaved_changes">Nespremljene promjene</string>
     <string name="simple_discard">Odbaci</string>
     </resources>

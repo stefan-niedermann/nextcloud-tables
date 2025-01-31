@@ -147,6 +147,6 @@
     <string name="experimental_feature_column_reordering">Sarakkeiden uudelleenjärjestäminen on kokeellinen ominaisuus, jolla voi olla odottamattomia vaikutuksia taulukon muihin sarakkeisiin.</string>
     <string name="experimental_feature_column_manage">Sarakkeiden muokkaaminen on kokeellinen ominaisuus, jolla voi olla vaikutuksia  myös muihin sarakkeisiin.</string>
     <string name="unsupported_column_type">Tyypin %1$s sarakkeiden muokkaamista ei vielä tueta.</string>
-    <string name="unsafed_changes">Tallentamattomia muutoksia</string>
+    <string name="unsaved_changes">Tallentamattomia muutoksia</string>
     <string name="simple_discard">Hylkää</string>
     </resources>

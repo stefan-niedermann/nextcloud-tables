@@ -17,6 +17,7 @@ import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.L
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.LongCellFactory;
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.RichViewFactory;
 import it.niedermann.nextcloud.tables.features.table.view.types.factories.text.TextCellFactory;
+import it.niedermann.nextcloud.tables.features.table.view.types.factories.usergroup.UserGroupFactory;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
 
 public class DataTypeViewerServiceRegistry extends DataTypeServiceRegistry<ViewHolderFactory> {
@@ -34,7 +35,7 @@ public class DataTypeViewerServiceRegistry extends DataTypeServiceRegistry<ViewH
     @Override
     public ViewHolderFactory getService(@NonNull EDataType dataType) {
         return switch (dataType) {
-            case TEXT_LINE, USERGROUP, UNKNOWN ->
+            case TEXT_LINE, UNKNOWN ->
                     cache.computeIfAbsent(dataType, t -> new TextCellFactory(defaultSupplierServiceRegistry.getService(dataType)));
             case TEXT_LINK ->
                     cache.computeIfAbsent(dataType, t -> new LinkCellFactory(defaultSupplierServiceRegistry.getService(dataType)));
@@ -60,6 +61,8 @@ public class DataTypeViewerServiceRegistry extends DataTypeServiceRegistry<ViewH
                     cache.computeIfAbsent(dataType, t -> new ProgressCellFactory(defaultSupplierServiceRegistry.getService(dataType)));
             case NUMBER_STARS ->
                     cache.computeIfAbsent(dataType, t -> new StarsCellFactory(defaultSupplierServiceRegistry.getService(dataType)));
+            case USERGROUP ->
+                    cache.computeIfAbsent(dataType, t -> new UserGroupFactory(defaultSupplierServiceRegistry.getService(dataType)));
         };
     }
 }

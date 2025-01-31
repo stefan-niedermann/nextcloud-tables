@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.features.table.view;
 
+import static java.util.Objects.requireNonNull;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,9 @@ import androidx.annotation.Nullable;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
+import java.util.List;
+
+import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
@@ -28,6 +33,8 @@ import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, FullData> {
 
     private final DataTypeServiceRegistry<ViewHolderFactory> registry;
+    @Nullable
+    private Account account;
 
     public TableViewAdapter(@NonNull DataTypeServiceRegistry<ViewHolderFactory> registry) {
         this.registry = registry;
@@ -69,7 +76,7 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
             }
 
             if (holder instanceof CellViewHolder cellViewHolder) {
-                cellViewHolder.bind(cellItemModel, fullColumn.getColumn());
+                cellViewHolder.bind(requireNonNull(account), cellItemModel, fullColumn.getColumn());
 
             } else {
                 throw new IllegalArgumentException("Unknown view holder type " + holder);
@@ -136,5 +143,10 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
     @Override
     public View onCreateCornerView(@NonNull ViewGroup parent) {
         return TableviewCornerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false).getRoot();
+    }
+
+    public void setAllItems(@NonNull Account account, @Nullable List<FullColumn> columnHeaderItems, @Nullable List<FullRow> rowHeaderItems, @Nullable List<List<FullData>> cellItems) {
+        super.setAllItems(columnHeaderItems, rowHeaderItems, cellItems);
+        this.account = account;
     }
 }

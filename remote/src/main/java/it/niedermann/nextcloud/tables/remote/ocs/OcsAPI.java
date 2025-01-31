@@ -12,6 +12,7 @@ import com.nextcloud.android.sso.model.ocs.OcsUser;
 import java.util.List;
 
 import it.niedermann.nextcloud.tables.remote.ocs.model.CapabilitiesResponse;
+import it.niedermann.nextcloud.tables.remote.ocs.model.OcsAutocompleteResult;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchProvider;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchResult;
 import retrofit2.Call;
@@ -31,6 +32,17 @@ public interface OcsAPI {
     @GET("cloud/users/{userId}?format=json")
     Call<OcsResponse<OcsUser>> getUser(@Header("If-None-Match") @Nullable String eTag,
                                        @Path("userId") @NonNull String userId);
+
+
+    @GET("core/autocomplete/get?format=json")
+    Call<OcsResponse<List<OcsAutocompleteResult>>> searchUser(@Header("If-None-Match") @Nullable String eTag,
+                                                              @Query("search") @NonNull String term,
+                                                              /// `0` = user, `1` = group, should match OcsAutocompleteSource#shareType
+                                                              /// TODO User converter class and replace int with enum
+                                                              @Query("shareTypes[]") @NonNull List<Integer> shareTypes,
+                                                              @Query("itemType") @Nullable List<Integer> itemType,
+                                                              @Query("itemId") @Nullable Long itemId,
+                                                              @Query("limit") int limit);
 
     @GET("search/providers?format=json")
     Call<OcsResponse<List<OcsSearchProvider>>> getSearchProviders();
