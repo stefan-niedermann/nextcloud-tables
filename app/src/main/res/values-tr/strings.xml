@@ -18,16 +18,20 @@
     <string name="simple_mandatory">Zorunlu</string>
     <string name="simple_description">Açıklama</string>
     <string name="simple_type">Tür</string>
+    <string name="simple_subtype">Alt tür</string>
     <string name="simple_default_value">Varsayılan değer</string>
     <string name="simple_max_length">En fazla uzunluk</string>
-    <string name="simple_min_value">Dak</string>
+    <string name="simple_min_value">En az</string>
     <string name="simple_max_value">En fazla</string>
     <string name="simple_decimals">Ondalık hane</string>
     <string name="simple_prefix">Ön ek</string>
     <string name="simple_suffix">Son ek</string>
     <string name="simple_label">Etiket</string>
+    <string name="simple_hint">İpucu</string>
+
     <string name="add_table">Tablo ekle</string>
     <string name="add_row">Satır ekle</string>
+    <string name="duplicate_row">Satırı çoğalt</string>
     <string name="edit_row">Satırı düzenle</string>
     <string name="manage_columns">Sütun yönetimi</string>
     <string name="edit_column">Sütunu düzenle</string>
@@ -146,11 +150,19 @@
     <string name="simple_disabled">kullanımdan kaldırılmış</string>
     <string name="manage_columns_subtitle">Sıralamak için sürükleyip bırakın</string>
     <string name="text_allowed_pattern">İzin verilen model</string>
+    <string name="use_now_as_default">Varsayılan olarak şimdi kullanılsın</string>
+    <string name="use_today_as_default">Varsayılan olarak bugün kullanılsın</string>
     <string name="add_option">Seçenek ekle</string>
     <string name="delete_option">Seçeneği sil</string>
     <string name="experimental_feature_column_reordering">Sütun sırasını değiştirmek henüz deneysel bir özelliktir ve bu tablonun sütunlarının diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
     <string name="experimental_feature_column_manage">Sütunları düzenlemek henüz deneysel bir özelliktir ve bu sütunun diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
+    <string name="column_type_is_required">Sütun türünün belirtilmesi zorunludur</string>
     <string name="unsupported_column_type">%1$s türündeki sütunların düzenlenmesi henüz desteklenmiyor.</string>
+    <string name="number_only_us_format">Lütfen sayıların şu anda yalnızca Birleşik Devletler biçiminde düzenlenebileceğini unutmayın (binlik haneler için virgül ve ondalık haneler için nokta kullanın)</string>
     <string name="unsafed_changes">Kaydedilmemiş değişiklikler</string>
+    <string name="unsafed_changes_details">Kaydedilmemiş değişiklikler var. Bunları atmak mı kaydetmek mi istersiniz?</string>
     <string name="simple_discard">Yok say</string>
-    </resources>
+    <string name="search_hint">Bağlantıyı yapıştırın ya da aramak için yazın</string>
+    <!-- TRANSLATORS Please add context -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+</resources>
