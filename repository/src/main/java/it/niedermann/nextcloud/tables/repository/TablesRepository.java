@@ -28,7 +28,6 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
-import it.niedermann.nextcloud.tables.database.entity.LinkValue;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
@@ -327,7 +326,7 @@ public class TablesRepository extends AbstractRepository {
                             return fullData;
                         }, db.getSequentialExecutor())
                         .thenComposeAsync(this::updateSelectionOptionCrossRefs, workExecutor)
-                        .thenComposeAsync(this::updateLinkValue, workExecutor)
+                        .thenComposeAsync(fd -> this.updateLinkValue(fd, row.getAccountId()), workExecutor)
                 ), workExecutor)
                 .thenApplyAsync(completableFutureStream -> completableFutureStream.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor);
@@ -376,36 +375,40 @@ public class TablesRepository extends AbstractRepository {
     }
 
     @NonNull
-    private CompletableFuture<FullData> updateLinkValue(@NonNull FullData fullData) {
+    private CompletableFuture<FullData> updateLinkValue(@NonNull FullData fullData, long accountId) {
         if (!fullData.getDataType().hasLinkValue()) {
             return completedFuture(fullData);
         }
 
-        final var linkValue = Optional
+        final var linkValueWithProviderId = Optional
                 .of(fullData)
                 .map(FullData::getLinkValueWithProviderRemoteId);
 
-        if (linkValue.isEmpty()) {
-            return completedFuture(fullData);
-        }
+        final var optionalLinkValue = linkValueWithProviderId
+                .map(LinkValueWithProviderId::getLinkValue);
 
-        return supplyAsync(() -> linkValue
-                .map(LinkValueWithProviderId::getLinkValue)
-                .map(LinkValue::getDataId)
-                .map(id -> id != 0L)
-                .orElse(false), workExecutor)
-                .thenApplyAsync(linkValueIsPresent -> {
-                    if (linkValueIsPresent) {
-                        db.getLinkValueDao().upsertLinkValueAndUpdateData(linkValue.map(LinkValueWithProviderId::getLinkValue).get());
+        final var providerId = linkValueWithProviderId
+                .map(LinkValueWithProviderId::getProviderId);
+
+        if (optionalLinkValue.isPresent()) {
+            final var linkValue = optionalLinkValue.get();
+            linkValue.setDataId(fullData.getData().getId());
+
+            return supplyAsync(() -> db.getSearchProviderDao().getSearchProviderId(accountId, providerId.orElse(null)), db.getParallelExecutor())
+                    .thenAcceptAsync(linkValue::setProviderId, workExecutor)
+                    .thenRunAsync(() -> db.getLinkValueDao().upsertLinkValueAndUpdateData(linkValue), db.getSequentialExecutor())
+                    .thenApplyAsync(v -> {
                         fullData.getData().getValue().setLinkValueRef(fullData.getData().getId());
-                    } else {
-                        db.getLinkValueDao().delete(fullData.getData().getId());
-                        fullData.getData().getValue().setLinkValueRef(null);
-                    }
+                        return fullData;
+                    }, workExecutor);
 
-                    return fullData.getData();
-                }, db.getSequentialExecutor())
-                .thenApplyAsync(v -> fullData, workExecutor);
+        } else {
+            return runAsync(() -> db.getLinkValueDao().delete(fullData.getData().getId()), db.getSequentialExecutor())
+                    .thenApplyAsync(v -> {
+                        fullData.getData().getValue().setLinkValueRef(null);
+                        return fullData;
+                    }, workExecutor);
+        }
     }
 
     @AnyThread
