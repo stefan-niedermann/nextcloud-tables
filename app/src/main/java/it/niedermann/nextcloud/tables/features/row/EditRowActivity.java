@@ -84,7 +84,7 @@ public class EditRowActivity extends AppCompatActivity {
         this.row = (Row) intent.getSerializableExtra(KEY_ROW);
         this.duplicate = intent.getBooleanExtra(KEY_DUPLICATE, false);
 
-        /// In case of duplicating this is the source ID9
+        /// In case of duplicating this is the source ID
         final Long originRowId = Optional.ofNullable(this.row).map(Row::getId).orElse(null);
         if (duplicate) {
             if (this.row == null) {
@@ -151,7 +151,10 @@ public class EditRowActivity extends AppCompatActivity {
                     editors.clear();
 
                     return editRowViewModel.getFullData(originRowId)
-                            .thenApplyAsync(fullDataGrid -> new Pair<>(columns, fullDataGrid));
+                            .handleAsync((fullDataGrid, ex) -> {
+
+                                return new Pair<>(columns, fullDataGrid);
+                            });
                 }, ContextCompat.getMainExecutor(this))
                 .thenAcceptAsync(args -> {
                     final var columns = args.first;

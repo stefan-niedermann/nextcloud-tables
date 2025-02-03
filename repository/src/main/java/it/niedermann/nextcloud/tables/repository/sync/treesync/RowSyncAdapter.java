@@ -335,7 +335,17 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
                             .thenComposeAsync(v -> existingDataId.isPresent()
                                     ? runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor())
-                                    : supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
+                                    : supplyAsync(() -> {
+                                        Long result;
+                                        try {
+                                            result = db.getDataDao().insert(data);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+
+                                            throw e;
+                                        }
+                                return result;
+                            }, db.getSequentialExecutor())
                                     .thenAcceptAsync(data::setId, workExecutor)
                                     .thenComposeAsync(v2 -> dataType.hasSelectionOptions()
                                             ? insertDependingLinkValues(fullData)

@@ -46,6 +46,6 @@ class UserSyncAdapter extends AbstractPullOnlySyncAdapter {
                         yield account;
                     }
                 })
-                .thenAcceptAsync(db.getAccountDao()::update, db.getSequentialExecutor());
+                .thenAcceptAsync(entity -> db.getAccountDao().update(entity), db.getSequentialExecutor());
     }
 }

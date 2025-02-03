@@ -1,1 +1,2 @@
+fix(database)!: ⚠️ Enforce foreign key constraints (Not yet synchronized changes will be lost on update!)
 fix(ui): Order tables in sidebar by createdAt rather than title to match Tables server app (#147)

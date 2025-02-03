@@ -44,6 +44,7 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.entity.TextAllowedPattern;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 import it.niedermann.nextcloud.tables.database.migration.Migration_1_2;
+import it.niedermann.nextcloud.tables.database.migration.Migration_2_3;
 import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 
 @Database(
@@ -64,9 +65,9 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
                 LinkValue.class,
         },
      // autoMigrations = {
-     //     @AutoMigration(from = 2, to = 3, spec = Migration_2_3.class)
+     //     @AutoMigration(from = 3, to = 4, spec = Migration_3_4.class)
      // },
-        version = 2
+        version = 3
 )
 @TypeConverters({
         DBStatusConverter.class,
@@ -107,10 +108,11 @@ public abstract class TablesDatabase extends RoomDatabase {
     private static TablesDatabase create(@NonNull final Context context) {
         return Room.databaseBuilder(context, TablesDatabase.class, DB_NAME)
                 .addMigrations(
-                        new Migration_1_2()
+                        new Migration_1_2(),
+                        new Migration_2_3()
                 )
                 .fallbackToDestructiveMigrationOnDowngrade()
-             // .fallbackToDestructiveMigration()
+                // .fallbackToDestructiveMigration()
                 .build();
     }
 

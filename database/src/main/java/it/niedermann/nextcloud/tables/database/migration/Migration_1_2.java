@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-/// Due to huge architectural changes between database version `1` and `2`, we delete any local data except registered accounts from the device by intention.
+/// Due to huge architectural changes between database version `1` and `2`, ⚠️ we delete any local data except registered accounts from the device by intention.
 /// Next time the device gets connected to the internet, it will trigger a full synchronization.
 /// Pro: Quite little developer efforts required
 /// Contra: Not synchronized local changes will be lost

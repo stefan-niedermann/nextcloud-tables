@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.database.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 
 import java.time.Instant;
@@ -10,7 +11,21 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Entity(
-        inheritSuperIndices = true
+        inheritSuperIndices = true,
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Table.class,
+                        parentColumns = "id",
+                        childColumns = "tableId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        }
 )
 public class Row extends AbstractTableRelatedEntity implements Comparable<Row> {
 

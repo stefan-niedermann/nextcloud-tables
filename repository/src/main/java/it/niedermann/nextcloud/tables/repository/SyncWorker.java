@@ -13,7 +13,8 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import java.time.Instant;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -23,13 +24,11 @@ public class SyncWorker extends Worker {
     private static final String WORKER_TAG = "it.niedermann.nextcloud.tables.background_synchronization";
 
     private final AccountRepository accountRepository;
-    private final TablesRepository tablesRepository;
     private final PreferencesRepository preferencesRepository;
 
     public SyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         accountRepository = new AccountRepository(context);
-        tablesRepository = new TablesRepository(context);
         preferencesRepository = new PreferencesRepository(context);
     }
 
@@ -47,19 +46,22 @@ public class SyncWorker extends Worker {
             }
 
             final var success = new AtomicReference<>(Result.success());
-            final var latch = new CountDownLatch(accounts.size());
 
-            for (final var account : accounts) {
-                try {
-                    accountRepository.scheduleSynchronization(account).get();
-                    latch.await();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    success.set(Result.failure());
-                }
-            }
+            CompletableFuture.allOf(accounts.stream().map(account -> accountRepository.scheduleSynchronization(account)
+                    .whenCompleteAsync((result, exception) -> {
+                        if (exception != null) {
+                            exception.printStackTrace();
+                            success.set(Result.failure());
+                        }
+
+                    })).toArray(CompletableFuture[]::new)).get();
 
             return success.get();
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return Result.failure();
+
         } finally {
             Log.i(TAG, "Finishing background synchronization.");
             preferencesRepository.setLastBackgroundSync(Instant.now());

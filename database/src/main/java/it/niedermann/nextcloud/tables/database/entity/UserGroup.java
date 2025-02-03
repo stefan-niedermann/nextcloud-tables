@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.database.entity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
@@ -12,6 +13,14 @@ import it.niedermann.nextcloud.tables.database.model.EUserGroupType;
 
 @Entity(
         inheritSuperIndices = true,
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        },
         indices = {
                 @Index(value = {"accountId", "remoteId"}, unique = true),
         }

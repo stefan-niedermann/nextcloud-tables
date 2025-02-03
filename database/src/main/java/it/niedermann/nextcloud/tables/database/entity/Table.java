@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
@@ -15,11 +16,26 @@ import java.util.Optional;
 
 @Entity(
         inheritSuperIndices = true,
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Account.class,
+                        parentColumns = "id",
+                        childColumns = "accountId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Row.class,
+                        parentColumns = "id",
+                        childColumns = "currentRow",
+                        onDelete = ForeignKey.SET_NULL
+                )
+        },
         indices = {
                 @Index(value = "title"),
                 @Index(value = "isShared"),
                 @Index(value = "manage"),
                 @Index(value = "read"),
+                @Index(value = "currentRow")
         }
 )
 public class Table extends AbstractRemoteEntity {
@@ -58,6 +74,9 @@ public class Table extends AbstractRemoteEntity {
     @Embedded
     private OnSharePermission onSharePermission;
 
+    @Nullable
+    private Long currentRow;
+
     public Table() {
         this.onSharePermission = new OnSharePermission();
     }
@@ -76,6 +95,7 @@ public class Table extends AbstractRemoteEntity {
         this.lastEditAt = table.lastEditAt;
         this.isShared = table.isShared();
         this.onSharePermission = new OnSharePermission(table.getOnSharePermission());
+        this.currentRow = table.getCurrentRow();
     }
 
     @NonNull
@@ -197,6 +217,15 @@ public class Table extends AbstractRemoteEntity {
         this.onSharePermission = onSharePermission;
     }
 
+    @Nullable
+    public Long getCurrentRow() {
+        return currentRow;
+    }
+
+    public void setCurrentRow(@Nullable Long currentRow) {
+        this.currentRow = currentRow;
+    }
+
     @Override
     @NonNull
     public String toString() {
@@ -209,11 +238,11 @@ public class Table extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Table table = (Table) o;
-        return isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission);
+        return isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission) && Objects.equals(currentRow, table.currentRow);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, description, emoji, ownership, ownerDisplayName, createdBy, createdAt, lastEditBy, lastEditAt, isShared, onSharePermission);
+        return Objects.hash(super.hashCode(), title, description, emoji, ownership, ownerDisplayName, createdBy, createdAt, lastEditBy, lastEditAt, isShared, onSharePermission, currentRow);
     }
 }
