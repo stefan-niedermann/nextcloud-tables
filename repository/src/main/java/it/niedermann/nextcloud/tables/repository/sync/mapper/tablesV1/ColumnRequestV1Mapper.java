@@ -107,8 +107,8 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                         .stream()
                         .map(userGroup -> new ColumnRequestV1Dto.UserGroupV1Dto(
                                 userGroup.getRemoteId(),
-                                userGroup.getKey(),
-                                EUserGroupTypeV1Dto.findByRemoteId(userGroup.getType().getRemoteId())
+                                userGroup.getDisplayName(),
+                                EUserGroupTypeV1Dto.findByRemoteId(userGroup.getType().getRemoteType())
                         ))
                         .collect(Collectors.toUnmodifiableList()),
                 userGroupAttributes.usergroupMultipleItems(),

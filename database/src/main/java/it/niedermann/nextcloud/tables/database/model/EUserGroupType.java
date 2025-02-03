@@ -7,15 +7,15 @@ public enum EUserGroupType {
     CIRCLE(7),
     ;
 
-    private final int remoteId;
+    private final int remoteType;
 
-    EUserGroupType(int remoteId) {
-        this.remoteId = remoteId;
+    EUserGroupType(int remoteType) {
+        this.remoteType = remoteType;
     }
 
-    public static EUserGroupType findByRemoteId(int remoteId) {
+    public static EUserGroupType findByRemoteId(int remoteType) {
         for (final var value : values()) {
-            if (value.remoteId == remoteId) {
+            if (value.remoteType == remoteType) {
                 return value;
             }
         }
@@ -23,7 +23,7 @@ public enum EUserGroupType {
         return UNKNOWN;
     }
 
-    public int getRemoteId() {
-        return remoteId;
+    public int getRemoteType() {
+        return remoteType;
     }
 }

@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.text;
+package it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.text;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +15,7 @@ import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.database.model.Value;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.DataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.DataV1Mapper;
 
 public class TextRemoteMapper extends DataV1Mapper {
 

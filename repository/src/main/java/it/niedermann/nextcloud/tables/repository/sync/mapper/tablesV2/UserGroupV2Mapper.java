@@ -25,7 +25,7 @@ public class UserGroupV2Mapper implements Mapper<UserGroupV2Dto, UserGroup> {
     public UserGroupV2Dto toDto(@NonNull UserGroup entity) {
         return new UserGroupV2Dto(
                 entity.getRemoteId(),
-                entity.getKey(),
+                entity.getDisplayName(),
                 mapper.toDto(entity.getType()));
     }
 

@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.database;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -29,6 +30,7 @@ import it.niedermann.nextcloud.tables.database.dao.RowDao;
 import it.niedermann.nextcloud.tables.database.dao.SearchProviderDao;
 import it.niedermann.nextcloud.tables.database.dao.SelectionOptionDao;
 import it.niedermann.nextcloud.tables.database.dao.TableDao;
+import it.niedermann.nextcloud.tables.database.dao.UserGroupDao;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -45,6 +47,7 @@ import it.niedermann.nextcloud.tables.database.entity.TextAllowedPattern;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 import it.niedermann.nextcloud.tables.database.migration.Migration_1_2;
 import it.niedermann.nextcloud.tables.database.migration.Migration_2_3;
+import it.niedermann.nextcloud.tables.database.migration.Migration_3_4;
 import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 
 @Database(
@@ -64,10 +67,10 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
                 TextAllowedPattern.class,
                 LinkValue.class,
         },
-     // autoMigrations = {
-     //     @AutoMigration(from = 3, to = 4, spec = Migration_3_4.class)
-     // },
-        version = 3
+      autoMigrations = {
+          @AutoMigration(from = 3, to = 4, spec = Migration_3_4.class)
+      },
+        version = 4
 )
 @TypeConverters({
         DBStatusConverter.class,
@@ -141,6 +144,8 @@ public abstract class TablesDatabase extends RoomDatabase {
     public abstract DataUserGroupCrossRefDao getDataUserGroupCrossRefDao();
 
     public abstract SearchProviderDao getSearchProviderDao();
+
+    public abstract UserGroupDao getUserGroupDao();
 
     public abstract LinkValueDao getLinkValueDao();
 }

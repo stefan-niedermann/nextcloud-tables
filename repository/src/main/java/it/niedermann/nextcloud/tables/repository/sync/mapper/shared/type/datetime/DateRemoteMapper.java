@@ -16,7 +16,7 @@ import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.DataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.DataV1Mapper;
 
 public class DateRemoteMapper extends DataV1Mapper {
 

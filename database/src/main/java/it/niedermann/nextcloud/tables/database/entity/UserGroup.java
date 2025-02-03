@@ -29,7 +29,7 @@ public class UserGroup extends AbstractAccountRelatedEntity {
 
     @Nullable
     protected String remoteId;
-    protected String key;
+    protected String displayName;
     protected EUserGroupType type;
 
     public UserGroup() {
@@ -39,11 +39,11 @@ public class UserGroup extends AbstractAccountRelatedEntity {
     @Ignore
     public UserGroup(
             @Nullable String remoteId,
-            String key,
+            String displayName,
             EUserGroupType type
     ) {
         this.remoteId = remoteId;
-        this.key = key;
+        this.displayName = displayName;
         this.type = type;
     }
 
@@ -51,7 +51,7 @@ public class UserGroup extends AbstractAccountRelatedEntity {
     public UserGroup(@NonNull UserGroup userGroup) {
         super(userGroup);
         this.remoteId = userGroup.getRemoteId();
-        this.key = userGroup.getKey();
+        this.displayName = userGroup.getDisplayName();
         this.type = userGroup.getType();
     }
 
@@ -64,12 +64,12 @@ public class UserGroup extends AbstractAccountRelatedEntity {
         this.remoteId = remoteId;
     }
 
-    public String getKey() {
-        return key;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public EUserGroupType getType() {
@@ -86,11 +86,11 @@ public class UserGroup extends AbstractAccountRelatedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         UserGroup userGroup = (UserGroup) o;
-        return Objects.equals(remoteId, userGroup.remoteId) && Objects.equals(key, userGroup.key) && type == userGroup.type;
+        return Objects.equals(remoteId, userGroup.remoteId) && Objects.equals(displayName, userGroup.displayName) && type == userGroup.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), remoteId, key, type);
+        return Objects.hash(super.hashCode(), remoteId, displayName, type);
     }
 }

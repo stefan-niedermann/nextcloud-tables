@@ -85,7 +85,7 @@ public class UserGroupEditor extends AutocompleteEditViewWithDefaultDropdown<Ocs
     private UserGroup mapAutocompleteResultToUserGroup(@NonNull OcsAutocompleteResult proposal) {
         final var userGroup = new UserGroup();
         userGroup.setAccountId(account.getId());
-        userGroup.setKey(proposal.id());
+        userGroup.setDisplayName(proposal.id());
         userGroup.setRemoteId(proposal.id());
         userGroup.setType(mapAutocompleteSourceToUserGroupType(proposal.source()));
         return userGroup;

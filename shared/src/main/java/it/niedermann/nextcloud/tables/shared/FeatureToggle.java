@@ -7,6 +7,7 @@ public enum FeatureToggle {
     /// Disabling this [FeatureToggle] can lead to wrongly displayed data.
     STRICT_MODE(BuildConfig.DEBUG),
     EDIT_COLUMN(BuildConfig.DEBUG),
+    EDIT_USER_GROUPS(BuildConfig.DEBUG),
     CREATE_COLUMN(BuildConfig.DEBUG),
     DELETE_COLUMN(BuildConfig.DEBUG),
     SHARE_TABLE(BuildConfig.DEBUG),

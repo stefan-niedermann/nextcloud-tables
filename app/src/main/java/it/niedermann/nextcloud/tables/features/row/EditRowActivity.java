@@ -151,10 +151,7 @@ public class EditRowActivity extends AppCompatActivity {
                     editors.clear();
 
                     return editRowViewModel.getFullData(originRowId)
-                            .handleAsync((fullDataGrid, ex) -> {
-
-                                return new Pair<>(columns, fullDataGrid);
-                            });
+                            .handleAsync((fullDataGrid, ex) -> new Pair<>(columns, fullDataGrid));
                 }, ContextCompat.getMainExecutor(this))
                 .thenAcceptAsync(args -> {
                     final var columns = args.first;

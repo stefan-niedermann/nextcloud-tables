@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.tables.features.row.editor.factories.unknown.Unkn
 import it.niedermann.nextcloud.tables.features.row.editor.factories.usergroup.UserGroupEditorFactory;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsAutocompleteResult;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchResultEntry;
+import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class EditorServiceRegistry extends DataTypeServiceRegistry<EditorFactory<? extends ViewBinding>> {
 
@@ -63,8 +64,9 @@ public class EditorServiceRegistry extends DataTypeServiceRegistry<EditorFactory
             case NUMBER_STARS ->
                     cache.computeIfAbsent(dataType, t -> new NumberStarsEditorFactory());
 
-            case USERGROUP ->
-                    cache.computeIfAbsent(dataType, t -> new UserGroupEditorFactory(autocompleteProposalProvider));
+            case USERGROUP -> FeatureToggle.EDIT_USER_GROUPS.enabled
+                    ? cache.computeIfAbsent(dataType, t -> new UserGroupEditorFactory(autocompleteProposalProvider))
+                    : cache.computeIfAbsent(dataType, t -> new UnknownEditorFactory());
 
             case UNKNOWN -> cache.computeIfAbsent(dataType, t -> new UnknownEditorFactory());
         };

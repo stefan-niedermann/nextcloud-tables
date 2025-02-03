@@ -22,6 +22,6 @@ public class UserGroupTypeConverter {
             return null;
         }
 
-        return type.getRemoteId();
+        return type.getRemoteType();
     }
 }

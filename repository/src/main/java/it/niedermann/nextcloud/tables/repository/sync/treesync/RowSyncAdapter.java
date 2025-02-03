@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.DataUserGroupCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
@@ -333,6 +334,10 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                     ? resolveLinkValueRef(accountId, fullData)
                                     : completedFuture(null), workExecutor)
 
+                            .thenComposeAsync(v -> dataType.hasUserGroups()
+                                    ? resolveUserGroupRef(fullData)
+                                    : completedFuture(null), workExecutor)
+
                             .thenComposeAsync(v -> existingDataId.isPresent()
                                     ? runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor())
                                     : supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
@@ -392,8 +397,40 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
     @NonNull
     private CompletableFuture<Void> updateUserGroupsCrossRefs(@NonNull FullData fullData) {
-        // TODO implement
-        return completedFuture(null);
+        return completedFuture(null)
+                .thenApplyAsync(v -> db.getDataUserGroupCrossRefDao().getCrossRefs(fullData.getData().getId()), db.getParallelExecutor())
+                .thenApplyAsync(crossRefs -> new Pair<>(fullData.getUserGroups().stream()
+                        .map(userGroup -> new DataUserGroupCrossRef(fullData.getData().getId(), userGroup.getId()))
+                        .collect(toUnmodifiableSet()), crossRefs), workExecutor)
+                .thenApplyAsync(args -> {
+
+                    final var fetchedCrossRefs = args.first;
+                    final var storedCrossRefs = args.second;
+
+                    final var toAdd = fetchedCrossRefs
+                            .stream()
+                            .filter(not(storedCrossRefs::contains))
+                            .collect(toUnmodifiableSet());
+
+                    final var toDelete = storedCrossRefs
+                            .stream()
+                            .filter(not(fetchedCrossRefs::contains))
+                            .collect(toUnmodifiableSet());
+
+                    return new Pair<>(toAdd, toDelete);
+
+                }, workExecutor)
+                .thenAcceptAsync(args -> {
+
+                    for (final var toAdd : args.first) {
+                        db.getDataUserGroupCrossRefDao().upsert(toAdd);
+                    }
+
+                    for (final var toDelete : args.second) {
+                        db.getDataUserGroupCrossRefDao().delete(toDelete);
+                    }
+
+                }, db.getSequentialExecutor());
     }
 
     @NonNull
@@ -425,6 +462,16 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                         db.getLinkValueDao().upsert(linkValue);
                     }
                 }, db.getSequentialExecutor());
+    }
+
+    @NonNull
+    private CompletableFuture<Void> resolveUserGroupRef(@NonNull FullData fullData) {
+        return CompletableFuture.allOf(fullData.getUserGroups()
+                .stream()
+                .distinct()
+                .map(userGroup -> supplyAsync(() -> db.getUserGroupDao().upsertAndGetId(userGroup), db.getSequentialExecutor())
+                        .thenAcceptAsync(userGroup::setId, workExecutor))
+                .toArray(CompletableFuture[]::new));
     }
 
     @NonNull

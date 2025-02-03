@@ -18,7 +18,7 @@ import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.DataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.DataV1Mapper;
 
 public class SelectionMultiDataV1Mapper extends DataV1Mapper {
 
