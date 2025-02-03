@@ -18,15 +18,20 @@
     <string name="simple_mandatory">Éigeantach</string>
     <string name="simple_description">Cur síos</string>
     <string name="simple_type">Cineál</string>
+    <string name="simple_subtype">Fochineál</string>
     <string name="simple_default_value">Luach réamhshocraithe</string>
+    <string name="simple_max_length">Fad uasta</string>
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Uas</string>
     <string name="simple_decimals">Deachúlacha</string>
     <string name="simple_prefix">Réimír</string>
     <string name="simple_suffix">Iarmhír</string>
     <string name="simple_label">Lipéad</string>
+    <string name="simple_hint">Leid</string>
+
     <string name="add_table">Cuir tábla leis</string>
     <string name="add_row">Cuir ró</string>
+    <string name="duplicate_row">Sraith dhúbailt</string>
     <string name="edit_row">Cuir ró in eagar</string>
     <string name="manage_columns">Bainistigh colúin</string>
     <string name="edit_column">Cuir colún in eagar</string>
@@ -144,11 +149,20 @@
     <string name="last_background_sync">Sioncronú cúlra is déanaí:</string>
     <string name="simple_disabled">faoi ​​mhíchumas</string>
     <string name="manage_columns_subtitle">Tarraing agus scaoil chun athordú</string>
+    <string name="text_allowed_pattern">Patrún ceadaithe</string>
+    <string name="use_now_as_default">Úsáid anois mar réamhshocrú</string>
+    <string name="use_today_as_default">Bain úsáid as inniu mar réamhshocrú</string>
     <string name="add_option">Cuir rogha leis</string>
     <string name="delete_option">Scrios rogha</string>
     <string name="experimental_feature_column_reordering">Is gné thurgnamhach é colúin a athordú a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile de cholúin an tábla seo freisin.</string>
     <string name="experimental_feature_column_manage">Is gné thurgnamhach é eagarthóireacht na gcolún a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile den cholún seo freisin.</string>
+    <string name="column_type_is_required">Tá cineál colún ag teastáil</string>
     <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
+    <string name="number_only_us_format">Tabhair faoi deara le do thoil nach féidir uimhreacha a chur in eagar ach amháin i bhformáid SAM (úsáid camóg don mhíle deighilteoir agus ponc do dheighilteoir deachúla)</string>
     <string name="unsaved_changes">Athruithe gan sábháil</string>
+    <string name="unsaved_changes_details">Braitheadh ​​athruithe nár sábháladh. Ar mhaith leat iad a scriosadh nó a shábháil?</string>
     <string name="simple_discard">Caith amach</string>
-    </resources>
+    <string name="search_hint">Greamaigh nasc nó clóscríobh chun cuardach a dhéanamh</string>
+    <!-- TRANSLATORS Please add context -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+</resources>
