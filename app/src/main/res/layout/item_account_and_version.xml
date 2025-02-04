@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/accountName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/spacer_1x"
+        android:paddingStart="@dimen/spacer_1x"
+        android:paddingEnd="0dp"
+        tools:text="foo@example.com" />
+
+    <TextView
+        android:id="@+id/serverVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacer_1x"
+        tools:text="0.8.0" />
+</LinearLayout>

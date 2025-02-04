@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         menu.add(Menu.NONE, EMenuItem.ABOUT.id, Menu.NONE, R.string.simple_about)
                 .setIcon(R.drawable.ic_outline_info_24)
                 .setOnMenuItemClickListener(item -> {
-                    startActivity(AboutActivity.createIntent(this, tables.getAccount()));
+                    startActivity(AboutActivity.createIntent(this));
                     return true;
                 });
     }

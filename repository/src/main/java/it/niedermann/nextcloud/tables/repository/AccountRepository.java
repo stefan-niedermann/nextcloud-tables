@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -26,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
+import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.repository.exception.AccountAlreadyImportedException;
 import it.niedermann.nextcloud.tables.repository.exception.AccountNotCreatedException;
 import it.niedermann.nextcloud.tables.repository.sync.report.LiveDataReporter;
@@ -76,6 +78,11 @@ public class AccountRepository extends AbstractRepository {
     @AnyThread
     public CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {
         return super.scheduleSynchronization(account);
+    }
+
+    @NonNull
+    public LiveData<Map<String, TablesVersion>> getTablesServerVersion() {
+        return this.db.getAccountDao().getTablesServerVersion();
     }
 
     @AnyThread

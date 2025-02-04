@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,13 +16,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.niedermann.nextcloud.tables.R;
-import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityAboutBinding;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private static final String KEY_ACCOUNT = "account";
     private ActivityAboutBinding binding;
     private final static int[] tabTitles = new int[]{
             R.string.about_credits_tab_title,
@@ -36,16 +33,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Thread.currentThread().setUncaughtExceptionHandler(new ExceptionHandler(this));
 
-        final var args = getIntent().getExtras();
-
-        if (args == null || !args.containsKey(KEY_ACCOUNT)) {
-            throw new IllegalArgumentException("Provide at least " + KEY_ACCOUNT);
-        }
-
-        final var account = (Account) args.getSerializable(KEY_ACCOUNT);
-
         binding = ActivityAboutBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
@@ -68,7 +56,7 @@ public class AboutActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
 
-        binding.viewPager.setAdapter(new TabsPagerAdapter(this, account));
+        binding.viewPager.setAdapter(new TabsPagerAdapter(this));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
     }
 
@@ -80,21 +68,17 @@ public class AboutActivity extends AppCompatActivity {
 
     private static class TabsPagerAdapter extends FragmentStateAdapter {
 
-        @Nullable
-        private final Account account;
-
-        TabsPagerAdapter(final FragmentActivity fa, @Nullable Account account) {
+        TabsPagerAdapter(final FragmentActivity fa) {
             super(fa);
-            this.account = account;
         }
 
         @NonNull
         @Override
         public Fragment createFragment(int position) {
             return switch (position) {
-                case 0 -> AboutFragmentCreditsTab.newInstance(account);
+                case 0 -> AboutFragmentCreditsTab.newInstance();
                 case 1 -> new AboutFragmentContributingTab();
-                case 2 -> AboutFragmentLicenseTab.newInstance(account);
+                case 2 -> AboutFragmentLicenseTab.newInstance();
                 default -> throw new IllegalArgumentException("position must be between 0 and 2");
             };
         }
@@ -112,8 +96,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     @NonNull
-    public static Intent createIntent(@NonNull Context context, @NonNull Account account) {
-        return new Intent(context, AboutActivity.class)
-                .putExtra(KEY_ACCOUNT, account);
+    public static Intent createIntent(@NonNull Context context) {
+        return new Intent(context, AboutActivity.class);
     }
 }
