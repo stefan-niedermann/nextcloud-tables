@@ -1,2 +1,11 @@
+2.0.4
+
 feat: Enhanced performance by only querying the displayed data from the database
 fix(datetime): Fix editing and viewing datetime cells
+
+2.0.3
+
+fix(database)!: ⚠️ Enforce foreign key constraints (Not yet synchronized changes will be lost on update!)
+feat(usergroup): Synchronize and display usergroup values
+fix(ui): Order tables in sidebar by createdAt rather than title to match Tables server app (#147)
+fix(text-link): Fix updated links not being saved
