@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime;
+package it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -47,15 +47,15 @@ public interface TablesV2API {
 
     String DEFAULT_TABLES_TEMPLATE = "custom";
 
-    DateTimeFormatter FORMATTER_PROPERTIES_DATE = DateTimeFormatter.ISO_LOCAL_DATE;
-    DateTimeFormatter FORMATTER_PROPERTIES_TIME = DateTimeFormatter.ISO_LOCAL_TIME;
+    // Meta data properties like `createdAt` or `lastEditAt`
     DateTimeFormatter FORMATTER_PROPERTIES_DATE_TIME = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
-            .append(FORMATTER_PROPERTIES_DATE)
+            .append(DateTimeFormatter.ISO_LOCAL_DATE)
             .appendLiteral(' ')
-            .append(FORMATTER_PROPERTIES_TIME)
+            .append(DateTimeFormatter.ISO_LOCAL_TIME)
             .toFormatter();
 
+    // Content (e. g. data payload)
     DateTimeFormatter FORMATTER_DATA_DATE = new DateTimeFormatterBuilder()
             .appendValue(YEAR, 4, 4, SignStyle.EXCEEDS_PAD)
             .appendLiteral('-')
@@ -70,9 +70,9 @@ public interface TablesV2API {
             .toFormatter();
     DateTimeFormatter FORMATTER_DATA_DATE_TIME = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
-            .append(FORMATTER_PROPERTIES_DATE)
+            .append(FORMATTER_DATA_DATE)
             .appendLiteral(' ')
-            .append(FORMATTER_PROPERTIES_TIME)
+            .append(FORMATTER_DATA_TIME)
             .toFormatter();
 
     /// The value of a `number/progress` cell is assumed to be a within this range.

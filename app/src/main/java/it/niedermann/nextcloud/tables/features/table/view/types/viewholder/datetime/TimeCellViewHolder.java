@@ -20,7 +20,7 @@ public class TimeCellViewHolder extends AbstractDateTimeCellViewHolder {
 
     @Override
     protected String formatValue(@NonNull Data data) {
-        return Optional.ofNullable(data.getValue())
+        return Optional.of(data.getValue())
                 .map(Value::getTimeValue)
                 .map(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)::format)
                 .orElse(null);

@@ -5,18 +5,18 @@ import androidx.annotation.NonNull;
 import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.DataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.DateRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.DateTimeRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.TimeRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.number.NumberRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.number.NumberStarsRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection.SelectionCheckDataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection.SelectionMultiDataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection.SelectionSingleDataV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.text.TextLinkRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.text.TextRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.unknown.UnknownRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.usergroup.UserGroupDataV1Mapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime.DateRemoteMapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime.DateTimeRemoteMapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime.TimeRemoteMapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.number.NumberRemoteMapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.number.NumberStarsRemoteMapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionCheckDataV1Mapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionMultiDataV1Mapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionSingleDataV1Mapper;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.unknown.UnknownRemoteMapper;
 
 public class TypeRemoteV1MapperServiceRegistry extends DataTypeServiceRegistry<DataV1Mapper> {
 

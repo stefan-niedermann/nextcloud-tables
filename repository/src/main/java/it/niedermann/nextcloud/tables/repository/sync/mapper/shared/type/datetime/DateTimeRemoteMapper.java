@@ -1,12 +1,17 @@
-package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime;
+package it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime;
+
+import static java.util.function.Predicate.not;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -30,10 +35,11 @@ public class DateTimeRemoteMapper extends DataV1Mapper {
                 .map(FullData::getData)
                 .map(Data::getValue)
                 .map(Value::getInstantValue)
+                .map(instant -> instant.atZone(ZoneId.systemDefault()))
                 .map(TablesV1API.FORMATTER_DATA_DATE_TIME::format)
                 .map(JsonPrimitive::new)
                 .map(JsonElement.class::cast)
-                .orElse(new JsonPrimitive(""));
+                .orElse(JsonNull.INSTANCE);
     }
 
     @Override
@@ -46,7 +52,10 @@ public class DateTimeRemoteMapper extends DataV1Mapper {
                 .map(JsonElement::getAsString)
                 // https://github.com/stefan-niedermann/nextcloud-tables/issues/18
                 .filter(stringValue -> version.isGreaterThan(TablesVersion.V_0_5_0) && !"none".equals(stringValue))
+                .filter(not(String::isBlank))
                 .map(TablesV1API.FORMATTER_DATA_DATE_TIME::parse)
+                .map(LocalDateTime::from)
+                .map(ldt -> ldt.atZone(ZoneId.systemDefault()))
                 .map(Instant::from)
                 .ifPresent(fullData.getData().getValue()::setInstantValue);
     }

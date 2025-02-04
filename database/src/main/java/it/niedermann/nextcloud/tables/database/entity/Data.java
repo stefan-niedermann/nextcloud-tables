@@ -63,7 +63,7 @@ public class Data extends AbstractEntity {
         this.rowId = data.getRowId();
         this.columnId = data.getColumnId();
         this.remoteColumnId = data.getRemoteColumnId();
-        this.value = data.getValue();
+        this.value = new Value(data.getValue());
     }
 
     public long getColumnId() {

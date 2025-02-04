@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
@@ -102,13 +102,13 @@ public class DateTimeEditor extends DataEditView<EditDatetimeBinding> {
         } else if (time.isEmpty()) {
             value.ifPresent(val -> val.setInstantValue(date
                     .map(d -> d.atTime(0, 0))
-                    .map(Instant::from)
+                    .map(d -> d.atZone(ZoneId.systemDefault()).toInstant())
                     .orElse(null)));
 
         } else {
             value.ifPresent(val -> val.setInstantValue(date
-                    .map(d -> d.atTime(time.get().getHour(), time.get().getMinute()))
-                    .map(Instant::from)
+                    .map(d -> d.atTime(time.get()))
+                    .map(d -> d.atZone(ZoneId.systemDefault()).toInstant())
                     .orElse(null)));
         }
 
@@ -123,6 +123,7 @@ public class DateTimeEditor extends DataEditView<EditDatetimeBinding> {
                 .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getInstantValue)
+                .map(instant -> instant.atZone(ZoneId.systemDefault()))
                 .map(LocalDateTime::from);
 
         final var dateData = new FullData(fullData);

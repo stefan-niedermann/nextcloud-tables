@@ -36,14 +36,9 @@ public class InstantV1Adapter implements JsonSerializer<Instant>, JsonDeserializ
 
     @Override
     public Instant deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
-        try {
-            return LocalDateTime
-                    .parse(jsonElement.getAsString(), dateTimeFormatter)
-                    .atZone(ZoneId.systemDefault())
-                    .toInstant();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        return LocalDateTime
+                .parse(jsonElement.getAsString(), dateTimeFormatter)
+                .atZone(ZoneId.systemDefault())
+                .toInstant();
     }
 }

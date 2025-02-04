@@ -39,15 +39,15 @@ public interface TablesV1API {
     /// Though not available as a SearchProvider, this is a valid `providerId` that can be used in `text/link` columns
     String TEXT_LINK_PROVIDER_ID_URL = "url";
 
-    DateTimeFormatter FORMATTER_PROPERTIES_DATE = DateTimeFormatter.ISO_LOCAL_DATE;
-    DateTimeFormatter FORMATTER_PROPERTIES_TIME = DateTimeFormatter.ISO_LOCAL_TIME;
+    // Meta data properties like `createdAt` or `lastEditAt`
     DateTimeFormatter FORMATTER_PROPERTIES_DATE_TIME = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
-            .append(FORMATTER_PROPERTIES_DATE)
+            .append(DateTimeFormatter.ISO_LOCAL_DATE)
             .appendLiteral(' ')
-            .append(FORMATTER_PROPERTIES_TIME)
+            .append(DateTimeFormatter.ISO_LOCAL_TIME)
             .toFormatter();
 
+    // Content (e. g. data payload)
     DateTimeFormatter FORMATTER_DATA_DATE = new DateTimeFormatterBuilder()
             .appendValue(YEAR, 4, 4, SignStyle.EXCEEDS_PAD)
             .appendLiteral('-')
@@ -62,9 +62,9 @@ public interface TablesV1API {
             .toFormatter();
     DateTimeFormatter FORMATTER_DATA_DATE_TIME = new DateTimeFormatterBuilder()
             .parseCaseInsensitive()
-            .append(FORMATTER_PROPERTIES_DATE)
+            .append(FORMATTER_DATA_DATE)
             .appendLiteral(' ')
-            .append(FORMATTER_PROPERTIES_TIME)
+            .append(FORMATTER_DATA_TIME)
             .toFormatter();
 
     /**

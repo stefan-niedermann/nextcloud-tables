@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.features.table.view.types.viewholder.date
 
 import androidx.annotation.NonNull;
 
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
@@ -21,8 +22,9 @@ public class DateTimeCellViewHolder extends AbstractDateTimeCellViewHolder {
 
     @Override
     protected String formatValue(@NonNull Data data) throws DateTimeParseException {
-        return Optional.ofNullable(data.getValue())
+        return Optional.of(data.getValue())
                 .map(Value::getInstantValue)
+                .map(instant -> instant.atZone(ZoneId.systemDefault()))
                 .map(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)::format)
                 .orElse(null);
     }

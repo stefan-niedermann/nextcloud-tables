@@ -5,8 +5,17 @@ import androidx.annotation.NonNull;
 import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.DataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.DateRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.DateTimeRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.TimeRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.number.NumberRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.number.NumberStarsRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection.SelectionCheckDataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection.SelectionMultiDataV1Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection.SelectionSingleDataV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.text.TextLinkRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.text.TextRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.unknown.UnknownRemoteMapper;
 
 public class TypeRemoteV2MapperServiceRegistry extends DataTypeServiceRegistry<DataV1Mapper> {
 
@@ -20,24 +29,21 @@ public class TypeRemoteV2MapperServiceRegistry extends DataTypeServiceRegistry<D
             case TEXT_LINE, TEXT_RICH, TEXT_LONG ->
                     cache.computeIfAbsent(dataType, t -> new TextRemoteMapper());
             case TEXT_LINK -> cache.computeIfAbsent(dataType, t -> new TextLinkRemoteMapper());
-            case DATETIME ->
-                    new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime.DateTimeRemoteMapper();
-            case DATETIME_DATE ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime.DateRemoteMapper());
-            case DATETIME_TIME ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.datetime.TimeRemoteMapper());
+            case DATETIME -> new DateTimeRemoteMapper();
+            case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateRemoteMapper());
+            case DATETIME_TIME -> cache.computeIfAbsent(dataType, t -> new TimeRemoteMapper());
             case NUMBER, NUMBER_PROGRESS ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.number.NumberRemoteMapper());
+                    cache.computeIfAbsent(dataType, t -> new NumberRemoteMapper());
             case NUMBER_STARS ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.number.NumberStarsRemoteMapper());
+                    cache.computeIfAbsent(dataType, t -> new NumberStarsRemoteMapper());
             case SELECTION ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionSingleDataV1Mapper());
+                    cache.computeIfAbsent(dataType, t -> new SelectionSingleDataV1Mapper());
             case SELECTION_MULTI ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionMultiDataV1Mapper());
+                    cache.computeIfAbsent(dataType, t -> new SelectionMultiDataV1Mapper());
             case SELECTION_CHECK ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection.SelectionCheckDataV1Mapper());
+                    cache.computeIfAbsent(dataType, t -> new SelectionCheckDataV1Mapper());
             case UNKNOWN, USERGROUP ->
-                    cache.computeIfAbsent(dataType, t -> new it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.unknown.UnknownRemoteMapper());
+                    cache.computeIfAbsent(dataType, t -> new UnknownRemoteMapper());
         };
     }
 }

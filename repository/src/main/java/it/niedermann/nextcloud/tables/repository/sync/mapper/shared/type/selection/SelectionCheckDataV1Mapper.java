@@ -1,4 +1,4 @@
-package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.type.selection;
+package it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection;
 
 import static java.lang.Boolean.TRUE;
 
