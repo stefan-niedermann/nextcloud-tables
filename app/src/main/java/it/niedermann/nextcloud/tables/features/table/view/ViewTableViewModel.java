@@ -99,6 +99,7 @@ public class ViewTableViewModel extends AndroidViewModel {
                                 .ofNullable(table.getCurrentRow())
                                 .map(currentRow -> new TableFilter(currentRow, currentRow)))
                         .map(tf -> new Range<>(tf.requestedMinRowPosition(), tf.requestedMaxRowPosition()))
+                        .map(range -> new Range<>(Math.max(0L, range.getLower() - 10), range.getUpper() + 10))
                         .orElse(new Range<>(0L, 0L)))
                 .flatMap(range -> {
                     tablesRepository.updateCurrentRow(table.getId(), range.getLower());
