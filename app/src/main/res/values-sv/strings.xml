@@ -163,6 +163,6 @@
     <string name="unsaved_changes_details">Osparade ändringar har upptäckts. Vill du ignorera eller spara dem?</string>
     <string name="simple_discard">Ignorera</string>
     <string name="search_hint">Klistra in länk eller skriv för att söka</string>
-    <!-- TRANSLATORS Please add context -->
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
 </resources>

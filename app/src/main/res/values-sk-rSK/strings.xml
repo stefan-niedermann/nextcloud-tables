@@ -18,6 +18,7 @@
     <string name="simple_mandatory">Povinné</string>
     <string name="simple_description">Popis</string>
     <string name="simple_type">Typ</string>
+    <string name="simple_subtype">Podtyp</string>
     <string name="simple_default_value">Predvolená hodnota</string>
     <string name="simple_max_length">Max dĺžka</string>
     <string name="simple_min_value">Min</string>
@@ -26,8 +27,11 @@
     <string name="simple_prefix">Predvoľba</string>
     <string name="simple_suffix">Prípona</string>
     <string name="simple_label">Názov</string>
+    <string name="simple_hint">Tip</string>
+
     <string name="add_table">Pridať tabuľku</string>
     <string name="add_row">Pridať riadok</string>
+    <string name="duplicate_row">Duplikovať riadok</string>
     <string name="edit_row">Upraviť riadok</string>
     <string name="manage_columns">Správa stĺpcov</string>
     <string name="edit_column">Upraviť stĺpec</string>
@@ -146,11 +150,19 @@
     <string name="simple_disabled">zakázané</string>
     <string name="manage_columns_subtitle">Presunutím myšou zmeníte poradie</string>
     <string name="text_allowed_pattern">Povolený vzor</string>
+    <string name="use_now_as_default">Nastaviť teraz ako predvolené</string>
+    <string name="use_today_as_default">Nastaviť dnešok ako predvolený</string>
     <string name="add_option">Pridajte možnosť</string>
     <string name="delete_option">Odstrániť voľbu</string>
     <string name="experimental_feature_column_reordering">Zmena poradia stĺpcov je experimentálna funkcia, ktorá môže mať neúmyselné vedľajšie účinky aj na iné konfigurácie stĺpcov v tejto tabuľke.</string>
     <string name="experimental_feature_column_manage">Úprava stĺpcov je experimentálna funkcia, ktorá môže mať neúmyselné vedľajšie účinky aj na iné konfigurácie tohto stĺpca.</string>
+    <string name="column_type_is_required">Typ stĺpca je povinný</string>
     <string name="unsupported_column_type">Úprava stĺpcov typu %1$s nie je zatiaľ podporované.</string>
+    <string name="number_only_us_format">Upozorňujeme, že úprava čísel je v súčasnosti možná iba v americkom formáte (na oddeľovanie tisícok použite čiarku a na oddeľovanie desatinných miest bodku)</string>
     <string name="unsaved_changes">Neuložené zmeny</string>
+    <string name="unsaved_changes_details">Boli zistené neuložené zmeny. Chcete ich zahodiť alebo uložiť?</string>
     <string name="simple_discard">Odstrániť</string>
-    </resources>
+    <string name="search_hint">Vložte odkaz alebo začnite písať pre vyhľadávanie</string>
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+</resources>

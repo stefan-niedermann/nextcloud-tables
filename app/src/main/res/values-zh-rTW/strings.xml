@@ -18,6 +18,7 @@
     <string name="simple_mandatory">必填欄位</string>
     <string name="simple_description">描述</string>
     <string name="simple_type">類型</string>
+    <string name="simple_subtype">子類型</string>
     <string name="simple_default_value">預設值</string>
     <string name="simple_max_length">最大長度</string>
     <string name="simple_min_value">最小</string>
@@ -25,8 +26,12 @@
     <string name="simple_decimals">小數點</string>
     <string name="simple_prefix">前綴</string>
     <string name="simple_suffix">後綴</string>
+    <string name="simple_label">標籤</string>
+    <string name="simple_hint">提示</string>
+
     <string name="add_table">新增表格</string>
     <string name="add_row">新增列</string>
+    <string name="duplicate_row">再製列</string>
     <string name="edit_row">編輯列</string>
     <string name="manage_columns">管理欄</string>
     <string name="edit_column">編輯欄</string>
@@ -145,11 +150,19 @@
     <string name="simple_disabled">已停用</string>
     <string name="manage_columns_subtitle">拖放以重新排序</string>
     <string name="text_allowed_pattern">允許的模式</string>
+    <string name="use_now_as_default">以現在作為預設值</string>
+    <string name="use_today_as_default">使用今天作為預設值</string>
     <string name="add_option">新增選項</string>
     <string name="delete_option">刪除選項</string>
     <string name="experimental_feature_column_reordering">重新排序欄位是實驗性的功能，可能會對該表格的欄位或其他設定產生意想不到的副作用。</string>
     <string name="experimental_feature_column_manage">編輯欄位是實驗性的功能，可能會對該欄位或其他設定產生意想不到的副作用。</string>
+    <string name="column_type_is_required">欄位類型為必填</string>
     <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
+    <string name="number_only_us_format">請注意，目前只能以美國格式編輯數字（千位分隔符號使用逗號，小數位分隔符號使用點）</string>
     <string name="unsaved_changes">未儲存變更</string>
+    <string name="unsaved_changes_details">偵測到未儲存的變更。您想要放棄還是儲存這些變更？</string>
     <string name="simple_discard">放棄</string>
-    </resources>
+    <string name="search_hint">貼上要搜尋的連結或類型</string>
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+</resources>
