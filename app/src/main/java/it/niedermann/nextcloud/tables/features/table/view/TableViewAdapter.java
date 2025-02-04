@@ -66,27 +66,26 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
                                      @Nullable FullData cellItemModel,
                                      int columnPosition,
                                      int rowPosition) {
-        try {
+        if (holder instanceof CellViewHolder cellViewHolder) {
+
             if (cellItemModel == null) {
-                throw new NullPointerException("cellItemModel was null for [columnPosition: " + columnPosition + " / rowPosition: " + rowPosition + "]");
+                cellViewHolder.bindPending();
+                return;
             }
 
             final var fullColumn = getColumnHeaderItem(columnPosition);
             if (fullColumn == null) {
-                throw new NullPointerException(Column.class.getSimpleName() + " header was null for [columnPosition: " + columnPosition + " / rowPosition: " + rowPosition + "]");
+                if (FeatureToggle.STRICT_MODE.enabled) {
+                    throw new NullPointerException(Column.class.getSimpleName() + " header was null for [columnPosition: " + columnPosition + " / rowPosition: " + rowPosition + "]");
+                }
+
+                return;
             }
 
-            if (holder instanceof CellViewHolder cellViewHolder) {
-                cellViewHolder.bind(requireNonNull(account), cellItemModel, fullColumn.getColumn());
+            cellViewHolder.bind(requireNonNull(account), cellItemModel, fullColumn.getColumn());
 
-            } else {
-                throw new IllegalArgumentException("Unknown view holder type " + holder);
-            }
-
-        } catch (Exception e) {
-            if (FeatureToggle.STRICT_MODE.enabled) {
-                throw e;
-            }
+        } else if (FeatureToggle.STRICT_MODE.enabled) {
+            throw new IllegalArgumentException("Unknown view holder type " + holder);
         }
     }
 

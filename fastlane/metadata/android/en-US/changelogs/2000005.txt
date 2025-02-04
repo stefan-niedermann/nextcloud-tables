@@ -1,1 +1,2 @@
 fix: Extend visible range of rows by 10 before querying rows from db
+fix: Make use of bindPending method for rows that are not loaded from the db yet
