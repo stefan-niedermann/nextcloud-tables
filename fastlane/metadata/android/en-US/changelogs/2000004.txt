@@ -1,0 +1,1 @@
+feat: Enhanced performance by only querying the displayed data from the database

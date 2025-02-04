@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
@@ -40,10 +41,15 @@ public class SelectionViewHolder extends CellViewHolder {
     protected String formatValue(@NonNull FullData fullData,
                                  @NonNull Column column) {
         return Optional
-                .ofNullable(fullData.getSelectionOptions())
+                .of(fullData.getSelectionOptions())
                 .map(List::stream)
                 .flatMap(Stream::findAny)
                 .map(SelectionOption::getLabel)
                 .orElse(null);
+    }
+
+    @Override
+    public void bindPending() {
+        binding.data.setText(R.string.simple_loading);
     }
 }

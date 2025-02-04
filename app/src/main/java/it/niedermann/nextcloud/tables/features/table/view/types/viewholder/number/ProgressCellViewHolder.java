@@ -42,5 +42,11 @@ public class ProgressCellViewHolder extends CellViewHolder {
         binding.progress.setMin(min);
         binding.progress.setMax(max);
         binding.progress.setProgressCompat(value < min ? min : value > max ? max : value, false);
+        binding.progress.setIndeterminate(true);
+    }
+
+    @Override
+    public void bindPending() {
+        binding.progress.setIndeterminate(true);
     }
 }

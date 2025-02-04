@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.features.table.view;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Range;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,10 @@ public class ViewTableFragment extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstCompletelyVisibleItemPosition() == 0);
+                final var first = binding.tableView.getRowHeaderLayoutManager().findFirstVisibleItemPosition();
+                final var last = binding.tableView.getRowHeaderLayoutManager().findLastVisibleItemPosition();
+                final var requestedPositionRange = new Range<>((long) first, (long) last);
+                viewTableViewModel.requestRowPositionRange(requestedPositionRange);
             }
         });
 
@@ -67,6 +72,12 @@ public class ViewTableFragment extends Fragment {
             mlp.bottomMargin = insets.bottom + defaultMargin;
             mlp.rightMargin = insets.right + defaultMargin;
             v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.tableView, (v, windowInsets) -> {
+            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            binding.swipeRefreshLayout.setPadding(insets.left, 0, insets.right, insets.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
 
@@ -89,7 +100,7 @@ public class ViewTableFragment extends Fragment {
 
         if (fullTable == null) {
             Log.i(TAG, "Current table: " + null);
-            adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+            adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), 0);
             binding.tableView.setTableViewListener(null);
             binding.fab.setVisibility(View.GONE);
             binding.swipeRefreshLayout.setOnRefreshListener(null);
@@ -105,9 +116,9 @@ public class ViewTableFragment extends Fragment {
 
         // Workaround for https://github.com/stefan-niedermann/nextcloud-tables/issues/16
         if (fullTable.getRows().isEmpty()) {
-            adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+            adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), 0);
         } else {
-            adapter.setAllItems(state.account(), fullTable.getColumns(), fullTable.getRows(), state.dataGrid());
+            adapter.setAllItems(state.account(), fullTable.getColumns(), fullTable.getRows(), state.dataGrid(), state.currentFullTable().getRowCount());
         }
 
         binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);

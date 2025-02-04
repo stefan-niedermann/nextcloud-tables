@@ -42,4 +42,9 @@ public class StarsCellViewHolder extends CellViewHolder {
         binding.getRoot().setStars(TablesV2API.ASSUMED_COLUMN_NUMBER_STARS_MAX_VALUE);
         binding.getRoot().setValue(stars);
     }
+
+    @Override
+    public void bindPending() {
+        binding.getRoot().setStars(0);
+    }
 }

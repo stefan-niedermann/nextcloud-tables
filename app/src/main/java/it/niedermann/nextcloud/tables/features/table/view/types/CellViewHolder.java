@@ -28,6 +28,8 @@ public abstract class CellViewHolder extends AbstractViewHolder {
                               @NonNull FullData fullData,
                               @NonNull Column column);
 
+    public abstract void bindPending();
+
     @NonNull
     public Optional<QuickActionProvider> getQuickActionProvider() {
         return Optional.empty();

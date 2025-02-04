@@ -45,6 +45,8 @@ public class FullTable {
     )
     private List<FullRow> rows = Collections.emptyList();
 
+    private int rowCount;
+
     public FullTable() {
         // Default constructor
     }
@@ -85,6 +87,14 @@ public class FullTable {
         this.rows = rows;
     }
 
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -96,11 +106,11 @@ public class FullTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FullTable fullTable = (FullTable) o;
-        return Objects.equals(table, fullTable.table) && Objects.equals(account, fullTable.account) && Objects.equals(columns, fullTable.columns) && Objects.equals(rows, fullTable.rows);
+        return rowCount == fullTable.rowCount && Objects.equals(table, fullTable.table) && Objects.equals(account, fullTable.account) && Objects.equals(columns, fullTable.columns) && Objects.equals(rows, fullTable.rows);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(table, account, columns, rows);
+        return Objects.hash(table, account, columns, rows, rowCount);
     }
 }

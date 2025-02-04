@@ -238,11 +238,11 @@ public class Table extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Table table = (Table) o;
-        return isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission) && Objects.equals(currentRow, table.currentRow);
+        return isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, description, emoji, ownership, ownerDisplayName, createdBy, createdAt, lastEditBy, lastEditAt, isShared, onSharePermission, currentRow);
+        return Objects.hash(super.hashCode(), title, description, emoji, ownership, ownerDisplayName, createdBy, createdAt, lastEditBy, lastEditAt, isShared, onSharePermission);
     }
 }

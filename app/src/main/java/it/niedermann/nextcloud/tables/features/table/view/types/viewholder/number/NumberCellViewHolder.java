@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import java.util.Locale;
 import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -50,5 +51,10 @@ public class NumberCellViewHolder extends CellViewHolder {
 
         binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.getRoot().requestLayout();
+    }
+
+    @Override
+    public void bindPending() {
+        binding.data.setText(R.string.simple_loading);
     }
 }

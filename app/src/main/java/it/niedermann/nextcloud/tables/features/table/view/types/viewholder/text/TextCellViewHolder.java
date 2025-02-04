@@ -1,12 +1,14 @@
 package it.niedermann.nextcloud.tables.features.table.view.types.viewholder.text;
 
 import android.text.util.Linkify;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
 import java.util.Optional;
 
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -36,10 +38,17 @@ public class TextCellViewHolder extends CellViewHolder {
         binding.data.setText(value);
         binding.data.setAutoLinkMask(Linkify.WEB_URLS);
 
+        binding.data.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.data.requestLayout();
 
         binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.getRoot().requestLayout();
+    }
+
+    @Override
+    public void bindPending() {
+        binding.data.setText(R.string.simple_loading);
     }
 }

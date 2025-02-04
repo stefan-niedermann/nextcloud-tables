@@ -58,7 +58,7 @@ public class ManageAccountAdapter extends RecyclerView.Adapter<ManageAccountView
                 }
             }
 
-            final var newAccount = accounts.size() > 0 ? accounts.get(0) : null;
+            final var newAccount = !accounts.isEmpty() ? accounts.get(0) : null;
             setCurrentAccount(newAccount);
             onAccountDelete.accept(new Pair<>(accountToDelete, newAccount));
         }), currentAccount != null && currentAccount.getId() == account.getId());

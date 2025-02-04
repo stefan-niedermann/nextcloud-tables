@@ -35,6 +35,7 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
     private final DataTypeServiceRegistry<ViewHolderFactory> registry;
     @Nullable
     private Account account;
+    private int rowCount = 0;
 
     public TableViewAdapter(@NonNull DataTypeServiceRegistry<ViewHolderFactory> registry) {
         this.registry = registry;
@@ -114,6 +115,10 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
         }
     }
 
+    public int getRowCount() {
+        return rowCount;
+    }
+
     @NonNull
     @Override
     public AbstractViewHolder onCreateRowHeaderViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -145,8 +150,13 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
         return TableviewCornerBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false).getRoot();
     }
 
-    public void setAllItems(@NonNull Account account, @Nullable List<FullColumn> columnHeaderItems, @Nullable List<FullRow> rowHeaderItems, @Nullable List<List<FullData>> cellItems) {
+    public void setAllItems(@NonNull Account account,
+                            @Nullable List<FullColumn> columnHeaderItems,
+                            @Nullable List<FullRow> rowHeaderItems,
+                            @Nullable List<List<FullData>> cellItems,
+                            int rowCount) {
         super.setAllItems(columnHeaderItems, rowHeaderItems, cellItems);
         this.account = account;
+        this.rowCount = rowCount;
     }
 }

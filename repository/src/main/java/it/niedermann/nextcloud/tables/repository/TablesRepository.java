@@ -8,6 +8,7 @@ import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
 import android.util.Pair;
+import android.util.Range;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
@@ -82,8 +83,8 @@ public class TablesRepository extends AbstractRepository {
     }
 
     @MainThread
-    public LiveData<FullTable> getFullTable$(long tableId) {
-        return new ReactiveLiveData<>(db.getTableDao().getFullTable$(tableId))
+    public LiveData<FullTable> getFullTable$(long tableId, @NonNull Range<Long> rowPositions) {
+        return new ReactiveLiveData<>(db.getTableDao().getFullTable$(tableId, rowPositions.getLower(), rowPositions.getUpper()))
                 .distinctUntilChanged();
     }
 
@@ -439,5 +440,12 @@ public class TablesRepository extends AbstractRepository {
     @AnyThread
     public CompletableFuture<Map<Long, FullData>> getRawColumnIdAndFullData(long rowId) {
         return supplyAsync(() -> db.getDataDao().getColumnIdAndFullData(rowId), db.getParallelExecutor());
+    }
+
+    @AnyThread
+    public CompletableFuture<Void> updateCurrentRow(long tableId, @NonNull Long currentRowId) {
+        return runAsync(() -> {
+            db.getTableDao().updateCurrentRow(tableId, currentRowId);
+        }, db.getSequentialExecutor());
     }
 }

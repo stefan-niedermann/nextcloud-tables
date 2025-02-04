@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.features.table.view.types.viewholder.selection;
 
+import static com.google.android.material.checkbox.MaterialCheckBox.STATE_INDETERMINATE;
+
 import androidx.annotation.NonNull;
 
 import java.util.Optional;
@@ -26,11 +28,16 @@ public class SelectionCheckCellViewHolder extends CellViewHolder {
     @Override
     public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull Column column) {
         final var checked = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getBooleanValue)
                 .orElse(false);
 
         binding.check.setChecked(checked);
+    }
+
+    @Override
+    public void bindPending() {
+        binding.check.setCheckedState(STATE_INDETERMINATE);
     }
 }

@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.database.dao;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.MapColumn;
@@ -67,8 +68,23 @@ public interface TableDao extends GenericDao<Table> {
     void deleteExcept(long accountId, Collection<Long> remoteIds);
 
     @Transaction
-    @Query("SELECT t.* FROM `Table` t " +
+    @Query("SELECT t.*, COUNT(allRows.id) as rowCount FROM `Table` t " +
+            "LEFT JOIN `Row` allRows " +
+            "ON allRows.id = t.id " +
+            "LEFT JOIN (" +
+            "   SELECT r.*" +
+            "   FROM `Row` r " +
+            "   LIMIT :limit " +
+            "   OFFSET :offset" +
+            ") queriedRows " +
+            "ON t.id = queriedRows.tableId " +
             "WHERE t.id = :tableId " +
-            "AND t.status IS NOT 'LOCAL_DELETED'")
-    LiveData<FullTable> getFullTable$(long tableId);
+            "AND t.status IS NOT 'LOCAL_DELETED'" +
+            "LIMIT 1")
+    LiveData<FullTable> getFullTable$(long tableId, long offset, long limit);
+
+    @Query("UPDATE `Table` " +
+            "SET currentRow = :currentRow " +
+            "WHERE id = :tableId")
+    void updateCurrentRow(long tableId, @Nullable Long currentRow);
 }

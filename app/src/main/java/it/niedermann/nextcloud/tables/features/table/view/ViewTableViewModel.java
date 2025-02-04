@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.features.table.view;
 
 import android.app.Application;
+import android.util.Range;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
@@ -12,6 +13,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +39,7 @@ public class ViewTableViewModel extends AndroidViewModel {
 
     private final LiveData<Boolean> userInitiatedTableChangeActive;
     private final LiveData<Boolean> userInitiatedSynchronizationActive;
+    private final MutableLiveData<TableFilter> tableFilter;
 
     public ViewTableViewModel(@NonNull Application application,
                               @NonNull SavedStateHandle savedStateHandle) {
@@ -47,6 +50,7 @@ public class ViewTableViewModel extends AndroidViewModel {
 
         userInitiatedTableChangeActive = savedStateHandle.getLiveData("userInitiatedTableChangeActive", false);
         userInitiatedSynchronizationActive = savedStateHandle.getLiveData("userInitiatedSynchronizationActive", false);
+        tableFilter = savedStateHandle.getLiveData("tableFilter", null);
     }
 
     @NonNull
@@ -88,7 +92,22 @@ public class ViewTableViewModel extends AndroidViewModel {
             return new MutableLiveData<>(null);
         }
 
-        return new ReactiveLiveData<>(tablesRepository.getFullTable$(table.getId()));
+        return new ReactiveLiveData<>(tableFilter)
+                .map(tableFilter -> Optional
+                        .ofNullable(tableFilter)
+                        .or(() -> Optional
+                                .ofNullable(table.getCurrentRow())
+                                .map(currentRow -> new TableFilter(currentRow, currentRow)))
+                        .map(tf -> new Range<>(tf.requestedMinRowPosition(), tf.requestedMaxRowPosition()))
+                        .orElse(new Range<>(0L, 0L)))
+                .flatMap(range -> {
+                    tablesRepository.updateCurrentRow(table.getId(), range.getLower());
+                    return tablesRepository.getFullTable$(table.getId(), range);
+                });
+    }
+
+    public void requestRowPositionRange(@NonNull Range<Long> tableFilter) {
+        savedStateHandle.set("tableFilter", new TableFilter(tableFilter.getLower(), tableFilter.getUpper()));
     }
 
     @NonNull
@@ -115,6 +134,8 @@ public class ViewTableViewModel extends AndroidViewModel {
     private List<List<FullData>> dataToGrid(@NonNull FullTable fullTable) {
         final var fullRows = fullTable.getRows();
         final var fullColumns = fullTable.getColumns();
+
+        // TODO Idea to speed up: Query Map<Long, Column> / Map<Long, Row>
 
         // TODO Migrate FullData to a database View
         // We must sort our data here because Rooms @Relation does not allow ordering within FullTable
@@ -158,5 +179,15 @@ public class ViewTableViewModel extends AndroidViewModel {
             @Nullable FullTable currentFullTable,
             @NonNull List<List<FullData>> dataGrid
     ) {
+    }
+
+    public record TableFilter(
+            long requestedMinRowPosition,
+            long requestedMaxRowPosition
+    ) implements Serializable {
+
+        public Range<Long> getRequestedRowPosition() {
+            return new Range<>(requestedMaxRowPosition, requestedMaxRowPosition);
+        }
     }
 }

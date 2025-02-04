@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
@@ -58,5 +59,10 @@ public class UserGroupViewHolder extends CellViewHolder {
 
         binding.getRoot().getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.getRoot().requestLayout();
+    }
+
+    @Override
+    public void bindPending() {
+        binding.rich.setText(R.string.simple_loading);
     }
 }
