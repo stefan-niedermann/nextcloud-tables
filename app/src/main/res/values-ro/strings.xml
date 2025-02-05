@@ -87,4 +87,5 @@
     <string name="simple_disabled">dezactivat</string>
     <string name="unsaved_changes">Modificări nesalvate</string>
     <string name="simple_discard">Anulează</string>
-    </resources>
+    <string name="simple_loading">Se încarcă...</string>
+</resources>

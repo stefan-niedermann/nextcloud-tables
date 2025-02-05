@@ -153,4 +153,5 @@
     <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
     <string name="unsaved_changes">Modifications non enregistrées</string>
     <string name="simple_discard">ignorer</string>
-    </resources>
+    <string name="simple_loading">Chargement…</string>
+</resources>

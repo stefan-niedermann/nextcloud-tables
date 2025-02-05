@@ -89,4 +89,5 @@
     <string name="simple_disabled">đã tắt</string>
     <string name="unsaved_changes">Thay đổi chưa được lưu</string>
     <string name="simple_discard">Bỏ qua thay đổi</string>
-    </resources>
+    <string name="simple_loading">Đang tải…</string>
+</resources>

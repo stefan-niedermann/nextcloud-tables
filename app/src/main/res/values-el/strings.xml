@@ -103,5 +103,6 @@
     <string name="text_allowed_pattern">Επιτρεπόμενο μοτίβο</string>
     <string name="add_option">Προσθήκη επιλογής</string>
     <string name="delete_option">Διαγραφή επιλογής</string>
+    <string name="unsaved_changes">Μη αποθηκευμένες αλλαγές</string>
     <string name="simple_discard">Απόρριψη</string>
     </resources>

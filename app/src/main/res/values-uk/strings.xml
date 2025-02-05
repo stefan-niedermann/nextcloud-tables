@@ -148,4 +148,5 @@
     <string name="unsupported_column_type">Редагування стовпця типу%1$s поки не підтримується.</string>
     <string name="unsaved_changes">Незбережені зміни</string>
     <string name="simple_discard">Відхилити</string>
-    </resources>
+    <string name="simple_loading">Завантаження…</string>
+</resources>

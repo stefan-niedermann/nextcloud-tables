@@ -151,4 +151,5 @@
     <string name="unsupported_column_type">% 1 $ s تىپىدىكى ئىستونلارنى تەھرىرلەش تېخى قوللىمايدۇ.</string>
     <string name="unsaved_changes">ساقلانمىغان ئۆزگەرتىش</string>
     <string name="simple_discard">تاشلىۋېتىش</string>
-    </resources>
+    <string name="simple_loading">Loading…</string>
+</resources>

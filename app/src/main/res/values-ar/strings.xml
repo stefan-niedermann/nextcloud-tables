@@ -159,8 +159,12 @@
     <string name="column_type_is_required">نوع العمود مطلوب</string>
     <string name="unsupported_column_type">تعديل أعمدة من النوع %1$s غير مدعومة بعد.</string>
     <string name="number_only_us_format">يرجى ملاحظة أن تحرير الأرقام ممكن حالياً فقط بالتنسيق الأمريكي (استعمل الفاصلة كفاصل بين الآلاف والنقطة كفاصلة عشرية)</string>
+    <string name="unsaved_changes">تغييرات لم يتم حفظها</string>
+    <string name="unsaved_changes_details">تمّ اكتشاف تغييرات لم تُحفظ. هل ترغب في حفظها أم تجاهلها؟</string>
     <string name="simple_discard">تجاهل</string>
     <string name="search_hint">ألصِق رابطاً أو اكتُب لبدء البحث</string>
+    <string name="usergroup_hint">نوع البحث</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
-</resources>
+    </resources>

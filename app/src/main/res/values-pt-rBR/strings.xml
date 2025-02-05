@@ -153,4 +153,5 @@
     <string name="unsupported_column_type">Editando colunas do tipo %1$s ainda não é suportado.</string>
     <string name="unsaved_changes">Alterações não salvas</string>
     <string name="simple_discard">Descartar</string>
-    </resources>
+    <string name="simple_loading">Carregando…</string>
+</resources>

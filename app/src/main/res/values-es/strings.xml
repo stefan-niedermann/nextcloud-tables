@@ -151,5 +151,6 @@
     <string name="experimental_feature_column_reordering">El reordenamiento de las columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de las columnas de esta tabla.</string>
     <string name="experimental_feature_column_manage">La edición de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de esta columna.</string>
     <string name="unsupported_column_type">La edición de columnas de tipo %1$s no está soportada todavía.</string>
+    <string name="unsaved_changes">Cambios sin guardar</string>
     <string name="simple_discard">Descartar</string>
     </resources>

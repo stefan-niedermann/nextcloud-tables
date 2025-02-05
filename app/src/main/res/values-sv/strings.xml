@@ -165,4 +165,5 @@
     <string name="search_hint">Klistra in länk eller skriv för att söka</string>
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
+    <string name="simple_loading">Laddar...</string>
 </resources>

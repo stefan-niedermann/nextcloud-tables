@@ -163,6 +163,9 @@
     <string name="unsaved_changes_details">Откривене су несачуване измене. Желите ли да их одбаците, или да их сачувате?</string>
     <string name="simple_discard">Одбаци</string>
     <string name="search_hint">Да почнете претрагу, налепите линк или куцајте</string>
+    <string name="usergroup_hint">Куцајте да претражите</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
+    <string name="simple_loading">Учитавам…</string>
 </resources>

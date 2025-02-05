@@ -163,6 +163,9 @@
     <string name="unsaved_changes_details">偵測到未儲存的變更。您想要放棄還是儲存這些變更？</string>
     <string name="simple_discard">放棄</string>
     <string name="search_hint">貼上要搜尋的連結或類型</string>
+    <string name="usergroup_hint">輸入以搜尋</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
+    <string name="simple_loading">正在載入…</string>
 </resources>

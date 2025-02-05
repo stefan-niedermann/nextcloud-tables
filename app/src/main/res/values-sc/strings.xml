@@ -91,4 +91,5 @@
     <string name="delete_option">Cantzella sèberu</string>
     <string name="unsaved_changes">Mudas non sarvadas</string>
     <string name="simple_discard">Iscarta</string>
-    </resources>
+    <string name="simple_loading">Carrighende…</string>
+</resources>

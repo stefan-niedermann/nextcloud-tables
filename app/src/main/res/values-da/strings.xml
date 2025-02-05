@@ -104,5 +104,6 @@
     <string name="text_allowed_pattern">Tilladt mønster</string>
     <string name="add_option">Tilføj valg</string>
     <string name="delete_option">Slet valg</string>
+    <string name="unsaved_changes">Ikke gemte ændringer</string>
     <string name="simple_discard">Kassér</string>
     </resources>

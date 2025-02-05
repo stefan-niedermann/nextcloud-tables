@@ -145,4 +145,5 @@
     <string name="unsupported_column_type">Urejanje stolpca vrste %1$s še ni podprto.</string>
     <string name="unsaved_changes">Neshranjene spremembe</string>
     <string name="simple_discard">Opusti</string>
-    </resources>
+    <string name="simple_loading">Poteka nalaganje …</string>
+</resources>

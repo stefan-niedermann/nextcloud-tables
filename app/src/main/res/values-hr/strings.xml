@@ -90,4 +90,5 @@
     <string name="delete_option">Izbriši mogućnost</string>
     <string name="unsaved_changes">Nespremljene promjene</string>
     <string name="simple_discard">Odbaci</string>
-    </resources>
+    <string name="simple_loading">Učitavanje…</string>
+</resources>

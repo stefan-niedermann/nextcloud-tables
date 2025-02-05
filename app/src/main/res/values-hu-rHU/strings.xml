@@ -151,4 +151,5 @@
     <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
     <string name="unsaved_changes">Mentetlen változtatások</string>
     <string name="simple_discard">Elvetés</string>
-    </resources>
+    <string name="simple_loading">Betöltés…</string>
+</resources>

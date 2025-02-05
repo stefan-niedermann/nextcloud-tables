@@ -163,6 +163,9 @@
     <string name="unsaved_changes_details">Boli zistené neuložené zmeny. Chcete ich zahodiť alebo uložiť?</string>
     <string name="simple_discard">Odstrániť</string>
     <string name="search_hint">Vložte odkaz alebo začnite písať pre vyhľadávanie</string>
+    <string name="usergroup_hint">Pre vyhľadávanie začnite písať</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
+    <string name="simple_loading">Nahrávam...</string>
 </resources>

@@ -150,4 +150,5 @@
     <string name="unsupported_column_type">Edytowanie kolumn typu %1$s nie jest jeszcze obsługiwane.</string>
     <string name="unsaved_changes">Niezapisane zmiany</string>
     <string name="simple_discard">Odrzuć</string>
-    </resources>
+    <string name="simple_loading">Wczytywanie…</string>
+</resources>

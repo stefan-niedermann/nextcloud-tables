@@ -158,7 +158,8 @@
     <string name="experimental_feature_column_manage">Upravování sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
     <string name="column_type_is_required">Je zapotřebí typ sloupce</string>
     <string name="unsupported_column_type">Upravování sloupců typu %1$s zatím není podporováno.</string>
+    <string name="unsaved_changes">Neuložené změny</string>
     <string name="simple_discard">Zahodit</string>
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
-</resources>
+    </resources>

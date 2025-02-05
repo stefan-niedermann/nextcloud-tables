@@ -151,4 +151,5 @@
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
     <string name="unsaved_changes">Unsaved changes</string>
     <string name="simple_discard">لغو تغییرات</string>
-    </resources>
+    <string name="simple_loading">درحال بارگیری…</string>
+</resources>

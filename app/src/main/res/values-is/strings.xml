@@ -90,4 +90,5 @@
     <string name="delete_option">Eyða valkosti</string>
     <string name="unsaved_changes">Óvistaðar breytingar</string>
     <string name="simple_discard">Fleygja</string>
-    </resources>
+    <string name="simple_loading">Hleð inn…</string>
+</resources>

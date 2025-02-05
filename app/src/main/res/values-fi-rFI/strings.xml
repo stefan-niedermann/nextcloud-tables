@@ -149,4 +149,5 @@
     <string name="unsupported_column_type">Tyypin %1$s sarakkeiden muokkaamista ei vielä tueta.</string>
     <string name="unsaved_changes">Tallentamattomia muutoksia</string>
     <string name="simple_discard">Hylkää</string>
-    </resources>
+    <string name="simple_loading">Ladataan…</string>
+</resources>

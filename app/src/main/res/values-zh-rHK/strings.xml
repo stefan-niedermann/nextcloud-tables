@@ -163,4 +163,7 @@
     <string name="unsaved_changes_details">檢測到未保存的更新。您想放棄還是保存這些更新？</string>
     <string name="simple_discard">取消</string>
     <string name="search_hint">粘貼連結或輸入以搜索</string>
-    </resources>
+    <string name="usergroup_hint">輸入以搜尋</string>
+
+    <string name="simple_loading">加載中…</string>
+</resources>

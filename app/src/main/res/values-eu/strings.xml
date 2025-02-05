@@ -153,4 +153,5 @@
     <string name="unsupported_column_type">%1$smotako zutabeak editatzea ez da onartzen oraindik. </string>
     <string name="unsaved_changes">Gorde gabeko aldaketak</string>
     <string name="simple_discard">Baztertu</string>
-    </resources>
+    <string name="simple_loading">Kargatzen…</string>
+</resources>

@@ -163,6 +163,9 @@
     <string name="unsaved_changes_details">Braitheadh ​​athruithe nár sábháladh. Ar mhaith leat iad a scriosadh nó a shábháil?</string>
     <string name="simple_discard">Caith amach</string>
     <string name="search_hint">Greamaigh nasc nó clóscríobh chun cuardach a dhéanamh</string>
+    <string name="usergroup_hint">Clóscríobh chun cuardach a dhéanamh</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
+    <string name="simple_loading">Á lódáil…</string>
 </resources>

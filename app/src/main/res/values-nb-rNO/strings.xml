@@ -153,4 +153,5 @@
     <string name="unsupported_column_type">Redigering av kolonner av typen %1$s støttes ikke enda.</string>
     <string name="unsaved_changes">Ulagrede endringer</string>
     <string name="simple_discard">Slett</string>
-    </resources>
+    <string name="simple_loading">Laster...</string>
+</resources>
