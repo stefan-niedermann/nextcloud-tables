@@ -163,6 +163,8 @@
     <string name="unsaved_changes_details">Detectáronse cambios sen gardar. Quere desbotalos ou gardalos?</string>
     <string name="simple_discard">Desbortar</string>
     <string name="search_hint">Pegue unha ligazón ou escriba para buscar</string>
+    <string name="usergroup_hint">Escriba para buscar</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Cargando…</string>

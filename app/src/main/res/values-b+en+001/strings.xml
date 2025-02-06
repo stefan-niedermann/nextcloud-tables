@@ -163,6 +163,9 @@
     <string name="unsaved_changes_details">Unsaved changes have been detected. Do you want to discard or save them?</string>
     <string name="simple_discard">Discard</string>
     <string name="search_hint">Paste link or type to search</string>
+    <string name="usergroup_hint">Type to search </string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
-    </resources>
+    <string name="simple_loading">Loading…</string>
+</resources>

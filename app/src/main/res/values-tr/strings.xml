@@ -163,6 +163,8 @@
     <string name="unsaved_changes_details">Kaydedilmemiş değişiklikler var. Bunları atmak mı kaydetmek mi istersiniz?</string>
     <string name="simple_discard">Yok say</string>
     <string name="search_hint">Bağlantıyı yapıştırın ya da aramak için yazın</string>
+    <string name="usergroup_hint">Aramak için yazın</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Yükleniyor…</string>

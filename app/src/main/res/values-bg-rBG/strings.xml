@@ -103,4 +103,5 @@
     <string name="delete_option">Изтриване на опция</string>
     <string name="unsaved_changes">Незаписани промени</string>
     <string name="simple_discard">Отхвърляне</string>
-    </resources>
+    <string name="simple_loading">Зареждане…</string>
+</resources>

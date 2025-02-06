@@ -167,4 +167,5 @@
 
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
-    </resources>
+    <string name="simple_loading">Lade…</string>
+</resources>
