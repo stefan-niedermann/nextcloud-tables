@@ -158,8 +158,13 @@
     <string name="experimental_feature_column_manage">Upravování sloupců je experimentální funkce, která také může mít nezamýšlené vedlejší efekty na ostatní uspořádání sloupců této tabulky.</string>
     <string name="column_type_is_required">Je zapotřebí typ sloupce</string>
     <string name="unsupported_column_type">Upravování sloupců typu %1$s zatím není podporováno.</string>
+    <string name="number_only_us_format">Mějte na paměti, že upravování čísel je v tuto chvíli možné pouze v US formátu (pro oddělování tisíců použijte čárku a namísto desetinné čárky použijte tečku)</string>
     <string name="unsaved_changes">Neuložené změny</string>
+    <string name="unsaved_changes_details">Byly zjištěny neuložené změny. Chcete je zahodit nebo uložit?</string>
     <string name="simple_discard">Zahodit</string>
+    <string name="search_hint">Vložte odkaz nebo hledejte psaním</string>
+    <string name="usergroup_hint">Hledejte psaním</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Načítání…</string>
