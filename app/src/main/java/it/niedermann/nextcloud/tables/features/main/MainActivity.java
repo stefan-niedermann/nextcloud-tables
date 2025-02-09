@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -76,6 +77,24 @@ public class MainActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.fab, (v, windowInsets) -> {
+            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            final var defaultMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+            mlp.topMargin = insets.top + defaultMargin;
+            mlp.leftMargin = insets.left + defaultMargin;
+            mlp.bottomMargin = insets.bottom + defaultMargin;
+            mlp.rightMargin = insets.right + defaultMargin;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.swipeRefreshLayout, (v, windowInsets) -> {
+            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            binding.swipeRefreshLayout.setPadding(insets.left, 0, insets.right, insets.bottom);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         final var toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -86,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
             } else {
                 Log.i(TAG, "New account set: " + account);
+//                binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createAddIntent(this, account, fullTable.getTable())));
+                binding.swipeRefreshLayout.setOnRefreshListener(() -> mainViewModel.synchronize(account)
+                        .whenCompleteAsync((result, exception) -> {
+                            if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
+                                ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                            }
+                        }, ContextCompat.getMainExecutor(this)));
 
                 Glide
                         .with(binding.toolbar.getContext())
@@ -107,10 +133,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainViewModel.isUserInitiatedSynchronizationActive().observe(this, userInitiatedSynchronizationActive -> binding.swipeRefreshLayout.setRefreshing(userInitiatedSynchronizationActive));
+
         mainViewModel.isLoading$().observe(this, loading -> {
             this.binding.loadingWrapper.setVisibility(loading ? View.VISIBLE : View.GONE);
             this.binding.fragment.setVisibility(!loading ? View.VISIBLE : View.GONE);
         });
+
         mainViewModel.getTables().observe(this, this::updateSidebarMenu);
         mainViewModel.getCurrentTable().observe(this, this::applyCurrentTable);
 
