@@ -7,7 +7,6 @@ import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -38,7 +37,6 @@ public class ViewTableViewModel extends AndroidViewModel {
     private final TablesRepository tablesRepository;
 
     private final LiveData<Boolean> userInitiatedTableChangeActive;
-    private final LiveData<Boolean> userInitiatedSynchronizationActive;
     private final MutableLiveData<TableFilter> tableFilter;
 
     public ViewTableViewModel(@NonNull Application application,
@@ -49,7 +47,6 @@ public class ViewTableViewModel extends AndroidViewModel {
         tablesRepository = new TablesRepository(application);
 
         userInitiatedTableChangeActive = savedStateHandle.getLiveData("userInitiatedTableChangeActive", false);
-        userInitiatedSynchronizationActive = savedStateHandle.getLiveData("userInitiatedSynchronizationActive", false);
         tableFilter = savedStateHandle.getLiveData("tableFilter", null);
     }
 
@@ -67,20 +64,17 @@ public class ViewTableViewModel extends AndroidViewModel {
                     }
 
                     if (account.getCurrentTable() == null) {
-                        return new MutableLiveData<>(new UiState(false, account, null, Collections.emptyList()));
+                        return new MutableLiveData<>(new UiState(account, null, Collections.emptyList()));
                     }
 
                     return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
                             .flatMap(this::getFullTable$)
-                            .combineWith(() -> this.userInitiatedSynchronizationActive)
-                            .map(args -> {
-                                final var fullTable = args.first;
-                                final var syncActive = args.second;
+                            .map(fullTable -> {
                                 final var dataGrid = Optional
                                         .ofNullable(fullTable)
                                         .map(this::dataToGrid)
                                         .orElseGet(Collections::emptyList);
-                                return new UiState(syncActive, account, fullTable, dataGrid);
+                                return new UiState(account, fullTable, dataGrid);
                             });
                 })
                 .distinctUntilChanged();
@@ -109,13 +103,6 @@ public class ViewTableViewModel extends AndroidViewModel {
 
     public void requestRowPositionRange(@NonNull Range<Long> tableFilter) {
         savedStateHandle.set("tableFilter", new TableFilter(tableFilter.getLower(), tableFilter.getUpper()));
-    }
-
-    @NonNull
-    public CompletableFuture<Void> synchronize(@NonNull Account account) {
-        savedStateHandle.set("userInitiatedSynchronizationActive", true);
-        return this.accountRepository.scheduleSynchronization(account)
-                .whenCompleteAsync((result, exception) -> savedStateHandle.set("userInitiatedSynchronizationActive", false), ContextCompat.getMainExecutor(getApplication()));
     }
 
     @AnyThread
@@ -175,7 +162,6 @@ public class ViewTableViewModel extends AndroidViewModel {
     }
 
     public record UiState(
-            boolean userInitiatedSynchronizationActive,
             @NonNull Account account,
             @Nullable FullTable currentFullTable,
             @NonNull List<List<FullData>> dataGrid

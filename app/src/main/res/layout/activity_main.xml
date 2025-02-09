@@ -24,16 +24,31 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment"
-            android:name="it.niedermann.nextcloud.tables.features.table.view.ViewTableFragment"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment"
+                android:name="it.niedermann.nextcloud.tables.features.table.view.ViewTableFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tag="activity_main_fragment"
+                android:visibility="gone" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:tag="activity_main_fragment"
-            android:visibility="gone"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:visibility="gone" />
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="16dp"
+            android:text="@string/add_row"
+            app:icon="@drawable/baseline_playlist_add_24"
+            app:layout_anchor="@id/swipeRefreshLayout"
+            app:layout_anchorGravity="bottom|right|end" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/loadingWrapper"

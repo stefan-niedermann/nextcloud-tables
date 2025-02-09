@@ -7,10 +7,12 @@ import android.app.Application;
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +27,20 @@ import it.niedermann.nextcloud.tables.repository.TablesRepository;
 @MainThread
 public class MainViewModel extends AndroidViewModel {
 
+    private final SavedStateHandle savedStateHandle;
     private final AccountRepository accountRepository;
     private final TablesRepository tablesRepository;
-    private final MutableLiveData<Boolean> isLoading$ = new MutableLiveData<>(true);
 
-    public MainViewModel(@NonNull Application application) {
+    private final MutableLiveData<Boolean> isLoading$ = new MutableLiveData<>(true);
+    private final LiveData<Boolean> userInitiatedSynchronizationActive;
+
+    public MainViewModel(@NonNull Application application, @NonNull SavedStateHandle savedStateHandle) {
         super(application);
+        this.savedStateHandle = savedStateHandle;
         this.accountRepository = new AccountRepository(application);
         this.tablesRepository = new TablesRepository(application);
+
+        userInitiatedSynchronizationActive = savedStateHandle.getLiveData("userInitiatedSynchronizationActive", false);
     }
 
     @NonNull
@@ -60,6 +68,18 @@ public class MainViewModel extends AndroidViewModel {
             return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
                     .tap(() -> this.isLoading$.setValue(false));
         });
+    }
+
+    @NonNull
+    public CompletableFuture<Void> synchronize(@NonNull Account account) {
+        savedStateHandle.set("userInitiatedSynchronizationActive", true);
+        return this.accountRepository.scheduleSynchronization(account)
+                .whenCompleteAsync((result, exception) -> savedStateHandle.set("userInitiatedSynchronizationActive", false), ContextCompat.getMainExecutor(getApplication()));
+    }
+
+    @NonNull
+    public LiveData<Boolean> isUserInitiatedSynchronizationActive() {
+        return this.userInitiatedSynchronizationActive;
     }
 
     @NonNull

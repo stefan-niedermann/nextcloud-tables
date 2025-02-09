@@ -1,5 +1,6 @@
 package it.niedermann.nextcloud.tables.features.table.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Range;
@@ -9,11 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
@@ -46,16 +44,22 @@ public class ViewTableFragment extends Fragment {
     private TableViewAdapter adapter;
     private DataTypeServiceRegistry<ViewHolderFactory> registry;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         registry = new DataTypeViewerServiceRegistry(new DataTypeDefaultServiceRegistry());
         binding = FragmentTableBinding.inflate(inflater, container, false);
+        viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
         adapter = new TableViewAdapter(registry);
         binding.tableView.setAdapter(adapter);
         binding.tableView.getCellRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstCompletelyVisibleItemPosition() == 0);
+//                binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstCompletelyVisibleItemPosition() == 0);
                 final var first = binding.tableView.getRowHeaderLayoutManager().findFirstVisibleItemPosition();
                 final var last = binding.tableView.getRowHeaderLayoutManager().findLastVisibleItemPosition();
                 final var requestedPositionRange = new Range<>((long) first, (long) last);
@@ -63,36 +67,12 @@ public class ViewTableFragment extends Fragment {
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.fab, (v, windowInsets) -> {
-            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            final var defaultMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
-            mlp.topMargin = insets.top + defaultMargin;
-            mlp.leftMargin = insets.left + defaultMargin;
-            mlp.bottomMargin = insets.bottom + defaultMargin;
-            mlp.rightMargin = insets.right + defaultMargin;
-            v.setLayoutParams(mlp);
-            return WindowInsetsCompat.CONSUMED;
-        });
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.tableView, (v, windowInsets) -> {
-            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            binding.swipeRefreshLayout.setPadding(insets.left, 0, insets.right, insets.bottom);
-            return WindowInsetsCompat.CONSUMED;
-        });
+        viewTableViewModel.getUiState().observe(getViewLifecycleOwner(), this::applyUiState);
 
         return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
-        viewTableViewModel.getUiState().observe(getViewLifecycleOwner(), this::applyUiState);
-    }
-
     private void applyUiState(@NonNull ViewTableViewModel.UiState state) {
-        binding.swipeRefreshLayout.setRefreshing(state.userInitiatedSynchronizationActive());
         binding.tableView.getScrollHandler().scrollToRowPosition(0);
         binding.tableView.getScrollHandler().scrollToColumnPosition(0);
 
@@ -102,14 +82,14 @@ public class ViewTableFragment extends Fragment {
             Log.i(TAG, "Current table: " + null);
             adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), 0);
             binding.tableView.setTableViewListener(null);
-            binding.fab.setVisibility(View.GONE);
-            binding.swipeRefreshLayout.setOnRefreshListener(null);
+//            binding.fab.setVisibility(View.GONE);
+//            binding.swipeRefreshLayout.setOnRefreshListener(null);
             return;
         }
 
         Log.i(TAG, "Current table: " + fullTable.getTable());
 
-        binding.fab.setVisibility(fullTable.getTable().hasCreatePermission() ? View.VISIBLE : View.GONE);
+//        binding.fab.setVisibility(fullTable.getTable().hasCreatePermission() ? View.VISIBLE : View.GONE);
 
         final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
         final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
@@ -270,14 +250,6 @@ public class ViewTableFragment extends Fragment {
                 popup.show();
             }
         });
-
-        binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createAddIntent(requireContext(), state.account(), fullTable.getTable())));
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> viewTableViewModel.synchronize(state.account())
-                .whenCompleteAsync((result, exception) -> {
-                    if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
-                        ExceptionDialogFragment.newInstance(exception, state.account()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                    }
-                }, ContextCompat.getMainExecutor(requireContext())));
     }
 
     @Override
