@@ -86,7 +86,7 @@
     <string name="error_dialog_tip_clear_storage_might_help">Se o problema continúa, tente limpar o almacenamento de ambalas dúas aplicacións: Nextcloud e Nextcloud Táboas para resolver este problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Produciuse un fallo ao anovar a base de datos. Informe do problema e borre o almacenamento para usar a aplicación normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Pode limpar o almacenamento abrindo a información da aplicación e seleccionando Almacenamento → Limpar o almacenamento.</string>
-    <string name="error_dialog_tip_offline_no_internet">Semella que tentou facer unha sincronización cando non ten conexión a Internet.</string>
+    <string name="error_dialog_tip_offline_no_internet">Semella que tentou activar unha sincronización cando non ten conexión a Internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">A conexión foi rexeitada. Comprobe que é posíbel acceder ao servidor cun navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">A conexión excedeu o tempo de agarda. Comprobe se ten conexión á Internet. Isto tamén pode deberse a que o servidor estea moi ocupado.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se activou o axuste «Sincronizar só con Wi-Fi», só poderá sincronizar cando estea conectado a unha rede Wi-Fi.</string>
