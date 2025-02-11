@@ -18,6 +18,7 @@
     <string name="simple_mandatory">Obligatoire</string>
     <string name="simple_description">Description</string>
     <string name="simple_type">Type</string>
+    <string name="simple_subtype">Sous-type</string>
     <string name="simple_default_value">Valeur par défaut</string>
     <string name="simple_max_length">Longueur maximale</string>
     <string name="simple_min_value">Min.</string>
@@ -26,8 +27,11 @@
     <string name="simple_prefix">Préfixe</string>
     <string name="simple_suffix">Suffixe</string>
     <string name="simple_label">Libellé</string>
+    <string name="simple_hint">Indice</string>
+
     <string name="add_table">Ajouter un tableau</string>
     <string name="add_row">Ajouter une ligne</string>
+    <string name="duplicate_row">Dupliquer la ligne</string>
     <string name="edit_row">Modifier la ligne</string>
     <string name="manage_columns">Gérer les colonnes</string>
     <string name="edit_column">Modifier la colonne</string>
@@ -146,12 +150,22 @@
     <string name="simple_disabled">désactivé</string>
     <string name="manage_columns_subtitle">Glissez-déposez pour réorganiser</string>
     <string name="text_allowed_pattern">Motif autorisé</string>
+    <string name="use_now_as_default">Utiliser maintenant par défaut</string>
+    <string name="use_today_as_default">Utiliser aujourd\'hui par défaut</string>
     <string name="add_option">Ajouter une option</string>
     <string name="delete_option">Supprimer ce choix</string>
     <string name="experimental_feature_column_reordering">La réorganisation des colonnes est une fonctionnalité expérimentale qui peut avoir des effets indésirables sur d\'autres configurations des colonnes sur ce tableau.</string>
     <string name="experimental_feature_column_manage">La modification des colonnes est une fonctionnalité expérimentale qui peut avoir des effets secondaires involontaires sur d\'autres configurations de cette colonne.</string>
+    <string name="column_type_is_required">Le type de colonne est requis</string>
     <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
+    <string name="number_only_us_format">Veuillez noter bien que l\'édition des nombres n\'est possible actuellement qu\'au format US (utilisez des virgules comme séparateurs de milliers et un point pour les décimales)</string>
     <string name="unsaved_changes">Modifications non enregistrées</string>
+    <string name="unsaved_changes_details">Des modifications non enregistrées ont été détectées. Voulez-vous les rejeter ou les enregistrer ?</string>
     <string name="simple_discard">ignorer</string>
+    <string name="search_hint">Coller un lien ou taper pour rechercher</string>
+    <string name="usergroup_hint">Taper pour rechercher</string>
+
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Chargement…</string>
 </resources>
