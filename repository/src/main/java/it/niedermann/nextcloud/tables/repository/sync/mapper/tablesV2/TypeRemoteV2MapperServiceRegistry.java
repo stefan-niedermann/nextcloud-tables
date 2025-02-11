@@ -8,6 +8,7 @@ import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.DataV1M
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.DateRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.DateTimeRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.datetime.TimeRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.number.NumberProgressRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.number.NumberRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.number.NumberStarsRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selection.SelectionCheckDataV1Mapper;
@@ -16,6 +17,7 @@ import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.selecti
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.text.TextLinkRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.text.TextRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.unknown.UnknownRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.usergroup.UserGroupDataV1Mapper;
 
 public class TypeRemoteV2MapperServiceRegistry extends DataTypeServiceRegistry<DataV1Mapper> {
 
@@ -32,8 +34,9 @@ public class TypeRemoteV2MapperServiceRegistry extends DataTypeServiceRegistry<D
             case DATETIME -> new DateTimeRemoteMapper();
             case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateRemoteMapper());
             case DATETIME_TIME -> cache.computeIfAbsent(dataType, t -> new TimeRemoteMapper());
-            case NUMBER, NUMBER_PROGRESS ->
-                    cache.computeIfAbsent(dataType, t -> new NumberRemoteMapper());
+            case NUMBER -> cache.computeIfAbsent(dataType, t -> new NumberRemoteMapper());
+            case NUMBER_PROGRESS ->
+                    cache.computeIfAbsent(dataType, t -> new NumberProgressRemoteMapper());
             case NUMBER_STARS ->
                     cache.computeIfAbsent(dataType, t -> new NumberStarsRemoteMapper());
             case SELECTION ->
@@ -42,8 +45,8 @@ public class TypeRemoteV2MapperServiceRegistry extends DataTypeServiceRegistry<D
                     cache.computeIfAbsent(dataType, t -> new SelectionMultiDataV1Mapper());
             case SELECTION_CHECK ->
                     cache.computeIfAbsent(dataType, t -> new SelectionCheckDataV1Mapper());
-            case UNKNOWN, USERGROUP ->
-                    cache.computeIfAbsent(dataType, t -> new UnknownRemoteMapper());
+            case USERGROUP -> cache.computeIfAbsent(dataType, t -> new UserGroupDataV1Mapper());
+            case UNKNOWN -> cache.computeIfAbsent(dataType, t -> new UnknownRemoteMapper());
         };
     }
 }

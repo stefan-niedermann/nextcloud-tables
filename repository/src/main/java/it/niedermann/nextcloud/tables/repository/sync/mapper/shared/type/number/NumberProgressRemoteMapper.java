@@ -17,7 +17,7 @@ import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.shared.type.DataV1Mapper;
 
-public class NumberRemoteMapper extends DataV1Mapper {
+public class NumberProgressRemoteMapper extends DataV1Mapper {
 
     @NonNull
     @Override
@@ -29,6 +29,7 @@ public class NumberRemoteMapper extends DataV1Mapper {
                 .map(FullData::getData)
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
+                .map(Math::round)
                 .map(JsonPrimitive::new)
                 .map(JsonElement.class::cast)
                 .orElse(JsonNull.INSTANCE);
