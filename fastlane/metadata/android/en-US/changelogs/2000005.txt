@@ -2,3 +2,4 @@ fix: Extend visible range of rows by 10 before querying rows from db
 fix: Make use of bindPending method for rows that are not loaded from the db yet
 fix(sync): Decimal number is rounded up when updating (#153)
 fix(ui): Display column default as fallback if number/progress has no value instead of an indeterminate animation
+fix(ui): Use minimal possible value as fallback if number/progress has no value and the corresponding colum has no default value

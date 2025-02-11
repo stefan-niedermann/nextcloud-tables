@@ -37,7 +37,7 @@ public class ProgressCellViewHolder extends CellViewHolder {
                         .map(Column::getDefaultValue)
                         .map(Value::getDoubleValue)
                         .map(Double::intValue)
-                        .orElse(100));
+                        .orElse(min));
 
         binding.progress.setMin(min);
         binding.progress.setMax(max);
