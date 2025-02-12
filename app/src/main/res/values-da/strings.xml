@@ -105,6 +105,9 @@
     <string name="add_option">Tilføj valg</string>
     <string name="delete_option">Slet valg</string>
     <string name="unsaved_changes">Ikke gemte ændringer</string>
+    <string name="unsaved_changes_details">Ikke-gemte ændringer er blevet registreret. Vil du kassere eller gemme dem?</string>
     <string name="simple_discard">Kassér</string>
+    <string name="usergroup_hint">Skriv for at søge</string>
+
     <string name="simple_loading">Indlæser…</string>
 </resources>
