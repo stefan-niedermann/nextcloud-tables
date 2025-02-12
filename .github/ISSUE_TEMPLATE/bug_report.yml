@@ -100,4 +100,4 @@ body:
     id: stacktrace
     attributes:
       label: Stacktrace
-      description: Copy the error message using the <kbd>Copy</kbd> button. Please do not post a screenshot of the error message.
+      description: Copy the error message using the <kbd>Copy</kbd> button and paste it here. **🚨 Remove any personal data before pasting!**. Please do *not* post a screenshot of the error message, it is likely that you cut important parts.
