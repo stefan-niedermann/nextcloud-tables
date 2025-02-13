@@ -71,6 +71,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                 .thenComposeAsync(response -> this.markLocallyAsUpdated(table, response), workExecutor)
                                 .thenComposeAsync(v -> this.columnSyncAdapter.pushLocalCreations(account, table), workExecutor)
                                 .thenComposeAsync(v -> this.rowSyncAdapter.pushLocalCreations(account, table), workExecutor)
+                                .handleAsync(provideDebugContext(table), workExecutor)
                         ), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor);
@@ -98,6 +99,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                 .thenComposeAsync(response -> this.markLocallyAsUpdated(table, response), workExecutor)
                                 .thenComposeAsync(v -> this.columnSyncAdapter.pushLocalUpdates(account, table), workExecutor)
                                 .thenComposeAsync(v -> this.rowSyncAdapter.pushLocalUpdates(account, table), workExecutor)
+                                .handleAsync(provideDebugContext(table), workExecutor)
                         ), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor);
@@ -149,11 +151,13 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                     // Table has never been pushed to remote, so it is safe to simply delete it on the client
                                     ? runAsync(() -> db.getTableDao().delete(table), db.getSequentialExecutor())
                                     : this.deleteRemote(account, table)
-                                    .thenComposeAsync(response -> this.deleteLocallyPhysically(table, response), workExecutor);
+                                    .thenComposeAsync(response -> this.deleteLocallyPhysically(table, response), workExecutor)
+                                    .handleAsync(provideDebugContext(table), workExecutor);
 
                             return future
                                     .thenComposeAsync(v -> this.columnSyncAdapter.pushLocalDeletions(account, table), workExecutor)
-                                    .thenComposeAsync(v -> this.rowSyncAdapter.pushLocalDeletions(account, table), workExecutor);
+                                    .thenComposeAsync(v -> this.rowSyncAdapter.pushLocalDeletions(account, table), workExecutor)
+                                    .handleAsync(provideDebugContext(table), workExecutor);
 
                         }), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
@@ -188,7 +192,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyDeletedColumns, db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalDeletions(account, table)), workExecutor)
+                .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalDeletions(account, table)
+                        .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor)
 
@@ -196,7 +201,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyCreatedColumns, db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalCreations(account, table)), workExecutor)
+                .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalCreations(account, table)
+                        .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor)
 
@@ -204,7 +210,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyEditedColumnsOrChangedOrDeletedSelectionOptions, db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalUpdates(account, table)), workExecutor)
+                .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalUpdates(account, table)
+                        .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor)
 
@@ -216,7 +223,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyDeletedRows, db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalDeletions(account, table)), workExecutor)
+                .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalDeletions(account, table)
+                        .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor)
 
@@ -224,7 +232,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyCreatedRows, db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalCreations(account, table)), workExecutor)
+                .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalCreations(account, table)
+                        .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor)
 
@@ -232,7 +241,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyEditedRowsOrChangedOrDeletedData, db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalUpdates(account, table)), workExecutor)
+                .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalUpdates(account, table)
+                        .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
                 .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                 .thenComposeAsync(CompletableFuture::allOf, workExecutor)
 
@@ -306,6 +316,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                             .thenComposeAsync(v -> columnSyncAdapter.pullRemoteChanges(account, table), workExecutor)
                                             .thenComposeAsync(v -> rowSyncAdapter.pullRemoteChanges(account, table), workExecutor)
                                             .thenRunAsync(() -> Optional.ofNullable(reporter).ifPresent(r -> r.report(state -> state.withTableProgressFinished(table))), workExecutor)
+                                            .handleAsync(provideDebugContext(table), workExecutor)
                                     ), workExecutor)
                             .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                             .thenComposeAsync(CompletableFuture::allOf, workExecutor)

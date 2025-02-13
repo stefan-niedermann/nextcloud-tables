@@ -103,7 +103,8 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                 serverErrorHandler.responseToException(response, "Could not push local row creations for " + fullRow.getRow().getId(), false).ifPresent(this::throwError);
                                                 return completedFuture(null);
                                             }
-                                        });
+                                        })
+                                        .handleAsync(provideDebugContext(fullRow), workExecutor);
                             }).toArray(CompletableFuture[]::new));
                 }, workExecutor);
     }
@@ -143,7 +144,8 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                 serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
                                                 return completedFuture(null);
                                             }
-                                        });
+                                        })
+                                        .handleAsync(provideDebugContext(fullRow), workExecutor);
                             }).toArray(CompletableFuture[]::new));
                 }, workExecutor);
     }
@@ -280,13 +282,15 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                 ), db.getParallelExecutor())
                                 .thenComposeAsync(rowAndRowId -> upsertRow(rowAndRowId.first, rowAndRowId.second.orElse(null)), workExecutor)
                                 .thenComposeAsync(fullRow -> allOf(fullRow
-                                        .getFullData().stream()
-                                        .map(fullData -> upsertData(account.getId(), fullData, columnRemoteIdsToColumnLocalIds))
-                                        .toArray(CompletableFuture[]::new))
-                                        .thenComposeAsync(v -> {
-                                            target.add(fullRow.getRow().getId());
-                                            return CompletableFuture.<Void>completedFuture(null);
-                                        }, workExecutor), workExecutor)).toArray(CompletableFuture[]::new))
+                                                .getFullData().stream()
+                                                .map(fullData -> upsertData(account.getId(), fullData, columnRemoteIdsToColumnLocalIds))
+                                                .toArray(CompletableFuture[]::new))
+                                                .thenComposeAsync(v -> {
+                                                    target.add(fullRow.getRow().getId());
+                                                    return CompletableFuture.<Void>completedFuture(null);
+                                                }, workExecutor)
+                                                .handleAsync(provideDebugContext(table, fullRow.getRow()), workExecutor),
+                                        workExecutor)).toArray(CompletableFuture[]::new))
                                 .thenComposeAsync(v -> {
                                     if (rowDtos.size() < TablesV1API.DEFAULT_API_LIMIT_ROWS) {
                                         return completedFuture(target);
@@ -294,7 +298,8 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
                                     final var newOffset = offset + rowDtos.size();
                                     return fetchAndPersistRows(account, table, newOffset, target, columnRemoteIdsToFullColumns, columnRemoteIdsToColumnLocalIds, columnRemoteIdToSelectionOptions);
-                                }, workExecutor);
+                                }, workExecutor)
+                                .handleAsync(provideDebugContext(table), workExecutor);
                     }
 
                     default: {

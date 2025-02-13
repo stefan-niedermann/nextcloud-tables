@@ -21,6 +21,7 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.FetchRowResponseV1Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV1.model.UpdateRowRequestV1Dto;
+import it.niedermann.nextcloud.tables.repository.sync.treesync.TreeSyncExceptionWithContext;
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class FetchAndPutRowV1Mapper {
@@ -60,9 +61,15 @@ public class FetchAndPutRowV1Mapper {
                 final var fullColumn = optionalColumn.get();
                 final var column = fullColumn.getColumn();
                 final var service = registry.getService(column.getDataType());
-                final var fullData = service.toFullData(accountId, dataDto.value(), fullColumn, tablesVersion);
 
-                fullDataList.add(fullData);
+                try {
+                    final var fullData = service.toFullData(accountId, dataDto.value(), fullColumn, tablesVersion);
+                    fullDataList.add(fullData);
+                } catch (Throwable throwable) {
+                    throw new TreeSyncExceptionWithContext(throwable)
+                            .provide(accountId, fullColumn, tablesVersion)
+                            .provide("Value", dataDto.value());
+                }
             }
         });
 
@@ -87,7 +94,12 @@ public class FetchAndPutRowV1Mapper {
 
         for (final var fullData : fullDataSet) {
             final var service = registry.getService(fullData.getDataType());
-            data.put(fullData.getData().getRemoteColumnId(), service.toRemoteValue(fullData, fullData.getDataType(), version));
+
+            try {
+                data.put(fullData.getData().getRemoteColumnId(), service.toRemoteValue(fullData, fullData.getDataType(), version));
+            } catch (Throwable throwable) {
+                throw new TreeSyncExceptionWithContext(throwable).provide(fullData, version);
+            }
         }
 
         return new UpdateRowRequestV1Dto(data);

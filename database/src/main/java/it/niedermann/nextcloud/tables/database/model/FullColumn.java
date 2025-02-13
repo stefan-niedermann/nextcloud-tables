@@ -103,6 +103,17 @@ public class FullColumn implements Serializable, Comparable<FullColumn> {
         this.defaultUserGroups = defaultUserGroups;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "FullColumn{" +
+                "column=" + column +
+                ", selectionOptions=" + selectionOptions +
+                ", defaultSelectionOptions=" + defaultSelectionOptions +
+                ", defaultUserGroups=" + defaultUserGroups +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

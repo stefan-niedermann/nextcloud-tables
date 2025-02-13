@@ -77,6 +77,15 @@ public class SelectionOption extends AbstractEntity implements Comparable<Select
         this.label = label;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "SelectionOption{" +
+                "remoteId=" + remoteId +
+                ", label='" + label + '\'' +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

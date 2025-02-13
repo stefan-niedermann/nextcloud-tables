@@ -14,6 +14,8 @@ import androidx.room.Index;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.model.NextcloudVersion;
@@ -285,7 +287,11 @@ public class Account extends AbstractEntity {
     @Override
     @NonNull
     public String toString() {
-        return accountName;
+        //noinspection DataFlowIssue
+        return Stream.of(accountName, tablesVersion)
+                .filter(Objects::nonNull)
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
     }
 
     @Override

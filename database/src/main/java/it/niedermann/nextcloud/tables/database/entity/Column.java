@@ -250,7 +250,10 @@ public class Column extends AbstractTableRelatedEntity implements Comparable<Col
     @NonNull
     @Override
     public String toString() {
-        return title + " (ID: " + id + ", Remote ID: " + remoteId + ", Status: " + getStatus() + ", Table ID: " + getTableId() + ")";
+        return "Column{" +
+                "title='" + title + '\'' +
+                ", remoteId=" + remoteId +
+                '}';
     }
 
     @Override

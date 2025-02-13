@@ -147,6 +147,18 @@ public class FullData implements Serializable {
         this.linkValueWithProviderRemoteId = linkValueWithProviderRemoteId;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "FullData{" +
+                "data=" + data +
+                ", selectionOptions=" + selectionOptions +
+                ", userGroups=" + userGroups +
+                ", dataType=" + dataType +
+                ", linkValueWithProviderRemoteId=" + linkValueWithProviderRemoteId +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

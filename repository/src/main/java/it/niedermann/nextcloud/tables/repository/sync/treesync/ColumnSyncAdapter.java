@@ -238,11 +238,13 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                     if (columnId == null) {
                                         Log.i(TAG, "--- ← Adding column " + column.getTitle() + " to database");
                                         columnUpdateFuture = supplyAsync(() -> db.getColumnDao().insert(column), db.getSequentialExecutor())
-                                                .thenAcceptAsync(column::setId, workExecutor);
+                                                .thenAcceptAsync(column::setId, workExecutor)
+                                                .handleAsync(provideDebugContext(table, column), workExecutor);
                                     } else {
                                         column.setId(columnId);
                                         Log.i(TAG, "--- ← Updating column " + column.getTitle() + " in database");
-                                        columnUpdateFuture = runAsync(() -> db.getColumnDao().update(column), db.getSequentialExecutor());
+                                        columnUpdateFuture = runAsync(() -> db.getColumnDao().update(column), db.getSequentialExecutor())
+                                                .handleAsync(provideDebugContext(table, column), workExecutor);
                                     }
 
                                     final var selectionOptions = fullColumn.getSelectionOptions();
@@ -261,12 +263,14 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                                 if (selectionOptionId == null) {
                                                     Log.i(TAG, "----- ← Adding selection option " + selectionOption.getLabel() + " to database");
                                                     return supplyAsync(() -> db.getSelectionOptionDao().insert(selectionOption), db.getSequentialExecutor())
-                                                            .thenAcceptAsync(selectionOption::setId, workExecutor);
+                                                            .thenAcceptAsync(selectionOption::setId, workExecutor)
+                                                            .handleAsync(provideDebugContext(selectionOption), workExecutor);
 
                                                 } else {
                                                     selectionOption.setId(selectionOptionId);
                                                     Log.i(TAG, "----- ← Updating selection option " + selectionOption.getLabel() + " in database");
-                                                    return runAsync(() -> db.getSelectionOptionDao().update(selectionOption), db.getSequentialExecutor());
+                                                    return runAsync(() -> db.getSelectionOptionDao().update(selectionOption), db.getSequentialExecutor())
+                                                            .handleAsync(provideDebugContext(selectionOption), workExecutor);
                                                 }
                                             }).toArray(CompletableFuture[]::new)), workExecutor)
                                             .thenRunAsync(() -> Log.i(TAG, "----- ← Delete all selection options for column \"" + column + "\" except remoteId " + selectionOptionRemoteIds), workExecutor)

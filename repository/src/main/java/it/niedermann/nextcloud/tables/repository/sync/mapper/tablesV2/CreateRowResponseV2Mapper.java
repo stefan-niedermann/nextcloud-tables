@@ -19,6 +19,7 @@ import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowResponseV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateRowV2Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.TypeRemoteV1MapperServiceRegistry;
+import it.niedermann.nextcloud.tables.repository.sync.treesync.TreeSyncExceptionWithContext;
 
 public class CreateRowResponseV2Mapper {
 
@@ -49,9 +50,15 @@ public class CreateRowResponseV2Mapper {
                 final var fullColumn = optionalColumn.get();
                 final var column = fullColumn.getColumn();
                 final var service = registry.getService(column.getDataType());
-                final var fullData = service.toFullData(accountId, dataDto.value(), fullColumn, tablesVersion);
 
-                fullDataList.add(fullData);
+                try {
+                    final var fullData = service.toFullData(accountId, dataDto.value(), fullColumn, tablesVersion);
+                    fullDataList.add(fullData);
+                } catch (Throwable throwable) {
+                    throw new TreeSyncExceptionWithContext(throwable)
+                            .provide(accountId, fullColumn, tablesVersion)
+                            .provide("Value", dataDto.value());
+                }
             }
         });
 
@@ -76,9 +83,13 @@ public class CreateRowResponseV2Mapper {
 
         for (final var fullData : fullDataSet) {
             final var service = registry.getService(fullData.getDataType());
-            data.put(
-                    fullData.getData().getRemoteColumnId(),
-                    service.toRemoteValue(fullData, fullData.getDataType(), version));
+            try {
+                data.put(
+                        fullData.getData().getRemoteColumnId(),
+                        service.toRemoteValue(fullData, fullData.getDataType(), version));
+            } catch (Throwable throwable) {
+                throw new TreeSyncExceptionWithContext(throwable).provide(fullData, version);
+            }
         }
 
         return new CreateRowV2Dto(data);

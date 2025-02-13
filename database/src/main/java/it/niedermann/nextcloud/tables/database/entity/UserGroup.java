@@ -80,6 +80,16 @@ public class UserGroup extends AbstractAccountRelatedEntity {
         this.type = type;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "UserGroup{" +
+                "remoteId='" + remoteId + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", type=" + type +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -99,6 +99,15 @@ public class Data extends AbstractEntity {
         this.value = value;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Data{" +
+                "remoteColumnId=" + remoteColumnId +
+                ", value=" + value +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -9,13 +9,16 @@ import androidx.annotation.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutorService;
+import java.util.function.BiFunction;
 
 import it.niedermann.nextcloud.tables.database.TablesDatabase;
 import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.remote.RequestHelper;
 import it.niedermann.nextcloud.tables.repository.ServerErrorHandler;
+import it.niedermann.nextcloud.tables.repository.sync.exception.SyncExceptionWithContext;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 
@@ -73,12 +76,26 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
 
     /**
      * Wraps a checked exception in a {@link CompletionException} and throws it
+     *
      * @param throwable checked exception to be thrown within a
-     * {@link java.util.concurrent.CompletionStage}
+     *                  {@link java.util.concurrent.CompletionStage}
      */
     protected void throwError(@NonNull Throwable throwable) {
         throw throwable instanceof CompletionException
                 ? (CompletionException) throwable
                 : new CompletionException(throwable);
+    }
+
+    /// @return unaltered result from previous [CompletionStage]
+    /// @throws SyncExceptionWithContext if `exception` is not `null` enriched with the given `attributes`
+    @NonNull
+    protected <T> BiFunction<T, Throwable, T> provideDebugContext(@Nullable Object... attributes) {
+        return (result, exception) -> {
+            if (exception != null) {
+                throw new TreeSyncExceptionWithContext(exception).provide(attributes);
+            }
+
+            return result;
+        };
     }
 }

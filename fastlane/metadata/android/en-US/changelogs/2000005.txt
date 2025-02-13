@@ -5,3 +5,4 @@ fix(ui): Display column default as fallback if number/progress has no value inst
 fix(ui): Use minimal possible value as fallback if number/progress has no value and the corresponding colum has no default value
 chore(ui): Introduce databinding in AboutActivity
 docs: Add CONTRIBUTING.md
+feat(logging): Enrich synchronization exceptions with contextual information
