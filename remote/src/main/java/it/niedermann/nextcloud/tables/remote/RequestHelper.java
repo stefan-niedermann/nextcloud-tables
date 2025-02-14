@@ -55,6 +55,7 @@ public class RequestHelper {
                         apiV1ProviderRef.get().getApi());
 
                 // TODO Check connectivity
+                // TODO Log Request-ID Header in case of a failed request
                 return api.apply(apiTuple).execute();
 
             } catch (Exception throwable) {

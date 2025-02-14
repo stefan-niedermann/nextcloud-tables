@@ -106,8 +106,6 @@ public class TextLinkRemoteMapper extends DataV1Mapper {
 
                     linkValue.setDataId(fullData.getData().getId());
 
-                    Integer.parseInt("fooBa");
-
                     Optional.ofNullable(jsonObject.get("value"))
                             .filter(JsonElement::isJsonPrimitive)
                             .map(JsonElement::getAsString)
