@@ -29,6 +29,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -40,6 +41,7 @@ import it.niedermann.nextcloud.tables.features.column.manage.ManageColumnsActivi
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.features.importaccount.ImportAccountActivity;
+import it.niedermann.nextcloud.tables.features.row.EditRowActivity;
 import it.niedermann.nextcloud.tables.features.settings.PreferencesActivity;
 import it.niedermann.nextcloud.tables.features.table.edit.EditTableActivity;
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
             } else {
                 Log.i(TAG, "New account set: " + account);
-//                binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createAddIntent(this, account, fullTable.getTable())));
+
                 binding.swipeRefreshLayout.setOnRefreshListener(() -> mainViewModel.synchronize(account)
                         .whenCompleteAsync((result, exception) -> {
                             if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
@@ -141,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mainViewModel.getTables().observe(this, this::updateSidebarMenu);
-        mainViewModel.getCurrentTable().observe(this, this::applyCurrentTable);
+        mainViewModel.getCurrentTable().observe(this, accountAndTable -> applyCurrentTable(accountAndTable.account(), accountAndTable.table()));
 
         binding.toolbar.setOnClickListener(view -> {
             if (FeatureToggle.SEARCH_IN_TABLE.enabled) {
@@ -152,7 +154,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void applyCurrentTable(@Nullable Table table) {
+    private void applyCurrentTable(@Nullable Account account, @Nullable Table table) {
+        if (account != null && table != null) {
+            binding.fab.setOnClickListener(v -> startActivity(EditRowActivity.createAddIntent(this, account, table)));
+            binding.fab.setEnabled(true);
+        }
+
+        final var hasCreatePermission = Optional
+                .ofNullable(table)
+                .map(Table::hasCreatePermission)
+                .orElse(false);
+
+        binding.fab.setVisibility(hasCreatePermission ? View.VISIBLE : View.GONE);
         binding.toolbar.setHint(table == null
                 ? getString(R.string.choose_table_from_the_sidebar)
                 : table.getTitleWithEmoji());
@@ -248,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                         .setActionView(contextMenu)
                         .setOnMenuItemClickListener(item -> {
                             binding.drawerLayout.close();
+                            binding.fab.setEnabled(false);
                             mainViewModel.setCurrentTable(table);
                             return true;
                         });

@@ -172,9 +172,5 @@ public class ViewTableViewModel extends AndroidViewModel {
             long requestedMinRowPosition,
             long requestedMaxRowPosition
     ) implements Serializable {
-
-        public Range<Long> getRequestedRowPosition() {
-            return new Range<>(requestedMaxRowPosition, requestedMaxRowPosition);
-        }
     }
 }

@@ -59,7 +59,6 @@ public class ViewTableFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-//                binding.swipeRefreshLayout.setEnabled(binding.tableView.getCellLayoutManager().findFirstCompletelyVisibleItemPosition() == 0);
                 final var first = binding.tableView.getRowHeaderLayoutManager().findFirstVisibleItemPosition();
                 final var last = binding.tableView.getRowHeaderLayoutManager().findLastVisibleItemPosition();
                 final var requestedPositionRange = new Range<>((long) first, (long) last);
@@ -82,14 +81,10 @@ public class ViewTableFragment extends Fragment {
             Log.i(TAG, "Current table: " + null);
             adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), 0);
             binding.tableView.setTableViewListener(null);
-//            binding.fab.setVisibility(View.GONE);
-//            binding.swipeRefreshLayout.setOnRefreshListener(null);
             return;
         }
 
         Log.i(TAG, "Current table: " + fullTable.getTable());
-
-//        binding.fab.setVisibility(fullTable.getTable().hasCreatePermission() ? View.VISIBLE : View.GONE);
 
         final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
         final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();

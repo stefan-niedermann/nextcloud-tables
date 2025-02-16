@@ -7,6 +7,7 @@ import android.app.Application;
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -55,17 +56,18 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     @NonNull
-    public LiveData<Table> getCurrentTable() {
+    public LiveData<AccountAndTable> getCurrentTable() {
         return switchMap(getCurrentAccount(), account -> {
             if (account == null) {
-                return new MutableLiveData<>(null);
+                return new MutableLiveData<>(new AccountAndTable(null, null));
             }
 
             if (account.getCurrentTable() == null) {
-                return new MutableLiveData<>(null);
+                return new MutableLiveData<>(new AccountAndTable(account, null));
             }
 
             return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
+                    .map(table -> new AccountAndTable(account, table))
                     .tap(() -> this.isLoading$.setValue(false));
         });
     }
@@ -118,6 +120,12 @@ public class MainViewModel extends AndroidViewModel {
     @NonNull
     public CompletableFuture<Void> deleteTable(@NonNull Table table) {
         return tablesRepository.deleteTable(table);
+    }
+
+    public record AccountAndTable(
+            @Nullable Account account,
+            @Nullable Table table
+    ) {
     }
 
     public static class TablesPerAccount {
