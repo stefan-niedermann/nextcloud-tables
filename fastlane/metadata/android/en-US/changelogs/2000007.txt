@@ -1,2 +1,8 @@
+2.0.7
+
 fix(ui): Fix showing / hiding FAB depending on create permission for the current table
 chore(deps): Update AGP to 8.8.1
+
+2.0.6
+
+fix(sync): Remove debug code causing NumberFormatException
