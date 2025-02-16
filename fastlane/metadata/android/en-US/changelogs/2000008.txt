@@ -1,0 +1,2 @@
+fix(ui): Fix showing / hiding FAB depending on create permission for the current table
+chore(deps): Update AGP to 8.8.1
