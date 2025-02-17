@@ -1,1 +1,9 @@
+2.0.8
+
 fix: Make SyncExceptionWithContext implement Serializable to avoid crash
+fix: Fix syntax error
+
+2.0.7
+
+fix(ui): Fix showing / hiding FAB depending on create permission for the current table
+chore(deps): Update AGP to 8.8.1
