@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.repository.sync.treesync;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import it.niedermann.nextcloud.tables.repository.sync.exception.SyncExceptionWit
 public class TreeSyncExceptionWithContext extends SyncExceptionWithContext {
 
     @NonNull
-    private final Map<String, Object> attributes = new HashMap<>();
+    private final Map<String, Serializable> attributes = new HashMap<>();
 
     /// @implNote Avoids duplicated [SyncExceptionWithContext] instances by incorporating already
     /// existing contextual information and dropping the top `cause` from the cause chain in case it
@@ -26,7 +27,7 @@ public class TreeSyncExceptionWithContext extends SyncExceptionWithContext {
 
     @NonNull
     @Override
-    public Map<String, Object> getAttributes() {
+    public Map<String, Serializable> getAttributes() {
         return attributes;
     }
 
@@ -34,7 +35,7 @@ public class TreeSyncExceptionWithContext extends SyncExceptionWithContext {
     ///
     /// @implNote Provided value(s) will only be accepted if there is not already an existing value of the values class present.
     @Override
-    public @NonNull SyncExceptionWithContext provide(@Nullable Object value) {
+    public @NonNull SyncExceptionWithContext provide(@Nullable Serializable value) {
         if (value != null) {
             return provide(value.getClass().getSimpleName(), value);
         }
@@ -42,8 +43,8 @@ public class TreeSyncExceptionWithContext extends SyncExceptionWithContext {
         return this;
     }
 
-    /// @see #provide(Object)
-    public @NonNull SyncExceptionWithContext provide(@NonNull String key, @Nullable Object value) {
+    /// @see #provide(Serializable)
+    public @NonNull SyncExceptionWithContext provide(@NonNull String key, @Nullable Serializable value) {
         if (value != null) {
             attributes.putIfAbsent(key, value);
         }
