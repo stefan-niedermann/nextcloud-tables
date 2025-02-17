@@ -68,7 +68,7 @@ public class FetchAndPutRowV1Mapper {
                 } catch (Throwable throwable) {
                     throw new TreeSyncExceptionWithContext(throwable)
                             .provide(accountId, fullColumn, tablesVersion)
-                            .provide("Value", dataDto.value());
+                            .provide("Value", Optional.ofNullable(dataDto.value()).map(JsonElement::toString).orElse(null));
                 }
             }
         });

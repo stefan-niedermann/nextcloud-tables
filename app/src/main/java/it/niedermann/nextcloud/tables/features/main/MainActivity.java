@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private final AvatarUtil avatarUtil = new AvatarUtil();
     private ActivityMainBinding binding;
     private MainViewModel mainViewModel;
+    private FilterViewModel filterViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
+
         mainViewModel.getCurrentAccount().observe(this, account -> {
             if (account == null) {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));

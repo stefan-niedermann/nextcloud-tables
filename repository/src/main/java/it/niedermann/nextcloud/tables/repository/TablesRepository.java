@@ -13,6 +13,7 @@ import android.util.Range;
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
@@ -31,6 +32,7 @@ import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.model.FilterConstraints;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.FullRow;
@@ -83,8 +85,12 @@ public class TablesRepository extends AbstractRepository {
     }
 
     @MainThread
-    public LiveData<FullTable> getFullTable$(long tableId, @NonNull Range<Long> rowPositions) {
-        return new ReactiveLiveData<>(db.getTableDao().getFullTable$(tableId, rowPositions.getLower(), rowPositions.getUpper()))
+    public LiveData<FullTable> getFullTable$(long tableId,
+                                             @NonNull Range<Long> rowPositions,
+                                             @Nullable FilterConstraints filterConstraints) {
+        return new ReactiveLiveData<>(filterConstraints == null
+                ? db.getTableDao().getFullTable$(tableId, rowPositions.getLower(), rowPositions.getUpper())
+                : db.getTableDao().getFullTable$(tableId, /*filterConstraints.term(), */rowPositions.getLower(), rowPositions.getUpper()))
                 .distinctUntilChanged();
     }
 

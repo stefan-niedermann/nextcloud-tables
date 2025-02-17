@@ -28,6 +28,7 @@ import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.tables.features.main.FilterViewModel;
 import it.niedermann.nextcloud.tables.features.row.EditRowActivity;
 import it.niedermann.nextcloud.tables.features.table.view.types.CellViewHolder;
 import it.niedermann.nextcloud.tables.features.table.view.types.DataTypeViewerServiceRegistry;
@@ -41,6 +42,7 @@ public class ViewTableFragment extends Fragment {
     private static final String TAG = ViewTableFragment.class.getSimpleName();
     private FragmentTableBinding binding;
     private ViewTableViewModel viewTableViewModel;
+    private FilterViewModel filterViewModel;
     private TableViewAdapter adapter;
     private DataTypeServiceRegistry<ViewHolderFactory> registry;
 
@@ -52,7 +54,12 @@ public class ViewTableFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         registry = new DataTypeViewerServiceRegistry(new DataTypeDefaultServiceRegistry());
         binding = FragmentTableBinding.inflate(inflater, container, false);
+
         viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+
+        filterViewModel.getFilterConstraints().observe(getViewLifecycleOwner(), viewTableViewModel::setFilterConstraints);
+
         adapter = new TableViewAdapter(registry);
         binding.tableView.setAdapter(adapter);
         binding.tableView.getCellRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {

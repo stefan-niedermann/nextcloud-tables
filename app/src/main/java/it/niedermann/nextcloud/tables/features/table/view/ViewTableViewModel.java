@@ -24,6 +24,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.Table;
+import it.niedermann.nextcloud.tables.database.model.FilterConstraints;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.FullTable;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
@@ -36,6 +37,7 @@ public class ViewTableViewModel extends AndroidViewModel {
     private final AccountRepository accountRepository;
     private final TablesRepository tablesRepository;
 
+    private final LiveData<FilterConstraints> filterConstraints;
     private final LiveData<Boolean> userInitiatedTableChangeActive;
     private final MutableLiveData<TableFilter> tableFilter;
 
@@ -46,6 +48,7 @@ public class ViewTableViewModel extends AndroidViewModel {
         accountRepository = new AccountRepository(application);
         tablesRepository = new TablesRepository(application);
 
+        filterConstraints = savedStateHandle.getLiveData("filterConstraints", null);
         userInitiatedTableChangeActive = savedStateHandle.getLiveData("userInitiatedTableChangeActive", false);
         tableFilter = savedStateHandle.getLiveData("tableFilter", null);
     }
@@ -95,9 +98,13 @@ public class ViewTableViewModel extends AndroidViewModel {
                         .map(tf -> new Range<>(tf.requestedMinRowPosition(), tf.requestedMaxRowPosition()))
                         .map(range -> new Range<>(Math.max(0L, range.getLower() - 10), range.getUpper() + 10))
                         .orElse(new Range<>(0L, 0L)))
-                .flatMap(range -> {
+                .combineWith(() -> filterConstraints)
+                .flatMap(args -> {
+                    final var range = args.first;
+                    final var filterConstraints = args.second;
+
                     tablesRepository.updateCurrentRow(table.getId(), range.getLower());
-                    return tablesRepository.getFullTable$(table.getId(), range);
+                    return tablesRepository.getFullTable$(table.getId(), range, filterConstraints);
                 });
     }
 
@@ -159,6 +166,10 @@ public class ViewTableViewModel extends AndroidViewModel {
         }
 
         return dataGrid;
+    }
+
+    public void setFilterConstraints(@NonNull FilterConstraints filterConstraints) {
+        this.savedStateHandle.set("filterConstraints", filterConstraints);
     }
 
     public record UiState(

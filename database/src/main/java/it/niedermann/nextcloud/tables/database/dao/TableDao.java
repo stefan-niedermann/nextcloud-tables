@@ -83,6 +83,23 @@ public interface TableDao extends GenericDao<Table> {
             "LIMIT 1")
     LiveData<FullTable> getFullTable$(long tableId, long offset, long limit);
 
+    // TODO Search in Data for term
+//    @Transaction
+//    @Query("SELECT t.*, COUNT(allRows.id) as rowCount FROM `Table` t " +
+//            "LEFT JOIN `Row` allRows " +
+//            "ON allRows.id = t.id " +
+//            "LEFT JOIN (" +
+//            "   SELECT r.*" +
+//            "   FROM `Row` r " +
+//            "   LIMIT :limit " +
+//            "   OFFSET :offset" +
+//            ") queriedRows " +
+//            "ON t.id = queriedRows.tableId " +
+//            "WHERE t.id = :tableId " +
+//            "AND t.status IS NOT 'LOCAL_DELETED'" +
+//            "LIMIT 1")
+//    LiveData<FullTable> getFullTable$(long tableId, String term, long offset, long limit);
+
     @Query("UPDATE `Table` " +
             "SET currentRow = :currentRow " +
             "WHERE id = :tableId")
