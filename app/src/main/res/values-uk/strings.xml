@@ -18,12 +18,20 @@
     <string name="simple_mandatory">Обов\'язково</string>
     <string name="simple_description">Опис</string>
     <string name="simple_type">Тип</string>
+    <string name="simple_subtype">Підтип</string>
     <string name="simple_default_value">Типове значення</string>
+    <string name="simple_max_length">Максимальна довжина</string>
+    <string name="simple_min_value">Мін</string>
     <string name="simple_max_value">Щонайбільше</string>
     <string name="simple_decimals">Знак після коми</string>
+    <string name="simple_prefix">Префікс</string>
+    <string name="simple_suffix">Суфікс</string>
     <string name="simple_label">Мітка</string>
+    <string name="simple_hint">Підказка</string>
+
     <string name="add_table">Додати таблицю</string>
     <string name="add_row">Додати рядок</string>
+    <string name="duplicate_row">Дублювати</string>
     <string name="edit_row">Редагувати рядок</string>
     <string name="manage_columns">Керувати стовпцями</string>
     <string name="edit_column">Редагувати стовпець</string>
@@ -141,12 +149,21 @@
     <string name="last_background_sync">Остання фонова синхронізація:</string>
     <string name="simple_disabled">вимкнено</string>
     <string name="manage_columns_subtitle">Пересуньте для зміни порядку</string>
+    <string name="text_allowed_pattern">Дозволений шаблон</string>
+    <string name="use_now_as_default">Використовувати зараз типово</string>
+    <string name="use_today_as_default">Використовувати сьогодні типово</string>
     <string name="add_option">Додати варіант</string>
     <string name="delete_option">Вилучити опцію</string>
     <string name="experimental_feature_column_reordering">Зміна порядку стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
     <string name="experimental_feature_column_manage">Редагування стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
+    <string name="column_type_is_required">Потрібно зазначити тип стовпця</string>
     <string name="unsupported_column_type">Редагування стовпця типу%1$s поки не підтримується.</string>
+    <string name="number_only_us_format">Зауважте, що редагування цифрових значень зараз можливе лише у форматі США (використовуйте кому для відділення розрядів тисячних, а крапку як десятковий роздільник).</string>
     <string name="unsaved_changes">Незбережені зміни</string>
+    <string name="unsaved_changes_details">Виявлено незбережені зміни. Відхилити або зберегти ці зміни?</string>
     <string name="simple_discard">Відхилити</string>
+    <string name="search_hint">Вставте посилання або введіть текст для пошуку</string>
+    <string name="usergroup_hint">Введіть текст для пошуку</string>
+
     <string name="simple_loading">Завантаження…</string>
 </resources>
