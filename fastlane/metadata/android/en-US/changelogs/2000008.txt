@@ -1,1 +1,2 @@
 fix: Make SyncExceptionWithContext implement Serializable to avoid crash
+fix: Fix syntax error
