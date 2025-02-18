@@ -1,27 +1,27 @@
 package it.niedermann.nextcloud.tables.features.row.editor.type.number;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.function.Predicate.not;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.util.Range;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputLayout;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
@@ -34,20 +34,15 @@ import it.niedermann.nextcloud.tables.features.row.editor.type.text.TextEditor;
 
 public class NumberEditor extends TextEditor {
 
-    private final NumberFormat format = NumberFormat.getInstance(Locale.US);
-    private final NumberAttributes attributes;
-    private final int numberDecimals;
+    private NumberAttributes attributes;
+    private NumberFormat format;
 
     public NumberEditor(@NonNull Context context) {
         super(context);
-        attributes = null;
-        numberDecimals = 0;
     }
 
     public NumberEditor(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        attributes = null;
-        numberDecimals = 0;
     }
 
     public NumberEditor(@NonNull Context context,
@@ -55,35 +50,37 @@ public class NumberEditor extends TextEditor {
                         @Nullable FragmentManager fragmentManager) {
         super(context, column, fragmentManager);
 
-        attributes = Objects.requireNonNull(column.getNumberAttributes());
-        numberDecimals = attributes.numberDecimals();
+        attributes = requireNonNull(column.getNumberAttributes());
+        format = getNumberFormat(attributes);
 
-        final int inputType = numberDecimals > 0
-                ? InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-                : InputType.TYPE_CLASS_NUMBER;
-
-        applyChangesWithoutChangingPristineState(() -> binding.editText.setInputType(inputType));
         binding.getRoot().setPrefixText(attributes.numberPrefix());
         binding.getRoot().setSuffixText(attributes.numberSuffix());
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_numbers_24);
 
-        if (fragmentManager == null) {
-            binding.getRoot().setEndIconMode(TextInputLayout.END_ICON_CUSTOM);
-            binding.getRoot().setEndIconDrawable(R.drawable.ic_outline_info_24);
-            binding.getRoot().setEndIconOnClickListener(this::showFormatHintDialog);
-        } else {
-            binding.getRoot().setEndIconMode(TextInputLayout.END_ICON_NONE);
-            binding.getRoot().setEndIconDrawable(null);
-            binding.getRoot().setEndIconOnClickListener(null);
-        }
+        applyChangesWithoutChangingPristineState(() -> {
+            binding.editText.setKeyListener(DigitsKeyListener.getInstance(Locale.getDefault(), attributes.numberMin() < 0, attributes.numberDecimals() > 0));
+            binding.editText.setInputType(attributes.numberDecimals() > 0
+                    ? InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+                    : InputType.TYPE_CLASS_NUMBER);
+        });
     }
 
-    private void showFormatHintDialog(@Nullable View eventSource) {
-        new MaterialAlertDialogBuilder(getContext())
-                .setTitle(R.string.simple_hint)
-                .setMessage(R.string.number_only_us_format)
-                .setPositiveButton(R.string.simple_close, (dialog, which) -> dialog.dismiss())
-                .show();
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final var bundle = new Bundle();
+        bundle.putParcelable("super", super.onSaveInstanceState());
+        bundle.putSerializable("attributes", attributes);
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(@Nullable Parcelable state) {
+        if (state instanceof Bundle bundle) {
+            attributes = (NumberAttributes) bundle.getSerializable("attributes");
+            format = getNumberFormat(requireNonNull(attributes));
+            super.onRestoreInstanceState(bundle.getParcelable("super"));
+        }
     }
 
     @Override
@@ -109,14 +106,17 @@ public class NumberEditor extends TextEditor {
     }
 
     private Optional<Double> parseDouble(@Nullable String value) {
-        try {
-            return Optional
-                    .ofNullable(value)
-                    .filter(not(String::isBlank))
-                    .map(Double::parseDouble);
-        } catch (NumberFormatException e) {
-            return Optional.empty();
-        }
+        return Optional
+                .ofNullable(value)
+                .filter(not(String::isBlank))
+                .map(source -> {
+                    try {
+                        return format.parse(source);
+                    } catch (ParseException e) {
+                        return null;
+                    }
+                })
+                .map(Number::doubleValue);
     }
 
     @SuppressLint("MissingSuperCall")
@@ -128,10 +128,12 @@ public class NumberEditor extends TextEditor {
                 .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
-                .map(format::format)
-                .orElse(null);
+                .flatMap(doubleValue -> Optional
+                        .ofNullable(attributes.numberDecimals())
+                        .map(decimals -> "%." + decimals + "f")
+                        .map(formatString -> String.format(Locale.getDefault(), formatString, doubleValue)));
 
-        applyChangesWithoutChangingPristineState(() -> binding.editText.setText(value));
+        applyChangesWithoutChangingPristineState(() -> binding.editText.setText(value.orElse(null)));
     }
 
     @NonNull
@@ -147,8 +149,6 @@ public class NumberEditor extends TextEditor {
             if (TextUtils.isEmpty(stringVal)) {
                 return Optional.empty();
             }
-
-            // TODO check decimals
 
             final var number = format.parse(stringVal);
 
@@ -181,5 +181,11 @@ public class NumberEditor extends TextEditor {
         } catch (Exception e) {
             return Optional.of(getContext().getString(R.string.validation_number_not_parsable));
         }
+    }
+
+    private NumberFormat getNumberFormat(@NonNull NumberAttributes attributes) {
+        return attributes.numberDecimals() > 0
+                ? NumberFormat.getInstance()
+                : NumberFormat.getIntegerInstance();
     }
 }

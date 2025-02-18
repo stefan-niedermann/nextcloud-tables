@@ -27,7 +27,6 @@
     <string name="simple_prefix">Prefix</string>
     <string name="simple_suffix">Suffix</string>
     <string name="simple_label">Label</string>
-    <string name="simple_hint">Hint</string>
 
     <string name="add_table">Add table</string>
     <string name="add_row">Add row</string>
@@ -172,7 +171,6 @@
     <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
     <string name="column_type_is_required">Column type is required</string>
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
-    <string name="number_only_us_format">Please note that editing numbers is currently only possible in US format (use comma for thousand separators and a dot for decimal separator)</string>
     <string name="unsaved_changes">Unsaved changes</string>
     <string name="unsaved_changes_details">Unsaved changes have been detected. Do you want to discard or save them?</string>
     <string name="simple_discard">Discard</string>
