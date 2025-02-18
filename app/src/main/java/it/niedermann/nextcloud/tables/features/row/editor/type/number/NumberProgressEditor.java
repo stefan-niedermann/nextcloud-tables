@@ -21,7 +21,6 @@ import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
 
 public class NumberProgressEditor extends DataEditView<EditNumberProgressBinding> implements Slider.OnChangeListener {
 
-
     public NumberProgressEditor(@NonNull Context context) {
         super(context, EditNumberProgressBinding.inflate(LayoutInflater.from(context)));
     }
@@ -83,10 +82,12 @@ public class NumberProgressEditor extends DataEditView<EditNumberProgressBinding
                 .map(val -> (Math.round(val / stepSize)) * stepSize)
                 .orElse(min);
 
-        binding.progress.setValueFrom(min);
-        binding.progress.setValueTo(max);
-        binding.progress.setStepSize(stepSize);
-        binding.progress.setValue(value);
+        applyChangesWithoutChangingPristineState(() -> {
+            binding.progress.setValue(value);
+            binding.progress.setValueFrom(min);
+            binding.progress.setValueTo(max);
+            binding.progress.setStepSize(stepSize);
+        });
     }
 
     @Override
@@ -97,5 +98,11 @@ public class NumberProgressEditor extends DataEditView<EditNumberProgressBinding
     @Override
     public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
         onValueChanged();
+    }
+
+    protected void applyChangesWithoutChangingPristineState(@NonNull Runnable r) {
+        binding.progress.removeOnChangeListener(this);
+        r.run();
+        binding.progress.addOnChangeListener(this);
     }
 }
