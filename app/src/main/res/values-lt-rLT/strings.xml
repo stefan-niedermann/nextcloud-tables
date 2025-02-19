@@ -16,6 +16,7 @@
     <string name="simple_description">Aprašas</string>
     <string name="simple_type">Tipas</string>
     <string name="simple_label">Etiketė</string>
+
     <string name="add_table">Pridėti lentelę</string>
     <string name="add_row">Pridėti eilutę</string>
     <string name="duplicate_row">Dubliuoti eilutę</string>

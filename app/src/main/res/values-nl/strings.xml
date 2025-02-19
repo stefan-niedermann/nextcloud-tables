@@ -20,6 +20,7 @@
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimalen</string>
     <string name="simple_label">Label</string>
+
     <string name="add_table">Voeg een tabel toe</string>
     <string name="delete_column">Verwijder kolom</string>
     <string name="preferences">Voorkeuren</string>

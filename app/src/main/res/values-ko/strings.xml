@@ -22,6 +22,7 @@
     <string name="simple_prefix">접두사</string>
     <string name="simple_suffix">접미사</string>
     <string name="simple_label">이름표</string>
+
     <string name="edit_row">행 수정</string>
     <string name="edit_column">행 편집</string>
     <string name="delete_column">열 삭제</string>

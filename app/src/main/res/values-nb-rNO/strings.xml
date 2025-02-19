@@ -26,6 +26,7 @@
     <string name="simple_prefix">Prefiks</string>
     <string name="simple_suffix">Suffiks</string>
     <string name="simple_label">Etikett</string>
+
     <string name="add_table">Legg til tabell</string>
     <string name="add_row">Legg til rad</string>
     <string name="edit_row">Rediger rad</string>

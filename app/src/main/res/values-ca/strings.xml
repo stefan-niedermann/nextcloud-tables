@@ -20,6 +20,7 @@
     <string name="simple_max_value">Màx</string>
     <string name="simple_decimals">Decimals</string>
     <string name="simple_label">Etiqueta</string>
+
     <string name="add_table">Afegeix taula</string>
     <string name="edit_row">Edició fila</string>
     <string name="delete_column">Suprimeix la columna</string>

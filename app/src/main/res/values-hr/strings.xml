@@ -17,6 +17,7 @@
     <string name="simple_type">Vrsta</string>
     <string name="simple_max_value">Maks.</string>
     <string name="simple_label">Oznaka</string>
+
     <string name="delete_column">Izbriši stupac</string>
     <string name="preferences">Preferencije</string>
     <string name="import_account">Uvezi račun</string>

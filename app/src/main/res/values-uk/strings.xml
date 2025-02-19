@@ -27,7 +27,6 @@
     <string name="simple_prefix">Префікс</string>
     <string name="simple_suffix">Суфікс</string>
     <string name="simple_label">Мітка</string>
-    <string name="simple_hint">Підказка</string>
 
     <string name="add_table">Додати таблицю</string>
     <string name="add_row">Додати рядок</string>
@@ -158,7 +157,6 @@
     <string name="experimental_feature_column_manage">Редагування стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
     <string name="column_type_is_required">Потрібно зазначити тип стовпця</string>
     <string name="unsupported_column_type">Редагування стовпця типу%1$s поки не підтримується.</string>
-    <string name="number_only_us_format">Зауважте, що редагування цифрових значень зараз можливе лише у форматі США (використовуйте кому для відділення розрядів тисячних, а крапку як десятковий роздільник).</string>
     <string name="unsaved_changes">Незбережені зміни</string>
     <string name="unsaved_changes_details">Виявлено незбережені зміни. Відхилити або зберегти ці зміни?</string>
     <string name="simple_discard">Відхилити</string>

@@ -23,6 +23,7 @@
     <string name="simple_max_value">最大</string>
     <string name="simple_decimals">小数点以下</string>
     <string name="simple_label">ラベル</string>
+
     <string name="add_table">表の追加</string>
     <string name="add_row">行を追加</string>
     <string name="edit_row">行を編集</string>

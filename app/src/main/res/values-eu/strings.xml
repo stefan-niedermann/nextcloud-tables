@@ -26,6 +26,7 @@
     <string name="simple_prefix">Aurrizkia</string>
     <string name="simple_suffix">Atzizkia</string>
     <string name="simple_label">Etiketa</string>
+
     <string name="add_table">Gehitu taula</string>
     <string name="add_row">Gehitu errenkada</string>
     <string name="edit_row">Editatu errenkada</string>

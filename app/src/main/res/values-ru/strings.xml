@@ -21,6 +21,7 @@
     <string name="simple_default_value">Значение по умолчанию</string>
     <string name="simple_max_value">Макс</string>
     <string name="simple_label">Метка</string>
+
     <string name="add_table">Добавить таблицу</string>
     <string name="add_row">Добавить строку</string>
     <string name="edit_row">Изменить строку</string>

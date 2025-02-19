@@ -25,6 +25,7 @@
     <string name="simple_prefix">Prefix</string>
     <string name="simple_suffix">Suffix</string>
     <string name="simple_label">بەلگە</string>
+
     <string name="add_table">جەدۋەل قوشۇڭ</string>
     <string name="add_row">قۇر قوشۇڭ</string>
     <string name="edit_row">قۇرنى تەھرىرلەش</string>

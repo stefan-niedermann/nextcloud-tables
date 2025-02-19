@@ -22,6 +22,7 @@
     <string name="simple_decimals">Δεκαδικά ψηφία</string>
     <string name="simple_suffix">Επίθεμα</string>
     <string name="simple_label">Ετικέτα</string>
+
     <string name="edit_row">Επεξεργασία γραμμής</string>
     <string name="edit_column">Επεξεργασία στήλης</string>
     <string name="delete_column">Διαγραφή στήλης</string>
@@ -105,4 +106,5 @@
     <string name="delete_option">Διαγραφή επιλογής</string>
     <string name="unsaved_changes">Μη αποθηκευμένες αλλαγές</string>
     <string name="simple_discard">Απόρριψη</string>
-    </resources>
+    <string name="simple_loading">Γίνεται φόρτωση…</string>
+</resources>

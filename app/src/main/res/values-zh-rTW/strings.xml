@@ -27,7 +27,6 @@
     <string name="simple_prefix">前綴</string>
     <string name="simple_suffix">後綴</string>
     <string name="simple_label">標籤</string>
-    <string name="simple_hint">提示</string>
 
     <string name="add_table">新增表格</string>
     <string name="add_row">新增列</string>
@@ -158,7 +157,6 @@
     <string name="experimental_feature_column_manage">編輯欄位是實驗性的功能，可能會對該欄位或其他設定產生意想不到的副作用。</string>
     <string name="column_type_is_required">欄位類型為必填</string>
     <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
-    <string name="number_only_us_format">請注意，目前只能以美國格式編輯數字（千位分隔符號使用逗號，小數位分隔符號使用點）</string>
     <string name="unsaved_changes">未儲存變更</string>
     <string name="unsaved_changes_details">偵測到未儲存的變更。您想要放棄還是儲存這些變更？</string>
     <string name="simple_discard">放棄</string>

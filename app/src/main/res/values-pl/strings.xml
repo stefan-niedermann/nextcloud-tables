@@ -23,6 +23,7 @@
     <string name="simple_max_value">Maks.</string>
     <string name="simple_decimals">Ułamki dziesiętne</string>
     <string name="simple_label">Etykieta</string>
+
     <string name="add_table">Dodaj tabelę</string>
     <string name="add_row">Dodaj wiersz</string>
     <string name="edit_row">Edytuj wiersz</string>

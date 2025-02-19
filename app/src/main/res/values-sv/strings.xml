@@ -27,7 +27,6 @@
     <string name="simple_prefix">Prefix</string>
     <string name="simple_suffix">Suffix</string>
     <string name="simple_label">Etikett</string>
-    <string name="simple_hint">Tips</string>
 
     <string name="add_table">Lägg till tabell</string>
     <string name="add_row">Lägg till rad</string>
@@ -158,7 +157,6 @@
     <string name="experimental_feature_column_manage">Redigering av kolumner är en experimentell funktion som kan ha oavsiktliga bieffekter på andra konfigurationer av denna kolumn.</string>
     <string name="column_type_is_required">Kolumntyp är obligatorisk</string>
     <string name="unsupported_column_type">Redigering av kolumner av typen %1$s stöds ännu inte.</string>
-    <string name="number_only_us_format">Observera att redigering av siffror för närvarande endast är möjligt i US-format (använd komma som tusentalsavgränsare och punkt som decimalavgränsare).</string>
     <string name="unsaved_changes">Ej sparade ändringar</string>
     <string name="unsaved_changes_details">Osparade ändringar har upptäckts. Vill du ignorera eller spara dem?</string>
     <string name="simple_discard">Ignorera</string>

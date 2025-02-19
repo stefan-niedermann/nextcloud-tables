@@ -27,7 +27,6 @@
     <string name="simple_prefix">Präfix</string>
     <string name="simple_suffix">Suffix</string>
     <string name="simple_label">Beschriftung</string>
-    <string name="simple_hint">Hinweis</string>
 
     <string name="add_table">Tabelle hinzufügen</string>
     <string name="add_row">Zeile hinzufügen</string>
@@ -158,7 +157,6 @@
     <string name="experimental_feature_column_manage">Das Bearbeiten von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen dieser Spalte unbeabsichtigte Nebenwirkungen haben kann.</string>
     <string name="column_type_is_required">Spaltentyp ist erforderlich</string>
     <string name="unsupported_column_type">Die Bearbeitung von Spalten des Typs %1$s wird noch nicht unterstützt.</string>
-    <string name="number_only_us_format">Bitte beachten Sie, dass die Bearbeitung von Zahlen derzeit nur im US-Format möglich ist (verwenden Sie Kommas als Tausendertrennzeichen und einen Punkt als Dezimaltrennzeichen)</string>
     <string name="unsaved_changes">Nicht gespeicherte Änderungen</string>
     <string name="unsaved_changes_details">Nicht gespeicherte Änderungen erkannt. Sollen diese verworfen oder gespeichert werden?</string>
     <string name="simple_discard">Verwerfen</string>

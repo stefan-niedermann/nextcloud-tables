@@ -24,6 +24,7 @@
     <string name="simple_max_value">Máx.</string>
     <string name="simple_decimals">Decimales</string>
     <string name="simple_label">Etiqueta</string>
+
     <string name="add_table">Agregar tabla</string>
     <string name="add_row">Agregar fila</string>
     <string name="edit_row">Editar fila</string>

@@ -18,6 +18,7 @@
     <string name="simple_type">Genia</string>
     <string name="simple_max_value">Màssimu</string>
     <string name="simple_label">Eticheta</string>
+
     <string name="add_table">Agiunghe una tabella</string>
     <string name="preferences">Preferèntzias</string>
     <string name="import_account">Importa contu</string>

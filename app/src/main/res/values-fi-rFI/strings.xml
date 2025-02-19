@@ -23,6 +23,7 @@
     <string name="simple_max_value">Enintään</string>
     <string name="simple_decimals">Desimaalit</string>
     <string name="simple_label">Nimike</string>
+
     <string name="add_table">Lisää taulukko</string>
     <string name="add_row">Lisää sarake</string>
     <string name="edit_row">Muokkaa riviä</string>

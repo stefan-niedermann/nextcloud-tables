@@ -17,6 +17,7 @@
     <string name="simple_description">Descriere</string>
     <string name="simple_type">Tip</string>
     <string name="simple_label">Etichetă</string>
+
     <string name="preferences">Preferințe</string>
     <string name="choose_account">Alege contul</string>
     <string name="app_logo">Logo-ul aplicației </string>

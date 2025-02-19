@@ -15,6 +15,7 @@
     <string name="simple_type">Tipo</string>
     <string name="simple_decimals">Decimales</string>
     <string name="simple_label">Etiqueta</string>
+
     <string name="preferences">Preferencias</string>
     <string name="import_account">Importar cuenta</string>
     <string name="choose_account">Elige la cuenta</string>

@@ -26,6 +26,7 @@
     <string name="simple_prefix">Prefixo</string>
     <string name="simple_suffix">Suffixo</string>
     <string name="simple_label">Etiqueta</string>
+
     <string name="add_table">Adicionar tabela</string>
     <string name="add_row">Adicionar linha</string>
     <string name="edit_row">Editar linha</string>

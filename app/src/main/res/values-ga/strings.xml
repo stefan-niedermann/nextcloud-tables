@@ -27,7 +27,6 @@
     <string name="simple_prefix">Réimír</string>
     <string name="simple_suffix">Iarmhír</string>
     <string name="simple_label">Lipéad</string>
-    <string name="simple_hint">Leid</string>
 
     <string name="add_table">Cuir tábla leis</string>
     <string name="add_row">Cuir ró</string>
@@ -158,7 +157,6 @@
     <string name="experimental_feature_column_manage">Is gné thurgnamhach é eagarthóireacht na gcolún a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile den cholún seo freisin.</string>
     <string name="column_type_is_required">Tá cineál colún ag teastáil</string>
     <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
-    <string name="number_only_us_format">Tabhair faoi deara le do thoil nach féidir uimhreacha a chur in eagar ach amháin i bhformáid SAM (úsáid camóg don mhíle deighilteoir agus ponc do dheighilteoir deachúla)</string>
     <string name="unsaved_changes">Athruithe gan sábháil</string>
     <string name="unsaved_changes_details">Braitheadh ​​athruithe nár sábháladh. Ar mhaith leat iad a scriosadh nó a shábháil?</string>
     <string name="simple_discard">Caith amach</string>

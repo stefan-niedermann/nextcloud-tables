@@ -26,6 +26,7 @@
     <string name="simple_prefix">Prefijo</string>
     <string name="simple_suffix">Sufijo</string>
     <string name="simple_label">Etiqueta</string>
+
     <string name="add_table">Añadir tabla</string>
     <string name="add_row">Añadir fila</string>
     <string name="edit_row">Editar fila</string>
@@ -153,4 +154,5 @@
     <string name="unsupported_column_type">La edición de columnas de tipo %1$s no está soportada todavía.</string>
     <string name="unsaved_changes">Cambios sin guardar</string>
     <string name="simple_discard">Descartar</string>
-    </resources>
+    <string name="simple_loading">Cargando...</string>
+</resources>

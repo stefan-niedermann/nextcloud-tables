@@ -23,6 +23,7 @@
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimaler</string>
     <string name="simple_label">Mærkat</string>
+
     <string name="add_table">Tilføj tabel</string>
     <string name="add_row">Tilføj række</string>
     <string name="edit_row">Rediger række</string>
