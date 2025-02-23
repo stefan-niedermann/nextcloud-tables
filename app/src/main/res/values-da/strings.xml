@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud tabeller</string>
     <string name="navigation_drawer_open">Åbn navigationsskuffe</string>
     <string name="navigation_drawer_close">Luk navigationsskuffe</string>
     <string name="action_settings">Indstillinger</string>
@@ -17,15 +18,19 @@
     <string name="simple_mandatory">Obligatorisk</string>
     <string name="simple_description">Beskrivelse</string>
     <string name="simple_type">Type</string>
+    <string name="simple_subtype">Undertype</string>
     <string name="simple_default_value">Standard værdi</string>
     <string name="simple_max_length">Max længde</string>
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimaler</string>
+    <string name="simple_prefix">Præfiks</string>
+    <string name="simple_suffix">Suffiks</string>
     <string name="simple_label">Mærkat</string>
 
     <string name="add_table">Tilføj tabel</string>
     <string name="add_row">Tilføj række</string>
+    <string name="duplicate_row">Dupliker række</string>
     <string name="edit_row">Rediger række</string>
     <string name="manage_columns">Administrer kolonner</string>
     <string name="edit_column">Rediger kolonne</string>
@@ -84,19 +89,26 @@
     <string name="error_dialog_tip_offline_connection_refused">Forbindelsen blev afvist, kontroller venligst om din server er kontaktbar webbrowser.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Der opstod timeout for forbindelsen, kontroller venligst om du er forbundet til internettet. Dette kan også ske, fordi din server er optaget.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Hvis du har aktiveret indstillingen \"Synkroniser kun via WiFi\", så kan du kun synkronisere når du er forbundet til et WiFi.</string>
+    <string name="error_dialog_tip_files_force_stop">Der er ud til at være noget galt med din Nextcloud app. Prøv venligst at gennemtvinge et stop af både, Nextcloud app\'en og Nextcloud tabeller app\'en.</string>
     <string name="error_dialog_tip_files_delete_storage">Hvis det ikke hjælper at stoppe begge, så kan du forsøge at rydde lagerpladsen for begge apps.</string>
     <string name="error_dialog_timeout_instance">Der var intet svar fra din server på nuværende tidspunkt. Sørg venligst for at sikre, at din instans kører rigtigt. </string>
     <string name="error_dialog_timeout_toggle">Kontroller din netværksforbindelse. Nogle gange hjælper det at slå mobildata eller WiFi fra og til igen.</string>
+    <string name="error_dialog_check_server">Svaret fra din server var ikke korrekt. Kontroller venligst om du kan tilgå app\'en tabeller via webinterfacet.</string>
     <string name="error_dialog_check_server_logs">Der er et problem med din opsætning af Nextcloud. Kig venligst i serverens logfiler. </string>
     <string name="error_dialog_check_maintenance">Sørg venligst for at din Nextcloud-instans ikke er i vedligeholdelsestilstand. </string>
     <string name="error_dialog_insufficient_storage">Din Nextcloud-instans har ikke mere ledig lagerplads. Slet venligst nogle filer for at synkronisere dine lokale ændringer ind i skyen.</string>
     <string name="error_dialog_we_need_info">Vi har brug for følgende tekniske information for at hjælpe dig:</string>
+    <string name="error_dialog_redirect">Din server svarede med en HTTP 302 statuskode, hvilket indikerer, at du ikke har installeret app\'en tabeller på din server eller at noget er fejlkonfigureret. Dette kan skyldes nogle brugerdefinerede overskrivninger i en .htaccess-fil eller Nextcloud apps såsom OID klient.</string>
+    <string name="error_dialog_forbidden">Du har utilstrækkelige rettigheder. Kontroller venligst tabeller som er delt til dig og som er blevet ændre fornyligt.</string>
+    <string name="error_dialog_version_not_parsable">Vi kunne ikke fastslå versionen af server side tabel app\'en. Vær venligst sikker på at den er installeret og aktiveret.</string>
     <string name="error_dialog_account_might_not_be_authorized">Kontoen for din Nextcloud app er måske ikke længere autoriseret.</string>
     <string name="error_dialog_user_not_found_in_database">Den aktuelle bruger matcher ikke brugeren som vi har i vores database. Hvis du anvender LDAP på din Nextcloud instans, så har din Nextcloud app måske gemt et gammel bruger ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Vi kunne ikke afgøre mulighederne på sin server. Vær venligst sikker på at din server kører ordentligt og at andre klient apps kan tilgå Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">En vedhæftning kunne ikke uploades. Prøv venligst at dele den på en anden måde og fortæl os om denne fejl.</string>
     <string name="error_dialog_certificate">Noget ser ud til at være galt med certifikatet på serveren. Kontroller venligst alle konti i Nextcloud app\'en for yderligere information.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Deaktiver venligst al batterioptimering for Nextcloud og tabeller app\'en.</string>
     <string name="error_dialog_unknown_error">Din Nextcloud instans ser ud til ikke at være kontaktbar. Kontroller venligst din internetforbindelse og om du kan forbinde til din instans via via browser.</string>
+    <string name="error_dialog_min_version">Tabeller Android app\'en kræver at Nextcloud Android app\'en skal være minimum version 3.18.</string>
     <string name="error_action_open_app_info">Åbn App info</string>
     <string name="error_action_open_nextcloud_app">Åbn Nextcloud app</string>
     <string name="error_action_open_network">Netværksindstillinger</string>
@@ -107,19 +119,51 @@
     <string name="error_action_update_files_app">Opdater</string>
     <string name="error_action_open_battery_settings">Batteriindstillinger</string>
 
+    <string name="welcome_text">Velkommen til Nextcloud tabeller</string>
+    <string name="importing_account">Importerer konto %1$s</string>
+    <string name="account_already_imported">Konto er allerede importeret</string>
+    <string name="import_state_import_account">Importerer konto</string>
+    <string name="import_state_import_tables">Importerer tabeller. Dette kan tage flere minutter.</string>
+    <string name="not_yet_synchronized">Endnu ikke synkroniseret</string>
+
+    <string name="validation_number_not_parsable">Det ser ud til at værdien ikke er et tal</string>
+    <string name="validation_number_range">Værdien skal være mellem %1$s og %2$s</string>
+    <string name="validation_number_min">Værdien skal være mindst %1$s</string>
+    <string name="validation_number_max">Værdien skal højst være %1$s</string>
+    <string name="validation_mandatory">Dette er et obligatorisk felt</string>
+    <string name="validation_time_missing">Tid skal angives for et DateTime felt.</string>
+
+    <string name="missing_permission_read">Manglende læserettighed</string>
+    <string name="missing_permission_create">Manglende oprettelsesrettighed</string>
+    <string name="missing_permission_update">Manglende opdateringsrettighed</string>
+    <string name="missing_permission_delete">Manglende sletterettighed</string>
+    <string name="missing_permission_manage">Manglende administrationsrettighed</string>
+
     <string name="order_weight">Rækkefølge orden</string>
     <string name="add_column">Tilføj kolonne</string>
     <string name="navigation_my_tables">Mine tabeller</string>
     <string name="navigation_shared_tables">Fælles tabeller</string>
+    <string name="could_not_display_column_editor">%1$s kunne ikke vises.</string>
+    <string name="choose_table_from_the_sidebar">Vælg tabel fra sidebjælken</string>
     <string name="last_background_sync">Seneste baggrundssynkronisering:</string>
     <string name="simple_disabled">slået fra</string>
+    <string name="manage_columns_subtitle">Træk og slip for at gensortere</string>
     <string name="text_allowed_pattern">Tilladt mønster</string>
+    <string name="use_now_as_default">Anvend nu som standard</string>
+    <string name="use_today_as_default">Anvend i dag som standard</string>
     <string name="add_option">Tilføj valg</string>
     <string name="delete_option">Slet valg</string>
+    <string name="experimental_feature_column_reordering">Sortering af kolonner er en eksperimentel funktion som kan have uønskede effekter på andre konfigurationer for kolonnerne i denne tabel.</string>
+    <string name="experimental_feature_column_manage">Redigering af kolonner er en eksperimentel funktion som kan have uønsker virkninger på andre konfigurationer for denne kolonne.</string>
+    <string name="column_type_is_required">Kolonnetype er krævet</string>
+    <string name="unsupported_column_type">Redigering af kolonner af typen %1$s er endnu ikke understøttet.</string>
     <string name="unsaved_changes">Ikke gemte ændringer</string>
-    <string name="unsaved_changes_details">Ikke-gemte ændringer er blevet registreret. Vil du kassere eller gemme dem?</string>
+    <string name="unsaved_changes_details">Ikke gemte ændringer er blevet registreret. Vil du kassere eller gemme dem?</string>
     <string name="simple_discard">Kassér</string>
+    <string name="search_hint">Indsæt link er tast for at søge</string>
     <string name="usergroup_hint">Skriv for at søge</string>
 
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Indlæser…</string>
 </resources>

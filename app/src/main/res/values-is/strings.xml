@@ -13,6 +13,7 @@
     <string name="simple_appearance">Útlit</string>
     <string name="simple_description">Lýsing</string>
     <string name="simple_type">Tegund</string>
+    <string name="simple_min_value">mín</string>
     <string name="simple_label">Skýring</string>
 
     <string name="delete_column">Eyða dálki</string>
