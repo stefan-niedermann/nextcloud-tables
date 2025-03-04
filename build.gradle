@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.version_desugar = '2.1.4'
+    ext.version_desugar = '2.1.5'
     ext.version_nextcloud_common = '0.25.0'
     ext.version_nextcloud_commons = '2.3.1'
     ext.version_android_commons = '1.0.2'
