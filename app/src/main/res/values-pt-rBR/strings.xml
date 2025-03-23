@@ -18,6 +18,7 @@
     <string name="simple_mandatory">Obrigatório</string>
     <string name="simple_description">Descrição</string>
     <string name="simple_type">Tipo</string>
+    <string name="simple_subtype">Subtipo</string>
     <string name="simple_default_value">Valor padrão</string>
     <string name="simple_max_length">Comprimento máximo</string>
     <string name="simple_min_value">Min</string>
@@ -154,5 +155,7 @@
     <string name="unsupported_column_type">Editando colunas do tipo %1$s ainda não é suportado.</string>
     <string name="unsaved_changes">Alterações não salvas</string>
     <string name="simple_discard">Descartar</string>
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Carregando…</string>
 </resources>
