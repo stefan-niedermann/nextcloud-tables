@@ -30,6 +30,7 @@
 
     <string name="add_table">Adicionar tabela</string>
     <string name="add_row">Adicionar linha</string>
+    <string name="duplicate_row">Linha duplicada</string>
     <string name="edit_row">Editar linha</string>
     <string name="manage_columns">Gerenciar colunas</string>
     <string name="edit_column">Editar coluna</string>
@@ -81,18 +82,18 @@
 
     <string name="error_dialog_title">Oh não - E agora? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Tente forçar o fechamento do aplicativo e reinicie-o novamente. Pode ter havido uma conexão incorreta com o aplicativo Nextcloud.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Se o problema persistir, tente limpar o armazenamento de ambos os aplicativos: Nextcloud e Nextcloud Tables para resolver esse problema.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Se o problema persistir, tente limpar o armazenamento de ambos os aplicativos: Nextcloud e Tabelas Nextcloud para resolver esse problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar Armazenamento</string>
     <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">Conexão recusada, por favor verifique se o servidor pode ser conectado via navegador de internet</string>
     <string name="error_dialog_tip_offline_connection_timeout">Conexão pausada, por favor verifique se você está conectado à internet. Isso também pode ocorrer quando seu servidor está muito ocupado</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas em Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
-    <string name="error_dialog_tip_files_force_stop">Algo parece estar errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o aplicativo Nextcloud Tables.</string>
+    <string name="error_dialog_tip_files_force_stop">Algo parece estar errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o aplicativo Tabelas Nextcloud.</string>
     <string name="error_dialog_tip_files_delete_storage">Se forçar a parada deles não resolver, tente limpar o armazenamento dos dois aplicativos.</string>
     <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
     <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
-    <string name="error_dialog_check_server">A resposta do seu servidor não foi correta. Por favor, verifique se você pode acessar o aplicativo Tables via interface web.</string>
+    <string name="error_dialog_check_server">A resposta do seu servidor não foi correta. Por favor, verifique se você pode acessar o aplicativo Tabelas via interface web.</string>
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
@@ -105,7 +106,7 @@
     <string name="error_dialog_capabilities_not_parsable">Não foi possível buscar os recursos do seu servidor. Verifique se o servidor está funcionando bem e se outros aplicativos clientes podem acessar o Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Não foi possível carregar um anexo. Tente compartilhá-lo de outra maneira e informe-nos sobre esse bug.</string>
     <string name="error_dialog_certificate">Algo parece estar errado com o certificado do servidor. Por favor, verifique todas as contas no aplicativo Nextcloud para maiores informações.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">Desative todas as otimizações de bateria para Nextcloud e o aplicativo Tables.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Desative todas as otimizações de bateria para Nextcloud e o aplicativo Tabelas.</string>
     <string name="error_dialog_unknown_error">Sua instância Nextcloud parece estar inacessível. Verifique sua conexão com a Internet e se você consegue se conectar à sua instância por meio do navegador. </string>
     <string name="error_dialog_min_version">O aplicativo Tables Android requer que o aplicativo Android Nextcloud seja pelo menos a versão 3.18.</string>
     <string name="error_action_open_app_info">Abra as informações do Aplicativo</string>
@@ -118,7 +119,7 @@
     <string name="error_action_update_files_app">Atualizar</string>
     <string name="error_action_open_battery_settings">Configurações da bateria</string>
 
-    <string name="welcome_text">Bem-vindo ao Nextcloud Tables</string>
+    <string name="welcome_text">Bem-vindo ao Tabelas Nextcloud</string>
     <string name="importing_account">Importando conta%1$s</string>
     <string name="account_already_imported">A conta já foi importada</string>
     <string name="import_state_import_account">Importando conta</string>
@@ -148,13 +149,20 @@
     <string name="simple_disabled">desativado</string>
     <string name="manage_columns_subtitle">Arraste e solte para reordenar</string>
     <string name="text_allowed_pattern">Padrão permitido</string>
+    <string name="use_now_as_default">Usar agora como padrão</string>
+    <string name="use_today_as_default">Usar hoje como padrão</string>
     <string name="add_option">Adicionar opção</string>
     <string name="delete_option">Excluir opção</string>
     <string name="experimental_feature_column_reordering">Reordenar colunas é um recurso experimental que também pode ter efeitos colaterais indesejados em outras configurações das colunas desta tabela.</string>
     <string name="experimental_feature_column_manage">A edição de colunas é um recurso experimental que também pode ter efeitos colaterais indesejados em outras configurações dessa coluna.</string>
+    <string name="column_type_is_required">O tipo de coluna é obrigatório</string>
     <string name="unsupported_column_type">Editando colunas do tipo %1$s ainda não é suportado.</string>
     <string name="unsaved_changes">Alterações não salvas</string>
+    <string name="unsaved_changes_details">Foram detectadas alterações não salvas. Deseja descartá-las ou salvá-las?</string>
     <string name="simple_discard">Descartar</string>
+    <string name="search_hint">Cole link ou digite para pesquisar</string>
+    <string name="usergroup_hint">Digite para pesquisar</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Carregando…</string>
