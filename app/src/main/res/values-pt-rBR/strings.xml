@@ -41,7 +41,7 @@
     <string name="app_logo">Logo do aplicativo</string>
     <string name="app_name_short">Tabelas</string>
     <string name="manage_accounts">Gerenciar contas</string>
-    <string name="add_account">Adicionar Conta</string>
+    <string name="add_account">Adicionar conta</string>
     <string name="edit_table">Edit table</string>
     <string name="edit_item">Editar %1$s</string>
     <string name="share_table">Compartilhar tabela</string>
