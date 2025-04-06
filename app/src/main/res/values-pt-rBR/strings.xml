@@ -37,7 +37,7 @@
     <string name="delete_column">Excluir colunas</string>
     <string name="preferences">Preferências</string>
     <string name="import_account">Importar conta</string>
-    <string name="choose_account">Escolha a conta </string>
+    <string name="choose_account">Escolha uma conta</string>
     <string name="app_logo">Logo do aplicativo</string>
     <string name="app_name_short">Tabelas</string>
     <string name="manage_accounts">Gerenciar contas</string>
@@ -97,7 +97,7 @@
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não possui mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
-    <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudá-lo:</string>
+    <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudar você:</string>
     <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Tabelas em seu servidor ou algo está configurado incorretamente. Isso pode ser causado por substituições personalizadas em um arquivo .htaccess ou por aplicativos Nextcloud como o OID Client.</string>
     <string name="error_dialog_forbidden">Você não possui permissões suficientes. Por favor verifique as tabelas que você compartilhou e que foram mudadas recentemente.</string>
     <string name="error_dialog_version_not_parsable">Não foi possível determinar a versão do aplicativo Tabelas do lado do servidor. Certifique-se de que está instalado e ativado.</string>
