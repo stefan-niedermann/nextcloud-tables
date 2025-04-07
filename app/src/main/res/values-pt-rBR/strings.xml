@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tabelas Nextcloud</string>
+    <string name="app_name">Nextcloud Tabelas</string>
     <string name="navigation_drawer_open">Abra a gaveta de navegação</string>
     <string name="navigation_drawer_close">Fechar a gaveta de navegação</string>
     <string name="action_settings">Configurações</string>
@@ -21,7 +21,7 @@
     <string name="simple_subtype">Subtipo</string>
     <string name="simple_default_value">Valor padrão</string>
     <string name="simple_max_length">Comprimento máximo</string>
-    <string name="simple_min_value">Min</string>
+    <string name="simple_min_value">Mín</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimais</string>
     <string name="simple_prefix">Prefixo</string>
@@ -30,11 +30,11 @@
 
     <string name="add_table">Adicionar tabela</string>
     <string name="add_row">Adicionar linha</string>
-    <string name="duplicate_row">Linha duplicada</string>
+    <string name="duplicate_row">Duplicar linha</string>
     <string name="edit_row">Editar linha</string>
     <string name="manage_columns">Gerenciar colunas</string>
     <string name="edit_column">Editar coluna</string>
-    <string name="delete_column">Excluir colunas</string>
+    <string name="delete_column">Excluir coluna</string>
     <string name="preferences">Preferências</string>
     <string name="import_account">Importar conta</string>
     <string name="choose_account">Escolha uma conta</string>
@@ -42,21 +42,21 @@
     <string name="app_name_short">Tabelas</string>
     <string name="manage_accounts">Gerenciar contas</string>
     <string name="add_account">Adicionar conta</string>
-    <string name="edit_table">Edit table</string>
+    <string name="edit_table">Editar tabela</string>
     <string name="edit_item">Editar %1$s</string>
     <string name="share_table">Compartilhar tabela</string>
     <string name="not_implemented">Este recurso ainda não foi implementado</string>
     <string name="delete_table">Excluir tabela</string>
-    <string name="hint_error_appeared">Um erro apareceu </string>
+    <string name="hint_error_appeared">Apareceu um erro </string>
 
     <string name="delete_item">Excluir %1$s</string>
-    <string name="delete_item_message">Isso será excluído permanentemente%1$s.</string>
+    <string name="delete_item_message">Isso excluirá permanentemente %1$s.</string>
     <string name="delete_row">Excluir linha</string>
     <string name="delete_row_message">Isso excluirá permanentemente esta linha.</string>
 
     <string name="about">Sobre</string>
     <string name="about_version_title">Versão</string>
-    <string name="about_version">Você  está atualmente usando %1$s</string>
+    <string name="about_version">No momento, você está usando %1$s</string>
     <string name="about_maintainer_title">Mantenedor</string>
     <string name="about_developers_title">Desenvolvedores</string>
     <string name="about_translators_title">Tradutores</string>
@@ -65,9 +65,9 @@
     <string name="about_source_title">Código-fonte</string>
     <string name="about_source">Este projeto está hospedado no GitHub: %1$s</string>
     <string name="about_issues_title">Problemas</string>
-    <string name="about_issues">Você pode relatar bugs, propostas de melhorias e solicitações de recursos no rastreador de problemas do GitHub:%1$s</string>
+    <string name="about_issues">Você pode relatar bugs, propostas de melhorias e solicitações de recursos no rastreador de problemas do GitHub: %1$s</string>
     <string name="about_translate_title">Traduzir</string>
-    <string name="about_translate">Junte-se à equipe Nextcloud no Transifex e nos ajude a traduzir este aplicativo: %1$s</string>
+    <string name="about_translate">Junte-se à equipe Nextcloud no Transifex e ajude-nos a traduzir este aplicativo: %1$s</string>
     <string name="about_app_license_title">Licença do aplicativo</string>
     <string name="about_app_license">Este aplicativo está licenciado sob a GNU GENERAL PUBLIC LICENSE v3+.</string>
     <string name="about_app_license_button">Ver licença</string>
