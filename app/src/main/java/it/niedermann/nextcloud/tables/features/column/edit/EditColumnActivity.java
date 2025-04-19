@@ -63,13 +63,15 @@ public class EditColumnActivity extends AppCompatActivity {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_TABLE + " must be provided.");
         }
 
-        this.registry = new ManageDataTypeServiceRegistry();
+        editColumnViewModel = new ViewModelProvider(this).get(EditColumnViewModel.class);
+        binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
+
+        this.registry = new ManageDataTypeServiceRegistry(
+                accountId -> editColumnViewModel.getSearchProvider(accountId)
+        );
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         this.table = (Table) intent.getSerializableExtra(KEY_TABLE);
         this.fullColumn = (FullColumn) intent.getSerializableExtra(KEY_COLUMN);
-
-        editColumnViewModel = new ViewModelProvider(this).get(EditColumnViewModel.class);
-        binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -146,12 +148,11 @@ public class EditColumnActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            if (fullColumn == null) {
-                if (columnEditView == null) {
-                    Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
-                    return false;
-                }
-
+            if (columnEditView == null) {
+                Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
+                return false;
+            } else {
+                // We have to call getFullColumn() when creating or updating because ColumnEditView will only write values to column when invoking the getter
                 fullColumn = columnEditView.getFullColumn();
             }
 

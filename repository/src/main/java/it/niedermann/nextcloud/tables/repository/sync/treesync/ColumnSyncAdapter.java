@@ -76,7 +76,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     public CompletableFuture<Void> pushLocalCreations(@NonNull Account account, @NonNull Table table) {
         return supplyAsync(() -> db.getColumnDao().getLocallyCreatedColumns(account.getId(), table.getId()), db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tablesToCreate -> tablesToCreate
+                .thenApplyAsync(columnsToCreate -> columnsToCreate
                         .map(fullColumn -> completedFuture(null)
                                 .thenComposeAsync(v -> this.createRemote(account, table, fullColumn), workExecutor)
                                 .thenComposeAsync(response -> this.markLocallyAsCreated(fullColumn, response), workExecutor)
@@ -150,7 +150,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
             final var body = response.body();
 
             if (body == null || body.ocs == null || body.ocs.data == null) {
-                throwError(new NullPointerException("Pushing changes for table " + entity + " was successful, but response body was empty"));
+                throwError(new NullPointerException("Pushing changes for column " + entity + " was successful, but response body was empty"));
             }
 
             assert body != null;
@@ -164,7 +164,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
             }, db.getSequentialExecutor());
 
         } else {
-            serverErrorHandler.responseToException(response, "Could not push local changes for table " + entity, false).ifPresent(this::throwError);
+            serverErrorHandler.responseToException(response, "Could not push local changes for column " + entity, false).ifPresent(this::throwError);
             return completedFuture(null);
         }
     }
@@ -177,7 +177,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
             final var body = response.body();
 
             if (body == null) {
-                throwError(new NullPointerException("Pushing changes for table " + entity + " was successful, but response body was empty"));
+                throwError(new NullPointerException("Pushing changes for column " + entity + " was successful, but response body was empty"));
             }
 
             assert body != null;
@@ -188,7 +188,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
             return runAsync(() -> db.getColumnDao().update(entity.getColumn()), db.getSequentialExecutor());
 
         } else {
-            serverErrorHandler.responseToException(response, "Could not push local changes for table " + entity, false).ifPresent(this::throwError);
+            serverErrorHandler.responseToException(response, "Could not push local changes for column " + entity, false).ifPresent(this::throwError);
             return completedFuture(null);
         }
     }

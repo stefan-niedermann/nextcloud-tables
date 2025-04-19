@@ -10,7 +10,6 @@ import com.google.gson.JsonPrimitive;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -110,7 +109,7 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                                 userGroup.getDisplayName(),
                                 EUserGroupTypeV1Dto.findByRemoteId(userGroup.getType().getRemoteType())
                         ))
-                        .collect(Collectors.toUnmodifiableList()),
+                        .toList(),
                 userGroupAttributes.usergroupMultipleItems(),
                 userGroupAttributes.usergroupSelectUsers(),
                 userGroupAttributes.usergroupSelectGroups(),

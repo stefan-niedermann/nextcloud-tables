@@ -31,6 +31,7 @@ public class SelectionCheckCellViewHolder extends CellViewHolder {
                 .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getBooleanValue)
+                .or(() -> Optional.ofNullable(column.getDefaultValue().getBooleanValue()))
                 .orElse(false);
 
         binding.check.setChecked(checked);

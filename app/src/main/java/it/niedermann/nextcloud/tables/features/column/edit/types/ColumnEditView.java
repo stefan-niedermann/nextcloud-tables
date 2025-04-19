@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -13,8 +12,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewbinding.ViewBinding;
 
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
+import it.niedermann.nextcloud.tables.ui.LifecycleAwareFrameLayout;
 
-public abstract class ColumnEditView<T extends ViewBinding> extends FrameLayout {
+public abstract class ColumnEditView<T extends ViewBinding> extends LifecycleAwareFrameLayout {
 
     protected static final String KEY_COLUMN = "column";
 

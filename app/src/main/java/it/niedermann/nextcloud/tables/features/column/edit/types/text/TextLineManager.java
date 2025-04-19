@@ -13,27 +13,27 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.entity.attributes.TextAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
-import it.niedermann.nextcloud.tables.databinding.ManageTextBinding;
+import it.niedermann.nextcloud.tables.databinding.ManageTextLineBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
 
-public class TextManager extends ColumnEditView<ManageTextBinding> {
+public class TextLineManager extends ColumnEditView<ManageTextLineBinding> {
 
-    public TextManager(@NonNull Context context) {
+    public TextLineManager(@NonNull Context context) {
         super(context);
     }
 
-    public TextManager(@NonNull Context context,
-                       @Nullable AttributeSet attrs) {
+    public TextLineManager(@NonNull Context context,
+                           @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public TextManager(@NonNull Context context,
-                       @Nullable FragmentManager fragmentManager) {
-        super(context, ManageTextBinding.inflate(LayoutInflater.from(context)), fragmentManager);
+    public TextLineManager(@NonNull Context context,
+                           @Nullable FragmentManager fragmentManager) {
+        super(context, ManageTextLineBinding.inflate(LayoutInflater.from(context)), fragmentManager);
     }
 
     @NonNull
@@ -45,10 +45,7 @@ public class TextManager extends ColumnEditView<ManageTextBinding> {
                         .orElse(null));
 
         fullColumn.getColumn().setTextAttributes(new TextAttributes(
-                Optional.ofNullable(binding.textAllowedPattern.getText())
-                        .map(Editable::toString)
-                        .orElse(fullColumn.getColumn().getTextAttributes().textAllowedPattern()),
-
+                null,
                 Optional.ofNullable(binding.textMaxLength.getText())
                         .map(Object::toString)
                         .filter(not(String::isEmpty))
@@ -65,7 +62,6 @@ public class TextManager extends ColumnEditView<ManageTextBinding> {
 
         final var attributes = fullColumn.getColumn().getTextAttributes();
 
-        binding.textAllowedPattern.setText(attributes.textAllowedPattern());
         binding.textMaxLength.setText(
                 Optional.ofNullable(attributes.textMaxLength())
                         .map(String::valueOf)
@@ -77,9 +73,8 @@ public class TextManager extends ColumnEditView<ManageTextBinding> {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        Set.of(
+        Stream.of(
                 binding.textDefault,
-                binding.textAllowedPattern,
                 binding.textMaxLength
         ).forEach(view -> view.setEnabled(enabled));
     }
