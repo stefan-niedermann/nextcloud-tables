@@ -13,13 +13,17 @@ import it.niedermann.nextcloud.tables.features.column.edit.factories.number.Numb
 import it.niedermann.nextcloud.tables.features.column.edit.factories.number.NumberStarsManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.selection.SelectionManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.text.TextLineManagerFactory;
+import it.niedermann.nextcloud.tables.features.column.edit.factories.text.TextLinkManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.text.TextRichManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.unknown.UnknownManagerFactory;
 
 public class ManageDataTypeServiceRegistry extends DataTypeServiceRegistry<ManageFactory<? extends ViewBinding>> {
 
-    public ManageDataTypeServiceRegistry() {
-        super();
+    private final SearchProviderSupplier searchProviderSupplier;
+
+    public ManageDataTypeServiceRegistry(@NonNull SearchProviderSupplier searchProviderSupplier) {
+        super(true);
+        this.searchProviderSupplier = searchProviderSupplier;
     }
 
     @Override
@@ -27,7 +31,9 @@ public class ManageDataTypeServiceRegistry extends DataTypeServiceRegistry<Manag
         return switch (dataType) {
             case TEXT_LINE ->
                     cache.computeIfAbsent(dataType, t -> new TextLineManagerFactory());
-            case TEXT_LONG, TEXT_LINK, TEXT_RICH ->
+            case TEXT_LINK  ->
+                    cache.computeIfAbsent(dataType, t -> new TextLinkManagerFactory(searchProviderSupplier));
+            case TEXT_LONG, TEXT_RICH ->
                     cache.computeIfAbsent(dataType, t -> new TextRichManagerFactory());
             case DATETIME, DATETIME_TIME ->
                     cache.computeIfAbsent(dataType, t -> new DateTimeManagerFactory());

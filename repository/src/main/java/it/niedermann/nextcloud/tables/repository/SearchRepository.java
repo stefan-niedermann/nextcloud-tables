@@ -55,6 +55,11 @@ public class SearchRepository extends AbstractRepository {
     }
 
     @NonNull
+    public LiveData<List<SearchProvider>> getSearchProvider(long accountId) {
+        return db.getSearchProviderDao().getSearchProvider(accountId);
+    }
+
+    @NonNull
     public LiveData<List<OcsAutocompleteResult>> searchUser(@NonNull Account account,
                                                             @NonNull UserGroupAttributes userGroupAttributes,
                                                             @NonNull String term) {

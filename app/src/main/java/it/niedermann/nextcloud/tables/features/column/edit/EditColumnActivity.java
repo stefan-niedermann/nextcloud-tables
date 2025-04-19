@@ -63,13 +63,15 @@ public class EditColumnActivity extends AppCompatActivity {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_TABLE + " must be provided.");
         }
 
-        this.registry = new ManageDataTypeServiceRegistry();
+        editColumnViewModel = new ViewModelProvider(this).get(EditColumnViewModel.class);
+        binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
+
+        this.registry = new ManageDataTypeServiceRegistry(
+                accountId -> editColumnViewModel.getSearchProvider(accountId)
+        );
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         this.table = (Table) intent.getSerializableExtra(KEY_TABLE);
         this.fullColumn = (FullColumn) intent.getSerializableExtra(KEY_COLUMN);
-
-        editColumnViewModel = new ViewModelProvider(this).get(EditColumnViewModel.class);
-        binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
