@@ -1,5 +1,7 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 
+import static java.util.function.Predicate.not;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -8,6 +10,7 @@ import com.google.gson.JsonPrimitive;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,17 +56,6 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
     @NonNull
     @Override
     public ColumnV2Dto toDto(@NonNull FullColumn entity) {
-
-        final var selectionOptions = Optional
-                .of(entity.getSelectionOptions())
-                .map(selectionOptionMapper::toDtoList)
-                .orElse(Collections.emptyList());
-
-        final var selectionDefault = Optional.empty();
-//                .ofNullable(entity.getDefaultSelectionOptions())
-//                .map(selectionDefaultMapper::toDtoList)
-//                .orElse(null);
-
         return new ColumnV2Dto(
                 entity.getColumn().getRemoteId(),
                 Objects.requireNonNullElse(entity.getColumn().getTitle(), ""),
@@ -87,7 +79,11 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                 entity.getColumn().getTextAttributes().textAllowedPattern(),
                 entity.getColumn().getTextAttributes().textMaxLength(),
 
-                selectionOptions,
+                Optional
+                        .of(entity.getSelectionOptions())
+                        .map(selectionOptionMapper::toDtoList)
+                        .filter(not(List::isEmpty))
+                        .orElse(null),
                 switch (entity.getColumn().getDataType()) {
                     case SELECTION, SELECTION_MULTI ->
                             selectionDefaultMapper.toDto(entity.getColumn().getDataType(), entity.getDefaultSelectionOptions());
