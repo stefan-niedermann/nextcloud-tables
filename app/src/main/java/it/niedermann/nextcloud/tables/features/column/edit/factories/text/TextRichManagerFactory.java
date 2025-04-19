@@ -7,17 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import it.niedermann.nextcloud.tables.databinding.ManageTextBinding;
+import it.niedermann.nextcloud.tables.databinding.ManageTextRichBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.ManageFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
-import it.niedermann.nextcloud.tables.features.column.edit.types.text.TextManager;
+import it.niedermann.nextcloud.tables.features.column.edit.types.text.TextRichManager;
 
-public class TextManagerFactory implements ManageFactory<ManageTextBinding> {
+public class TextRichManagerFactory implements ManageFactory<ManageTextRichBinding> {
 
     @NonNull
     @Override
-    public ColumnEditView<ManageTextBinding> create(@NonNull Context context,
+    public ColumnEditView<ManageTextRichBinding> create(@NonNull Context context,
                                                     @Nullable FragmentManager fragmentManager) {
-        return new TextManager(context, fragmentManager);
+        return new TextRichManager(context, fragmentManager);
     }
 }

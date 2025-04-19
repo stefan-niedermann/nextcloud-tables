@@ -146,12 +146,11 @@ public class EditColumnActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            if (fullColumn == null) {
-                if (columnEditView == null) {
-                    Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
-                    return false;
-                }
-
+            if (columnEditView == null) {
+                Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
+                return false;
+            } else {
+                // We have to call getFullColumn() when creating or updating because ColumnEditView will only write values to column when invoking the getter
                 fullColumn = columnEditView.getFullColumn();
             }
 
