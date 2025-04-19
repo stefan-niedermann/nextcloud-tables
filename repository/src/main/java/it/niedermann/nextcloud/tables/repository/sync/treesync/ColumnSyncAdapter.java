@@ -76,7 +76,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     public CompletableFuture<Void> pushLocalCreations(@NonNull Account account, @NonNull Table table) {
         return supplyAsync(() -> db.getColumnDao().getLocallyCreatedColumns(account.getId(), table.getId()), db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tablesToCreate -> tablesToCreate
+                .thenApplyAsync(columnsToCreate -> columnsToCreate
                         .map(fullColumn -> completedFuture(null)
                                 .thenComposeAsync(v -> this.createRemote(account, table, fullColumn), workExecutor)
                                 .thenComposeAsync(response -> this.markLocallyAsCreated(fullColumn, response), workExecutor)

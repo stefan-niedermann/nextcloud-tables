@@ -23,7 +23,6 @@ import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.database.model.EUserGroupType;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.Value;
-import it.niedermann.nextcloud.tables.remote.tablesV1.TablesV1API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.SelectionOptionV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.UserGroupV2Dto;
@@ -65,20 +64,6 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
 //                .map(selectionDefaultMapper::toDtoList)
 //                .orElse(null);
 
-        final var dateTimeDefault = Optional
-                .of(entity.getColumn())
-                .map(Column::getDefaultValue)
-                .flatMap(val -> switch (entity.getColumn().getDataType()) {
-                    case DATETIME -> Optional.ofNullable(val.getInstantValue())
-                            .map(TablesV1API.FORMATTER_DATA_DATE_TIME::format);
-                    case DATETIME_DATE -> Optional.ofNullable(val.getDateValue())
-                            .map(TablesV1API.FORMATTER_DATA_DATE::format);
-                    case DATETIME_TIME -> Optional.ofNullable(val.getTimeValue())
-                            .map(TablesV1API.FORMATTER_DATA_TIME::format);
-                    default -> Optional.empty();
-                })
-                .orElse(null);
-
         return new ColumnV2Dto(
                 entity.getColumn().getRemoteId(),
                 Objects.requireNonNullElse(entity.getColumn().getTitle(), ""),
@@ -111,7 +96,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                     default -> JsonNull.INSTANCE;
                 },
 
-                dateTimeDefault,
+                entity.getColumn().getDefaultValue().getStringValue(),
 
                 userGroupMapper.toDtoList(filterUnknownTypes(entity.getDefaultUserGroups())),
                 entity.getColumn().getUserGroupAttributes().usergroupMultipleItems(),
