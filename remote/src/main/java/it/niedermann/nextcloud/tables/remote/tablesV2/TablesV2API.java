@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.TableV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateDateTimeColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateNumberColumnV2Dto;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateSelectionCheckColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateSelectionColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateTextColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.columns.CreateUserGroupColumnV2Dto;
@@ -176,6 +177,12 @@ public interface TablesV2API {
      */
     @POST("columns/selection?format=json")
     Call<OcsResponse<CreateColumnResponseV2Dto>> createSelectionColumn(@Body @NonNull CreateSelectionColumnV2Dto column);
+
+    /**
+     * @since 0.8.0
+     */
+    @POST("columns/selection?format=json")
+    Call<OcsResponse<CreateColumnResponseV2Dto>> createSelectionCheckColumn(@Body @NonNull CreateSelectionCheckColumnV2Dto column);
 
     /**
      * @since 0.8.0

@@ -88,7 +88,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                     case SELECTION, SELECTION_MULTI ->
                             selectionDefaultMapper.toDto(entity.getColumn().getDataType(), entity.getDefaultSelectionOptions());
                     case SELECTION_CHECK ->
-                            new JsonPrimitive(Optional.ofNullable(entity.getColumn().getDefaultValue().getBooleanValue()).orElse(false));
+                            new JsonPrimitive(Optional.ofNullable(entity.getColumn().getDefaultValue().getBooleanValue()).map(Object::toString).orElse(Boolean.FALSE.toString()));
                     default -> JsonNull.INSTANCE;
                 },
 
