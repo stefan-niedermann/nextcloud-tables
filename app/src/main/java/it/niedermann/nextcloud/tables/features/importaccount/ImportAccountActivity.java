@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,6 +58,14 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             binding.image.setClipToOutline(true);
         }
+
+        // TODO If at least one account exists, this callback should be disabled
+        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finishAffinity();
+            }
+        });
 
         binding.addButton.setOnClickListener(this::onAddButtonClicked);
     }
