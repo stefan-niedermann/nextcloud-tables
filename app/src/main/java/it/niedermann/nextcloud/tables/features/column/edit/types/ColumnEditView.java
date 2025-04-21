@@ -67,16 +67,6 @@ public abstract class ColumnEditView<T extends ViewBinding> extends LifecycleAwa
         return bundle;
     }
 
-    @NonNull
-    public FullColumn getFullColumn() {
-        return this.fullColumn;
-    }
-
-    @CallSuper
-    public void setFullColumn(@NonNull FullColumn fullColumn) {
-        this.fullColumn = fullColumn;
-    }
-
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
@@ -89,5 +79,20 @@ public abstract class ColumnEditView<T extends ViewBinding> extends LifecycleAwa
                 }
             }
         }
+    }
+
+    @NonNull
+    public FullColumn getFullColumn() {
+        return this.fullColumn;
+    }
+
+    @CallSuper
+    public void setFullColumn(@NonNull FullColumn fullColumn) {
+        this.fullColumn = fullColumn;
+    }
+
+    ///  @return true if the colum has an ID of `0L`
+    protected boolean isCreateMode() {
+        return fullColumn.getColumn().getId() == 0L;
     }
 }

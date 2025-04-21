@@ -18,15 +18,12 @@ import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -174,12 +171,9 @@ public class TablesRepository extends AbstractRepository {
 
                                 final long insertedColumnId = db.getColumnDao().insert(column);
                                 column.setId(insertedColumnId);
-
-                                final var remoteId = new AtomicLong(0L);
                                 fullColumn.getSelectionOptions()
                                         .stream()
                                         .peek(item -> item.setColumnId(column.getId()))
-                                        .peek(item -> item.setRemoteId(remoteId.getAndIncrement()))
                                         .forEach(db.getSelectionOptionDao()::insert);
 
                             }), db.getSequentialExecutor());
@@ -215,29 +209,19 @@ public class TablesRepository extends AbstractRepository {
 
                     case SELECTION_MULTI -> analyzeSelectionOptions(fullColumn)
                             .thenAcceptAsync(crudItems -> db.runInTransaction(() -> {
-                                final var usedRemoteIds = new HashSet<Long>();
-                                final var nextRemoteId = new AtomicLong(0L);
-
                                 db.getColumnDao().update(column);
 
                                 crudItems.toDelete()
-                                        .stream()
-                                        .peek(usedRemoteIds::add)
                                         .forEach(db.getSelectionOptionDao()::delete);
 
                                 crudItems.toUpdate()
                                         .stream()
                                         .peek(item -> item.setColumnId(column.getId()))
-                                        .peek(item -> usedRemoteIds.add(item.getRemoteId()))
                                         .forEach(db.getSelectionOptionDao()::update);
-
-                                nextRemoteId.set(Collections.max(usedRemoteIds));
-                                usedRemoteIds.clear();
 
                                 crudItems.toInsert()
                                         .stream()
                                         .peek(item -> item.setColumnId(column.getId()))
-                                        .peek(item -> item.setRemoteId(nextRemoteId.getAndIncrement()))
                                         .forEach(db.getSelectionOptionDao()::insert);
 
                             }), db.getSequentialExecutor());

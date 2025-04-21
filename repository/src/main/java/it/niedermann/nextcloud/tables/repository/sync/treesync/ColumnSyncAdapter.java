@@ -223,7 +223,10 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                         }
 
                         final var columnDtos = responseBody.ocs.data;
-                        final var columnRemoteIds = columnDtos.stream().map(RemoteDto::remoteId).collect(toUnmodifiableSet());
+                        final var columnRemoteIds = columnDtos.stream()
+                                .map(RemoteDto::remoteId)
+                                .map(Objects::requireNonNull)
+                                .collect(toUnmodifiableSet());
 
                         yield supplyAsync(() -> db.getColumnDao().getColumnRemoteAndLocalIds(table.getId(), columnRemoteIds), db.getParallelExecutor())
                                 .thenComposeAsync(columnIds -> allOf(columnDtos.stream().map(columnDto -> {

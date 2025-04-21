@@ -1,6 +1,8 @@
 package it.niedermann.nextcloud.tables.features.column.edit.types.selection;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -58,17 +62,35 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
     @Override
     public FullColumn getFullColumn() {
 
-        // Remove artificial SelectionOption if present
-        if (fullColumn.getColumn().getRemoteId() != null ||
-            !fullColumn.getSelectionOptions().isEmpty() ||
-            adapter.getSelectionOptions().size() != 1 ||
-            adapter.getSelectionOptions().get(0).getRemoteId() != null ||
-            !TextUtils.isEmpty(adapter.getSelectionOptions().get(0).getLabel())) {
+        // Artificial SelectionOption can be set during #setFullColumn
+        final var onlyUntouchedArtificialSelectionOption = adapter.getSelectionOptions().size() == 1 &&
+                                                           adapter.getSelectionOptions().get(0).getRemoteId() == null &&
+                                                           TextUtils.isEmpty(adapter.getSelectionOptions().get(0).getLabel());
+
+        if (isCreateMode() || !onlyUntouchedArtificialSelectionOption) {
+
+            final var usedRemoteIds = fullColumn
+                    .getSelectionOptions()
+                    .stream()
+                    .map(SelectionOption::getRemoteId)
+                    .filter(Objects::nonNull)
+                    .collect(toSet());
+
+            usedRemoteIds.addAll(adapter.getSelectionOptions()
+                    .stream()
+                    .map(SelectionOption::getRemoteId)
+                    .filter(Objects::nonNull)
+                    .collect(toUnmodifiableSet()));
+
+            final var maxRemoteId = new AtomicLong(Collections.max(usedRemoteIds));
 
             fullColumn.setDefaultSelectionOptions(adapter.getSelectionDefault());
             fullColumn.setSelectionOptions(adapter.getSelectionOptions());
+            fullColumn.getSelectionOptions()
+                    .stream()
+                    .filter(selectionOption -> selectionOption.getRemoteId() == null)
+                    .forEach(selectionOption -> selectionOption.setRemoteId(maxRemoteId.incrementAndGet()));
             fullColumn.getColumn().setSelectionAttributes(new SelectionAttributes());
-
         }
 
         return super.getFullColumn();
@@ -78,8 +100,7 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
     public void setFullColumn(@NonNull FullColumn fullColumn) {
         super.setFullColumn(fullColumn);
 
-        final var createMode = fullColumn.getColumn().getRemoteId() == null
-                               && fullColumn.getSelectionOptions().isEmpty();
+        final boolean createMode = isCreateMode();
 
         // Adds an artificial Selection Option in create mode
         adapter.setSelectionOptions(
