@@ -65,6 +65,7 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                     case SELECTION -> Optional.of(fullColumn)
                             .map(FullColumn::getDefaultSelectionOptions)
                             .map(selectionOptions -> {
+                                // TODO Use Reducer to transform selectionOptions to JsonArray
                                 final var jsonArray = new JsonArray();
                                 selectionOptions
                                         .stream()
@@ -74,6 +75,7 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                             })
                             .map(JsonElement::toString)
                             .orElse(new JsonArray().toString());
+
                     case SELECTION_MULTI -> Optional.of(fullColumn)
                             .map(FullColumn::getDefaultSelectionOptions)
                             .map(List::stream)
@@ -82,21 +84,26 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                             .map(JsonPrimitive::new)
                             .map(JsonElement::toString)
                             .orElse(null);
-                    case SELECTION_CHECK ->
-                            Optional.ofNullable(column.getDefaultValue().getBooleanValue())
-                                    .map(JsonPrimitive::new)
-                                    .map(JsonElement::toString)
-                                    .orElse(null);
+
+                    case SELECTION_CHECK -> Optional.of(column.getDefaultValue())
+                            .map(Value::getBooleanValue)
+                            .map(JsonPrimitive::new)
+                            .map(JsonElement::toString)
+                            .orElse(null);
                     default -> null;
                 },
                 Optional.of(fullColumn.getSelectionOptions())
                         .map(selectionOptions -> {
                             final var jsonArray = new JsonArray();
-                            for (final var selectionOption : selectionOptions) {
-                                final var option = new JsonObject();
-                                option.addProperty("id", selectionOption.getRemoteId());
-                                option.addProperty("label", selectionOption.getLabel());
-                            }
+                            selectionOptions
+                                    .stream()
+                                    .map(selectionOption -> {
+                                        final var option = new JsonObject();
+                                        option.addProperty("id", selectionOption.getRemoteId());
+                                        option.addProperty("label", selectionOption.getLabel());
+                                        return option;
+                                    })
+                                    .forEach(jsonArray::add);
                             return jsonArray.toString();
                         })
                         .orElse(new JsonArray().toString()),

@@ -163,8 +163,8 @@ public class EditColumnActivity extends AppCompatActivity {
             column.setMandatory(binding.mandatory.isChecked());
 
             final var futureResult = column.getRemoteId() == null
-                    ? editColumnViewModel.createColumn(account, table, fullColumn.getColumn())
-                    : editColumnViewModel.updateColumn(account, table, fullColumn.getColumn());
+                    ? editColumnViewModel.createColumn(account, table, fullColumn)
+                    : editColumnViewModel.updateColumn(account, table, fullColumn);
 
             futureResult.whenCompleteAsync((result, exception) -> {
                 if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {

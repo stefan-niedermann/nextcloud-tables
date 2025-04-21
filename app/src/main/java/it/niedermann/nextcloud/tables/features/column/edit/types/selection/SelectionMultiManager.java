@@ -1,6 +1,11 @@
 package it.niedermann.nextcloud.tables.features.column.edit.types.selection;
 
+import static java.util.Objects.requireNonNull;
+
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +17,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.attributes.SelectionAttributes;
@@ -42,20 +49,27 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
                                  @Nullable FragmentManager fragmentManager) {
         super(context, ManageSelectionMultiBinding.inflate(LayoutInflater.from(context)), fragmentManager);
 
-        adapter = new OptionAdapter();
+        adapter = new OptionAdapter(isEnabled());
         binding.options.setAdapter(adapter);
-        binding.addOption.setOnClickListener(v -> {
-            final var option = new SelectionOption();
-            this.adapter.addSelectionOption(option);
-        });
+        binding.addOption.setOnClickListener(v -> this.adapter.addSelectionOption(new SelectionOption()));
     }
 
     @NonNull
     @Override
     public FullColumn getFullColumn() {
-        fullColumn.setDefaultSelectionOptions(adapter.getSelectionDefault());
-        fullColumn.setSelectionOptions(adapter.getSelectionOptions());
-        fullColumn.getColumn().setSelectionAttributes(new SelectionAttributes());
+
+        // Remove artificial SelectionOption if present
+        if (fullColumn.getColumn().getRemoteId() != null ||
+            !fullColumn.getSelectionOptions().isEmpty() ||
+            adapter.getSelectionOptions().size() != 1 ||
+            adapter.getSelectionOptions().get(0).getRemoteId() != null ||
+            !TextUtils.isEmpty(adapter.getSelectionOptions().get(0).getLabel())) {
+
+            fullColumn.setDefaultSelectionOptions(adapter.getSelectionDefault());
+            fullColumn.setSelectionOptions(adapter.getSelectionOptions());
+            fullColumn.getColumn().setSelectionAttributes(new SelectionAttributes());
+
+        }
 
         return super.getFullColumn();
     }
@@ -64,9 +78,17 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
     public void setFullColumn(@NonNull FullColumn fullColumn) {
         super.setFullColumn(fullColumn);
 
+        final var createMode = fullColumn.getColumn().getRemoteId() == null
+                               && fullColumn.getSelectionOptions().isEmpty();
+
+        // Adds an artificial Selection Option in create mode
         adapter.setSelectionOptions(
-                fullColumn.getSelectionOptions(),
-                fullColumn.getDefaultSelectionOptions()
+                createMode
+                        ? List.of(new SelectionOption())
+                        : fullColumn.getSelectionOptions(),
+                createMode
+                        ? Collections.emptyList()
+                        : fullColumn.getDefaultSelectionOptions()
         );
     }
 
@@ -76,17 +98,46 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
         adapter.setEnabled(enabled);
     }
 
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final var parentState = super.onSaveInstanceState();
+        final var args = new Bundle();
+        args.putSerializable("selectionDefault", adapter.getSelectionDefault());
+        args.putSerializable("selectionOptions", adapter.getSelectionOptions());
+        return parentState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+
+        if (state instanceof Bundle bundle) {
+            if (bundle.containsKey("selectionOptions")) {
+                //noinspection unchecked
+                adapter.setSelectionOptions(
+                        requireNonNull((ArrayList<SelectionOption>) bundle.getSerializable("selectionOptions")),
+                        requireNonNull((ArrayList<SelectionOption>) bundle.getSerializable("selectionDefault"))
+                );
+            }
+        }
+    }
+
     private static class OptionAdapter extends RecyclerView.Adapter<OptionViewHolder> {
 
-        private boolean enabled = false;
+        private boolean enabled;
 
-        private final List<SelectionOption> selectionOptions = new ArrayList<>();
-        private final List<SelectionOption> defaultOptions = new ArrayList<>();
+        private OptionAdapter(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        private final ArrayList<SelectionOption> selectionOptions = new ArrayList<>();
+        private final ArrayList<SelectionOption> defaultOptions = new ArrayList<>();
 
         @NonNull
         @Override
         public OptionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new OptionViewHolder(ItemManageOptionMultiBinding.inflate(LayoutInflater.from(parent.getContext())));
+            return new OptionViewHolder(ItemManageOptionMultiBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         }
 
         @Override
@@ -98,15 +149,15 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
                         if (checked) {
                             defaultOptions.add(option);
                         } else {
-                            defaultOptions.removeIf(optionToRemove -> option.getId() == optionToRemove.getId());
+                            defaultOptions.remove(option);
                         }
                     },
                     option -> {
                         // TODO Label changed
                     },
                     option -> {
-                        selectionOptions.removeIf(optionToRemove -> option.getId() == optionToRemove.getId());
-                        defaultOptions.removeIf(optionToRemove -> option.getId() == optionToRemove.getId());
+                        selectionOptions.remove(option);
+                        defaultOptions.remove(option);
                         notifyItemRemoved(position);
                     },
                     defaultOptions.contains(selectionOption), // FIXME
@@ -115,8 +166,8 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
         }
 
         public void setSelectionOptions(
-                @NonNull List<SelectionOption> selectionOptions,
-                @NonNull List<SelectionOption> defaultOptions) {
+                @NonNull Collection<SelectionOption> selectionOptions,
+                @NonNull Collection<SelectionOption> defaultOptions) {
             this.selectionOptions.clear();
             this.selectionOptions.addAll(selectionOptions);
             this.defaultOptions.clear();
@@ -125,12 +176,12 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
         }
 
         @NonNull
-        public List<SelectionOption> getSelectionOptions() {
+        public ArrayList<SelectionOption> getSelectionOptions() {
             return selectionOptions;
         }
 
         @NonNull
-        public List<SelectionOption> getSelectionDefault() {
+        public ArrayList<SelectionOption> getSelectionDefault() {
             return defaultOptions;
         }
 
@@ -176,7 +227,7 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
 
             binding.delete.setOnClickListener(v -> onDelete.accept(selectionOption));
 
-            Set.of(binding.checkbox, binding.label)
+            Stream.of(binding.checkbox, binding.label)
                     .forEach(view -> view.setEnabled(enabled));
 
             binding.delete.setVisibility(enabled ? View.VISIBLE : View.GONE);

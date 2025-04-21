@@ -18,7 +18,7 @@ public class TextDefaultSupplier extends DefaultValueSupplier {
         final var strValue = Optional.ofNullable(value.getStringValue());
 
         if (strValue.isEmpty()) {
-            Optional.ofNullable(fullColumn.getColumn())
+            Optional.of(fullColumn.getColumn())
                     .map(Column::getDefaultValue)
                     .map(Value::getStringValue)
                     .ifPresent(value::setStringValue);

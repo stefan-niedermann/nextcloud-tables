@@ -16,12 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.DBStatus;
@@ -30,6 +36,7 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.Row;
+import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
@@ -146,7 +153,8 @@ public class TablesRepository extends AbstractRepository {
     @NonNull
     public CompletableFuture<Void> createColumn(@NonNull Account account,
                                                 @NonNull Table table,
-                                                @NonNull Column column) {
+                                                @NonNull FullColumn fullColumn) {
+        final var column = fullColumn.getColumn();
         return supplyAsync(() -> {
 
             if (!table.hasManagePermission()) {
@@ -159,7 +167,28 @@ public class TablesRepository extends AbstractRepository {
             return column;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
+                .thenComposeAsync(v -> switch (column.getDataType()) {
+
+                    case SELECTION_MULTI -> completedFuture(fullColumn)
+                            .thenAcceptAsync(items -> db.runInTransaction(() -> {
+
+                                final long insertedColumnId = db.getColumnDao().insert(column);
+                                column.setId(insertedColumnId);
+
+                                final var remoteId = new AtomicLong(0L);
+                                fullColumn.getSelectionOptions()
+                                        .stream()
+                                        .peek(item -> item.setColumnId(column.getId()))
+                                        .peek(item -> item.setRemoteId(remoteId.getAndIncrement()))
+                                        .forEach(db.getSelectionOptionDao()::insert);
+
+                            }), db.getSequentialExecutor());
+
+                    default -> completedFuture(column)
+                            .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
+                            .thenAcceptAsync(column::setId, workExecutor);
+
+                }, workExecutor)
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
@@ -168,7 +197,8 @@ public class TablesRepository extends AbstractRepository {
     @NonNull
     public CompletableFuture<Void> updateColumn(@NonNull Account account,
                                                 @NonNull Table table,
-                                                @NonNull Column column) {
+                                                @NonNull FullColumn fullColumn) {
+        final var column = fullColumn.getColumn();
         return supplyAsync(() -> {
 
             if (!table.hasManagePermission()) {
@@ -181,8 +211,86 @@ public class TablesRepository extends AbstractRepository {
 
         }, workExecutor)
                 .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
+                .thenComposeAsync(v -> switch (column.getDataType()) {
+
+                    case SELECTION_MULTI -> analyzeSelectionOptions(fullColumn)
+                            .thenAcceptAsync(crudItems -> db.runInTransaction(() -> {
+                                final var usedRemoteIds = new HashSet<Long>();
+                                final var nextRemoteId = new AtomicLong(0L);
+
+                                db.getColumnDao().update(column);
+
+                                crudItems.toDelete()
+                                        .stream()
+                                        .peek(usedRemoteIds::add)
+                                        .forEach(db.getSelectionOptionDao()::delete);
+
+                                crudItems.toUpdate()
+                                        .stream()
+                                        .peek(item -> item.setColumnId(column.getId()))
+                                        .peek(item -> usedRemoteIds.add(item.getRemoteId()))
+                                        .forEach(db.getSelectionOptionDao()::update);
+
+                                nextRemoteId.set(Collections.max(usedRemoteIds));
+                                usedRemoteIds.clear();
+
+                                crudItems.toInsert()
+                                        .stream()
+                                        .peek(item -> item.setColumnId(column.getId()))
+                                        .peek(item -> item.setRemoteId(nextRemoteId.getAndIncrement()))
+                                        .forEach(db.getSelectionOptionDao()::insert);
+
+                            }), db.getSequentialExecutor());
+
+                    default -> completedFuture(column)
+                            .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
+                            .thenAcceptAsync(column::setId, workExecutor);
+
+                }, workExecutor)
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
+    }
+
+    /// Analyzes [SelectionOption]s to check whether they are intended to get deleted, inserted or updated
+    ///
+    /// @return CrudItems
+    private CompletableFuture<CrudItems<SelectionOption>> analyzeSelectionOptions(@NonNull FullColumn fullColumn) {
+        return supplyAsync(() -> db.getSelectionOptionDao().getSelectionOptionIds(fullColumn.getColumn().getId()), db.getParallelExecutor())
+                .thenApplyAsync(selectionOptionIds -> {
+                    final var toUpdate = new ArrayList<SelectionOption>();
+                    final var toInsert = new ArrayList<SelectionOption>();
+                    final var newSelectionOptions = fullColumn.getSelectionOptions();
+
+                    for (final var newSelectionOption : newSelectionOptions) {
+
+                        if (newSelectionOption.getId() == 0L) {
+                            newSelectionOption.setColumnId(fullColumn.getColumn().getId());
+                            toInsert.add(newSelectionOption);
+
+                        } else {
+                            if (selectionOptionIds.contains(newSelectionOption.getId())) {
+                                toUpdate.add(newSelectionOption);
+                            }
+                        }
+
+                    }
+
+                    final var toDelete = selectionOptionIds
+                            .stream()
+                            .filter(id -> newSelectionOptions
+                                    .stream()
+                                    .noneMatch(selectionOption -> Objects.equals(selectionOption.getId(), id)))
+                            .collect(Collectors.toSet());
+
+                    return new CrudItems<>(toDelete, toUpdate, toInsert);
+                }, workExecutor);
+    }
+
+    private record CrudItems<T>(
+            @NonNull Collection<Long> toDelete,
+            @NonNull Collection<T> toUpdate,
+            @NonNull Collection<T> toInsert
+    ) {
     }
 
     @AnyThread
