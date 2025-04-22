@@ -32,6 +32,7 @@ import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
 import it.niedermann.nextcloud.tables.database.entity.DataSelectionOptionCrossRef;
+import it.niedermann.nextcloud.tables.database.entity.DefaultValueSelectionOptionCrossRef;
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.Table;
@@ -167,16 +168,24 @@ public class TablesRepository extends AbstractRepository {
                 .thenComposeAsync(v -> switch (column.getDataType()) {
 
                     case SELECTION_MULTI -> completedFuture(fullColumn)
-                            .thenAcceptAsync(items -> db.runInTransaction(() -> {
+                            .thenAcceptAsync(items -> {
+                                db.runInTransaction(() -> {
 
-                                final long insertedColumnId = db.getColumnDao().insert(column);
-                                column.setId(insertedColumnId);
-                                fullColumn.getSelectionOptions()
-                                        .stream()
-                                        .peek(item -> item.setColumnId(column.getId()))
-                                        .forEach(db.getSelectionOptionDao()::insert);
+                                    final long insertedColumnId = db.getColumnDao().insert(column);
+                                    column.setId(insertedColumnId);
 
-                            }), db.getSequentialExecutor());
+                                    fullColumn.getSelectionOptions()
+                                            .stream()
+                                            .peek(item -> item.setColumnId(column.getId()))
+                                            .forEach(item -> item.setId(db.getSelectionOptionDao().insert(item)));
+
+                                    fullColumn.getDefaultSelectionOptions()
+                                            .stream()
+                                            .map(DefaultValueSelectionOptionCrossRef::from)
+                                            .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::insert);
+
+                                });
+                            }, db.getSequentialExecutor());
 
                     default -> completedFuture(column)
                             .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
@@ -204,7 +213,6 @@ public class TablesRepository extends AbstractRepository {
             return column;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
                 .thenComposeAsync(v -> switch (column.getDataType()) {
 
                     case SELECTION_MULTI -> analyzeSelectionOptions(fullColumn)
@@ -226,9 +234,8 @@ public class TablesRepository extends AbstractRepository {
 
                             }), db.getSequentialExecutor());
 
-                    default -> completedFuture(column)
-                            .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
-                            .thenAcceptAsync(column::setId, workExecutor);
+                    default ->
+                            runAsync(() -> db.getColumnDao().update(column), db.getSequentialExecutor());
 
                 }, workExecutor)
                 .thenApplyAsync(v -> account, workExecutor)

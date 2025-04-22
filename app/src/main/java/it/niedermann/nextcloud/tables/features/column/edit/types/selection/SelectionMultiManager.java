@@ -1,7 +1,7 @@
 package it.niedermann.nextcloud.tables.features.column.edit.types.selection;
 
+import static java.util.Collections.max;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
@@ -63,18 +64,21 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
     public FullColumn getFullColumn() {
 
         // Artificial SelectionOption can be set during #setFullColumn
-        final var onlyUntouchedArtificialSelectionOption = adapter.getSelectionOptions().size() == 1 &&
-                                                           adapter.getSelectionOptions().get(0).getRemoteId() == null &&
-                                                           TextUtils.isEmpty(adapter.getSelectionOptions().get(0).getLabel());
+        final var onlyUntouchedArtificialSelectionOption =
+                adapter.getSelectionOptions().size() == 1 &&
+                adapter.getSelectionOptions().get(0).getRemoteId() == null &&
+                TextUtils.isEmpty(adapter.getSelectionOptions().get(0).getLabel());
 
         if (isCreateMode() || !onlyUntouchedArtificialSelectionOption) {
 
-            final var usedRemoteIds = fullColumn
+            final var usedRemoteIds = new HashSet<Long>();
+
+            usedRemoteIds.addAll(fullColumn
                     .getSelectionOptions()
                     .stream()
                     .map(SelectionOption::getRemoteId)
                     .filter(Objects::nonNull)
-                    .collect(toSet());
+                    .collect(toUnmodifiableSet()));
 
             usedRemoteIds.addAll(adapter.getSelectionOptions()
                     .stream()
@@ -82,7 +86,7 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
                     .filter(Objects::nonNull)
                     .collect(toUnmodifiableSet()));
 
-            final var maxRemoteId = new AtomicLong(Collections.max(usedRemoteIds));
+            final var maxRemoteId = new AtomicLong(usedRemoteIds.isEmpty() ? -1L : max(usedRemoteIds));
 
             fullColumn.setDefaultSelectionOptions(adapter.getSelectionDefault());
             fullColumn.setSelectionOptions(adapter.getSelectionOptions());
@@ -181,7 +185,7 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
                         defaultOptions.remove(option);
                         notifyItemRemoved(position);
                     },
-                    defaultOptions.contains(selectionOption), // FIXME
+                    defaultOptions.contains(selectionOption),
                     enabled
             );
         }

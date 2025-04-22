@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "9ee3ecb1b9d402c5c7d11d79d1fdd940",
+    "identityHash": "ee617676a43339d4487fd3bd86f180bc",
     "entities": [
       {
         "tableName": "Account",
@@ -32,14 +32,12 @@
           {
             "fieldPath": "nextcloudVersion",
             "columnName": "nextcloudVersion",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "tablesVersion",
             "columnName": "tablesVersion",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "color",
@@ -51,14 +49,12 @@
           {
             "fieldPath": "displayName",
             "columnName": "displayName",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "currentTable",
             "columnName": "currentTable",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "id",
@@ -69,38 +65,32 @@
           {
             "fieldPath": "userSynchronizationContext.status",
             "columnName": "user_status",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "userSynchronizationContext.eTag",
             "columnName": "user_eTag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "capabilitiesSynchronizationContext.status",
             "columnName": "capabilities_status",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "capabilitiesSynchronizationContext.eTag",
             "columnName": "capabilities_eTag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "searchProviderSynchronizationContext.status",
             "columnName": "search_status",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "searchProviderSynchronizationContext.eTag",
             "columnName": "search_eTag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -186,55 +176,47 @@
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "emoji",
             "columnName": "emoji",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "ownership",
             "columnName": "ownership",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "ownerDisplayName",
             "columnName": "ownerDisplayName",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "createdBy",
             "columnName": "createdBy",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "lastEditBy",
             "columnName": "lastEditBy",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "lastEditAt",
             "columnName": "lastEditAt",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "isShared",
@@ -245,14 +227,12 @@
           {
             "fieldPath": "currentRow",
             "columnName": "currentRow",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "remoteId",
             "columnName": "remoteId",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "accountId",
@@ -299,14 +279,12 @@
           {
             "fieldPath": "synchronizationContext.status",
             "columnName": "status",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "synchronizationContext.eTag",
             "columnName": "eTag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -423,34 +401,29 @@
             "fieldPath": "title",
             "columnName": "title",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "createdBy",
             "columnName": "createdBy",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "lastEditBy",
             "columnName": "lastEditBy",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "lastEditAt",
             "columnName": "lastEditAt",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "dataType",
@@ -469,14 +442,12 @@
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "orderWeight",
             "columnName": "orderWeight",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "tableId",
@@ -487,8 +458,7 @@
           {
             "fieldPath": "remoteId",
             "columnName": "remoteId",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "accountId",
@@ -505,86 +475,72 @@
           {
             "fieldPath": "defaultValue.stringValue",
             "columnName": "default_stringValue",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "defaultValue.booleanValue",
             "columnName": "default_booleanValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "defaultValue.doubleValue",
             "columnName": "default_doubleValue",
-            "affinity": "REAL",
-            "notNull": false
+            "affinity": "REAL"
           },
           {
             "fieldPath": "defaultValue.instantValue",
             "columnName": "default_instantValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "defaultValue.dateValue",
             "columnName": "default_dateValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "defaultValue.timeValue",
             "columnName": "default_timeValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "defaultValue.linkValueRef",
             "columnName": "default_linkValueRef",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "numberAttributes.numberMin",
             "columnName": "numberMin",
-            "affinity": "REAL",
-            "notNull": false
+            "affinity": "REAL"
           },
           {
             "fieldPath": "numberAttributes.numberMax",
             "columnName": "numberMax",
-            "affinity": "REAL",
-            "notNull": false
+            "affinity": "REAL"
           },
           {
             "fieldPath": "numberAttributes.numberDecimals",
             "columnName": "numberDecimals",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "numberAttributes.numberPrefix",
             "columnName": "numberPrefix",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "numberAttributes.numberSuffix",
             "columnName": "numberSuffix",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "textAttributes.textAllowedPattern",
             "columnName": "textAllowedPattern",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "textAttributes.textMaxLength",
             "columnName": "textMaxLength",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "userGroupAttributes.usergroupMultipleItems",
@@ -613,14 +569,12 @@
           {
             "fieldPath": "synchronizationContext.status",
             "columnName": "status",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "synchronizationContext.eTag",
             "columnName": "eTag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -710,27 +664,23 @@
             "fieldPath": "createdBy",
             "columnName": "createdBy",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "createdAt",
             "columnName": "createdAt",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "lastEditBy",
             "columnName": "lastEditBy",
             "affinity": "TEXT",
-            "notNull": false,
             "defaultValue": "''"
           },
           {
             "fieldPath": "lastEditAt",
             "columnName": "lastEditAt",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "tableId",
@@ -741,8 +691,7 @@
           {
             "fieldPath": "remoteId",
             "columnName": "remoteId",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "accountId",
@@ -759,14 +708,12 @@
           {
             "fieldPath": "synchronizationContext.status",
             "columnName": "status",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "synchronizationContext.eTag",
             "columnName": "eTag",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -870,44 +817,37 @@
           {
             "fieldPath": "value.stringValue",
             "columnName": "stringValue",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "value.booleanValue",
             "columnName": "booleanValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "value.doubleValue",
             "columnName": "doubleValue",
-            "affinity": "REAL",
-            "notNull": false
+            "affinity": "REAL"
           },
           {
             "fieldPath": "value.instantValue",
             "columnName": "instantValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "value.dateValue",
             "columnName": "dateValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "value.timeValue",
             "columnName": "timeValue",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "value.linkValueRef",
             "columnName": "linkValueRef",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -999,8 +939,7 @@
           {
             "fieldPath": "remoteId",
             "columnName": "remoteId",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "columnId",
@@ -1011,8 +950,7 @@
           {
             "fieldPath": "label",
             "columnName": "label",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "id",
@@ -1069,20 +1007,17 @@
           {
             "fieldPath": "remoteId",
             "columnName": "remoteId",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "displayName",
             "columnName": "displayName",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "type",
             "columnName": "type",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "accountId",
@@ -1278,7 +1213,7 @@
       },
       {
         "tableName": "DefaultValueSelectionOptionCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `selectionOptionId` INTEGER NOT NULL, PRIMARY KEY(`columnId`, `selectionOptionId`), FOREIGN KEY(`columnId`) REFERENCES `Data`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`selectionOptionId`) REFERENCES `SelectionOption`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `selectionOptionId` INTEGER NOT NULL, PRIMARY KEY(`columnId`, `selectionOptionId`), FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`selectionOptionId`) REFERENCES `SelectionOption`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "columnId",
@@ -1322,7 +1257,7 @@
         ],
         "foreignKeys": [
           {
-            "table": "Data",
+            "table": "Column",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -1347,7 +1282,7 @@
       },
       {
         "tableName": "DefaultValueUserGroupCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `userGroupId` INTEGER NOT NULL, PRIMARY KEY(`columnId`, `userGroupId`), FOREIGN KEY(`columnId`) REFERENCES `Data`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userGroupId`) REFERENCES `UserGroup`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`columnId` INTEGER NOT NULL, `userGroupId` INTEGER NOT NULL, PRIMARY KEY(`columnId`, `userGroupId`), FOREIGN KEY(`columnId`) REFERENCES `Column`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userGroupId`) REFERENCES `UserGroup`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "columnId",
@@ -1391,7 +1326,7 @@
         ],
         "foreignKeys": [
           {
-            "table": "Data",
+            "table": "Column",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
@@ -1427,20 +1362,17 @@
           {
             "fieldPath": "appId",
             "columnName": "appId",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
             "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "order",
@@ -1515,8 +1447,7 @@
           {
             "fieldPath": "pattern",
             "columnName": "pattern",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "id",
@@ -1530,9 +1461,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "LinkValue",
@@ -1547,20 +1476,17 @@
           {
             "fieldPath": "providerId",
             "columnName": "providerId",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "title",
             "columnName": "title",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "subline",
             "columnName": "subline",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "value",
@@ -1631,10 +1557,9 @@
         ]
       }
     ],
-    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9ee3ecb1b9d402c5c7d11d79d1fdd940')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ee617676a43339d4487fd3bd86f180bc')"
     ]
   }
 }

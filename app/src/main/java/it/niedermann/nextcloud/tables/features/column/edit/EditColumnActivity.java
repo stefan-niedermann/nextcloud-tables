@@ -164,6 +164,7 @@ public class EditColumnActivity extends AppCompatActivity {
 
             final var futureResult = column.getRemoteId() == null
                     ? editColumnViewModel.createColumn(account, table, fullColumn)
+                    // TODO If UPDATE column and TYPE = SELECTION MULTI/SINGLE, track synchronization and post notification in case synchronization was not successful to avoid future conflicts with selection option IDs
                     : editColumnViewModel.updateColumn(account, table, fullColumn);
 
             futureResult.whenCompleteAsync((result, exception) -> {

@@ -9,7 +9,6 @@ import com.google.gson.JsonPrimitive;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
@@ -22,9 +21,12 @@ public class SelectionDefaultV2Mapper implements Mapper<JsonElement, List<Select
     public JsonElement toDto(@NonNull EDataType dataType,
                              @NonNull List<SelectionOption> entity) {
         return switch (dataType) {
-            case SELECTION -> entity.isEmpty() ? JsonNull.INSTANCE : toDto(entity);
-            case SELECTION_MULTI ->
-                    entity.isEmpty() ? JsonNull.INSTANCE : toDto(List.of(entity.get(0)));
+            case SELECTION -> entity.isEmpty()
+                    ? JsonNull.INSTANCE
+                    : toDto(entity.get(0));
+            case SELECTION_MULTI -> entity.isEmpty()
+                    ? JsonNull.INSTANCE
+                    : toDto(entity);
             default ->
                     throw new IllegalStateException("Only " + EDataType.SELECTION + " and " + EDataType.SELECTION_MULTI + " are allowed, but got: " + dataType);
         };
@@ -35,25 +37,23 @@ public class SelectionDefaultV2Mapper implements Mapper<JsonElement, List<Select
     public JsonElement toDto(@NonNull List<SelectionOption> entity) {
         if (entity.isEmpty()) {
             return JsonNull.INSTANCE;
-        } else if (entity.size() > 1) {
-            final var arr = new JsonArray();
-            entity
-                    .stream()
-                    .map(SelectionOption::getRemoteId)
-                    .filter(Objects::nonNull)
-                    .map(JsonPrimitive::new)
-                    .map(JsonElement.class::cast)
-                    .forEach(arr::add);
-            return arr;
-        } else {
-            return entity
-                    .stream()
-                    .findAny()
-                    .map(SelectionOption::getRemoteId)
-                    .map(JsonPrimitive::new)
-                    .map(JsonElement.class::cast)
-                    .orElse(JsonNull.INSTANCE);
         }
+
+        final var arr = new JsonArray();
+        entity
+                .stream()
+                .map(this::toDto)
+                .forEach(arr::add);
+        return new JsonPrimitive(arr.toString());
+    }
+
+    @NonNull
+    private JsonElement toDto(@NonNull SelectionOption entity) {
+        if (entity.getRemoteId() == null) {
+            throw new IllegalStateException("Expected " + SelectionOption.class.getSimpleName() + "#remoteId to be set by client before push.");
+        }
+
+        return new JsonPrimitive(String.valueOf(entity.getRemoteId()));
     }
 
     @NonNull

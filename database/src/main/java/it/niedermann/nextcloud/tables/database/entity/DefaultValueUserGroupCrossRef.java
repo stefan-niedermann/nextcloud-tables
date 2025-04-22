@@ -11,7 +11,7 @@ import java.util.Objects;
         primaryKeys = {"columnId", "userGroupId"},
         foreignKeys = {
                 @ForeignKey(
-                        entity = Data.class,
+                        entity = Column.class,
                         parentColumns = "id",
                         childColumns = "columnId",
                         onDelete = ForeignKey.CASCADE
