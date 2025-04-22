@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.nextcloud.android.sso.model.ocs.OcsResponse;
 
+import java.net.HttpURLConnection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -175,7 +176,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                 .thenComposeAsync(v -> {
                     Log.i(TAG, "-→ HTTP " + response.code());
 
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() || response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                         return runAsync(() -> db.getTableDao().delete(entity), db.getSequentialExecutor());
 
                     } else {

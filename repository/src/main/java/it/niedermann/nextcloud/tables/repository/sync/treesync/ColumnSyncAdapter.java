@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.nextcloud.android.sso.model.ocs.OcsResponse;
 
+import java.net.HttpURLConnection;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -198,7 +199,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                 .thenComposeAsync(v -> {
                     Log.i(TAG, "-→ HTTP " + response.code());
 
-                    if (response.isSuccessful()) {
+                    if (response.isSuccessful() || response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                         return runAsync(() -> db.getColumnDao().delete(column), db.getSequentialExecutor());
 
                     } else {
