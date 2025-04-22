@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -64,26 +65,28 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                 switch (dataType) {
                     case SELECTION -> Optional.of(fullColumn)
                             .map(FullColumn::getDefaultSelectionOptions)
-                            .map(selectionOptions -> {
-                                // TODO Use Reducer to transform selectionOptions to JsonArray
-                                final var jsonArray = new JsonArray();
-                                selectionOptions
-                                        .stream()
-                                        .map(SelectionOption::getRemoteId)
-                                        .forEach(jsonArray::add);
-                                return jsonArray;
-                            })
-                            .map(JsonElement::toString)
-                            .orElse(new JsonArray().toString());
-
-                    case SELECTION_MULTI -> Optional.of(fullColumn)
-                            .map(FullColumn::getDefaultSelectionOptions)
                             .map(List::stream)
                             .flatMap(Stream::findAny)
                             .map(SelectionOption::getRemoteId)
                             .map(JsonPrimitive::new)
                             .map(JsonElement::toString)
                             .orElse(null);
+
+                    case SELECTION_MULTI -> Optional.of(fullColumn)
+                            .map(FullColumn::getDefaultSelectionOptions)
+                            .map(selectionOptions -> {
+                                // TODO Use Reducer to transform selectionOptions to JsonArray
+                                final var jsonArray = new JsonArray();
+                                selectionOptions
+                                        .stream()
+                                        .map(SelectionOption::getRemoteId)
+                                        .filter(Objects::nonNull)
+                                        .map(String::valueOf)
+                                        .forEach(jsonArray::add);
+                                return jsonArray;
+                            })
+                            .map(JsonElement::toString)
+                            .orElse(new JsonArray().toString());
 
                     case SELECTION_CHECK -> Optional.of(column.getDefaultValue())
                             .map(Value::getBooleanValue)

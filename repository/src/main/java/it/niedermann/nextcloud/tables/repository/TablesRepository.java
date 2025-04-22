@@ -232,6 +232,17 @@ public class TablesRepository extends AbstractRepository {
                                         .peek(item -> item.setColumnId(column.getId()))
                                         .forEach(db.getSelectionOptionDao()::insert);
 
+                                final var defaultSelectionOptionIds = fullColumn.getDefaultSelectionOptions()
+                                        .stream()
+                                        .map(SelectionOption::getId)
+                                        .collect(toUnmodifiableSet());
+
+                                db.getDefaultValueSelectionOptionCrossRefDao().delete(column.getId(), defaultSelectionOptionIds);
+                                fullColumn.getDefaultSelectionOptions()
+                                        .stream()
+                                        .map(DefaultValueSelectionOptionCrossRef::from)
+                                        .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::upsert);
+
                             }), db.getSequentialExecutor());
 
                     default ->
