@@ -167,25 +167,21 @@ public class TablesRepository extends AbstractRepository {
         }, workExecutor)
                 .thenComposeAsync(v -> switch (column.getDataType()) {
 
-                    case SELECTION_MULTI -> completedFuture(fullColumn)
-                            .thenAcceptAsync(items -> {
-                                db.runInTransaction(() -> {
+                    case SELECTION, SELECTION_MULTI -> runAsync(() -> db.runInTransaction(() -> {
+                        final long insertedColumnId = db.getColumnDao().insert(column);
+                        column.setId(insertedColumnId);
 
-                                    final long insertedColumnId = db.getColumnDao().insert(column);
-                                    column.setId(insertedColumnId);
+                        fullColumn.getSelectionOptions()
+                                .stream()
+                                .peek(item -> item.setColumnId(column.getId()))
+                                .forEach(item -> item.setId(db.getSelectionOptionDao().insert(item)));
 
-                                    fullColumn.getSelectionOptions()
-                                            .stream()
-                                            .peek(item -> item.setColumnId(column.getId()))
-                                            .forEach(item -> item.setId(db.getSelectionOptionDao().insert(item)));
+                        fullColumn.getDefaultSelectionOptions()
+                                .stream()
+                                .map(DefaultValueSelectionOptionCrossRef::from)
+                                .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::insert);
 
-                                    fullColumn.getDefaultSelectionOptions()
-                                            .stream()
-                                            .map(DefaultValueSelectionOptionCrossRef::from)
-                                            .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::insert);
-
-                                });
-                            }, db.getSequentialExecutor());
+                    }), db.getSequentialExecutor());
 
                     default -> completedFuture(column)
                             .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
@@ -215,7 +211,7 @@ public class TablesRepository extends AbstractRepository {
         }, workExecutor)
                 .thenComposeAsync(v -> switch (column.getDataType()) {
 
-                    case SELECTION_MULTI -> analyzeSelectionOptions(fullColumn)
+                    case SELECTION, SELECTION_MULTI -> analyzeSelectionOptions(fullColumn)
                             .thenAcceptAsync(crudItems -> db.runInTransaction(() -> {
                                 db.getColumnDao().update(column);
 

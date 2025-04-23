@@ -13,6 +13,7 @@ import it.niedermann.nextcloud.tables.features.column.edit.factories.number.Numb
 import it.niedermann.nextcloud.tables.features.column.edit.factories.number.NumberStarsManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.selection.SelectionCheckManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.selection.SelectionMultiManagerFactory;
+import it.niedermann.nextcloud.tables.features.column.edit.factories.selection.SelectionSingleManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.text.TextLineManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.text.TextLinkManagerFactory;
 import it.niedermann.nextcloud.tables.features.column.edit.factories.text.TextRichManagerFactory;
@@ -38,10 +39,12 @@ public class ManageDataTypeServiceRegistry extends DataTypeServiceRegistry<Manag
             case DATETIME, DATETIME_TIME ->
                     cache.computeIfAbsent(dataType, t -> new DateTimeManagerFactory());
             case DATETIME_DATE -> cache.computeIfAbsent(dataType, t -> new DateManagerFactory());
-            case SELECTION, SELECTION_CHECK ->
-                    cache.computeIfAbsent(dataType, t -> new SelectionCheckManagerFactory());
+            case SELECTION ->
+                    cache.computeIfAbsent(dataType, t -> new SelectionSingleManagerFactory());
             case SELECTION_MULTI ->
                     cache.computeIfAbsent(dataType, t -> new SelectionMultiManagerFactory());
+            case SELECTION_CHECK ->
+                    cache.computeIfAbsent(dataType, t -> new SelectionCheckManagerFactory());
             case NUMBER -> cache.computeIfAbsent(dataType, t -> new NumberManagerFactory());
             case NUMBER_PROGRESS ->
                     cache.computeIfAbsent(dataType, t -> new NumberProgressManagerFactory());

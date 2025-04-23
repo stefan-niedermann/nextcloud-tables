@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/checkbox_container"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -12,22 +12,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="5"
         tools:listitem="@layout/item_manage_option_single" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_option"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_option" />
+        android:layout_marginTop="@dimen/spacer_1x"
+        android:orientation="horizontal">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/action_button"
-        style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="@dimen/spacer_1x"
-        android:visibility="visible"
-        tools:visibility="visible" />
+        <ImageButton
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/spacer_6x"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/clear_default"
+            android:paddingStart="@dimen/spacer_1hx"
+            android:paddingEnd="@dimen/spacer_2hx"
+            android:src="@drawable/baseline_clear_24"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_option"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="@string/add_option" />
+    </LinearLayout>
 </LinearLayout>

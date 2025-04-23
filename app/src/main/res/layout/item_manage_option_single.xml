@@ -25,6 +25,9 @@
             android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:labelFor="@id/checkbox"
+            android:maxLines="1"
             tools:text="@tools:sample/lorem" />
     </com.google.android.material.textfield.TextInputLayout>
 

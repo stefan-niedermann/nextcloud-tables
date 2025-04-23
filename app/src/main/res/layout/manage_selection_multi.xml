@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="5"
         tools:listitem="@layout/item_manage_option_multi" />
 
     <com.google.android.material.button.MaterialButton
@@ -19,5 +20,7 @@
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacer_6x"
+        android:layout_marginTop="@dimen/spacer_1x"
         android:text="@string/add_option" />
 </LinearLayout>

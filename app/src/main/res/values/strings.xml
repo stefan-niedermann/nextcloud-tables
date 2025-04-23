@@ -182,4 +182,5 @@
     <string name="simple_loading">Loading…</string>
     <string name="allowed_types">Allowed types</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Clear default</string>
 </resources>

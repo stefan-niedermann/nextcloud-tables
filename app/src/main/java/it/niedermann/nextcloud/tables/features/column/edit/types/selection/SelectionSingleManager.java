@@ -2,6 +2,7 @@ package it.niedermann.nextcloud.tables.features.column.edit.types.selection;
 
 import static java.util.Collections.max;
 import static java.util.Objects.requireNonNull;
+import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
@@ -24,39 +25,43 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.attributes.SelectionAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
-import it.niedermann.nextcloud.tables.databinding.ItemManageOptionMultiBinding;
-import it.niedermann.nextcloud.tables.databinding.ManageSelectionMultiBinding;
+import it.niedermann.nextcloud.tables.databinding.ItemManageOptionSingleBinding;
+import it.niedermann.nextcloud.tables.databinding.ManageSelectionSingleBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
 import it.niedermann.nextcloud.tables.features.row.editor.OnTextChangedListener;
 
-public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBinding> {
+public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingleBinding> {
 
     private OptionAdapter adapter;
 
-    public SelectionMultiManager(@NonNull Context context) {
+    public SelectionSingleManager(@NonNull Context context) {
         super(context);
     }
 
-    public SelectionMultiManager(@NonNull Context context,
-                                 @Nullable AttributeSet attrs) {
+    public SelectionSingleManager(@NonNull Context context,
+                                  @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SelectionMultiManager(@NonNull Context context,
-                                 @Nullable FragmentManager fragmentManager) {
-        super(context, ManageSelectionMultiBinding.inflate(LayoutInflater.from(context)), fragmentManager);
+    public SelectionSingleManager(@NonNull Context context,
+                                  @Nullable FragmentManager fragmentManager) {
+        super(context, ManageSelectionSingleBinding.inflate(LayoutInflater.from(context)), fragmentManager);
 
-        adapter = new OptionAdapter(isEnabled());
+        adapter = new OptionAdapter(isEnabled(), option -> binding.clear.setVisibility(option == null ? View.INVISIBLE : View.VISIBLE));
         binding.options.setAdapter(adapter);
         binding.addOption.setOnClickListener(v -> this.adapter.addSelectionOption(new SelectionOption()));
+        binding.clear.setOnClickListener(v -> {
+            adapter.setDefaultSelectionOption(null);
+            binding.clear.setVisibility(View.INVISIBLE);
+        });
     }
 
     @NonNull
@@ -88,7 +93,10 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
 
             final var maxRemoteId = new AtomicLong(usedRemoteIds.isEmpty() ? -1L : max(usedRemoteIds));
 
-            fullColumn.setDefaultSelectionOptions(adapter.getSelectionDefault());
+            fullColumn.setDefaultSelectionOptions(Optional
+                    .ofNullable(adapter.getSelectionDefault())
+                    .map(List::of)
+                    .orElseGet(Collections::emptyList));
             fullColumn.setSelectionOptions(adapter.getSelectionOptions());
             fullColumn.getSelectionOptions()
                     .stream()
@@ -107,13 +115,17 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
         final boolean createMode = isCreateMode();
 
         // Adds an artificial Selection Option in create mode
+
         adapter.setSelectionOptions(
                 createMode
                         ? List.of(new SelectionOption())
                         : fullColumn.getSelectionOptions(),
                 createMode
-                        ? Collections.emptyList()
-                        : fullColumn.getDefaultSelectionOptions()
+                        ? null
+                        : Optional.of(fullColumn.getDefaultSelectionOptions())
+                        .filter(not(Collection::isEmpty))
+                        .map(list -> list.get(0))
+                        .orElse(null)
         );
     }
 
@@ -121,6 +133,7 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
         adapter.setEnabled(enabled);
+        binding.clear.setEnabled(enabled);
     }
 
     @Nullable
@@ -142,7 +155,7 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
                 //noinspection unchecked
                 adapter.setSelectionOptions(
                         requireNonNull((ArrayList<SelectionOption>) bundle.getSerializable("selectionOptions")),
-                        requireNonNull((ArrayList<SelectionOption>) bundle.getSerializable("selectionDefault"))
+                        requireNonNull((SelectionOption) bundle.getSerializable("selectionDefault"))
                 );
             }
         }
@@ -151,18 +164,21 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
     private static class OptionAdapter extends RecyclerView.Adapter<OptionViewHolder> {
 
         private boolean enabled;
+        private final Consumer<SelectionOption> onDefaultOptionChanged;
 
-        private OptionAdapter(boolean enabled) {
+        private OptionAdapter(boolean enabled, @NonNull Consumer<SelectionOption> onDefaultOptionChanged) {
             this.enabled = enabled;
+            this.onDefaultOptionChanged = onDefaultOptionChanged;
         }
 
         private final ArrayList<SelectionOption> selectionOptions = new ArrayList<>();
-        private final ArrayList<SelectionOption> defaultOptions = new ArrayList<>();
+        @Nullable
+        private SelectionOption defaultOption = null;
 
         @NonNull
         @Override
         public OptionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new OptionViewHolder(ItemManageOptionMultiBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            return new OptionViewHolder(ItemManageOptionSingleBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
         }
 
         @Override
@@ -170,32 +186,30 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
             final var selectionOption = selectionOptions.get(position);
             holder.bind(
                     selectionOptions.get(position),
-                    (option, checked) -> {
-                        if (checked) {
-                            defaultOptions.add(option);
-                        } else {
-                            defaultOptions.remove(option);
-                        }
-                    },
+                    this::setDefaultSelectionOption,
                     option -> {
                         // TODO Implement warning that associated selections in rows will get deleted
                         selectionOptions.remove(option);
-                        defaultOptions.remove(option);
+                        defaultOption = null;
                         notifyItemRemoved(position);
                     },
-                    defaultOptions.contains(selectionOption),
+                    defaultOption == selectionOption,
                     enabled
             );
         }
 
         public void setSelectionOptions(
                 @NonNull Collection<SelectionOption> selectionOptions,
-                @NonNull Collection<SelectionOption> defaultOptions) {
+                @Nullable SelectionOption defaultOption) {
             this.selectionOptions.clear();
             this.selectionOptions.addAll(selectionOptions);
-            this.defaultOptions.clear();
-            this.defaultOptions.addAll(defaultOptions);
+            setDefaultSelectionOption(defaultOption);
+        }
+
+        public void setDefaultSelectionOption(@Nullable SelectionOption defaultOption) {
+            this.defaultOption = defaultOption;
             notifyDataSetChanged();
+            onDefaultOptionChanged.accept(defaultOption);
         }
 
         @NonNull
@@ -203,9 +217,9 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
             return selectionOptions;
         }
 
-        @NonNull
-        public ArrayList<SelectionOption> getSelectionDefault() {
-            return defaultOptions;
+        @Nullable
+        public SelectionOption getSelectionDefault() {
+            return defaultOption;
         }
 
         public void addSelectionOption(@NonNull SelectionOption selectionOption) {
@@ -226,15 +240,15 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
 
     private static class OptionViewHolder extends RecyclerView.ViewHolder {
 
-        private final ItemManageOptionMultiBinding binding;
+        private final ItemManageOptionSingleBinding binding;
 
-        public OptionViewHolder(@NonNull ItemManageOptionMultiBinding binding) {
+        public OptionViewHolder(@NonNull ItemManageOptionSingleBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(@NonNull SelectionOption selectionOption,
-                         @NonNull BiConsumer<SelectionOption, Boolean> onCheckedChange,
+                         @NonNull Consumer<SelectionOption> onCheck,
                          @NonNull Consumer<SelectionOption> onDelete,
                          boolean checked,
                          boolean enabled) {
@@ -242,10 +256,14 @@ public class SelectionMultiManager extends ColumnEditView<ManageSelectionMultiBi
             binding.label.addTextChangedListener((OnTextChangedListener) (content, i, i1, i2) -> selectionOption.setLabel(content.toString()));
 
             binding.checkbox.setChecked(checked);
-            binding.checkbox.setOnCheckedChangeListener((v, newCheckedState) -> onCheckedChange.accept(selectionOption, newCheckedState));
+            binding.checkbox.setOnCheckedChangeListener((v, newCheckedState) -> {
+                if (newCheckedState) {
+                    binding.getRoot().post(() -> onCheck.accept(selectionOption));
+                }
+            });
 
-            binding.delete.setOnClickListener(v -> onDelete.accept(selectionOption));
             binding.delete.setVisibility(enabled ? View.VISIBLE : View.GONE);
+            binding.delete.setOnClickListener(v -> onDelete.accept(selectionOption));
 
             Stream.of(
                     binding.checkbox,
