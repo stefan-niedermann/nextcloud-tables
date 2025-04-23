@@ -1,0 +1,87 @@
+<resources>
+    <string name="navigation_drawer_open">Navigatsiya tortmasini oching</string>
+    <string name="navigation_drawer_close">Navigatsiya tortmasini yoping</string>
+    <string name="action_settings">Sozlamalar</string>
+
+    <string name="simple_title">Sarlavha</string>
+    <string name="simple_exception">Istisno</string>
+    <string name="simple_save">Saqlash</string>
+    <string name="simple_close">Close</string>
+    <string name="simple_copy">Nusxalash</string>
+    <string name="simple_delete">Delete</string>
+    <string name="simple_settings">Sozlamalar</string>
+    <string name="simple_about">About</string>
+    <string name="simple_appearance">Tashqi ko\'rinish</string>
+    <string name="simple_description">Tavsif</string>
+    <string name="simple_type">Turi</string>
+    <string name="simple_label">Yorliq</string>
+
+    <string name="choose_account">Akkauntni tanlang</string>
+    <string name="app_logo">Ilova logotipi</string>
+    <string name="manage_accounts">Hisoblarni boshqarish</string>
+    <string name="add_account">Akkaunt qo\'shish</string>
+    <string name="edit_item"> %1$sni tahrirlash</string>
+    <string name="hint_error_appeared">Xatolik paydo bo\'ldi</string>
+
+    <string name="delete_item"> %1$s ni o\'chirish</string>
+    <string name="about">About</string>
+    <string name="about_version_title">Versiya</string>
+    <string name="about_version">Siz hozirda %1$s dan foydalanyapsiz</string>
+    <string name="about_maintainer_title">Ta\'minotchi</string>
+    <string name="about_developers_title">Dasturchilar</string>
+    <string name="about_translators_title">Tarjimonlar</string>
+    <string name="about_translators_transifex"> %1$s da NextCloud hamjamiyati</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Manba kodi</string>
+    <string name="about_source">Bu loyiha GitHub’da joylashgan: %1$s</string>
+    <string name="about_issues_title">Muammolar</string>
+    <string name="about_issues">Xatolar, takomillashtirish takliflari va funksiya soʻrovlari haqida GitHub muammo kuzatuvchisida xabar berishingiz mumkin: %1$s</string>
+    <string name="about_translate_title">Tarjima</string>
+    <string name="about_translate">Transifex’dagi Nextcloud jamoasiga qo‘shiling va bizga ushbu ilovani tarjima qilishda yordam bering: %1$s</string>
+    <string name="about_app_license_title">Ilova litsenziyasi</string>
+    <string name="about_app_license">Bu ilova GNU GENERAL PUBLIC LICENSE v3+ ostida litsenziyalangan.</string>
+    <string name="about_app_license_button">Litsenziyani ko\'rish</string>
+    <string name="about_icons_disclaimer_title">Belgilar</string>
+    <string name="about_icons_disclaimer_app_icon">Asl ikonka uchun %1$sga qarang.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Ushbu ilova tomonidan ishlatiladigan barcha boshqa piktogrammalar Google Inc. tomonidan ishlab chiqarilgan %1$s boʻlib, Apache 2.0 litsenziyasi ostida litsenziyalangan.</string>
+    <string name="about_icons_disclaimer_mdi">Materiallar dizayni piktogrammalari</string>
+    <string name="about_credits_tab_title">Kreditlar</string>
+    <string name="about_contribution_tab_title">Hissa</string>
+    <string name="about_license_tab_title">Litsenziya</string>
+    <string name="about_server_app_version_text">Server ilovasi versiyasi:</string>
+
+    <string name="error_dialog_title">Yo\'q - Endi nima? 🙁</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Iltimos, ilovani majburan yopishga urinib koʻring va uni qayta ishga tushiring. Nextcloud ilovasiga notoʻgʻri ulanish boʻlishi mumkin.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Ma\'lumotlar bazasini yangilash amalga oshmadi. Ilovadan normal foydalanish uchun muammo haqida xabar bering va xotirani tozalang.</string>
+    <string name="error_dialog_tip_clear_storage">Ilova maʼlumotlarini ochib, Xotira → Xotirani tozalash ni tanlash orqali xotirani tozalashingiz mumkin.</string>
+    <string name="error_dialog_tip_offline_no_internet">Siz sinxronizatsiyani internetga ulanmasdan ishga tushirishga uringanga o\'xshaysiz.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Ulanish rad etildi, serveringizga veb-brauzer orqali kirish mumkinligini tekshiring.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Ulanish vaqti tugadi, internetga ulanganligingizni tekshiring. Bu sizning serveringiz band bo\'lganda ham sodir bo\'lishi mumkin.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Agar siz \"Faqat Wi-Fi tarmog\'ida sinxronlash\" sozlamasini yoqqan bo\'lsangiz, siz faqat Wi-Fi tarmog\'iga ulanganingizda sinxronlashtirishingiz mumkin.</string>
+    <string name="error_dialog_tip_files_delete_storage">Agar ularni majburan to\'xtatish yordam bermasa, ikkala ilovaning xotirasini tozalashga urinib ko\'rishingiz mumkin.</string>
+    <string name="error_dialog_timeout_toggle">Tarmoq ulanishingizni tekshiring. Ba\'zan mobil ma\'lumot yoki Wi-Fi-ni o\'chirish va qayta yoqish yordam berishi mumkin.</string>
+    <string name="error_dialog_check_server_logs">Nextcloud sozlamalarida muammo bor. Iltimos, server jurnali fayllarini ko\'rib chiqing.</string>
+    <string name="error_dialog_check_maintenance">Iltimos, Nextcloud namunangiz hozirda texnik rejimda emasligini tekshiring.</string>
+    <string name="error_dialog_insufficient_storage">Nextcloud nusxangizda bepul xotira qolmaydi. Mahalliy oʻzgarishlarni bulutga sinxronlashtirish uchun baʼzi fayllarni oʻchirib tashlang.</string>
+    <string name="error_dialog_we_need_info">Sizga yordam berish uchun bizga quyidagi texnik ma\'lumotlar kerak:</string>
+    <string name="error_dialog_account_might_not_be_authorized">Nextcloud ilovangiz hisobiga endi ruxsat berilmasligi mumkin.</string>
+    <string name="error_dialog_user_not_found_in_database">Joriy foydalanuvchi bizning ma\'lumotlar bazamizdagi foydalanuvchiga mos kelmaydi. Agar siz Nextcloud misolingizda LDAP dan foydalanayotgan bo‘lsangiz, Nextcloud ilovangiz eski foydalanuvchi identifikatorini saqlagan bo‘lishi mumkin.</string>
+    <string name="error_dialog_capabilities_not_parsable">Serveringiz imkoniyatlarini ololmadik. Iltimos, serveringiz yaxshi ishlayotganiga va boshqa mijoz ilovalari Nextcloud-ga kira olishiga ishonch hosil qiling.</string>
+    <string name="error_dialog_attachment_upload_failed">Biriktirmani yuklab bo‘lmadi. Iltimos, uni boshqa usulda baham ko\'ring va bu xato haqida bizga xabar bering.</string>
+    <string name="error_dialog_certificate">Server sertifikatida nimadir noto\'g\'ri ko\'rinadi. Qo\'shimcha ma\'lumot uchun Nextcloud ilovasidagi barcha hisoblarni tekshiring.</string>
+    <string name="error_dialog_unknown_error">Sizning Nextcloud namunangizga etib bo\'lmaydiganga o\'xshaydi. Iltimos, internetga ulanishingizni va brauzer orqali instansiyangizga ulanishingiz mumkinligini tekshiring.</string>
+    <string name="error_action_open_app_info">Ilova ma\'lumotlarini oching</string>
+    <string name="error_action_open_nextcloud_app">NextCloud ilovasini oching</string>
+    <string name="error_action_open_network">Tarmoq sozlamalari</string>
+    <string name="error_action_server_logs">Server jurnallari</string>
+    <string name="error_action_open_in_browser">Brauzerda oching</string>
+    <string name="error_action_install">O\'rnatish</string>
+    <string name="error_action_report_issue">Hisobot</string>
+    <string name="error_action_update_files_app">Update</string>
+    <string name="error_action_open_battery_settings">Batareya sozlamalari</string>
+
+    <string name="last_background_sync">Oxirgi fon sinxronlash:</string>
+    <string name="simple_disabled">Oʻchirilgan</string>
+    <string name="simple_discard">Bekor qilish</string>
+    <string name="simple_loading">Loading…</string>
+</resources>
