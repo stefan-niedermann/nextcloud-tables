@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public interface Mapper<A, B> {
 
@@ -21,7 +20,7 @@ public interface Mapper<A, B> {
                 .stream()
                 .filter(Objects::nonNull)
                 .map(this::toDto)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 
     @NonNull
@@ -30,6 +29,6 @@ public interface Mapper<A, B> {
                 .stream()
                 .filter(Objects::nonNull)
                 .map(this::toEntity)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 }

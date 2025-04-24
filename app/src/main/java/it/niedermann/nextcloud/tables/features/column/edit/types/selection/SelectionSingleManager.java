@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.entity.attributes.SelectionAttributes;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
@@ -55,7 +56,7 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
                                   @Nullable FragmentManager fragmentManager) {
         super(context, ManageSelectionSingleBinding.inflate(LayoutInflater.from(context)), fragmentManager);
 
-        adapter = new OptionAdapter(isEnabled(), option -> binding.clear.setVisibility(option == null ? View.INVISIBLE : View.VISIBLE));
+        adapter = new OptionAdapter(isEnabled(), defaultOptionPosition -> binding.clear.setVisibility(defaultOptionPosition == null ? View.INVISIBLE : View.VISIBLE));
         binding.options.setAdapter(adapter);
         binding.addOption.setOnClickListener(v -> this.adapter.addSelectionOption(new SelectionOption()));
         binding.clear.setOnClickListener(v -> {
@@ -93,8 +94,7 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
 
             final var maxRemoteId = new AtomicLong(usedRemoteIds.isEmpty() ? -1L : max(usedRemoteIds));
 
-            fullColumn.setDefaultSelectionOptions(Optional
-                    .ofNullable(adapter.getSelectionDefault())
+            fullColumn.setDefaultSelectionOptions(adapter.getSelectionDefault()
                     .map(List::of)
                     .orElseGet(Collections::emptyList));
             fullColumn.setSelectionOptions(adapter.getSelectionOptions());
@@ -124,9 +124,23 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
                         ? null
                         : Optional.of(fullColumn.getDefaultSelectionOptions())
                         .filter(not(Collection::isEmpty))
-                        .map(list -> list.get(0))
+                        .flatMap(list -> list.stream().findAny())
+                        .flatMap(item -> findPositionById(fullColumn.getSelectionOptions(), item))
                         .orElse(null)
         );
+    }
+
+    @NonNull
+    private Optional<Integer> findPositionById(@NonNull List<? extends AbstractEntity> haystack,
+                                               @NonNull AbstractEntity needle) {
+
+        for (int position = 0; position < haystack.size(); position++) {
+            if (Objects.equals(needle.getId(), haystack.get(position).getId())) {
+                return Optional.of(position);
+            }
+        }
+
+        return Optional.empty();
     }
 
     @Override
@@ -141,7 +155,7 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
     protected Parcelable onSaveInstanceState() {
         final var parentState = super.onSaveInstanceState();
         final var args = new Bundle();
-        args.putSerializable("selectionDefault", adapter.getSelectionDefault());
+        Optional.ofNullable(adapter.getSelectionDefaultPosition()).ifPresent(def -> args.putInt("selectionDefault", def));
         args.putSerializable("selectionOptions", adapter.getSelectionOptions());
         return parentState;
     }
@@ -155,7 +169,7 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
                 //noinspection unchecked
                 adapter.setSelectionOptions(
                         requireNonNull((ArrayList<SelectionOption>) bundle.getSerializable("selectionOptions")),
-                        requireNonNull((SelectionOption) bundle.getSerializable("selectionDefault"))
+                        bundle.getInt("selectionDefault")
                 );
             }
         }
@@ -164,16 +178,17 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
     private static class OptionAdapter extends RecyclerView.Adapter<OptionViewHolder> {
 
         private boolean enabled;
-        private final Consumer<SelectionOption> onDefaultOptionChanged;
+        private final Consumer<Integer> onDefaultOptionPositionChanged;
 
-        private OptionAdapter(boolean enabled, @NonNull Consumer<SelectionOption> onDefaultOptionChanged) {
+        private OptionAdapter(boolean enabled,
+                              @NonNull Consumer<Integer> onDefaultOptionPositionChanged) {
             this.enabled = enabled;
-            this.onDefaultOptionChanged = onDefaultOptionChanged;
+            this.onDefaultOptionPositionChanged = onDefaultOptionPositionChanged;
         }
 
         private final ArrayList<SelectionOption> selectionOptions = new ArrayList<>();
         @Nullable
-        private SelectionOption defaultOption = null;
+        private Integer defaultOptionPosition = null;
 
         @NonNull
         @Override
@@ -185,31 +200,32 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
         public void onBindViewHolder(@NonNull OptionViewHolder holder, int position) {
             final var selectionOption = selectionOptions.get(position);
             holder.bind(
-                    selectionOptions.get(position),
+                    position,
+                    selectionOption,
                     this::setDefaultSelectionOption,
                     option -> {
                         // TODO Implement warning that associated selections in rows will get deleted
-                        selectionOptions.remove(option);
-                        defaultOption = null;
+                        selectionOptions.remove(position);
+                        defaultOptionPosition = null;
                         notifyItemRemoved(position);
                     },
-                    defaultOption == selectionOption,
+                    defaultOptionPosition != null && defaultOptionPosition == position,
                     enabled
             );
         }
 
         public void setSelectionOptions(
-                @NonNull Collection<SelectionOption> selectionOptions,
-                @Nullable SelectionOption defaultOption) {
+                @NonNull List<SelectionOption> selectionOptions,
+                @Nullable Integer defaultOptionPosition) {
             this.selectionOptions.clear();
             this.selectionOptions.addAll(selectionOptions);
-            setDefaultSelectionOption(defaultOption);
+            setDefaultSelectionOption(defaultOptionPosition);
         }
 
-        public void setDefaultSelectionOption(@Nullable SelectionOption defaultOption) {
-            this.defaultOption = defaultOption;
+        public void setDefaultSelectionOption(@Nullable Integer defaultOptionPosition) {
+            this.defaultOptionPosition = defaultOptionPosition;
             notifyDataSetChanged();
-            onDefaultOptionChanged.accept(defaultOption);
+            onDefaultOptionPositionChanged.accept(this.defaultOptionPosition);
         }
 
         @NonNull
@@ -217,9 +233,18 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
             return selectionOptions;
         }
 
+        @NonNull
+        public Optional<SelectionOption> getSelectionDefault() {
+            if (defaultOptionPosition == null) {
+                return Optional.empty();
+            }
+
+            return Optional.of(selectionOptions.get(defaultOptionPosition));
+        }
+
         @Nullable
-        public SelectionOption getSelectionDefault() {
-            return defaultOption;
+        public Integer getSelectionDefaultPosition() {
+            return defaultOptionPosition;
         }
 
         public void addSelectionOption(@NonNull SelectionOption selectionOption) {
@@ -247,8 +272,9 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
             this.binding = binding;
         }
 
-        public void bind(@NonNull SelectionOption selectionOption,
-                         @NonNull Consumer<SelectionOption> onCheck,
+        public void bind(int position,
+                         @NonNull SelectionOption selectionOption,
+                         @NonNull Consumer<Integer> onCheck,
                          @NonNull Consumer<SelectionOption> onDelete,
                          boolean checked,
                          boolean enabled) {
@@ -258,7 +284,7 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
             binding.checkbox.setChecked(checked);
             binding.checkbox.setOnCheckedChangeListener((v, newCheckedState) -> {
                 if (newCheckedState) {
-                    binding.getRoot().post(() -> onCheck.accept(selectionOption));
+                    binding.getRoot().post(() -> onCheck.accept(position));
                 }
             });
 

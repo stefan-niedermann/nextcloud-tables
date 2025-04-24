@@ -5,7 +5,9 @@ import static java.util.function.Predicate.not;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 import java.util.Collection;
@@ -13,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
@@ -108,7 +109,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                 .orElse(Collections.emptyList())
                 .stream()
                 .filter(userGroup -> userGroup.getType() != EUserGroupType.UNKNOWN)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 
     @NonNull
@@ -149,21 +150,44 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
 
         final var defaultValue = new Value();
         switch (column.getDataType()) {
-            case NUMBER, NUMBER_PROGRESS, NUMBER_STARS ->
-                    defaultValue.setDoubleValue(dto.numberDefault());
-            case SELECTION_CHECK -> defaultValue.setBooleanValue(Optional
-                    .ofNullable(dto.selectionDefault())
-                    .map(jsonElement -> jsonElement.isJsonNull() ? null : jsonElement.getAsBoolean())
-                    .orElse(false));
-            case USERGROUP -> {
-                final var defaultUserGroups = userGroupMapper.toEntityList(Optional.ofNullable(dto.usergroupDefault()).orElse(Collections.emptyList()));
-                entity.setDefaultUserGroups(defaultUserGroups);
-            }
-            case SELECTION_MULTI, SELECTION -> {
-                final var defaultSelectionOptions = selectionDefaultMapper.toEntity(Optional.ofNullable(dto.selectionDefault()).orElse(JsonNull.INSTANCE));
-                entity.setDefaultSelectionOptions(defaultSelectionOptions);
-            }
-            default -> defaultValue.setStringValue(dto.textDefault());
+
+            case NUMBER, NUMBER_PROGRESS, NUMBER_STARS -> Optional.ofNullable(dto.numberDefault())
+                    .ifPresent(defaultValue::setDoubleValue);
+
+            case SELECTION_MULTI -> Optional.ofNullable(dto.selectionDefault())
+                    .filter(JsonElement::isJsonPrimitive)
+                    .map(JsonPrimitive.class::cast)
+                    .filter(JsonPrimitive::isString)
+                    .map(JsonPrimitive::getAsString)
+                    .map(JsonParser::parseString)
+                    .map(selectionDefaultMapper::selectionMultiToEntity)
+                    .map(Collection::stream)
+                    .map(stream -> stream
+                            .map(remoteId -> new SelectionOption(remoteId, null))
+                            .toList())
+                    .ifPresent(entity::setDefaultSelectionOptions);
+
+            case SELECTION -> Optional.ofNullable(dto.selectionDefault())
+                    .filter(JsonElement::isJsonPrimitive)
+                    .map(JsonPrimitive.class::cast)
+                    .filter(JsonPrimitive::isString)
+                    .map(JsonPrimitive::getAsString)
+                    .map(JsonParser::parseString)
+                    .map(selectionDefaultMapper::selectionSingleToEntity)
+                    .map(remoteId -> new SelectionOption(remoteId, null))
+                    .map(Collections::singletonList)
+                    .ifPresent(entity::setDefaultSelectionOptions);
+
+            case SELECTION_CHECK -> Optional.ofNullable(dto.selectionDefault())
+                    .map(selectionDefaultMapper::selectionCheckToEntity)
+                    .ifPresent(defaultValue::setBooleanValue);
+
+            case USERGROUP -> Optional.ofNullable(dto.usergroupDefault())
+                    .map(userGroupMapper::toEntityList)
+                    .ifPresent(entity::setDefaultUserGroups);
+
+            default -> Optional.ofNullable(dto.textDefault())
+                    .ifPresent(defaultValue::setStringValue);
         }
         column.setDefaultValue(defaultValue);
 

@@ -220,25 +220,28 @@ public class TablesRepository extends AbstractRepository {
 
                                 crudItems.toUpdate()
                                         .stream()
-                                        .peek(item -> item.setColumnId(column.getId()))
+                                        .peek(selectionOption -> selectionOption.setColumnId(column.getId()))
                                         .forEach(db.getSelectionOptionDao()::update);
 
                                 crudItems.toInsert()
                                         .stream()
-                                        .peek(item -> item.setColumnId(column.getId()))
-                                        .forEach(db.getSelectionOptionDao()::insert);
+                                        .peek(selectionOption -> selectionOption.setColumnId(column.getId()))
+                                        .forEach(selectionOption -> {
+                                            final long selectionOptionId = db.getSelectionOptionDao().insert(selectionOption);
+                                            selectionOption.setId(selectionOptionId);
+                                        });
 
-                                final var defaultSelectionOptionIds = fullColumn.getDefaultSelectionOptions()
+                                final var targetDefaultSelectionOptionIds = fullColumn.getDefaultSelectionOptions()
                                         .stream()
                                         .map(SelectionOption::getId)
+                                        .filter(Objects::nonNull)
                                         .collect(toUnmodifiableSet());
 
-                                db.getDefaultValueSelectionOptionCrossRefDao().delete(column.getId(), defaultSelectionOptionIds);
+                                db.getDefaultValueSelectionOptionCrossRefDao().deleteExcept(column.getId(), targetDefaultSelectionOptionIds);
                                 fullColumn.getDefaultSelectionOptions()
                                         .stream()
                                         .map(DefaultValueSelectionOptionCrossRef::from)
                                         .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::upsert);
-
                             }), db.getSequentialExecutor());
 
                     default ->

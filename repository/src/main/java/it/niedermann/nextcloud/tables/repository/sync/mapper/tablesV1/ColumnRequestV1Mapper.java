@@ -70,7 +70,7 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                             .map(SelectionOption::getRemoteId)
                             .map(JsonPrimitive::new)
                             .map(JsonElement::toString)
-                            .orElse(null);
+                            .orElse("");
 
                     case SELECTION_MULTI -> Optional.of(fullColumn)
                             .map(FullColumn::getDefaultSelectionOptions)
@@ -86,7 +86,7 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                                 return jsonArray;
                             })
                             .map(JsonElement::toString)
-                            .orElse(new JsonArray().toString());
+                            .orElseGet(() -> new JsonArray().toString());
 
                     case SELECTION_CHECK -> Optional.of(column.getDefaultValue())
                             .map(Value::getBooleanValue)

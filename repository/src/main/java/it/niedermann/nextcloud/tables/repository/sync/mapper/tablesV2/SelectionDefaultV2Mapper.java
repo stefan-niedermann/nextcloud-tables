@@ -1,21 +1,22 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
 
-public class SelectionDefaultV2Mapper implements Mapper<JsonElement, List<SelectionOption>> {
+public class SelectionDefaultV2Mapper {
 
     @NonNull
     public JsonElement toDto(@NonNull EDataType dataType,
@@ -33,7 +34,6 @@ public class SelectionDefaultV2Mapper implements Mapper<JsonElement, List<Select
     }
 
     @NonNull
-    @Override
     public JsonElement toDto(@NonNull List<SelectionOption> entity) {
         if (entity.isEmpty()) {
             return JsonNull.INSTANCE;
@@ -57,26 +57,37 @@ public class SelectionDefaultV2Mapper implements Mapper<JsonElement, List<Select
     }
 
     @NonNull
-    @Override
-    public List<SelectionOption> toEntity(@NonNull JsonElement dto) {
-        if (dto.isJsonNull()) {
-            return Collections.emptyList();
-        }
+    public List<Long> selectionMultiToEntity(@Nullable JsonElement dto) {
+        return Optional.ofNullable(dto)
+                .filter(JsonElement::isJsonArray)
+                .map(JsonArray.class::cast)
+                .map(JsonArray::asList)
+                .map(Collection::stream)
+                .map(stream -> stream
+                        .filter(JsonElement::isJsonPrimitive)
+                        .map(JsonElement::getAsJsonPrimitive)
+                        .filter(JsonPrimitive::isString)
+                        .map(JsonPrimitive::getAsLong)
+                        .toList())
+                .orElseGet(Collections::emptyList);
+    }
 
-        if (dto.isJsonObject()) {
-            final var obj = dto.getAsJsonObject();
-            if (obj.has("id") && obj.has("label")) {
-                return List.of(new SelectionOption());
-            }
-        } else if (dto.isJsonArray()) {
-            return dto.getAsJsonArray()
-                    .asList()
-                    .stream()
-                    .map(this::toEntity)
-                    .flatMap(List::stream)
-                    .collect(Collectors.toUnmodifiableList());
-        }
+    @Nullable
+    public Long selectionSingleToEntity(@Nullable JsonElement dto) {
+        return Optional.ofNullable(dto)
+                .filter(JsonElement::isJsonPrimitive)
+                .map(JsonPrimitive.class::cast)
+                .filter(JsonPrimitive::isNumber)
+                .map(JsonPrimitive::getAsLong)
+                .orElse(null);
+    }
 
-        return Collections.emptyList();
+    public boolean selectionCheckToEntity(@Nullable JsonElement dto) {
+        return Optional.ofNullable(dto)
+                .filter(JsonElement::isJsonPrimitive)
+                .map(JsonPrimitive.class::cast)
+                .filter(JsonPrimitive::isString)
+                .map(JsonPrimitive::getAsBoolean)
+                .orElse(false);
     }
 }

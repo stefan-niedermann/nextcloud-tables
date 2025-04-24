@@ -23,12 +23,19 @@ public interface DefaultValueSelectionOptionCrossRefDao {
     long upsert(DefaultValueSelectionOptionCrossRef entity);
 
     @Delete
-    void delete(DefaultValueSelectionOptionCrossRef... entity);
+    void deleteExcept(DefaultValueSelectionOptionCrossRef... entity);
+
+    @Query("""
+            DELETE FROM DefaultValueSelectionOptionCrossRef
+            WHERE columnId = :columnId
+            AND selectionOptionId IN (:selectionOptionIds)
+            """)
+    void delete(long columnId, Collection<Long> selectionOptionIds);
 
     @Query("""
             DELETE FROM DefaultValueSelectionOptionCrossRef
             WHERE columnId = :columnId
             AND selectionOptionId NOT IN (:selectionOptionIds)
             """)
-    void delete(long columnId, Collection<Long> selectionOptionIds);
+    void deleteExcept(long columnId, Collection<Long> selectionOptionIds);
 }
