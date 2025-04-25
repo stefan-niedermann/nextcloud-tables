@@ -7,6 +7,7 @@ import java.util.Optional;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellProgressBinding;
@@ -25,7 +26,7 @@ public class ProgressCellViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull Column column) {
+    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull FullColumn fullColumn) {
         final var min = TablesV2API.ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE.getLower();
         final var max = TablesV2API.ASSUMED_COLUMN_NUMBER_PROGRESS_DEFAULT_MAX_VALUE.getUpper();
         final var value = Optional
@@ -33,7 +34,8 @@ public class ProgressCellViewHolder extends CellViewHolder {
                 .map(Data::getValue)
                 .map(Value::getDoubleValue)
                 .map(Double::intValue)
-                .orElseGet(() -> Optional.of(column)
+                .orElseGet(() -> Optional.of(fullColumn)
+                        .map(FullColumn::getColumn)
                         .map(Column::getDefaultValue)
                         .map(Value::getDoubleValue)
                         .map(Double::intValue)

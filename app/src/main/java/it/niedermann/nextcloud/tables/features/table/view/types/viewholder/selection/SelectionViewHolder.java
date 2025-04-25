@@ -1,17 +1,19 @@
 package it.niedermann.nextcloud.tables.features.table.view.types.viewholder.selection;
 
+import static java.util.function.Predicate.not;
+
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
 import it.niedermann.nextcloud.tables.features.table.view.types.CellViewHolder;
@@ -27,9 +29,10 @@ public class SelectionViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull Account account, @NonNull FullData fullData,
-                     @NonNull Column column) {
-        binding.data.setText(formatValue(fullData, column));
+    public void bind(@NonNull Account account,
+                     @NonNull FullData fullData,
+                     @NonNull FullColumn fullColumn) {
+        binding.data.setText(formatValue(fullData, fullColumn));
 
         binding.data.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
         binding.data.requestLayout();
@@ -39,10 +42,12 @@ public class SelectionViewHolder extends CellViewHolder {
     }
 
     protected String formatValue(@NonNull FullData fullData,
-                                 @NonNull Column column) {
+                                 @NonNull FullColumn fullColumn) {
         return Optional
                 .of(fullData.getSelectionOptions())
-                .map(List::stream)
+                .filter(not(Collection::isEmpty))
+                .or(() -> Optional.of(fullColumn.getDefaultSelectionOptions()))
+                .map(Collection::stream)
                 .flatMap(Stream::findAny)
                 .map(SelectionOption::getLabel)
                 .orElse(null);
