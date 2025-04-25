@@ -4,7 +4,6 @@
 
 ## ⛔ Limitations
 
-- Table emoji can not be changed
 - Managing columns is not yet possible
 - Validations are not enforced
 - Sorting & Filtering is not yet possible

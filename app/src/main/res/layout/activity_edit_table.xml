@@ -29,28 +29,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emojiWrapper"
-                android:layout_width="wrap_content"
+            <androidx.emoji2.widget.EmojiButton
+                android:id="@+id/emoji"
+                android:layout_width="@dimen/spacer_6x"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/spacer_2x"
-                android:layout_marginEnd="@dimen/spacer_1x"
-                android:hint="@string/simple_emoji"
+                android:layout_marginEnd="@dimen/spacer_1hx"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:gravity="center"
+                android:padding="@null"
+                android:text="🙂"
+                android:textSize="@dimen/spacer_3x"
                 app:layout_constraintBottom_toBottomOf="@id/titleWrapper"
                 app:layout_constraintEnd_toStartOf="@id/titleWrapper"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/titleWrapper">
-
-                <androidx.emoji2.widget.EmojiEditText
-                    android:id="@+id/emoji"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:enabled="false"
-                    android:gravity="center"
-                    android:maxLength="2"
-                    android:text="🙂"
-                    tools:ignore="HardcodedText" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toTopOf="@id/titleWrapper"
+                tools:ignore="HardcodedText,SpUsage" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/titleWrapper"
@@ -61,7 +55,7 @@
                 android:layout_marginEnd="@dimen/spacer_2x"
                 android:hint="@string/simple_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/emojiWrapper"
+                app:layout_constraintStart_toEndOf="@id/emoji"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -79,7 +73,7 @@
                 android:hint="@string/simple_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emojiWrapper">
+                app:layout_constraintTop_toBottomOf="@id/emoji">
 
                 <it.niedermann.android.markdown.MarkdownEditorImpl
                     android:id="@+id/description"

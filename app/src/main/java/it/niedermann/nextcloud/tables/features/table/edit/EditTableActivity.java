@@ -3,6 +3,7 @@ package it.niedermann.nextcloud.tables.features.table.edit;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.emoji2.emojipicker.EmojiViewItem;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,9 +26,11 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditTableBinding;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
+import it.niedermann.nextcloud.tables.ui.emojipicker.EmojiPickerBottomSheet;
 
-public class EditTableActivity extends AppCompatActivity {
+public class EditTableActivity extends AppCompatActivity implements EmojiPickerBottomSheet.EmojiPickerListener {
 
+    private static final String TAG = EditTableActivity.class.getSimpleName();
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_TABLE = "table";
     @Nullable
@@ -81,10 +85,23 @@ public class EditTableActivity extends AppCompatActivity {
 
         editTableViewModel = new ViewModelProvider(this).get(EditTableViewModel.class);
 
+        binding.emoji.setOnClickListener(v -> {
+            new EmojiPickerBottomSheet().show(getSupportFragmentManager(), EmojiPickerBottomSheet.class.getSimpleName());
+        });
+
         binding.toolbar.setTitle(table == null
                 ? getString(R.string.add_table)
                 : getString(R.string.edit_item, table.getTitleWithEmoji())
         );
+    }
+
+    @Override
+    public void onEmojiPicked(@NonNull EmojiViewItem emojiViewItem) {
+        if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            binding.emoji.setText(emojiViewItem.getEmoji());
+        } else {
+            Log.w(TAG, "Got response from " + EmojiPickerBottomSheet.class.getSimpleName() + " but " + EditTableActivity.class.getSimpleName() + " is no longer " + Lifecycle.State.STARTED.name());
+        }
     }
 
     @Override
