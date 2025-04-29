@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud jadvallari</string>
     <string name="navigation_drawer_open">Navigatsiya tortmasini oching</string>
     <string name="navigation_drawer_close">Navigatsiya tortmasini yoping</string>
     <string name="action_settings">Sozlamalar</string>
@@ -6,25 +7,54 @@
     <string name="simple_title">Sarlavha</string>
     <string name="simple_exception">Istisno</string>
     <string name="simple_save">Saqlash</string>
-    <string name="simple_close">Close</string>
+    <string name="simple_close">Yopish</string>
     <string name="simple_copy">Nusxalash</string>
-    <string name="simple_delete">Delete</string>
+    <string name="simple_delete">O\'chirish</string>
     <string name="simple_settings">Sozlamalar</string>
-    <string name="simple_about">About</string>
+    <string name="simple_about">Haqida</string>
+    <string name="simple_synchronization">Synchronisatsiya</string>
     <string name="simple_appearance">Tashqi ko\'rinish</string>
+    <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">Majburiy</string>
     <string name="simple_description">Tavsif</string>
     <string name="simple_type">Turi</string>
+    <string name="simple_subtype">Pastki turi</string>
+    <string name="simple_default_value">Standart qiymat</string>
+    <string name="simple_max_length">Maksimal uzunlik</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">O\'nlik kasrlar</string>
+    <string name="simple_prefix">Prefiks</string>
+    <string name="simple_suffix">Suffiks</string>
     <string name="simple_label">Yorliq</string>
 
+    <string name="add_table">Jadval qo\'shing</string>
+    <string name="add_row">Qator qo\'shing</string>
+    <string name="duplicate_row">Qatorni nusxalash</string>
+    <string name="edit_row">Qatorni tahrirlash</string>
+    <string name="manage_columns">Ustunlarni boshqarish</string>
+    <string name="edit_column">Ustunni tahrirlash</string>
+    <string name="delete_column">Ustunni o\'chirish</string>
+    <string name="preferences">Afzalliklar</string>
+    <string name="import_account">Akkauntni import qilish</string>
     <string name="choose_account">Akkauntni tanlang</string>
     <string name="app_logo">Ilova logotipi</string>
+    <string name="app_name_short">Jadvallar</string>
     <string name="manage_accounts">Hisoblarni boshqarish</string>
     <string name="add_account">Akkaunt qo\'shish</string>
+    <string name="edit_table">Jadvalni tahrirlash</string>
     <string name="edit_item"> %1$sni tahrirlash</string>
+    <string name="share_table">Jadvalni ulashish</string>
+    <string name="not_implemented">Ushbu funktsiya hali amalga oshirilmagan</string>
+    <string name="delete_table">Jadvalni o\'chirish</string>
     <string name="hint_error_appeared">Xatolik paydo bo\'ldi</string>
 
     <string name="delete_item"> %1$s ni o\'chirish</string>
-    <string name="about">About</string>
+    <string name="delete_item_message"> %1$sbutunlay oʻchirib tashlanadi.</string>
+    <string name="delete_row">Qatorni o\'chirish</string>
+    <string name="delete_row_message">Ushbu qator butunlay oʻchirib tashlanadi.</string>
+
+    <string name="about">Haqida</string>
     <string name="about_version_title">Versiya</string>
     <string name="about_version">Siz hozirda %1$s dan foydalanyapsiz</string>
     <string name="about_maintainer_title">Ta\'minotchi</string>
@@ -52,24 +82,33 @@
 
     <string name="error_dialog_title">Yo\'q - Endi nima? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Iltimos, ilovani majburan yopishga urinib koʻring va uni qayta ishga tushiring. Nextcloud ilovasiga notoʻgʻri ulanish boʻlishi mumkin.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Muammo davom etsa, ushbu muammoni hal qilish uchun ikkala ilovaning xotirasini tozalashga harakat qiling: Nextcloud va Nextcloud jadvallari.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ma\'lumotlar bazasini yangilash amalga oshmadi. Ilovadan normal foydalanish uchun muammo haqida xabar bering va xotirani tozalang.</string>
     <string name="error_dialog_tip_clear_storage">Ilova maʼlumotlarini ochib, Xotira → Xotirani tozalash ni tanlash orqali xotirani tozalashingiz mumkin.</string>
     <string name="error_dialog_tip_offline_no_internet">Siz sinxronizatsiyani internetga ulanmasdan ishga tushirishga uringanga o\'xshaysiz.</string>
     <string name="error_dialog_tip_offline_connection_refused">Ulanish rad etildi, serveringizga veb-brauzer orqali kirish mumkinligini tekshiring.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Ulanish vaqti tugadi, internetga ulanganligingizni tekshiring. Bu sizning serveringiz band bo\'lganda ham sodir bo\'lishi mumkin.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Agar siz \"Faqat Wi-Fi tarmog\'ida sinxronlash\" sozlamasini yoqqan bo\'lsangiz, siz faqat Wi-Fi tarmog\'iga ulanganingizda sinxronlashtirishingiz mumkin.</string>
+    <string name="error_dialog_tip_files_force_stop">Nextcloud ilovangizda nimadir noto‘g‘ri ko‘rinadi. Iltimos, ikkalasini ham, Nextcloud ilovasini va Nextcloud Tables ilovasini majburan toʻxtatishga harakat qiling.</string>
     <string name="error_dialog_tip_files_delete_storage">Agar ularni majburan to\'xtatish yordam bermasa, ikkala ilovaning xotirasini tozalashga urinib ko\'rishingiz mumkin.</string>
+    <string name="error_dialog_timeout_instance">Berilgan vaqt ichida serveringizdan javob bo‘lmadi. Iltimos, namunangiz yaxshi ishlayotganiga ishonch hosil qiling.</string>
     <string name="error_dialog_timeout_toggle">Tarmoq ulanishingizni tekshiring. Ba\'zan mobil ma\'lumot yoki Wi-Fi-ni o\'chirish va qayta yoqish yordam berishi mumkin.</string>
+    <string name="error_dialog_check_server">Serveringizning javobi noto\'g\'ri. Iltimos, veb-interfeys orqali Jadvallar ilovasiga kirishingiz mumkinligini tekshiring.</string>
     <string name="error_dialog_check_server_logs">Nextcloud sozlamalarida muammo bor. Iltimos, server jurnali fayllarini ko\'rib chiqing.</string>
     <string name="error_dialog_check_maintenance">Iltimos, Nextcloud namunangiz hozirda texnik rejimda emasligini tekshiring.</string>
     <string name="error_dialog_insufficient_storage">Nextcloud nusxangizda bepul xotira qolmaydi. Mahalliy oʻzgarishlarni bulutga sinxronlashtirish uchun baʼzi fayllarni oʻchirib tashlang.</string>
     <string name="error_dialog_we_need_info">Sizga yordam berish uchun bizga quyidagi texnik ma\'lumotlar kerak:</string>
+    <string name="error_dialog_redirect">Serveringiz HTTP 302 holat kodi bilan javob berdi, bu sizning serveringizda Jadvallar ilovasini oʻrnatmaganingizni yoki biror narsa notoʻgʻri sozlanganligini bildiradi. Bunga .htaccess faylidagi maxsus bekor qilinganlar yoki OID Client kabi Nextcloud ilovalari sabab bo\'lishi mumkin.</string>
+    <string name="error_dialog_forbidden">Ruxsatlaringiz yetarli emas. Sizga ulashilgan va yaqinda o\'zgartirilgan jadvallarni tekshiring.</string>
+    <string name="error_dialog_version_not_parsable">Server tomonidagi Tables ilovasining versiyasini aniqlay olmadik. Iltimos, u o\'rnatilgan va yoqilganligiga ishonch hosil qiling.</string>
     <string name="error_dialog_account_might_not_be_authorized">Nextcloud ilovangiz hisobiga endi ruxsat berilmasligi mumkin.</string>
     <string name="error_dialog_user_not_found_in_database">Joriy foydalanuvchi bizning ma\'lumotlar bazamizdagi foydalanuvchiga mos kelmaydi. Agar siz Nextcloud misolingizda LDAP dan foydalanayotgan bo‘lsangiz, Nextcloud ilovangiz eski foydalanuvchi identifikatorini saqlagan bo‘lishi mumkin.</string>
     <string name="error_dialog_capabilities_not_parsable">Serveringiz imkoniyatlarini ololmadik. Iltimos, serveringiz yaxshi ishlayotganiga va boshqa mijoz ilovalari Nextcloud-ga kira olishiga ishonch hosil qiling.</string>
     <string name="error_dialog_attachment_upload_failed">Biriktirmani yuklab bo‘lmadi. Iltimos, uni boshqa usulda baham ko\'ring va bu xato haqida bizga xabar bering.</string>
     <string name="error_dialog_certificate">Server sertifikatida nimadir noto\'g\'ri ko\'rinadi. Qo\'shimcha ma\'lumot uchun Nextcloud ilovasidagi barcha hisoblarni tekshiring.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Nextcloud va Jadvallar ilovasi uchun batareya quvvatini optimallashtirishni o‘chirib qo‘ying.</string>
     <string name="error_dialog_unknown_error">Sizning Nextcloud namunangizga etib bo\'lmaydiganga o\'xshaydi. Iltimos, internetga ulanishingizni va brauzer orqali instansiyangizga ulanishingiz mumkinligini tekshiring.</string>
+    <string name="error_dialog_min_version">Tables Android ilovasi Nextcloud Android ilovasining kamida 3.18 versiyasi boʻlishini talab qiladi.</string>
     <string name="error_action_open_app_info">Ilova ma\'lumotlarini oching</string>
     <string name="error_action_open_nextcloud_app">NextCloud ilovasini oching</string>
     <string name="error_action_open_network">Tarmoq sozlamalari</string>
@@ -77,11 +116,54 @@
     <string name="error_action_open_in_browser">Brauzerda oching</string>
     <string name="error_action_install">O\'rnatish</string>
     <string name="error_action_report_issue">Hisobot</string>
-    <string name="error_action_update_files_app">Update</string>
+    <string name="error_action_update_files_app">Yangilash</string>
     <string name="error_action_open_battery_settings">Batareya sozlamalari</string>
 
+    <string name="welcome_text">Nextcloud jadvallariga xush kelibsiz</string>
+    <string name="importing_account"> %1$sakkauntlari hisobi import qilinmoqda</string>
+    <string name="account_already_imported">Akkaunt allaqachon import qilingan</string>
+    <string name="import_state_import_account">Akkaunt import qilinmoqda</string>
+    <string name="import_state_import_tables">Jadvallarni import qilish. Bu bir necha daqiqa vaqt olishi mumkin.</string>
+    <string name="not_yet_synchronized">Hali sinxronlashtirilmagan</string>
+
+    <string name="validation_number_not_parsable">Qiymat raqam emasga o\'xshaydi</string>
+    <string name="validation_number_range">Qiymat %1$s va %2$sorasida boʻlishi kerak</string>
+    <string name="validation_number_min">Qiymat kamida %1$s bo‘lishi kerak</string>
+    <string name="validation_number_max">Qiymat ko‘pi bilan %1$sbo‘lishi kerak</string>
+    <string name="validation_mandatory">Bu majburiy maydon</string>
+    <string name="validation_time_missing">DateTime maydoni uchun vaqt ko\'rsatilishi kerak.</string>
+
+    <string name="missing_permission_read">Oʻqishga ruxsat yoʻq</string>
+    <string name="missing_permission_create">Yaratish uchun ruxsat etishmayapti</string>
+    <string name="missing_permission_update">Yangilash uchun ruxsat etishmayapti</string>
+    <string name="missing_permission_delete">Oʻchirishga ruxsat yoʻq</string>
+    <string name="missing_permission_manage">Boshqaruv ruxsati yetishmayapti</string>
+
+    <string name="order_weight">Buyurtma hajmi</string>
+    <string name="add_column">Ustun qo\'shish</string>
+    <string name="navigation_my_tables">Mening stollarim</string>
+    <string name="navigation_shared_tables">Ulashilgan jadvallar</string>
+    <string name="could_not_display_column_editor">%1$s ko‘rsatilmadi.</string>
+    <string name="choose_table_from_the_sidebar">Yon paneldan jadvalni tanlang</string>
     <string name="last_background_sync">Oxirgi fon sinxronlash:</string>
     <string name="simple_disabled">Oʻchirilgan</string>
+    <string name="manage_columns_subtitle">Qayta tartiblash uchun torting va tushiring</string>
+    <string name="text_allowed_pattern">Ruxsat berilgan naqsh</string>
+    <string name="use_now_as_default">Endi standart sifatida foydalaning</string>
+    <string name="use_today_as_default">Bugundan standart sifatida foydalaning</string>
+    <string name="add_option">Variant qo\'shish</string>
+    <string name="delete_option">O\'chirish opsiyasi</string>
+    <string name="experimental_feature_column_reordering">Ustunlarni qayta tartiblash eksperimental xususiyat bo\'lib, ushbu jadval ustunlarining boshqa konfiguratsiyalariga ham kutilmagan nojo\'ya ta\'sir ko\'rsatishi mumkin.</string>
+    <string name="experimental_feature_column_manage">Ustunlarni tahrirlash eksperimental xususiyat bo\'lib, ushbu ustunning boshqa konfiguratsiyalariga ham kutilmagan nojo\'ya ta\'sir ko\'rsatishi mumkin.</string>
+    <string name="column_type_is_required">Ustun turi talab qilinadi</string>
+    <string name="unsupported_column_type"> %1$s .turidagi ustunlarni tahrirlash hali qo‘llab-quvvatlanmaydi.</string>
+    <string name="unsaved_changes">Saqlanmagan o\'zgarishlar</string>
+    <string name="unsaved_changes_details">Saqlanmagan oʻzgarishlar aniqlandi. Ularni bekor qilmoqchimisiz yoki saqlamoqchimisiz?</string>
     <string name="simple_discard">Bekor qilish</string>
-    <string name="simple_loading">Loading…</string>
+    <string name="search_hint">Izlash uchun havolani joylashtiring yoki yozing</string>
+    <string name="usergroup_hint">Qidirish uchun yozing</string>
+
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+    <string name="simple_loading">Yuklanmoqda...</string>
 </resources>
