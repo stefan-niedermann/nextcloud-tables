@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 public enum EUserGroupTypeV2Dto {
     USER(0),
     GROUP(1),
-    CIRCLE(7),
+    TEAMS(7),
     ;
 
     private final int remoteId;

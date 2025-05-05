@@ -8,8 +8,8 @@ import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
 import it.niedermann.nextcloud.tables.features.table.view.types.CellViewHolder;
@@ -27,7 +27,7 @@ public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull Column column) {
+    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull FullColumn fullColumn) {
         final var value = Optional
                 .of(fullData.getData())
                 .map(this::formatValue)

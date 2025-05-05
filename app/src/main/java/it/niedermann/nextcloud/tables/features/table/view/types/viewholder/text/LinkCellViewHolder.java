@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Column;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.LinkValueWithProviderId;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellBinding;
@@ -22,7 +22,7 @@ public class LinkCellViewHolder extends TextCellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull Column column) {
+    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull FullColumn fullColumn) {
 
         final var context = binding.getRoot().getContext();
         final var linkValue = Optional

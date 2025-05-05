@@ -9,6 +9,7 @@ import java.util.Optional;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellCheckBinding;
@@ -26,11 +27,16 @@ public class SelectionCheckCellViewHolder extends CellViewHolder {
     }
 
     @Override
-    public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull Column column) {
+    public void bind(@NonNull Account account,
+                     @NonNull FullData fullData,
+                     @NonNull FullColumn fullColumn) {
         final var checked = Optional
                 .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getBooleanValue)
+                .or(() -> Optional.of(fullColumn.getColumn())
+                        .map(Column::getDefaultValue)
+                        .map(Value::getBooleanValue))
                 .orElse(false);
 
         binding.check.setChecked(checked);

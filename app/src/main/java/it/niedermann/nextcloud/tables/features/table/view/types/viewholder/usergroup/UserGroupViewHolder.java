@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
-import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
+import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellRichBinding;
 import it.niedermann.nextcloud.tables.features.table.view.types.CellViewHolder;
@@ -35,7 +35,7 @@ public class UserGroupViewHolder extends CellViewHolder {
     @Override
     public void bind(@NonNull Account account,
                      @NonNull FullData fullData,
-                     @NonNull Column column) {
+                     @NonNull FullColumn fullColumn) {
         final var userNames = Optional.of(fullData.getUserGroups())
                 .filter(not(List::isEmpty))
                 .map(List::stream)

@@ -212,11 +212,7 @@ public class ViewTableFragment extends Fragment {
                 popup.inflate(R.menu.context_menu_column);
                 popup.setOnMenuItemClickListener(item -> {
                     if (item.getItemId() == R.id.edit_column) {
-                        if (FeatureToggle.EDIT_COLUMN.enabled) {
-                            startActivity(EditColumnActivity.createIntent(requireContext(), state.account(), fullTable.getTable(), column));
-                        } else {
-                            Toast.makeText(requireContext(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
-                        }
+                        startActivity(EditColumnActivity.createIntent(requireContext(), state.account(), fullTable.getTable(), column));
 
                     } else if (item.getItemId() == R.id.delete_column) {
                         new MaterialAlertDialogBuilder(requireContext())

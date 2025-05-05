@@ -82,7 +82,7 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
                 return;
             }
 
-            cellViewHolder.bind(requireNonNull(account), cellItemModel, fullColumn.getColumn());
+            cellViewHolder.bind(requireNonNull(account), cellItemModel, fullColumn);
 
         } else if (FeatureToggle.STRICT_MODE.enabled) {
             throw new IllegalArgumentException("Unknown view holder type " + holder);

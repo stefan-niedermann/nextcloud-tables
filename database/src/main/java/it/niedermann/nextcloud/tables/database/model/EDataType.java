@@ -21,31 +21,31 @@ import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public enum EDataType implements Comparable<EDataType> {
 
-    UNKNOWN(0, EDataTypeGroup.UNKNOWN),
+    UNKNOWN(0, EDataTypeGroup.UNKNOWN, false),
 
     /// @noinspection DeprecatedIsStillUsed
     @Deprecated(since = "0.5.0")
-    TEXT_LONG(1_000, EDataTypeGroup.TEXT, "long", R.string.subtype_text_long),
-    TEXT_LINE(1_001, EDataTypeGroup.TEXT, "line", R.string.subtype_text_line),
-    TEXT_LINK(1_002, EDataTypeGroup.TEXT, "link", R.string.subtype_text_link),
+    TEXT_LONG(1_000, EDataTypeGroup.TEXT, "long", R.string.subtype_text_long, false),
+    TEXT_LINE(1_001, EDataTypeGroup.TEXT, "line", R.string.subtype_text_line, true),
+    TEXT_LINK(1_002, EDataTypeGroup.TEXT, "link", R.string.subtype_text_link, true),
     /// @since 0.5.0
-    TEXT_RICH(1_003, EDataTypeGroup.TEXT, "rich", R.string.subtype_text_rich),
+    TEXT_RICH(1_003, EDataTypeGroup.TEXT, "rich", R.string.subtype_text_rich, true),
 
-    DATETIME(2_000, EDataTypeGroup.DATETIME),
-    DATETIME_DATE(2_001, EDataTypeGroup.DATETIME, "date", R.string.subtype_datetime_date),
-    DATETIME_TIME(2_002, EDataTypeGroup.DATETIME, "time", R.string.subtype_datetime_time),
+    DATETIME(2_000, EDataTypeGroup.DATETIME, true),
+    DATETIME_DATE(2_001, EDataTypeGroup.DATETIME, "date", R.string.subtype_datetime_date, true),
+    DATETIME_TIME(2_002, EDataTypeGroup.DATETIME, "time", R.string.subtype_datetime_time, true),
 
-    SELECTION(3_000, EDataTypeGroup.SELECTION),
+    SELECTION(3_000, EDataTypeGroup.SELECTION, false),
     /// @since 0.5.0
-    SELECTION_MULTI(3_001, EDataTypeGroup.SELECTION, "multi", R.string.subtype_selection_multi),
-    SELECTION_CHECK(3_002, EDataTypeGroup.SELECTION, "check", R.string.subtype_selection_check),
+    SELECTION_MULTI(3_001, EDataTypeGroup.SELECTION, "multi", R.string.subtype_selection_multi, true),
+    SELECTION_CHECK(3_002, EDataTypeGroup.SELECTION, "check", R.string.subtype_selection_check, true),
 
-    NUMBER(4_000, EDataTypeGroup.NUMBER),
-    NUMBER_PROGRESS(4_001, EDataTypeGroup.NUMBER, "progress", R.string.subtype_number_progress),
-    NUMBER_STARS(4_002, EDataTypeGroup.NUMBER, "stars", R.string.subtype_number_stars),
+    NUMBER(4_000, EDataTypeGroup.NUMBER, true),
+    NUMBER_PROGRESS(4_001, EDataTypeGroup.NUMBER, "progress", R.string.subtype_number_progress, true),
+    NUMBER_STARS(4_002, EDataTypeGroup.NUMBER, "stars", R.string.subtype_number_stars, true),
 
     /// @since 0.8.0
-    USERGROUP(5_000, EDataTypeGroup.USERGROUP),
+    USERGROUP(5_000, EDataTypeGroup.USERGROUP, false),
     ;
 
     private static final Collection<EDataType> DATA_TYPES_USING_SELECTION_OPTIONS = Set.of(SELECTION, SELECTION_MULTI);
@@ -64,18 +64,22 @@ public enum EDataType implements Comparable<EDataType> {
     @Nullable
     private final Integer humanReadableSubTypeStringRes;
 
-    EDataType(int id, @NonNull EDataTypeGroup group) {
-        this(id, group, null, null);
+    private final boolean supportsEditing;
+
+    EDataType(int id, @NonNull EDataTypeGroup group, boolean supportsEditing) {
+        this(id, group, null, null, supportsEditing);
     }
 
     EDataType(int id,
               @NonNull EDataTypeGroup group,
               @Nullable String subType,
-              @StringRes @Nullable Integer humanReadableSubTypeStringRes) {
+              @StringRes @Nullable Integer humanReadableSubTypeStringRes,
+              boolean supportsEditing) {
         this.id = id;
         this.group = group;
         this.subType = subType;
         this.humanReadableSubTypeStringRes = humanReadableSubTypeStringRes;
+        this.supportsEditing = supportsEditing;
     }
 
     public static EDataType findById(int id) throws NoSuchElementException {
@@ -136,6 +140,10 @@ public enum EDataType implements Comparable<EDataType> {
         return DATA_TYPES_USING_LINK_VALUE.contains(this);
     }
 
+    public boolean supportsEditing() {
+        return FeatureToggle.EDIT_COLUMN.enabled && supportsEditing;
+    }
+
     @NonNull
     public String getType() {
         return group.value;
@@ -158,24 +166,27 @@ public enum EDataType implements Comparable<EDataType> {
     }
 
     public enum EDataTypeGroup {
-        UNKNOWN("", R.string.type_unknown),
-        TEXT("text", R.string.type_text),
-        SELECTION("selection", R.string.type_selection),
-        DATETIME("datetime", R.string.type_datetime),
-        NUMBER("number", R.string.type_number),
-        USERGROUP("usergroup", R.string.type_usergroup),
+        UNKNOWN("", R.string.type_unknown, false),
+        TEXT("text", R.string.type_text, true),
+        SELECTION("selection", R.string.type_selection, true),
+        DATETIME("datetime", R.string.type_datetime, true),
+        NUMBER("number", R.string.type_number, true),
+        USERGROUP("usergroup", R.string.type_usergroup, false),
         ;
 
         public final String value;
         @StringRes
         public final int humanReadableValue;
+        private final boolean supportsEditing;
 
         EDataTypeGroup(
                 @NonNull String value,
-                @StringRes int humanReadableValue
+                @StringRes int humanReadableValue,
+                boolean supportsEditing
         ) {
             this.value = value;
             this.humanReadableValue = humanReadableValue;
+            this.supportsEditing = supportsEditing;
         }
 
         @NonNull
@@ -210,6 +221,10 @@ public enum EDataType implements Comparable<EDataType> {
         @NonNull
         public String toHumanReadableString(@NonNull Context context) {
             return context.getString(humanReadableValue);
+        }
+
+        public boolean supportsEditing() {
+            return FeatureToggle.EDIT_COLUMN.enabled && supportsEditing;
         }
     }
 }

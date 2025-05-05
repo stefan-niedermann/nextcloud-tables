@@ -168,7 +168,7 @@
     <string name="add_option">Add option</string>
     <string name="delete_option">Delete option</string>
     <string name="experimental_feature_column_reordering">Reordering columns is an experimental feature which may have unintended side effects to other configurations of the columns of this table as well.</string>
-    <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects to other configurations of this column as well.</string>
+    <string name="experimental_feature_column_manage">Editing columns is an experimental feature which may have unintended side effects that can result in data loss.</string>
     <string name="column_type_is_required">Column type is required</string>
     <string name="unsupported_column_type">Editing columns of type %1$s is not yet supported.</string>
     <string name="unsaved_changes">Unsaved changes</string>
@@ -180,4 +180,12 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Loading…</string>
+    <string name="allowed_types">Allowed types</string>
+    <string name="simple_url">URL</string>
+    <string name="clear_default">Clear default</string>
+    <string name="usergroup_users">Users</string>
+    <string name="usergroup_groups">Groups</string>
+    <string name="usergroup_teams">Teams</string>
+    <string name="select_multiple_items">Select multiple items</string>
+    <string name="show_user_status">Show user status</string>
 </resources>

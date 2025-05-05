@@ -14,7 +14,7 @@ public class EUserGroupTypeV2Mapper implements Mapper<EUserGroupTypeV2Dto, EUser
         return switch (entity) {
             case USER -> EUserGroupTypeV2Dto.USER;
             case GROUP -> EUserGroupTypeV2Dto.GROUP;
-            case CIRCLE -> EUserGroupTypeV2Dto.CIRCLE;
+            case TEAM -> EUserGroupTypeV2Dto.TEAMS;
             case UNKNOWN ->
                     throw new IllegalArgumentException(EUserGroupType.UNKNOWN.name() + " " + EUserGroupType.class.getSimpleName() + " can not be mapped to API");
         };
@@ -26,7 +26,7 @@ public class EUserGroupTypeV2Mapper implements Mapper<EUserGroupTypeV2Dto, EUser
         return switch (dto) {
             case USER -> EUserGroupType.USER;
             case GROUP -> EUserGroupType.GROUP;
-            case CIRCLE -> EUserGroupType.CIRCLE;
+            case TEAMS -> EUserGroupType.TEAM;
         };
     }
 }

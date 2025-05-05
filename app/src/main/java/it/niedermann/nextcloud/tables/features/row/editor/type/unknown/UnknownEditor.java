@@ -72,6 +72,13 @@ public class UnknownEditor extends DataEditView<EditTextviewBinding> {
     }
 
     @Override
+    public void setEnabled(boolean enabled) {
+        if (enabled) {
+            throw new UnsupportedOperationException(UnknownError.class.getSimpleName() + " can not be enabled.");
+        }
+    }
+
+    @Override
     public void setErrorMessage(@Nullable String message) {
         binding.getRoot().setError(message);
     }

@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.tables.database.dao.ColumnDao;
 import it.niedermann.nextcloud.tables.database.dao.DataDao;
 import it.niedermann.nextcloud.tables.database.dao.DataSelectionOptionCrossRefDao;
 import it.niedermann.nextcloud.tables.database.dao.DataUserGroupCrossRefDao;
+import it.niedermann.nextcloud.tables.database.dao.DefaultValueSelectionOptionCrossRefDao;
 import it.niedermann.nextcloud.tables.database.dao.LinkValueDao;
 import it.niedermann.nextcloud.tables.database.dao.RowDao;
 import it.niedermann.nextcloud.tables.database.dao.SearchProviderDao;
@@ -138,6 +139,8 @@ public abstract class TablesDatabase extends RoomDatabase {
     public abstract RowDao getRowDao();
 
     public abstract DataDao getDataDao();
+
+    public abstract DefaultValueSelectionOptionCrossRefDao getDefaultValueSelectionOptionCrossRefDao();
 
     public abstract DataSelectionOptionCrossRefDao getDataSelectionOptionCrossRefDao();
 

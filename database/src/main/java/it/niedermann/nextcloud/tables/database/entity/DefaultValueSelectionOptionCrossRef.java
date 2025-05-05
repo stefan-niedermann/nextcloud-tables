@@ -1,7 +1,9 @@
 package it.niedermann.nextcloud.tables.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.util.Objects;
@@ -10,7 +12,7 @@ import java.util.Objects;
         primaryKeys = {"columnId", "selectionOptionId"},
         foreignKeys = {
                 @ForeignKey(
-                        entity = Data.class,
+                        entity = Column.class,
                         parentColumns = "id",
                         childColumns = "columnId",
                         onDelete = ForeignKey.CASCADE
@@ -34,6 +36,16 @@ public class DefaultValueSelectionOptionCrossRef {
 
     public DefaultValueSelectionOptionCrossRef() {
         // Default constructor
+    }
+
+    @Ignore
+    public DefaultValueSelectionOptionCrossRef(long columnId, long selectionOptionId) {
+        this.columnId = columnId;
+        this.selectionOptionId = selectionOptionId;
+    }
+
+    public static DefaultValueSelectionOptionCrossRef from(@NonNull SelectionOption selectionOption) {
+        return new DefaultValueSelectionOptionCrossRef(selectionOption.getColumnId(), selectionOption.getId());
     }
 
     @Override

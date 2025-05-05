@@ -2,26 +2,40 @@ package it.niedermann.nextcloud.tables.remote.tablesV2.model.columns;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import java.util.List;
 import java.util.Objects;
 
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
-import it.niedermann.nextcloud.tables.remote.tablesV2.model.SelectionOptionV2Dto;
 
 public class CreateSelectionColumnV2Dto extends CreateColumnV2Dto {
 
-    private final List<SelectionOptionV2Dto> selectionOptions;
+    private final String selectionOptions;
     private final JsonElement selectionDefault;
 
     public CreateSelectionColumnV2Dto(long tableRemoteId, @NonNull ColumnV2Dto column) {
         super(tableRemoteId, column);
-        this.selectionOptions = column.selectionOptions();
+
+        if (column.selectionOptions() == null) {
+            this.selectionOptions = "";
+
+        } else {
+            final var arr = new JsonArray();
+            for (final var option : column.selectionOptions()) {
+                final var obj = new JsonObject();
+                obj.addProperty("id", option.remoteId());
+                obj.addProperty("label", option.label());
+                arr.add(obj);
+            }
+            this.selectionOptions = arr.toString();
+        }
+
         this.selectionDefault = column.selectionDefault();
     }
 
-    public List<SelectionOptionV2Dto> getSelectionOptions() {
+    public String getSelectionOptions() {
         return selectionOptions;
     }
 

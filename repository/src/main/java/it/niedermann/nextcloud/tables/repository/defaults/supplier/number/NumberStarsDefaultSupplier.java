@@ -16,13 +16,13 @@ public class NumberStarsDefaultSupplier extends DefaultValueSupplier {
     @Override
     protected void applyDefaultValue(@NonNull FullColumn fullColumn, @NonNull FullData fullData) {
         final var value = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getDoubleValue);
 
         if (value.isEmpty()) {
             Optional
-                    .ofNullable(fullColumn.getColumn())
+                    .of(fullColumn.getColumn())
                     .map(Column::getDefaultValue)
                     .map(Value::getDoubleValue)
                     .map(Math::ceil)

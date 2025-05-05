@@ -8,9 +8,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -65,39 +65,48 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                 switch (dataType) {
                     case SELECTION -> Optional.of(fullColumn)
                             .map(FullColumn::getDefaultSelectionOptions)
-                            .map(selectionOptions -> {
-                                final var jsonArray = new JsonArray();
-                                selectionOptions
-                                        .stream()
-                                        .map(SelectionOption::getRemoteId)
-                                        .forEach(jsonArray::add);
-                                return jsonArray;
-                            })
-                            .map(JsonElement::toString)
-                            .orElse(new JsonArray().toString());
-                    case SELECTION_MULTI -> Optional.of(fullColumn)
-                            .map(FullColumn::getDefaultSelectionOptions)
                             .map(List::stream)
                             .flatMap(Stream::findAny)
                             .map(SelectionOption::getRemoteId)
                             .map(JsonPrimitive::new)
                             .map(JsonElement::toString)
+                            .orElse("");
+
+                    case SELECTION_MULTI -> Optional.of(fullColumn)
+                            .map(FullColumn::getDefaultSelectionOptions)
+                            .map(selectionOptions -> {
+                                // TODO Use Reducer to transform selectionOptions to JsonArray
+                                final var jsonArray = new JsonArray();
+                                selectionOptions
+                                        .stream()
+                                        .map(SelectionOption::getRemoteId)
+                                        .filter(Objects::nonNull)
+                                        .map(String::valueOf)
+                                        .forEach(jsonArray::add);
+                                return jsonArray;
+                            })
+                            .map(JsonElement::toString)
+                            .orElseGet(() -> new JsonArray().toString());
+
+                    case SELECTION_CHECK -> Optional.of(column.getDefaultValue())
+                            .map(Value::getBooleanValue)
+                            .map(JsonPrimitive::new)
+                            .map(JsonElement::toString)
                             .orElse(null);
-                    case SELECTION_CHECK ->
-                            Optional.ofNullable(column.getDefaultValue().getBooleanValue())
-                                    .map(JsonPrimitive::new)
-                                    .map(JsonElement::toString)
-                                    .orElse(null);
                     default -> null;
                 },
                 Optional.of(fullColumn.getSelectionOptions())
                         .map(selectionOptions -> {
                             final var jsonArray = new JsonArray();
-                            for (final var selectionOption : selectionOptions) {
-                                final var option = new JsonObject();
-                                option.addProperty("id", selectionOption.getRemoteId());
-                                option.addProperty("label", selectionOption.getLabel());
-                            }
+                            selectionOptions
+                                    .stream()
+                                    .map(selectionOption -> {
+                                        final var option = new JsonObject();
+                                        option.addProperty("id", selectionOption.getRemoteId());
+                                        option.addProperty("label", selectionOption.getLabel());
+                                        return option;
+                                    })
+                                    .forEach(jsonArray::add);
                             return jsonArray.toString();
                         })
                         .orElse(new JsonArray().toString()),
@@ -110,7 +119,7 @@ public class ColumnRequestV1Mapper implements Function<FullColumn, ColumnRequest
                                 userGroup.getDisplayName(),
                                 EUserGroupTypeV1Dto.findByRemoteId(userGroup.getType().getRemoteType())
                         ))
-                        .collect(Collectors.toUnmodifiableList()),
+                        .toList(),
                 userGroupAttributes.usergroupMultipleItems(),
                 userGroupAttributes.usergroupSelectUsers(),
                 userGroupAttributes.usergroupSelectGroups(),

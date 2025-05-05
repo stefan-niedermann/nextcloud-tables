@@ -4,7 +4,7 @@ public enum EUserGroupType {
     UNKNOWN(-1),
     USER(0),
     GROUP(1),
-    CIRCLE(7),
+    TEAM(7),
     ;
 
     private final int remoteType;

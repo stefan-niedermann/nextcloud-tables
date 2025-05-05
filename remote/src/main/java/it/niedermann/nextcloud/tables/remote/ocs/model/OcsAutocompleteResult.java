@@ -22,6 +22,8 @@ public record OcsAutocompleteResult(
         USERS(0),
         @SerializedName(value = "1", alternate = "groups")
         GROUPS(1),
+        @SerializedName(value = "7", alternate = "teams")
+        TEAMS(7),
         ;
 
         public final int shareType;

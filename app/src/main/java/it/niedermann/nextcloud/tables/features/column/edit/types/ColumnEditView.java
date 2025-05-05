@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
@@ -13,8 +12,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewbinding.ViewBinding;
 
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
+import it.niedermann.nextcloud.tables.ui.LifecycleAwareFrameLayout;
 
-public abstract class ColumnEditView<T extends ViewBinding> extends FrameLayout {
+public abstract class ColumnEditView<T extends ViewBinding> extends LifecycleAwareFrameLayout {
 
     protected static final String KEY_COLUMN = "column";
 
@@ -67,16 +67,6 @@ public abstract class ColumnEditView<T extends ViewBinding> extends FrameLayout 
         return bundle;
     }
 
-    @NonNull
-    public FullColumn getFullColumn() {
-        return this.fullColumn;
-    }
-
-    @CallSuper
-    public void setFullColumn(@NonNull FullColumn fullColumn) {
-        this.fullColumn = fullColumn;
-    }
-
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
@@ -89,5 +79,20 @@ public abstract class ColumnEditView<T extends ViewBinding> extends FrameLayout 
                 }
             }
         }
+    }
+
+    @NonNull
+    public FullColumn getFullColumn() {
+        return this.fullColumn;
+    }
+
+    @CallSuper
+    public void setFullColumn(@NonNull FullColumn fullColumn) {
+        this.fullColumn = fullColumn;
+    }
+
+    ///  @return true if the colum has an ID of `0L`
+    protected boolean isCreateMode() {
+        return fullColumn.getColumn().getId() == 0L;
     }
 }

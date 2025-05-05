@@ -22,6 +22,8 @@ import androidx.viewbinding.ViewBinding;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.stream.Stream;
+
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -31,7 +33,6 @@ import it.niedermann.nextcloud.tables.databinding.ActivityEditColumnBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
-import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class EditColumnActivity extends AppCompatActivity {
 
@@ -63,13 +64,15 @@ public class EditColumnActivity extends AppCompatActivity {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_TABLE + " must be provided.");
         }
 
-        this.registry = new ManageDataTypeServiceRegistry();
+        editColumnViewModel = new ViewModelProvider(this).get(EditColumnViewModel.class);
+        binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
+
+        this.registry = new ManageDataTypeServiceRegistry(
+                accountId -> editColumnViewModel.getSearchProvider(accountId)
+        );
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         this.table = (Table) intent.getSerializableExtra(KEY_TABLE);
         this.fullColumn = (FullColumn) intent.getSerializableExtra(KEY_COLUMN);
-
-        editColumnViewModel = new ViewModelProvider(this).get(EditColumnViewModel.class);
-        binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -109,7 +112,6 @@ public class EditColumnActivity extends AppCompatActivity {
                     final var fullColumn = new FullColumn(column);
 
                     columnEditView = createManageView(fullColumn);
-                    columnEditView.setEnabled(FeatureToggle.EDIT_COLUMN.enabled);
                     binding.managerHolder.removeAllViews();
                     binding.managerHolder.addView(columnEditView);
                 } catch (Exception e) {
@@ -119,13 +121,30 @@ public class EditColumnActivity extends AppCompatActivity {
             });
         } else {
             final var column = fullColumn.getColumn();
+            final var dataTypeSupportsEditing = column.getDataType().supportsEditing();
 
-            binding.typeSelection.setVisibility(View.GONE);
             binding.toolbar.setTitle(getString(R.string.edit_item, column.getTitle()));
+
+            if (dataTypeSupportsEditing) {
+                binding.experimentalFeature.setVisibility(View.VISIBLE);
+                binding.unsupportedColumn.setVisibility(View.GONE);
+
+            } else {
+                binding.experimentalFeature.setVisibility(View.GONE);
+                binding.unsupportedColumn.setText(getString(R.string.unsupported_column_type, column.getDataType().toHumanReadableString(this)));
+                binding.unsupportedColumn.setVisibility(View.VISIBLE);
+            }
+
             binding.title.setText(column.getTitle());
             binding.description.setText(column.getDescription());
             binding.mandatory.setChecked(column.isMandatory());
+            binding.typeSelection.setVisibility(View.GONE);
+
+            Stream.of(binding.title, binding.description, binding.mandatory)
+                    .forEach(view -> view.setEnabled(dataTypeSupportsEditing));
+
             columnEditView = createManageView(fullColumn);
+            columnEditView.setEnabled(dataTypeSupportsEditing);
             binding.managerHolder.addView(columnEditView);
         }
     }
@@ -139,19 +158,20 @@ public class EditColumnActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_column, menu);
+        if (fullColumn == null || fullColumn.getColumn().getDataType().supportsEditing()) {
+            getMenuInflater().inflate(R.menu.menu_edit_column, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.save) {
-            if (fullColumn == null) {
-                if (columnEditView == null) {
-                    Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
-                    return false;
-                }
-
+            if (columnEditView == null) {
+                Snackbar.make(binding.getRoot(), R.string.column_type_is_required, Snackbar.LENGTH_SHORT).show();
+                return false;
+            } else {
+                // We have to call getFullColumn() when creating or updating because ColumnEditView will only write values to column when invoking the getter
                 fullColumn = columnEditView.getFullColumn();
             }
 
@@ -162,8 +182,9 @@ public class EditColumnActivity extends AppCompatActivity {
             column.setMandatory(binding.mandatory.isChecked());
 
             final var futureResult = column.getRemoteId() == null
-                    ? editColumnViewModel.createColumn(account, table, fullColumn.getColumn())
-                    : editColumnViewModel.updateColumn(account, table, fullColumn.getColumn());
+                    ? editColumnViewModel.createColumn(account, table, fullColumn)
+                    // TODO If UPDATE column and TYPE = SELECTION MULTI/SINGLE, track synchronization and post notification in case synchronization was not successful to avoid future conflicts with selection option IDs
+                    : editColumnViewModel.updateColumn(account, table, fullColumn);
 
             futureResult.whenCompleteAsync((result, exception) -> {
                 if (exception != null && getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.CREATED)) {
