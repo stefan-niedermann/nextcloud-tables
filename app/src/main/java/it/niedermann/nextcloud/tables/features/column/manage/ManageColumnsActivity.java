@@ -83,13 +83,7 @@ public class ManageColumnsActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
 
-        final var adapter = new ManageColumnsAdapter(fullColumn -> {
-            if (FeatureToggle.EDIT_COLUMN.enabled) {
-                startActivity(EditColumnActivity.createIntent(this, account, table, fullColumn));
-            } else {
-                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
-            }
-        });
+        final var adapter = new ManageColumnsAdapter(fullColumn -> startActivity(EditColumnActivity.createIntent(this, account, table, fullColumn)));
 
         // TODO Waiting for https://github.com/nextcloud/tables/issues/607
 //        final var touchHelper = new ManageColumnsTouchHelper(

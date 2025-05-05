@@ -22,6 +22,8 @@ import androidx.viewbinding.ViewBinding;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.stream.Stream;
+
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -31,7 +33,6 @@ import it.niedermann.nextcloud.tables.databinding.ActivityEditColumnBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
-import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class EditColumnActivity extends AppCompatActivity {
 
@@ -111,7 +112,6 @@ public class EditColumnActivity extends AppCompatActivity {
                     final var fullColumn = new FullColumn(column);
 
                     columnEditView = createManageView(fullColumn);
-                    columnEditView.setEnabled(FeatureToggle.EDIT_COLUMN.enabled);
                     binding.managerHolder.removeAllViews();
                     binding.managerHolder.addView(columnEditView);
                 } catch (Exception e) {
@@ -121,13 +121,30 @@ public class EditColumnActivity extends AppCompatActivity {
             });
         } else {
             final var column = fullColumn.getColumn();
+            final var dataTypeSupportsEditing = column.getDataType().supportsEditing();
 
-            binding.typeSelection.setVisibility(View.GONE);
             binding.toolbar.setTitle(getString(R.string.edit_item, column.getTitle()));
+
+            if (dataTypeSupportsEditing) {
+                binding.experimentalFeature.setVisibility(View.VISIBLE);
+                binding.unsupportedColumn.setVisibility(View.GONE);
+
+            } else {
+                binding.experimentalFeature.setVisibility(View.GONE);
+                binding.unsupportedColumn.setText(getString(R.string.unsupported_column_type, column.getDataType().toHumanReadableString(this)));
+                binding.unsupportedColumn.setVisibility(View.VISIBLE);
+            }
+
             binding.title.setText(column.getTitle());
             binding.description.setText(column.getDescription());
             binding.mandatory.setChecked(column.isMandatory());
+            binding.typeSelection.setVisibility(View.GONE);
+
+            Stream.of(binding.title, binding.description, binding.mandatory)
+                    .forEach(view -> view.setEnabled(dataTypeSupportsEditing));
+
             columnEditView = createManageView(fullColumn);
+            columnEditView.setEnabled(dataTypeSupportsEditing);
             binding.managerHolder.addView(columnEditView);
         }
     }
@@ -141,7 +158,9 @@ public class EditColumnActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit_column, menu);
+        if (fullColumn == null || fullColumn.getColumn().getDataType().supportsEditing()) {
+            getMenuInflater().inflate(R.menu.menu_edit_column, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

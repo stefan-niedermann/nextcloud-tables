@@ -50,6 +50,8 @@ public class ManageDataTypeServiceRegistry extends DataTypeServiceRegistry<Manag
                     cache.computeIfAbsent(dataType, t -> new NumberProgressManagerFactory());
             case NUMBER_STARS ->
                     cache.computeIfAbsent(dataType, t -> new NumberStarsManagerFactory());
+//            case USERGROUP ->
+//                    cache.computeIfAbsent(dataType, t -> new UserGroupManagerFactory());
             case USERGROUP, UNKNOWN ->
                     cache.computeIfAbsent(dataType, t -> new UnknownManagerFactory());
         };

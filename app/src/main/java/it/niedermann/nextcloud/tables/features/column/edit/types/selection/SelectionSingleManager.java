@@ -148,6 +148,8 @@ public class SelectionSingleManager extends ColumnEditView<ManageSelectionSingle
         super.setEnabled(enabled);
         adapter.setEnabled(enabled);
         binding.clear.setEnabled(enabled);
+        binding.clear.setVisibility(enabled && adapter.getSelectionDefault().isPresent() ? View.VISIBLE : View.INVISIBLE);
+        binding.addOption.setEnabled(enabled);
     }
 
     @Nullable

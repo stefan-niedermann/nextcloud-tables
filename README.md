@@ -50,6 +50,10 @@ height="80">](https://liberapay.com/stefan-niedermann/donate)
 
 ## 🏁 Planned features
 * Manage sharing
+* Search
+* Sort
+* Views
+* Applications
 
 ## 👪 Join the team
 * Test the app with different devices

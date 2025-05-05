@@ -99,6 +99,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                 entity.getColumn().getUserGroupAttributes().usergroupMultipleItems(),
                 entity.getColumn().getUserGroupAttributes().usergroupSelectUsers(),
                 entity.getColumn().getUserGroupAttributes().usergroupSelectGroups(),
+                entity.getColumn().getUserGroupAttributes().usergroupSelectTeams(),
                 entity.getColumn().getUserGroupAttributes().showUserStatus()
         );
     }
@@ -145,6 +146,7 @@ public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
                 Boolean.TRUE.equals(dto.usergroupMultipleItems()),
                 Boolean.TRUE.equals(dto.usergroupSelectUsers()),
                 Boolean.TRUE.equals(dto.usergroupSelectGroups()),
+                Boolean.TRUE.equals(dto.usergroupSelectTeams()),
                 Boolean.TRUE.equals(dto.showUserStatus())
         ));
 

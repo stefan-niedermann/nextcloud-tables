@@ -86,10 +86,13 @@ public class SearchRepository extends AbstractRepository {
         if (userGroupAttributes.usergroupSelectGroups()) {
             sources.add(OcsAutocompleteResult.OcsAutocompleteSource.GROUPS);
         }
+        if (userGroupAttributes.usergroupSelectGroups()) {
+            sources.add(OcsAutocompleteResult.OcsAutocompleteSource.TEAMS);
+        }
 
         return requestHelper.executeNetworkRequest(account, apiTuple -> apiTuple.ocs().searchUser(
                         null, term,
-                        sources.stream().mapToInt(st -> st.shareType).boxed().collect(Collectors.toUnmodifiableList()),
+                        sources.stream().mapToInt(st -> st.shareType).boxed().toList(),
                         null, null, 10))
                 .handleAsync((response, exception) -> {
                     if (exception != null) {
@@ -194,7 +197,8 @@ public class SearchRepository extends AbstractRepository {
 //                .orElseGet(Collections::emptySet), workExecutor)
 //                .thenApplyAsync(allowedSearchProviders -> db.getSearchProviderDao().getSearchProvider(column.getAccountId(), allowedSearchProviders), db.getParallelExecutor())
 //                .thenAcceptAsync(searchProviders -> searchProviders
-////        db.getSearchProviderDao().getSearchProvider(column.getAccountId(), allowedSearchProviders)
+
+    /// /        db.getSearchProviderDao().getSearchProvider(column.getAccountId(), allowedSearchProviders)
 //        return null;
 //    }
 

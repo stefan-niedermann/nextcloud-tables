@@ -16,6 +16,7 @@ public class CreateUserGroupColumnV2Dto extends CreateColumnV2Dto {
     private final boolean usergroupMultipleItems;
     private final boolean usergroupSelectUsers;
     private final boolean usergroupSelectGroups;
+    private final boolean usergroupSelectTeams;
 
     public CreateUserGroupColumnV2Dto(long tableRemoteId, @NonNull ColumnV2Dto dto) {
         super(tableRemoteId, dto);
@@ -23,6 +24,7 @@ public class CreateUserGroupColumnV2Dto extends CreateColumnV2Dto {
         this.usergroupMultipleItems = Boolean.TRUE.equals(dto.usergroupMultipleItems());
         this.usergroupSelectUsers = Boolean.TRUE.equals(dto.usergroupSelectUsers());
         this.usergroupSelectGroups = Boolean.TRUE.equals(dto.usergroupSelectGroups());
+        this.usergroupSelectTeams = Boolean.TRUE.equals(dto.usergroupSelectTeams());
     }
 
     public List<UserGroupV2Dto> getUsergroupDefault() {
@@ -41,17 +43,20 @@ public class CreateUserGroupColumnV2Dto extends CreateColumnV2Dto {
         return usergroupSelectGroups;
     }
 
+    public boolean isUsergroupSelectTeams() {
+        return usergroupSelectTeams;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         CreateUserGroupColumnV2Dto that = (CreateUserGroupColumnV2Dto) o;
-        return usergroupMultipleItems == that.usergroupMultipleItems && usergroupSelectUsers == that.usergroupSelectUsers && usergroupSelectGroups == that.usergroupSelectGroups && Objects.equals(usergroupDefault, that.usergroupDefault);
+        return usergroupMultipleItems == that.usergroupMultipleItems && usergroupSelectUsers == that.usergroupSelectUsers && usergroupSelectGroups == that.usergroupSelectGroups && usergroupSelectTeams == that.usergroupSelectTeams && Objects.equals(usergroupDefault, that.usergroupDefault);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), usergroupDefault, usergroupMultipleItems, usergroupSelectUsers, usergroupSelectGroups);
+        return Objects.hash(super.hashCode(), usergroupDefault, usergroupMultipleItems, usergroupSelectUsers, usergroupSelectGroups, usergroupSelectTeams);
     }
 }

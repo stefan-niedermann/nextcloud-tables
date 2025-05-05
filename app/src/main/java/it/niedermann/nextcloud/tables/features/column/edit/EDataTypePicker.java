@@ -2,8 +2,6 @@ package it.niedermann.nextcloud.tables.features.column.edit;
 
 import static java.util.Collections.emptySet;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static java.util.function.Predicate.not;
-import static java.util.stream.Collectors.toUnmodifiableList;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -40,9 +38,9 @@ public class EDataTypePicker extends TwoLevelSelect<EDataType.EDataTypeGroup, ED
                 new SubTypeAdapter(context, R.layout.item_option));
 
         final var firstLevelContent = Arrays.stream(EDataType.EDataTypeGroup.values())
-                .filter(not(EDataType.EDataTypeGroup.UNKNOWN::equals))
+                .filter(EDataType.EDataTypeGroup::supportsEditing)
                 .sorted()
-                .collect(toUnmodifiableList());
+                .toList();
 
         setFirstLevelContent(firstLevelContent);
     }
@@ -57,9 +55,9 @@ public class EDataTypePicker extends TwoLevelSelect<EDataType.EDataTypeGroup, ED
         final var secondLevelContent = firstLevel
                 .getDataTypes()
                 .stream()
-                .filter(not(EDataType.TEXT_LONG::equals))
+                .filter(EDataType::supportsEditing)
                 .sorted()
-                .collect(toUnmodifiableList());
+                .toList();
 
         return completedFuture(secondLevelContent);
     }
@@ -68,11 +66,7 @@ public class EDataTypePicker extends TwoLevelSelect<EDataType.EDataTypeGroup, ED
     @Override
     protected Optional<EDataType> getResult(@NonNull EDataType.EDataTypeGroup firstLevel,
                                             @Nullable EDataType secondLevel) {
-        if (secondLevel != null) {
-            return Optional.of(secondLevel);
-        }
-
-        return Optional.empty();
+        return Optional.ofNullable(secondLevel);
     }
 
     @Override

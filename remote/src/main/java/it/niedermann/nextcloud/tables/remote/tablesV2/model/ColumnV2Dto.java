@@ -40,6 +40,7 @@ public record ColumnV2Dto(
         @Nullable Boolean usergroupMultipleItems,
         @Nullable Boolean usergroupSelectUsers,
         @Nullable Boolean usergroupSelectGroups,
+        @Nullable Boolean usergroupSelectTeams,
         @Nullable Boolean showUserStatus
 ) implements Serializable, RemoteDto {
 }
