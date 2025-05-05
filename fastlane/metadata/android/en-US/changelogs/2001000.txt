@@ -1,1 +1,6 @@
 feat(table): Allow changing the emoji of tables
+feat(columns): Allow adding and editing columns (except single selections and user groups)
+feat(rows): Display default values as fallback for selection cells
+feat(number): Introduce internationalization to number input editor (e. g. use appropriate decimal separator)
+fix(number-progress): Show save prompt only when there are unsaved changes
+fix(import): Prevent undefined state after pressing back while importing an account

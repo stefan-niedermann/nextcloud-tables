@@ -1,2 +1,0 @@
-feat(number): Introduce internationalization to number input editor (e. g. use appropriate decimal separator)
-fix(number-progress): Show save prompt only when there are unsaved changes
