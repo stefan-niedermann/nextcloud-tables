@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
@@ -66,6 +65,6 @@ public class SelectionMultiDataV1Mapper extends DataV1Mapper {
                         .findAny())
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 }

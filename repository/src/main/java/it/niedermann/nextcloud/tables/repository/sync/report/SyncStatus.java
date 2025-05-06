@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
@@ -121,7 +120,7 @@ public class SyncStatus {
         return tablesInProgress
                 .stream()
                 .map(Table::getTitleWithEmoji)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 
     @Nullable

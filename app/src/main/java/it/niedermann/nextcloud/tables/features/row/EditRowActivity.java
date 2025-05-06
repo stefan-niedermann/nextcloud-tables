@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.features.row;
 
 import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +32,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -246,7 +246,7 @@ public class EditRowActivity extends AppCompatActivity {
         final var editorData = editors.stream()
                 .filter(Objects::nonNull)
                 .map(DataEditView::getFullData)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(toUnmodifiableList());
 
         final var futureResult = duplicate || row == null
                 ? editRowViewModel.createRow(account, table, editorData)

@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Data;
@@ -96,8 +95,8 @@ public class FullData implements Serializable {
     @Ignore
     public FullData(@NonNull FullData fullData) {
         this.data = new Data(fullData.getData());
-        this.selectionOptions = fullData.getSelectionOptions().stream().map(SelectionOption::new).collect(Collectors.toUnmodifiableList());
-        this.userGroups = fullData.getUserGroups().stream().map(UserGroup::new).collect(Collectors.toUnmodifiableList());
+        this.selectionOptions = fullData.getSelectionOptions().stream().map(SelectionOption::new).toList();
+        this.userGroups = fullData.getUserGroups().stream().map(UserGroup::new).toList();
         this.dataType = fullData.getDataType();
         this.linkValueWithProviderRemoteId = Optional.ofNullable(fullData.getLinkValueWithProviderRemoteId()).map(LinkValueWithProviderId::new).orElse(null);
     }

@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -144,13 +143,11 @@ public class SearchRepository extends AbstractRepository {
         final var remoteSearch = new ReactiveLiveData<>(Collections.emptyMap())
                 .flatMap(() -> searchRemote(account, remoteSearchProviderIds, term));
 
-        final var combinedSearch = new ReactiveLiveData<>(urlSearch)
+        return new ReactiveLiveData<>(urlSearch)
                 .combineWith(() -> remoteSearch)
-                .map(results -> ((Collection<Pair<SearchProvider, OcsSearchResultEntry>>) Stream.of(results.first, results.second)
+                .map(results -> Stream.of(results.first, results.second)
                         .flatMap(Collection::stream)
-                        .collect(Collectors.toUnmodifiableList())));
-
-        return combinedSearch;
+                        .toList());
     }
 
     @NonNull
@@ -214,7 +211,7 @@ public class SearchRepository extends AbstractRepository {
                                 .getValue()
                                 .stream()
                                 .map(value -> new Pair<>(entry.getKey(), value)))
-                        .collect(Collectors.toUnmodifiableList()));
+                        .toList());
     }
 
     @NonNull

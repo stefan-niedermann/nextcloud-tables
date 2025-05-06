@@ -11,7 +11,6 @@ import com.google.gson.JsonObject;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
@@ -69,7 +68,7 @@ public class UserGroupDataV1Mapper extends DataV1Mapper {
                 .filter(JsonElement::isJsonObject)
                 .map(JsonElement::getAsJsonObject)
                 .map(json -> mapToUserGroup(json, accountId))
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 
     @NonNull

@@ -11,7 +11,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.BuildConfig;
@@ -41,7 +40,7 @@ public class AboutViewModel extends AndroidViewModel {
                         .entrySet()
                         .stream()
                         .map(entry -> new Pair<>(entry.getKey(), entry.getValue()))
-                        .collect(Collectors.toUnmodifiableList()));
+                        .toList());
     }
 
     @NonNull

@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.database.entity.AbstractEntity;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
@@ -74,6 +73,6 @@ public class ManageColumnsAdapter extends RecyclerView.Adapter<ManageColumnsView
         return this.fullColumns.stream()
                 .map(FullColumn::getColumn)
                 .map(AbstractEntity::getId)
-                .collect(Collectors.toUnmodifiableList());
+                .toList();
     }
 }
