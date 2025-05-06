@@ -154,7 +154,6 @@
     <string name="add_option">Cuir rogha leis</string>
     <string name="delete_option">Scrios rogha</string>
     <string name="experimental_feature_column_reordering">Is gné thurgnamhach é colúin a athordú a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile de cholúin an tábla seo freisin.</string>
-    <string name="experimental_feature_column_manage">Is gné thurgnamhach é eagarthóireacht na gcolún a bhféadfadh fo-iarmhairtí neamhbheartaithe a bheith aige ar chumraíochtaí eile den cholún seo freisin.</string>
     <string name="column_type_is_required">Tá cineál colún ag teastáil</string>
     <string name="unsupported_column_type">Ní thacaítear fós le colúin den chineál %1$s a chur in eagar.</string>
     <string name="unsaved_changes">Athruithe gan sábháil</string>
@@ -166,4 +165,11 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Á lódáil…</string>
+    <string name="allowed_types">Cineálacha ceadaithe</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Úsáideoirí</string>
+    <string name="usergroup_groups">Grúpaí</string>
+    <string name="usergroup_teams">Foirne</string>
+    <string name="select_multiple_items">Roghnaigh míreanna éagsúla</string>
+    <string name="show_user_status">Taispeáin stádas úsáideora</string>
 </resources>

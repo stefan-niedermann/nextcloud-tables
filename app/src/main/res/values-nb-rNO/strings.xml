@@ -150,9 +150,15 @@
     <string name="add_option">Legg til alternativ</string>
     <string name="delete_option">Slett alternativ</string>
     <string name="experimental_feature_column_reordering">Omorganisering av kolonner er en eksperimentell funksjon som også kan ha utilsiktede bivirkninger for andre konfigurasjoner av kolonnene i denne tabellen.</string>
-    <string name="experimental_feature_column_manage">Redigering av kolonner er en eksperimentell funksjon som også kan ha utilsiktede bivirkninger for andre konfigurasjoner av denne kolonnen.</string>
     <string name="unsupported_column_type">Redigering av kolonner av typen %1$s støttes ikke enda.</string>
     <string name="unsaved_changes">Ulagrede endringer</string>
     <string name="simple_discard">Slett</string>
     <string name="simple_loading">Laster...</string>
+    <string name="allowed_types">Tillatte typer</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Brukere</string>
+    <string name="usergroup_groups">Grupper</string>
+    <string name="usergroup_teams">Lag</string>
+    <string name="select_multiple_items">Velg flere elementer</string>
+    <string name="show_user_status">Velg status på bruker</string>
 </resources>

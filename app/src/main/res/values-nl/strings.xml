@@ -104,4 +104,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="unsaved_changes">Niet opgeslagen veranderingen</string>
     <string name="simple_discard">Weggooien</string>
     <string name="simple_loading">Laden…</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_groups">Groepen</string>
+    <string name="usergroup_teams">Teams</string>
+    </resources>

@@ -111,4 +111,7 @@
     <string name="unsaved_changes">未保存的更改</string>
     <string name="simple_discard">丢弃</string>
     <string name="simple_loading">正在加载 ...</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_groups">用户组</string>
+    <string name="usergroup_teams">团队</string>
+    </resources>

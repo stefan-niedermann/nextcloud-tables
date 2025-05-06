@@ -87,4 +87,6 @@
     <string name="unsaved_changes">Cambios no guardados</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_loading">Cargando...</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users"> Usuarios</string>
+    </resources>

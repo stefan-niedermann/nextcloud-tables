@@ -89,4 +89,7 @@
     <string name="unsaved_changes">Modificări nesalvate</string>
     <string name="simple_discard">Anulează</string>
     <string name="simple_loading">Se încarcă...</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Utilizatori</string>
+    <string name="usergroup_groups">Grupuri</string>
+    </resources>

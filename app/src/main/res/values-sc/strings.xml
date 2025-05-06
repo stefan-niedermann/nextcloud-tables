@@ -93,4 +93,7 @@
     <string name="unsaved_changes">Mudas non sarvadas</string>
     <string name="simple_discard">Iscarta</string>
     <string name="simple_loading">Carrighende…</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Utentes</string>
+    <string name="usergroup_groups">Grupos</string>
+    </resources>

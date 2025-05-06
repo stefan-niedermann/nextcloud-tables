@@ -154,7 +154,6 @@
     <string name="add_option">Seçenek ekle</string>
     <string name="delete_option">Seçeneği sil</string>
     <string name="experimental_feature_column_reordering">Sütun sırasını değiştirmek henüz deneysel bir özelliktir ve bu tablonun sütunlarının diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
-    <string name="experimental_feature_column_manage">Sütunları düzenlemek henüz deneysel bir özelliktir ve bu sütunun diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
     <string name="column_type_is_required">Sütun türünün belirtilmesi zorunludur</string>
     <string name="unsupported_column_type">%1$s türündeki sütunların düzenlenmesi henüz desteklenmiyor.</string>
     <string name="unsaved_changes">Kaydedilmemiş değişiklikler</string>
@@ -166,4 +165,11 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Yükleniyor…</string>
+    <string name="allowed_types">İzin verilen türler</string>
+    <string name="simple_url">Adres</string>
+    <string name="usergroup_users">Kullanıcılar</string>
+    <string name="usergroup_groups">Gruplar</string>
+    <string name="usergroup_teams">Takımlar</string>
+    <string name="select_multiple_items">Birkaç öge seçin</string>
+    <string name="show_user_status">Kullanıcı durumunu görüntüle</string>
 </resources>

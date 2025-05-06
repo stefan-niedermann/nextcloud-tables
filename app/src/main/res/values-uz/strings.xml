@@ -154,7 +154,6 @@
     <string name="add_option">Variant qo\'shish</string>
     <string name="delete_option">O\'chirish opsiyasi</string>
     <string name="experimental_feature_column_reordering">Ustunlarni qayta tartiblash eksperimental xususiyat bo\'lib, ushbu jadval ustunlarining boshqa konfiguratsiyalariga ham kutilmagan nojo\'ya ta\'sir ko\'rsatishi mumkin.</string>
-    <string name="experimental_feature_column_manage">Ustunlarni tahrirlash eksperimental xususiyat bo\'lib, ushbu ustunning boshqa konfiguratsiyalariga ham kutilmagan nojo\'ya ta\'sir ko\'rsatishi mumkin.</string>
     <string name="column_type_is_required">Ustun turi talab qilinadi</string>
     <string name="unsupported_column_type"> %1$s .turidagi ustunlarni tahrirlash hali qo‘llab-quvvatlanmaydi.</string>
     <string name="unsaved_changes">Saqlanmagan o\'zgarishlar</string>
@@ -166,4 +165,6 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Yuklanmoqda...</string>
-</resources>
+    <string name="usergroup_users">Foydalanuvchilar</string>
+    <string name="usergroup_groups">Groups</string>
+    </resources>
