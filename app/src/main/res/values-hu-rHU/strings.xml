@@ -148,9 +148,12 @@
     <string name="add_option">Lehetőség hozzáadása</string>
     <string name="delete_option">Lehetőség törlése</string>
     <string name="experimental_feature_column_reordering">Az oszlopok újrarendezése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek a táblázat oszlopainak más beállításaira.</string>
-    <string name="experimental_feature_column_manage">Az oszlopok szerkesztése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek az oszlop más beállításaira.</string>
     <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
     <string name="unsaved_changes">Mentetlen változtatások</string>
     <string name="simple_discard">Elvetés</string>
     <string name="simple_loading">Betöltés…</string>
-</resources>
+    <string name="allowed_types">Engedélyezett tipusok</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_groups">Csoportok</string>
+    <string name="usergroup_teams">Csapatok</string>
+    </resources>

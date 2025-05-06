@@ -148,9 +148,10 @@
     <string name="add_option">Agregar opción</string>
     <string name="delete_option">Eliminar opción</string>
     <string name="experimental_feature_column_reordering">La reordenación de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de las columnas de esta tabla.</string>
-    <string name="experimental_feature_column_manage">La edición de columnas es una función experimental que puede tener efectos secundarios no deseados en otras configuraciones de esta columna.</string>
     <string name="unsupported_column_type">No se admite la edición de columnas de tipo %1$s.</string>
     <string name="unsaved_changes">Cambios no guardados</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_loading">Cargando</string>
-</resources>
+    <string name="allowed_types">Tipos permitidos</string>
+    <string name="usergroup_users">Usuarios</string>
+    </resources>

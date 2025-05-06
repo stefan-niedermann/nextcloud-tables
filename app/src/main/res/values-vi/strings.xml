@@ -91,4 +91,7 @@
     <string name="unsaved_changes">Thay đổi chưa được lưu</string>
     <string name="simple_discard">Bỏ qua thay đổi</string>
     <string name="simple_loading">Đang tải…</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Người dùng</string>
+    <string name="usergroup_groups">Nhóm</string>
+    </resources>

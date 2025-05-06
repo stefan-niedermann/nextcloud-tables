@@ -93,4 +93,8 @@
     <string name="unsaved_changes">Óvistaðar breytingar</string>
     <string name="simple_discard">Fleygja</string>
     <string name="simple_loading">Hleð inn…</string>
-</resources>
+    <string name="simple_url">Slóð</string>
+    <string name="usergroup_users">Notendur</string>
+    <string name="usergroup_groups">Hópar</string>
+    <string name="usergroup_teams">Teymi</string>
+    </resources>

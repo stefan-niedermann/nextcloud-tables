@@ -154,7 +154,6 @@
     <string name="add_option">Engadir unha opción</string>
     <string name="delete_option">Eliminar opción</string>
     <string name="experimental_feature_column_reordering">A reordenación de columnas é unha función experimental que tamén pode ter efectos secundarios non desexados para outras configuracións das columnas desta táboa.</string>
-    <string name="experimental_feature_column_manage">A edición de columnas é unha función experimental que tamén pode ter efectos secundarios non desexados para outras configuracións desta columna.</string>
     <string name="column_type_is_required">Precisase do tipo de columna</string>
     <string name="unsupported_column_type">Aínda non se admite a edición de columnas de tipo %1$s.</string>
     <string name="unsaved_changes">Cambios sen gardar</string>
@@ -166,4 +165,11 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Cargando…</string>
+    <string name="allowed_types">Tipos permitidos</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Usuarios</string>
+    <string name="usergroup_groups">Grupos</string>
+    <string name="usergroup_teams">Equipos</string>
+    <string name="select_multiple_items">Seleccionar varios elementos</string>
+    <string name="show_user_status">Amosar o estado do usuario</string>
 </resources>

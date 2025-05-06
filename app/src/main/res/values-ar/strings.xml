@@ -154,7 +154,6 @@
     <string name="add_option">إضِف خِياراً</string>
     <string name="delete_option">خيار الحذف</string>
     <string name="experimental_feature_column_reordering">إعادة ترتيب الأعمدة ما زالت ميزة تجريبية حتى الآن، و قد يكون لها آثار جانبية غير مقصودة على التكوينات الأخرى لأعمدة هذا الجدول أيضًا.</string>
-    <string name="experimental_feature_column_manage">تعد إعادة ترتيب الأعمدة ميزة تجريبية قد يكون لها آثار جانبية غير مقصودة على التكوينات الأخرى لهذا العمود أيضًا.</string>
     <string name="column_type_is_required">نوع العمود مطلوب</string>
     <string name="unsupported_column_type">تعديل أعمدة من النوع %1$s غير مدعومة بعد.</string>
     <string name="unsaved_changes">تغييرات لم يتم حفظها</string>
@@ -166,4 +165,5 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">التحميل جارٍ ...</string>
-</resources>
+    <string name="select_multiple_items">تحديد عدة عناصر</string>
+    </resources>

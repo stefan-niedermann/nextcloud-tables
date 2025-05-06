@@ -154,7 +154,6 @@
     <string name="add_option">Tilføj valg</string>
     <string name="delete_option">Slet valg</string>
     <string name="experimental_feature_column_reordering">Sortering af kolonner er en eksperimentel funktion som kan have uønskede effekter på andre konfigurationer for kolonnerne i denne tabel.</string>
-    <string name="experimental_feature_column_manage">Redigering af kolonner er en eksperimentel funktion som kan have uønsker virkninger på andre konfigurationer for denne kolonne.</string>
     <string name="column_type_is_required">Kolonnetype er krævet</string>
     <string name="unsupported_column_type">Redigering af kolonner af typen %1$s er endnu ikke understøttet.</string>
     <string name="unsaved_changes">Ikke gemte ændringer</string>
@@ -166,4 +165,4 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Indlæser…</string>
-</resources>
+    </resources>

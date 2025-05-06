@@ -147,9 +147,11 @@
     <string name="add_option">Dodaj opcję</string>
     <string name="delete_option">Usuń opcję</string>
     <string name="experimental_feature_column_reordering">Zmiana kolejności kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji kolumn tej tabeli.</string>
-    <string name="experimental_feature_column_manage">Edycja kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji tej kolumny.</string>
     <string name="unsupported_column_type">Edytowanie kolumn typu %1$s nie jest jeszcze obsługiwane.</string>
     <string name="unsaved_changes">Niezapisane zmiany</string>
     <string name="simple_discard">Odrzuć</string>
     <string name="simple_loading">Wczytywanie…</string>
-</resources>
+    <string name="simple_url">Adres URL</string>
+    <string name="usergroup_groups">Grupy</string>
+    <string name="usergroup_teams">Zespoły</string>
+    </resources>

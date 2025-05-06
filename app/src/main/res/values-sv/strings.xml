@@ -154,7 +154,6 @@
     <string name="add_option">Lägg till alternativ</string>
     <string name="delete_option">Ta bort alternativ</string>
     <string name="experimental_feature_column_reordering">Omordning av kolumner är en experimentell funktion som kan ha oavsiktliga bieffekter på andra konfigurationer av kolumnerna i denna tabell.</string>
-    <string name="experimental_feature_column_manage">Redigering av kolumner är en experimentell funktion som kan ha oavsiktliga bieffekter på andra konfigurationer av denna kolumn.</string>
     <string name="column_type_is_required">Kolumntyp är obligatorisk</string>
     <string name="unsupported_column_type">Redigering av kolumner av typen %1$s stöds ännu inte.</string>
     <string name="unsaved_changes">Ej sparade ändringar</string>
@@ -166,4 +165,11 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Laddar...</string>
+    <string name="allowed_types">Tillåtna typer</string>
+    <string name="simple_url">Webbadress</string>
+    <string name="usergroup_users">Användare</string>
+    <string name="usergroup_groups">Grupper</string>
+    <string name="usergroup_teams">Teams</string>
+    <string name="select_multiple_items">Välj flera objekt</string>
+    <string name="show_user_status">Visa användarstatus</string>
 </resources>

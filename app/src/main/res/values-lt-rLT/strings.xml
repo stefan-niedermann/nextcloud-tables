@@ -89,4 +89,8 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Įkeliama…</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Naudotojai</string>
+    <string name="usergroup_groups">Grupės</string>
+    <string name="usergroup_teams">Komandos</string>
+    </resources>

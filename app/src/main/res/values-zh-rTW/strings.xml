@@ -154,7 +154,6 @@
     <string name="add_option">新增選項</string>
     <string name="delete_option">刪除選項</string>
     <string name="experimental_feature_column_reordering">重新排序欄位是實驗性的功能，可能會對該表格的欄位或其他設定產生意想不到的副作用。</string>
-    <string name="experimental_feature_column_manage">編輯欄位是實驗性的功能，可能會對該欄位或其他設定產生意想不到的副作用。</string>
     <string name="column_type_is_required">欄位類型為必填</string>
     <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
     <string name="unsaved_changes">未儲存變更</string>
@@ -166,4 +165,11 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">正在載入…</string>
+    <string name="allowed_types">允許類型</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">使用者</string>
+    <string name="usergroup_groups">群組</string>
+    <string name="usergroup_teams">團隊</string>
+    <string name="select_multiple_items">選取多個項目</string>
+    <string name="show_user_status">顯示使用者狀態</string>
 </resources>

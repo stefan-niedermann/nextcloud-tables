@@ -150,9 +150,11 @@
     <string name="add_option">Gehitu aukera</string>
     <string name="delete_option">Ezabatu aukera</string>
     <string name="experimental_feature_column_reordering">Zutabeak ordenatzea ezaugarri esperimentala da eta ustekabeko efektuak izan ditzake taula honetako beste zutabeen konfigurazioan ere.</string>
-    <string name="experimental_feature_column_manage">Zutabeak editatzea ezaugarri esperimentala da eta ustekabeko efektuak izan ditzake zutabe honetako konfigurazioan ere.</string>
     <string name="unsupported_column_type">%1$smotako zutabeak editatzea ez da onartzen oraindik. </string>
     <string name="unsaved_changes">Gorde gabeko aldaketak</string>
     <string name="simple_discard">Baztertu</string>
     <string name="simple_loading">Kargatzen…</string>
-</resources>
+    <string name="allowed_types">Baimendutako motak</string>
+    <string name="simple_url">URLa</string>
+    <string name="usergroup_users">Erabiltzaileak</string>
+    </resources>

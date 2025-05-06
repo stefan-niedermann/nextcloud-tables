@@ -137,4 +137,10 @@
     <string name="unsaved_changes">未保存の変更点</string>
     <string name="simple_discard">破棄</string>
     <string name="simple_loading">読み込み中…</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">ユーザ</string>
+    <string name="usergroup_groups">グループ</string>
+    <string name="usergroup_teams">チーム</string>
+    <string name="select_multiple_items">複数の項目を選択</string>
+    <string name="show_user_status">ユーザー ステータスの表示</string>
 </resources>

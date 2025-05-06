@@ -148,9 +148,15 @@
     <string name="add_option">تاللاش قوشۇڭ</string>
     <string name="delete_option">تاللاشنى ئۆچۈرۈڭ</string>
     <string name="experimental_feature_column_reordering">ئىستونلارنى رەتلەش بىر تەجرىبە ئالاھىدىلىكى بولۇپ ، بۇ جەدۋەلنىڭ باشقا سەپلىمىلىرىگىمۇ ئويلىمىغان ئەكىس تەسىرلەر بولۇشى مۇمكىن.</string>
-    <string name="experimental_feature_column_manage">ستونلارنى تەھرىرلەش تەجرىبە ئىقتىدارى بولۇپ ، بۇ ئىستوننىڭ باشقا سەپلىمىلىرىگىمۇ ئويلىمىغان ئەكىس تەسىرلەر بولۇشى مۇمكىن.</string>
     <string name="unsupported_column_type">% 1 $ s تىپىدىكى ئىستونلارنى تەھرىرلەش تېخى قوللىمايدۇ.</string>
     <string name="unsaved_changes">ساقلانمىغان ئۆزگەرتىش</string>
     <string name="simple_discard">تاشلىۋېتىش</string>
     <string name="simple_loading">Loading…</string>
+    <string name="allowed_types">رۇخسەت قىلىنغان تىپلار</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">ئىشلەتكۈچى</string>
+    <string name="usergroup_groups">گۇرۇپپىلار</string>
+    <string name="usergroup_teams">كوماندىلار</string>
+    <string name="select_multiple_items">كۆپ تۈرنى تاللاڭ</string>
+    <string name="show_user_status">ئىشلەتكۈچى ھالىتىنى كۆرسەت</string>
 </resources>

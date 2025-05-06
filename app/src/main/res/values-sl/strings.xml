@@ -146,4 +146,7 @@
     <string name="unsaved_changes">Neshranjene spremembe</string>
     <string name="simple_discard">Opusti</string>
     <string name="simple_loading">Poteka nalaganje …</string>
-</resources>
+    <string name="simple_url">Naslov URL</string>
+    <string name="usergroup_groups">Skupine</string>
+    <string name="usergroup_teams">Ekipe</string>
+    </resources>

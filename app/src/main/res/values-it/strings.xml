@@ -147,9 +147,10 @@
     <string name="add_option">Aggiungi opzione</string>
     <string name="delete_option">Elimina opzione</string>
     <string name="experimental_feature_column_reordering">Il riordino delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni delle colonne di questa tabella.</string>
-    <string name="experimental_feature_column_manage">La modifica delle colonne è una funzionalità sperimentale che potrebbe avere effetti collaterali indesiderati anche su altre configurazioni di questa colonna.</string>
     <string name="unsupported_column_type">La modifica di colonne di tipo %1$s non è ancora supportata</string>
     <string name="unsaved_changes">Modifiche non salvate</string>
     <string name="simple_discard">Scarta</string>
     <string name="simple_loading">Caricamento…</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_groups">Gruppi</string>
+    </resources>

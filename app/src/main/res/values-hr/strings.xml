@@ -92,4 +92,7 @@
     <string name="unsaved_changes">Nespremljene promjene</string>
     <string name="simple_discard">Odbaci</string>
     <string name="simple_loading">Učitavanje…</string>
-</resources>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_users">Korisnici</string>
+    <string name="usergroup_groups">Grupe</string>
+    </resources>
