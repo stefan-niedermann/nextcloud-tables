@@ -29,6 +29,7 @@ public class TableV2Mapper implements Mapper<TableV2Dto, Table> {
                 .of(entity.getOnSharePermission())
                 .map(onSharePermissionMapper::toDto)
                 .orElse(null);
+
         return new TableV2Dto(
                 entity.getRemoteId(),
                 entity.getTitle(),
@@ -60,7 +61,7 @@ public class TableV2Mapper implements Mapper<TableV2Dto, Table> {
         entity.setLastEditBy(dto.lastEditBy());
         entity.setLastEditAt(dto.lastEditAt());
         entity.setShared(Boolean.TRUE.equals(dto.isShared()));
-        final var onSharePermission = dto.onSharePermission();
+        final var onSharePermission = dto.onSharePermissions();
         if (onSharePermission != null) {
             entity.setOnSharePermission(onSharePermissionMapper.toEntity(onSharePermission));
         }

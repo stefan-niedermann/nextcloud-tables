@@ -17,6 +17,7 @@ import com.nextcloud.android.sso.model.ocs.OcsResponse;
 import java.net.HttpURLConnection;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -262,6 +263,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                     final Collection<Table> fetchedTables;
                     Log.v(TAG, "Pulling remote changes for " + account.getAccountName());
 
+                    //noinspection SwitchStatementWithTooFewBranches
                     switch (response.code()) {
                         case 200 -> {
                             final var responseBody = response.body();
@@ -286,8 +288,12 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                         }
                     }
 
-                    //noinspection DataFlowIssue
-                    final var tableRemoteIds = fetchedTables.stream().map(AbstractRemoteEntity::getRemoteId).collect(toUnmodifiableSet());
+                    final var tableRemoteIds = fetchedTables
+                            .stream()
+                            .map(AbstractRemoteEntity::getRemoteId)
+                            .filter(Objects::nonNull)
+                            .collect(toUnmodifiableSet());
+
                     return supplyAsync(() -> db.getTableDao().getTableRemoteAndLocalIds(account.getId(), tableRemoteIds), db.getParallelExecutor())
                             .thenApplyAsync(tableIds -> fetchedTables.stream()
                                     .map(table -> runAsync(() -> Optional.ofNullable(reporter).ifPresent(r -> r.report(state -> state.withTableProgressStarting(table))), workExecutor)

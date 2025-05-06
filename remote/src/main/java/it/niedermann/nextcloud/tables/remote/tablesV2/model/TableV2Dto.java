@@ -24,7 +24,7 @@ public record TableV2Dto(
         @Nullable String lastEditBy,
         @Nullable Instant lastEditAt,
         @Nullable Boolean isShared,
-        @Nullable OnSharePermissionV2Dto onSharePermission
+        @Nullable OnSharePermissionV2Dto onSharePermissions
 ) implements Serializable, RemoteDto {
 
     @NonNull

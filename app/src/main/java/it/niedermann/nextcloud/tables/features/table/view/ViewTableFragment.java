@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -138,27 +137,35 @@ public class ViewTableFragment extends Fragment {
 
             @Override
             public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
-                if (!fullTable.getTable().hasUpdatePermission() && !fullTable.getTable().hasDeletePermission()) {
+                if (!fullTable.getTable().hasUpdatePermission() && !fullTable.getTable().hasDeletePermission() && !fullTable.getTable().hasCreatePermission()) {
                     Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.UPDATE + ", " + EPermissionV2Dto.DELETE);
                     return;
                 }
 
                 final var popup = new PopupMenu(requireContext(), cellView.itemView);
                 popup.inflate(R.menu.context_menu_cell);
-                Optional.ofNullable(popup.getMenu().findItem(R.id.quick_action))
-                        .ifPresent(quickActionMenuItem -> {
-                            if (cellView instanceof CellViewHolder) {
-                                ((CellViewHolder) cellView).getQuickActionProvider().ifPresentOrElse(
-                                        quickActionProvider -> {
-                                            quickActionMenuItem.setVisible(true);
-                                            quickActionMenuItem.setTitle(quickActionProvider.title());
-                                        },
-                                        () -> quickActionMenuItem.setVisible(false)
-                                );
-                            } else {
-                                quickActionMenuItem.setVisible(false);
-                            }
-                        });
+
+                final var menu = popup.getMenu();
+
+                menu.findItem(R.id.edit_row).setVisible(fullTable.getTable().hasUpdatePermission());
+                menu.findItem(R.id.duplicate_row).setVisible(fullTable.getTable().hasCreatePermission());
+                menu.findItem(R.id.delete_row).setVisible(fullTable.getTable().hasDeletePermission());
+
+                final var quickActionMenuItem = menu.findItem(R.id.quick_action);
+                if (fullTable.getTable().hasUpdatePermission() && cellView instanceof CellViewHolder) {
+
+                    ((CellViewHolder) cellView).getQuickActionProvider().ifPresentOrElse(
+                            quickActionProvider -> {
+                                quickActionMenuItem.setVisible(true);
+                                quickActionMenuItem.setTitle(quickActionProvider.title());
+                            },
+                            () -> quickActionMenuItem.setVisible(false)
+                    );
+
+                } else {
+                    quickActionMenuItem.setVisible(false);
+                }
+
                 popup.setOnMenuItemClickListener(item -> {
                     final var row = adapter.getRowHeaderItem(rowPosition);
                     if (row == null) {
@@ -168,8 +175,10 @@ public class ViewTableFragment extends Fragment {
 
                     if (item.getItemId() == R.id.edit_row) {
                         startActivity(EditRowActivity.createEditIntent(requireContext(), state.account(), fullTable.getTable(), row.getRow()));
+
                     } else if (item.getItemId() == R.id.duplicate_row) {
                         startActivity(EditRowActivity.createDuplicateIntent(requireContext(), state.account(), fullTable.getTable(), row.getRow()));
+
                     } else if (item.getItemId() == R.id.delete_row) {
                         new MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(R.string.delete_row)
@@ -183,6 +192,7 @@ public class ViewTableFragment extends Fragment {
                                 })
                                 .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
                                 .show();
+
                     } else {
                         ExceptionDialogFragment.newInstance(new IllegalStateException("Unexpected menu item ID in row context menu: " + item.getItemId()), state.account()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                         return false;
