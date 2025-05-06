@@ -141,7 +141,7 @@
 
     <string name="order_weight">Ordú meáchan</string>
     <string name="add_column">Cuir colún leis</string>
-    <string name="navigation_my_tables">Mo táblaí</string>
+    <string name="navigation_tables">Mo táblaí</string>
     <string name="navigation_shared_tables">Táblaí roinnte</string>
     <string name="could_not_display_column_editor">Níorbh fhéidir %1$s a thaispeáint.</string>
     <string name="choose_table_from_the_sidebar">Roghnaigh tábla ón taobhbharra</string>

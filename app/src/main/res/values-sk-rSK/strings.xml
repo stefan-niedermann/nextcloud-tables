@@ -141,7 +141,7 @@
 
     <string name="order_weight">Váha triedenia</string>
     <string name="add_column">Pridať stĺpec</string>
-    <string name="navigation_my_tables">Moje tabuľky</string>
+    <string name="navigation_tables">Moje tabuľky</string>
     <string name="navigation_shared_tables">Zdieľané tabuľky</string>
     <string name="could_not_display_column_editor">%1$s nie je možné zobraziť</string>
     <string name="choose_table_from_the_sidebar">Vyberte tabuľku z bočného panela</string>

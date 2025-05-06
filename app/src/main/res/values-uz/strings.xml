@@ -141,7 +141,7 @@
 
     <string name="order_weight">Buyurtma hajmi</string>
     <string name="add_column">Ustun qo\'shish</string>
-    <string name="navigation_my_tables">Mening stollarim</string>
+    <string name="navigation_tables">Mening stollarim</string>
     <string name="navigation_shared_tables">Ulashilgan jadvallar</string>
     <string name="could_not_display_column_editor">%1$s ko‘rsatilmadi.</string>
     <string name="choose_table_from_the_sidebar">Yon paneldan jadvalni tanlang</string>

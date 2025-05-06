@@ -58,8 +58,8 @@ public class TablesRepository extends AbstractRepository {
     }
 
     @MainThread
-    public LiveData<List<Table>> getNotDeletedTables$(@NonNull Account account, boolean isShared) {
-        return new ReactiveLiveData<>(db.getTableDao().getNotDeletedTables$(account.getId(), isShared))
+    public LiveData<List<Table>> getNotDeletedTables$(@NonNull Account account, boolean favorite, boolean archived) {
+        return new ReactiveLiveData<>(db.getTableDao().getNotDeletedTables$(account.getId(), favorite, archived))
                 .distinctUntilChanged();
     }
 

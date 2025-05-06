@@ -134,7 +134,7 @@
 
     <string name="order_weight">Порядковый номер</string>
     <string name="add_column">Добавить стопку</string>
-    <string name="navigation_my_tables">Мои таблицы</string>
+    <string name="navigation_tables">Мои таблицы</string>
     <string name="navigation_shared_tables">Общие таблицы</string>
     <string name="could_not_display_column_editor">Не удалось отобразить %1$s.</string>
     <string name="choose_table_from_the_sidebar">Выберите таблицу из боковой панели</string>

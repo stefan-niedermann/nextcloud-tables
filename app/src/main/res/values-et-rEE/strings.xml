@@ -141,7 +141,7 @@
 
     <string name="order_weight">Järjekorra kaal</string>
     <string name="add_column">Lisa veerg</string>
-    <string name="navigation_my_tables">Minu tabelid</string>
+    <string name="navigation_tables">Minu tabelid</string>
     <string name="navigation_shared_tables">Jagatud tabelid</string>
     <string name="could_not_display_column_editor">„%1$s“ kuvamine polnud võimalik</string>
     <string name="choose_table_from_the_sidebar">Vali külgpaanist tabel</string>

@@ -133,7 +133,7 @@
 
     <string name="order_weight">Razvrstilnik</string>
     <string name="add_column">Dodaj stolpec</string>
-    <string name="navigation_my_tables">Moje razpredelnice</string>
+    <string name="navigation_tables">Moje razpredelnice</string>
     <string name="navigation_shared_tables">Razpredelnice v souporabi</string>
     <string name="choose_table_from_the_sidebar">Izberite razpredelnico iz bočnega okna</string>
     <string name="last_background_sync">Zadnje usklajevanje:</string>

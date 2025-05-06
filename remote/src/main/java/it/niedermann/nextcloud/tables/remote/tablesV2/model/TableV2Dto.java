@@ -23,6 +23,8 @@ public record TableV2Dto(
         @Nullable Instant createdAt,
         @Nullable String lastEditBy,
         @Nullable Instant lastEditAt,
+        @Nullable Boolean archived,
+        @Nullable Boolean favorite,
         @Nullable Boolean isShared,
         @Nullable OnSharePermissionV2Dto onSharePermissions
 ) implements Serializable, RemoteDto {

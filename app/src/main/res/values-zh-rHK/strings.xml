@@ -141,7 +141,7 @@
 
     <string name="order_weight">順序權重</string>
     <string name="add_column">添加縱列</string>
-    <string name="navigation_my_tables">我的數據庫表</string>
+    <string name="navigation_tables">我的數據庫表</string>
     <string name="navigation_shared_tables">共享數據庫表</string>
     <string name="could_not_display_column_editor">無法顯示 %1$s。</string>
     <string name="choose_table_from_the_sidebar">從側邊欄選擇數據庫表</string>

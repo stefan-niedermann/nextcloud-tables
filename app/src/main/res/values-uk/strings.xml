@@ -141,7 +141,7 @@
 
     <string name="order_weight">Порядок у списку</string>
     <string name="add_column">Додати стовпчик</string>
-    <string name="navigation_my_tables">Мої таблиці</string>
+    <string name="navigation_tables">Мої таблиці</string>
     <string name="navigation_shared_tables">Спільні таблиці</string>
     <string name="could_not_display_column_editor">Неможливо показати %1$s.</string>
     <string name="choose_table_from_the_sidebar">Виберіть таблицю з бокової панелі</string>

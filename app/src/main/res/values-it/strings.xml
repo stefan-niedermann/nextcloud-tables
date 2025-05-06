@@ -136,7 +136,7 @@
 
     <string name="order_weight">Peso normale</string>
     <string name="add_column">Aggiungi colonna</string>
-    <string name="navigation_my_tables">Le mie tabelle</string>
+    <string name="navigation_tables">Le mie tabelle</string>
     <string name="navigation_shared_tables">Tabelle condivise</string>
     <string name="could_not_display_column_editor">%1$s non può essere visualizzato.</string>
     <string name="choose_table_from_the_sidebar">Scegli la tabella dalla barra laterale</string>

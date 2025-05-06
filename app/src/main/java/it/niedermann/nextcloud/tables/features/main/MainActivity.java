@@ -180,8 +180,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_my_tables), tables.getOwnTables());
-        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_shared_tables), tables.getSharedTables());
+        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_favorites), tables.getFavorites());
+        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_tables), tables.getTables());
+        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_archived), tables.getArchived());
 
         menu.add(Menu.NONE, EMenuItem.ADD_TABLE.id, Menu.NONE, R.string.add_table)
                 .setIcon(R.drawable.ic_baseline_add_24)

@@ -41,6 +41,8 @@ public class TableV2Mapper implements Mapper<TableV2Dto, Table> {
                 entity.getCreatedAt(),
                 entity.getLastEditBy(),
                 entity.getLastEditAt(),
+                entity.isArchived(),
+                entity.isFavorite(),
                 entity.isShared(),
                 onSharePermission
         );
@@ -60,6 +62,8 @@ public class TableV2Mapper implements Mapper<TableV2Dto, Table> {
         entity.setCreatedAt(dto.createdAt());
         entity.setLastEditBy(dto.lastEditBy());
         entity.setLastEditAt(dto.lastEditAt());
+        entity.setArchived(Boolean.TRUE.equals(dto.archived()));
+        entity.setFavorite(Boolean.TRUE.equals(dto.favorite()));
         entity.setShared(Boolean.TRUE.equals(dto.isShared()));
         final var onSharePermission = dto.onSharePermissions();
         if (onSharePermission != null) {

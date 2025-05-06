@@ -54,12 +54,15 @@ public interface TableDao extends GenericDao<Table> {
     @Query("SELECT t.id FROM `Table` t WHERE t.accountId = :accountId AND t.status IS NOT 'LOCAL_DELETED' LIMIT 1")
     Long getAnyNotDeletedTableId(long accountId);
 
-    @Query("SELECT t.* FROM `Table` t " +
-            "WHERE t.accountId = :accountId " +
-            "AND t.isShared = :isShared " +
-            "AND t.status IS NOT 'LOCAL_DELETED' " +
-            "ORDER by t.createdAt")
-    LiveData<List<Table>> getNotDeletedTables$(long accountId, boolean isShared);
+    @Query("""
+            SELECT t.* FROM `Table` t
+            WHERE t.accountId = :accountId
+            AND t.favorite = :favorite
+            AND t.archived = :archived
+            AND t.status IS NOT 'LOCAL_DELETED'
+            ORDER by t.createdAt
+            """)
+    LiveData<List<Table>> getNotDeletedTables$(long accountId, boolean favorite, boolean archived);
 
     @Query("SELECT t.remoteId, t.id FROM `Table` t WHERE t.accountId = :accountId AND t.remoteId IN (:remoteIds)")
     Map<@MapColumn(columnName = "remoteId") Long, @MapColumn(columnName = "id") Long> getTableRemoteAndLocalIds(long accountId, Collection<Long> remoteIds);

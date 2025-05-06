@@ -135,7 +135,7 @@
     <string name="missing_permission_manage">Puuttuva hallintaoikeus</string>
 
     <string name="add_column">Lisää sarake</string>
-    <string name="navigation_my_tables">Omat taulukot</string>
+    <string name="navigation_tables">Omat taulukot</string>
     <string name="navigation_shared_tables">Jaetut taulukot</string>
     <string name="could_not_display_column_editor">%1$s ei voitu näyttää.</string>
     <string name="choose_table_from_the_sidebar">Valitse taulukko sivupalkista</string>

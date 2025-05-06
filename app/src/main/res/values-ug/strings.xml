@@ -138,7 +138,7 @@
 
     <string name="order_weight">زاكاز ئېغىرلىقى</string>
     <string name="add_column">ستون قوشۇڭ</string>
-    <string name="navigation_my_tables">ئۈستەللىرىم</string>
+    <string name="navigation_tables">ئۈستەللىرىم</string>
     <string name="navigation_shared_tables">ئورتاق جەدۋەل</string>
     <string name="could_not_display_column_editor">% 1 $ s نى كۆرسىتەلمىدى.</string>
     <string name="choose_table_from_the_sidebar">يان بالداقتىن جەدۋەلنى تاللاڭ</string>

@@ -137,7 +137,7 @@
 
     <string name="order_weight">Peso de orden</string>
     <string name="add_column">Agregar columna</string>
-    <string name="navigation_my_tables">Mis tablas</string>
+    <string name="navigation_tables">Mis tablas</string>
     <string name="navigation_shared_tables">Tablas compartidas</string>
     <string name="could_not_display_column_editor">No se pudo mostrar %1$s.</string>
     <string name="choose_table_from_the_sidebar">Elige una tabla del panel lateral</string>

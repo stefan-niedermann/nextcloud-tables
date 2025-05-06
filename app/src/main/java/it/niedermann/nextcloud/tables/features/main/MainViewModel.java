@@ -95,13 +95,23 @@ public class MainViewModel extends AndroidViewModel {
 
             final var resultValue = new TablesPerAccount(account);
 
-            result$.addSource(tablesRepository.getNotDeletedTables$(account, false), val -> {
-                resultValue.setOwnTables(val);
+            // Favorites
+            // Tables
+            // Archived
+            // Applications
+
+            result$.addSource(tablesRepository.getNotDeletedTables$(account, true, false), val -> {
+                resultValue.setFavorites(val);
                 result$.postValue(resultValue);
             });
 
-            result$.addSource(tablesRepository.getNotDeletedTables$(account, true), val -> {
-                resultValue.setSharedTables(val);
+            result$.addSource(tablesRepository.getNotDeletedTables$(account, false, false), val -> {
+                resultValue.setTables(val);
+                result$.postValue(resultValue);
+            });
+
+            result$.addSource(tablesRepository.getNotDeletedTables$(account, false, true), val -> {
+                resultValue.setArchived(val);
                 result$.postValue(resultValue);
             });
 
@@ -138,9 +148,11 @@ public class MainViewModel extends AndroidViewModel {
         @NonNull
         private final Account account;
         @NonNull
-        private final List<Table> ownTables = new ArrayList<>();
+        private final List<Table> favorites = new ArrayList<>();
         @NonNull
-        private final List<Table> sharedTables = new ArrayList<>();
+        private final List<Table> tables = new ArrayList<>();
+        @NonNull
+        private final List<Table> archived = new ArrayList<>();
 
         public TablesPerAccount(@NonNull Account account) {
             this.account = account;
@@ -152,23 +164,33 @@ public class MainViewModel extends AndroidViewModel {
         }
 
         @NonNull
-        public List<Table> getOwnTables() {
-            return ownTables;
+        public List<Table> getFavorites() {
+            return favorites;
         }
 
-        public void setOwnTables(@NonNull List<Table> ownTables) {
-            this.ownTables.clear();
-            this.ownTables.addAll(ownTables);
+        public void setFavorites(@NonNull List<Table> favorites) {
+            this.favorites.clear();
+            this.favorites.addAll(favorites);
         }
 
         @NonNull
-        public List<Table> getSharedTables() {
-            return sharedTables;
+        public List<Table> getTables() {
+            return tables;
         }
 
-        public void setSharedTables(@NonNull List<Table> sharedTables) {
-            this.sharedTables.clear();
-            this.sharedTables.addAll(sharedTables);
+        public void setTables(@NonNull List<Table> tables) {
+            this.tables.clear();
+            this.tables.addAll(tables);
+        }
+
+        @NonNull
+        public List<Table> getArchived() {
+            return archived;
+        }
+
+        public void setArchived(@NonNull List<Table> archived) {
+            this.archived.clear();
+            this.archived.addAll(archived);
         }
     }
 }

@@ -1,1 +1,2 @@
 fix: Avoid endless spinner when switching to the same table that is currently active
+feat(table): Add support for archived and favorite flags in navigation view

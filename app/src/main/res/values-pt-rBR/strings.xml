@@ -141,7 +141,7 @@
 
     <string name="order_weight">Peso do pedido</string>
     <string name="add_column">Adicionar coluna</string>
-    <string name="navigation_my_tables">Minhas tabelas</string>
+    <string name="navigation_tables">Minhas tabelas</string>
     <string name="navigation_shared_tables">Tabelas compartilhadas</string>
     <string name="could_not_display_column_editor">%1$s não pôde ser exibido.</string>
     <string name="choose_table_from_the_sidebar">Escolha uma tabela na barra lateral</string>

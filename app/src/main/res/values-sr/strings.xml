@@ -141,7 +141,7 @@
 
     <string name="order_weight">Тежина наруџбине</string>
     <string name="add_column">Додај колону</string>
-    <string name="navigation_my_tables">Моје табеле</string>
+    <string name="navigation_tables">Моје табеле</string>
     <string name="navigation_shared_tables">Дељене табеле</string>
     <string name="could_not_display_column_editor"> %1$s не може да се прикаже.</string>
     <string name="choose_table_from_the_sidebar">Изаберите табелу из бочне траке</string>

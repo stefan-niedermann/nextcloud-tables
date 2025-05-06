@@ -141,7 +141,7 @@
 
     <string name="order_weight">Poids de la commande</string>
     <string name="add_column"> Ajouter une colonne</string>
-    <string name="navigation_my_tables">Mes tableaux</string>
+    <string name="navigation_tables">Mes tableaux</string>
     <string name="navigation_shared_tables">Tableaux partagés</string>
     <string name="could_not_display_column_editor">%1$s n\'a pas pu être affiché.</string>
     <string name="choose_table_from_the_sidebar">Choisissez le tableau dans le panneau latéral</string>

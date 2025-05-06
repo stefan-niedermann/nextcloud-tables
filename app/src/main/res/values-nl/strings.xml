@@ -94,7 +94,7 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="error_action_open_battery_settings">Batterij instellingen</string>
 
     <string name="add_column">Toevoegen kolom</string>
-    <string name="navigation_my_tables">Mijn tabellen</string>
+    <string name="navigation_tables">Mijn tabellen</string>
     <string name="navigation_shared_tables">Gedeelde tabellen</string>
     <string name="last_background_sync">Laatste achtergrond sync:</string>
     <string name="simple_disabled">uitgeschakeld</string>

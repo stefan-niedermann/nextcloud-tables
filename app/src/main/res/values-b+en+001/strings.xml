@@ -141,7 +141,7 @@
 
     <string name="order_weight">Order weight</string>
     <string name="add_column">Add column</string>
-    <string name="navigation_my_tables">My tables</string>
+    <string name="navigation_tables">My tables</string>
     <string name="navigation_shared_tables">Shared tables</string>
     <string name="could_not_display_column_editor">%1$s could not be displayed.</string>
     <string name="choose_table_from_the_sidebar">Choose table from the sidebar</string>

@@ -139,7 +139,7 @@
 
     <string name="order_weight">Rekkefølge-vekting</string>
     <string name="add_column">Legg til kolonne</string>
-    <string name="navigation_my_tables">Mine tabeller</string>
+    <string name="navigation_tables">Mine tabeller</string>
     <string name="navigation_shared_tables">Delte tabeller</string>
     <string name="could_not_display_column_editor">%1$s kunne ikke vises.</string>
     <string name="choose_table_from_the_sidebar">Velg tabell fra sidefeltet</string>

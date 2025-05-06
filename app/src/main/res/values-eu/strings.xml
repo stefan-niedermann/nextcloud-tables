@@ -139,7 +139,7 @@
 
     <string name="order_weight">Eskaeraren pisua</string>
     <string name="add_column">Gehitu zutabea</string>
-    <string name="navigation_my_tables">Nire taulak</string>
+    <string name="navigation_tables">Nire taulak</string>
     <string name="navigation_shared_tables">Partekatutako taulak</string>
     <string name="could_not_display_column_editor">%1$s ezin izan da bistaratu.</string>
     <string name="choose_table_from_the_sidebar">Aukeratu taula alboko barratik</string>

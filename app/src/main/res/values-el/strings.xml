@@ -97,7 +97,7 @@
     <string name="error_action_open_battery_settings">Ρυθμίσεις μπαταρίας</string>
 
     <string name="add_column">Προσθήκη στήλης</string>
-    <string name="navigation_my_tables">Οι πίνακές μου</string>
+    <string name="navigation_tables">Οι πίνακές μου</string>
     <string name="navigation_shared_tables">Κοινόχρηστοι πίνακες</string>
     <string name="last_background_sync">Τελευταίος συγχρ. παρασκηνίου:</string>
     <string name="simple_disabled">απενεργοποιημένο</string>

@@ -32,6 +32,8 @@ import java.util.Optional;
         },
         indices = {
                 @Index(value = "title"),
+                @Index(value = "favorite"),
+                @Index(value = "archived"),
                 @Index(value = "isShared"),
                 @Index(value = "manage"),
                 @Index(value = "read"),
@@ -68,6 +70,12 @@ public class Table extends AbstractRemoteEntity {
     @ColumnInfo(defaultValue = "")
     private Instant lastEditAt;
 
+    @ColumnInfo(defaultValue = "0")
+    private boolean favorite;
+
+    @ColumnInfo(defaultValue = "0")
+    private boolean archived;
+
     private boolean isShared;
 
     @NonNull
@@ -91,8 +99,10 @@ public class Table extends AbstractRemoteEntity {
         this.ownerDisplayName = table.getOwnerDisplayName();
         this.createdBy = table.getCreatedBy();
         this.createdAt = table.getCreatedAt();
-        this.lastEditBy = table.lastEditBy;
-        this.lastEditAt = table.lastEditAt;
+        this.lastEditBy = table.getLastEditBy();
+        this.lastEditAt = table.getLastEditAt();
+        this.favorite = table.isFavorite();
+        this.archived = table.isArchived();
         this.isShared = table.isShared();
         this.onSharePermission = new OnSharePermission(table.getOnSharePermission());
         this.currentRow = table.getCurrentRow();
@@ -200,6 +210,22 @@ public class Table extends AbstractRemoteEntity {
         this.lastEditAt = lastEditAt;
     }
 
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
     public boolean isShared() {
         return isShared;
     }
@@ -234,15 +260,14 @@ public class Table extends AbstractRemoteEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Table table = (Table) o;
-        return isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission);
+        return favorite == table.favorite && archived == table.archived && isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission) && Objects.equals(currentRow, table.currentRow);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, description, emoji, ownership, ownerDisplayName, createdBy, createdAt, lastEditBy, lastEditAt, isShared, onSharePermission);
+        return Objects.hash(super.hashCode(), title, description, emoji, ownership, ownerDisplayName, createdBy, createdAt, lastEditBy, lastEditAt, favorite, archived, isShared, onSharePermission, currentRow);
     }
 }

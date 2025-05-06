@@ -94,7 +94,7 @@
     <string name="error_action_open_battery_settings">배터리 설정</string>
 
     <string name="add_column">열 추가</string>
-    <string name="navigation_my_tables">내 표</string>
+    <string name="navigation_tables">내 표</string>
     <string name="last_background_sync">마지막 백그라운드 동기화:</string>
     <string name="simple_disabled">비활성화</string>
     <string name="add_option">옵션을 추가하다</string>
