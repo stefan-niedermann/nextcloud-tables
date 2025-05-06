@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.evrencoskun.tableview.TableView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tableView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:background="?attr/colorSurface"
-    app:allow_click_inside_cell="true"
-    app:allow_click_inside_column_header="true"
-    app:column_header_height="@dimen/table_view_cell_height"
-    app:row_header_width="@dimen/table_view_row_header_width"
-    app:selected_color="?attr/colorSecondaryContainer"
-    app:separator_color="?attr/colorOutlineVariant"
-    app:shadow_color="?attr/colorSurface"
-    app:show_horizontal_separator="false"
-    app:unselected_color="?attr/colorSurface" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data />
+
+    <com.evrencoskun.tableview.TableView
+        android:id="@+id/tableView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="?attr/colorSurface"
+        app:allow_click_inside_cell="true"
+        app:allow_click_inside_column_header="true"
+        app:column_header_height="@dimen/table_view_cell_height"
+        app:row_header_width="@dimen/table_view_row_header_width"
+        app:selected_color="?attr/colorSecondaryContainer"
+        app:separator_color="?attr/colorOutlineVariant"
+        app:shadow_color="?attr/colorSurface"
+        app:show_horizontal_separator="false"
+        app:unselected_color="?attr/colorSurface" />
+</layout>
