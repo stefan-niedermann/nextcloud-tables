@@ -128,14 +128,14 @@ public interface TablesV2API {
     @GET("tables/{tableId}?format=json")
     Call<OcsResponse<TableV2Dto>> getTable(@Path("tableId") long tableId);
 
-    /**
-     * @since 0.8.0
-     */
+    /// @param archived `1` for `true`, `0` for `false`
+    /// @since 0.8.0
     @PUT("tables/{tableId}?format=json")
     Call<OcsResponse<TableV2Dto>> updateTable(@Path("tableId") long tableId,
                                               @Query("title") @NonNull String title,
-                                              @Query("description") @NonNull String description,
-                                              @Query("emoji") @NonNull String emoji);
+                                              @Query("emoji") @NonNull String emoji,
+                                              @Query("archived") int archived,
+                                              @Query("description") @NonNull String description);
 
     /**
      * @since 0.8.0
@@ -200,12 +200,14 @@ public interface TablesV2API {
      * api_favorite                                                                               *
      * ****************************************************************************************** */
 
+    /// @param nodeTypeId from [ENodeTypeV2Dto#id]
     @POST("favorites/{nodeType}/{nodeId}")
-    Call<OcsResponse<?>> setFavorite(@Path("nodeType") @NonNull ENodeTypeV2Dto nodeType,
+    Call<OcsResponse<?>> setFavorite(@Path("nodeType") int nodeTypeId,
                                      @Path("nodeId") long nodeId);
 
+    /// @param nodeTypeId from [ENodeTypeV2Dto#id]
     @DELETE("favorites/{nodeType}/{nodeId}")
-    Call<OcsResponse<?>> unsetFavorite(@Path("nodeType") @NonNull ENodeTypeV2Dto nodeType,
+    Call<OcsResponse<?>> unsetFavorite(@Path("nodeType") int nodeTypeId,
                                        @Path("nodeId") long nodeId);
 
     /* ****************************************************************************************** *

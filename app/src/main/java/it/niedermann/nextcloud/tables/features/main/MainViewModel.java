@@ -25,6 +25,7 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 import it.niedermann.nextcloud.tables.repository.TablesRepository;
 
+/// @noinspection UnusedReturnValue
 @MainThread
 public class MainViewModel extends AndroidViewModel {
 
@@ -86,37 +87,33 @@ public class MainViewModel extends AndroidViewModel {
 
     @NonNull
     public LiveData<TablesPerAccount> getTables() {
-        return switchMap(getCurrentAccount(), account -> {
-            final var result$ = new MediatorLiveData<TablesPerAccount>();
+        return new ReactiveLiveData<>(getCurrentAccount())
+                .flatMap(account -> {
+                    final var result$ = new MediatorLiveData<TablesPerAccount>();
 
-            if (account == null) {
-                return new MutableLiveData<>(null);
-            }
+                    if (account == null) {
+                        return new MutableLiveData<>(null);
+                    }
 
-            final var resultValue = new TablesPerAccount(account);
+                    final var resultValue = new TablesPerAccount(account);
 
-            // Favorites
-            // Tables
-            // Archived
-            // Applications
+                    result$.addSource(tablesRepository.getNotDeletedTables$(account, true, false), val -> {
+                        resultValue.setFavorites(val);
+                        result$.postValue(resultValue);
+                    });
 
-            result$.addSource(tablesRepository.getNotDeletedTables$(account, true, false), val -> {
-                resultValue.setFavorites(val);
-                result$.postValue(resultValue);
-            });
+                    result$.addSource(tablesRepository.getNotDeletedTables$(account, false, false), val -> {
+                        resultValue.setTables(val);
+                        result$.postValue(resultValue);
+                    });
 
-            result$.addSource(tablesRepository.getNotDeletedTables$(account, false, false), val -> {
-                resultValue.setTables(val);
-                result$.postValue(resultValue);
-            });
+                    result$.addSource(tablesRepository.getNotDeletedTables$(account, false, true), val -> {
+                        resultValue.setArchived(val);
+                        result$.postValue(resultValue);
+                    });
 
-            result$.addSource(tablesRepository.getNotDeletedTables$(account, false, true), val -> {
-                resultValue.setArchived(val);
-                result$.postValue(resultValue);
-            });
-
-            return result$;
-        });
+                    return new ReactiveLiveData<>(result$);
+                });
     }
 
     @MainThread
@@ -136,6 +133,20 @@ public class MainViewModel extends AndroidViewModel {
     @NonNull
     public CompletableFuture<Void> deleteTable(@NonNull Table table) {
         return tablesRepository.deleteTable(table);
+    }
+
+    @NonNull
+    public CompletableFuture<Void> toggleFavorite(@NonNull Account account, @NonNull Table table) {
+        final var tableClone = new Table(table);
+        tableClone.setFavorite(!table.isFavorite());
+        return tablesRepository.updateTable(account, tableClone);
+    }
+
+    @NonNull
+    public CompletableFuture<Void> toggleArchived(@NonNull Account account, @NonNull Table table) {
+        final var tableClone = new Table(table);
+        tableClone.setArchived(!table.isArchived());
+        return tablesRepository.updateTable(account, tableClone);
     }
 
     public record AccountAndTable(

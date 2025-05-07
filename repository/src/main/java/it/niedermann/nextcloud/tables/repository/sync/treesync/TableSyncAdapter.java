@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
+import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.TableV2Dto;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.TableV2Mapper;
@@ -95,7 +96,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
         return completedFuture(account.getId())
                 .thenApplyAsync(db.getTableDao()::getLocallyEditedTables, db.getParallelExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
-                .thenApplyAsync(tableToDelete -> tableToDelete
+                .thenApplyAsync(tableToPush -> tableToPush
                         .map(table -> completedFuture(null)
                                 .thenComposeAsync(v -> this.updateRemote(account, table), workExecutor)
                                 .thenComposeAsync(response -> this.markLocallyAsUpdated(table, response), workExecutor)
@@ -110,11 +111,16 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @NonNull
     private CompletableFuture<Response<OcsResponse<TableV2Dto>>> updateRemote(@NonNull Account account, @NonNull Table entity) {
         return checkRemoteIdNotNull(entity.getRemoteId())
+                // TODO This can theoretically run parallel and is not always necessary
+                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> entity.isFavorite()
+                        ? apis.apiV2().setFavorite(ENodeTypeV2Dto.TABLE.id, requireNonNull(entity.getRemoteId()))
+                        : apis.apiV2().unsetFavorite(ENodeTypeV2Dto.TABLE.id, requireNonNull(entity.getRemoteId()))), workExecutor)
                 .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().updateTable(
                         requireNonNull(entity.getRemoteId()),
                         entity.getTitle(),
-                        Optional.ofNullable(entity.getDescription()).orElse(""),
-                        entity.getEmoji())), workExecutor);
+                        entity.getEmoji(),
+                        entity.isArchived() ? 1 : 0,
+                        Optional.ofNullable(entity.getDescription()).orElse(""))), workExecutor);
     }
 
     @NonNull

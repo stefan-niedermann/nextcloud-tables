@@ -18,8 +18,18 @@
         android:title="@string/manage_columns"
         app:showAsAction="never" />
     <item
+        android:id="@+id/favorite_table"
+        android:orderInCategory="40"
+        android:title="@string/add_table_to_favorites"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/archive_table"
+        android:orderInCategory="50"
+        android:title="@string/archive_table"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/delete_table"
-        android:orderInCategory="30"
+        android:orderInCategory="60"
         android:title="@string/delete_table"
         app:showAsAction="never" />
 </menu>

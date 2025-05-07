@@ -6,14 +6,16 @@ import androidx.annotation.Nullable;
 import java.util.NoSuchElementException;
 
 public enum ENodeTypeV2Dto {
-    TABLE("table"),
-    VIEW("view"),
+    TABLE("table", 0),
+    VIEW("view", 1),
     ;
 
-    private final String nodeType;
+    public final String nodeType;
+    public final int id;
 
-    ENodeTypeV2Dto(@NonNull String nodeType) {
+    ENodeTypeV2Dto(@NonNull String nodeType, int id) {
         this.nodeType = nodeType;
+        this.id = id;
     }
 
     @NonNull

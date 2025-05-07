@@ -110,6 +110,7 @@ public class TablesRepository extends AbstractRepository {
                 .thenAcceptAsync(this::scheduleSynchronization, workExecutor);
     }
 
+    @AnyThread
     public CompletableFuture<Void> updateTable(@NonNull Account account,
                                                @NonNull Table table) {
         return supplyAsync(() -> {

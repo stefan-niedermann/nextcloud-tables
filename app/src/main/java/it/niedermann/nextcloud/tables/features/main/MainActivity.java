@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
@@ -172,96 +171,126 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSidebarMenu(@Nullable MainViewModel.TablesPerAccount tables) {
+        binding.navView.getMenu().clear();
+        binding.navView.inflateMenu(R.menu.menu_main_navigation);
         final var menu = binding.navView.getMenu();
-        menu.clear();
 
         if (tables == null) {
             Log.w(TAG, "Can not build sidenav menu because account is null");
             return;
         }
 
-        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_favorites), tables.getFavorites());
-        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_tables), tables.getTables());
-        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_archived), tables.getArchived());
+        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_favorites), tables.getFavorites(), () -> updateSidebarMenu(tables));
+        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_tables), tables.getTables(), () -> updateSidebarMenu(tables));
+        addMenuGroup(menu, tables.getAccount(), getString(R.string.navigation_archived), tables.getArchived(), () -> updateSidebarMenu(tables));
 
-        menu.add(Menu.NONE, EMenuItem.ADD_TABLE.id, Menu.NONE, R.string.add_table)
-                .setIcon(R.drawable.ic_baseline_add_24)
+        // setActionView required to avoid inconsistencies when menu item order or grouping changes (table context menu appears next to static items)
+
+        menu.findItem(R.id.add_table)
+                .setActionView(new View(this))
                 .setOnMenuItemClickListener(item -> {
                     startActivity(EditTableActivity.createIntent(MainActivity.this, tables.getAccount()));
                     return true;
                 });
-        menu.add(Menu.NONE, EMenuItem.PREFERENCES.id, Menu.NONE, R.string.simple_settings)
-                .setIcon(R.drawable.ic_baseline_settings_24)
+        menu.findItem(R.id.preferences)
+                .setActionView(new View(this))
                 .setOnMenuItemClickListener(item -> {
                     startActivity(PreferencesActivity.createIntent(MainActivity.this, tables.getAccount()));
                     return true;
                 });
-        menu.add(Menu.NONE, EMenuItem.ABOUT.id, Menu.NONE, R.string.simple_about)
-                .setIcon(R.drawable.ic_outline_info_24)
+        menu.findItem(R.id.about)
+                .setActionView(new View(this))
                 .setOnMenuItemClickListener(item -> {
                     startActivity(AboutActivity.createIntent(this));
                     return true;
                 });
     }
 
+    /// @param onMenuItemChanged can be called optimistically when the table menu items will change, for example reordering or regrouping
     private void addMenuGroup(@NonNull Menu menu,
                               @NonNull Account account,
                               @NonNull String groupName,
-                              @NonNull List<Table> tables) {
-        if (!tables.isEmpty()) {
-            final var sharedTables = menu.addSubMenu(groupName);
-            for (int i = 0; i < tables.size(); i++) {
-                final var table = tables.get(i);
+                              @NonNull List<Table> tables,
+                              @NonNull Runnable onMenuItemChanged) {
+        if (tables.isEmpty()) {
+            return;
+        }
 
-                final AppCompatImageButton contextMenu;
-                if (table.hasManagePermission()) {
-                    contextMenu = new AppCompatImageButton(this);
-                    contextMenu.setBackgroundDrawable(null);
-                    contextMenu.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_menu));
-                    contextMenu.setOnClickListener((v) -> {
-                        final var popup = new PopupMenu(this, contextMenu);
-                        popup.getMenuInflater().inflate(R.menu.context_menu_table, popup.getMenu());
-                        popup.setOnMenuItemClickListener(item -> {
-                            final var id = item.getItemId();
-                            if (id == R.id.edit_table) {
-                                startActivity(EditTableActivity.createIntent(MainActivity.this, account, table));
-                                return true;
-                            } else if (id == R.id.share_table) {
-                                if (FeatureToggle.SHARE_TABLE.enabled) {
-                                    throw new UnsupportedOperationException();
-                                } else {
-                                    Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
-                                }
-                                return true;
-                            } else if (id == R.id.manage_columns) {
-                                startActivity(ManageColumnsActivity.createIntent(this, account, table));
-                                return true;
-                            } else if (id == R.id.delete_table) {
-                                new MaterialAlertDialogBuilder(this)
-                                        .setTitle(getString(R.string.delete_item, table.getTitle()))
-                                        .setMessage(getString(R.string.delete_item_message, table.getTitle()))
-                                        .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
-                                            mainViewModel.deleteTable(table).whenCompleteAsync((result, exception) -> {
-                                                if (exception != null) {
-                                                    ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
-                                                }
-                                            }, ContextCompat.getMainExecutor(this));
-                                        })
-                                        .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                                        .show();
-                                return true;
+        final var subMenu = menu.addSubMenu(groupName);
+        for (int i = 0; i < tables.size(); i++) {
+            final var table = tables.get(i);
+            final AppCompatImageButton contextMenu;
+            if (table.hasManagePermission()) {
+                contextMenu = new AppCompatImageButton(this);
+                contextMenu.setBackgroundDrawable(null);
+                contextMenu.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_menu));
+                contextMenu.setOnClickListener((v) -> {
+                    final var popup = new TableContextPopupMenu(this, contextMenu, table);
+                    popup.setOnMenuItemClickListener(item -> {
+                        final var id = item.getItemId();
+
+                        if (id == R.id.edit_table) {
+                            startActivity(EditTableActivity.createIntent(MainActivity.this, account, table));
+                            return true;
+
+                        } else if (id == R.id.favorite_table) {
+                            mainViewModel.toggleFavorite(account, table);
+                            table.setFavorite(!table.isFavorite());
+                            onMenuItemChanged.run();
+                            return true;
+
+                        } else if (id == R.id.archive_table) {
+                            mainViewModel.toggleArchived(account, table);
+                            table.setArchived(!table.isArchived());
+                            onMenuItemChanged.run();
+                            return true;
+
+                        } else if (id == R.id.share_table) {
+                            if (FeatureToggle.SHARE_TABLE.enabled) {
+                                throw new UnsupportedOperationException();
+                            } else {
+                                Toast.makeText(this, R.string.not_implemented, Toast.LENGTH_SHORT).show();
                             }
-                            return false;
-                        });
-                        popup.show();
-                    });
-                } else {
-                    contextMenu = null;
-                }
+                            return true;
 
-                sharedTables.add(Menu.NONE, i, Menu.NONE, table.getTitle())
-                        .setCheckable(true)
-                        .setIcon(new EmojiDrawable(this, table.getEmoji()))
+                        } else if (id == R.id.manage_columns) {
+                            startActivity(ManageColumnsActivity.createIntent(this, account, table));
+                            return true;
+
+                        } else if (id == R.id.delete_table) {
+                            new MaterialAlertDialogBuilder(this)
+                                    .setTitle(getString(R.string.delete_item, table.getTitle()))
+                                    .setMessage(getString(R.string.delete_item_message, table.getTitle()))
+                                    .setPositiveButton(R.string.simple_delete, (dialog, which) -> {
+                                        mainViewModel.deleteTable(table).whenCompleteAsync((result, exception) -> {
+                                            if (exception != null) {
+                                                ExceptionDialogFragment.newInstance(exception, account).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                                            }
+                                        }, ContextCompat.getMainExecutor(this));
+                                    })
+                                    .setNeutralButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                                    .show();
+                            return true;
+                        }
+                        return false;
+                    });
+                    popup.show();
+                });
+            } else {
+                contextMenu = null;
+            }
+
+            final var tableMenuItem = subMenu
+                    .add(Menu.NONE, 0, Menu.NONE, table.getTitle())
+                    .setCheckable(true)
+                    .setIcon(new EmojiDrawable(this, table.getEmoji()));
+
+            if (contextMenu == null) {
+                tableMenuItem
+                        .setActionView(new View(this));
+
+            } else {
+                tableMenuItem
                         .setActionView(contextMenu)
                         .setOnMenuItemClickListener(item -> {
                             binding.drawerLayout.close();
@@ -286,18 +315,5 @@ public class MainActivity extends AppCompatActivity {
             AccountSwitcherDialog.newInstance().show(getSupportFragmentManager(), AccountSwitcherDialog.class.getSimpleName());
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private enum EMenuItem {
-        ADD_TABLE(-1),
-        PREFERENCES(-2),
-        ABOUT(-3),
-        ;
-
-        private final int id;
-
-        EMenuItem(int id) {
-            this.id = id;
-        }
     }
 }
