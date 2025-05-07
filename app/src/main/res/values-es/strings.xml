@@ -154,6 +154,10 @@
     <string name="unsaved_changes">Cambios sin guardar</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_loading">Cargando...</string>
+    <string name="allowed_types">Tipos permitidos</string>
     <string name="simple_url">URL</string>
+    <string name="usergroup_groups">Grupos</string>
+    <string name="usergroup_teams">Equipos</string>
     <string name="select_multiple_items">Seleccionar múltiples ítems</string>
-    </resources>
+    <string name="show_user_status">Mostrar el estado del usuario</string>
+</resources>

@@ -89,4 +89,6 @@
     <string name="simple_loading">Cargando...</string>
     <string name="simple_url">URL</string>
     <string name="usergroup_users"> Usuarios</string>
+    <string name="usergroup_groups">Grupos</string>
+    <string name="usergroup_teams">Equipos</string>
     </resources>

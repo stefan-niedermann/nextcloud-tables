@@ -165,5 +165,11 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">التحميل جارٍ ...</string>
+    <string name="allowed_types">الأنواع المتاحة</string>
+    <string name="simple_url">عنوان URL</string>
+    <string name="usergroup_users">المستخدمين</string>
+    <string name="usergroup_groups">المجموعات</string>
+    <string name="usergroup_teams">الفرق</string>
     <string name="select_multiple_items">تحديد عدة عناصر</string>
-    </resources>
+    <string name="show_user_status">عرض حالة المستخدم</string>
+</resources>

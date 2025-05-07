@@ -154,6 +154,7 @@
     <string name="add_option">Adicionar opção</string>
     <string name="delete_option">Excluir opção</string>
     <string name="experimental_feature_column_reordering">Reordenar colunas é um recurso experimental que também pode ter efeitos colaterais indesejados em outras configurações das colunas desta tabela.</string>
+    <string name="experimental_feature_column_manage">A edição de colunas é um recurso experimental que pode ter efeitos colaterais não intencionais que podem resultar em perda de dados.</string>
     <string name="column_type_is_required">O tipo de coluna é obrigatório</string>
     <string name="unsupported_column_type">Editando colunas do tipo %1$s ainda não é suportado.</string>
     <string name="unsaved_changes">Alterações não salvas</string>
@@ -167,6 +168,7 @@
     <string name="simple_loading">Carregando…</string>
     <string name="allowed_types">Tipos permitidos</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Limpar padrão</string>
     <string name="usergroup_users">Usuários</string>
     <string name="usergroup_groups">Grupos</string>
     <string name="usergroup_teams">Equipes</string>

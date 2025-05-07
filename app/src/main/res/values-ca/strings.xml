@@ -107,4 +107,7 @@
     <string name="unsaved_changes">Hi ha canvis sense desar</string>
     <string name="simple_discard">Descarta\'l</string>
     <string name="simple_loading">S\'està carregant…</string>
+    <string name="simple_url">URL</string>
+    <string name="usergroup_groups">Grups</string>
+    <string name="usergroup_teams">Equips</string>
     </resources>

@@ -107,6 +107,8 @@
     <string name="unsaved_changes">Μη αποθηκευμένες αλλαγές</string>
     <string name="simple_discard">Απόρριψη</string>
     <string name="simple_loading">Γίνεται φόρτωση…</string>
+    <string name="allowed_types">Επιτρεπόμενοι τύποι</string>
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Χρήστες</string>
+    <string name="usergroup_groups">Ομάδες</string>
     </resources>

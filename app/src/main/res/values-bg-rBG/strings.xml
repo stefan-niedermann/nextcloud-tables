@@ -104,4 +104,6 @@
     <string name="unsaved_changes">Незаписани промени</string>
     <string name="simple_discard">Отхвърляне</string>
     <string name="simple_loading">Зареждане…</string>
+    <string name="simple_url">URL адрес</string>
+    <string name="usergroup_groups">Групи</string>
     </resources>

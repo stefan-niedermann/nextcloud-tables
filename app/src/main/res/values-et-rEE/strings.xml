@@ -154,6 +154,7 @@
     <string name="add_option">Lisa valik</string>
     <string name="delete_option">Kustuta valik</string>
     <string name="experimental_feature_column_reordering">Veergude järjekorra muutmine on veel hetkel katsetamisjärgus ja sellega võib kaasneda ootamatu kõrvalmõju selle veeru tabeli muudele veergudele.</string>
+    <string name="experimental_feature_column_manage">Veergude muutmine on hetkel veel katsetamisjärgus ja sellega võib kaasneda ootamatu kõrvalmõju andmekao näol.</string>
     <string name="column_type_is_required">Veeru tüüp on nõutav</string>
     <string name="unsupported_column_type">%1$s tüüpi veergude muutmine pole veel toetatud.</string>
     <string name="unsaved_changes">Salvestamata muutused</string>
@@ -165,6 +166,12 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Andmed on laadimisel…</string>
+    <string name="allowed_types">Lubatud tüübid</string>
     <string name="simple_url">Võrguaadress</string>
+    <string name="clear_default">Eemalda vaikimisi väärtus</string>
     <string name="usergroup_users">Kasutajad</string>
-    </resources>
+    <string name="usergroup_groups">Grupid</string>
+    <string name="usergroup_teams">Tiimid</string>
+    <string name="select_multiple_items">Vali mitu kirjet</string>
+    <string name="show_user_status">Näita kasutaja olekut</string>
+</resources>
