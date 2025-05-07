@@ -154,6 +154,7 @@
     <string name="add_option">Option hinzufügen</string>
     <string name="delete_option">Option löschen</string>
     <string name="experimental_feature_column_reordering">Das Neuordnen von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen der Spalten dieser Tabelle unbeabsichtigte Nebenwirkungen haben kann.</string>
+    <string name="experimental_feature_column_manage">Das Bearbeiten von Spalten ist eine experimentelle Funktion, die unbeabsichtigte Nebenwirkungen, bis hin zum Datenverlust,  haben kann.</string>
     <string name="column_type_is_required">Spaltentyp ist erforderlich</string>
     <string name="unsupported_column_type">Die Bearbeitung von Spalten des Typs %1$s wird noch nicht unterstützt.</string>
     <string name="unsaved_changes">Nicht gespeicherte Änderungen</string>
@@ -165,7 +166,12 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Lade…</string>
+    <string name="allowed_types">Zulässige Typen</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Standard löschen</string>
     <string name="usergroup_users">Personen</string>
+    <string name="usergroup_groups">Gruppen</string>
+    <string name="usergroup_teams">Teams</string>
     <string name="select_multiple_items">Mehrere Elemente auswählen</string>
-    </resources>
+    <string name="show_user_status">Benutzerstatus anzeigen</string>
+</resources>

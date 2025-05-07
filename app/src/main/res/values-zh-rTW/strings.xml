@@ -154,6 +154,7 @@
     <string name="add_option">新增選項</string>
     <string name="delete_option">刪除選項</string>
     <string name="experimental_feature_column_reordering">重新排序欄位是實驗性的功能，可能會對該表格的欄位或其他設定產生意想不到的副作用。</string>
+    <string name="experimental_feature_column_manage">編輯欄位是實驗性的功能，可能會產生意想不到的副作用，導致資料遺失。</string>
     <string name="column_type_is_required">欄位類型為必填</string>
     <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
     <string name="unsaved_changes">未儲存變更</string>
@@ -167,6 +168,7 @@
     <string name="simple_loading">正在載入…</string>
     <string name="allowed_types">允許類型</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">清除預設值</string>
     <string name="usergroup_users">使用者</string>
     <string name="usergroup_groups">群組</string>
     <string name="usergroup_teams">團隊</string>

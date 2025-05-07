@@ -157,4 +157,6 @@
     <string name="allowed_types">Baimendutako motak</string>
     <string name="simple_url">URLa</string>
     <string name="usergroup_users">Erabiltzaileak</string>
+    <string name="usergroup_groups">Taldeak</string>
+    <string name="usergroup_teams">Lantaldeak</string>
     </resources>
