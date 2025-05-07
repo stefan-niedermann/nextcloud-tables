@@ -203,7 +203,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void addMenuGroup(@NonNull Menu menu, @NonNull Account account, @NonNull String groupName, @NonNull List<Table> tables) {
+    private void addMenuGroup(@NonNull Menu menu,
+                              @NonNull Account account,
+                              @NonNull String groupName,
+                              @NonNull List<Table> tables) {
         if (!tables.isEmpty()) {
             final var sharedTables = menu.addSubMenu(groupName);
             for (int i = 0; i < tables.size(); i++) {
@@ -262,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                         .setOnMenuItemClickListener(item -> {
                             binding.drawerLayout.close();
                             binding.fab.setEnabled(false);
-                            mainViewModel.setCurrentTable(table);
+                            mainViewModel.setCurrentTable(account, table);
                             return true;
                         });
             }

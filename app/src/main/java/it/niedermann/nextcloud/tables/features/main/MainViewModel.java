@@ -111,9 +111,15 @@ public class MainViewModel extends AndroidViewModel {
 
     @MainThread
     @NonNull
-    public CompletableFuture<Void> setCurrentTable(@NonNull Table table) {
-        this.isLoading$.setValue(true);
-        return accountRepository.setCurrentTable(table.getAccountId(), table.getId());
+    public CompletableFuture<Void> setCurrentTable(@NonNull Account account, @NonNull Table table) {
+        final Long currentTableId = account.getCurrentTable();
+
+        if (currentTableId == null || currentTableId != table.getId()) {
+            this.isLoading$.setValue(true);
+            return accountRepository.setCurrentTable(account.getId(), table.getId());
+        }
+
+        return CompletableFuture.completedFuture(null);
     }
 
     @AnyThread
