@@ -139,8 +139,10 @@
 
     <string name="order_weight">Rekkefølge-vekting</string>
     <string name="add_column">Legg til kolonne</string>
-    <string name="navigation_tables">Mine tabeller</string>
-    <string name="navigation_shared_tables">Delte tabeller</string>
+    <string name="navigation_favorites">Favoritter</string>
+    <string name="navigation_tables">Tabeller</string>
+    <string name="navigation_applications">Applikasjoner</string>
+    <string name="navigation_archived">Arkivert</string>
     <string name="could_not_display_column_editor">%1$s kunne ikke vises.</string>
     <string name="choose_table_from_the_sidebar">Velg tabell fra sidefeltet</string>
     <string name="last_background_sync">Siste bakgrunnssynkronisering:</string>
@@ -161,4 +163,8 @@
     <string name="usergroup_teams">Lag</string>
     <string name="select_multiple_items">Velg flere elementer</string>
     <string name="show_user_status">Velg status på bruker</string>
+    <string name="remove_table_from_favorites">Fjern fra favoritter</string>
+    <string name="add_table_to_favorites">Legg til favoritter</string>
+    <string name="unarchive_table">Opphev arkivering av tabell</string>
+    <string name="archive_table">Arkiver tabell</string>
 </resources>

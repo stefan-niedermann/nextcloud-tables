@@ -134,8 +134,9 @@
 
     <string name="order_weight">Порядковый номер</string>
     <string name="add_column">Добавить стопку</string>
-    <string name="navigation_tables">Мои таблицы</string>
-    <string name="navigation_shared_tables">Общие таблицы</string>
+    <string name="navigation_favorites">Избранное</string>
+    <string name="navigation_tables">Таблицы</string>
+    <string name="navigation_archived">В архиве</string>
     <string name="could_not_display_column_editor">Не удалось отобразить %1$s.</string>
     <string name="choose_table_from_the_sidebar">Выберите таблицу из боковой панели</string>
     <string name="last_background_sync">Последняя фоновая синхронизация:</string>
@@ -152,4 +153,6 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">Группы</string>
     <string name="usergroup_teams">Команды</string>
+    <string name="remove_table_from_favorites">Убрать из избранного</string>
+    <string name="add_table_to_favorites">Добавить в избранное</string>
     </resources>

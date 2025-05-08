@@ -94,7 +94,9 @@
     <string name="error_action_open_battery_settings">배터리 설정</string>
 
     <string name="add_column">열 추가</string>
-    <string name="navigation_tables">내 표</string>
+    <string name="navigation_favorites">즐겨찾기</string>
+    <string name="navigation_tables">표</string>
+    <string name="navigation_archived">보관된</string>
     <string name="last_background_sync">마지막 백그라운드 동기화:</string>
     <string name="simple_disabled">비활성화</string>
     <string name="add_option">옵션을 추가하다</string>
@@ -106,4 +108,5 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_users">사용자</string>
     <string name="usergroup_groups">그룹</string>
+    <string name="remove_table_from_favorites">즐겨찾기에서 삭제</string>
     </resources>

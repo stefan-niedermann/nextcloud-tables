@@ -137,8 +137,9 @@
 
     <string name="order_weight">Rendezés súlya</string>
     <string name="add_column">Oszlop hozzáadása</string>
-    <string name="navigation_tables">Saját táblázatok</string>
-    <string name="navigation_shared_tables">Megosztott táblázatok</string>
+    <string name="navigation_favorites">Kedvencek</string>
+    <string name="navigation_tables">Táblázatok</string>
+    <string name="navigation_archived">Archiválva</string>
     <string name="could_not_display_column_editor">A(z) %1$s nem jeleníthető meg</string>
     <string name="choose_table_from_the_sidebar">Válasszon táblázatot az oldalsávról</string>
     <string name="last_background_sync">Legutóbbi szinkronizálás:</string>
@@ -156,4 +157,6 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">Csoportok</string>
     <string name="usergroup_teams">Csapatok</string>
+    <string name="remove_table_from_favorites">Eltávolítás a kedvencek közül</string>
+    <string name="add_table_to_favorites">Hozzáadás a kedvencekhez </string>
     </resources>

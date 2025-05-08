@@ -141,8 +141,8 @@
 
     <string name="order_weight">Rækkefølge orden</string>
     <string name="add_column">Tilføj kolonne</string>
-    <string name="navigation_tables">Mine tabeller</string>
-    <string name="navigation_shared_tables">Fælles tabeller</string>
+    <string name="navigation_tables">Tabeller</string>
+    <string name="navigation_archived">Arkiveret</string>
     <string name="could_not_display_column_editor">%1$s kunne ikke vises.</string>
     <string name="choose_table_from_the_sidebar">Vælg tabel fra sidebjælken</string>
     <string name="last_background_sync">Seneste baggrundssynkronisering:</string>

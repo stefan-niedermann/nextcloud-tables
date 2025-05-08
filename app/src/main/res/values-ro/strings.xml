@@ -84,6 +84,8 @@
     <string name="error_action_update_files_app">Actualizare</string>
     <string name="error_action_open_battery_settings">Setări baterie</string>
 
+    <string name="navigation_favorites">Favorite</string>
+    <string name="navigation_tables">Tabele</string>
     <string name="last_background_sync">Ultima sincronizare de fundal:</string>
     <string name="simple_disabled">dezactivat</string>
     <string name="unsaved_changes">Modificări nesalvate</string>
@@ -92,4 +94,5 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Utilizatori</string>
     <string name="usergroup_groups">Grupuri</string>
+    <string name="add_table_to_favorites">Adaugă la favorite</string>
     </resources>

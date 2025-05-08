@@ -104,6 +104,10 @@
 
     <string name="missing_permission_read">缺少读取权限</string>
     <string name="add_column">添加列</string>
+    <string name="navigation_favorites">收藏</string>
+    <string name="navigation_tables">表格</string>
+    <string name="navigation_applications">应用程序</string>
+    <string name="navigation_archived">已存档</string>
     <string name="last_background_sync">上次后台同步时间：</string>
     <string name="simple_disabled">已禁用</string>
     <string name="add_option">添加选项</string>
@@ -114,4 +118,8 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">用户组</string>
     <string name="usergroup_teams">团队</string>
-    </resources>
+    <string name="remove_table_from_favorites">从收藏中移除</string>
+    <string name="add_table_to_favorites">添加到收藏</string>
+    <string name="unarchive_table">接触封存数据表</string>
+    <string name="archive_table">封存数据表</string>
+</resources>

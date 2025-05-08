@@ -141,8 +141,10 @@
 
     <string name="order_weight">順序權重</string>
     <string name="add_column">新增欄位</string>
-    <string name="navigation_tables">我的表格</string>
-    <string name="navigation_shared_tables">已分享的表格</string>
+    <string name="navigation_favorites">喜愛</string>
+    <string name="navigation_tables">表格</string>
+    <string name="navigation_applications">應用程式</string>
+    <string name="navigation_archived">已封存</string>
     <string name="could_not_display_column_editor">%1$s 無法顯示。</string>
     <string name="choose_table_from_the_sidebar">從側邊欄選擇表格</string>
     <string name="last_background_sync">上次背景同步時間：</string>
@@ -174,4 +176,8 @@
     <string name="usergroup_teams">團隊</string>
     <string name="select_multiple_items">選取多個項目</string>
     <string name="show_user_status">顯示使用者狀態</string>
+    <string name="remove_table_from_favorites">從喜愛中移除</string>
+    <string name="add_table_to_favorites">新增至喜愛</string>
+    <string name="unarchive_table">解除封存表格</string>
+    <string name="archive_table">封存表格</string>
 </resources>

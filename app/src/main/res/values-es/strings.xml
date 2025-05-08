@@ -139,8 +139,9 @@
 
     <string name="order_weight">Peso del orden</string>
     <string name="add_column">Añadir columna</string>
-    <string name="navigation_tables">Mis tablas</string>
-    <string name="navigation_shared_tables">Tablas compartidas</string>
+    <string name="navigation_tables">Tablas</string>
+    <string name="navigation_applications">Aplicaciones</string>
+    <string name="navigation_archived">Archivada</string>
     <string name="could_not_display_column_editor">%1$s no pudo ser mostrado.</string>
     <string name="choose_table_from_the_sidebar">Escoger tabla del la barra lateral</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
@@ -160,4 +161,7 @@
     <string name="usergroup_teams">Equipos</string>
     <string name="select_multiple_items">Seleccionar múltiples ítems</string>
     <string name="show_user_status">Mostrar el estado del usuario</string>
+    <string name="remove_table_from_favorites">Eliminar de favoritos</string>
+    <string name="unarchive_table">Desarchivar tabla</string>
+    <string name="archive_table">Archivar tabla</string>
 </resources>

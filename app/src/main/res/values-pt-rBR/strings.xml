@@ -141,8 +141,10 @@
 
     <string name="order_weight">Peso do pedido</string>
     <string name="add_column">Adicionar coluna</string>
-    <string name="navigation_tables">Minhas tabelas</string>
-    <string name="navigation_shared_tables">Tabelas compartilhadas</string>
+    <string name="navigation_favorites">Favoritos</string>
+    <string name="navigation_tables">Tabelas</string>
+    <string name="navigation_applications">Aplicativos</string>
+    <string name="navigation_archived">Arquivada</string>
     <string name="could_not_display_column_editor">%1$s não pôde ser exibido.</string>
     <string name="choose_table_from_the_sidebar">Escolha uma tabela na barra lateral</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
@@ -174,4 +176,8 @@
     <string name="usergroup_teams">Equipes</string>
     <string name="select_multiple_items">Selecione vários itens</string>
     <string name="show_user_status">Mostrar status do usuário</string>
+    <string name="remove_table_from_favorites">Remover dos favoritos</string>
+    <string name="add_table_to_favorites">Adicionar aos favoritos</string>
+    <string name="unarchive_table">Desarquivar tabela</string>
+    <string name="archive_table">Arquivar tabela</string>
 </resources>

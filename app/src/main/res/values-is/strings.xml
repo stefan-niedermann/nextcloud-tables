@@ -86,6 +86,8 @@
     <string name="error_action_open_battery_settings">Stillingar rafhlöðu</string>
 
     <string name="add_column">Bæta við dálki</string>
+    <string name="navigation_favorites">Eftirlæti</string>
+    <string name="navigation_tables">Töflur</string>
     <string name="last_background_sync">Síðasta samstilling í bakgrunni:</string>
     <string name="simple_disabled">óvirkt</string>
     <string name="add_option">Bæta við valkosti</string>
@@ -97,4 +99,6 @@
     <string name="usergroup_users">Notendur</string>
     <string name="usergroup_groups">Hópar</string>
     <string name="usergroup_teams">Teymi</string>
+    <string name="remove_table_from_favorites">Fjarlægja úr eftirlætum</string>
+    <string name="add_table_to_favorites">Bæta í eftirlæti</string>
     </resources>

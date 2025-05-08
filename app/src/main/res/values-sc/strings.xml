@@ -86,6 +86,9 @@
     <string name="error_action_update_files_app">Agiorna</string>
     <string name="error_action_open_battery_settings">Cunfiguratzione de sa bateria</string>
 
+    <string name="navigation_favorites">Preferidos</string>
+    <string name="navigation_tables">Tabellas</string>
+    <string name="navigation_archived">Archiviadu</string>
     <string name="last_background_sync">Ùrtima sincronizatzione in background:</string>
     <string name="simple_disabled">disativadu</string>
     <string name="add_option">Agiunghe sèberu</string>
@@ -96,4 +99,6 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Utentes</string>
     <string name="usergroup_groups">Grupos</string>
+    <string name="remove_table_from_favorites">Boga·nche dae preferidos</string>
+    <string name="add_table_to_favorites">Agiunghe a preferidos</string>
     </resources>

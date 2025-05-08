@@ -136,8 +136,9 @@
 
     <string name="order_weight">Peso normale</string>
     <string name="add_column">Aggiungi colonna</string>
-    <string name="navigation_tables">Le mie tabelle</string>
-    <string name="navigation_shared_tables">Tabelle condivise</string>
+    <string name="navigation_favorites">Preferiti</string>
+    <string name="navigation_tables">Tabelle</string>
+    <string name="navigation_archived">Archiviati</string>
     <string name="could_not_display_column_editor">%1$s non può essere visualizzato.</string>
     <string name="choose_table_from_the_sidebar">Scegli la tabella dalla barra laterale</string>
     <string name="last_background_sync">Ultima sincronizzazione in background:</string>
@@ -153,4 +154,6 @@
     <string name="simple_loading">Caricamento…</string>
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">Gruppi</string>
+    <string name="remove_table_from_favorites">Rimuovi dai preferiti</string>
+    <string name="add_table_to_favorites">Aggiungi ai preferiti</string>
     </resources>

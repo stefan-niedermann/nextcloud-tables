@@ -97,8 +97,6 @@
 
     <string name="order_weight">Pes de la comanda</string>
     <string name="add_column">Afegeix una columna</string>
-    <string name="navigation_tables">Les meves taules</string>
-    <string name="navigation_shared_tables">Taules compartides</string>
     <string name="last_background_sync">Última sincronització en segon pla:</string>
     <string name="simple_disabled">inhabilitat</string>
     <string name="text_allowed_pattern">Patró permès</string>

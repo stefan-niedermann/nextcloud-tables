@@ -141,8 +141,10 @@
 
     <string name="order_weight">Sıralama</string>
     <string name="add_column">Sütun ekle</string>
-    <string name="navigation_tables">Tablolarım</string>
-    <string name="navigation_shared_tables">Paylaşılmış tablolar</string>
+    <string name="navigation_favorites">Sık kullanılanlar</string>
+    <string name="navigation_tables">Tablolar</string>
+    <string name="navigation_applications">Uygulamalar</string>
+    <string name="navigation_archived">Arşivlenmiş</string>
     <string name="could_not_display_column_editor">%1$s görüntülenemedi.</string>
     <string name="choose_table_from_the_sidebar">Yan çubuktan tabloyu seçin</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
@@ -172,4 +174,8 @@
     <string name="usergroup_teams">Takımlar</string>
     <string name="select_multiple_items">Birkaç öge seçin</string>
     <string name="show_user_status">Kullanıcı durumunu görüntüle</string>
+    <string name="remove_table_from_favorites">Sık kullanılanlardan kaldır</string>
+    <string name="add_table_to_favorites">Sık kullanılanlara ekle</string>
+    <string name="unarchive_table">Tabloyu arşivden çıkar</string>
+    <string name="archive_table">Tabloyu arşivle</string>
 </resources>

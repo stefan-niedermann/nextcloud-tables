@@ -85,6 +85,9 @@
     <string name="error_action_open_battery_settings">Postavke baterije</string>
 
     <string name="add_column">Dodaj stupac</string>
+    <string name="navigation_favorites">Favoriti</string>
+    <string name="navigation_tables">Tablice</string>
+    <string name="navigation_archived">Arhivirano</string>
     <string name="last_background_sync">Posljednja pozadinska sinkronizacija:</string>
     <string name="simple_disabled">onemogućeno</string>
     <string name="add_option">Dodaj mogućnost</string>

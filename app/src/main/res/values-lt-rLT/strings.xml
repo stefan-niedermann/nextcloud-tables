@@ -78,8 +78,9 @@
 
     <string name="validation_number_not_parsable">Atrodo, kad reikšmė nėra skaitmuo</string>
     <string name="add_column">Pridėti stulpelį</string>
-    <string name="navigation_tables">Mano lentelės</string>
-    <string name="navigation_shared_tables">Bendrinamos lentelės</string>
+    <string name="navigation_favorites">Mėgstami</string>
+    <string name="navigation_tables">Lentelės</string>
+    <string name="navigation_archived">Archyvuota</string>
     <string name="last_background_sync">Paskutinis foninis sinchronizavimas:</string>
     <string name="simple_disabled">išjungta</string>
     <string name="add_option">Pridėti variantą</string>
@@ -93,4 +94,5 @@
     <string name="usergroup_users">Naudotojai</string>
     <string name="usergroup_groups">Grupės</string>
     <string name="usergroup_teams">Komandos</string>
+    <string name="remove_table_from_favorites">Šalinti iš svarbiausių</string>
     </resources>

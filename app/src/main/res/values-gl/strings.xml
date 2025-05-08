@@ -141,8 +141,9 @@
 
     <string name="order_weight">Peso da orde</string>
     <string name="add_column">Engadir columna</string>
-    <string name="navigation_tables">As miñas táboas</string>
-    <string name="navigation_shared_tables">Táboas compartidas</string>
+    <string name="navigation_tables">Táboas</string>
+    <string name="navigation_applications">Aplicacións</string>
+    <string name="navigation_archived">Arquivada</string>
     <string name="could_not_display_column_editor">Non foi posíbel amosar %1$s</string>
     <string name="choose_table_from_the_sidebar">Escolla a táboa da barra lateral</string>
     <string name="last_background_sync">Última sincronización do traballo en segundo plano:</string>
@@ -172,4 +173,7 @@
     <string name="usergroup_teams">Equipos</string>
     <string name="select_multiple_items">Seleccionar varios elementos</string>
     <string name="show_user_status">Amosar o estado do usuario</string>
+    <string name="remove_table_from_favorites">Retirar dos favoritos</string>
+    <string name="unarchive_table">Desarquivar a táboa</string>
+    <string name="archive_table">Arquivar a táboa</string>
 </resources>

@@ -141,8 +141,10 @@
 
     <string name="order_weight">Váha triedenia</string>
     <string name="add_column">Pridať stĺpec</string>
-    <string name="navigation_tables">Moje tabuľky</string>
-    <string name="navigation_shared_tables">Zdieľané tabuľky</string>
+    <string name="navigation_favorites">Obľúbené</string>
+    <string name="navigation_tables">Tabuľky</string>
+    <string name="navigation_applications">Aplikácie</string>
+    <string name="navigation_archived">Archivované</string>
     <string name="could_not_display_column_editor">%1$s nie je možné zobraziť</string>
     <string name="choose_table_from_the_sidebar">Vyberte tabuľku z bočného panela</string>
     <string name="last_background_sync">Posledná synchronizácia na pozadí:</string>
@@ -172,4 +174,8 @@
     <string name="usergroup_teams">Tímy</string>
     <string name="select_multiple_items">Vyberte viacero položiek</string>
     <string name="show_user_status">Zobraziť stav užívateľa</string>
+    <string name="remove_table_from_favorites">Odstrániť z obľúbených</string>
+    <string name="add_table_to_favorites">Pridať do obľúbených</string>
+    <string name="unarchive_table">Zrušiť archiváciu tabuľky</string>
+    <string name="archive_table">Archivovať tabuľku</string>
 </resources>

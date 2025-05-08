@@ -94,8 +94,9 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="error_action_open_battery_settings">Batterij instellingen</string>
 
     <string name="add_column">Toevoegen kolom</string>
-    <string name="navigation_tables">Mijn tabellen</string>
-    <string name="navigation_shared_tables">Gedeelde tabellen</string>
+    <string name="navigation_favorites">Favorieten</string>
+    <string name="navigation_tables">Tabellen</string>
+    <string name="navigation_archived">Gearchiveerd</string>
     <string name="last_background_sync">Laatste achtergrond sync:</string>
     <string name="simple_disabled">uitgeschakeld</string>
     <string name="text_allowed_pattern">Toegestaan patroon</string>
@@ -107,4 +108,6 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">Groepen</string>
     <string name="usergroup_teams">Teams</string>
+    <string name="remove_table_from_favorites">Verwijder uit favorieten</string>
+    <string name="add_table_to_favorites">Toevoegen aan favorieten</string>
     </resources>

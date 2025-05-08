@@ -141,8 +141,9 @@
 
     <string name="order_weight">Ordú meáchan</string>
     <string name="add_column">Cuir colún leis</string>
-    <string name="navigation_tables">Mo táblaí</string>
-    <string name="navigation_shared_tables">Táblaí roinnte</string>
+    <string name="navigation_tables">Táblaí</string>
+    <string name="navigation_applications">Feidhmchláir</string>
+    <string name="navigation_archived">Cartlannaithe</string>
     <string name="could_not_display_column_editor">Níorbh fhéidir %1$s a thaispeáint.</string>
     <string name="choose_table_from_the_sidebar">Roghnaigh tábla ón taobhbharra</string>
     <string name="last_background_sync">Sioncronú cúlra is déanaí:</string>
@@ -172,4 +173,7 @@
     <string name="usergroup_teams">Foirne</string>
     <string name="select_multiple_items">Roghnaigh míreanna éagsúla</string>
     <string name="show_user_status">Taispeáin stádas úsáideora</string>
+    <string name="remove_table_from_favorites">Bain ó cheanáin</string>
+    <string name="unarchive_table">Tábla gan chartlann</string>
+    <string name="archive_table">Tábla cartlainne</string>
 </resources>

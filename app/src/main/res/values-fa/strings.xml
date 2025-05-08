@@ -137,8 +137,8 @@
 
     <string name="order_weight">Order weight</string>
     <string name="add_column">ستون را اضافه کنید</string>
-    <string name="navigation_tables">My tables</string>
-    <string name="navigation_shared_tables">Shared tables</string>
+    <string name="navigation_tables">جدول‌ها</string>
+    <string name="navigation_archived">Archived</string>
     <string name="could_not_display_column_editor">%1$s could not be displayed.</string>
     <string name="choose_table_from_the_sidebar">Choose table from the sidebar</string>
     <string name="last_background_sync">آخرین همگام سازی پس زمینه:</string>
@@ -155,4 +155,6 @@
     <string name="allowed_types">Allowed types</string>
     <string name="simple_url">آدرس</string>
     <string name="usergroup_users">کاربران</string>
+    <string name="usergroup_groups">گروه ها</string>
+    <string name="remove_table_from_favorites">حذف از برگزیده‌ها</string>
     </resources>

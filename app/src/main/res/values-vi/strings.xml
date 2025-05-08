@@ -86,6 +86,8 @@
     <string name="error_action_update_files_app">Cập nhật</string>
     <string name="error_action_open_battery_settings">Cài đặt pin</string>
 
+    <string name="navigation_favorites">Ưa thích</string>
+    <string name="navigation_tables">Bảng</string>
     <string name="last_background_sync">Đồng bộ trong nền lần cuối:</string>
     <string name="simple_disabled">đã tắt</string>
     <string name="unsaved_changes">Thay đổi chưa được lưu</string>

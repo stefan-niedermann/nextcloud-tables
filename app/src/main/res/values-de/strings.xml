@@ -141,8 +141,9 @@
 
     <string name="order_weight">Reihenfolge</string>
     <string name="add_column">Spalte hinzufügen</string>
-    <string name="navigation_tables">Meine Tabellen</string>
-    <string name="navigation_shared_tables">Geteilte Tabellen</string>
+    <string name="navigation_tables">Tabellen</string>
+    <string name="navigation_applications">Anwendungen</string>
+    <string name="navigation_archived">Archiviert</string>
     <string name="could_not_display_column_editor">%1$s konnte nicht angezeigt werden.</string>
     <string name="choose_table_from_the_sidebar">In der Seitenleiste eine Tabelle auswählen</string>
     <string name="last_background_sync">Letzte Hintergrundsynchronisierung:</string>
@@ -154,7 +155,7 @@
     <string name="add_option">Option hinzufügen</string>
     <string name="delete_option">Option löschen</string>
     <string name="experimental_feature_column_reordering">Das Neuordnen von Spalten ist eine experimentelle Funktion, die auch bei anderen Konfigurationen der Spalten dieser Tabelle unbeabsichtigte Nebenwirkungen haben kann.</string>
-    <string name="experimental_feature_column_manage">Das Bearbeiten von Spalten ist eine experimentelle Funktion, die unbeabsichtigte Nebenwirkungen, bis hin zum Datenverlust,  haben kann.</string>
+    <string name="experimental_feature_column_manage">Das Bearbeiten von Spalten ist eine experimentelle Funktion, die unbeabsichtigte Nebenwirkungen, bis hin zum Datenverlust, haben kann.</string>
     <string name="column_type_is_required">Spaltentyp ist erforderlich</string>
     <string name="unsupported_column_type">Die Bearbeitung von Spalten des Typs %1$s wird noch nicht unterstützt.</string>
     <string name="unsaved_changes">Nicht gespeicherte Änderungen</string>
@@ -174,4 +175,5 @@
     <string name="usergroup_teams">Teams</string>
     <string name="select_multiple_items">Mehrere Elemente auswählen</string>
     <string name="show_user_status">Benutzerstatus anzeigen</string>
+    <string name="archive_table">Tabelle archivieren</string>
 </resources>

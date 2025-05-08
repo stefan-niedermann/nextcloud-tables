@@ -141,8 +141,10 @@
 
     <string name="order_weight">Тежина наруџбине</string>
     <string name="add_column">Додај колону</string>
-    <string name="navigation_tables">Моје табеле</string>
-    <string name="navigation_shared_tables">Дељене табеле</string>
+    <string name="navigation_favorites">Омиљене</string>
+    <string name="navigation_tables">Табеле</string>
+    <string name="navigation_applications">Апликације</string>
+    <string name="navigation_archived">Архивирано</string>
     <string name="could_not_display_column_editor"> %1$s не може да се прикаже.</string>
     <string name="choose_table_from_the_sidebar">Изаберите табелу из бочне траке</string>
     <string name="last_background_sync">Последња синх.:</string>
@@ -154,6 +156,7 @@
     <string name="add_option">Додај ставку</string>
     <string name="delete_option">Обриши опцију</string>
     <string name="experimental_feature_column_reordering">Промена редоследа колона је експерментална функција која такође може имати нежељене споредне ефекте на остале конфигурације колона ове табеле.</string>
+    <string name="experimental_feature_column_manage">Уређивање колона је експериментална функција која може имати нежељене споредне ефекте и доведе до губитка података.</string>
     <string name="column_type_is_required">Потребан је тип колоне</string>
     <string name="unsupported_column_type">Уређивање колоне типа %1$s се још увек не подржава</string>
     <string name="unsaved_changes">Несачуване измене</string>
@@ -167,9 +170,14 @@
     <string name="simple_loading">Учитавам…</string>
     <string name="allowed_types">Дозвољени типови</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Очисти подразумевано</string>
     <string name="usergroup_users">Корисници</string>
     <string name="usergroup_groups">Групе</string>
     <string name="usergroup_teams">Тимови</string>
     <string name="select_multiple_items">Изабери више ставки</string>
     <string name="show_user_status">Прикажи статус корисника</string>
+    <string name="remove_table_from_favorites">Избаци из омиљених</string>
+    <string name="add_table_to_favorites">Додаје у омиљене</string>
+    <string name="unarchive_table">Врати архивирану табелу</string>
+    <string name="archive_table">Архивирај табелу</string>
 </resources>

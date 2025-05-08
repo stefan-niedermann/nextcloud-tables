@@ -91,4 +91,5 @@
     <string name="usergroup_users"> Usuarios</string>
     <string name="usergroup_groups">Grupos</string>
     <string name="usergroup_teams">Equipos</string>
+    <string name="remove_table_from_favorites">Eliminar de favoritos</string>
     </resources>

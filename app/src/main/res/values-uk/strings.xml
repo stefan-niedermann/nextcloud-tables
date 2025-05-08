@@ -141,8 +141,9 @@
 
     <string name="order_weight">Порядок у списку</string>
     <string name="add_column">Додати стовпчик</string>
-    <string name="navigation_tables">Мої таблиці</string>
-    <string name="navigation_shared_tables">Спільні таблиці</string>
+    <string name="navigation_favorites">Із зірочкою</string>
+    <string name="navigation_tables">Таблиці</string>
+    <string name="navigation_applications">Застосунки</string>
     <string name="could_not_display_column_editor">Неможливо показати %1$s.</string>
     <string name="choose_table_from_the_sidebar">Виберіть таблицю з бокової панелі</string>
     <string name="last_background_sync">Остання фонова синхронізація:</string>
@@ -170,4 +171,8 @@
     <string name="usergroup_teams">Команди</string>
     <string name="select_multiple_items">Виберіть кілька об\'єктів</string>
     <string name="show_user_status">Показати статус користувача</string>
+    <string name="remove_table_from_favorites">Прибрати зірочку</string>
+    <string name="add_table_to_favorites">Додати зірочку</string>
+    <string name="unarchive_table">Розархівувати таблицю</string>
+    <string name="archive_table">Архівувати таблицю</string>
 </resources>

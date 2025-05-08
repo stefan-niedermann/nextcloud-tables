@@ -133,8 +133,9 @@
 
     <string name="order_weight">Razvrstilnik</string>
     <string name="add_column">Dodaj stolpec</string>
-    <string name="navigation_tables">Moje razpredelnice</string>
-    <string name="navigation_shared_tables">Razpredelnice v souporabi</string>
+    <string name="navigation_favorites">Priljubljeno</string>
+    <string name="navigation_tables">Razpredelnice</string>
+    <string name="navigation_archived">Arhivirano</string>
     <string name="choose_table_from_the_sidebar">Izberite razpredelnico iz bočnega okna</string>
     <string name="last_background_sync">Zadnje usklajevanje:</string>
     <string name="simple_disabled">onemogočeno</string>
@@ -149,4 +150,6 @@
     <string name="simple_url">Naslov URL</string>
     <string name="usergroup_groups">Skupine</string>
     <string name="usergroup_teams">Ekipe</string>
+    <string name="remove_table_from_favorites">Odstrani iz priljubljenih</string>
+    <string name="add_table_to_favorites">Dodaj med priljubljene</string>
     </resources>

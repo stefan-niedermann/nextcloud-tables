@@ -136,8 +136,9 @@
 
     <string name="order_weight">Kolejność znaczenia</string>
     <string name="add_column">Dodaj kolumnę</string>
-    <string name="navigation_tables">Moje tabele</string>
-    <string name="navigation_shared_tables">Wspólne tabele</string>
+    <string name="navigation_favorites">Ulubione</string>
+    <string name="navigation_tables">Tabele</string>
+    <string name="navigation_archived">Zarchiwizowane</string>
     <string name="could_not_display_column_editor">Nie można było wyświetlić %1$s.</string>
     <string name="choose_table_from_the_sidebar">Wybierz tabelę z paska bocznego</string>
     <string name="last_background_sync">Ostatnia synchronizacja w tle:</string>
@@ -154,4 +155,6 @@
     <string name="simple_url">Adres URL</string>
     <string name="usergroup_groups">Grupy</string>
     <string name="usergroup_teams">Zespoły</string>
+    <string name="remove_table_from_favorites">Usuń z ulubionych</string>
+    <string name="add_table_to_favorites">Dodaj do ulubionych</string>
     </resources>

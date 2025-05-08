@@ -141,8 +141,8 @@
 
     <string name="order_weight">Buyurtma hajmi</string>
     <string name="add_column">Ustun qo\'shish</string>
-    <string name="navigation_tables">Mening stollarim</string>
-    <string name="navigation_shared_tables">Ulashilgan jadvallar</string>
+    <string name="navigation_favorites">Sevimlilar</string>
+    <string name="navigation_tables">Jadvallar</string>
     <string name="could_not_display_column_editor">%1$s ko‘rsatilmadi.</string>
     <string name="choose_table_from_the_sidebar">Yon paneldan jadvalni tanlang</string>
     <string name="last_background_sync">Oxirgi fon sinxronlash:</string>
@@ -167,4 +167,6 @@
     <string name="simple_loading">Yuklanmoqda...</string>
     <string name="usergroup_users">Foydalanuvchilar</string>
     <string name="usergroup_groups">Groups</string>
+    <string name="remove_table_from_favorites">Sevimlilardan olib tashlang</string>
+    <string name="add_table_to_favorites">Sevimlilarga qo\'shing</string>
     </resources>

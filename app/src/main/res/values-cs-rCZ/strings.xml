@@ -141,8 +141,6 @@
 
     <string name="order_weight">Váha v pořadí</string>
     <string name="add_column">Přidat sloupec</string>
-    <string name="navigation_tables">Moje tabulky</string>
-    <string name="navigation_shared_tables">Sdílené tabulky</string>
     <string name="could_not_display_column_editor">%1$s se nepodařilo zobrazit.</string>
     <string name="choose_table_from_the_sidebar">Z postranního panelu zvolte tabulku</string>
     <string name="last_background_sync">Nejnovější synchronizace na pozadí:</string>
@@ -174,4 +172,4 @@
     <string name="usergroup_teams">Týmy</string>
     <string name="select_multiple_items">Vybrat vícero položek</string>
     <string name="show_user_status">Zobrazit stav uživatele</string>
-</resources>
+    </resources>

@@ -127,8 +127,10 @@
 
     <string name="order_weight">順番のウェイト</string>
     <string name="add_column">列を追加</string>
-    <string name="navigation_tables">マイテーブル</string>
-    <string name="navigation_shared_tables">共有された表</string>
+    <string name="navigation_favorites">お気に入り</string>
+    <string name="navigation_tables">テーブル</string>
+    <string name="navigation_applications">アプリケーション</string>
+    <string name="navigation_archived">アーカイブ済み</string>
     <string name="last_background_sync">最後のバックグラウンド同期：</string>
     <string name="simple_disabled">無効</string>
     <string name="add_option">オプションを追加</string>
@@ -143,4 +145,8 @@
     <string name="usergroup_teams">チーム</string>
     <string name="select_multiple_items">複数の項目を選択</string>
     <string name="show_user_status">ユーザー ステータスの表示</string>
+    <string name="remove_table_from_favorites">お気に入りから削除</string>
+    <string name="add_table_to_favorites">お気に入りに追加</string>
+    <string name="unarchive_table">テーブルのアーカイブ解除</string>
+    <string name="archive_table">テーブルをアーカイブする</string>
 </resources>

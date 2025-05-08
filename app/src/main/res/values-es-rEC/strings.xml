@@ -137,8 +137,8 @@
 
     <string name="order_weight">Peso de orden</string>
     <string name="add_column">Agregar columna</string>
-    <string name="navigation_tables">Mis tablas</string>
-    <string name="navigation_shared_tables">Tablas compartidas</string>
+    <string name="navigation_tables">Tablas</string>
+    <string name="navigation_archived">Archivado</string>
     <string name="could_not_display_column_editor">No se pudo mostrar %1$s.</string>
     <string name="choose_table_from_the_sidebar">Elige una tabla del panel lateral</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
@@ -154,4 +154,5 @@
     <string name="simple_loading">Cargando</string>
     <string name="allowed_types">Tipos permitidos</string>
     <string name="usergroup_users">Usuarios</string>
+    <string name="usergroup_groups">Grupos</string>
     </resources>
