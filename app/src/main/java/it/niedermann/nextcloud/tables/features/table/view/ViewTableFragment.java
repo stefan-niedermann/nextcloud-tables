@@ -23,14 +23,12 @@ import java.util.Collections;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.row.EditRowActivity;
-import it.niedermann.nextcloud.tables.features.table.view.types.CellViewHolder;
-import it.niedermann.nextcloud.tables.features.table.view.types.DataTypeViewerServiceRegistry;
-import it.niedermann.nextcloud.tables.features.table.view.types.ViewHolderFactory;
+import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHolder;
+import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHolderFactory;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.EPermissionV2Dto;
 import it.niedermann.nextcloud.tables.repository.defaults.DataTypeDefaultServiceRegistry;
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
@@ -41,7 +39,7 @@ public class ViewTableFragment extends Fragment {
     private FragmentTableBinding binding;
     private ViewTableViewModel viewTableViewModel;
     private TableViewAdapter adapter;
-    private DataTypeServiceRegistry<ViewHolderFactory> registry;
+    private CellViewHolderFactory cellViewHolderFactory;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -49,10 +47,10 @@ public class ViewTableFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        registry = new DataTypeViewerServiceRegistry(new DataTypeDefaultServiceRegistry());
+        cellViewHolderFactory = new CellViewHolderFactory(new DataTypeDefaultServiceRegistry());
         binding = FragmentTableBinding.inflate(inflater, container, false);
         viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
-        adapter = new TableViewAdapter(registry);
+        adapter = new TableViewAdapter(cellViewHolderFactory);
         binding.tableView.setAdapter(adapter);
         binding.tableView.getCellRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

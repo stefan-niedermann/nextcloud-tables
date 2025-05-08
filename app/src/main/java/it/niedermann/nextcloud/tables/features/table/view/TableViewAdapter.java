@@ -16,7 +16,6 @@ import java.util.List;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Column;
-import it.niedermann.nextcloud.tables.database.model.DataTypeServiceRegistry;
 import it.niedermann.nextcloud.tables.database.model.EDataType;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.database.model.FullData;
@@ -24,21 +23,21 @@ import it.niedermann.nextcloud.tables.database.model.FullRow;
 import it.niedermann.nextcloud.tables.databinding.TableviewColumnHeaderBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewCornerBinding;
 import it.niedermann.nextcloud.tables.databinding.TableviewRowHeaderBinding;
-import it.niedermann.nextcloud.tables.features.table.view.types.CellViewHolder;
-import it.niedermann.nextcloud.tables.features.table.view.types.ViewHolderFactory;
+import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHolder;
+import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHolderFactory;
 import it.niedermann.nextcloud.tables.features.table.view.viewholder.ColumnHeaderViewHolder;
 import it.niedermann.nextcloud.tables.features.table.view.viewholder.RowHeaderViewHolder;
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, FullData> {
 
-    private final DataTypeServiceRegistry<ViewHolderFactory> registry;
+    private final CellViewHolderFactory cellViewHolderFactory;
     @Nullable
     private Account account;
     private int rowCount = 0;
 
-    public TableViewAdapter(@NonNull DataTypeServiceRegistry<ViewHolderFactory> registry) {
-        this.registry = registry;
+    public TableViewAdapter(@NonNull CellViewHolderFactory cellViewHolderFactory) {
+        this.cellViewHolderFactory = cellViewHolderFactory;
     }
 
     @Override
@@ -58,7 +57,7 @@ public class TableViewAdapter extends AbstractTableAdapter<FullColumn, FullRow, 
     @NonNull
     @Override
     public AbstractViewHolder onCreateCellViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return registry.getService(EDataType.findById(viewType)).create(parent);
+        return cellViewHolderFactory.getService(EDataType.findById(viewType), parent);
     }
 
     @Override
