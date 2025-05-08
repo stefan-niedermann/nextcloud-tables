@@ -12,8 +12,10 @@ import it.niedermann.nextcloud.tables.database.entity.LinkValue;
 @Dao
 public interface LinkValueDao extends GenericDao<LinkValue> {
 
-    @Query("DELETE FROM LinkValue " +
-            "WHERE LinkValue.dataId = :dataId")
+    @Query("""
+            DELETE FROM LinkValue
+            WHERE LinkValue.dataId = :dataId
+            """)
     void delete(long dataId);
 
     @Transaction
@@ -28,21 +30,28 @@ public interface LinkValueDao extends GenericDao<LinkValue> {
         updateLinkValueRef(linkValue.getDataId());
     }
 
-    @Query("UPDATE Data " +
-            "SET linkValueRef = :dataId " +
-            "WHERE id = :dataId")
+    @Query("""
+            UPDATE Data
+            SET linkValueRef = :dataId
+            WHERE id = :dataId
+            """)
     void updateLinkValueRef(@Nullable Long dataId);
 
-    @Query("SELECT lv.* " +
-            "FROM LinkValue lv " +
-            "WHERE lv.dataId = :dataId")
+    @Query("""
+            SELECT lv.*
+            FROM LinkValue lv
+            WHERE lv.dataId = :dataId
+            """)
     LinkValue findById(long dataId);
 
-    @Query("SELECT EXISTS(" +
-            "   SELECT lv.dataId " +
-            "   FROM LinkValue lv " +
-            "   WHERE lv.dataId = :dataId " +
-            "   LIMIT 1" +
-            ")")
+    @Transaction
+    @Query("""
+            SELECT EXISTS(
+                SELECT lv.dataId
+                FROM LinkValue lv
+                WHERE lv.dataId = :dataId
+                LIMIT 1
+            )
+            """)
     boolean exists(Long dataId);
 }

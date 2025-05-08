@@ -19,9 +19,9 @@ public interface SearchProviderDao extends GenericDao<SearchProvider> {
             FROM SearchProvider sp
             WHERE sp.accountId = :accountId
             """)
-    Map<@MapColumn(tableName = "sp", columnName = "remoteId") String,
-            @MapColumn(tableName = "sp", columnName = "id") Long>
-    getRemoteIdToLocalId(long accountId);
+    Map<
+            @MapColumn(tableName = "sp", columnName = "remoteId") String,
+            @MapColumn(tableName = "sp", columnName = "id") Long> getRemoteIdToLocalId(long accountId);
 
     @Query("""
             SELECT sp.*

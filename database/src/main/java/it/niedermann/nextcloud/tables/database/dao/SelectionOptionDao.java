@@ -35,17 +35,23 @@ public interface SelectionOptionDao extends GenericDao<SelectionOption> {
            "FROM SelectionOption s " +
            "WHERE s.columnId = :columnId " +
            "AND s.remoteId IN (:remoteColumnIds)")
-    Map<@MapColumn(columnName = "remoteId") Long, @MapColumn(columnName = "id") Long> getSelectionOptionRemoteColumnAndLocalIds(long columnId, Collection<Long> remoteColumnIds);
+    Map<
+            @MapColumn(columnName = "remoteId") Long,
+            @MapColumn(columnName = "id") Long> getSelectionOptionRemoteColumnAndLocalIds(long columnId, Collection<Long> remoteColumnIds);
 
     @Query("""
             SELECT s.remoteId, s.id
             FROM SelectionOption s
             WHERE s.columnId = :columnId
             """)
-    Map<@MapColumn(columnName = "remoteId") Long, @MapColumn(columnName = "id") Long> getSelectionOptionRemoteIdsAndLocalIds(long columnId);
+    Map<
+            @MapColumn(columnName = "remoteId") Long,
+            @MapColumn(columnName = "id") Long> getSelectionOptionRemoteIdsAndLocalIds(long columnId);
 
-    @Query("DELETE FROM SelectionOption " +
-           "WHERE columnId = :columnId " +
-           "AND remoteId NOT IN (:remoteColumnIds)")
+    @Query("""
+            DELETE FROM SelectionOption
+            WHERE columnId = :columnId
+            AND remoteId NOT IN (:remoteColumnIds)
+            """)
     void deleteExcept(long columnId, Collection<Long> remoteColumnIds);
 }

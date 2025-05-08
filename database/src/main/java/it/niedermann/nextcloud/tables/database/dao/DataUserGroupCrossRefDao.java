@@ -25,12 +25,16 @@ public interface DataUserGroupCrossRefDao {
     @Delete
     void delete(DataUserGroupCrossRef... entity);
 
-    @Query("DELETE FROM DataUserGroupCrossRef " +
-            "WHERE DataUserGroupCrossRef.dataId = :dataId")
+    @Query("""
+            DELETE FROM DataUserGroupCrossRef
+            WHERE DataUserGroupCrossRef.dataId = :dataId
+            """)
     void delete(long dataId);
 
-    @Query("SELECT crossRef.* " +
-            "FROM DataUserGroupCrossRef crossRef " +
-            "WHERE crossRef.dataId = :dataId")
+    @Query("""
+            SELECT crossRef.*
+            FROM DataUserGroupCrossRef crossRef
+            WHERE crossRef.dataId = :dataId
+            """)
     List<DataUserGroupCrossRef> getCrossRefs(long dataId);
 }

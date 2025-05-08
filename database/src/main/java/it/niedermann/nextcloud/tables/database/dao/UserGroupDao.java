@@ -10,20 +10,24 @@ import it.niedermann.nextcloud.tables.database.entity.UserGroup;
 @Dao
 public interface UserGroupDao extends GenericDao<UserGroup> {
 
-    @Query("SELECT EXISTS(" +
-            "   SELECT u.id " +
-            "   FROM UserGroup u " +
-            "   WHERE u.accountId = :accountId " +
-            "   AND u.remoteId = :remoteId " +
-            "   LIMIT 1" +
-            ")")
+    @Transaction
+    @Query("""
+            SELECT EXISTS(
+                SELECT u.id
+                FROM UserGroup u
+                WHERE u.accountId = :accountId 
+                AND u.remoteId = :remoteId 
+                LIMIT 1
+            )
+            """)
     boolean exists(long accountId, String remoteId);
 
-    @Query("SELECT u.id " +
-            "FROM UserGroup u " +
-            "WHERE u.accountId = :accountId " +
-            "AND u.remoteId = :remoteId"
-            )
+    @Query("""
+            SELECT u.id
+            FROM UserGroup u
+            WHERE u.accountId = :accountId
+            AND u.remoteId = :remoteId
+            """)
     Long getIdByRemoteId(long accountId, String remoteId);
 
     @Transaction
