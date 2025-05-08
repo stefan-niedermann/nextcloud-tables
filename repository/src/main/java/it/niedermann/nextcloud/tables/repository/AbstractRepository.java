@@ -33,11 +33,23 @@ public abstract class AbstractRepository {
         this.workExecutor = SharedExecutors.getCPUExecutor();
     }
 
+    /// @noinspection UnusedReturnValue
+    protected CompletableFuture<Void> schedulePush(@NonNull Account account) {
+        return this.schedulePush(account, null);
+    }
+
+    /// @noinspection SameParameterValue
+    protected CompletableFuture<Void> schedulePush(@NonNull Account account,
+                                                   @Nullable SyncStatusReporter reporter) {
+        return this.treeSyncAdapter.scheduleSynchronization(account, SyncScheduler.Scope.PUSH_ONLY, reporter);
+    }
+
     protected CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {
         return this.scheduleSynchronization(account, null);
     }
 
-    protected CompletableFuture<Void> scheduleSynchronization(@NonNull Account account, @Nullable SyncStatusReporter reporter) {
-        return this.treeSyncAdapter.scheduleSynchronization(account, reporter);
+    protected CompletableFuture<Void> scheduleSynchronization(@NonNull Account account,
+                                                              @Nullable SyncStatusReporter reporter) {
+        return this.treeSyncAdapter.scheduleSynchronization(account, SyncScheduler.Scope.PUSH_AND_PULL, reporter);
     }
 }

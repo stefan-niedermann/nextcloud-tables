@@ -16,6 +16,7 @@ public interface SyncScheduler {
 
     @AnyThread
     CompletableFuture<Void> scheduleSynchronization(@NonNull Account account,
+                                                    @NonNull Scope scope,
                                                     @Nullable SyncStatusReporter reporter);
 
     class Factory {
@@ -30,5 +31,10 @@ public interface SyncScheduler {
         public SyncScheduler create() {
             return defaultSyncScheduler;
         }
+    }
+
+    enum Scope {
+        PUSH_ONLY,
+        PUSH_AND_PULL
     }
 }
