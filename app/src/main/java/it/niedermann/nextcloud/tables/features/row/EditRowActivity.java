@@ -21,7 +21,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewbinding.ViewBinding;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -44,9 +43,8 @@ import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditRowBinding;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
-import it.niedermann.nextcloud.tables.features.row.editor.EditorServiceRegistry;
-import it.niedermann.nextcloud.tables.features.row.editor.factories.EditorFactory;
 import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
+import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditViewFactory;
 import it.niedermann.nextcloud.tables.repository.defaults.DataTypeDefaultServiceRegistry;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
 
@@ -63,7 +61,7 @@ public class EditRowActivity extends AppCompatActivity {
     private EditRowViewModel editRowViewModel;
     private ActivityEditRowBinding binding;
     private final Collection<DataEditView<?>> editors = new ArrayList<>();
-    private DataTypeServiceRegistry<EditorFactory<? extends ViewBinding>> editorFactoryRegistry;
+    private DataEditViewFactory editorFactoryRegistry;
     private DataTypeServiceRegistry<DefaultValueSupplier> defaultSupplierRegistry;
 
     @Override
@@ -95,7 +93,9 @@ public class EditRowActivity extends AppCompatActivity {
 
         this.binding = ActivityEditRowBinding.inflate(getLayoutInflater());
         this.editRowViewModel = new ViewModelProvider(this).get(EditRowViewModel.class);
-        this.editorFactoryRegistry = new EditorServiceRegistry(
+        this.editorFactoryRegistry = new DataEditViewFactory(
+                this,
+                getSupportFragmentManager(),
                 (account, column, term) -> editRowViewModel.getSearchResultProposals(account, column, term),
                 (account, column, term) -> editRowViewModel.getAutocompleteProposals(account, column, term));
         this.defaultSupplierRegistry = new DataTypeDefaultServiceRegistry();
@@ -170,8 +170,7 @@ public class EditRowActivity extends AppCompatActivity {
                             fullData.getData().setRowId(Optional.ofNullable(originRowId).orElse(0L));
 
                             final var editor = editorFactoryRegistry
-                                    .getService(column.getColumn().getDataType())
-                                    .create(account, this, column, getSupportFragmentManager());
+                                    .createDataEditView(column.getColumn().getDataType(), account, column);
 
                             editor.setFullData(fullData);
                             editor.invalidate();
@@ -187,8 +186,7 @@ public class EditRowActivity extends AppCompatActivity {
 
                             try {
                                 final var unknownEditor = editorFactoryRegistry
-                                        .getService(EDataType.UNKNOWN)
-                                        .create(account, this, column, getSupportFragmentManager());
+                                        .createDataEditView(EDataType.UNKNOWN, account, column);
 
                                 Optional
                                         .ofNullable(fullDataGrid.get(column.getColumn().getId()))
