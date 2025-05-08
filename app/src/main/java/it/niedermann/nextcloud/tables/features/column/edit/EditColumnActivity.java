@@ -31,6 +31,7 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.database.model.FullColumn;
 import it.niedermann.nextcloud.tables.databinding.ActivityEditColumnBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
+import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditViewFactory;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
 
@@ -47,7 +48,7 @@ public class EditColumnActivity extends AppCompatActivity {
     private FullColumn fullColumn;
     private EditColumnViewModel editColumnViewModel;
     private ActivityEditColumnBinding binding;
-    private ManageDataTypeServiceRegistry registry;
+    private ColumnEditViewFactory columnEditViewFactory;
 
     @Nullable
     private ColumnEditView<?> columnEditView;
@@ -67,9 +68,7 @@ public class EditColumnActivity extends AppCompatActivity {
         editColumnViewModel = new ViewModelProvider(this).get(EditColumnViewModel.class);
         binding = ActivityEditColumnBinding.inflate(getLayoutInflater());
 
-        this.registry = new ManageDataTypeServiceRegistry(
-                accountId -> editColumnViewModel.getSearchProvider(accountId)
-        );
+        this.columnEditViewFactory = new ColumnEditViewFactory(this, getSupportFragmentManager(), accountId -> editColumnViewModel.getSearchProvider(accountId));
         this.account = (Account) intent.getSerializableExtra(KEY_ACCOUNT);
         this.table = (Table) intent.getSerializableExtra(KEY_TABLE);
         this.fullColumn = (FullColumn) intent.getSerializableExtra(KEY_COLUMN);
@@ -150,8 +149,7 @@ public class EditColumnActivity extends AppCompatActivity {
     }
 
     private ColumnEditView<? extends ViewBinding> createManageView(@NonNull FullColumn fullColumn) {
-        final var editView = registry.getService(fullColumn.getColumn().getDataType())
-                .create(this, getSupportFragmentManager());
+        final var editView = columnEditViewFactory.createColumnEditView(fullColumn.getColumn().getDataType());
         editView.setFullColumn(fullColumn);
         return editView;
     }
