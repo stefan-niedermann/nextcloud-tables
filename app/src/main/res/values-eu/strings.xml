@@ -139,6 +139,7 @@
 
     <string name="order_weight">Eskaeraren pisua</string>
     <string name="add_column">Gehitu zutabea</string>
+    <string name="navigation_favorites">Gogokoak</string>
     <string name="navigation_tables">Taulak</string>
     <string name="navigation_applications">Aplikazioak</string>
     <string name="navigation_archived">Artxibatuta</string>
@@ -161,6 +162,7 @@
     <string name="usergroup_groups">Taldeak</string>
     <string name="usergroup_teams">Lantaldeak</string>
     <string name="remove_table_from_favorites">Kendu gogokoetatik</string>
+    <string name="add_table_to_favorites">Gehitu gogokoetara</string>
     <string name="unarchive_table">Desartxibatu taula</string>
     <string name="archive_table">Artxibatu taula</string>
 </resources>

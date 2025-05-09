@@ -97,6 +97,7 @@
     <string name="error_action_open_battery_settings">Ρυθμίσεις μπαταρίας</string>
 
     <string name="add_column">Προσθήκη στήλης</string>
+    <string name="navigation_favorites">Αγαπημένα</string>
     <string name="navigation_tables">Πίνακες</string>
     <string name="navigation_applications">Εφαρμογές</string>
     <string name="navigation_archived">Αρχειοθετήθηκε</string>
@@ -112,5 +113,8 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Χρήστες</string>
     <string name="usergroup_groups">Ομάδες</string>
+    <string name="remove_table_from_favorites">Αφαίρεση από τα αγαπημένα</string>
+    <string name="add_table_to_favorites">Προσθήκη στα αγαπημένα</string>
+    <string name="unarchive_table">Αποαρχειοθέτηση πίνακα</string>
     <string name="archive_table">Αρχειοθέτηση πίνακα</string>
 </resources>

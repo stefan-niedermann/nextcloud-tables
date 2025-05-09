@@ -94,6 +94,9 @@
     <string name="error_action_open_battery_settings">Настройки на батерията</string>
 
     <string name="order_weight">Ред за тегло</string>
+    <string name="navigation_favorites">Любими</string>
+    <string name="navigation_tables">Таблици</string>
+    <string name="navigation_archived">Архивирано</string>
     <string name="last_background_sync">Последна фонова синхронизация:</string>
     <string name="simple_disabled">изключено/деактивирано/</string>
     <string name="text_allowed_pattern">Разрешен шаблон</string>
@@ -104,4 +107,6 @@
     <string name="simple_loading">Зареждане…</string>
     <string name="simple_url">URL адрес</string>
     <string name="usergroup_groups">Групи</string>
+    <string name="remove_table_from_favorites">Премахване от любими</string>
+    <string name="add_table_to_favorites">Добавяне към любими</string>
     </resources>

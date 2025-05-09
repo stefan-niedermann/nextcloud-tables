@@ -97,6 +97,9 @@
 
     <string name="order_weight">Pes de la comanda</string>
     <string name="add_column">Afegeix una columna</string>
+    <string name="navigation_favorites">Preferits</string>
+    <string name="navigation_tables">Taules</string>
+    <string name="navigation_archived">Arxivat</string>
     <string name="last_background_sync">Última sincronització en segon pla:</string>
     <string name="simple_disabled">inhabilitat</string>
     <string name="text_allowed_pattern">Patró permès</string>
@@ -108,4 +111,6 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">Grups</string>
     <string name="usergroup_teams">Equips</string>
+    <string name="remove_table_from_favorites">Suprimeix dels preferits</string>
+    <string name="add_table_to_favorites">Afegeix a preferits</string>
     </resources>

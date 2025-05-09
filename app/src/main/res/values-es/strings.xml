@@ -139,6 +139,7 @@
 
     <string name="order_weight">Peso del orden</string>
     <string name="add_column">Añadir columna</string>
+    <string name="navigation_favorites">Favoritos</string>
     <string name="navigation_tables">Tablas</string>
     <string name="navigation_applications">Aplicaciones</string>
     <string name="navigation_archived">Archivada</string>
@@ -162,6 +163,7 @@
     <string name="select_multiple_items">Seleccionar múltiples ítems</string>
     <string name="show_user_status">Mostrar el estado del usuario</string>
     <string name="remove_table_from_favorites">Eliminar de favoritos</string>
+    <string name="add_table_to_favorites">Añadir a favoritos</string>
     <string name="unarchive_table">Desarchivar tabla</string>
     <string name="archive_table">Archivar tabla</string>
 </resources>

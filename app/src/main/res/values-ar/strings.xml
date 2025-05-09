@@ -141,7 +141,10 @@
 
     <string name="order_weight">وزن الترتيب</string>
     <string name="add_column">إضافة عمود</string>
+    <string name="navigation_favorites">المُفضّلة</string>
+    <string name="navigation_tables">الجداول</string>
     <string name="navigation_applications">التطبيقات</string>
+    <string name="navigation_archived">مؤرشفة</string>
     <string name="could_not_display_column_editor">%1$s لا يمكن عرضها.</string>
     <string name="choose_table_from_the_sidebar">إختر جدولاً من العمود الجانبي</string>
     <string name="last_background_sync">آخر مزامنة في الخلفية:</string>
@@ -171,4 +174,8 @@
     <string name="usergroup_teams">الفرق</string>
     <string name="select_multiple_items">تحديد عدة عناصر</string>
     <string name="show_user_status">عرض حالة المستخدم</string>
-    </resources>
+    <string name="remove_table_from_favorites">حذف من المفضلة</string>
+    <string name="add_table_to_favorites">إضافة إلى المفضلة</string>
+    <string name="unarchive_table">تراجع عن أرشفة جدول</string>
+    <string name="archive_table">أرشفة جدول</string>
+</resources>

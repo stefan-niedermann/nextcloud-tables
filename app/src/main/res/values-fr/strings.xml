@@ -141,6 +141,7 @@
 
     <string name="order_weight">Poids de la commande</string>
     <string name="add_column"> Ajouter une colonne</string>
+    <string name="navigation_favorites">Favoris</string>
     <string name="navigation_tables">Tableaux</string>
     <string name="navigation_applications">Applications</string>
     <string name="navigation_archived">Archivé</string>
@@ -155,6 +156,7 @@
     <string name="add_option">Ajouter une option</string>
     <string name="delete_option">Supprimer ce choix</string>
     <string name="experimental_feature_column_reordering">La réorganisation des colonnes est une fonctionnalité expérimentale qui peut avoir des effets indésirables sur d\'autres configurations des colonnes sur ce tableau.</string>
+    <string name="experimental_feature_column_manage">La modification des colonnes est une fonctionnalité expérimentale qui peut avoir des effets secondaires involontaires pouvant mener à la perte de données.</string>
     <string name="column_type_is_required">Le type de colonne est requis</string>
     <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
     <string name="unsaved_changes">Modifications non enregistrées</string>
@@ -174,6 +176,7 @@
     <string name="select_multiple_items">Sélectionner plusieurs éléments</string>
     <string name="show_user_status">Afficher le statut de l\'utilisateur</string>
     <string name="remove_table_from_favorites">Retirer des favoris</string>
+    <string name="add_table_to_favorites">Ajouter aux favoris</string>
     <string name="unarchive_table">Désarchiver le tableau</string>
     <string name="archive_table">Archiver le tableau</string>
 </resources>

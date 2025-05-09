@@ -141,6 +141,7 @@
 
     <string name="order_weight">Order weight</string>
     <string name="add_column">Add column</string>
+    <string name="navigation_favorites">Favourites</string>
     <string name="navigation_tables">Tables</string>
     <string name="navigation_applications">Applications</string>
     <string name="navigation_archived">Archived</string>
@@ -173,5 +174,8 @@
     <string name="usergroup_teams">Teams</string>
     <string name="select_multiple_items">Select multiple items</string>
     <string name="show_user_status">Show user status</string>
+    <string name="remove_table_from_favorites">Remove from favourites</string>
+    <string name="add_table_to_favorites">Add to favourites</string>
+    <string name="unarchive_table">Unarchive table</string>
     <string name="archive_table">Archive table</string>
 </resources>

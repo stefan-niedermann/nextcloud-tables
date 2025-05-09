@@ -78,6 +78,9 @@
 
     <string name="welcome_text">Afáyate en Nextcloud Tables</string>
     <string name="account_already_imported">Yá s\'importó la cuenta</string>
+    <string name="navigation_favorites">Favoritos</string>
+    <string name="navigation_tables">Tables</string>
+    <string name="navigation_archived">Archivóse</string>
     <string name="delete_option">Desaniciar la opción</string>
     <string name="unsaved_changes">Cambeos ensin guardar</string>
     <string name="simple_discard">Escartar</string>
@@ -86,4 +89,6 @@
     <string name="usergroup_users">Usuarios</string>
     <string name="usergroup_groups">Grupos</string>
     <string name="usergroup_teams">Equipos</string>
+    <string name="remove_table_from_favorites">Quitar de Favoritos</string>
+    <string name="add_table_to_favorites">Meter en Favoritos</string>
     </resources>

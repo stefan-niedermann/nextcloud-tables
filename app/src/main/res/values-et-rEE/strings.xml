@@ -141,7 +141,9 @@
 
     <string name="order_weight">Järjekorra kaal</string>
     <string name="add_column">Lisa veerg</string>
+    <string name="navigation_favorites">Lemmikud</string>
     <string name="navigation_tables">Tabelid</string>
+    <string name="navigation_applications">Rakendused</string>
     <string name="navigation_archived">Arhiveeritud</string>
     <string name="could_not_display_column_editor">„%1$s“ kuvamine polnud võimalik</string>
     <string name="choose_table_from_the_sidebar">Vali külgpaanist tabel</string>
@@ -175,4 +177,7 @@
     <string name="select_multiple_items">Vali mitu kirjet</string>
     <string name="show_user_status">Näita kasutaja olekut</string>
     <string name="remove_table_from_favorites">Eemalda lemmikutest</string>
-    </resources>
+    <string name="add_table_to_favorites">Lisa lemmikuks</string>
+    <string name="unarchive_table">Eemalda tabel arhiivist</string>
+    <string name="archive_table">Arhiveeri tabel</string>
+</resources>

@@ -82,6 +82,7 @@
     <string name="error_action_update_files_app">Actualizar</string>
     <string name="error_action_open_battery_settings">Ajustes de batería</string>
 
+    <string name="navigation_favorites">Favoritos</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">deshabilitado</string>
     <string name="unsaved_changes">Cambios no guardados</string>
@@ -92,4 +93,5 @@
     <string name="usergroup_groups">Grupos</string>
     <string name="usergroup_teams">Equipos</string>
     <string name="remove_table_from_favorites">Eliminar de favoritos</string>
+    <string name="add_table_to_favorites">Añadir a favoritos</string>
     </resources>

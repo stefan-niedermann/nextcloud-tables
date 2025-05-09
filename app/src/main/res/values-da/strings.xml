@@ -141,6 +141,7 @@
 
     <string name="order_weight">Rækkefølge orden</string>
     <string name="add_column">Tilføj kolonne</string>
+    <string name="navigation_favorites">Favoritter</string>
     <string name="navigation_tables">Tabeller</string>
     <string name="navigation_archived">Arkiveret</string>
     <string name="could_not_display_column_editor">%1$s kunne ikke vises.</string>
@@ -169,4 +170,6 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">Grupper</string>
     <string name="usergroup_teams">Teams</string>
+    <string name="remove_table_from_favorites">Fjern fra favoritter</string>
+    <string name="add_table_to_favorites">Tilføj til favoritter</string>
     </resources>
