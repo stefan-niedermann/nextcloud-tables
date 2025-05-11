@@ -156,6 +156,7 @@
     <string name="add_option">Lägg till alternativ</string>
     <string name="delete_option">Ta bort alternativ</string>
     <string name="experimental_feature_column_reordering">Omordning av kolumner är en experimentell funktion som kan ha oavsiktliga bieffekter på andra konfigurationer av kolumnerna i denna tabell.</string>
+    <string name="experimental_feature_column_manage">Att redigera kolumner är en experimentell funktion som kan ha oavsiktliga bieffekter och leda till dataförlust.</string>
     <string name="column_type_is_required">Kolumntyp är obligatorisk</string>
     <string name="unsupported_column_type">Redigering av kolumner av typen %1$s stöds ännu inte.</string>
     <string name="unsaved_changes">Ej sparade ändringar</string>
@@ -169,6 +170,7 @@
     <string name="simple_loading">Laddar...</string>
     <string name="allowed_types">Tillåtna typer</string>
     <string name="simple_url">Webbadress</string>
+    <string name="clear_default">Rensa standardvärde</string>
     <string name="usergroup_users">Användare</string>
     <string name="usergroup_groups">Grupper</string>
     <string name="usergroup_teams">Teams</string>

@@ -156,6 +156,7 @@
     <string name="add_option">Pridajte možnosť</string>
     <string name="delete_option">Odstrániť voľbu</string>
     <string name="experimental_feature_column_reordering">Zmena poradia stĺpcov je experimentálna funkcia, ktorá môže mať neúmyselné vedľajšie účinky aj na iné konfigurácie stĺpcov v tejto tabuľke.</string>
+    <string name="experimental_feature_column_manage">Úprava stĺpcov je experimentálna funkcia, ktorá môže mať nezamýšľané vedľajšie účinky, ktoré môžu viesť k strate údajov.</string>
     <string name="column_type_is_required">Typ stĺpca je povinný</string>
     <string name="unsupported_column_type">Úprava stĺpcov typu %1$s nie je zatiaľ podporované.</string>
     <string name="unsaved_changes">Neuložené zmeny</string>
@@ -169,6 +170,7 @@
     <string name="simple_loading">Nahrávam...</string>
     <string name="allowed_types">Povolené typy</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Zrušiť predvolené</string>
     <string name="usergroup_users">Používatelia</string>
     <string name="usergroup_groups">Skupiny</string>
     <string name="usergroup_teams">Tímy</string>
