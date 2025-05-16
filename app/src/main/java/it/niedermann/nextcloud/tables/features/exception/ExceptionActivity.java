@@ -58,7 +58,7 @@ public class ExceptionActivity extends AppCompatActivity {
         }
 
         final var adapter = new TipsAdapter(this::startActivity);
-        final String debugInfo = "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
+        final String debugInfo = getDebugInfo(throwable);
 
         binding.tips.setAdapter(adapter);
         binding.tips.setNestedScrollingEnabled(false);
@@ -69,6 +69,14 @@ public class ExceptionActivity extends AppCompatActivity {
         binding.close.setOnClickListener((v) -> finish());
 
         adapter.setThrowable(this, null, throwable);
+    }
+
+    private String getDebugInfo(@NonNull Throwable throwable) {
+        try {
+            return "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, throwable, BuildConfig.FLAVOR);
+        } catch (NullPointerException e) {
+            return "Full Crash:\n\n" + ExceptionUtil.getDebugInfos(this, new Exception(throwable.getMessage()), BuildConfig.FLAVOR);
+        }
     }
 
     @Override

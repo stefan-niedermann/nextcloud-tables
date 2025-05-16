@@ -14,10 +14,16 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     }
 
     @Override
-    public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
-        e.printStackTrace();
-        activity.getApplicationContext().startActivity(ExceptionActivity.createIntent(activity, e));
+    public void uncaughtException(@NonNull Thread t, @NonNull Throwable throwable) {
+        try {
+            throwable.printStackTrace();
+        } catch (NullPointerException ignored) {
+        }
+
+        activity.getApplicationContext().startActivity(ExceptionActivity.createIntent(activity, throwable));
         activity.finish();
-        Runtime.getRuntime().exit(0);
+
+        // This prevents the new activity from being created since at least API 35, therefore commenting it
+        // Runtime.getRuntime().exit(0);
     }
 }
