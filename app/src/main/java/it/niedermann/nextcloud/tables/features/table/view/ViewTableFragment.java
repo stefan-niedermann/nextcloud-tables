@@ -26,6 +26,7 @@ import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.databinding.FragmentTableBinding;
 import it.niedermann.nextcloud.tables.features.column.edit.EditColumnActivity;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
+import it.niedermann.nextcloud.tables.features.main.MainViewModel;
 import it.niedermann.nextcloud.tables.features.row.EditRowActivity;
 import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHolder;
 import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHolderFactory;
@@ -37,9 +38,9 @@ public class ViewTableFragment extends Fragment {
 
     private static final String TAG = ViewTableFragment.class.getSimpleName();
     private FragmentTableBinding binding;
+    private MainViewModel mainViewModel;
     private ViewTableViewModel viewTableViewModel;
     private TableViewAdapter adapter;
-    private CellViewHolderFactory cellViewHolderFactory;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -47,8 +48,9 @@ public class ViewTableFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        cellViewHolderFactory = new CellViewHolderFactory(new DataTypeDefaultServiceRegistry());
+        final var cellViewHolderFactory = new CellViewHolderFactory(new DataTypeDefaultServiceRegistry());
         binding = FragmentTableBinding.inflate(inflater, container, false);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
         adapter = new TableViewAdapter(cellViewHolderFactory);
         binding.tableView.setAdapter(adapter);
@@ -60,6 +62,7 @@ public class ViewTableFragment extends Fragment {
                 final var last = binding.tableView.getRowHeaderLayoutManager().findLastVisibleItemPosition();
                 final var requestedPositionRange = new Range<>((long) first, (long) last);
                 viewTableViewModel.requestRowPositionRange(requestedPositionRange);
+                mainViewModel.setIsNestedFragmentScrolledToTop(binding.tableView.getScrollHandler().getRowPosition() == 0);
             }
         });
 

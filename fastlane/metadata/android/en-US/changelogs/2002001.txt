@@ -1,3 +1,4 @@
+fix: Fix scrolling / swipe to refresh conflict
 fix: Fix crash on startup after update caused by database migration
 fix(number): Fix not editable numbers when min or decimals are not present in column settings
 fix(sync): Fix potential foreign key constraint violation at selection options

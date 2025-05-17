@@ -33,21 +33,28 @@ public class MainViewModel extends AndroidViewModel {
     private final AccountRepository accountRepository;
     private final TablesRepository tablesRepository;
 
-    private final MutableLiveData<Boolean> isLoading$ = new MutableLiveData<>(true);
+    private final LiveData<Boolean> isLoading;
     private final LiveData<Boolean> userInitiatedSynchronizationActive;
+    private final LiveData<Boolean> isSwipeToRefreshEnabled;
 
     public MainViewModel(@NonNull Application application, @NonNull SavedStateHandle savedStateHandle) {
         super(application);
+
         this.savedStateHandle = savedStateHandle;
         this.accountRepository = new AccountRepository(application);
         this.tablesRepository = new TablesRepository(application);
 
+        isLoading = savedStateHandle.getLiveData("isLoading", true);
         userInitiatedSynchronizationActive = savedStateHandle.getLiveData("userInitiatedSynchronizationActive", false);
+        isSwipeToRefreshEnabled = new ReactiveLiveData<>(savedStateHandle.getLiveData("isNestedFragmentScrolledToTop", true))
+                .combineWith(() -> isLoading)
+                .map(args -> args.first && !args.second)
+                .distinctUntilChanged();
     }
 
     @NonNull
-    public LiveData<Boolean> isLoading$() {
-        return new ReactiveLiveData<>(this.isLoading$)
+    public LiveData<Boolean> isLoading() {
+        return new ReactiveLiveData<>(this.isLoading)
                 .distinctUntilChanged();
     }
 
@@ -69,7 +76,7 @@ public class MainViewModel extends AndroidViewModel {
 
             return new ReactiveLiveData<>(tablesRepository.getNotDeletedTable$(account.getCurrentTable()))
                     .map(table -> new AccountAndTable(account, table))
-                    .tap(() -> this.isLoading$.setValue(false));
+                    .tap(() -> savedStateHandle.set("isLoading", false));
         });
     }
 
@@ -83,6 +90,15 @@ public class MainViewModel extends AndroidViewModel {
     @NonNull
     public LiveData<Boolean> isUserInitiatedSynchronizationActive() {
         return this.userInitiatedSynchronizationActive;
+    }
+
+    @NonNull
+    public LiveData<Boolean> isSwipeToRefreshEnabled() {
+        return this.isSwipeToRefreshEnabled;
+    }
+
+    public void setIsNestedFragmentScrolledToTop(boolean isNestedFragmentScrolledToTop) {
+        savedStateHandle.set("isNestedFragmentScrolledToTop", isNestedFragmentScrolledToTop);
     }
 
     @NonNull
@@ -122,7 +138,7 @@ public class MainViewModel extends AndroidViewModel {
         final Long currentTableId = account.getCurrentTable();
 
         if (currentTableId == null || currentTableId != table.getId()) {
-            this.isLoading$.setValue(true);
+            savedStateHandle.set("isLoading", true);
             return accountRepository.setCurrentTable(account.getId(), table.getId());
         }
 

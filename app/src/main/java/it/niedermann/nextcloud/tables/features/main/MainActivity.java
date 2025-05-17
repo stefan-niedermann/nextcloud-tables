@@ -134,9 +134,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mainViewModel.isUserInitiatedSynchronizationActive().observe(this, userInitiatedSynchronizationActive -> binding.swipeRefreshLayout.setRefreshing(userInitiatedSynchronizationActive));
+        mainViewModel.isUserInitiatedSynchronizationActive().observe(this, binding.swipeRefreshLayout::setRefreshing);
+        mainViewModel.isSwipeToRefreshEnabled().observe(this, binding.swipeRefreshLayout::setEnabled);
 
-        mainViewModel.isLoading$().observe(this, loading -> {
+        mainViewModel.isLoading().observe(this, loading -> {
             this.binding.loadingWrapper.setVisibility(loading ? View.VISIBLE : View.GONE);
             this.binding.fragment.setVisibility(!loading ? View.VISIBLE : View.GONE);
         });
