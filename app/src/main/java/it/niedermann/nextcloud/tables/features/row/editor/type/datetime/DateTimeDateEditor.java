@@ -96,7 +96,7 @@ public class DateTimeDateEditor extends TextEditor {
                 .map(Value::getDateValue)
                 .orElse(null);
 
-        setValue(value);
+        applyChangesWithoutChangingPristineState(() -> setValue(value));
     }
 
     protected void setValue(@Nullable LocalDate localDate) {
