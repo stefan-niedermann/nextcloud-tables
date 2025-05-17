@@ -58,10 +58,21 @@ public class NumberEditor extends TextEditor {
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_numbers_24);
 
         applyChangesWithoutChangingPristineState(() -> {
-            binding.editText.setKeyListener(DigitsKeyListener.getInstance(Locale.getDefault(), attributes.numberMin() < 0, attributes.numberDecimals() > 0));
-            binding.editText.setInputType(attributes.numberDecimals() > 0
-                    ? InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
-                    : InputType.TYPE_CLASS_NUMBER);
+
+            binding.editText.setKeyListener(DigitsKeyListener.getInstance(Locale.getDefault(),
+                    Optional.ofNullable(attributes.numberMin())
+                            .map(numberMin -> numberMin < 0)
+                            .orElse(false),
+                    Optional.ofNullable(attributes.numberDecimals())
+                            .map(numberDecimals -> numberDecimals > 0)
+                            .orElse(false)));
+
+            binding.editText.setInputType(
+                    Optional.ofNullable(attributes.numberDecimals())
+                            .filter(numberDecimals -> numberDecimals > 0)
+                            .map(numberDecimals -> InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                            .orElse(InputType.TYPE_CLASS_NUMBER));
+
         });
     }
 
