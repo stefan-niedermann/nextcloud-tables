@@ -380,7 +380,7 @@ public class TablesRepository extends AbstractRepository {
 
                             for (final var selectionOption : fullData.getSelectionOptions()) {
                                 final var crossRef = new DataSelectionOptionCrossRef(insertedDataId, selectionOption.getId());
-                                db.getDataSelectionOptionCrossRefDao().insert(crossRef);
+                                db.getDataSelectionOptionCrossRefDao().upsert(crossRef);
                             }
 
                         }
