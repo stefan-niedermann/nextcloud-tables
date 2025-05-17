@@ -25,7 +25,7 @@ public class LongCellViewHolder extends TextCellViewHolder {
     @Override
     public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull FullColumn fullColumn) {
         final var value = Optional
-                .ofNullable(fullData.getData())
+                .of(fullData.getData())
                 .map(Data::getValue)
                 .map(Value::getStringValue)
                 .map(str -> HtmlCompat.fromHtml(str, 0))

@@ -5,12 +5,14 @@
     android:layout_height="@dimen/table_view_cell_height"
     android:paddingHorizontal="@dimen/spacer_1x">
 
-    <it.niedermann.android.markdown.MarkdownViewerImpl
+    <it.niedermann.android.markdown.MarkdownViewerImpl xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/rich"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
         android:layout_gravity="center"
-        android:gravity="center" />
+        android:gravity="start|center_vertical"
+        android:ellipsize="end"
+        android:maxLines="2"
+        tools:text="@tools:sample/lorem/random" />
 
 </FrameLayout>

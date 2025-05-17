@@ -1,6 +1,5 @@
 package it.niedermann.nextcloud.tables.features.table.view.viewholder.types.text;
 
-import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.databinding.TableviewCellRichBinding;
 import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHolder;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
+import it.niedermann.nextcloud.tables.util.DimensionUtil;
 
 public class RichViewHolder extends CellViewHolder {
 
@@ -30,6 +30,7 @@ public class RichViewHolder extends CellViewHolder {
 
     @Override
     public void bind(@NonNull Account account, @NonNull FullData fullData, @NonNull FullColumn fullColumn) {
+        final int maxWidth = DimensionUtil.emToPx(itemView.getContext(), 80);
         final var value = Optional
                 .of(fullData.getData())
                 .map(Data::getValue)
@@ -37,10 +38,8 @@ public class RichViewHolder extends CellViewHolder {
                 .map(str -> HtmlCompat.fromHtml(str, 0))
                 .orElse(null);
 
+        binding.rich.setMaxWidth(maxWidth);
         binding.rich.setMarkdownString(value);
-
-        binding.rich.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-
         binding.rich.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
         binding.rich.requestLayout();
 
