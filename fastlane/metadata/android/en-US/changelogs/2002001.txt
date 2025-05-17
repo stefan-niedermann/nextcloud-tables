@@ -1,1 +1,2 @@
+fix: Fix crash on startup after update caused by database migration
 fix(sync): Fix potential foreign key constraint violation at selection options
