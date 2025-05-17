@@ -104,10 +104,10 @@ public class UserGroupManager extends ColumnEditView<ManageUsergroupBinding> {
     @Override
     public FullColumn getFullColumn() {
         fullColumn.getColumn().setUserGroupAttributes(new UserGroupAttributes(
+                binding.selectMultipleItems.isChecked(),
                 binding.users.isChecked(),
                 binding.groups.isChecked(),
                 binding.teams.isChecked(),
-                binding.selectMultipleItems.isChecked(),
                 binding.users.isChecked() && binding.showUserStatus.isChecked()
         ));
 
