@@ -125,7 +125,6 @@ public class LinkValue implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         LinkValue linkValue = (LinkValue) o;
         return dataId == linkValue.dataId && Objects.equals(providerId, linkValue.providerId) && Objects.equals(title, linkValue.title) && Objects.equals(subline, linkValue.subline) && Objects.equals(value, linkValue.value);
     }

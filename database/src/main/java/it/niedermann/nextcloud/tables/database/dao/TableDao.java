@@ -140,9 +140,9 @@ public interface TableDao extends GenericDao<Table> {
 
     @Transaction
     @Query("""
-            SELECT t.*, COUNT(allRows.id) as rowCount FROM `Table` t
+            SELECT t.*, COUNT(DISTINCT allRows.id) as rowCount FROM `Table` t
             LEFT JOIN `Row` allRows
-            ON allRows.id = t.id
+            ON t.id = allRows.tableId
             LEFT JOIN (
                 SELECT r.*
                 FROM `Row` r
@@ -152,6 +152,9 @@ public interface TableDao extends GenericDao<Table> {
             ON t.id = queriedRows.tableId
             WHERE t.id = :tableId
             AND t.status IS NOT 'LOCAL_DELETED'
+            AND allRows.status IS NOT 'LOCAL_DELETED'
+            AND queriedRows.status IS NOT 'LOCAL_DELETED'
+            ORDER BY queriedRows.createdAt DESC
             LIMIT 1
             """)
     LiveData<FullTable> getFullTable$(long tableId, long offset, long limit);

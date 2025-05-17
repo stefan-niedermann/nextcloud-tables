@@ -93,7 +93,7 @@ public class ViewTableFragment extends Fragment {
         if (fullTable.getRows().isEmpty()) {
             adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), 0);
         } else {
-            adapter.setAllItems(state.account(), fullTable.getColumns(), fullTable.getRows(), state.dataGrid(), state.currentFullTable().getRowCount());
+            adapter.setAllItems(state.account(), fullTable.getColumns(), fullTable.getRows(), state.dataGrid(), fullTable.getRowCount());
         }
 
         binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);

@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -87,9 +88,16 @@ public class TablesRepository extends AbstractRepository {
                 .distinctUntilChanged();
     }
 
+    /// @implNote Performs sorting of [Column]s and [Row]s, but not of the data itself on code level
     @MainThread
     public LiveData<FullTable> getFullTable$(long tableId, @NonNull Range<Long> rowPositions) {
         return new ReactiveLiveData<>(db.getTableDao().getFullTable$(tableId, rowPositions.getLower(), rowPositions.getUpper()))
+                .tap(fullTable -> {
+                    // We must sort our data here because Rooms @Relation does not allow ordering within FullTable
+                    // However, we only have to sort the columns and the rows, not the data itself because accessing the data happens via an index based access to the dataGrid
+                    Collections.sort(fullTable.getColumns());
+                    Collections.sort(fullTable.getRows());
+                })
                 .distinctUntilChanged();
     }
 

@@ -119,17 +119,11 @@ public class ViewTableViewModel extends AndroidViewModel {
 
     /// @return a two dimensional grid of `FullData`, the outer `List` are the `FullRows`,
     /// the inner `List` are the `Columns`. `FullData` is copied into the grid by reference.
+    /// TODO Idea to speed up: Query Map<Long, Column> / Map<Long, Row>
+    /// TODO Migrate FullData to a database View
     private List<List<FullData>> dataToGrid(@NonNull FullTable fullTable) {
         final var fullRows = fullTable.getRows();
         final var fullColumns = fullTable.getColumns();
-
-        // TODO Idea to speed up: Query Map<Long, Column> / Map<Long, Row>
-
-        // TODO Migrate FullData to a database View
-        // We must sort our data here because Rooms @Relation does not allow ordering within FullTable
-        // However, we only have to sort the columns and the rows, not the data itself because accessing the data happens via an index based access to the dataGrid
-        Collections.sort(fullColumns);
-        Collections.sort(fullRows);
 
         if (fullRows.isEmpty() || fullColumns.isEmpty()) {
             return Collections.emptyList();
