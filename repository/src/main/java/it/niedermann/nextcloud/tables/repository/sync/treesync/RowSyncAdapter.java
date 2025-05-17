@@ -390,7 +390,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                 .thenAcceptAsync(args -> {
 
                     for (final var toAdd : args.first) {
-                        db.getDataSelectionOptionCrossRefDao().insert(toAdd);
+                        db.getDataSelectionOptionCrossRefDao().upsert(toAdd);
                     }
 
                     for (final var toDelete : args.second) {

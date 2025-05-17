@@ -1,1 +1,2 @@
 fix(edit): Fix pristine state of date and time editors
+fix(sync): Fix potential foreign key constraint violation when synchronizing selection option relations
