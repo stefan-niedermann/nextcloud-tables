@@ -52,23 +52,24 @@ public interface OcsAPI {
                                               @Path("provider") @NonNull String provider,
                                               @Query("term") @NonNull String term);
 
-    /// @return ```json
+    /// @return JSON sample
+    /// ```json
     /// "references": {
-    ///   "https:\/\/dev2.cloud.niedermann.it\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf": {
+    ///   "https:\/\/cloud.example.com\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf": {
     ///       "richObjectType": "open-graph",
     ///               "richObject": {
-    ///           "id": "https:\/\/dev2.cloud.niedermann.it\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
-    ///                   "name": "https:\/\/dev2.cloud.niedermann.it\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
+    ///           "id": "https:\/\/cloud.example.com\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
+    ///                   "name": "https:\/\/cloud.example.com\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
     ///                   "description": null,
     ///                   "thumb": null,
-    ///                   "link": "https:\/\/dev2.cloud.niedermann.it\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf"
+    ///                   "link": "https:\/\/cloud.example.com\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf"
     ///       },
     ///       "openGraphObject": {
-    ///           "id": "https:\/\/dev2.cloud.niedermann.it\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
-    ///                   "name": "https:\/\/dev2.cloud.niedermann.it\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
+    ///           "id": "https:\/\/cloud.example.com\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
+    ///                   "name": "https:\/\/cloud.example.com\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf",
     ///                   "description": null,
     ///                   "thumb": null,
-    ///                   "link": "https:\/\/dev2.cloud.niedermann.it\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf"
+    ///                   "link": "https:\/\/cloud.example.com\/index.php\/apps\/files\/?dir=.&scrollto=Nextcloud%20Manual.pdf"
     ///       },
     ///       "accessible": true
     ///   }
