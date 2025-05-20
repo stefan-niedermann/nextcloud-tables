@@ -170,6 +170,7 @@
     <string name="simple_loading">Chargement…</string>
     <string name="allowed_types">Types autorisés</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Effacer la valeur par défaut</string>
     <string name="usergroup_users">Utilisateurs</string>
     <string name="usergroup_groups">Groupes</string>
     <string name="usergroup_teams">Équipes</string>
