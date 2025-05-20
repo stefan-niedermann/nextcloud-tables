@@ -97,8 +97,9 @@ public class NumberEditor extends TextEditor {
     @Override
     @Nullable
     public FullData getFullData() {
-        final var min = attributes.numberMin();
-        final var max = attributes.numberMax();
+        final var attributes = Optional.of(this.attributes);
+        final var min = attributes.map(NumberAttributes::numberMin).orElse(Double.MIN_VALUE);
+        final var max = attributes.map(NumberAttributes::numberMax).orElse(Double.MAX_VALUE);
 
         final var value = Optional
                 .ofNullable(binding.editText.getText())
@@ -177,16 +178,20 @@ public class NumberEditor extends TextEditor {
                 return Range.create(min, max).contains(val)
                         ? Optional.empty()
                         : Optional.of(getContext().getString(R.string.validation_number_range, df.format(min), df.format(max)));
+
             } else if (min != null) {
                 return val >= min
                         ? Optional.empty()
                         : Optional.of(getContext().getString(R.string.validation_number_min, df.format(min)));
+
             } else if (max != null) {
                 return val <= max
                         ? Optional.empty()
                         : Optional.of(getContext().getString(R.string.validation_number_max, df.format(max)));
+
             } else {
                 return Optional.empty();
+
             }
 
         } catch (Exception e) {
@@ -195,8 +200,10 @@ public class NumberEditor extends TextEditor {
     }
 
     private NumberFormat getNumberFormat(@NonNull NumberAttributes attributes) {
-        return attributes.numberDecimals() > 0
-                ? NumberFormat.getInstance()
-                : NumberFormat.getIntegerInstance();
+        return Optional.of(attributes)
+                .map(NumberAttributes::numberDecimals)
+                .filter(decimals -> decimals > 0)
+                .map(decimals -> NumberFormat.getIntegerInstance())
+                .orElseGet(NumberFormat::getInstance);
     }
 }

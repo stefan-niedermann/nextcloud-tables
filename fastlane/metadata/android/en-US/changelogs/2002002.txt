@@ -1,2 +1,3 @@
 fix(edit): Fix pristine state of date and time editors
+fix(edit): Fix NullPointerException when editing number columns with nullish attributes
 fix(sync): Fix potential foreign key constraint violation when synchronizing selection option relations

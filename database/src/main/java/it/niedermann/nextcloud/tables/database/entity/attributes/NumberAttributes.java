@@ -1,15 +1,16 @@
 package it.niedermann.nextcloud.tables.database.entity.attributes;
 
+import androidx.annotation.Nullable;
 import androidx.room.Ignore;
 
 import java.io.Serializable;
 
 public record NumberAttributes(
-        Double numberMin,
-        Double numberMax,
-        Integer numberDecimals,
-        String numberPrefix,
-        String numberSuffix
+        @Nullable Double numberMin,
+        @Nullable Double numberMax,
+        @Nullable Integer numberDecimals,
+        @Nullable String numberPrefix,
+        @Nullable String numberSuffix
 ) implements Serializable {
 
     @Ignore
