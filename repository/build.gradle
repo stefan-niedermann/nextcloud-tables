@@ -40,7 +40,9 @@ dependencies {
     implementation project(path: ':database')
     implementation project(path: ':remote')
 
-    implementation "com.github.stefan-niedermann:android-commons:$version_android_commons"
+    implementation "com.github.stefan-niedermann.android-commons:reactive-livedata:$version_android_commons"
+    implementation "com.github.stefan-niedermann.android-commons:shared-preferences:$version_android_commons"
+    implementation "com.github.stefan-niedermann.android-commons:util:$version_android_commons"
     implementation "com.github.nextcloud:Android-SingleSignOn:$version_sso"
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
 
