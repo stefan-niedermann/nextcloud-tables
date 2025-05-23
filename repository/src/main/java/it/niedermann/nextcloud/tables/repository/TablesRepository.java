@@ -20,11 +20,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -49,7 +51,7 @@ import it.niedermann.nextcloud.tables.repository.util.ColumnReorderUtil;
 @WorkerThread
 public class TablesRepository extends AbstractRepository {
 
-    private static final String TAG = TablesRepository.class.getSimpleName();
+    private final Logger logger = Logger.getLogger(TablesRepository.class.getSimpleName());
     private final ColumnReorderUtil columnReorderUtil;
 
     @MainThread
@@ -92,13 +94,16 @@ public class TablesRepository extends AbstractRepository {
     @MainThread
     public LiveData<FullTable> getFullTable$(long tableId, @NonNull Range<Long> rowPositions) {
         return new ReactiveLiveData<>(db.getTableDao().getFullTable$(tableId, rowPositions.getLower(), rowPositions.getUpper()))
+                .distinctUntilChanged()
+                .map(FullTable::new)
                 .tap(fullTable -> {
+                    logger.info(String.format(Locale.getDefault(), "PERF :: " + "getFullTable$(%d1, %d2, %d3)", tableId, rowPositions.getLower(), rowPositions.getUpper()));
+                    logger.info("--------------------------------------------------------------");
                     // We must sort our data here because Rooms @Relation does not allow ordering within FullTable
                     // However, we only have to sort the columns and the rows, not the data itself because accessing the data happens via an index based access to the dataGrid
                     Collections.sort(fullTable.getColumns());
                     Collections.sort(fullTable.getRows());
-                })
-                .distinctUntilChanged();
+                });
     }
 
     @AnyThread
@@ -113,7 +118,7 @@ public class TablesRepository extends AbstractRepository {
             return table;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getTableDao()::insert, db.getSequentialExecutor())
+                .thenAcceptAsync(db.getTableDao()::insert, db.getSequentialWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -132,14 +137,14 @@ public class TablesRepository extends AbstractRepository {
             return table;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
+                .thenAcceptAsync(db.getTableDao()::update, db.getSequentialWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
 
     @AnyThread
     public CompletableFuture<Void> deleteTable(@NonNull Table table) {
-        return supplyAsync(() -> {
+        return runAsync(() -> {
 
             if (!table.hasManagePermission()) {
                 throw new CompletionException(new InsufficientPermissionException(EPermissionV2Dto.MANAGE));
@@ -147,11 +152,11 @@ public class TablesRepository extends AbstractRepository {
 
             table.setStatus(DBStatus.LOCAL_DELETED);
 
-            return table;
-
         }, workExecutor)
-                .thenAcceptAsync(db.getTableDao()::update, db.getSequentialExecutor())
-                .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(table.getAccountId()), db.getSequentialExecutor())
+                .thenRunAsync(() -> db.runInTransaction(() -> {
+                    db.getTableDao().update(table);
+                    db.getAccountDao().guessCurrentTable(table.getAccountId());
+                }), db.getSequentialWriteExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(table.getAccountId()), db.getParallelExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -189,11 +194,10 @@ public class TablesRepository extends AbstractRepository {
                                 .stream()
                                 .map(DefaultValueSelectionOptionCrossRef::from)
                                 .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::insert);
-
-                    }), db.getSequentialExecutor());
+                    }), db.getSequentialWriteExecutor());
 
                     default -> completedFuture(column)
-                            .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialExecutor())
+                            .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialWriteExecutor())
                             .thenAcceptAsync(column::setId, workExecutor);
 
                 }, workExecutor)
@@ -251,10 +255,10 @@ public class TablesRepository extends AbstractRepository {
                                         .stream()
                                         .map(DefaultValueSelectionOptionCrossRef::from)
                                         .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::upsert);
-                            }), db.getSequentialExecutor());
+                            }), db.getSequentialWriteExecutor());
 
                     default ->
-                            runAsync(() -> db.getColumnDao().update(column), db.getSequentialExecutor());
+                            runAsync(() -> db.getColumnDao().update(column), db.getSequentialWriteExecutor());
 
                 }, workExecutor)
                 .thenApplyAsync(v -> account, workExecutor)
@@ -320,7 +324,7 @@ public class TablesRepository extends AbstractRepository {
 
                     return account;
 
-                }, db.getSequentialExecutor())
+                }, db.getSequentialWriteExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
 
@@ -338,7 +342,7 @@ public class TablesRepository extends AbstractRepository {
             return column;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialExecutor())
+                .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialWriteExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(column.getAccountId()), db.getParallelExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -361,7 +365,7 @@ public class TablesRepository extends AbstractRepository {
             return row;
 
         }, workExecutor)
-                .thenApplyAsync(db.getRowDao()::insert, db.getSequentialExecutor())
+                .thenApplyAsync(db.getRowDao()::insert, db.getSequentialWriteExecutor())
                 .thenAcceptAsync(row::setId, workExecutor)
                 .thenRunAsync(() -> {
 
@@ -393,8 +397,9 @@ public class TablesRepository extends AbstractRepository {
 
                         }
                     }
+                    logger.info("PERF :: " + "Adding row " + row.getId());
 
-                }, db.getSequentialExecutor())
+                }, db.getSequentialWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -417,9 +422,9 @@ public class TablesRepository extends AbstractRepository {
             return row;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getRowDao()::update, db.getSequentialExecutor())
+                .thenAcceptAsync(db.getRowDao()::update, db.getSequentialWriteExecutor())
                 .thenComposeAsync(v -> updateData(fullDataSet, row), workExecutor)
-                .thenAcceptAsync(v -> db.getDataDao().deleteRowIfEmpty(row.getId()), db.getSequentialExecutor())
+                .thenAcceptAsync(v -> db.getDataDao().deleteRowIfEmpty(row.getId()), db.getSequentialWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -443,7 +448,7 @@ public class TablesRepository extends AbstractRepository {
                             }
 
                             return fullData;
-                        }, db.getSequentialExecutor())
+                        }, db.getSequentialWriteExecutor())
                         .thenComposeAsync(this::updateSelectionOptionCrossRefs, workExecutor)
                         .thenComposeAsync(fd -> this.updateLinkValue(fd, row.getAccountId()), workExecutor)
                 ), workExecutor)
@@ -490,7 +495,7 @@ public class TablesRepository extends AbstractRepository {
 
                     return fullData;
 
-                }, db.getSequentialExecutor());
+                }, db.getSequentialWriteExecutor());
     }
 
     @NonNull
@@ -515,14 +520,14 @@ public class TablesRepository extends AbstractRepository {
 
             return supplyAsync(() -> db.getSearchProviderDao().getSearchProviderId(accountId, providerId.orElse(null)), db.getParallelExecutor())
                     .thenAcceptAsync(linkValue::setProviderId, workExecutor)
-                    .thenRunAsync(() -> db.getLinkValueDao().upsertLinkValueAndUpdateData(linkValue), db.getSequentialExecutor())
+                    .thenRunAsync(() -> db.getLinkValueDao().upsertLinkValueAndUpdateData(linkValue), db.getSequentialWriteExecutor())
                     .thenApplyAsync(v -> {
                         fullData.getData().getValue().setLinkValueRef(fullData.getData().getId());
                         return fullData;
                     }, workExecutor);
 
         } else {
-            return runAsync(() -> db.getLinkValueDao().delete(fullData.getData().getId()), db.getSequentialExecutor())
+            return runAsync(() -> db.getLinkValueDao().delete(fullData.getData().getId()), db.getSequentialWriteExecutor())
                     .thenApplyAsync(v -> {
                         fullData.getData().getValue().setLinkValueRef(null);
                         return fullData;
@@ -544,7 +549,7 @@ public class TablesRepository extends AbstractRepository {
             return row;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getRowDao()::update, db.getSequentialExecutor())
+                .thenAcceptAsync(db.getRowDao()::update, db.getSequentialWriteExecutor())
                 .thenApplyAsync(v -> db.getAccountDao().getAccountById(row.getAccountId()), db.getParallelExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -563,8 +568,6 @@ public class TablesRepository extends AbstractRepository {
     /// @noinspection UnusedReturnValue
     @AnyThread
     public CompletableFuture<Void> updateCurrentRow(long tableId, @NonNull Long currentRowId) {
-        return runAsync(() -> {
-            db.getTableDao().updateCurrentRow(tableId, currentRowId);
-        }, db.getSequentialExecutor());
+        return runAsync(() -> db.getTableDao().updateCurrentRow(tableId, currentRowId), db.getSequentialWriteExecutor());
     }
 }

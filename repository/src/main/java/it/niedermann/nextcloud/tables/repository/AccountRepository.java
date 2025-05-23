@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.android.sharedpreferences.SharedPreferenceLongLiveData;
@@ -36,6 +37,7 @@ import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatus;
 @MainThread
 public class AccountRepository extends AbstractRepository {
 
+    private static final Logger logger = Logger.getLogger(AccountRepository.class.getSimpleName());
     private static final String TAG = AccountRepository.class.getSimpleName();
     private static final String SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT = "it.niedermann.nextcloud.tables.current_account";
 
@@ -90,7 +92,7 @@ public class AccountRepository extends AbstractRepository {
     public LiveData<SyncStatus> createAccount(@NonNull Account accountToCreate) {
         final var reporter = new LiveDataReporter(accountToCreate);
         completedFuture(accountToCreate)
-                .thenApplyAsync(db.getAccountDao()::insert, db.getSequentialExecutor())
+                .thenApplyAsync(db.getAccountDao()::insert, db.getSequentialWriteExecutor())
                 .thenAcceptAsync(accountToCreate::setId, workExecutor)
                 .thenApplyAsync(v -> accountToCreate, workExecutor)
                 .handleAsync((account, throwable) -> {
@@ -164,12 +166,17 @@ public class AccountRepository extends AbstractRepository {
     @AnyThread
     @NonNull
     public CompletableFuture<Void> setCurrentTable(long accountId, @Nullable Long tableId) {
-        return runAsync(() -> db.getAccountDao().updateCurrentTable(accountId, tableId), db.getSequentialExecutor());
+        return runAsync(() -> {
+            logger.info("PERF :: ----- setCurrentTable to " + tableId + " START ");
+            db.getAccountDao().updateCurrentTable(accountId, tableId);
+            logger.info("PERF :: ----- setCurrentTable to " + tableId + " FINISH ");
+        }, db.getParallelExecutor());
     }
 
     @AnyThread
     @NonNull
     public CompletableFuture<Void> deleteAccount(@NonNull Account account) {
-        return runAsync(() -> db.getAccountDao().delete(account), db.getSequentialExecutor());
+        // TODO Should run after Synchronization
+        return runAsync(() -> db.getAccountDao().delete(account), db.getSequentialWriteExecutor());
     }
 }

@@ -124,11 +124,18 @@ public abstract class TablesDatabase extends RoomDatabase {
                 .build();
     }
 
+    /// Use for any non changing database requests as select statements where the order of statements does not matter
     public ExecutorService getParallelExecutor() {
         return parallelExecutor;
     }
 
-    public ExecutorService getSequentialExecutor() {
+    /// Use for writing sequentially to the database while synchronization to not block working with the app
+    public ExecutorService getSequentialWriteExecutorForSync() {
+        return sequentialExecutor;
+    }
+
+    /// Use for writing sequentially to the database on user interaction
+    public ExecutorService getSequentialWriteExecutor() {
         return sequentialExecutor;
     }
 

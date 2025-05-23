@@ -76,8 +76,7 @@ public class ViewTableViewModel extends AndroidViewModel {
                                         .orElseGet(Collections::emptyList);
                                 return new UiState(account, fullTable, dataGrid);
                             });
-                })
-                .distinctUntilChanged();
+                });
     }
 
     @NonNull

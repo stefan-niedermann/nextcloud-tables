@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -49,6 +50,14 @@ public class FullTable {
 
     public FullTable() {
         // Default constructor
+    }
+
+    public FullTable(@NonNull FullTable fullTable) {
+        table = new Table(fullTable.getTable());
+        account = new Account(fullTable.getAccount());
+        columns = new ArrayList<>(fullTable.getColumns());
+        rows = new ArrayList<>(fullTable.getRows());
+        rowCount = fullTable.rowCount;
     }
 
     @NonNull

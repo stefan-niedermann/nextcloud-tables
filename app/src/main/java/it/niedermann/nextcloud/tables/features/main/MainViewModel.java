@@ -18,6 +18,7 @@ import androidx.lifecycle.SavedStateHandle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -28,6 +29,8 @@ import it.niedermann.nextcloud.tables.repository.TablesRepository;
 /// @noinspection UnusedReturnValue
 @MainThread
 public class MainViewModel extends AndroidViewModel {
+
+    private final Logger logger = Logger.getLogger(MainViewModel.class.getSimpleName());
 
     private final SavedStateHandle savedStateHandle;
     private final AccountRepository accountRepository;
@@ -137,9 +140,13 @@ public class MainViewModel extends AndroidViewModel {
     public CompletableFuture<Void> setCurrentTable(@NonNull Account account, @NonNull Table table) {
         final Long currentTableId = account.getCurrentTable();
 
+        logger.info("PERF :: - setCurrentTable to " + table.getId() + ", account currentTableId = " + currentTableId);
         if (currentTableId == null || currentTableId != table.getId()) {
             savedStateHandle.set("isLoading", true);
+            logger.info("PERF :: --- setCurrentTable to " + table.getId());
             return accountRepository.setCurrentTable(account.getId(), table.getId());
+        } else {
+            logger.info("PERF :: --- skipped");
         }
 
         return CompletableFuture.completedFuture(null);

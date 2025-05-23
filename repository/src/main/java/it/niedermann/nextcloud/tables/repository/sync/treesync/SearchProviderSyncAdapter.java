@@ -84,6 +84,6 @@ class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
                             .peek(provider -> provider.setAccountId(account.getId()))
                             .toArray(SearchProvider[]::new);
                 }, workExecutor)
-                .thenAcceptAsync(db.getSearchProviderDao()::upsert, db.getSequentialExecutor());
+                .thenAcceptAsync(db.getSearchProviderDao()::upsert, db.getSequentialWriteExecutorForSync());
     }
 }

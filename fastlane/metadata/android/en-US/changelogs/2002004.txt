@@ -1,1 +1,2 @@
 fix(number): Fix locale depending separator character for editing number decimals
+fix(perf): Don't let synchronization plugging user interactions

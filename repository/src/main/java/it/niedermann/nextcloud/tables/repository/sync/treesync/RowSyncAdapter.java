@@ -97,7 +97,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                 }
 
                                                 fullRow.getRow().setRemoteId(body.ocs.data.remoteId());
-                                                return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
+                                                return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialWriteExecutorForSync());
 
                                             } else {
                                                 serverErrorHandler.responseToException(response, "Could not push local row creations for " + fullRow.getRow().getId(), false).ifPresent(this::throwError);
@@ -138,7 +138,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                 }
 
                                                 fullRow.getRow().setRemoteId(body.remoteId());
-                                                return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialExecutor());
+                                                return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSequentialWriteExecutorForSync());
 
                                             } else {
                                                 serverErrorHandler.responseToException(response, "Could not push local changes for row " + fullRow.getRow().getRemoteId(), false).ifPresent(this::throwError);
@@ -161,14 +161,14 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                             .peek(row -> Log.i(TAG, "------ → DELETE: " + row.getRemoteId()))
                             .map(row -> {
                                 if (row.getRemoteId() == null) {
-                                    return runAsync(() -> db.getRowDao().delete(row), db.getSequentialExecutor());
+                                    return runAsync(() -> db.getRowDao().delete(row), db.getSequentialWriteExecutorForSync());
 
                                 } else {
                                     return requestHelper.executeNetworkRequest(account, apis -> apis.apiV1().deleteRow(row.getRemoteId()))
                                             .thenComposeAsync(response -> {
                                                 Log.i(TAG, "------ → HTTP " + response.code());
                                                 if (response.isSuccessful()) {
-                                                    return runAsync(() -> db.getRowDao().delete(row), db.getSequentialExecutor());
+                                                    return runAsync(() -> db.getRowDao().delete(row), db.getSequentialWriteExecutorForSync());
                                                 } else {
                                                     serverErrorHandler.responseToException(response, "Could not delete row " + row.getRemoteId(), false).ifPresent(this::throwError);
                                                     return completedFuture(null);
@@ -213,7 +213,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
                     return rowIdsToDelete;
                 }, workExecutor)
-                .thenAcceptAsync(existingRowIds -> existingRowIds.forEach(db.getRowDao()::delete), db.getSequentialExecutor());
+                .thenAcceptAsync(existingRowIds -> existingRowIds.forEach(db.getRowDao()::delete), db.getSequentialWriteExecutorForSync());
     }
 
     @NonNull
@@ -225,7 +225,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                     if (potentialRowId == null) {
 
                         Log.i(TAG, "------ ← Adding row " + row.getRemoteId() + " to database");
-                        return supplyAsync(() -> db.getRowDao().insert(row), db.getSequentialExecutor())
+                        return supplyAsync(() -> db.getRowDao().insert(row), db.getSequentialWriteExecutorForSync())
                                 .thenAcceptAsync(row::setId, workExecutor)
                                 .thenApplyAsync(v -> row.getId(), workExecutor);
 
@@ -234,7 +234,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                         row.setId(potentialRowId);
 
                         Log.i(TAG, "------ ← Updating row " + row.getRemoteId() + " in database");
-                        return runAsync(() -> db.getRowDao().update(row), db.getSequentialExecutor())
+                        return runAsync(() -> db.getRowDao().update(row), db.getSequentialWriteExecutorForSync())
                                 .thenApplyAsync(v -> potentialRowId, workExecutor);
                     }
 
@@ -344,8 +344,8 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                     : completedFuture(null), workExecutor)
 
                             .thenComposeAsync(v -> existingDataId.isPresent()
-                                    ? runAsync(() -> db.getDataDao().update(data), db.getSequentialExecutor())
-                                    : supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialExecutor())
+                                    ? runAsync(() -> db.getDataDao().update(data), db.getSequentialWriteExecutorForSync())
+                                    : supplyAsync(() -> db.getDataDao().insert(data), db.getSequentialWriteExecutorForSync())
                                     .thenAcceptAsync(data::setId, workExecutor)
                                     .thenComposeAsync(v2 -> dataType.hasSelectionOptions()
                                             ? insertDependingLinkValues(fullData)
@@ -397,7 +397,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                         db.getDataSelectionOptionCrossRefDao().delete(toDelete);
                     }
 
-                }, db.getSequentialExecutor());
+                }, db.getSequentialWriteExecutorForSync());
     }
 
     @NonNull
@@ -435,7 +435,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                         db.getDataUserGroupCrossRefDao().delete(toDelete);
                     }
 
-                }, db.getSequentialExecutor());
+                }, db.getSequentialWriteExecutorForSync());
     }
 
     @NonNull
@@ -447,7 +447,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
         // Probably not necessary, because the Data object will get deleted too and the Foreign Key constraints will ensure the LinkValue gets deleted, too.
         if (linkValueWithProviderRemoteId == null) {
             fullData.getData().getValue().setLinkValueRef(null);
-            return runAsync(() -> db.getLinkValueDao().delete(dataId), db.getSequentialExecutor());
+            return runAsync(() -> db.getLinkValueDao().delete(dataId), db.getSequentialWriteExecutorForSync());
         }
 
         final var searchProviderRemoteId = linkValueWithProviderRemoteId.getProviderId();
@@ -466,7 +466,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                     if (linkValue.getDataId() > 0) {
                         db.getLinkValueDao().upsert(linkValue);
                     }
-                }, db.getSequentialExecutor());
+                }, db.getSequentialWriteExecutorForSync());
     }
 
     @NonNull
@@ -474,7 +474,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
         return CompletableFuture.allOf(fullData.getUserGroups()
                 .stream()
                 .distinct()
-                .map(userGroup -> supplyAsync(() -> db.getUserGroupDao().upsertAndGetId(userGroup), db.getSequentialExecutor())
+                .map(userGroup -> supplyAsync(() -> db.getUserGroupDao().upsertAndGetId(userGroup), db.getSequentialWriteExecutorForSync())
                         .thenAcceptAsync(userGroup::setId, workExecutor))
                 .toArray(CompletableFuture[]::new));
     }
@@ -496,7 +496,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                     return runAsync(() -> {
                         db.getLinkValueDao().upsert(linkValue);
                         db.getDataDao().update(fullData.getData());
-                    }, db.getSequentialExecutor());
+                    }, db.getSequentialWriteExecutorForSync());
 
                 }, workExecutor);
     }
