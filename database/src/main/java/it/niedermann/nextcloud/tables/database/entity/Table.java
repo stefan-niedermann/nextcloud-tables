@@ -263,7 +263,7 @@ public class Table extends AbstractRemoteEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Table table = (Table) o;
-        return favorite == table.favorite && archived == table.archived && isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission) && Objects.equals(currentRow, table.currentRow);
+        return favorite == table.favorite && archived == table.archived && isShared == table.isShared && Objects.equals(title, table.title) && Objects.equals(description, table.description) && Objects.equals(emoji, table.emoji) && Objects.equals(ownership, table.ownership) && Objects.equals(ownerDisplayName, table.ownerDisplayName) && Objects.equals(createdBy, table.createdBy) && Objects.equals(createdAt, table.createdAt) && Objects.equals(lastEditBy, table.lastEditBy) && Objects.equals(lastEditAt, table.lastEditAt) && Objects.equals(onSharePermission, table.onSharePermission);
     }
 
     @Override
