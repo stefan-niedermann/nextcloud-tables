@@ -8,13 +8,13 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.SQLite;
 import androidx.sqlite.SQLiteConnection;
 
-/// @see <a href="https://github.com/stefan-niedermann/nextcloud-tables/issues/189">Issue #189</a>
-///
 /// - Adds `usergroupSelectTeams` flag to `Column` entity
 ///
 /// The following steps are "breaking changes" because users will lose local not yet synchronized changes
 /// - Changes the relation of `DefaultValueSelectionOptionCrossRef` from `Data` to `Column`
 /// - Changes the relation of `DefaultValueUserGroupCrossRef` from `Data` to `Column`
+///
+/// @see <a href="https://github.com/stefan-niedermann/nextcloud-tables/issues/189">Issue #189</a>
 public class Migration_5_6 extends Migration {
 
     private static final String TAG = Migration_5_6.class.getSimpleName();
