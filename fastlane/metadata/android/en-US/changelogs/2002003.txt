@@ -1,0 +1,1 @@
+fix: Crash after updating to 2.2.1
