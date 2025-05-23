@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.text.method.DigitsKeyListener;
 import android.util.AttributeSet;
 import android.util.Range;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,23 +58,29 @@ public class NumberEditor extends TextEditor {
         binding.getRoot().setSuffixText(attributes.numberSuffix());
         binding.getRoot().setStartIconDrawable(R.drawable.baseline_numbers_24);
 
-        applyChangesWithoutChangingPristineState(() -> {
+        /// `true` if [NumberAttributes#numberMin] is defined and the minimum is negative
+        final var signed = Optional
+                .ofNullable(attributes.numberMin())
+                .map(numberMin -> numberMin < 0);
 
-            binding.editText.setKeyListener(DigitsKeyListener.getInstance(Locale.getDefault(),
-                    Optional.ofNullable(attributes.numberMin())
-                            .map(numberMin -> numberMin < 0)
-                            .orElse(false),
-                    Optional.ofNullable(attributes.numberDecimals())
-                            .map(numberDecimals -> numberDecimals > 0)
-                            .orElse(false)));
+        /// `true` if [NumberAttributes#numberDecimals] is defined and greater than `0`
+        final var decimal = Optional
+                .ofNullable(attributes.numberDecimals())
+                .map(numberDecimals -> numberDecimals > 0);
 
-            binding.editText.setInputType(
-                    Optional.ofNullable(attributes.numberDecimals())
-                            .filter(numberDecimals -> numberDecimals > 0)
-                            .map(numberDecimals -> InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
-                            .orElse(InputType.TYPE_CLASS_NUMBER));
+        binding.editText.setKeyListener(DigitsKeyListener.getInstance(
+                Locale.getDefault(),
+                signed.orElse(false),
+                decimal.orElse(false)));
 
-        });
+        binding.editText.setRawInputType(
+                InputType.TYPE_CLASS_NUMBER |
+                signed
+                        .map(s -> EditorInfo.TYPE_NUMBER_FLAG_SIGNED)
+                        .orElse(0) |
+                decimal
+                        .map(d -> EditorInfo.TYPE_NUMBER_FLAG_DECIMAL)
+                        .orElse(0));
     }
 
     @Nullable
@@ -203,7 +210,7 @@ public class NumberEditor extends TextEditor {
         return Optional.of(attributes)
                 .map(NumberAttributes::numberDecimals)
                 .filter(decimals -> decimals > 0)
-                .map(decimals -> NumberFormat.getIntegerInstance())
-                .orElseGet(NumberFormat::getInstance);
+                .map(decimals -> NumberFormat.getInstance())
+                .orElseGet(NumberFormat::getIntegerInstance);
     }
 }

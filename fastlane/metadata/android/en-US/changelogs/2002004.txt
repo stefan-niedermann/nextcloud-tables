@@ -1,0 +1,1 @@
+fix(number): Fix locale depending separator character for editing number decimals
