@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
@@ -24,6 +23,9 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppNotInstalledExcepti
 import com.nextcloud.android.sso.model.SingleSignOnAccount;
 import com.nextcloud.android.sso.ui.UiExceptionManager;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.databinding.ActivityImportBinding;
@@ -37,7 +39,8 @@ import it.niedermann.nextcloud.tables.util.AvatarUtil;
 
 public class ImportAccountActivity extends AppCompatActivity implements AccountImporter.IAccountAccessGranted {
 
-    private static final String TAG = ImportAccountActivity.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(ImportAccountActivity.class.getSimpleName());
+
     private final AvatarUtil avatarUtil = new AvatarUtil();
     private ActivityImportBinding binding;
     private ImportAccountViewModel importAccountViewModel;
@@ -146,21 +149,22 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
                 binding.progressCircular.setProgress(syncStatus.getTablesFinishedCount().orElse(0), true);
                 binding.progressCircular.setSecondaryProgress(syncStatus.getTablesFinishedCount().orElse(0) + syncStatus.getTablesInProgress().size());
 
-                if (syncStatus.getError() instanceof AccountAlreadyImportedException) {
+                final var error = syncStatus.getError();
+                if (error instanceof AccountAlreadyImportedException) {
                     binding.progressText.setText(R.string.account_already_imported);
                 } else {
-                    if (syncStatus.getError() != null) {
-                        syncStatus.getError().printStackTrace();
-                        ExceptionDialogFragment.newInstance(syncStatus.getError(), syncStatus.getAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    if (error != null) {
+                        logger.log(Level.SEVERE, error.toString(), error);
+                        ExceptionDialogFragment.newInstance(error, syncStatus.getAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
 
-                        if (syncStatus.getError() instanceof ServerNotAvailableException) {
-                            binding.progressText.setText(((ServerNotAvailableException) syncStatus.getError()).getReason().messageRes);
+                        if (error instanceof ServerNotAvailableException) {
+                            binding.progressText.setText(((ServerNotAvailableException) error).getReason().messageRes);
                         } else {
-                            binding.progressText.setText(syncStatus.getError().getMessage());
+                            binding.progressText.setText(error.getMessage());
                         }
                     } else {
                         binding.progressText.setText(R.string.hint_error_appeared);
-                        new IllegalStateException("Received error step while importing, but exception was null").printStackTrace();
+                        logger.log(Level.SEVERE, "Received error step while importing, but exception was null", new IllegalStateException());
                     }
                 }
             }
@@ -192,7 +196,7 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
             try {
                 AccountImporter.onActivityResult(requestCode, resultCode, data, ImportAccountActivity.this, this);
             } catch (AccountImportCancelledException e) {
-                Log.i(TAG, "Account import has been canceled.");
+                logger.info("Account import has been canceled.");
             }
         }
     }

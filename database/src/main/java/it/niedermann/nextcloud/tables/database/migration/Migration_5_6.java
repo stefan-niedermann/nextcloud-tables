@@ -1,12 +1,14 @@
 package it.niedermann.nextcloud.tables.database.migration;
 
 import android.database.sqlite.SQLiteException;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.migration.Migration;
 import androidx.sqlite.SQLite;
 import androidx.sqlite.SQLiteConnection;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /// - Adds `usergroupSelectTeams` flag to `Column` entity
 ///
@@ -17,7 +19,7 @@ import androidx.sqlite.SQLiteConnection;
 /// @see <a href="https://github.com/stefan-niedermann/nextcloud-tables/issues/189">Issue #189</a>
 public class Migration_5_6 extends Migration {
 
-    private static final String TAG = Migration_5_6.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(Migration_5_6.class.getSimpleName());
 
     public Migration_5_6() {
         super(5, 6);
@@ -38,7 +40,7 @@ public class Migration_5_6 extends Migration {
                     ADD `usergroupSelectTeams` INTEGER NOT NULL DEFAULT 0
                     """);
         } catch (SQLiteException ex) {
-            Log.w(TAG, "Failed to add `usergroupSelectTeams` to `Column`: " + ex.getMessage());
+            logger.log(Level.WARNING, "Failed to add `usergroupSelectTeams` to `Column`: " + ex.getMessage(), ex);
         }
     }
 

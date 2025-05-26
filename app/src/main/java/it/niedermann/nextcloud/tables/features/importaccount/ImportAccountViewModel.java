@@ -12,6 +12,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.R;
@@ -23,6 +25,8 @@ import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatus;
 
 @MainThread
 public class ImportAccountViewModel extends AndroidViewModel {
+
+    private static final Logger logger = Logger.getLogger(ImportAccountActivity.class.getSimpleName());
 
     private final AccountRepository accountRepository;
 
@@ -101,24 +105,25 @@ public class ImportAccountViewModel extends AndroidViewModel {
                 case PROGRESS -> R.string.import_state_import_tables;
                 case FINISHED -> null;
                 case ERROR -> {
-                    if (syncStatus.getError() instanceof AccountAlreadyImportedException) {
+                    final var error = syncStatus.getError();
+                    if (error instanceof AccountAlreadyImportedException) {
                         yield R.string.account_already_imported;
                     }
 
-                    if (syncStatus.getError() != null) {
-                        syncStatus.getError().printStackTrace();
-//                            ExceptionDialogFragment.newInstance(syncStatus.getError(), syncStatus.getAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
+                    if (error != null) {
+                        logger.log(Level.SEVERE, error.toString(), error);
+                        // ExceptionDialogFragment.newInstance(error, syncStatus.getAccount()).show(getSupportFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
 
-                        if (syncStatus.getError() instanceof ServerNotAvailableException) {
-                            yield ((ServerNotAvailableException) syncStatus.getError()).getReason().messageRes;
+                        if (error instanceof ServerNotAvailableException) {
+                            yield ((ServerNotAvailableException) error).getReason().messageRes;
                         }
 
-//                        yield syncStatus.getError().getMessage();
+                        // yield error.getMessage();
                         yield null;
                     }
 
                     yield R.string.hint_error_appeared;
-//                            new IllegalStateException("Received error step while importing, but exception was null").printStackTrace();
+                    // logger.log(Level.SEVERE, "Received error step while importing, but exception was null", new IllegalStateException());
                 }
             };
         }

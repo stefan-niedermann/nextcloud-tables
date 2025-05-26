@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.tables.features.table.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Range;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Column;
@@ -36,7 +37,8 @@ import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class ViewTableFragment extends Fragment {
 
-    private static final String TAG = ViewTableFragment.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(ViewTableFragment.class.getSimpleName());
+
     private FragmentTableBinding binding;
     private MainViewModel mainViewModel;
     private ViewTableViewModel viewTableViewModel;
@@ -78,13 +80,13 @@ public class ViewTableFragment extends Fragment {
         final var fullTable = state.currentFullTable();
 
         if (fullTable == null) {
-            Log.i(TAG, "Current table: " + null);
+            logger.info(() -> "Current table: " + null);
             adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), 0);
             binding.tableView.setTableViewListener(null);
             return;
         }
 
-        Log.i(TAG, "Current table: " + fullTable.getTable());
+        logger.info(() -> "Current table: " + fullTable.getTable());
 
         final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
         final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
@@ -104,7 +106,7 @@ public class ViewTableFragment extends Fragment {
             @Override
             public void onCellClicked(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
                 if (!fullTable.getTable().hasUpdatePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.UPDATE);
+                    logger.info(() -> "Insufficient permissions: " + EPermissionV2Dto.UPDATE);
                     return;
                 }
 
@@ -114,7 +116,7 @@ public class ViewTableFragment extends Fragment {
                     if (FeatureToggle.STRICT_MODE.enabled) {
                         ExceptionDialogFragment.newInstance(exception, state.account()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     } else {
-                        exception.printStackTrace();
+                        logger.log(Level.SEVERE, exception.getMessage(), exception);
                     }
 
                     return;
@@ -127,7 +129,7 @@ public class ViewTableFragment extends Fragment {
                     if (FeatureToggle.STRICT_MODE.enabled) {
                         ExceptionDialogFragment.newInstance(exception, state.account()).show(getChildFragmentManager(), ExceptionDialogFragment.class.getSimpleName());
                     } else {
-                        exception.printStackTrace();
+                        logger.log(Level.SEVERE, exception.getMessage(), exception);
                     }
 
                     return;
@@ -139,7 +141,7 @@ public class ViewTableFragment extends Fragment {
             @Override
             public void onCellLongPressed(@NonNull RecyclerView.ViewHolder cellView, int columnPosition, int rowPosition) {
                 if (!fullTable.getTable().hasUpdatePermission() && !fullTable.getTable().hasDeletePermission() && !fullTable.getTable().hasCreatePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.UPDATE + ", " + EPermissionV2Dto.DELETE);
+                    logger.info(() -> "Insufficient permissions: " + EPermissionV2Dto.UPDATE + ", " + EPermissionV2Dto.DELETE);
                     return;
                 }
 
@@ -215,7 +217,7 @@ public class ViewTableFragment extends Fragment {
                 }
 
                 if (!fullTable.getTable().hasManagePermission()) {
-                    Log.i(TAG, "Insufficient permissions: " + EPermissionV2Dto.MANAGE);
+                    logger.info(() -> "Insufficient permissions: " + EPermissionV2Dto.MANAGE);
                     return;
                 }
 

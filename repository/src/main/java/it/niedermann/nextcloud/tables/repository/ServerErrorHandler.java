@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.tables.repository;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +13,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
 import retrofit2.Response;
 
 public class ServerErrorHandler {
 
-    private static final String TAG = ServerErrorHandler.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(ServerErrorHandler.class.getSimpleName());
+
     private final Context context;
 
     public ServerErrorHandler(@NonNull Context context) {
@@ -54,7 +55,7 @@ public class ServerErrorHandler {
         return switch (response.code()) {
             case 304 -> {
                 if (tolerateNotModified) {
-                    Log.i(TAG, "HTTP " + response.code() + " Not Modified");
+                    logger.info(() -> "HTTP " + response.code() + " Not Modified");
                     yield Optional.empty();
 
                 } else {

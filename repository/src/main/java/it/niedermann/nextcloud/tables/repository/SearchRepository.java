@@ -30,6 +30,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
@@ -45,7 +47,8 @@ import retrofit2.Response;
 @MainThread
 public class SearchRepository extends AbstractRepository {
 
-    private static final String TAG = SearchRepository.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(SearchRepository.class.getSimpleName());
+
     private final RequestHelper requestHelper;
 
     public SearchRepository(@NonNull Context context) {
@@ -94,8 +97,9 @@ public class SearchRepository extends AbstractRepository {
                         sources.stream().mapToInt(st -> st.shareType).boxed().toList(),
                         null, null, 10))
                 .handleAsync((response, exception) -> {
+
                     if (exception != null) {
-                        exception.printStackTrace();
+                        logger.log(Level.SEVERE, exception.toString(), exception);
                         return Collections.emptyList();
                     }
 
@@ -105,6 +109,7 @@ public class SearchRepository extends AbstractRepository {
                             .filter(ocs -> ocs.meta.statusCode == HttpURLConnection.HTTP_OK)
                             .map(ocs -> ocs.data)
                             .orElseGet(Collections::emptyList);
+
                 }, workExecutor);
     }
 

@@ -12,6 +12,9 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import it.niedermann.android.util.ClipboardUtil;
 import it.niedermann.nextcloud.exception.ExceptionUtil;
 import it.niedermann.nextcloud.tables.BuildConfig;
@@ -21,6 +24,8 @@ import it.niedermann.nextcloud.tables.databinding.DialogExceptionBinding;
 import it.niedermann.nextcloud.tables.features.exception.tips.TipsAdapter;
 
 public class ExceptionDialogFragment extends AppCompatDialogFragment {
+
+    private static final Logger logger = Logger.getLogger(ExceptionDialogFragment.class.getSimpleName());
 
     private static final String KEY_THROWABLE = "throwable";
     private static final String KEY_ACCOUNT = "account";
@@ -57,7 +62,7 @@ public class ExceptionDialogFragment extends AppCompatDialogFragment {
         binding.tips.setAdapter(adapter);
         binding.stacktrace.setText(debugInfos);
 
-        throwable.printStackTrace();
+        logger.log(Level.SEVERE, throwable.toString(), throwable);
 
         adapter.setThrowable(requireContext(), account, throwable);
 

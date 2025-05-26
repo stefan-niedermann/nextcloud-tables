@@ -5,7 +5,6 @@ import static it.niedermann.nextcloud.tables.util.SpannableUtil.url;
 
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
@@ -32,7 +32,8 @@ import it.niedermann.nextcloud.tables.databinding.ItemAccountAndVersionBinding;
 
 public class AboutFragmentCreditsTab extends Fragment {
 
-    private static final String TAG = AboutFragmentCreditsTab.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(AboutFragmentCreditsTab.class.getSimpleName());
+
     private FragmentAboutCreditsTabBinding binding;
 
     @Override
@@ -126,7 +127,7 @@ public class AboutFragmentCreditsTab extends Fragment {
         if (view.getAdapter() instanceof ServerVersionsAdapter adapter) {
             adapter.setData(data);
         } else {
-            Log.w(TAG, "Can not bind data, expected " + RecyclerView.class.getSimpleName() + " to be of type " + ServerVersionsAdapter.class.getSimpleName() + " but was " + view.getClass().getSimpleName());
+            logger.warning(() -> "Can not bind data, expected " + RecyclerView.class.getSimpleName() + " to be of type " + ServerVersionsAdapter.class.getSimpleName() + " but was " + view.getClass().getSimpleName());
         }
     }
 

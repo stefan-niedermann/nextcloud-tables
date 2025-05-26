@@ -6,7 +6,6 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 import static it.niedermann.nextcloud.tables.shared.Constants.PROBABLE_ACCOUNT_COUNT;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
@@ -16,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.repository.sync.SyncScheduler;
@@ -25,7 +25,7 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 /// Synchronization is executed parallel in general but sequentially per [Account].
 public class TreeSyncScheduler implements SyncScheduler {
 
-    private static final String TAG = TreeSyncScheduler.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(TreeSyncScheduler.class.getSimpleName());
 
     private static final Map<Long, SyncTask> currentSyncs = new HashMap<>(PROBABLE_ACCOUNT_COUNT);
     private static final Map<Long, SyncTask> scheduledSyncs = new HashMap<>(PROBABLE_ACCOUNT_COUNT);
@@ -61,14 +61,14 @@ public class TreeSyncScheduler implements SyncScheduler {
 
                 // Currently no sync is active. Let's start one!
 
-                Log.i(TAG, "Scheduled (currently none active)");
+                logger.info("Scheduled (currently none active)");
 
                 currentSyncs.put(accountId, new SyncTask(synchronize(this.context, account, reporter)
                         .whenCompleteAsync((result, exception) -> {
 
                             synchronized (TreeSyncScheduler.this) {
 
-                                Log.i(TAG, "Current sync finished.");
+                                logger.info("Current sync finished.");
                                 currentSyncs.remove(accountId);
 
                             }
@@ -83,14 +83,14 @@ public class TreeSyncScheduler implements SyncScheduler {
                 // Let's schedule a sync that waits for the current sync being done and then
                 // switches the scheduledSync to the current
 
-                Log.i(TAG, "Scheduled to the end of the current one.");
+                logger.info("Scheduled to the end of the current one.");
 
                 scheduledSyncs.put(accountId, new SyncTask(requireNonNull(currentSyncs.get(accountId)).future
                         .whenCompleteAsync((result, exception) -> {
 
                             synchronized (TreeSyncScheduler.this) {
 
-                                Log.i(TAG, "Scheduled now becomes current one.");
+                                logger.info("Scheduled now becomes current one.");
                                 currentSyncs.put(accountId, scheduledSyncs.get(accountId));
                                 scheduledSyncs.remove(accountId);
 
@@ -102,7 +102,7 @@ public class TreeSyncScheduler implements SyncScheduler {
 
                             synchronized (TreeSyncScheduler.this) {
 
-                                Log.i(TAG, "Current sync finished.");
+                                logger.info("Current sync finished.");
                                 currentSyncs.remove(accountId);
 
                             }
@@ -121,7 +121,7 @@ public class TreeSyncScheduler implements SyncScheduler {
 
                 if (!scheduledSyncCoversRequestedSync) {
 
-                    Log.i(TAG, "Scheduled sync to the end of the currently scheduled push only sync.");
+                    logger.info("Scheduled sync to the end of the currently scheduled push only sync.");
 
                     // We can not simply replace the scheduled sync as some clients may rely on the execution and wait for it to get finished.
                     // Therefore we attach a full sync to the end of the scheduled sync and use this as new scheduled sync.
@@ -132,7 +132,7 @@ public class TreeSyncScheduler implements SyncScheduler {
 
                 }
 
-                Log.i(TAG, "Returned scheduled sync future");
+                logger.info("Returned scheduled sync future");
 
                 return requireNonNull(scheduledSyncs.get(accountId)).future;
 
@@ -161,7 +161,7 @@ public class TreeSyncScheduler implements SyncScheduler {
     private CompletableFuture<Void> synchronize(@NonNull Context context,
                                                 @NonNull Account account,
                                                 @Nullable SyncStatusReporter reporter) {
-        return runAsync(() -> Log.i(TAG, "Start " + account.getAccountName()), workExecutor)
+        return runAsync(() -> logger.info("Start " + account.getAccountName()), workExecutor)
 
                 .thenApplyAsync(v -> new AccountSyncAdapter(context, reporter), workExecutor)
                 .thenComposeAsync(accountSyncAdapter -> completedFuture(null)
@@ -169,7 +169,7 @@ public class TreeSyncScheduler implements SyncScheduler {
                         .thenComposeAsync(v -> pushLocalChanges(accountSyncAdapter, account), workExecutor)
                         .thenComposeAsync(v -> pullRemoteChanges(accountSyncAdapter, account), workExecutor))
 
-                .whenCompleteAsync((result, exception) -> Log.i(TAG, "End " + account.getAccountName()), workExecutor);
+                .whenCompleteAsync((result, exception) -> logger.info("End " + account.getAccountName()), workExecutor);
     }
 
     private CompletableFuture<Void> pushLocalChanges(@NonNull SyncAdapter<Account> syncAdapter,

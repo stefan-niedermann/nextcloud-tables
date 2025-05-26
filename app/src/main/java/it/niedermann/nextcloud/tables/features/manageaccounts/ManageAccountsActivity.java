@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.tables.features.manageaccounts;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -13,12 +12,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.logging.Logger;
+
 import it.niedermann.nextcloud.tables.databinding.ActivityManageAccountsBinding;
 
 
 public class ManageAccountsActivity extends AppCompatActivity {
 
-    private static final String TAG = ManageAccountsActivity.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(ManageAccountsActivity.class.getSimpleName());
 
     private ActivityManageAccountsBinding binding;
     private ManageAccountsViewModel viewModel;
@@ -66,8 +67,8 @@ public class ManageAccountsActivity extends AppCompatActivity {
 
         viewModel.getCurrentAccount().observe(this, adapter::setCurrentAccount);
         viewModel.getAccounts().observe(this, localAccounts -> {
-            if (localAccounts.size() == 0) {
-                Log.i(TAG, "No accounts, finishing " + ManageAccountsActivity.class.getSimpleName());
+            if (localAccounts.isEmpty()) {
+                logger.info(() -> "No accounts, finishing " + ManageAccountsActivity.class.getSimpleName());
                 finish();
             } else {
                 adapter.setAccounts(localAccounts);

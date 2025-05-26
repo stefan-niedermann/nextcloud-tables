@@ -1,7 +1,6 @@
 package it.niedermann.nextcloud.tables.repository;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Constraints;
@@ -17,10 +16,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SyncWorker extends Worker {
 
-    private static final String TAG = SyncWorker.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(SyncWorker.class.getSimpleName());
+
     private static final String WORKER_TAG = "it.niedermann.nextcloud.tables.background_synchronization";
 
     private final AccountRepository accountRepository;
@@ -35,7 +37,7 @@ public class SyncWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.i(TAG, "Starting background synchronization");
+        logger.info("Starting background synchronization");
         preferencesRepository.setLastBackgroundSync(Instant.now());
 
         try {
@@ -50,7 +52,7 @@ public class SyncWorker extends Worker {
             CompletableFuture.allOf(accounts.stream().map(account -> accountRepository.scheduleSynchronization(account)
                     .whenCompleteAsync((result, exception) -> {
                         if (exception != null) {
-                            exception.printStackTrace();
+                            logger.log(Level.SEVERE, exception.toString(), exception);
                             success.set(Result.failure());
                         }
 
@@ -58,12 +60,12 @@ public class SyncWorker extends Worker {
 
             return success.get();
 
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException exception) {
+            logger.log(Level.SEVERE, exception.toString(), exception);
             return Result.failure();
 
         } finally {
-            Log.i(TAG, "Finishing background synchronization.");
+            logger.info("Finishing background synchronization.");
             preferencesRepository.setLastBackgroundSync(Instant.now());
         }
     }
@@ -80,7 +82,7 @@ public class SyncWorker extends Worker {
      * Removes existing {@link SyncWorker} instances and, if background sync is enabled according to the given preferenceValue, it will add a {@link SyncWorker} instance again.
      */
     public static void update(@NonNull Context context, boolean preferenceValue) {
-        Log.i(TAG, "Deregistering all " + SyncWorker.class.getSimpleName() + " with tag " + WORKER_TAG);
+        logger.info(() -> "Deregistering all " + SyncWorker.class.getSimpleName() + " with tag " + WORKER_TAG);
         WorkManager.getInstance(context.getApplicationContext()).cancelAllWorkByTag(WORKER_TAG);
 
         final var preferencesRepository = new PreferencesRepository(context);
@@ -104,7 +106,7 @@ public class SyncWorker extends Worker {
                 .setConstraints(constraints)
                 .build();
 
-        Log.i(TAG, "Registering " + SyncWorker.class.getSimpleName() + " running each " + repeatInterval + " " + repeatIntervalTimeUnit);
+        logger.info(() -> "Registering " + SyncWorker.class.getSimpleName() + " running each " + repeatInterval + " " + repeatIntervalTimeUnit);
 
         WorkManager
                 .getInstance(context.getApplicationContext())

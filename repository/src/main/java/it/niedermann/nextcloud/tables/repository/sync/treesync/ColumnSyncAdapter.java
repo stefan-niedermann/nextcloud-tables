@@ -8,7 +8,6 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -45,7 +45,8 @@ import retrofit2.Response;
 
 class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
 
-    private static final String TAG = ColumnSyncAdapter.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(ColumnSyncAdapter.class.getSimpleName());
+
     private final DataTypeServiceRegistry<ColumnCreator> columnCreator;
     private final Mapper<ColumnV2Dto, FullColumn> columnRequestMapper;
     private final Function<FullColumn, ColumnRequestV1Dto> columnRequestV1Mapper;
@@ -126,7 +127,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
         return supplyAsync(() -> db.getColumnDao().getLocallyDeletedColumns(account.getId(), table.getId()), db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(columnToDelete -> columnToDelete
-                        .peek(fullColumn -> Log.i(TAG, "--- → DELETE: " + fullColumn.getColumn().getTitle()))
+                        .peek(fullColumn -> logger.info(() -> "--- → DELETE: " + fullColumn.getColumn().getTitle()))
                         .map(fullColumn -> fullColumn.getColumn().getRemoteId() == null
                                 ? runAsync(() -> db.getColumnDao().delete(fullColumn.getColumn()), db.getSyncWriteExecutor())
                                 : deleteRemote(account, table, fullColumn)
@@ -144,7 +145,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
 
     @NonNull
     private CompletableFuture<Void> markLocallyAsCreated(@NonNull FullColumn entity, @NonNull Response<OcsResponse<CreateColumnResponseV2Dto>> response) {
-        Log.i(TAG, "-→ HTTP " + response.code());
+        logger.info(() -> "-→ HTTP " + response.code());
         if (response.isSuccessful()) {
 
             final var body = response.body();
@@ -171,7 +172,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
 
     @NonNull
     private CompletableFuture<Void> markLocallyAsUpdated(@NonNull FullColumn entity, @NonNull Response<UpdateColumnResponseV1Dto> response) {
-        Log.i(TAG, "-→ HTTP " + response.code());
+        logger.info(() -> "-→ HTTP " + response.code());
         if (response.isSuccessful()) {
 
             final var body = response.body();
@@ -196,7 +197,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     private CompletableFuture<Void> deleteLocallyPhysically(@NonNull Column column, @NonNull Response<?> response) {
         return completedFuture(null)
                 .thenComposeAsync(v -> {
-                    Log.i(TAG, "-→ HTTP " + response.code());
+                    logger.info(() -> "-→ HTTP " + response.code());
 
                     if (response.isSuccessful() || response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                         return runAsync(() -> db.getColumnDao().delete(column), db.getSyncWriteExecutor());
@@ -240,13 +241,13 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                     final CompletableFuture<?> columnUpdateFuture;
                                     final var columnId = columnIds.get(column.getRemoteId());
                                     if (columnId == null) {
-                                        Log.i(TAG, "--- ← Adding column " + column.getTitle() + " to database");
+                                        logger.info(() -> "--- ← Adding column " + column.getTitle() + " to database");
                                         columnUpdateFuture = supplyAsync(() -> db.getColumnDao().insert(column), db.getSyncWriteExecutor())
                                                 .thenAcceptAsync(column::setId, workExecutor)
                                                 .handleAsync(provideDebugContext(table, column), workExecutor);
                                     } else {
                                         column.setId(columnId);
-                                        Log.i(TAG, "--- ← Updating column " + column.getTitle() + " in database");
+                                        logger.info(() -> "--- ← Updating column " + column.getTitle() + " in database");
                                         columnUpdateFuture = runAsync(() -> db.getColumnDao().update(column), db.getSyncWriteExecutor())
                                                 .handleAsync(provideDebugContext(table, column), workExecutor);
                                     }
@@ -269,19 +270,19 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
 
                                                 final var selectionOptionId = selectionOptionIds.get(selectionOption.getRemoteId());
                                                 if (selectionOptionId == null) {
-                                                    Log.i(TAG, "----- ← Adding selection option " + selectionOption.getLabel() + " to database");
+                                                    logger.info(() -> "----- ← Adding selection option " + selectionOption.getLabel() + " to database");
                                                     return supplyAsync(() -> db.getSelectionOptionDao().insert(selectionOption), db.getSyncWriteExecutor())
                                                             .thenAcceptAsync(selectionOption::setId, workExecutor)
                                                             .handleAsync(provideDebugContext(selectionOption), workExecutor);
 
                                                 } else {
                                                     selectionOption.setId(selectionOptionId);
-                                                    Log.i(TAG, "----- ← Updating selection option " + selectionOption.getLabel() + " in database");
+                                                    logger.info(() -> "----- ← Updating selection option " + selectionOption.getLabel() + " in database");
                                                     return runAsync(() -> db.getSelectionOptionDao().update(selectionOption), db.getSyncWriteExecutor())
                                                             .handleAsync(provideDebugContext(selectionOption), workExecutor);
                                                 }
                                             }).toArray(CompletableFuture[]::new)), workExecutor)
-                                            .thenRunAsync(() -> Log.i(TAG, "----- ← Delete all selection options for column \"" + column + "\" except remoteId " + selectionOptionRemoteIds), workExecutor)
+                                            .thenRunAsync(() -> logger.info(() -> "----- ← Delete all selection options for column \"" + column + "\" except remoteId " + selectionOptionRemoteIds), workExecutor)
                                             .thenRunAsync(() -> db.getSelectionOptionDao().deleteExcept(table.getId(), selectionOptionRemoteIds), db.getSyncWriteExecutor())
                                             .thenApplyAsync(v -> db.getSelectionOptionDao().getSelectionOptionRemoteIdsAndLocalIds(column.getId()), db.getSyncReadExecutor())
                                             .thenApplyAsync(selectionOptionRemoteIdsToLocalIds -> {
@@ -318,7 +319,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                             }, db.getSyncWriteExecutor())
                                             .handleAsync(provideDebugContext(table, fullColumn, selectionOptions), workExecutor);
                                 }).toArray(CompletableFuture[]::new)), workExecutor)
-                                .thenRunAsync(() -> Log.i(TAG, "--- ← Delete all columns except remoteId " + columnRemoteIds), workExecutor)
+                                .thenRunAsync(() -> logger.info(() -> "--- ← Delete all columns except remoteId " + columnRemoteIds), workExecutor)
                                 .thenRunAsync(() -> db.getColumnDao().deleteExcept(table.getId(), columnRemoteIds));
                     }
                     default -> {

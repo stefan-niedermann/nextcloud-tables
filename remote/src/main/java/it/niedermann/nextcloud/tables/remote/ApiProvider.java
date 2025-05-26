@@ -10,6 +10,9 @@ import com.nextcloud.android.sso.AccountImporter;
 import com.nextcloud.android.sso.api.NextcloudAPI;
 import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.remote.ocs.OcsAPI;
 import it.niedermann.nextcloud.tables.remote.ocs.OcsApiProvider;
@@ -22,6 +25,8 @@ import retrofit2.NextcloudRetrofitApiBuilder;
 @WorkerThread
 public abstract class ApiProvider<T> implements AutoCloseable {
 
+    private static final Logger logger = Logger.getLogger(ApiProvider.class.getSimpleName());
+
     protected final NextcloudAPI nextcloudAPI;
     protected final T api;
 
@@ -33,7 +38,7 @@ public abstract class ApiProvider<T> implements AutoCloseable {
                 context,
                 AccountImporter.getSingleSignOnAccount(context, account.getAccountName()),
                 gsonBuilder.create(),
-                Throwable::printStackTrace);
+                e -> logger.log(Level.SEVERE, e.toString(), e));
 
         this.api = new NextcloudRetrofitApiBuilder(nextcloudAPI, getEndpoint()).create(clazz);
     }

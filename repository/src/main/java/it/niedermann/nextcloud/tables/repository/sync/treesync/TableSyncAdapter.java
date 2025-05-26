@@ -7,7 +7,6 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.AbstractRemoteEntity;
@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
-    private static final String TAG = TableSyncAdapter.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(TableSyncAdapter.class.getSimpleName());
 
     private final SyncAdapter<Table> columnSyncAdapter;
     private final SyncAdapter<Table> rowSyncAdapter;
@@ -125,7 +125,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
     @NonNull
     private CompletableFuture<Void> markLocallyAsUpdated(@NonNull Table entity, @NonNull Response<OcsResponse<TableV2Dto>> response) {
-        Log.i(TAG, "-→ HTTP " + response.code());
+        logger.info(() -> "-→ HTTP " + response.code());
         if (response.isSuccessful()) {
 
             final var body = response.body();
@@ -181,7 +181,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     private CompletableFuture<Void> deleteLocallyPhysically(@NonNull Table entity, @NonNull Response<?> response) {
         return completedFuture(null)
                 .thenComposeAsync(v -> {
-                    Log.i(TAG, "-→ HTTP " + response.code());
+                    logger.info("-→ HTTP " + response.code());
 
                     if (response.isSuccessful() || response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                         return runAsync(() -> db.getTableDao().delete(entity), db.getSyncWriteExecutor());
@@ -263,11 +263,11 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Account parentEntity) {
-        Log.i(TAG, getClass().getSimpleName() + "#pullRemoteChanges for " + account.getAccountName());
+        logger.info(() -> getClass().getSimpleName() + "#pullRemoteChanges for " + account.getAccountName());
         return requestHelper.executeTablesV2Request(account, TablesV2API::getTables)
                 .thenComposeAsync(response -> {
                     final Collection<Table> fetchedTables;
-                    Log.v(TAG, "Pulling remote changes for " + account.getAccountName());
+                    logger.info(() -> "Pulling remote changes for " + account.getAccountName());
 
                     //noinspection SwitchStatementWithTooFewBranches
                     switch (response.code()) {
@@ -307,7 +307,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                             .thenApplyAsync(tableIds::get, workExecutor)
                                             .thenComposeAsync(tableId -> {
                                                 if (tableId == null) {
-                                                    Log.i(TAG, "← Adding table " + table.getTitle() + " to database");
+                                                    logger.info(() -> "← Adding table " + table.getTitle() + " to database");
 
                                                     return completedFuture(table)
                                                             .thenApplyAsync(db.getTableDao()::insert, db.getSyncWriteExecutor())
@@ -315,7 +315,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                                                 } else {
                                                     table.setId(tableId);
-                                                    Log.i(TAG, "← Updating " + table.getTitle() + " in database");
+                                                    logger.info(() -> "← Updating " + table.getTitle() + " in database");
 
                                                     return completedFuture(table)
                                                             .thenAcceptAsync(db.getTableDao()::update, db.getSyncWriteExecutor())
@@ -333,7 +333,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                     ), workExecutor)
                             .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                             .thenComposeAsync(CompletableFuture::allOf, workExecutor)
-                            .thenAcceptAsync(v -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
+                            .thenAcceptAsync(v -> logger.info(() -> "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
                             .thenAcceptAsync(v -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSyncWriteExecutor());
                 }, workExecutor)
                 .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(account.getId()), db.getSyncWriteExecutor());

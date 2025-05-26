@@ -4,7 +4,12 @@ import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+    private final Logger logger = Logger.getLogger(ExceptionHandler.class.getSimpleName());
 
     @NonNull
     private final Activity activity;
@@ -16,7 +21,7 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(@NonNull Thread t, @NonNull Throwable throwable) {
         try {
-            throwable.printStackTrace();
+            logger.log(Level.SEVERE, throwable.toString(), throwable);
         } catch (NullPointerException ignored) {
         }
 

@@ -14,6 +14,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.database.entity.Column;
 import it.niedermann.nextcloud.tables.database.entity.Row;
@@ -22,6 +24,8 @@ import it.niedermann.nextcloud.tables.database.entity.Row;
  * Used for parsing and serializing non-user content like {@link Row#getCreatedAt()}, {@link Row#getLastEditAt()}, {@link Column#getLastEditAt()} or {@link Column#getLastEditAt()}
  */
 public class InstantV2Adapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+
+    private static final Logger logger = Logger.getLogger(InstantV2Adapter.class.getSimpleName());
 
     private final DateTimeFormatter dateTimeFormatter;
 
@@ -42,7 +46,7 @@ public class InstantV2Adapter implements JsonSerializer<Instant>, JsonDeserializ
                     .atZone(ZoneId.systemDefault())
                     .toInstant();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString(), e);
             throw e;
         }
     }

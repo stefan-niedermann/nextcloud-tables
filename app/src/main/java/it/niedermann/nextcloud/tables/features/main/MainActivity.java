@@ -2,7 +2,6 @@ package it.niedermann.nextcloud.tables.features.main;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +28,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -49,7 +49,8 @@ import it.niedermann.nextcloud.tables.util.EmojiDrawable;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(MainActivity.class.getSimpleName());
+
     private final AvatarUtil avatarUtil = new AvatarUtil();
     private ActivityMainBinding binding;
     private MainViewModel mainViewModel;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             if (account == null) {
                 startActivity(ImportAccountActivity.createIntent(MainActivity.this));
             } else {
-                Log.i(TAG, "New account set: " + account);
+                logger.info(() -> "New account set: " + account);
 
                 binding.swipeRefreshLayout.setOnRefreshListener(() -> mainViewModel.synchronize(account)
                         .whenCompleteAsync((result, exception) -> {
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         final var menu = binding.navView.getMenu();
 
         if (tables == null) {
-            Log.w(TAG, "Can not build sidenav menu because account is null");
+            logger.warning("Can not build sidenav menu because account is null");
             return;
         }
 

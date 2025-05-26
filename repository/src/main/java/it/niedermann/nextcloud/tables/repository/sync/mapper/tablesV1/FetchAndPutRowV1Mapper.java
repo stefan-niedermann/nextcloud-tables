@@ -1,7 +1,5 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonElement;
@@ -12,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.database.entity.Row;
 import it.niedermann.nextcloud.tables.database.entity.SelectionOption;
@@ -26,7 +25,7 @@ import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 
 public class FetchAndPutRowV1Mapper {
 
-    private static final String TAG = FetchAndPutRowV1Mapper.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(FetchAndPutRowV1Mapper.class.getSimpleName());
 
     private final TypeRemoteV1MapperServiceRegistry registry = new TypeRemoteV1MapperServiceRegistry();
 
@@ -53,7 +52,7 @@ public class FetchAndPutRowV1Mapper {
                     if (FeatureToggle.STRICT_MODE.enabled) {
                         throw new IllegalStateException("Unknown remote column id " + dataDto.remoteColumnId() + ". Columns must be synchronized before rows.");
                     } else {
-                        Log.w(TAG, "Unknown remote column id " + dataDto.remoteColumnId() + " in dataDtoList " + list);
+                        logger.warning(()-> "Unknown remote column id " + dataDto.remoteColumnId() + " in dataDtoList " + list);
                         continue;
                     }
                 }

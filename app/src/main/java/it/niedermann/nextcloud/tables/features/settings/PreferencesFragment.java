@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.tables.features.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -13,6 +12,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -21,7 +21,8 @@ import it.niedermann.nextcloud.tables.repository.SyncWorker;
 
 public class PreferencesFragment extends PreferenceFragmentCompat {
 
-    private static final String TAG = PreferencesFragment.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(PreferencesFragment.class.getSimpleName());
+
     private static final String KEY_ACCOUNT = "account";
     private PreferencesRepository preferencesRepository;
     private Account account;
@@ -45,7 +46,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
 
         final Preference prefSyncBackground = Objects.requireNonNull(findPreference(getString(it.niedermann.nextcloud.tables.repository.R.string.pref_key_sync_background)));
         prefSyncBackground.setOnPreferenceChangeListener((Preference preference, Object newValue) -> {
-            Log.i(TAG, "newValue: " + Boolean.TRUE.equals(newValue));
+            logger.info(() -> "newValue: " + Boolean.TRUE.equals(newValue));
             SyncWorker.update(requireContext().getApplicationContext(), Boolean.TRUE.equals(newValue));
             return true;
         });

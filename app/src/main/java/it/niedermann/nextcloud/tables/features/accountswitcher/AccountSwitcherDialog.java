@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.logging.Logger;
+
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.databinding.DialogAccountSwitcherBinding;
 import it.niedermann.nextcloud.tables.features.importaccount.ImportAccountActivity;
@@ -29,7 +30,8 @@ import it.niedermann.nextcloud.tables.util.AvatarUtil;
 
 public class AccountSwitcherDialog extends DialogFragment {
 
-    private static final String TAG = AccountSwitcherDialog.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(AccountSwitcherDialog.class.getSimpleName());
+
     private final AvatarUtil avatarUtil = new AvatarUtil();
     private AccountSwitcherAdapter adapter;
     private DialogAccountSwitcherBinding binding;
@@ -66,7 +68,7 @@ public class AccountSwitcherDialog extends DialogFragment {
 
         accountViewModel.getCurrentAccount().observe(this, account -> {
             if (account == null) {
-                Log.i(TAG, "No accounts, dismissing " + AccountSwitcherDialog.class.getSimpleName());
+                logger.info(() -> "No accounts, dismissing " + AccountSwitcherDialog.class.getSimpleName());
                 dismiss();
                 return;
             }

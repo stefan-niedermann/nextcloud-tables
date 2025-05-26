@@ -3,7 +3,6 @@ package it.niedermann.nextcloud.tables.features.table.edit;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -30,12 +30,15 @@ import it.niedermann.nextcloud.tables.ui.emojipicker.EmojiPickerBottomSheet;
 
 public class EditTableActivity extends AppCompatActivity implements EmojiPickerBottomSheet.EmojiPickerListener {
 
-    private static final String TAG = EditTableActivity.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(EditTableActivity.class.getSimpleName());
+
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_TABLE = "table";
+
+    private Account account;
     @Nullable
     private Table table;
-    private Account account;
+
     private ActivityEditTableBinding binding;
     private EditTableViewModel editTableViewModel;
 
@@ -100,7 +103,7 @@ public class EditTableActivity extends AppCompatActivity implements EmojiPickerB
         if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
             binding.emoji.setText(emojiViewItem.getEmoji());
         } else {
-            Log.w(TAG, "Got response from " + EmojiPickerBottomSheet.class.getSimpleName() + " but " + EditTableActivity.class.getSimpleName() + " is no longer " + Lifecycle.State.STARTED.name());
+            logger.warning(() -> "Got response from " + EmojiPickerBottomSheet.class.getSimpleName() + " but " + EditTableActivity.class.getSimpleName() + " is no longer " + Lifecycle.State.STARTED.name());
         }
     }
 

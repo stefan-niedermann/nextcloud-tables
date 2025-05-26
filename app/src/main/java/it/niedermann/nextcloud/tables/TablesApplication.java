@@ -6,7 +6,6 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.StrictMode;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -14,17 +13,20 @@ import androidx.appcompat.app.AppCompatDelegate;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.niedermann.android.reactivelivedata.ReactiveLiveData;
 import it.niedermann.nextcloud.tables.repository.AccountRepository;
 import it.niedermann.nextcloud.tables.repository.PreferencesRepository;
+import it.niedermann.nextcloud.tables.repository.sync.treesync.TreeSyncScheduler;
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 import it.niedermann.nextcloud.tables.util.CustomAppGlideModule;
 
 public class TablesApplication extends Application {
 
-    private static final String TAG = TablesApplication.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(TreeSyncScheduler.class.getSimpleName());
 
     private final ExecutorService workExecutor = SharedExecutors.getCPUExecutor();
 
@@ -75,11 +77,11 @@ public class TablesApplication extends Application {
                             public void onAvailable(@NonNull Network network) {
                                 super.onAvailable(network);
 
-                                Log.i(TAG, "Network available, trigger synchronization for " + account);
+                                logger.info("Network available, trigger synchronization for " + account);
 
                                 accountRepository.scheduleSynchronization(account).whenCompleteAsync((result, exception) -> {
                                     if (exception != null) {
-                                        exception.printStackTrace();
+                                        logger.log(Level.SEVERE, exception.toString(), exception);
                                     }
                                 });
                             }
@@ -97,9 +99,9 @@ public class TablesApplication extends Application {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        Log.w(TAG, "--- Low memory: Clear Glide cache ---");
+        logger.warning("--- Low memory: Clear Glide cache ---");
         CustomAppGlideModule.clearCache(this);
-        Log.w(TAG, "--- Low memory: Clear debug log ---");
+        logger.warning("--- Low memory: Clear debug log ---");
     }
 
     private void enableStrictModeLogging() {

@@ -31,6 +31,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.R;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -49,6 +51,8 @@ import it.niedermann.nextcloud.tables.repository.defaults.DataTypeDefaultService
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
 
 public class EditRowActivity extends AppCompatActivity {
+
+    private static final Logger logger = Logger.getLogger(EditRowActivity.class.getSimpleName());
 
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_TABLE = "table";
@@ -178,8 +182,9 @@ public class EditRowActivity extends AppCompatActivity {
 
                             binding.columns.addView(editor);
                             editors.add(editor);
+
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            logger.log(Level.SEVERE, e.toString(), e);
 
                             final var layout = new LinearLayout(this);
                             layout.setOrientation(LinearLayout.VERTICAL);
@@ -202,7 +207,7 @@ public class EditRowActivity extends AppCompatActivity {
                                 editors.add(unknownEditor);
 
                             } catch (Exception ex) {
-                                ex.printStackTrace();
+                                logger.log(Level.SEVERE, ex.toString(), ex);
                             }
 
                             final var btn = new MaterialButton(this);

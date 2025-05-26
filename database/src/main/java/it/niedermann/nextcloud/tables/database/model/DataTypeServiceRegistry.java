@@ -1,16 +1,17 @@
 package it.niedermann.nextcloud.tables.database.model;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class DataTypeServiceRegistry<T> {
 
-    private static final String TAG = DataTypeServiceRegistry.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(DataTypeServiceRegistry.class.getSimpleName());
+
     protected final Map<EDataType, T> cache = new HashMap<>();
 
     protected DataTypeServiceRegistry() {
@@ -39,8 +40,7 @@ public abstract class DataTypeServiceRegistry<T> {
         try {
             getService(dataType);
         } catch (Exception e) {
-            Log.w(TAG, "Warming up " + dataType + " failed. Recommended Action: Call super(true) constructor to skip warming up in during construction if getting the service relies on external resources set during construction. Exception message: " + e.getMessage());
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Warming up " + dataType + " failed. Recommended Action: Call super(true) constructor to skip warming up in during construction if getting the service relies on external resources set during construction. Exception message: " + e.getMessage(), e);
         }
     }
 

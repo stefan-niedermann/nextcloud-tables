@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteConstraintException;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
@@ -68,7 +67,7 @@ public class AccountRepository extends AbstractRepository {
     public void setCurrentAccount(@Nullable Account account) {
         final var editor = this.sharedPreferences.edit();
         if (account == null) {
-            Log.i(TAG, "Setting current account to null. Maybe last account has been deleted?");
+            logger.info("Setting current account to null. Maybe last account has been deleted?");
             editor.remove(SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT);
         } else {
             editor.putLong(SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT, account.getId());
@@ -167,9 +166,9 @@ public class AccountRepository extends AbstractRepository {
     @NonNull
     public CompletableFuture<Void> setCurrentTable(long accountId, @Nullable Long tableId) {
         return runAsync(() -> {
-            logger.info("PERF :: ----- setCurrentTable to " + tableId + " START ");
+            logger.info(() -> "PERF :: ----- setCurrentTable to " + tableId + " START ");
             db.getAccountDao().updateCurrentTable(accountId, tableId);
-            logger.info("PERF :: ----- setCurrentTable to " + tableId + " FINISH ");
+            logger.info(() -> "PERF :: ----- setCurrentTable to " + tableId + " FINISH ");
         }, db.getUserInteractionWriteExecutor());
     }
 

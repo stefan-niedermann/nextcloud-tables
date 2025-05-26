@@ -11,6 +11,8 @@ import com.nextcloud.android.sso.exceptions.NextcloudFilesAppAccountNotFoundExce
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import it.niedermann.nextcloud.tables.R;
@@ -23,6 +25,8 @@ import it.niedermann.nextcloud.tables.features.table.view.viewholder.CellViewHol
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
 
 public class UserGroupViewHolder extends CellViewHolder {
+
+    private static final Logger logger = Logger.getLogger(UserGroupViewHolder.class.getSimpleName());
 
     protected final TableviewCellRichBinding binding;
 
@@ -51,7 +55,7 @@ public class UserGroupViewHolder extends CellViewHolder {
 
         } catch (NextcloudFilesAppAccountNotFoundException e) {
             binding.rich.setMarkdownString(userNames);
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString(), e);
         }
 
         binding.rich.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;

@@ -10,7 +10,6 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
@@ -23,6 +22,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.niedermann.nextcloud.tables.database.DBStatus;
 import it.niedermann.nextcloud.tables.database.entity.Account;
@@ -43,7 +44,8 @@ import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
 class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
-    private static final String TAG = RowSyncAdapter.class.getSimpleName();
+    private static final Logger logger = Logger.getLogger(RowSyncAdapter.class.getSimpleName());
+
     private final FetchAndPutRowV1Mapper fetchRowV1Mapper;
     private final CreateRowResponseV2Mapper createRowV2Mapper;
 
@@ -72,7 +74,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     public CompletableFuture<Void> pushLocalCreations(@NonNull Account account, @NonNull Table table) {
         return supplyAsync(() -> db.getRowDao().getLocallyCreatedRows(account.getId(), table.getId()), db.getSyncReadExecutor())
                 .thenComposeAsync(fullRowsToUpdate -> {
-                    Log.v(TAG, "------ Pushing " + fullRowsToUpdate.size() + " local row creations for " + account.getAccountName());
+                    logger.log(Level.FINE, () -> "------ Pushing " + fullRowsToUpdate.size() + " local row creations for " + account.getAccountName());
 
                     final var version = account.getTablesVersion();
 
@@ -81,7 +83,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                     }
 
                     return allOf(fullRowsToUpdate.stream()
-                            .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getId()))
+                            .peek(fullRow -> logger.info("------ → PUT/POST: " + fullRow.getRow().getId()))
                             .map(fullRow -> {
                                 final var createRowDto = createRowV2Mapper.toCreateRowV2Dto(version, fullRow.getFullData());
                                 // TODO maybe preload map of table local / remote IDs?
@@ -114,7 +116,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     public CompletableFuture<Void> pushLocalUpdates(@NonNull Account account, @NonNull Table table) {
         return supplyAsync(() -> db.getRowDao().getLocallyEditedRows(account.getId(), table.getId()), db.getSyncReadExecutor())
                 .thenComposeAsync(fullRowsToUpdate -> {
-                    Log.v(TAG, "------ Pushing " + fullRowsToUpdate.size() + " local row updates for " + account.getAccountName());
+                    logger.log(Level.FINE, () -> "------ Pushing " + fullRowsToUpdate.size() + " local row updates for " + account.getAccountName());
 
                     final var version = account.getTablesVersion();
 
@@ -123,12 +125,12 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                     }
 
                     return allOf(fullRowsToUpdate.stream()
-                            .peek(fullRow -> Log.i(TAG, "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
+                            .peek(fullRow -> logger.info(() -> "------ → PUT/POST: " + fullRow.getRow().getRemoteId()))
                             .map(fullRow -> {
                                 final var updateRowDto = fetchRowV1Mapper.toJsonElement(version, fullRow.getFullData());
                                 return requestHelper.executeTablesV1Request(account, api -> api.updateRow(requireNonNull(fullRow.getRow().getRemoteId()), updateRowDto))
                                         .thenComposeAsync(response -> {
-                                            Log.i(TAG, "------ → HTTP " + response.code());
+                                            logger.info(() -> "------ → HTTP " + response.code());
 
                                             if (response.isSuccessful()) {
                                                 fullRow.getRow().setStatus(DBStatus.VOID);
@@ -155,10 +157,10 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     public CompletableFuture<Void> pushLocalDeletions(@NonNull Account account, @NonNull Table table) {
         return supplyAsync(() -> db.getRowDao().getLocallyDeletedRows(account.getId(), table.getId()), db.getSyncReadExecutor())
                 .thenApplyAsync(rows -> {
-                    Log.v(TAG, "------ Pushing " + rows.size() + " local row deletions for " + account.getAccountName());
+                    logger.log(Level.FINE, () -> "------ Pushing " + rows.size() + " local row deletions for " + account.getAccountName());
 
                     return rows.stream()
-                            .peek(row -> Log.i(TAG, "------ → DELETE: " + row.getRemoteId()))
+                            .peek(row -> logger.info(() -> "------ → DELETE: " + row.getRemoteId()))
                             .map(row -> {
                                 if (row.getRemoteId() == null) {
                                     return runAsync(() -> db.getRowDao().delete(row), db.getSyncWriteExecutor());
@@ -166,7 +168,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                 } else {
                                     return requestHelper.executeTablesV1Request(account, api -> api.deleteRow(row.getRemoteId()))
                                             .thenComposeAsync(response -> {
-                                                Log.i(TAG, "------ → HTTP " + response.code());
+                                                logger.info(() -> "------ → HTTP " + response.code());
                                                 if (response.isSuccessful()) {
                                                     return runAsync(() -> db.getRowDao().delete(row), db.getSyncWriteExecutor());
                                                 } else {
@@ -209,7 +211,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
                     final var rowIdsToDelete = new HashSet<>(existingRowIds);
                     rowIdsToDelete.removeAll(fetchedRowIds);
-                    Log.i(TAG, "------ ← Delete rows with local ID in " + rowIdsToDelete);
+                    logger.info(() -> "------ ← Delete rows with local ID in " + rowIdsToDelete);
 
                     return rowIdsToDelete;
                 }, workExecutor)
@@ -224,7 +226,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
                     if (potentialRowId == null) {
 
-                        Log.i(TAG, "------ ← Adding row " + row.getRemoteId() + " to database");
+                        logger.info(() -> "------ ← Adding row " + row.getRemoteId() + " to database");
                         return supplyAsync(() -> db.getRowDao().insert(row), db.getSyncWriteExecutor())
                                 .thenAcceptAsync(row::setId, workExecutor)
                                 .thenApplyAsync(v -> row.getId(), workExecutor);
@@ -233,7 +235,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
                         row.setId(potentialRowId);
 
-                        Log.i(TAG, "------ ← Updating row " + row.getRemoteId() + " in database");
+                        logger.info(() -> "------ ← Updating row " + row.getRemoteId() + " in database");
                         return runAsync(() -> db.getRowDao().update(row), db.getSyncWriteExecutor())
                                 .thenApplyAsync(v -> potentialRowId, workExecutor);
                     }
@@ -322,7 +324,7 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
 
         if (!columnRemoteAndLocalIds.containsKey(data.getRemoteColumnId())) {
             // Data deletion is handled by database constraints
-            Log.w(TAG, "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
+            logger.warning(() -> "------ Could not find remoteColumnId " + data.getRemoteColumnId() + ". Probably this column has been deleted but its data is still being responded by the server (See https://github.com/nextcloud/tables/issues/257)");
             return completedFuture(null);
         }
 
