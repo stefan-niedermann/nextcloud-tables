@@ -19,8 +19,6 @@ import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
 
 public class NumberStarsEditor extends DataEditView<EditNumberStarsBinding> implements Consumer<Integer> {
 
-    private static final String TAG = NumberStarsEditor.class.getSimpleName();
-
     public NumberStarsEditor(@NonNull Context context) {
         super(context, EditNumberStarsBinding.inflate(LayoutInflater.from(context)));
     }

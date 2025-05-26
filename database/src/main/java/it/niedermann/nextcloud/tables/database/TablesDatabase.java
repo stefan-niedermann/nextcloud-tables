@@ -89,7 +89,6 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 })
 public abstract class TablesDatabase extends RoomDatabase {
 
-    private static final String TAG = TablesDatabase.class.getSimpleName();
     private static final String DB_NAME = "nextcloud-tables.sqlite";
 
     private final ExecutorService readHighPriorityExecutor;

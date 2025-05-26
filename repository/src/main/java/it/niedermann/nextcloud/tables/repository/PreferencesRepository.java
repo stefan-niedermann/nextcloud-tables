@@ -19,7 +19,6 @@ import it.niedermann.android.sharedpreferences.SharedPreferenceStringLiveData;
 
 public class PreferencesRepository {
 
-    private static final String TAG = PreferencesRepository.class.getSimpleName();
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
     public final String pref_key_sync_only_wifi;

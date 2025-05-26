@@ -37,8 +37,6 @@ import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
 
 public class EditColumnActivity extends AppCompatActivity {
 
-    private static final String TAG = EditColumnActivity.class.getSimpleName();
-
     private static final String KEY_ACCOUNT = "account";
     private static final String KEY_TABLE = "table";
     private static final String KEY_COLUMN = "column";

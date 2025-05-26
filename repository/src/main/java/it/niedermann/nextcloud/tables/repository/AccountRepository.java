@@ -37,7 +37,7 @@ import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatus;
 public class AccountRepository extends AbstractRepository {
 
     private static final Logger logger = Logger.getLogger(AccountRepository.class.getSimpleName());
-    private static final String TAG = AccountRepository.class.getSimpleName();
+
     private static final String SHARED_PREFERENCES_KEY_CURRENT_ACCOUNT = "it.niedermann.nextcloud.tables.current_account";
 
     private final SharedPreferences sharedPreferences;

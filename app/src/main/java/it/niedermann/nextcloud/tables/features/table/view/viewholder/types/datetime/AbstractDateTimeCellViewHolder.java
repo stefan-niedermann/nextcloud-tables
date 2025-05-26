@@ -17,7 +17,6 @@ import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
 
 public abstract class AbstractDateTimeCellViewHolder extends CellViewHolder {
 
-    private static final String TAG = AbstractDateTimeCellViewHolder.class.getSimpleName();
     private final TableviewCellBinding binding;
 
     public AbstractDateTimeCellViewHolder(@NonNull TableviewCellBinding binding,
