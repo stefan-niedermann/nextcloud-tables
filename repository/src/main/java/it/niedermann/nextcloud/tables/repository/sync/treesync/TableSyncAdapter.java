@@ -66,7 +66,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @Override
     public CompletableFuture<Void> pushLocalCreations(@NonNull Account account, @NonNull Account parentEntity) {
         return completedFuture(account.getId())
-                .thenApplyAsync(db.getTableDao()::getLocallyCreatedTables, db.getParallelExecutor())
+                .thenApplyAsync(db.getTableDao()::getLocallyCreatedTables, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tablesToCreate -> tablesToCreate
                         .map(table -> completedFuture(null)
@@ -94,7 +94,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @Override
     public CompletableFuture<Void> pushLocalUpdates(@NonNull Account account, @NonNull Account parentEntity) {
         return completedFuture(account.getId())
-                .thenApplyAsync(db.getTableDao()::getLocallyEditedTables, db.getParallelExecutor())
+                .thenApplyAsync(db.getTableDao()::getLocallyEditedTables, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tableToPush -> tableToPush
                         .map(table -> completedFuture(null)
@@ -139,7 +139,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
             entity.setRemoteId(body.ocs.data.remoteId());
             entity.setStatus(DBStatus.VOID);
 
-            return runAsync(() -> db.getTableDao().update(entity), db.getSequentialWriteExecutorForSync());
+            return runAsync(() -> db.getTableDao().update(entity), db.getSyncWriteExecutor());
 
         } else {
             serverErrorHandler.responseToException(response, "Could not push local changes for table " + entity, false).ifPresent(this::throwError);
@@ -151,13 +151,13 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @Override
     public CompletableFuture<Void> pushLocalDeletions(@NonNull Account account, @NonNull Account parentEntity) {
         return completedFuture(account.getId())
-                .thenApplyAsync(db.getTableDao()::getLocallyDeletedTables, db.getParallelExecutor())
+                .thenApplyAsync(db.getTableDao()::getLocallyDeletedTables, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tablesToUpdate -> tablesToUpdate
                         .map(table -> {
                             final var future = table.getRemoteId() == null
                                     // Table has never been pushed to remote, so it is safe to simply delete it on the client
-                                    ? runAsync(() -> db.getTableDao().delete(table), db.getSequentialWriteExecutorForSync())
+                                    ? runAsync(() -> db.getTableDao().delete(table), db.getSyncWriteExecutor())
                                     : this.deleteRemote(account, table)
                                     .thenComposeAsync(response -> this.deleteLocallyPhysically(table, response), workExecutor)
                                     .handleAsync(provideDebugContext(table), workExecutor);
@@ -184,7 +184,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                     Log.i(TAG, "-→ HTTP " + response.code());
 
                     if (response.isSuccessful() || response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-                        return runAsync(() -> db.getTableDao().delete(entity), db.getSequentialWriteExecutorForSync());
+                        return runAsync(() -> db.getTableDao().delete(entity), db.getSyncWriteExecutor());
 
                     } else {
                         serverErrorHandler.responseToException(response, "Could not delete table " + entity, false).ifPresent(this::throwError);
@@ -198,7 +198,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     public CompletableFuture<Void> pushChildChangesWithoutChangedParent(@NonNull Account account) {
         return completedFuture(account.getId())
 
-                .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyDeletedColumns, db.getParallelExecutor())
+                .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyDeletedColumns, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalDeletions(account, table)
                         .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
@@ -207,7 +207,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(v -> account.getId(), workExecutor)
 
-                .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyCreatedColumns, db.getParallelExecutor())
+                .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyCreatedColumns, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalCreations(account, table)
                         .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
@@ -216,7 +216,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(v -> account.getId(), workExecutor)
 
-                .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyEditedColumnsOrChangedOrDeletedSelectionOptions, db.getParallelExecutor())
+                .thenApplyAsync(db.getColumnDao()::getUnchangedTablesHavingLocallyEditedColumnsOrChangedOrDeletedSelectionOptions, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tables -> tables.map(table -> columnSyncAdapter.pushLocalUpdates(account, table)
                         .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
@@ -229,7 +229,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(v -> account.getId(), workExecutor)
 
-                .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyDeletedRows, db.getParallelExecutor())
+                .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyDeletedRows, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalDeletions(account, table)
                         .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
@@ -238,7 +238,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(v -> account.getId(), workExecutor)
 
-                .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyCreatedRows, db.getParallelExecutor())
+                .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyCreatedRows, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalCreations(account, table)
                         .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
@@ -247,7 +247,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
                 .thenApplyAsync(v -> account.getId(), workExecutor)
 
-                .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyEditedRowsOrChangedOrDeletedData, db.getParallelExecutor())
+                .thenApplyAsync(db.getRowDao()::getUnchangedTablesHavingLocallyEditedRowsOrChangedOrDeletedData, db.getSyncReadExecutor())
                 .thenApplyAsync(Collection::stream, workExecutor)
                 .thenApplyAsync(tables -> tables.map(table -> rowSyncAdapter.pushLocalUpdates(account, table)
                         .handleAsync(provideDebugContext(table), workExecutor)), workExecutor)
@@ -300,7 +300,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                             .filter(Objects::nonNull)
                             .collect(toUnmodifiableSet());
 
-                    return supplyAsync(() -> db.getTableDao().getTableRemoteAndLocalIds(account.getId(), tableRemoteIds), db.getParallelExecutor())
+                    return supplyAsync(() -> db.getTableDao().getTableRemoteAndLocalIds(account.getId(), tableRemoteIds), db.getSyncReadExecutor())
                             .thenApplyAsync(tableIds -> fetchedTables.stream()
                                     .map(table -> runAsync(() -> Optional.ofNullable(reporter).ifPresent(r -> r.report(state -> state.withTableProgressStarting(table))), workExecutor)
                                             .thenApplyAsync(v -> table.getRemoteId(), workExecutor)
@@ -310,7 +310,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                                     Log.i(TAG, "← Adding table " + table.getTitle() + " to database");
 
                                                     return completedFuture(table)
-                                                            .thenApplyAsync(db.getTableDao()::insert, db.getSequentialWriteExecutorForSync())
+                                                            .thenApplyAsync(db.getTableDao()::insert, db.getSyncWriteExecutor())
                                                             .thenAcceptAsync(table::setId, workExecutor);
 
                                                 } else {
@@ -318,12 +318,12 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                                                     Log.i(TAG, "← Updating " + table.getTitle() + " in database");
 
                                                     return completedFuture(table)
-                                                            .thenAcceptAsync(db.getTableDao()::update, db.getSequentialWriteExecutorForSync())
+                                                            .thenAcceptAsync(db.getTableDao()::update, db.getSyncWriteExecutor())
                                                             .thenRunAsync(() -> {
                                                                 if (!table.hasReadPermission()) {
                                                                     db.getRowDao().deleteAllFromTable(table.getId());
                                                                 }
-                                                            }, db.getSequentialWriteExecutorForSync());
+                                                            }, db.getSyncWriteExecutor());
                                                 }
                                             }, workExecutor)
                                             .thenComposeAsync(v -> columnSyncAdapter.pullRemoteChanges(account, table), workExecutor)
@@ -334,8 +334,8 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                             .thenApplyAsync(completableFutures -> completableFutures.toArray(CompletableFuture[]::new), workExecutor)
                             .thenComposeAsync(CompletableFuture::allOf, workExecutor)
                             .thenAcceptAsync(v -> Log.i(TAG, "← Delete all tables except remoteId " + tableRemoteIds), workExecutor)
-                            .thenAcceptAsync(v -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSequentialWriteExecutorForSync());
+                            .thenAcceptAsync(v -> db.getTableDao().deleteExcept(account.getId(), tableRemoteIds), db.getSyncWriteExecutor());
                 }, workExecutor)
-                .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(account.getId()), db.getSequentialWriteExecutorForSync());
+                .thenRunAsync(() -> db.getAccountDao().guessCurrentTable(account.getId()), db.getSyncWriteExecutor());
     }
 }

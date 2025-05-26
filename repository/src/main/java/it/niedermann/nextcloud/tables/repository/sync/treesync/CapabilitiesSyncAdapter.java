@@ -103,6 +103,6 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
                         yield Optional.<Account>empty();
                     }
                 })
-                .thenAcceptAsync(accountWithNewCapabilities -> accountWithNewCapabilities.ifPresent(db.getAccountDao()::update), db.getSequentialWriteExecutorForSync());
+                .thenAcceptAsync(accountWithNewCapabilities -> accountWithNewCapabilities.ifPresent(db.getAccountDao()::update), db.getSyncWriteExecutor());
     }
 }

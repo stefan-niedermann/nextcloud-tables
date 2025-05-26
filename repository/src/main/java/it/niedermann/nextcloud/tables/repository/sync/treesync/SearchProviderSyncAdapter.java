@@ -72,7 +72,7 @@ class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
                     }
                 }, workExecutor)
                 .thenApplyAsync(sp -> new Pair<>(sp, db.getSearchProviderDao()
-                        .getRemoteIdToLocalId(account.getId())), db.getParallelExecutor())
+                        .getRemoteIdToLocalId(account.getId())), db.getSyncReadExecutor())
                 .thenApplyAsync(args -> {
                     final var searchProviders = args.first;
                     final var remoteIdToSearchProviders = args.second;
@@ -84,6 +84,6 @@ class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
                             .peek(provider -> provider.setAccountId(account.getId()))
                             .toArray(SearchProvider[]::new);
                 }, workExecutor)
-                .thenAcceptAsync(db.getSearchProviderDao()::upsert, db.getSequentialWriteExecutorForSync());
+                .thenAcceptAsync(db.getSearchProviderDao()::upsert, db.getSyncWriteExecutor());
     }
 }

@@ -221,7 +221,7 @@ public class SearchRepository extends AbstractRepository {
         final var searchResults = new ReactiveLiveData<Map<SearchProvider, Collection<OcsSearchResultEntry>>>();
 
         supplyAsync(() -> searchProviderIds, workExecutor)
-                .thenApplyAsync(allowedSearchProviders -> db.getSearchProviderDao().getSearchProvider(account.getId(), allowedSearchProviders), db.getParallelExecutor())
+                .thenApplyAsync(allowedSearchProviders -> db.getSearchProviderDao().getSearchProvider(account.getId(), allowedSearchProviders), db.getUserInteractionReadExecutor())
                 .thenAcceptAsync(searchProviders -> searchProviders
                         .forEach(searchProvider -> searchOnline(account, searchProvider, term)
                                 // TODO orTimeout() requires API level 31

@@ -118,7 +118,7 @@ public class TablesRepository extends AbstractRepository {
             return table;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getTableDao()::insert, db.getSequentialWriteExecutor())
+                .thenAcceptAsync(db.getTableDao()::insert, db.getUserInteractionWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -137,7 +137,7 @@ public class TablesRepository extends AbstractRepository {
             return table;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getTableDao()::update, db.getSequentialWriteExecutor())
+                .thenAcceptAsync(db.getTableDao()::update, db.getUserInteractionWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -156,8 +156,8 @@ public class TablesRepository extends AbstractRepository {
                 .thenRunAsync(() -> db.runInTransaction(() -> {
                     db.getTableDao().update(table);
                     db.getAccountDao().guessCurrentTable(table.getAccountId());
-                }), db.getSequentialWriteExecutor())
-                .thenApplyAsync(v -> db.getAccountDao().getAccountById(table.getAccountId()), db.getParallelExecutor())
+                }), db.getUserInteractionWriteExecutor())
+                .thenApplyAsync(v -> db.getAccountDao().getAccountById(table.getAccountId()), db.getUserInteractionReadExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
 
@@ -194,10 +194,10 @@ public class TablesRepository extends AbstractRepository {
                                 .stream()
                                 .map(DefaultValueSelectionOptionCrossRef::from)
                                 .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::insert);
-                    }), db.getSequentialWriteExecutor());
+                    }), db.getUserInteractionWriteExecutor());
 
                     default -> completedFuture(column)
-                            .thenApplyAsync(db.getColumnDao()::insert, db.getSequentialWriteExecutor())
+                            .thenApplyAsync(db.getColumnDao()::insert, db.getUserInteractionWriteExecutor())
                             .thenAcceptAsync(column::setId, workExecutor);
 
                 }, workExecutor)
@@ -255,10 +255,10 @@ public class TablesRepository extends AbstractRepository {
                                         .stream()
                                         .map(DefaultValueSelectionOptionCrossRef::from)
                                         .forEach(db.getDefaultValueSelectionOptionCrossRefDao()::upsert);
-                            }), db.getSequentialWriteExecutor());
+                            }), db.getUserInteractionWriteExecutor());
 
                     default ->
-                            runAsync(() -> db.getColumnDao().update(column), db.getSequentialWriteExecutor());
+                            runAsync(() -> db.getColumnDao().update(column), db.getUserInteractionWriteExecutor());
 
                 }, workExecutor)
                 .thenApplyAsync(v -> account, workExecutor)
@@ -269,7 +269,7 @@ public class TablesRepository extends AbstractRepository {
     ///
     /// @return CrudItems
     private CompletableFuture<CrudItems<SelectionOption>> analyzeSelectionOptions(@NonNull FullColumn fullColumn) {
-        return supplyAsync(() -> db.getSelectionOptionDao().getSelectionOptionIds(fullColumn.getColumn().getId()), db.getParallelExecutor())
+        return supplyAsync(() -> db.getSelectionOptionDao().getSelectionOptionIds(fullColumn.getColumn().getId()), db.getUserInteractionReadExecutor())
                 .thenApplyAsync(selectionOptionIds -> {
                     final var toUpdate = new ArrayList<SelectionOption>();
                     final var toInsert = new ArrayList<SelectionOption>();
@@ -312,7 +312,7 @@ public class TablesRepository extends AbstractRepository {
     public CompletableFuture<Void> reorderColumn(@NonNull Account account,
                                                  long tableId,
                                                  @NonNull List<Long> newColumnOrder) {
-        return supplyAsync(() -> db.getColumnDao().getNotDeletedOrderWeights(tableId), db.getParallelExecutor())
+        return supplyAsync(() -> db.getColumnDao().getNotDeletedOrderWeights(tableId), db.getUserInteractionReadExecutor())
                 .thenApplyAsync(originalOrderWeights -> {
 
                     final var newOrderWeights = columnReorderUtil.reorderColumns(originalOrderWeights, newColumnOrder);
@@ -324,7 +324,7 @@ public class TablesRepository extends AbstractRepository {
 
                     return account;
 
-                }, db.getSequentialWriteExecutor())
+                }, db.getUserInteractionWriteExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
 
@@ -342,8 +342,8 @@ public class TablesRepository extends AbstractRepository {
             return column;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getColumnDao()::update, db.getSequentialWriteExecutor())
-                .thenApplyAsync(v -> db.getAccountDao().getAccountById(column.getAccountId()), db.getParallelExecutor())
+                .thenAcceptAsync(db.getColumnDao()::update, db.getUserInteractionWriteExecutor())
+                .thenApplyAsync(v -> db.getAccountDao().getAccountById(column.getAccountId()), db.getUserInteractionReadExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
 
@@ -365,7 +365,7 @@ public class TablesRepository extends AbstractRepository {
             return row;
 
         }, workExecutor)
-                .thenApplyAsync(db.getRowDao()::insert, db.getSequentialWriteExecutor())
+                .thenApplyAsync(db.getRowDao()::insert, db.getUserInteractionWriteExecutor())
                 .thenAcceptAsync(row::setId, workExecutor)
                 .thenRunAsync(() -> {
 
@@ -399,7 +399,7 @@ public class TablesRepository extends AbstractRepository {
                     }
                     logger.info("PERF :: " + "Adding row " + row.getId());
 
-                }, db.getSequentialWriteExecutor())
+                }, db.getUserInteractionWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -422,9 +422,9 @@ public class TablesRepository extends AbstractRepository {
             return row;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getRowDao()::update, db.getSequentialWriteExecutor())
+                .thenAcceptAsync(db.getRowDao()::update, db.getUserInteractionWriteExecutor())
                 .thenComposeAsync(v -> updateData(fullDataSet, row), workExecutor)
-                .thenAcceptAsync(v -> db.getDataDao().deleteRowIfEmpty(row.getId()), db.getSequentialWriteExecutor())
+                .thenAcceptAsync(v -> db.getDataDao().deleteRowIfEmpty(row.getId()), db.getUserInteractionWriteExecutor())
                 .thenApplyAsync(v -> account, workExecutor)
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
@@ -437,7 +437,7 @@ public class TablesRepository extends AbstractRepository {
                 .thenApplyAsync(stream -> stream.map(fullData -> runAsync(() -> fullData.getData().setRowId(row.getId()), workExecutor)
                         .thenApplyAsync(v -> db.getDataDao().exists(
                                 fullData.getData().getColumnId(),
-                                fullData.getData().getRowId()), db.getParallelExecutor())
+                                fullData.getData().getRowId()), db.getUserInteractionReadExecutor())
                         .thenApplyAsync(exists -> {
                             if (exists) {
                                 db.getDataDao().update(fullData.getData());
@@ -448,7 +448,7 @@ public class TablesRepository extends AbstractRepository {
                             }
 
                             return fullData;
-                        }, db.getSequentialWriteExecutor())
+                        }, db.getUserInteractionWriteExecutor())
                         .thenComposeAsync(this::updateSelectionOptionCrossRefs, workExecutor)
                         .thenComposeAsync(fd -> this.updateLinkValue(fd, row.getAccountId()), workExecutor)
                 ), workExecutor)
@@ -463,7 +463,7 @@ public class TablesRepository extends AbstractRepository {
         }
 
         return completedFuture(fullData)
-                .thenApplyAsync(res -> db.getDataSelectionOptionCrossRefDao().getCrossRefs(fullData.getData().getId()), db.getParallelExecutor())
+                .thenApplyAsync(res -> db.getDataSelectionOptionCrossRefDao().getCrossRefs(fullData.getData().getId()), db.getUserInteractionReadExecutor())
                 .thenApplyAsync(storedCrossRefs -> {
 
                     final var editedCrossRefs = fullData.getSelectionOptions().stream()
@@ -495,7 +495,7 @@ public class TablesRepository extends AbstractRepository {
 
                     return fullData;
 
-                }, db.getSequentialWriteExecutor());
+                }, db.getUserInteractionWriteExecutor());
     }
 
     @NonNull
@@ -518,16 +518,16 @@ public class TablesRepository extends AbstractRepository {
             final var linkValue = optionalLinkValue.get();
             linkValue.setDataId(fullData.getData().getId());
 
-            return supplyAsync(() -> db.getSearchProviderDao().getSearchProviderId(accountId, providerId.orElse(null)), db.getParallelExecutor())
+            return supplyAsync(() -> db.getSearchProviderDao().getSearchProviderId(accountId, providerId.orElse(null)), db.getUserInteractionReadExecutor())
                     .thenAcceptAsync(linkValue::setProviderId, workExecutor)
-                    .thenRunAsync(() -> db.getLinkValueDao().upsertLinkValueAndUpdateData(linkValue), db.getSequentialWriteExecutor())
+                    .thenRunAsync(() -> db.getLinkValueDao().upsertLinkValueAndUpdateData(linkValue), db.getUserInteractionWriteExecutor())
                     .thenApplyAsync(v -> {
                         fullData.getData().getValue().setLinkValueRef(fullData.getData().getId());
                         return fullData;
                     }, workExecutor);
 
         } else {
-            return runAsync(() -> db.getLinkValueDao().delete(fullData.getData().getId()), db.getSequentialWriteExecutor())
+            return runAsync(() -> db.getLinkValueDao().delete(fullData.getData().getId()), db.getUserInteractionWriteExecutor())
                     .thenApplyAsync(v -> {
                         fullData.getData().getValue().setLinkValueRef(null);
                         return fullData;
@@ -549,25 +549,25 @@ public class TablesRepository extends AbstractRepository {
             return row;
 
         }, workExecutor)
-                .thenAcceptAsync(db.getRowDao()::update, db.getSequentialWriteExecutor())
-                .thenApplyAsync(v -> db.getAccountDao().getAccountById(row.getAccountId()), db.getParallelExecutor())
+                .thenAcceptAsync(db.getRowDao()::update, db.getUserInteractionWriteExecutor())
+                .thenApplyAsync(v -> db.getAccountDao().getAccountById(row.getAccountId()), db.getUserInteractionReadExecutor())
                 .thenAcceptAsync(this::schedulePush, workExecutor);
     }
 
     @AnyThread
     @NonNull
     public CompletableFuture<List<FullColumn>> getNotDeletedColumns(@NonNull Table table) {
-        return supplyAsync(() -> db.getColumnDao().getNotDeletedColumns(table.getId()), db.getParallelExecutor());
+        return supplyAsync(() -> db.getColumnDao().getNotDeletedColumns(table.getId()), db.getUserInteractionReadExecutor());
     }
 
     @AnyThread
     public CompletableFuture<Map<Long, FullData>> getRawColumnIdAndFullData(long rowId) {
-        return supplyAsync(() -> db.getDataDao().getColumnIdAndFullData(rowId), db.getParallelExecutor());
+        return supplyAsync(() -> db.getDataDao().getColumnIdAndFullData(rowId), db.getUserInteractionReadExecutor());
     }
 
     /// @noinspection UnusedReturnValue
     @AnyThread
     public CompletableFuture<Void> updateCurrentRow(long tableId, @NonNull Long currentRowId) {
-        return runAsync(() -> db.getTableDao().updateCurrentRow(tableId, currentRowId), db.getSequentialWriteExecutor());
+        return runAsync(() -> db.getTableDao().updateCurrentRow(tableId, currentRowId), db.getUserInteractionWriteExecutor());
     }
 }

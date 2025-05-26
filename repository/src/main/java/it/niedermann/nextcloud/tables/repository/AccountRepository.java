@@ -92,7 +92,7 @@ public class AccountRepository extends AbstractRepository {
     public LiveData<SyncStatus> createAccount(@NonNull Account accountToCreate) {
         final var reporter = new LiveDataReporter(accountToCreate);
         completedFuture(accountToCreate)
-                .thenApplyAsync(db.getAccountDao()::insert, db.getSequentialWriteExecutor())
+                .thenApplyAsync(db.getAccountDao()::insert, db.getUserInteractionWriteExecutor())
                 .thenAcceptAsync(accountToCreate::setId, workExecutor)
                 .thenApplyAsync(v -> accountToCreate, workExecutor)
                 .handleAsync((account, throwable) -> {
@@ -170,13 +170,13 @@ public class AccountRepository extends AbstractRepository {
             logger.info("PERF :: ----- setCurrentTable to " + tableId + " START ");
             db.getAccountDao().updateCurrentTable(accountId, tableId);
             logger.info("PERF :: ----- setCurrentTable to " + tableId + " FINISH ");
-        }, db.getParallelExecutor());
+        }, db.getUserInteractionWriteExecutor());
     }
 
     @AnyThread
     @NonNull
     public CompletableFuture<Void> deleteAccount(@NonNull Account account) {
         // TODO Should run after Synchronization
-        return runAsync(() -> db.getAccountDao().delete(account), db.getSequentialWriteExecutor());
+        return runAsync(() -> db.getAccountDao().delete(account), db.getUserInteractionWriteExecutor());
     }
 }

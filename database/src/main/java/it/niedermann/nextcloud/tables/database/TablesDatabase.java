@@ -92,22 +92,41 @@ public abstract class TablesDatabase extends RoomDatabase {
     private static final String TAG = TablesDatabase.class.getSimpleName();
     private static final String DB_NAME = "nextcloud-tables.sqlite";
 
-    private static final ExecutorService DB_PARALLEL = SharedExecutors.getIODbOutputExecutor();
-    private static final ExecutorService DB_SEQUENTIAL = SharedExecutors.getIODbInputExecutor();
-
-    private final ExecutorService parallelExecutor;
-    private final ExecutorService sequentialExecutor;
+    private final ExecutorService readHighPriorityExecutor;
+    private final ExecutorService writeHighPriorityExecutor;
+    private final ExecutorService readLowPriorityExecutor;
+    private final ExecutorService writeLowPriorityExecutor;
 
     private static volatile TablesDatabase instance;
 
     public TablesDatabase() {
-        this.parallelExecutor = DB_PARALLEL;
-        this.sequentialExecutor = DB_SEQUENTIAL;
+        this(
+                SharedExecutors.getIoDbReadHighPriority(),
+                SharedExecutors.getIoDbWriteHighPriority(),
+                SharedExecutors.getIoDbReadLowPriority(),
+                SharedExecutors.getIoDbWriteLowPriority()
+        );
     }
 
-    public static synchronized TablesDatabase getInstance(@NonNull Context context) {
+    private TablesDatabase(
+            @NonNull ExecutorService readHighPriorityExecutor,
+            @NonNull ExecutorService writeHighPriorityExecutor,
+            @NonNull ExecutorService readLowPriorityExecutor,
+            @NonNull ExecutorService writeLowPriorityExecutor
+    ) {
+        this.readHighPriorityExecutor = readHighPriorityExecutor;
+        this.writeHighPriorityExecutor = writeHighPriorityExecutor;
+        this.readLowPriorityExecutor = readLowPriorityExecutor;
+        this.writeLowPriorityExecutor = writeLowPriorityExecutor;
+    }
+
+    public static TablesDatabase getInstance(@NonNull Context context) {
         if (instance == null) {
-            instance = create(context.getApplicationContext());
+            synchronized (TablesDatabase.class) {
+                if (instance == null) {
+                    instance = create(context.getApplicationContext());
+                }
+            }
         }
         return instance;
     }
@@ -124,19 +143,20 @@ public abstract class TablesDatabase extends RoomDatabase {
                 .build();
     }
 
-    /// Use for any non changing database requests as select statements where the order of statements does not matter
-    public ExecutorService getParallelExecutor() {
-        return parallelExecutor;
+    public ExecutorService getSyncReadExecutor() {
+        return readLowPriorityExecutor;
     }
 
-    /// Use for writing sequentially to the database while synchronization to not block working with the app
-    public ExecutorService getSequentialWriteExecutorForSync() {
-        return sequentialExecutor;
+    public ExecutorService getSyncWriteExecutor() {
+        return writeLowPriorityExecutor;
     }
 
-    /// Use for writing sequentially to the database on user interaction
-    public ExecutorService getSequentialWriteExecutor() {
-        return sequentialExecutor;
+    public ExecutorService getUserInteractionReadExecutor() {
+        return readHighPriorityExecutor;
+    }
+
+    public ExecutorService getUserInteractionWriteExecutor() {
+        return writeHighPriorityExecutor;
     }
 
     public abstract AccountDao getAccountDao();
