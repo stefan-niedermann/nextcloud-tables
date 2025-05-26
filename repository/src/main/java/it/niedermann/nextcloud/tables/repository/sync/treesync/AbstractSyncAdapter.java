@@ -7,6 +7,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
@@ -92,7 +93,17 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
     protected <T> BiFunction<T, Throwable, T> provideDebugContext(@Nullable Object... attributes) {
         return (result, exception) -> {
             if (exception != null) {
-                throw new TreeSyncExceptionWithContext(exception).provide(attributes);
+                final var treeSyncException = new TreeSyncExceptionWithContext(exception);
+                if (attributes != null) {
+                    for (final var attribute : attributes) {
+                        if (attribute instanceof Serializable s) {
+                            treeSyncException.provide(s);
+                        } else if (attribute != null) {
+                            treeSyncException.provide(attribute.toString());
+                        }
+                    }
+                }
+                throw treeSyncException;
             }
 
             return result;
