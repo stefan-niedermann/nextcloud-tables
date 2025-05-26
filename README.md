@@ -1,13 +1,3 @@
-# ⚠️ Early Beta ⚠️
-
-***This app is currently under heavy development. It is not yet able to view or manage data in a production environment. Data loss may be possible. Use at your own risc!***
-
-## ⛔ Limitations
-
-- Managing columns is not yet possible
-- Validations are not enforced
-- Sorting & Filtering is not yet possible
-
 # Nextcloud Tables for Android
 
 [![Android CI](https://github.com/stefan-niedermann/nextcloud-tables/workflows/Android%20CI/badge.svg)](https://github.com/stefan-niedermann/nextcloud-tables/actions)
@@ -15,7 +5,16 @@
 [![GitHub stars](https://img.shields.io/github/stars/stefan-niedermann/nextcloud-tables.svg)](https://github.com/stefan-niedermann/nextcloud-tables/stargazers)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-An Android client for [Nextcloud Tables App](https://github.com/nextcloud/tables/).
+An Android client for the [Nextcloud Tables App](https://github.com/nextcloud/tables/).
+
+## ⚠️ Beta
+
+This app is still under heavy development and not yet ready to be used in a production environment. Data loss may be possible. Use at your own risc!
+
+## ⛔ Limitations
+
+- Sorting, filtering and sharing a table is not yet possible
+- Views & applications are not yet supported
 
 ## ▶️ Access
 
@@ -48,13 +47,6 @@ height="80">](https://liberapay.com/stefan-niedermann/donate)
 * Dark mode 🌙
 * Translated in many languages 🌎
 
-## 🏁 Planned features
-* Manage sharing
-* Search
-* Sort
-* Views
-* Applications
-
 ## 👪 Join the team
 * Test the app with different devices
 * Report issues in the [issue tracker](https://github.com/stefan-niedermann/nextcloud-tables/issues)
@@ -67,7 +59,7 @@ height="80">](https://liberapay.com/stefan-niedermann/donate)
 ## 🔗 Requirements
 * [Nextcloud](https://nextcloud.com/) instance running
 * [Nextcloud Android](https://github.com/nextcloud/android) app installed (≥ 3.9.0)
-* [Nextcloud Tables](https://github.com/nextcloud/tables) app enabled (≥ 0.5.0)
+* [Nextcloud Tables](https://github.com/nextcloud/tables) app enabled (≥ 0.8.0)
 
 ## 📓 License
 All contributions to this repository are considered to be licensed under the [GNU GENERAL PUBLIC LICENSE 3+](/LICENSE).
