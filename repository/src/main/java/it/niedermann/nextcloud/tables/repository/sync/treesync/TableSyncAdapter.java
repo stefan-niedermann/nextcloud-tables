@@ -83,7 +83,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @NonNull
     private CompletableFuture<Response<OcsResponse<TableV2Dto>>> createRemote(@NonNull Account account, @NonNull Table entity) {
         return checkRemoteIdNull(entity.getRemoteId())
-                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().createTable(
+                .thenComposeAsync(v -> requestHelper.executeTablesV2Request(account, api -> api.createTable(
                         entity.getTitle(),
                         Optional.ofNullable(entity.getDescription()).orElse(""),
                         entity.getEmoji(),
@@ -112,10 +112,10 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     private CompletableFuture<Response<OcsResponse<TableV2Dto>>> updateRemote(@NonNull Account account, @NonNull Table entity) {
         return checkRemoteIdNotNull(entity.getRemoteId())
                 // TODO This can theoretically run parallel and is not always necessary
-                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> entity.isFavorite()
-                        ? apis.apiV2().setFavorite(ENodeTypeV2Dto.TABLE.id, requireNonNull(entity.getRemoteId()))
-                        : apis.apiV2().unsetFavorite(ENodeTypeV2Dto.TABLE.id, requireNonNull(entity.getRemoteId()))), workExecutor)
-                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().updateTable(
+                .thenComposeAsync(v -> requestHelper.executeTablesV2Request(account, api -> entity.isFavorite()
+                        ? api.setFavorite(ENodeTypeV2Dto.TABLE.id, requireNonNull(entity.getRemoteId()))
+                        : api.unsetFavorite(ENodeTypeV2Dto.TABLE.id, requireNonNull(entity.getRemoteId()))), workExecutor)
+                .thenComposeAsync(v -> requestHelper.executeTablesV2Request(account, api -> api.updateTable(
                         requireNonNull(entity.getRemoteId()),
                         entity.getTitle(),
                         entity.getEmoji(),
@@ -175,7 +175,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     @NonNull
     private CompletableFuture<Response<OcsResponse<TableV2Dto>>> deleteRemote(@NonNull Account account, @NonNull Table entity) {
         return checkRemoteIdNotNull(entity.getRemoteId())
-                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().deleteTable(requireNonNull(entity.getRemoteId()))), workExecutor);
+                .thenComposeAsync(remoteId -> requestHelper.executeTablesV2Request(account, api -> api.deleteTable(remoteId)), workExecutor);
     }
 
     private CompletableFuture<Void> deleteLocallyPhysically(@NonNull Table entity, @NonNull Response<?> response) {
@@ -264,7 +264,7 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Account parentEntity) {
         Log.i(TAG, getClass().getSimpleName() + "#pullRemoteChanges for " + account.getAccountName());
-        return requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().getTables())
+        return requestHelper.executeTablesV2Request(account, TablesV2API::getTables)
                 .thenComposeAsync(response -> {
                     final Collection<Table> fetchedTables;
                     Log.v(TAG, "Pulling remote changes for " + account.getAccountName());

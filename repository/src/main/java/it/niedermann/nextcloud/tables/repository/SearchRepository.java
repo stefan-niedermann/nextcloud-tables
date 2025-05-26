@@ -89,7 +89,7 @@ public class SearchRepository extends AbstractRepository {
             sources.add(OcsAutocompleteResult.OcsAutocompleteSource.TEAMS);
         }
 
-        return requestHelper.executeNetworkRequest(account, apiTuple -> apiTuple.ocs().searchUser(
+        return requestHelper.executeOcsRequest(account, api -> api.searchUser(
                         null, term,
                         sources.stream().mapToInt(st -> st.shareType).boxed().toList(),
                         null, null, 10))
@@ -244,7 +244,7 @@ public class SearchRepository extends AbstractRepository {
     private CompletableFuture<OcsSearchResult> searchOnline(@NonNull Account account,
                                                             @NonNull SearchProvider searchProvider,
                                                             @NonNull String term) {
-        return requestHelper.executeNetworkRequest(account, apiTuple -> apiTuple.ocs().search(null, searchProvider.getRemoteId(), term))
+        return requestHelper.executeOcsRequest(account, api -> api.search(null, searchProvider.getRemoteId(), term))
                 .thenApplyAsync(response -> {
                     if (response.isSuccessful()) {
                         // TODO Deeper error handling

@@ -90,9 +90,9 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     @NonNull
     private CompletableFuture<Response<OcsResponse<CreateColumnResponseV2Dto>>> createRemote(@NonNull Account account, @NonNull Table table, @NonNull FullColumn fullColumn) {
         return checkRemoteIdNull(fullColumn.getColumn().getRemoteId())
-                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> columnCreator.getService(fullColumn.getColumn().getDataType())
+                .thenComposeAsync(v -> requestHelper.executeTablesV2Request(account, api -> columnCreator.getService(fullColumn.getColumn().getDataType())
                         .createColumn(
-                                apis.apiV2(),
+                                api,
                                 requireNonNull(table.getRemoteId()),
                                 columnRequestMapper.toDto(fullColumn))), workExecutor);
     }
@@ -115,10 +115,9 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     private CompletableFuture<Response<UpdateColumnResponseV1Dto>> updateRemote(@NonNull Account account, @NonNull Table table, @NonNull FullColumn fullColumn) {
         final var remoteId = fullColumn.getColumn().getRemoteId();
         return checkRemoteIdNotNull(remoteId)
-                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV1()
-                        .updateColumn(
-                                requireNonNull(remoteId),
-                                columnRequestV1Mapper.apply(fullColumn))), workExecutor);
+                .thenComposeAsync(v -> requestHelper.executeTablesV1Request(account, api -> api.updateColumn(
+                        requireNonNull(remoteId),
+                        columnRequestV1Mapper.apply(fullColumn))), workExecutor);
     }
 
     @NonNull
@@ -140,8 +139,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     private @NonNull CompletableFuture<Response<RemoteDto>> deleteRemote(@NonNull Account account, @NonNull Table table, @NonNull FullColumn fullColumn) {
         final var remoteId = fullColumn.getColumn().getRemoteId();
         return checkRemoteIdNotNull(remoteId)
-                .thenComposeAsync(v -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV1()
-                        .deleteColumn(requireNonNull(remoteId))), workExecutor);
+                .thenComposeAsync(v -> requestHelper.executeTablesV1Request(account, api -> api.deleteColumn(requireNonNull(remoteId))), workExecutor);
     }
 
     @NonNull
@@ -216,7 +214,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                                                      @NonNull Table table) {
         //noinspection SwitchStatementWithTooFewBranches
         return checkRemoteIdNotNull(table.getRemoteId())
-                .thenComposeAsync(tableRemoteId -> requestHelper.executeNetworkRequest(account, apis -> apis.apiV2().getColumns(ENodeTypeV2Dto.TABLE, tableRemoteId)), workExecutor)
+                .thenComposeAsync(tableRemoteId -> requestHelper.executeTablesV2Request(account, api -> api.getColumns(ENodeTypeV2Dto.TABLE, tableRemoteId)), workExecutor)
                 .thenComposeAsync(response -> switch (response.code()) {
                     case 200 -> {
                         final var responseBody = response.body();

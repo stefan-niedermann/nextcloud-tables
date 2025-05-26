@@ -6,14 +6,13 @@ import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.remote.ocs.OcsAPI;
@@ -31,44 +30,71 @@ public class RequestHelper {
         this.context = context.getApplicationContext();
     }
 
-    /**
-     * Convenience method to catch the checked {@link IOException} when running the
-     * {@link Call#execute()} method and throw it wrapped in a {@link CompletionException}.
-     * Also takes care about closing resources in a <code>finally</code> block.
-     */
+    /// Convenience method to catch the checked [IOException] when running the
+    /// [Call#execute()] method and throw it wrapped in a [CompletionException].
+    /// Also takes care about closing resources in a `finally` block.
     @NonNull
-    public <TResponse> CompletableFuture<Response<TResponse>> executeNetworkRequest(@NonNull Account account,
-                                                                                    @NonNull Function<ApiProvider.ApiTuple, Call<TResponse>> api) {
+    public <TResponse> CompletableFuture<Response<TResponse>> executeOcsRequest(@NonNull Account account,
+                                                                                @NonNull Function<OcsAPI, Call<TResponse>> callFactory) {
         return supplyAsync(() -> {
-            final var ocsProviderRef = new AtomicReference<ApiProvider<OcsAPI>>();
-            final var apiV2ProviderRef = new AtomicReference<ApiProvider<TablesV2API>>();
-            final var apiV1ProviderRef = new AtomicReference<ApiProvider<TablesV1API>>();
+            try (final var apiProvider = ApiProvider.getOcsApiProvider(context, account)) {
 
-            try {
-                ocsProviderRef.set(ApiProvider.getOcsApiProvider(context, account));
-                apiV2ProviderRef.set(ApiProvider.getTablesV2ApiProvider(context, account));
-                apiV1ProviderRef.set(ApiProvider.getTablesV1ApiProvider(context, account));
-
-                final var apiTuple = new ApiProvider.ApiTuple(
-                        ocsProviderRef.get().getApi(),
-                        apiV2ProviderRef.get().getApi(),
-                        apiV1ProviderRef.get().getApi());
-
+                final var api = apiProvider.getApi();
                 // TODO Check connectivity
                 // TODO Log Request-ID Header in case of a failed request
-                return api.apply(apiTuple).execute();
+                return callFactory.apply(api).execute();
 
-            } catch (Exception throwable) {
-                throw throwable instanceof CompletionException
-                        ? (CompletionException) throwable
-                        : new CompletionException(throwable);
-
-            } finally {
-                Stream.of(ocsProviderRef, apiV2ProviderRef, apiV1ProviderRef)
-                        .map(AtomicReference::get)
-                        .forEach(ApiProvider::close);
+            } catch (Exception exception) {
+                throw wrapInCompletionExceptionIfNecessary(exception);
             }
         }, getNetworkExecutor(account));
+    }
+
+    /// Convenience method to catch the checked [IOException] when running the
+    /// [Call#execute()] method and throw it wrapped in a [CompletionException].
+    /// Also takes care about closing resources in a `finally` block.
+    @Deprecated()
+    @NonNull
+    public <TResponse> CompletableFuture<Response<TResponse>> executeTablesV1Request(@NonNull Account account,
+                                                                                     @NonNull Function<TablesV1API, Call<TResponse>> callFactory) {
+        return supplyAsync(() -> {
+            try (final var apiProvider = ApiProvider.getTablesV1ApiProvider(context, account)) {
+
+                final var api = apiProvider.getApi();
+                // TODO Check connectivity
+                // TODO Log Request-ID Header in case of a failed request
+                return callFactory.apply(api).execute();
+
+            } catch (Exception exception) {
+                throw wrapInCompletionExceptionIfNecessary(exception);
+            }
+        }, getNetworkExecutor(account));
+    }
+
+    /// Convenience method to catch the checked [IOException] when running the
+    /// [Call#execute()] method and throw it wrapped in a [CompletionException].
+    /// Also takes care about closing resources in a `finally` block.
+    @NonNull
+    public <TResponse> CompletableFuture<Response<TResponse>> executeTablesV2Request(@NonNull Account account,
+                                                                                     @NonNull Function<TablesV2API, Call<TResponse>> callFactory) {
+        return supplyAsync(() -> {
+            try (final var apiProvider = ApiProvider.getTablesV2ApiProvider(context, account)) {
+
+                final var api = apiProvider.getApi();
+                // TODO Check connectivity
+                // TODO Log Request-ID Header in case of a failed request
+                return callFactory.apply(api).execute();
+
+            } catch (Exception exception) {
+                throw wrapInCompletionExceptionIfNecessary(exception);
+            }
+        }, getNetworkExecutor(account));
+    }
+
+    private CompletionException wrapInCompletionExceptionIfNecessary(@Nullable Exception exception) {
+        return exception instanceof CompletionException
+                ? (CompletionException) exception
+                : new CompletionException(exception);
     }
 
     private ExecutorService getNetworkExecutor(@NonNull Account account) {

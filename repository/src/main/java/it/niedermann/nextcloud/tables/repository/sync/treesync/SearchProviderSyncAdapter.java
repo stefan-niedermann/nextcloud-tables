@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture;
 
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.SearchProvider;
+import it.niedermann.nextcloud.tables.remote.ocs.OcsAPI;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchProvider;
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
@@ -43,7 +44,7 @@ class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Account entity) {
-        return requestHelper.executeNetworkRequest(entity, apis -> apis.ocs().getSearchProviders())
+        return requestHelper.executeOcsRequest(entity, OcsAPI::getSearchProviders)
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {
                         final var body = response.body();

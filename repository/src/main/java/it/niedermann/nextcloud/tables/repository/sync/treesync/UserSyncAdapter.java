@@ -26,7 +26,7 @@ class UserSyncAdapter extends AbstractPullOnlySyncAdapter {
     @Override
     public CompletableFuture<Void> pullRemoteChanges(@NonNull Account account,
                                                      @NonNull Account parentEntity) {
-        return requestHelper.executeNetworkRequest(account, apis -> apis.ocs().getUser(account.getUserSynchronizationContext().eTag(), account.getUserName()))
+        return requestHelper.executeOcsRequest(account, api -> api.getUser(account.getUserSynchronizationContext().eTag(), account.getUserName()))
                 .thenApplyAsync(response -> switch (response.code()) {
                     case 200 -> {
                         final var body = response.body();
