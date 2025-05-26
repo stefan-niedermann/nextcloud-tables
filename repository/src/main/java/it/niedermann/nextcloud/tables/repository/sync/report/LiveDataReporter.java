@@ -19,7 +19,7 @@ public class LiveDataReporter extends LiveData<SyncStatus> implements SyncStatus
 
     @Override
     public boolean report(@NonNull Reducer reducer) {
-        synchronized (LiveDataReporter.this) {
+        synchronized (this) {
             if (currentSyncStatus.isFinished()) {
                 return false;
             }
