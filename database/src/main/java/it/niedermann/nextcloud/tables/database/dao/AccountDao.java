@@ -21,6 +21,15 @@ public interface AccountDao extends GenericDao<Account> {
             """)
     LiveData<List<Account>> getAccounts$();
 
+    @Transaction
+    @Query("""
+            SELECT NOT EXISTS(
+                SELECT a.id
+                FROM Account a
+            )
+            """)
+    LiveData<Boolean> noAccountExists();
+
     @Query("""
             SELECT a.accountName, a.tablesVersion
             FROM Account a

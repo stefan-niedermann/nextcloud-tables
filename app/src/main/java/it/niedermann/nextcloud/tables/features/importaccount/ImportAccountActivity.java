@@ -62,13 +62,14 @@ public class ImportAccountActivity extends AppCompatActivity implements AccountI
             binding.image.setClipToOutline(true);
         }
 
-        // TODO If at least one account exists, this callback should be disabled
-        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+        final var finishAllOnBackPressedCallback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 finishAffinity();
             }
-        });
+        };
+        getOnBackPressedDispatcher().addCallback(finishAllOnBackPressedCallback);
+        importAccountViewModel.noAccountExists().observe(this, finishAllOnBackPressedCallback::setEnabled);
 
         binding.addButton.setOnClickListener(this::onAddButtonClicked);
     }

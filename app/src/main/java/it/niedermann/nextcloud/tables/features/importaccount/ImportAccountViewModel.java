@@ -38,6 +38,10 @@ public class ImportAccountViewModel extends AndroidViewModel {
         this.accountRepository = new AccountRepository(application);
     }
 
+    public LiveData<Boolean> noAccountExists() {
+        return this.accountRepository.noAccountExists();
+    }
+
     @AnyThread
     @NonNull
     public LiveData<SyncStatus> createAccount(@NonNull Account accountToCreate) {

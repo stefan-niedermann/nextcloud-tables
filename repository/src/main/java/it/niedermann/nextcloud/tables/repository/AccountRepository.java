@@ -152,6 +152,11 @@ public class AccountRepository extends AbstractRepository {
         return db.getAccountDao().getAccounts$();
     }
 
+    @NonNull
+    public LiveData<Boolean> noAccountExists() {
+        return db.getAccountDao().noAccountExists();
+    }
+
     @WorkerThread
     public List<Account> getAccounts() {
         return db.getAccountDao().getAccounts();
