@@ -21,17 +21,13 @@ class AccountSyncAdapter extends AbstractSyncAdapter<Account> {
     private final SyncAdapter<Account> userSyncAdapter;
     private final SyncAdapter<Account> tableSyncAdapter;
 
-    public AccountSyncAdapter(@NonNull Context context) {
-        this(context, null);
-    }
-
     public AccountSyncAdapter(@NonNull Context context,
                               @Nullable SyncStatusReporter reporter) {
         this(context, reporter,
-                new CapabilitiesSyncAdapter(context),
-                new UserSyncAdapter(context),
-                new TableSyncAdapter(context),
-                new SearchProviderSyncAdapter(context));
+                new CapabilitiesSyncAdapter(context, reporter),
+                new UserSyncAdapter(context, reporter),
+                new TableSyncAdapter(context, reporter),
+                new SearchProviderSyncAdapter(context, reporter));
     }
 
     private AccountSyncAdapter(@NonNull Context context,

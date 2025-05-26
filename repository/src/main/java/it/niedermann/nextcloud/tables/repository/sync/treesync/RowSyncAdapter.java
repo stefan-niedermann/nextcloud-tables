@@ -49,12 +49,8 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
     private final FetchAndPutRowV1Mapper fetchRowV1Mapper;
     private final CreateRowResponseV2Mapper createRowV2Mapper;
 
-    public RowSyncAdapter(@NonNull Context context) {
-        this(context, null);
-    }
-
-    private RowSyncAdapter(@NonNull Context context,
-                           @Nullable SyncStatusReporter reporter) {
+    protected RowSyncAdapter(@NonNull Context context,
+                             @Nullable SyncStatusReporter reporter) {
         this(context, reporter,
                 new FetchAndPutRowV1Mapper(),
                 new CreateRowResponseV2Mapper());

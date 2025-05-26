@@ -2,5 +2,6 @@ fix(number): Fix locale depending separator character for editing number decimal
 fix(perf): Don't let synchronization plugging user interactions
 fix(perf): Do only establish connections to the files app for APIs that will actually be used
 fix(perf): Limit reporter synchronization to current reporter instance
+fix(import): Fix displaying progress while importing an account
 fix(logging): Enhance logging context
 chore(logging): Replace Android Logging with Java Util Logging

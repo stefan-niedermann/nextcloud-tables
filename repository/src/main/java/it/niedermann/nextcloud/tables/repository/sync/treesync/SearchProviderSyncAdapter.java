@@ -24,10 +24,6 @@ class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
 
     private final Mapper<OcsSearchProvider, SearchProvider> searchProviderMapper;
 
-    public SearchProviderSyncAdapter(@NonNull Context context) {
-        this(context, null);
-    }
-
     public SearchProviderSyncAdapter(@NonNull Context context,
                                      @Nullable SyncStatusReporter reporter) {
         this(context, reporter, new OcsSearchProviderMapper());

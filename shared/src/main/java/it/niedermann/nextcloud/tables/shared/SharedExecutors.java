@@ -80,15 +80,15 @@ public final class SharedExecutors {
 
     private static class PriorityThreadFactory implements ThreadFactory {
 
+        @Override
+        public Thread newThread(Runnable r) {
+            return newThread(r, Thread.NORM_PRIORITY);
+        }
+
         public Thread newThread(Runnable r, int priority) {
             final var thread = Executors.defaultThreadFactory().newThread(r);
             thread.setPriority(priority);
             return thread;
-        }
-
-        @Override
-        public Thread newThread(Runnable r) {
-            return newThread(r, Thread.NORM_PRIORITY);
         }
     }
 }

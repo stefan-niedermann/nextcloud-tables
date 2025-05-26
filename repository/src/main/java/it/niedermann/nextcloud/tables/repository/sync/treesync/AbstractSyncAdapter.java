@@ -25,7 +25,6 @@ import it.niedermann.nextcloud.tables.shared.SharedExecutors;
 
 abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> implements SyncAdapter<TParentEntity> {
 
-    private static final String TAG = AbstractSyncAdapter.class.getSimpleName();
     protected static final String HEADER_ETAG = "ETag";
     protected final Context context;
     protected final TablesDatabase db;
@@ -34,10 +33,6 @@ abstract class AbstractSyncAdapter<TParentEntity extends AbstractEntity> impleme
     protected final RequestHelper requestHelper;
     @Nullable
     protected final SyncStatusReporter reporter;
-
-    protected AbstractSyncAdapter(@NonNull Context context) {
-        this(context, null);
-    }
 
     protected AbstractSyncAdapter(@NonNull Context context,
                                   @Nullable SyncStatusReporter reporter) {

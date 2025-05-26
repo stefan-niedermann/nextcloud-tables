@@ -26,10 +26,6 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
 
     private final Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper;
 
-    public CapabilitiesSyncAdapter(@NonNull Context context) {
-        this(context, null);
-    }
-
     public CapabilitiesSyncAdapter(@NonNull Context context,
                                    @Nullable SyncStatusReporter reporter) {
         this(context, reporter, new OcsVersionMapper());

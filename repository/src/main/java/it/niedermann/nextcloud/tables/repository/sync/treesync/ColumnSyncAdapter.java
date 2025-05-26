@@ -51,10 +51,6 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     private final Mapper<ColumnV2Dto, FullColumn> columnRequestMapper;
     private final Function<FullColumn, ColumnRequestV1Dto> columnRequestV1Mapper;
 
-    public ColumnSyncAdapter(@NonNull Context context) {
-        this(context, null);
-    }
-
     public ColumnSyncAdapter(@NonNull Context context,
                              @Nullable SyncStatusReporter reporter) {
         this(context, reporter,

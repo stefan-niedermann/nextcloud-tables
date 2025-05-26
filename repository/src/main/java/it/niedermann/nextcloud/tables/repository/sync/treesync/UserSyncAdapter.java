@@ -13,10 +13,6 @@ import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
 class UserSyncAdapter extends AbstractPullOnlySyncAdapter {
 
-    public UserSyncAdapter(@NonNull Context context) {
-        super(context);
-    }
-
     public UserSyncAdapter(@NonNull Context context,
                            @Nullable SyncStatusReporter reporter) {
         super(context, reporter);

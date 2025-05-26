@@ -42,13 +42,9 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
     private final SyncAdapter<Table> rowSyncAdapter;
     private final Mapper<TableV2Dto, Table> tableMapper;
 
-    public TableSyncAdapter(@NonNull Context context) {
-        this(context, null);
-    }
-
-    private TableSyncAdapter(@NonNull Context context,
-                             @Nullable SyncStatusReporter reporter) {
-        this(context, reporter, new TableV2Mapper(), new ColumnSyncAdapter(context), new RowSyncAdapter(context));
+    protected TableSyncAdapter(@NonNull Context context,
+                               @Nullable SyncStatusReporter reporter) {
+        this(context, reporter, new TableV2Mapper(), new ColumnSyncAdapter(context, reporter), new RowSyncAdapter(context, reporter));
     }
 
     private TableSyncAdapter(@NonNull Context context,
