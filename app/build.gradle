@@ -10,8 +10,8 @@ android {
         applicationId "it.niedermann.nextcloud.tables"
         minSdk 26
         targetSdk 35
-        versionCode 2002003
-        versionName "2.2.3"
+        versionCode 2002004
+        versionName "2.2.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
