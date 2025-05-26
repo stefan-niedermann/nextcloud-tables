@@ -43,7 +43,9 @@ height="80">](https://liberapay.com/stefan-niedermann/donate)
 ## 🚀 Features
 * Multiple accounts 👥
 * Works offline 🔌
-* Manage tables, columns and rows 📝
+* View tables, columns and rows 👀
+* Add and edit rows 📝
+* Manage columns (except single selections and usergroups) 📋
 * Dark mode 🌙
 * Translated in many languages 🌎
 
