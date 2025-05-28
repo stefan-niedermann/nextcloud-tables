@@ -30,25 +30,26 @@ import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.SelectionOptionV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.UserGroupV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.NonNullRemoteMapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 
-public class ColumnV2Mapper implements Mapper<ColumnV2Dto, FullColumn> {
+public class ColumnV2Mapper implements NonNullRemoteMapper<ColumnV2Dto, FullColumn> {
 
-    private final Mapper<SelectionOptionV2Dto, SelectionOption> selectionOptionMapper;
+    private final RemoteMapper<SelectionOptionV2Dto, SelectionOption> selectionOptionMapper;
     private final SelectionDefaultV2Mapper selectionDefaultMapper;
-    private final Mapper<UserGroupV2Dto, UserGroup> userGroupMapper;
+    private final RemoteMapper<UserGroupV2Dto, UserGroup> userGroupMapper;
 
     public ColumnV2Mapper() {
         this(
-                new SelectionOptionV2Mapper(),
+                SelectionOptionV2Mapper.INSTANCE,
                 new SelectionDefaultV2Mapper(),
-                new UserGroupV2Mapper()
+                UserGroupV2Mapper.INSTANCE
         );
     }
 
-    private ColumnV2Mapper(@NonNull Mapper<SelectionOptionV2Dto, SelectionOption> selectionOptionMapper,
+    private ColumnV2Mapper(@NonNull RemoteMapper<SelectionOptionV2Dto, SelectionOption> selectionOptionMapper,
                            @NonNull SelectionDefaultV2Mapper selectionDefaultMapper,
-                           @NonNull Mapper<UserGroupV2Dto, UserGroup> userGroupMapper) {
+                           @NonNull RemoteMapper<UserGroupV2Dto, UserGroup> userGroupMapper) {
         this.selectionOptionMapper = selectionOptionMapper;
         this.selectionDefaultMapper = selectionDefaultMapper;
         this.userGroupMapper = userGroupMapper;

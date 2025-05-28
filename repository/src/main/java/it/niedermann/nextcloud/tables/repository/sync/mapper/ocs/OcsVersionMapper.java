@@ -1,27 +1,26 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.ocs;
 
-import androidx.annotation.NonNull;
+import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse.OcsVersion;
 
-import com.nextcloud.android.sso.model.ocs.OcsCapabilitiesResponse;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import it.niedermann.nextcloud.tables.database.model.Version;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 
-public class OcsVersionMapper implements Mapper<OcsCapabilitiesResponse.OcsVersion, Version> {
-    @NonNull
-    @Override
-    public OcsCapabilitiesResponse.OcsVersion toDto(@NonNull Version entity) {
-        final var dto = new OcsCapabilitiesResponse.OcsVersion();
-        dto.string = entity.getVersion();
-        dto.major = entity.getMajor();
-        dto.minor = entity.getMinor();
-        dto.macro = entity.getPatch();
-        return dto;
-    }
+@Mapper
+public interface OcsVersionMapper extends RemoteMapper<OcsVersion, Version> {
 
-    @NonNull
-    @Override
-    public Version toEntity(@NonNull OcsCapabilitiesResponse.OcsVersion dto) {
-        return new Version(dto.string, dto.major, dto.minor, dto.macro);
-    }
+    OcsVersionMapper INSTANCE = Mappers.getMapper(OcsVersionMapper.class);
+
+    @Mapping(source = "version", target = "string")
+    @Mapping(source = "patch", target = "macro")
+    @Mapping(target = "edition", ignore = true)
+    @Mapping(target = "extendedSupport", ignore = true)
+    OcsVersion toDto(Version entity);
+
+    @InheritInverseConfiguration
+    Version toEntity(OcsVersion dto);
 }

@@ -6,16 +6,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public interface Mapper<A, B> {
+public interface NonNullRemoteMapper<DtoType, EntityType> extends RemoteMapper<DtoType, EntityType> {
 
     @NonNull
-    A toDto(@NonNull B entity);
+    DtoType toDto(@NonNull EntityType entity);
 
     @NonNull
-    B toEntity(@NonNull A dto);
+    EntityType toEntity(@NonNull DtoType dto);
 
     @NonNull
-    default List<A> toDtoList(@NonNull Collection<B> entities) {
+    default List<DtoType> toDtoList(@NonNull Collection<EntityType> entities) {
         return entities
                 .stream()
                 .filter(Objects::nonNull)
@@ -24,7 +24,7 @@ public interface Mapper<A, B> {
     }
 
     @NonNull
-    default List<B> toEntityList(@NonNull Collection<A> dtos) {
+    default List<EntityType> toEntityList(@NonNull Collection<DtoType> dtos) {
         return dtos
                 .stream()
                 .filter(Objects::nonNull)

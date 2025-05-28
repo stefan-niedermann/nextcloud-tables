@@ -1,33 +1,20 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 
-import androidx.annotation.NonNull;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 import it.niedermann.nextcloud.tables.database.entity.OnSharePermission;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.OnSharePermissionV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 
-public class OnSharePermissionV2Mapper implements Mapper<OnSharePermissionV2Dto, OnSharePermission> {
-    @NonNull
-    @Override
-    public OnSharePermissionV2Dto toDto(@NonNull OnSharePermission entity) {
-        return new OnSharePermissionV2Dto(
-                Boolean.TRUE.equals(entity.isRead()),
-                Boolean.TRUE.equals(entity.isCreate()),
-                Boolean.TRUE.equals(entity.isUpdate()),
-                Boolean.TRUE.equals(entity.isDelete()),
-                Boolean.TRUE.equals(entity.isManage())
-        );
-    }
+@Mapper
+public interface OnSharePermissionV2Mapper extends RemoteMapper<OnSharePermissionV2Dto, OnSharePermission> {
 
-    @NonNull
+    OnSharePermissionV2Mapper INSTANCE = Mappers.getMapper(OnSharePermissionV2Mapper.class);
+
     @Override
-    public OnSharePermission toEntity(@NonNull OnSharePermissionV2Dto dto) {
-        final var entity = new OnSharePermission();
-        entity.setRead(Boolean.TRUE.equals(dto.read()));
-        entity.setCreate(Boolean.TRUE.equals(dto.create()));
-        entity.setUpdate(Boolean.TRUE.equals(dto.update()));
-        entity.setDelete(Boolean.TRUE.equals(dto.delete()));
-        entity.setManage(Boolean.TRUE.equals(dto.manage()));
-        return entity;
-    }
+    OnSharePermissionV2Dto toDto(OnSharePermission entity);
+
+    @Override
+    OnSharePermission toEntity(OnSharePermissionV2Dto dto);
 }

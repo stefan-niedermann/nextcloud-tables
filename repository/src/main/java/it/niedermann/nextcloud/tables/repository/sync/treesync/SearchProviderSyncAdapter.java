@@ -16,22 +16,22 @@ import it.niedermann.nextcloud.tables.database.entity.SearchProvider;
 import it.niedermann.nextcloud.tables.remote.ocs.OcsAPI;
 import it.niedermann.nextcloud.tables.remote.ocs.model.OcsSearchProvider;
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.ocs.OcsSearchProviderMapper;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
 class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
 
-    private final Mapper<OcsSearchProvider, SearchProvider> searchProviderMapper;
+    private final RemoteMapper<OcsSearchProvider, SearchProvider> searchProviderMapper;
 
     public SearchProviderSyncAdapter(@NonNull Context context,
                                      @Nullable SyncStatusReporter reporter) {
-        this(context, reporter, new OcsSearchProviderMapper());
+        this(context, reporter, OcsSearchProviderMapper.INSTANCE);
     }
 
     public SearchProviderSyncAdapter(@NonNull Context context,
                                      @Nullable SyncStatusReporter reporter,
-                                     @NonNull Mapper<OcsSearchProvider, SearchProvider> searchProviderMapper) {
+                                     @NonNull RemoteMapper<OcsSearchProvider, SearchProvider> searchProviderMapper) {
         super(context, reporter);
         this.searchProviderMapper = searchProviderMapper;
     }

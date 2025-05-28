@@ -28,7 +28,7 @@ import it.niedermann.nextcloud.tables.database.entity.Table;
 import it.niedermann.nextcloud.tables.remote.tablesV2.TablesV2API;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.TableV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.TableV2Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 import retrofit2.Response;
@@ -40,16 +40,16 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
     private final SyncAdapter<Table> columnSyncAdapter;
     private final SyncAdapter<Table> rowSyncAdapter;
-    private final Mapper<TableV2Dto, Table> tableMapper;
+    private final RemoteMapper<TableV2Dto, Table> tableMapper;
 
     protected TableSyncAdapter(@NonNull Context context,
                                @Nullable SyncStatusReporter reporter) {
-        this(context, reporter, new TableV2Mapper(), new ColumnSyncAdapter(context, reporter), new RowSyncAdapter(context, reporter));
+        this(context, reporter, TableV2Mapper.INSTANCE, new ColumnSyncAdapter(context, reporter), new RowSyncAdapter(context, reporter));
     }
 
     private TableSyncAdapter(@NonNull Context context,
                              @Nullable SyncStatusReporter reporter,
-                             @NonNull Mapper<TableV2Dto, Table> tableMapper,
+                             @NonNull RemoteMapper<TableV2Dto, Table> tableMapper,
                              @NonNull SyncAdapter<Table> columnSyncAdapter,
                              @NonNull SyncAdapter<Table> rowSyncAdapter) {
         super(context, reporter);

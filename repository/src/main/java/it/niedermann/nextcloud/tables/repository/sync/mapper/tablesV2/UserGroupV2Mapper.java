@@ -1,40 +1,26 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 
-import androidx.annotation.NonNull;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import it.niedermann.nextcloud.tables.database.entity.UserGroup;
-import it.niedermann.nextcloud.tables.database.model.EUserGroupType;
-import it.niedermann.nextcloud.tables.remote.tablesV2.model.EUserGroupTypeV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.UserGroupV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 
-public class UserGroupV2Mapper implements Mapper<UserGroupV2Dto, UserGroup> {
+@Mapper(uses = EUserGroupTypeV2Mapper.class)
+public interface UserGroupV2Mapper extends RemoteMapper<UserGroupV2Dto, UserGroup> {
 
-    private final Mapper<EUserGroupTypeV2Dto, EUserGroupType> mapper;
+    UserGroupV2Mapper INSTANCE = Mappers.getMapper(UserGroupV2Mapper.class);
 
-    public UserGroupV2Mapper() {
-        this(new EUserGroupTypeV2Mapper());
-    }
-
-    private UserGroupV2Mapper(@NonNull Mapper<EUserGroupTypeV2Dto, EUserGroupType> mapper) {
-        this.mapper = mapper;
-    }
-
-    @NonNull
+    @Mapping(source = "displayName", target = "key")
     @Override
-    public UserGroupV2Dto toDto(@NonNull UserGroup entity) {
-        return new UserGroupV2Dto(
-                entity.getRemoteId(),
-                entity.getDisplayName(),
-                mapper.toDto(entity.getType()));
-    }
-
-    @NonNull
+    UserGroupV2Dto toDto(UserGroup entity);
+    
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "accountId", ignore = true)
+    @InheritInverseConfiguration
     @Override
-    public UserGroup toEntity(@NonNull UserGroupV2Dto dto) {
-        return new UserGroup(
-                dto.remoteId(),
-                dto.key(),
-                mapper.toEntity(dto.type()));
-    }
+    UserGroup toEntity(UserGroupV2Dto dto);
 }

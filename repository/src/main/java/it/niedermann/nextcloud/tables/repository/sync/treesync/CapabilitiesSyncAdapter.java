@@ -18,22 +18,22 @@ import it.niedermann.nextcloud.tables.database.model.NextcloudVersion;
 import it.niedermann.nextcloud.tables.database.model.TablesVersion;
 import it.niedermann.nextcloud.tables.database.model.Version;
 import it.niedermann.nextcloud.tables.repository.exception.ServerNotAvailableException;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.ocs.OcsVersionMapper;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 
 class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
 
-    private final Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper;
+    private final RemoteMapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper;
 
     public CapabilitiesSyncAdapter(@NonNull Context context,
                                    @Nullable SyncStatusReporter reporter) {
-        this(context, reporter, new OcsVersionMapper());
+        this(context, reporter, OcsVersionMapper.INSTANCE);
     }
 
     public CapabilitiesSyncAdapter(@NonNull Context context,
                                    @Nullable SyncStatusReporter reporter,
-                                   @NonNull Mapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper) {
+                                   @NonNull RemoteMapper<OcsCapabilitiesResponse.OcsVersion, Version> versionMapper) {
         super(context, reporter);
         this.versionMapper = versionMapper;
     }

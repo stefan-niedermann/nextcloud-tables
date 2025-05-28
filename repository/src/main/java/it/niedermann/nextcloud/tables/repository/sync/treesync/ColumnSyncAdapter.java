@@ -37,7 +37,7 @@ import it.niedermann.nextcloud.tables.remote.tablesV2.creators.DataTypeCreatorSe
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.CreateColumnResponseV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ENodeTypeV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.Mapper;
+import it.niedermann.nextcloud.tables.repository.sync.mapper.NonNullRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV1.ColumnRequestV1Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2.ColumnV2Mapper;
 import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
@@ -48,7 +48,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     private static final Logger logger = Logger.getLogger(ColumnSyncAdapter.class.getSimpleName());
 
     private final DataTypeServiceRegistry<ColumnCreator> columnCreator;
-    private final Mapper<ColumnV2Dto, FullColumn> columnRequestMapper;
+    private final NonNullRemoteMapper<ColumnV2Dto, FullColumn> columnRequestMapper;
     private final Function<FullColumn, ColumnRequestV1Dto> columnRequestV1Mapper;
 
     public ColumnSyncAdapter(@NonNull Context context,
@@ -62,7 +62,7 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
     private ColumnSyncAdapter(@NonNull Context context,
                               @Nullable SyncStatusReporter reporter,
                               @NonNull DataTypeServiceRegistry<ColumnCreator> columnCreator,
-                              @NonNull Mapper<ColumnV2Dto, FullColumn> columnRequestMapper,
+                              @NonNull NonNullRemoteMapper<ColumnV2Dto, FullColumn> columnRequestMapper,
                               @NonNull Function<FullColumn, ColumnRequestV1Dto> columnRequestV1Mapper) {
         super(context, reporter);
         this.columnCreator = columnCreator;

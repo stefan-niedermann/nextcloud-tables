@@ -45,6 +45,8 @@ dependencies {
     implementation "com.github.stefan-niedermann.android-commons:util:$version_android_commons"
     implementation "com.github.nextcloud:Android-SingleSignOn:$version_sso"
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
+    implementation "org.mapstruct:mapstruct:$version_mapstruct"
+    annotationProcessor "org.mapstruct:mapstruct-processor:$version_mapstruct"
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.preference:preference:1.2.1'
