@@ -8,7 +8,7 @@ buildscript {
     ext.version_sso = '1.3.2'
     ext.version_glide = '4.16.0'
     ext.version_emoji = '1.5.0'
-    ext.version_retrofit = '2.11.0'
+    ext.version_retrofit = '3.0.0'
     ext.version_mapstruct = '1.6.3'
 }
 
