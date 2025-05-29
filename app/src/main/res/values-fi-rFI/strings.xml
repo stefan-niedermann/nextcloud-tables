@@ -135,6 +135,7 @@
     <string name="missing_permission_manage">Puuttuva hallintaoikeus</string>
 
     <string name="add_column">Lisää sarake</string>
+    <string name="navigation_favorites">Suosikit</string>
     <string name="navigation_tables">Taulukot</string>
     <string name="navigation_applications">Sovellukset</string>
     <string name="navigation_archived">Arkistoitu</string>
@@ -158,6 +159,7 @@
     <string name="select_multiple_items">Valitse useampia kohteita</string>
     <string name="show_user_status">Näytä käyttäjän tila</string>
     <string name="remove_table_from_favorites">Poista suosikeista</string>
+    <string name="add_table_to_favorites">Lisää suosikkeihin</string>
     <string name="unarchive_table">Poista taulukko arkistosta</string>
     <string name="archive_table">Arkistoi taulukko</string>
 </resources>

@@ -137,6 +137,7 @@
 
     <string name="order_weight">Order weight</string>
     <string name="add_column">ستون را اضافه کنید</string>
+    <string name="navigation_favorites">مورد علاقه‌ها</string>
     <string name="navigation_tables">جدول‌ها</string>
     <string name="navigation_archived">Archived</string>
     <string name="could_not_display_column_editor">%1$s could not be displayed.</string>
@@ -157,4 +158,5 @@
     <string name="usergroup_users">کاربران</string>
     <string name="usergroup_groups">گروه ها</string>
     <string name="remove_table_from_favorites">حذف از برگزیده‌ها</string>
+    <string name="add_table_to_favorites">افزودن به برگزیده‌ها</string>
     </resources>
