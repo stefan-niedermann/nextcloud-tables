@@ -30,10 +30,9 @@ import it.niedermann.nextcloud.tables.database.model.Value;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.ColumnV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.SelectionOptionV2Dto;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.UserGroupV2Dto;
-import it.niedermann.nextcloud.tables.repository.sync.mapper.NonNullRemoteMapper;
 import it.niedermann.nextcloud.tables.repository.sync.mapper.RemoteMapper;
 
-public class ColumnV2Mapper implements NonNullRemoteMapper<ColumnV2Dto, FullColumn> {
+public class ColumnV2Mapper implements RemoteMapper<ColumnV2Dto, FullColumn> {
 
     private final RemoteMapper<SelectionOptionV2Dto, SelectionOption> selectionOptionMapper;
     private final SelectionDefaultV2Mapper selectionDefaultMapper;

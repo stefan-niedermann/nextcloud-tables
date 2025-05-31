@@ -17,10 +17,13 @@ public interface EUserGroupTypeV2Mapper extends RemoteMapper<EUserGroupTypeV2Dto
 
     @ValueMapping(source = "TEAM", target = "TEAMS")
     @ValueMapping(source = MappingConstants.ANY_REMAINING, target = MappingConstants.THROW_EXCEPTION)
+    @ValueMapping(source = MappingConstants.NULL, target = MappingConstants.THROW_EXCEPTION)
     @Override
     EUserGroupTypeV2Dto toDto(EUserGroupType entity);
 
-    @Override
     @InheritInverseConfiguration
+    @ValueMapping(source = MappingConstants.ANY_REMAINING, target = "UNKNOWN")
+    @ValueMapping(source = MappingConstants.NULL, target = "UNKNOWN")
+    @Override
     EUserGroupType toEntity(EUserGroupTypeV2Dto dto);
 }

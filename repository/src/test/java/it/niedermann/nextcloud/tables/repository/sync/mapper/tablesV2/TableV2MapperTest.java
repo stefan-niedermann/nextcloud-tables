@@ -1,6 +1,7 @@
 package it.niedermann.nextcloud.tables.repository.sync.mapper.tablesV2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -114,5 +115,35 @@ public class TableV2MapperTest {
         assertTrue(entity.getOnSharePermission().isUpdate());
         assertTrue(entity.getOnSharePermission().isDelete());
         assertTrue(entity.getOnSharePermission().isManage());
+    }
+
+    @Test
+    public void toEntity_shouldHandleNullableOnSharePermissionV2Dto() {
+
+        final var dto = new TableV2Dto(
+                4711L,
+                "foo",
+                "\uD83D\uDCCB",
+                "bar",
+                "john",
+                "John Doe",
+                "john",
+                Instant.parse("2020-02-20T10:15:30.345Z"),
+                "john",
+                Instant.parse("1999-09-09T11:19:29.999Z"),
+                true,
+                true,
+                true,
+                null
+        );
+
+        final var entity = mapper.toEntity(dto);
+
+        assertNotNull(entity.getOnSharePermission());
+        assertFalse(entity.getOnSharePermission().isRead());
+        assertFalse(entity.getOnSharePermission().isCreate());
+        assertFalse(entity.getOnSharePermission().isUpdate());
+        assertFalse(entity.getOnSharePermission().isDelete());
+        assertFalse(entity.getOnSharePermission().isManage());
     }
 }
