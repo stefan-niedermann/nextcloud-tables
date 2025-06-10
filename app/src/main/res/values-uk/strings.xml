@@ -144,6 +144,7 @@
     <string name="navigation_favorites">Із зірочкою</string>
     <string name="navigation_tables">Таблиці</string>
     <string name="navigation_applications">Застосунки</string>
+    <string name="navigation_archived">Заархівовані</string>
     <string name="could_not_display_column_editor">Неможливо показати %1$s.</string>
     <string name="choose_table_from_the_sidebar">Виберіть таблицю з бокової панелі</string>
     <string name="last_background_sync">Остання фонова синхронізація:</string>
@@ -155,6 +156,7 @@
     <string name="add_option">Додати варіант</string>
     <string name="delete_option">Вилучити опцію</string>
     <string name="experimental_feature_column_reordering">Зміна порядку стовпців є експериментальною функцією, яка може мати побічні ефекти на налаштування стовпців цієї таблиці.</string>
+    <string name="experimental_feature_column_manage">Редагування стовпців є експериментальною функціональністю, яка може мати непередбачувані побічні ефекти, наприклад, призвести до втрати даних.</string>
     <string name="column_type_is_required">Потрібно зазначити тип стовпця</string>
     <string name="unsupported_column_type">Редагування стовпця типу%1$s поки не підтримується.</string>
     <string name="unsaved_changes">Незбережені зміни</string>
@@ -166,6 +168,7 @@
     <string name="simple_loading">Завантаження…</string>
     <string name="allowed_types">Дозволені типи</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Очистити типово</string>
     <string name="usergroup_users">Користувачі</string>
     <string name="usergroup_groups">Групи</string>
     <string name="usergroup_teams">Команди</string>
