@@ -13,6 +13,7 @@
     <string name="simple_about">Относно</string>
     <string name="simple_appearance">Изглед</string>
     <string name="simple_mandatory">Задължително</string>
+    <string name="simple_description">Описание</string>
     <string name="simple_type">Тип</string>
     <string name="simple_default_value">Стойност по подразбиране</string>
     <string name="simple_max_length">Максимална дължина</string>
