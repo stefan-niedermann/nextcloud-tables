@@ -73,7 +73,7 @@
     <string name="about_app_license_button">Ver licença</string>
     <string name="about_icons_disclaimer_title">Ícones</string>
     <string name="about_icons_disclaimer_app_icon">Para o ícone original, veja %1$s.</string>
-    <string name="about_icons_disclaimer_mdi_icons">Todos os outros ícones usados por este aplicativo %1$s são feitos pela Google Inc. e licenciados sob a Licença Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Todos os outros ícones usados por este aplicativo são %1$s feitos pela Google Inc. e licenciados sob a Licença Apache 2.0.</string>
     <string name="about_icons_disclaimer_mdi">Ícones do Material Design</string>
     <string name="about_credits_tab_title">Créditos</string>
     <string name="about_contribution_tab_title">Contribuição</string>
