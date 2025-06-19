@@ -18,14 +18,19 @@
     <string name="simple_mandatory">Obowiązkowe</string>
     <string name="simple_description">Opis</string>
     <string name="simple_type">Rodzaj</string>
+    <string name="simple_subtype">Podtyp</string>
+    <string name="simple_default_value">Wartość domyślna</string>
     <string name="simple_max_length">Maks. długość</string>
     <string name="simple_min_value">Min.</string>
     <string name="simple_max_value">Maks.</string>
     <string name="simple_decimals">Ułamki dziesiętne</string>
+    <string name="simple_prefix">Przedrostek</string>
+    <string name="simple_suffix">Przyrostek</string>
     <string name="simple_label">Etykieta</string>
 
     <string name="add_table">Dodaj tabelę</string>
     <string name="add_row">Dodaj wiersz</string>
+    <string name="duplicate_row">Powiel wiersz</string>
     <string name="edit_row">Edytuj wiersz</string>
     <string name="manage_columns">Zarządzaj kolumnami</string>
     <string name="edit_column">Edytuj kolumnę</string>
@@ -138,6 +143,7 @@
     <string name="add_column">Dodaj kolumnę</string>
     <string name="navigation_favorites">Ulubione</string>
     <string name="navigation_tables">Tabele</string>
+    <string name="navigation_applications">Aplikacje</string>
     <string name="navigation_archived">Zarchiwizowane</string>
     <string name="could_not_display_column_editor">Nie można było wyświetlić %1$s.</string>
     <string name="choose_table_from_the_sidebar">Wybierz tabelę z paska bocznego</string>
@@ -145,16 +151,33 @@
     <string name="simple_disabled">wyłączony</string>
     <string name="manage_columns_subtitle">Przeciągnij i upuść, aby zmienić kolejność</string>
     <string name="text_allowed_pattern">Dozwolony wzór</string>
+    <string name="use_now_as_default">Użyj teraz jako domyślnej</string>
+    <string name="use_today_as_default">Użyj dziś jako domyślnej</string>
     <string name="add_option">Dodaj opcję</string>
     <string name="delete_option">Usuń opcję</string>
     <string name="experimental_feature_column_reordering">Zmiana kolejności kolumn to funkcja eksperymentalna, która może mieć niezamierzone skutki uboczne również w przypadku innych konfiguracji kolumn tej tabeli.</string>
+    <string name="experimental_feature_column_manage">Edycja kolumn to funkcja eksperymentalna, która może powodować nieoczekiwane skutki uboczne, w tym utratę danych.</string>
+    <string name="column_type_is_required">Typ kolumny jest wymagany.</string>
     <string name="unsupported_column_type">Edytowanie kolumn typu %1$s nie jest jeszcze obsługiwane.</string>
     <string name="unsaved_changes">Niezapisane zmiany</string>
+    <string name="unsaved_changes_details">Wykryto niezapisane zmiany. Czy chcesz je odrzucić, czy zapisać?</string>
     <string name="simple_discard">Odrzuć</string>
+    <string name="search_hint">Wklej link lub wpisz, aby wyszukać</string>
+    <string name="usergroup_hint">Wpisz, aby wyszukać</string>
+
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Wczytywanie…</string>
+    <string name="allowed_types">Dozwolone typy</string>
     <string name="simple_url">Adres URL</string>
+    <string name="clear_default">Wyczyść domyślne</string>
+    <string name="usergroup_users">Użytkownicy</string>
     <string name="usergroup_groups">Grupy</string>
     <string name="usergroup_teams">Zespoły</string>
+    <string name="select_multiple_items">Wybierz wiele elementów</string>
+    <string name="show_user_status">Pokaż status użytkownika</string>
     <string name="remove_table_from_favorites">Usuń z ulubionych</string>
     <string name="add_table_to_favorites">Dodaj do ulubionych</string>
-    </resources>
+    <string name="unarchive_table">Wyciągnij tabelę z archiwum</string>
+    <string name="archive_table">Zarchiwizuj tabelę</string>
+</resources>
