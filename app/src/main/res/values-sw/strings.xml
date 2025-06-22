@@ -1,0 +1,188 @@
+<resources>
+    <string name="app_name">Jedwali la Nextcloud</string>
+    <string name="navigation_drawer_open">Fungua droo ya kusogeza</string>
+    <string name="navigation_drawer_close">Funga droo ya kusogeza</string>
+    <string name="action_settings">Mipangilio</string>
+
+    <string name="simple_title">Kichwa cha habari</string>
+    <string name="simple_exception">Isipokuwa</string>
+    <string name="simple_save">Hifadhi</string>
+    <string name="simple_close">Funga</string>
+    <string name="simple_copy">Nakili</string>
+    <string name="simple_delete">Futa</string>
+    <string name="simple_settings">Mipangilio</string>
+    <string name="simple_about">Kuhusu</string>
+    <string name="simple_synchronization">Usawazishaji</string>
+    <string name="simple_appearance">Mwonekano</string>
+    <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">Lazima</string>
+    <string name="simple_description">Maelezo</string>
+    <string name="simple_type">Aina</string>
+    <string name="simple_subtype">Aina ndogo</string>
+    <string name="simple_default_value">Thamani ya msingi</string>
+    <string name="simple_max_length">Urefu wa juu</string>
+    <string name="simple_min_value">Kiwango cha chini</string>
+    <string name="simple_max_value">Kiwango cha juu</string>
+    <string name="simple_decimals">Desimali</string>
+    <string name="simple_prefix">Kiambishi awali</string>
+    <string name="simple_suffix">Kiambishi tamati</string>
+    <string name="simple_label">Lebo</string>
+
+    <string name="add_table">Ongeza jedwali</string>
+    <string name="add_row">Ongeza safu ulalo</string>
+    <string name="duplicate_row">Zalisha safu ulalo</string>
+    <string name="edit_row">Hariri safu ulalo</string>
+    <string name="manage_columns">Simamia safu wima</string>
+    <string name="edit_column">Hariri safu wima</string>
+    <string name="delete_column">Futa safu wima</string>
+    <string name="preferences">Vitu vya upendeleo</string>
+    <string name="import_account">Ingiza akaunti</string>
+    <string name="choose_account">Chagua akaunti</string>
+    <string name="app_logo">Logo ya program</string>
+    <string name="app_name_short">Majedwali</string>
+    <string name="manage_accounts">Simamia akaunti</string>
+    <string name="add_account">Ongeza akaunti</string>
+    <string name="edit_table">Hariri jedwali</string>
+    <string name="edit_item">Hariri %1$s</string>
+    <string name="share_table">Shirikisha jedwali</string>
+    <string name="not_implemented">Kipengele hiki bado hakijatekelezwa</string>
+    <string name="delete_table">Futa jedwali</string>
+    <string name="hint_error_appeared">Hitilafu imetokea</string>
+
+    <string name="delete_item">Futa %1$s</string>
+    <string name="delete_item_message">Hii itafuta moja kwa moja %1$s</string>
+    <string name="delete_row">Futa safu ulalo</string>
+    <string name="delete_row_message">Hii itafuta safu ulalo hii moja kwa moja</string>
+
+    <string name="about">Kuhusu</string>
+    <string name="about_version_title">Toleo</string>
+    <string name="about_version">Sasa unatumia %1$s</string>
+    <string name="about_maintainer_title">Mtunzaji</string>
+    <string name="about_developers_title">Waendelezaji</string>
+    <string name="about_translators_title">Watafsiri</string>
+    <string name="about_translators_transifex">Jamii ya Nextcloud juu ya %1$s</string>
+    <string name="about_translators_transifex_label">Transifex</string>
+    <string name="about_source_title">Msimbo wa chanzo</string>
+    <string name="about_source">Mradi huu unafanyiwa wenyeji katika GitHub: %1$s</string>
+    <string name="about_issues_title">Masuala</string>
+    <string name="about_issues">Unaweza kuripoti hitilafu, mapendekezo ya uboreshaji na maombi ya kipengele kwenye kifuatiliaji cha suala la GitHub: %1$s</string>
+    <string name="about_translate_title">Tafsiri</string>
+    <string name="about_translate">Jiunge na timu ya Nextcloud kwenye Transifex na utusaidie kutafsiri programu hii:%1$s</string>
+    <string name="about_app_license_title">Leseni ya program</string>
+    <string name="about_app_license">Programu hii imeidhinishwa chini ya GNU GENERAL PUBLIC LICENSE v3+.</string>
+    <string name="about_app_license_button">Angalia leseni</string>
+    <string name="about_icons_disclaimer_title">Aikoni</string>
+    <string name="about_icons_disclaimer_app_icon">Kwa aikoni ya asili ona %1$s</string>
+    <string name="about_icons_disclaimer_mdi_icons">Aikoni zote zaidi zinazotumiwa na programu hii ni %1$s zilizotengenezwa na Google Inc. na zimepewa leseni chini ya Leseni ya Apache 2.0.</string>
+    <string name="about_icons_disclaimer_mdi">Aikoni za nyenzo za usanifu</string>
+    <string name="about_credits_tab_title">Alama</string>
+    <string name="about_contribution_tab_title">Mchango</string>
+    <string name="about_license_tab_title">Leseni</string>
+    <string name="about_server_app_version_text">Toleo la program ya seva</string>
+
+    <string name="error_dialog_title">Oh hapana- nini sasa?</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Tafadhali jaribu kulazimisha kufunga programu na uiwashe upya. Huenda kulikuwa na muunganisho usio sahihi kwa programu ya Nextcloud.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Tatizo likiendelea, jaribu kufuta hifadhi ya programu zote mbili: Nextcloud na jedwali la Nextcloud ili kutatua suala hili.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Uboreshaji wa hifadhidata umeshindwa. Tafadhali ripoti tatizo na ufute hifadhi ili utumie programu kama kawaida.</string>
+    <string name="error_dialog_tip_clear_storage">Unaweza kufuta uhifadhi kwa kufungua maelezo ya programu na kuchagua Hifadhi → Futa hifadhi.</string>
+    <string name="error_dialog_tip_offline_no_internet">Inaonekana ulijaribu kuanzisha ulandanishi bila muunganisho wa mtandao.</string>
+    <string name="error_dialog_tip_offline_connection_refused">Muunganisho umekataliwa, tafadhali angalia kama seva yako inapatikana kupitia kivinjari.</string>
+    <string name="error_dialog_tip_offline_connection_timeout">Muda wa muunganisho umekwisha, tafadhali angalia ikiwa umeunganishwa kwenye intaneti. Hii inaweza pia kutokea wakati seva yako ina shughuli nyingi.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Ikiwa umewezesha mpangilio wa \"Sawazisha kwenye Wi-Fi pekee\", unaweza kusawazisha tu wakati umeunganishwa kwenye Wi-Fi.</string>
+    <string name="error_dialog_tip_files_force_stop">Inaonekana kuna tatizo kwenye programu yako ya Nextcloud. Tafadhali jaribu kulazimisha kusimamisha zote mbili, programu ya Nextcloud na programu ya Nextcloud Tables.</string>
+    <string name="error_dialog_tip_files_delete_storage">Ikiwa nguvu ya kuwazuia haisaidii, unaweza kujaribu kufuta uhifadhi wa programu zote mbili.</string>
+    <string name="error_dialog_timeout_instance">Hakukuwa na jibu kutoka kwa seva yako kwa muda uliotolewa. Tafadhali hakikisha mfano wako unaendelea vizuri.</string>
+    <string name="error_dialog_timeout_toggle">Angalia muunganisho wako wa mtandao. Wakati mwingine kugeuza data ya simu au Wi-Fi kuzima na kuwasha tena kunaweza kusaidia.</string>
+    <string name="error_dialog_check_server">Jibu la seva yako halikuwa sahihi. Tafadhali angalia kama unaweza kufikia programu ya Majedwali kupitia kiolesura cha wavuti.
+ </string>
+    <string name="error_dialog_check_server_logs">Kuna tatizo na usanidi wako wa Nextcloud. Tafadhali angalia faili za kumbukumbu za seva.</string>
+    <string name="error_dialog_check_maintenance">Tafadhali angalia ikiwa mfano wako wa Nextcloud hauko katika hali ya matengenezo kwa sasa.</string>
+    <string name="error_dialog_insufficient_storage">Mfano wako wa Nextcloud hauna hifadhi  iliyosalia isiyolipishwa. Tafadhali futa baadhi ya faili ili kusawazisha mabadiliko yako ya ndani kwenye wingu lako.</string>
+    <string name="error_dialog_we_need_info">Tunahitaji maelezo yafuatayo ya kiufundi ili kukusaidia:</string>
+    <string name="error_dialog_redirect">Seva yako ilijibu kwa msimbo wa hali ya HTTP 302, ambayo ina maana, kuwa hujasakinisha programu ya majedwali kwenye seva yako au kitu kimebadilishwa vibaya. Hii inaweza kusababishwa na ubatilishaji maalum katika faili ya .htaccess au programu za Nextcloud kama vile OID Client.</string>
+    <string name="error_dialog_forbidden">Huna ruhusa za kutosha. Tafadhali angalia majedwali ambayo yameshirikishwa kwako na yamebadilishwa hivi majuzi.</string>
+    <string name="error_dialog_version_not_parsable">Hatukuweza kubainisha toleo la programu ya Majedwali ya upande wa seva. Tafadhali hakikisha kuwa imesakinishwa na kuwezeshwa.</string>
+    <string name="error_dialog_account_might_not_be_authorized">Huenda akaunti ya programu yako ya Nextcloud isiidhinishwe tena.</string>
+    <string name="error_dialog_user_not_found_in_database">Mtumiaji wa sasa halingani na mtumiaji tuliye naye kwenye hifadhidata yetu. Ikiwa unatumia LDAP kwenye mfano wako wa Nextcloud, programu yako ya Nextcloud inaweza kuwa imehifadhi kitambulisho cha zamani cha mtumiaji.</string>
+    <string name="error_dialog_capabilities_not_parsable">Hatukuweza kuleta uwezo wa seva yako. Tafadhali hakikisha seva yako inafanya kazi vizuri na programu zingine za mteja zinaweza kufikia Nextcloud.</string>
+    <string name="error_dialog_attachment_upload_failed">Kiambatisho hakikuweza kupakiwa. Tafadhali jaribu kuishirikisha kwa njia nyingine na utufahamishe kuhusu hitilafu hii.</string>
+    <string name="error_dialog_certificate">Kuna kitu kinaonekana kuwa kibaya na cheti cha seva. Tafadhali angalia akaunti zote katika programu ya Nextcloud kwa maelezo zaidi.
+ </string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Tafadhali zima uboreshaji wote wa betri kwa Nextcloud na programu ya majedwali.</string>
+    <string name="error_dialog_unknown_error">Mfano wako wa Nextcloud unaonekana kuwa haupatikani. Tafadhali angalia muunganisho wako wa intaneti na kama unaweza kuunganisha kwa mfano wako kupitia kivinjari.</string>
+    <string name="error_dialog_min_version">Jedwali ya programu ya Android inahitaji programu ya Nextcloud Android iwe angalau toleo la 3.18.</string>
+    <string name="error_action_open_app_info">Fungua taarifa za program</string>
+    <string name="error_action_open_nextcloud_app">Fungua program ya Nextcloud</string>
+    <string name="error_action_open_network">Mipangilio ya mtandao</string>
+    <string name="error_action_server_logs">Kumbukumbu za seva</string>
+    <string name="error_action_open_in_browser">Fungua katika kivinjari</string>
+    <string name="error_action_install">Sakinisha</string>
+    <string name="error_action_report_issue">Toa taarifa</string>
+    <string name="error_action_update_files_app">Sasisha</string>
+    <string name="error_action_open_battery_settings">Mipangilio ya betri</string>
+
+    <string name="welcome_text">Karibu kwenye majedwali ya Nextcloud</string>
+    <string name="importing_account">Inaingiza akaunti %1$s</string>
+    <string name="account_already_imported">Akaunti imeshaingizwa</string>
+    <string name="import_state_import_account">Inaingiza akaunti</string>
+    <string name="import_state_import_tables">Inaingiza majedwali. Hii inaweza kuchukua dakika kadhaa</string>
+    <string name="not_yet_synchronized">Bado haijasawazishwa</string>
+
+    <string name="validation_number_not_parsable">Thamani inaonekana sio nambari</string>
+    <string name="validation_number_range">Thamani lazima iwe kati ya %1$s and %2$s</string>
+    <string name="validation_number_min">Thamani lazima iwe angalau %1$s</string>
+    <string name="validation_number_max">Thamani lazima iwe zaidi ya %1$s</string>
+    <string name="validation_mandatory">Huu ni uwanja wa lazima</string>
+    <string name="validation_time_missing">Muda lazima utolewe kwa sehemu ya saa ya tarehe</string>
+
+    <string name="missing_permission_read">Inakosa ruhusa ya kusoma</string>
+    <string name="missing_permission_create">Inakosa ruhusa ya kutengeneza</string>
+    <string name="missing_permission_update">Inakosa ruhusa ya kusasisha</string>
+    <string name="missing_permission_delete">Inakosa ruhusa ya kufuta</string>
+    <string name="missing_permission_manage">Inakosa ruhusa ya kusimamia</string>
+
+    <string name="order_weight">Agiza uzito</string>
+    <string name="add_column">Ongeza safu wima</string>
+    <string name="navigation_favorites">Vipendwa</string>
+    <string name="navigation_tables">Majedwali</string>
+    <string name="navigation_applications">Maombi</string>
+    <string name="navigation_archived">Imehifadhiwa</string>
+    <string name="could_not_display_column_editor">%1$s isingeweza kuoneshwa</string>
+    <string name="choose_table_from_the_sidebar">Chagua jedwali kutoka upau wa pembeni</string>
+    <string name="last_background_sync">Usawazishaji wa mwisho wa usuli</string>
+    <string name="simple_disabled">Haikuwezeshwa</string>
+    <string name="manage_columns_subtitle">Buruta na uangushe kwenye kinasa sauti</string>
+    <string name="text_allowed_pattern">Mchoro unaoruhusiwa</string>
+    <string name="use_now_as_default">Tumia sasa kama chaguomsingi</string>
+    <string name="use_today_as_default">Tumia leo kama chaguomsingi</string>
+    <string name="add_option">Ongeza mbadala</string>
+    <string name="delete_option">Futa mbadala</string>
+    <string name="experimental_feature_column_reordering">Kupanga upya safu ni kipengele cha majaribio ambacho kinaweza kuwa na athari zisizotarajiwa kwa usanidi mwingine wa safu wima za jedwali hili pia.</string>
+    <string name="experimental_feature_column_manage">Kuhariri safu ni kipengele cha majaribio ambacho kinaweza kuwa na athari zisizotarajiwa ambazo zinaweza kusababisha upotezaji wa data.
+ 
+ 
+ </string>
+    <string name="column_type_is_required">Aina ya safu wima inahitajika</string>
+    <string name="unsupported_column_type">Kuhariri safu wima za aina ya %1$s bado hakutumiki.</string>
+    <string name="unsaved_changes">Mabadiliko yasiyohifadhiwa</string>
+    <string name="unsaved_changes_details">Mabadiliko ambayo hayajahifadhiwa yamegunduliwa. Je, ungependa kuyatupa au kuyahifadhi?</string>
+    <string name="simple_discard">Tupilia </string>
+    <string name="search_hint">Bandika kiungio au andika kutafuta</string>
+    <string name="usergroup_hint">Andika kutafuta</string>
+
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
+    <string name="simple_loading">Inapakia</string>
+    <string name="allowed_types">Aina zilizoruhusiwa</string>
+    <string name="simple_url">Url</string>
+    <string name="clear_default">Futa chaguomsingi</string>
+    <string name="usergroup_users">Watumiaji</string>
+    <string name="usergroup_groups">Makundi</string>
+    <string name="usergroup_teams">Timu</string>
+    <string name="select_multiple_items">Chagua timu nyingi</string>
+    <string name="show_user_status">Onesha hadhi ya mtumiaji</string>
+    <string name="remove_table_from_favorites">Ondoa kutoka katika pendwa</string>
+    <string name="add_table_to_favorites">Ongeza kwenye pendwa</string>
+    <string name="unarchive_table">Jedwali lisilo na kumbukumbu</string>
+    <string name="archive_table">Jedwali la kumbukumbu</string>
+</resources>
