@@ -11,10 +11,12 @@
     <string name="simple_delete">Verwijder</string>
     <string name="simple_settings">Instellingen</string>
     <string name="simple_about">Over</string>
+    <string name="simple_synchronization">Synchronisatie</string>
     <string name="simple_appearance">Uiterlijk</string>
     <string name="simple_mandatory">Verplicht</string>
     <string name="simple_description">Omschrijving</string>
     <string name="simple_type">Type</string>
+    <string name="simple_default_value">Standaard waarde</string>
     <string name="simple_max_length">Max lengte</string>
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
@@ -22,6 +24,11 @@
     <string name="simple_label">Label</string>
 
     <string name="add_table">Voeg een tabel toe</string>
+    <string name="add_row">Voeg regel toe</string>
+    <string name="duplicate_row">Dupliceer regel</string>
+    <string name="edit_row">Bewerk regel</string>
+    <string name="manage_columns">Beheer kolommen</string>
+    <string name="edit_column">Bewerk kolom</string>
     <string name="delete_column">Verwijder kolom</string>
     <string name="preferences">Voorkeuren</string>
     <string name="import_account">Importeer account</string>
@@ -30,11 +37,18 @@
     <string name="app_name_short">Tabellen</string>
     <string name="manage_accounts">Accounts beheren </string>
     <string name="add_account">Toevoegen account </string>
+    <string name="edit_table">Bewerk tabel</string>
     <string name="edit_item">Bewerk%1$s</string>
+    <string name="share_table">Deel tabel</string>
+    <string name="not_implemented">Deze functie is nog niet geïmplementeerd</string>
     <string name="delete_table">Verwijder tabel</string>
     <string name="hint_error_appeared">Er is een fout verschenen</string>
 
     <string name="delete_item">Verwijder %1$s</string>
+    <string name="delete_item_message">Dit zal %1$s permanent wissen.</string>
+    <string name="delete_row">Verwijder regel</string>
+    <string name="delete_row_message">Dit zal de regel permanent verwijderen.</string>
+
     <string name="about">Over</string>
     <string name="about_version_title">Versie</string>
     <string name="about_version">Je gebruikt nu %1$s</string>
@@ -63,26 +77,34 @@
 
     <string name="error_dialog_title">Oh nee - wat nu? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Probeer de app te sluiten en opnieuw te starten. Er was misschien een onjuiste verbinding met de Nextcloud-app.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Als het probleem zich blijft voordoen, probeer dan de opslag van beide apps te wissen: Nextcloud en Nextcloud Tables om dit probleem op te lossen.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Het upgraden van de database is mislukt. Gelieve het probleem te melden en opslagruimte vrij te maken om de app naar behoren te kunnen gebruiken.</string>
     <string name="error_dialog_tip_clear_storage">Je kunt de opslag leegmaken door in Android de app info te openen en kies dan Opslag →  Gegevens verwijderen.</string>
     <string name="error_dialog_tip_offline_no_internet">Het lijkt erop dat u een synchronisatie probeerde te starten zonder internetverbinding.</string>
     <string name="error_dialog_tip_offline_connection_refused">Verbinding werd geweigerd, controleer of uw server bereikbaar is via de webbrowser.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Verbinding verbroken, controleer of u verbonden bent met het internet. Dit kan ook gebeuren als uw server bezet is.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Als je de instelling \"Alleen synchroniseren via Wi-Fi\" hebt ingeschakeld, kun je alleen synchroniseren als je met Wi-Fi bent verbonden.</string>
+    <string name="error_dialog_tip_files_force_stop">Er lijkt iets mis te zijn met de Nextcloud-app. Probeer zowel de Nextcloud-app als de Nextcloud Tables-app geforceerd te stoppen.</string>
     <string name="error_dialog_tip_files_delete_storage">Als geforceerd afsluiten niet helpt, probeer dan van beide apps de gegevensopslag te wissen.</string>
     <string name="error_dialog_timeout_instance">Er is binnen de gestelde tijd geen reactie ontvangen van je server. Controleer alstublieft of je Nextcloud-instantie wel goed loopt.</string>
     <string name="error_dialog_timeout_toggle">Controleer je netwerk verbinding. Het kan ook helpen de dataverbinding of WIFI uit en weer aan te zetten.</string>
+    <string name="error_dialog_check_server">De reactie van de server was niet correct. Controleer of je toegang hebt tot de Tables-app via de webinterface.</string>
     <string name="error_dialog_check_server_logs">Er is iets mis met je Nextcloud instellingen. Controleer alstublieft de server log bestanden.</string>
     <string name="error_dialog_check_maintenance">Controleer alstublieft of je Nextcloud instantie momenteel niet in onderhouds-modus draait.</string>
     <string name="error_dialog_insufficient_storage">Je Nextcloud instantie heeft geen vrije ruimte meer. Verwijder alsjeblieft enkele bestanden om je lokale gegevens te kunnen synchroniseren.</string>
     <string name="error_dialog_we_need_info">We hebben de volgende technische informatie nodig om je te kunnen helpen: </string>
+    <string name="error_dialog_redirect">De server heeft gereageerd met een HTTP 302-statuscode, wat betekent dat je de Tables-app niet op de server hebt geïnstalleerd of dat er iets verkeerd is geconfigureerd. Dit kan worden veroorzaakt door aangepaste overschrijvingen in een .htaccess-bestand of door Nextcloud-apps zoals OID Client.</string>
+    <string name="error_dialog_forbidden">Je hebt onvoldoende rechten. Controleer de tabellen die met je worden gedeeld en recentelijk zijn gewijzigd.</string>
+    <string name="error_dialog_version_not_parsable">We konden de versie van de server-side Tables-app niet bepalen. Zorg ervoor dat deze is geïnstalleerd en ingeschakeld.</string>
     <string name="error_dialog_account_might_not_be_authorized">Het account van je Nextcloud-app is mogelijk niet langer geautoriseerd.</string>
     <string name="error_dialog_user_not_found_in_database">De huidige gebruiker komt niet overeen met de gebruiker die we in onze database hebben. Als je LDAP gebruikt op je Nextcloud-instantie, heeft je Nextcloud-app mogelijk een oude gebruikers-ID opgeslagen.</string>
     <string name="error_dialog_capabilities_not_parsable">We kunnen de mogelijkheden van je server niet vaststellen. Zorg ervoor dat je server goed werkt en dat andere client-apps toegang hebben tot Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Een bijlage kon niet worden opgeladen. Gelieve het op een andere manier te delen en ons in te lichten over deze fout.</string>
     <string name="error_dialog_certificate">Er lijkt iets mis te zijn met het certificaat van de server. Controleer alle accounts in de Nextcloud-app voor meer informatie.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Schakel alle batterijoptimalisaties voor Nextcloud en de Tables-app uit.</string>
     <string name="error_dialog_unknown_error">Uw Nextcloud inrichting lijkt niet bereikbaar.
 Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te maken met uw inrichting via de web browser.</string>
+    <string name="error_dialog_min_version">De Android-app Tables vereist dat de Nextcloud Android-app minimaal versie 3.18 heeft.</string>
     <string name="error_action_open_app_info">Open app-informatie</string>
     <string name="error_action_open_nextcloud_app">Open Nextcloud app</string>
     <string name="error_action_open_network">Netwerk instellingen</string>
@@ -93,21 +115,63 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="error_action_update_files_app">Update</string>
     <string name="error_action_open_battery_settings">Batterij instellingen</string>
 
+    <string name="welcome_text">Welkom bij Nextcloud Tables</string>
+    <string name="importing_account">Importeren gebruiker %1$s</string>
+    <string name="account_already_imported">Gebruiker is al geïmporteerd</string>
+    <string name="import_state_import_account">Importeren gebruiker</string>
+    <string name="import_state_import_tables">Tabellen importeren. Dit kan enkele minuten duren.</string>
+    <string name="not_yet_synchronized">Nog niet gesynchroniseerd</string>
+
+    <string name="validation_number_not_parsable">De waarde schijnt geen nummer te zijn</string>
+    <string name="validation_number_range">De waarde moet zijn tussen %1$s en %2$s</string>
+    <string name="validation_number_min">De minimale waarde moet zijn %1$s</string>
+    <string name="validation_number_max">De maximale waarde moet zijn %1$s</string>
+    <string name="validation_mandatory">Dit is een verplicht veld</string>
+    <string name="validation_time_missing">Er moet tijd worden opgegeven voor een DateTime-veld. </string>
+
+    <string name="missing_permission_read">Ontbrekende lees-toestemming</string>
+    <string name="missing_permission_create">Ontbrekende maak-permissie</string>
+    <string name="missing_permission_update">Ontbrekende vernieuw-permissie</string>
+    <string name="missing_permission_delete">Ontbrekende verwijder-permissie</string>
+    <string name="missing_permission_manage">Ontbrekende beheer-permissie</string>
+
+    <string name="order_weight">Order gewicht</string>
     <string name="add_column">Toevoegen kolom</string>
     <string name="navigation_favorites">Favorieten</string>
     <string name="navigation_tables">Tabellen</string>
+    <string name="navigation_applications">Toepassingen</string>
     <string name="navigation_archived">Gearchiveerd</string>
+    <string name="could_not_display_column_editor">%1$s kon niet worden weergegeven.</string>
+    <string name="choose_table_from_the_sidebar">Kies tabel van de zijbalk</string>
     <string name="last_background_sync">Laatste achtergrond sync:</string>
     <string name="simple_disabled">uitgeschakeld</string>
+    <string name="manage_columns_subtitle">Slepen en neerzetten om opnieuw te ordenen</string>
     <string name="text_allowed_pattern">Toegestaan patroon</string>
+    <string name="use_now_as_default">Gebruik nu als standaard</string>
+    <string name="use_today_as_default">Gebruik vandaag als standaard</string>
     <string name="add_option">Voeg een optie toe</string>
     <string name="delete_option">Verwijder optie</string>
+    <string name="experimental_feature_column_reordering">Het herschikken van kolommen is een experimentele functie die onbedoelde neveneffecten kan hebben op andere configuraties van de kolommen van deze tabel.</string>
+    <string name="experimental_feature_column_manage">Het bewerken van kolommen is een experimentele functie die onbedoelde neveneffecten kan hebben die kunnen leiden tot gegevensverlies.</string>
+    <string name="column_type_is_required">Kolomtype is verplicht</string>
+    <string name="unsupported_column_type">Bewerken van kolomtype %1$s wordt nog niet ondersteund.</string>
     <string name="unsaved_changes">Niet opgeslagen veranderingen</string>
+    <string name="unsaved_changes_details">Er zijn niet-opgeslagen wijzigingen. Wilt u deze negeren of opslaan?</string>
     <string name="simple_discard">Weggooien</string>
+    <string name="search_hint">Plak link of type om te zoeken</string>
+    <string name="usergroup_hint">Type om te zoeken</string>
+
     <string name="simple_loading">Laden…</string>
+    <string name="allowed_types">Toegestane types</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Maak standaard leeg</string>
+    <string name="usergroup_users">Gebruikers</string>
     <string name="usergroup_groups">Groepen</string>
     <string name="usergroup_teams">Teams</string>
+    <string name="select_multiple_items">Selecteer meerdere items</string>
+    <string name="show_user_status">Toon status gebruiker</string>
     <string name="remove_table_from_favorites">Verwijder uit favorieten</string>
     <string name="add_table_to_favorites">Toevoegen aan favorieten</string>
-    </resources>
+    <string name="unarchive_table">Haal tabel uit archief</string>
+    <string name="archive_table">Archiveer tabel</string>
+</resources>
