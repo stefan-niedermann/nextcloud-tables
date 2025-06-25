@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud Tables</string>
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
     <string name="action_settings">Instellingen</string>
@@ -13,14 +14,18 @@
     <string name="simple_about">Over</string>
     <string name="simple_synchronization">Synchronisatie</string>
     <string name="simple_appearance">Uiterlijk</string>
+    <string name="simple_emoji">emoji</string>
     <string name="simple_mandatory">Verplicht</string>
     <string name="simple_description">Omschrijving</string>
     <string name="simple_type">Type</string>
+    <string name="simple_subtype">Subtype</string>
     <string name="simple_default_value">Standaard waarde</string>
     <string name="simple_max_length">Max lengte</string>
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimalen</string>
+    <string name="simple_prefix">Voorvoegsel</string>
+    <string name="simple_suffix">Achtervoegsel</string>
     <string name="simple_label">Label</string>
 
     <string name="add_table">Voeg een tabel toe</string>
@@ -161,6 +166,8 @@ Controleer a.u.b. uw internet verbinding en of U in staat bent verbinding te mak
     <string name="search_hint">Plak link of type om te zoeken</string>
     <string name="usergroup_hint">Type om te zoeken</string>
 
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Laden…</string>
     <string name="allowed_types">Toegestane types</string>
     <string name="simple_url">URL</string>

@@ -18,15 +18,19 @@
     <string name="simple_mandatory">Kötelező</string>
     <string name="simple_description">Leírás</string>
     <string name="simple_type">Típus</string>
+    <string name="simple_subtype">Altípus</string>
     <string name="simple_default_value">Alapértelmezett érték</string>
     <string name="simple_max_length">Legnagyobb hossz</string>
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Számjegyek</string>
+    <string name="simple_prefix">Előtag</string>
+    <string name="simple_suffix">Utótag</string>
     <string name="simple_label">Címke</string>
 
     <string name="add_table">Táblázat hozzáadása</string>
     <string name="add_row">Sor hozzáadása</string>
+    <string name="duplicate_row">Sor megkettőzése</string>
     <string name="edit_row">Sor szerkesztése</string>
     <string name="manage_columns">Oszlopok kezelése</string>
     <string name="edit_column">Oszlop szerkesztése</string>
@@ -139,6 +143,7 @@
     <string name="add_column">Oszlop hozzáadása</string>
     <string name="navigation_favorites">Kedvencek</string>
     <string name="navigation_tables">Táblázatok</string>
+    <string name="navigation_applications">Alkalmazások</string>
     <string name="navigation_archived">Archiválva</string>
     <string name="could_not_display_column_editor">A(z) %1$s nem jeleníthető meg</string>
     <string name="choose_table_from_the_sidebar">Válasszon táblázatot az oldalsávról</string>
@@ -146,6 +151,8 @@
     <string name="simple_disabled">letiltva</string>
     <string name="manage_columns_subtitle">Húzza át az átrendezéshez</string>
     <string name="text_allowed_pattern">Engedélyezett minta</string>
+    <string name="use_now_as_default">Jelenlegi időpont használata alapértelmezésként</string>
+    <string name="use_today_as_default">Jelenlegi nap használata alapértelmezésként</string>
     <string name="add_option">Lehetőség hozzáadása</string>
     <string name="delete_option">Lehetőség törlése</string>
     <string name="experimental_feature_column_reordering">Az oszlopok újrarendezése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek a táblázat oszlopainak más beállításaira.</string>
@@ -154,7 +161,7 @@
     <string name="simple_discard">Elvetés</string>
     <string name="simple_loading">Betöltés…</string>
     <string name="allowed_types">Engedélyezett tipusok</string>
-    <string name="simple_url">URL</string>
+    <string name="simple_url">Webcím</string>
     <string name="usergroup_groups">Csoportok</string>
     <string name="usergroup_teams">Csapatok</string>
     <string name="remove_table_from_favorites">Eltávolítás a kedvencek közül</string>
