@@ -156,14 +156,28 @@
     <string name="add_option">Lehetőség hozzáadása</string>
     <string name="delete_option">Lehetőség törlése</string>
     <string name="experimental_feature_column_reordering">Az oszlopok újrarendezése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek a táblázat oszlopainak más beállításaira.</string>
+    <string name="experimental_feature_column_manage">Az oszlopok szerkesztése egy kísérleti funkció, amelynek nem kívánt mellékhatásai lehetnek, melyek adatvesztést okozhatnak.</string>
+    <string name="column_type_is_required">Oszloptípus szükséges</string>
     <string name="unsupported_column_type">A(z) %1$s típusú oszlopok szerkesztése még nem támogatott.</string>
     <string name="unsaved_changes">Mentetlen változtatások</string>
+    <string name="unsaved_changes_details">Mentetlen változtatások észlelve. Elveti vagy menti ezeket?</string>
     <string name="simple_discard">Elvetés</string>
+    <string name="search_hint">Illesszen be egy hivatkozást vagy gépeljen a kereséshez</string>
+    <string name="usergroup_hint">Gépeljen a kereséshez</string>
+
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Betöltés…</string>
     <string name="allowed_types">Engedélyezett tipusok</string>
     <string name="simple_url">Webcím</string>
+    <string name="clear_default">Alapértelmezett törlése</string>
+    <string name="usergroup_users">Felhasználók</string>
     <string name="usergroup_groups">Csoportok</string>
     <string name="usergroup_teams">Csapatok</string>
+    <string name="select_multiple_items">Több elem kijelölése</string>
+    <string name="show_user_status">Felhasználói állapot megjelenítése</string>
     <string name="remove_table_from_favorites">Eltávolítás a kedvencek közül</string>
     <string name="add_table_to_favorites">Hozzáadás a kedvencekhez </string>
-    </resources>
+    <string name="unarchive_table">Tábla archiválásának visszavonása</string>
+    <string name="archive_table">Tábla archiválása</string>
+</resources>
