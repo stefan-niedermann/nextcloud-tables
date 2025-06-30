@@ -83,16 +83,16 @@
     <string name="error_dialog_title">Hayıır. Şimdi ne olacak? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Lütfen uygulamayı zorla kapatıp yeniden başlatın. Yanlış bir Nextcloud uygulaması bağlantısı olmalı.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Sorun sürerse, çözmek için hem Nextcloud uygulamasının hem de Nextcloud Tablolar uygulamasının depolamalarını temizlemeyi deneyin.</string>
-    <string name="error_dialog_tip_database_upgrade_failed">Veritabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolamayı temizleyin.</string>
+    <string name="error_dialog_tip_database_upgrade_failed">Veri tabanı güncellenemedi. Lütfen sorunu bildirin ve uygulamayı normal şekilde kullanabilmek için depolama alanını temizleyin.</string>
     <string name="error_dialog_tip_clear_storage">Depolamayı temizlemek için uygulama bilgilerini açın ve Depolama (Hafıza) → Depolamayı temizle (Veriyi sil) seçin.</string>
     <string name="error_dialog_tip_offline_no_internet">İnternet bağlantısı olmadan bir eşitleme başlatmaya çalıştınız gibi görünüyor.</string>
     <string name="error_dialog_tip_offline_connection_refused">Bağlantı reddedildi. Lütfen sunucunuza tarayıcı üzerinden erişilebildiğinden emin olun.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Bağlantı zaman aşımına uğradı. Lütfen internete bağlı olup olmadığınızı denetleyin. Bu sorun, sunucunuz meşgul olduğunda da ortaya çıkabilir.</string>
-    <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnızca Wi-Fi ile eşitlensin\" seçeneğini etkinleştirildiğinde, yalnızca Wi-Fi bağlantısı varken eşitleme yapabilirsiniz.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">\"Yalnızca kablosuz ağ ile eşitlensin\" seçeneği açıldığında, yalnızca kablosuz ağ bağlantısı varken eşitleme yapabilirsiniz.</string>
     <string name="error_dialog_tip_files_force_stop">Nextcloud uygulamanızda bir sorun var gibi görünüyor. Lütfen hem Nextcloud uygulamasını hem de Nextcloud Tablolar uygulamasını zorla kapatmayı deneyin.</string>
     <string name="error_dialog_tip_files_delete_storage">Zorla durdurmak sorunu çözmediyse iki uygulamanın da depolamalarını temizlemeyi deneyebilirsiniz.</string>
     <string name="error_dialog_timeout_instance">Belirtilen sürede sunucunuzdan bir yanıt alınamadı. Lütfen kopyanızın düzgün çalıştığından emin olun.</string>
-    <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Bazen mobil veriye geçmek ya da Wi-Fi bağlantısını kapatıp açmak yardımcı olabilir.</string>
+    <string name="error_dialog_timeout_toggle">Ağ bağlantınızı denetleyin. Bazen mobil veriye geçmek ya da kablosuz ağ bağlantısını kapatıp açmak yardımcı olabilir.</string>
     <string name="error_dialog_check_server">Sunucunuz doğru şekilde yanıt vermedi. Lütfen Tablolar uygulamasına site arayüzü üzerinden erişebiliyor musunuz diye bakın.</string>
     <string name="error_dialog_check_server_logs">Nextcloud kurulumunuz ile ilgili bir sorun var. Lütfen sunucu günlük dosyalarını inceleyin.</string>
     <string name="error_dialog_check_maintenance">Nextcloud kopyanızın bakım kipinde olmadığından emin olun.</string>
@@ -100,7 +100,7 @@
     <string name="error_dialog_we_need_info">Size yardımcı olabilmemiz için şu teknik bilgilere gerek duyacağız:</string>
     <string name="error_dialog_redirect">Sunucunuz, üzerine Tablolar uygulamasının kurulmadığı ya da bir şeyin yanlış yapılandırıldığı anlamına gelen HTTP 302 durum kodu ile yanıt verdi. Bu durum, bir .htaccess dosyasındaki özel kısıtlamalardan ya da OID İstemcisi gibi Nextcloud uygulamalarından kaynaklanabilir.</string>
     <string name="error_dialog_forbidden">İzinleriniz yetersiz. Lütfen sizinle paylaşılmış ve kısa süre önce değiştirilmiş tabloları denetleyin.</string>
-    <string name="error_dialog_version_not_parsable">Sunucu tarafındaki Tablolar uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve etkinleştirilmiş olduğundan emin olun.</string>
+    <string name="error_dialog_version_not_parsable">Sunucu tarafındaki Tablolar uygulamasının sürümü belirlenemedi. Lütfen kurulmuş ve kullanıma alınmış olduğundan emin olun.</string>
     <string name="error_dialog_account_might_not_be_authorized">Nextcloud uygulamanızın hesabına artık izin verilmiyor olabilir.</string>
     <string name="error_dialog_user_not_found_in_database">Geçerli kullanıcı veri tabanımızdaki kullanıcı ile eşleşmiyor. Nextcloud kopyanızda LDAP kullanıyorsanız, Nextcloud uygulamanızda eski bir kullanıcı kimliği kayıtlı olabilir.</string>
     <string name="error_dialog_capabilities_not_parsable">Sunucunuzun özellikleri alınamadı. Lütfen sunucunuzun düzgün çalışır durumda olduğundan ve diğer istemci uygulamalarının Nextcloud sunucusuna erişebildiğinden emin olun.</string>
@@ -148,7 +148,7 @@
     <string name="could_not_display_column_editor">%1$s görüntülenemedi.</string>
     <string name="choose_table_from_the_sidebar">Yan çubuktan tabloyu seçin</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
-    <string name="simple_disabled">devre dışı</string>
+    <string name="simple_disabled">kullanılmıyor</string>
     <string name="manage_columns_subtitle">Sıralamak için sürükleyip bırakın</string>
     <string name="text_allowed_pattern">İzin verilen model</string>
     <string name="use_now_as_default">Varsayılan olarak şimdi kullanılsın</string>
@@ -156,6 +156,7 @@
     <string name="add_option">Seçenek ekle</string>
     <string name="delete_option">Seçeneği sil</string>
     <string name="experimental_feature_column_reordering">Sütun sırasını değiştirmek henüz deneysel bir özelliktir ve bu tablonun sütunlarının diğer yapılandırmalarında istenmeyen yan etkileri olabilir.</string>
+    <string name="experimental_feature_column_manage">Sütunları düzenlemek, veri kaybına neden olabilecek istenmeyen yan etkilere yol açabilecek deneysel bir özelliktir.</string>
     <string name="column_type_is_required">Sütun türünün belirtilmesi zorunludur</string>
     <string name="unsupported_column_type">%1$s türündeki sütunların düzenlenmesi henüz desteklenmiyor.</string>
     <string name="unsaved_changes">Kaydedilmemiş değişiklikler</string>
@@ -169,6 +170,7 @@
     <string name="simple_loading">Yükleniyor…</string>
     <string name="allowed_types">İzin verilen türler</string>
     <string name="simple_url">Adres</string>
+    <string name="clear_default">Varsayılanı temizle</string>
     <string name="usergroup_users">Kullanıcılar</string>
     <string name="usergroup_groups">Gruplar</string>
     <string name="usergroup_teams">Takımlar</string>
