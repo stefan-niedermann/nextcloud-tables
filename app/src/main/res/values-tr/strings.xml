@@ -146,7 +146,7 @@
     <string name="navigation_applications">Uygulamalar</string>
     <string name="navigation_archived">Arşivlenmiş</string>
     <string name="could_not_display_column_editor">%1$s görüntülenemedi.</string>
-    <string name="choose_table_from_the_sidebar">Yan çubuktan tabloyu seçin</string>
+    <string name="choose_table_from_the_sidebar">Kenar çubuğundan tabloyu seçin</string>
     <string name="last_background_sync">Son arka planda eşitleme:</string>
     <string name="simple_disabled">kullanılmıyor</string>
     <string name="manage_columns_subtitle">Sıralamak için sürükleyip bırakın</string>
