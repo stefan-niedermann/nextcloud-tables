@@ -88,4 +88,5 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Pengguna</string>
     <string name="usergroup_groups">Grup</string>
+    <string name="remove_table_from_favorites">Hapus dari favorit</string>
     </resources>
