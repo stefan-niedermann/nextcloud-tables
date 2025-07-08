@@ -18,6 +18,7 @@
     <string name="simple_mandatory">Nahitaezkoa</string>
     <string name="simple_description">Deskripzioa</string>
     <string name="simple_type">Mota</string>
+    <string name="simple_subtype">Azpi-mota</string>
     <string name="simple_default_value">Balio lehenetsia</string>
     <string name="simple_max_length">Luzera maximoa</string>
     <string name="simple_min_value">Min</string>
@@ -29,6 +30,7 @@
 
     <string name="add_table">Gehitu taula</string>
     <string name="add_row">Gehitu errenkada</string>
+    <string name="duplicate_row">Bikoiztu errenkada</string>
     <string name="edit_row">Editatu errenkada</string>
     <string name="manage_columns">Kudeatu zutabeak</string>
     <string name="edit_column">Editatu zutabea</string>
@@ -149,6 +151,8 @@
     <string name="simple_disabled">desgaituta</string>
     <string name="manage_columns_subtitle">Arrastatu eta utzi ordenatzeko</string>
     <string name="text_allowed_pattern">Baimendutako eredua</string>
+    <string name="use_now_as_default">Erabili orain lehenetsi gisa</string>
+    <string name="use_today_as_default">Erabili gaur lehenetsi gisa</string>
     <string name="add_option">Gehitu aukera</string>
     <string name="delete_option">Ezabatu aukera</string>
     <string name="experimental_feature_column_reordering">Zutabeak ordenatzea ezaugarri esperimentala da eta ustekabeko efektuak izan ditzake taula honetako beste zutabeen konfigurazioan ere.</string>
