@@ -100,7 +100,7 @@
     <string name="error_dialog_we_need_info">Me vajame sinult järgnevat tehnilist teavet:</string>
     <string name="error_dialog_redirect">Sinu server vastas päringule http-protokolli olekukukoodiga 302, mis tähendab, et kas serverisse on paigaldamata Tabelite rakendus või mõni seadistus on vigane. Samuti võib seda põhjustada .htaccess faili eraldi tehtud muudatused  või Nextcloudi rakendused nagu OID Klient.</string>
     <string name="error_dialog_forbidden">Sul pole piisavalt õigusi. Palun kontrolli tabeleid, mis on sulle jagatud ning mida on hiljuti muudetud.</string>
-    <string name="error_dialog_version_not_parsable">Mei suutnud serverpoolse Tabelite rakenduse versiooni tuvastada. Palun kontrolli, et ta oleks paigaldatud ja sisse lülitatud.</string>
+    <string name="error_dialog_version_not_parsable">Me ei suutnud serverpoolse Tabelite rakenduse versiooni tuvastada. Palun kontrolli, et ta oleks paigaldatud ja sisse lülitatud.</string>
     <string name="error_dialog_account_might_not_be_authorized">Sinu Nextcloudi rakenduse kasutajakonto autoriseerimine võib olla lõppenud.</string>
     <string name="error_dialog_user_not_found_in_database">Praegune kasutajanimi ei vasta sellele mis meil on andmebaasis kirjas. Kui kasutad oma Nextcloudi serveris LDAP-i teenust, siis võib sinu Nextcloudi rakenduses veel kirjas olla vana kasutajatunnus.</string>
     <string name="error_dialog_capabilities_not_parsable">Me ei suutnud laadida sinu serveri võimekuse teavet. Palun kontrolli, kas sinu server ikka toimib korralikult ja muud klientrakendused saavad ligi Nextcloudi teenustele.</string>
