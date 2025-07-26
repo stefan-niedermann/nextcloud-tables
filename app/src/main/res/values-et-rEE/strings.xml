@@ -80,7 +80,7 @@
     <string name="about_license_tab_title">Litsents</string>
     <string name="about_server_app_version_text">Serverirakenduse versioon:</string>
 
-    <string name="error_dialog_title">Appikine, mis nüüd saab? 🙁</string>
+    <string name="error_dialog_title">Appikene, mis nüüd saab? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Palun  proovi sundkorras rakendus kinni panna ja siis uuesti käivitada. Tegemist võis olla ühenduse veaga Nextcloudi serveri ja rakenduse vahel.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Kui probleem jätkub, siis proovi selle lahendamiseks tühjendada mõlema rakenduse andmeruumid: Nextcloud ja Nextcloudi Tabelid.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Ei õnnestunud uuendada andmebaasi. Palun teata sellest veast arendajatele ning rakenduse tavapäraseks kasutamiseks kustuta andmeruum.</string>
