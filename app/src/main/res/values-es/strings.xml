@@ -98,7 +98,7 @@
     <string name="error_dialog_check_maintenance">Por favor, compruebe que su instancia Nextcloud no este actualmente en modo de mantenimiento.</string>
     <string name="error_dialog_insufficient_storage">Su instancia de Nextcloud no tiene espacio libre de almacenamiento. Por favor, elimine algunos archivos para sincronizar sus cambios locales en su nube.</string>
     <string name="error_dialog_we_need_info">Necesitamos la siguiente información técnica para ayudarle:</string>
-    <string name="error_dialog_redirect">Su servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Tablas en su servidor o que algo está mal configurado. Esto puede estar causado por anulaciones personalizadas en un archivo .htaccess o por aplicaciones de Nextcloud tales como OID Client.</string>
+    <string name="error_dialog_redirect">Su servidor respondió con el código de estado HTTP 302, lo que implica que no está instalada la aplicación Tablas en su servidor o que algo está mal configurado. Esto puede estar causado por cambios personalizadas en un archivo .htaccess o por aplicaciones de Nextcloud tales como OID Client.</string>
     <string name="error_dialog_forbidden">No tiene permisos suficientes. Por favor, verifique cuales tablas están compartidas con Ud. y si han tenido cambios recientes.</string>
     <string name="error_dialog_version_not_parsable">No se pudo determinar la versión de la aplicación Tablas del lado del servidor. Por favor, compruebe que está instalada y activada.</string>
     <string name="error_dialog_account_might_not_be_authorized">La cuenta de su app Nextcloud podría ya no estar autorizada.</string>
