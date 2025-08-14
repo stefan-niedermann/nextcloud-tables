@@ -85,7 +85,7 @@
     <string name="error_dialog_tip_clear_storage_might_help">Si el problema persiste, intente borrar el almacenamiento de ambas aplicaciones: Nextcloud y Tablas de Nextcloud para solucionar este problema.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Falló al actualizar la base de datos. Por favor, informe del problema y limpie el almacenamiento para usar la aplicación de manera normal.</string>
     <string name="error_dialog_tip_clear_storage">Puede limpiar el almacenamiento abriendo la información de la app y seleccionando Almacenamiento → Eliminar datos.</string>
-    <string name="error_dialog_tip_offline_no_internet">Parece que ha intentado lanzar una sincronización sin tener conexión a internet.</string>
+    <string name="error_dialog_tip_offline_no_internet">Parece que ha intentado iniciar una sincronización sin tener conexión a internet.</string>
     <string name="error_dialog_tip_offline_connection_refused">La conexión ha sido rechazada, por favor, compruebe si puede alcanzar su servidor usando un navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">La conexión ha excedido el tiempo de espera, por favor, compruebe si está conectado a internet. Esto también puede ocurrir cuando su servidor está ocupado.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Si ha habilitado \"Sincronizar solo con Wi-Fi\", solo podrá sincronizar cuando esté conectado a una Wi-Fi.</string>

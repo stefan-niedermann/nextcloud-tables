@@ -154,6 +154,7 @@
     <string name="simple_loading">Caricamento…</string>
     <string name="simple_url">URL</string>
     <string name="usergroup_groups">Gruppi</string>
+    <string name="usergroup_teams">Team</string>
     <string name="remove_table_from_favorites">Rimuovi dai preferiti</string>
     <string name="add_table_to_favorites">Aggiungi ai preferiti</string>
     </resources>
