@@ -18,12 +18,19 @@
     <string name="simple_mandatory">Обязательный</string>
     <string name="simple_description">Описание</string>
     <string name="simple_type">Тип</string>
+    <string name="simple_subtype">Подтип</string>
     <string name="simple_default_value">Значение по умолчанию</string>
+    <string name="simple_max_length">Максимальная длина</string>
+    <string name="simple_min_value">Минимум</string>
     <string name="simple_max_value">Макс</string>
+    <string name="simple_decimals">Десятичные дроби</string>
+    <string name="simple_prefix">Префикс</string>
+    <string name="simple_suffix">Суффикс</string>
     <string name="simple_label">Метка</string>
 
     <string name="add_table">Добавить таблицу</string>
     <string name="add_row">Добавить строку</string>
+    <string name="duplicate_row">Дублировать строку</string>
     <string name="edit_row">Изменить строку</string>
     <string name="manage_columns">Управление столбцами</string>
     <string name="edit_column">Изменить столбец</string>
@@ -136,23 +143,39 @@
     <string name="add_column">Добавить стопку</string>
     <string name="navigation_favorites">Избранное</string>
     <string name="navigation_tables">Таблицы</string>
+    <string name="navigation_applications">Приложения</string>
     <string name="navigation_archived">В архиве</string>
     <string name="could_not_display_column_editor">Не удалось отобразить %1$s.</string>
     <string name="choose_table_from_the_sidebar">Выберите таблицу из боковой панели</string>
     <string name="last_background_sync">Последняя фоновая синхронизация:</string>
     <string name="simple_disabled">отключено</string>
     <string name="manage_columns_subtitle">Перетащите, чтобы изменить порядок</string>
+    <string name="text_allowed_pattern">Разрешенный паттерн</string>
+    <string name="use_now_as_default">Использовать по-умолчанию</string>
+    <string name="use_today_as_default">Использовать сегодняшнее как по-умолчанию</string>
     <string name="add_option">Добавить вариант</string>
     <string name="delete_option">Удалить вариант</string>
     <string name="experimental_feature_column_reordering">Изменение порядка столбцов - это экспериментальная функция, которая может иметь непреднамеренные побочные эффекты и для других конфигураций столбцов этой таблицы.</string>
+    <string name="experimental_feature_column_manage">Редактирование колонок является экспериментальной возможностью, у которой могут быть непреднамеренные последствия, могущие привести к потере данных.</string>
+    <string name="column_type_is_required">Требуется тип колонки</string>
     <string name="unsupported_column_type">Редактирование столбцов типа %1$s еще не поддерживается.</string>
     <string name="unsaved_changes">Несохранённые изменения</string>
+    <string name="unsaved_changes_details">Обнаружены несохраненные изменения. Вы хотите удалить или сохранить их?</string>
     <string name="simple_discard">Отмена</string>
+    <string name="search_hint">Вставьте ссылку или напишите для поиска</string>
+    <string name="usergroup_hint">Напишите для поиска</string>
+
     <string name="simple_loading">Загрузка…</string>
     <string name="allowed_types">Разрешенные типы</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Удалить стандартные</string>
+    <string name="usergroup_users">Пользователи</string>
     <string name="usergroup_groups">Группы</string>
     <string name="usergroup_teams">Команды</string>
+    <string name="select_multiple_items">Выберите несколько элементов</string>
+    <string name="show_user_status">Показать статус пользователя</string>
     <string name="remove_table_from_favorites">Убрать из избранного</string>
     <string name="add_table_to_favorites">Добавить в избранное</string>
-    </resources>
+    <string name="unarchive_table">Разархивировать таблицу</string>
+    <string name="archive_table">Архивировать таблицу</string>
+</resources>
