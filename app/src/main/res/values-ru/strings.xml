@@ -165,6 +165,8 @@
     <string name="search_hint">Вставьте ссылку или напишите для поиска</string>
     <string name="usergroup_hint">Напишите для поиска</string>
 
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Загрузка…</string>
     <string name="allowed_types">Разрешенные типы</string>
     <string name="simple_url">URL</string>
