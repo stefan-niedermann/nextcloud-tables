@@ -156,11 +156,12 @@
     <string name="add_option">Engadir unha opción</string>
     <string name="delete_option">Eliminar opción</string>
     <string name="experimental_feature_column_reordering">A reordenación de columnas é unha función experimental que tamén pode ter efectos secundarios non desexados para outras configuracións das columnas desta táboa.</string>
+    <string name="experimental_feature_column_manage">A edición de columnas é unha función experimental que pode ter efectos secundarios non desexados que poden provocar a perda de datos.</string>
     <string name="column_type_is_required">Precisase do tipo de columna</string>
     <string name="unsupported_column_type">Aínda non se admite a edición de columnas de tipo %1$s.</string>
     <string name="unsaved_changes">Cambios sen gardar</string>
     <string name="unsaved_changes_details">Detectáronse cambios sen gardar. Quere desbotalos ou gardalos?</string>
-    <string name="simple_discard">Desbortar</string>
+    <string name="simple_discard">Desbotar</string>
     <string name="search_hint">Pegue unha ligazón ou escriba para buscar</string>
     <string name="usergroup_hint">Escriba para buscar</string>
 
@@ -169,6 +170,7 @@
     <string name="simple_loading">Cargando…</string>
     <string name="allowed_types">Tipos permitidos</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Limpar o predeterminado</string>
     <string name="usergroup_users">Usuarios</string>
     <string name="usergroup_groups">Grupos</string>
     <string name="usergroup_teams">Equipos</string>
