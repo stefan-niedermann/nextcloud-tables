@@ -94,7 +94,7 @@
     <string name="error_dialog_timeout_instance">Le serveur n’a pas répondu dans le temps imparti. Assurez-vous que votre instance fonctionne correctement.</string>
     <string name="error_dialog_timeout_toggle">Vérifiez votre connexion réseau. L\'activation et la désactivation des données mobiles ou du Wi-Fi peuvent aider.</string>
     <string name="error_dialog_check_server">La réponse de votre serveur n\'était pas correcte. Veuillez vérifier si vous pouvez accéder à l\'application Tables via l\'interface web.</string>
-    <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Veuillez consulter les fichiers journaux du serveur.</string>
+    <string name="error_dialog_check_server_logs">Il y a un problème avec votre configuration Nextcloud. Veuillez consulter les logs du serveur.</string>
     <string name="error_dialog_check_maintenance">Veuillez vérifier que votre instance Nextcloud n\'est pas en mode maintenance actuellement.</string>
     <string name="error_dialog_insufficient_storage">Votre instance Nextcloud n\'a plus d\'espace disponible. Veuillez supprimer certains fichiers pour pouvoir synchroniser vos modifications locales dans votre cloud.</string>
     <string name="error_dialog_we_need_info">Nous avons besoin des informations techniques suivantes afin de vous aider :</string>
@@ -112,7 +112,7 @@
     <string name="error_action_open_app_info">Ouvrir les informations de l\'application</string>
     <string name="error_action_open_nextcloud_app">Ouvrir l\'application Nextcloud</string>
     <string name="error_action_open_network">Paramètres réseau</string>
-    <string name="error_action_server_logs">Journaux serveur</string>
+    <string name="error_action_server_logs">Logs serveur</string>
     <string name="error_action_open_in_browser">Ouvrir dans le navigateur</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Rapport</string>
