@@ -116,7 +116,7 @@
     <string name="error_action_open_in_browser">Åbn i browser</string>
     <string name="error_action_install">Installer</string>
     <string name="error_action_report_issue">Rapport</string>
-    <string name="error_action_update_files_app">Opdater</string>
+    <string name="error_action_update_files_app">Opdatér</string>
     <string name="error_action_open_battery_settings">Batteriindstillinger</string>
 
     <string name="welcome_text">Velkommen til Nextcloud tabeller</string>
