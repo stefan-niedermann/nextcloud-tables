@@ -143,6 +143,8 @@
     <string name="add_column">Ustun qo\'shish</string>
     <string name="navigation_favorites">Sevimlilar</string>
     <string name="navigation_tables">Jadvallar</string>
+    <string name="navigation_applications">Ilovalar</string>
+    <string name="navigation_archived">Arxivlangan</string>
     <string name="could_not_display_column_editor">%1$s ko‘rsatilmadi.</string>
     <string name="choose_table_from_the_sidebar">Yon paneldan jadvalni tanlang</string>
     <string name="last_background_sync">Oxirgi fon sinxronlash:</string>
@@ -165,9 +167,15 @@
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Yuklanmoqda...</string>
+    <string name="allowed_types">Ruxsat etilgan turlar</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Standartni tozalash</string>
     <string name="usergroup_users">Foydalanuvchilar</string>
     <string name="usergroup_groups">Groups</string>
+    <string name="usergroup_teams">Jamoalar</string>
+    <string name="select_multiple_items">Bir nechta elementni tanlang</string>
     <string name="remove_table_from_favorites">Sevimlilardan olib tashlang</string>
     <string name="add_table_to_favorites">Sevimlilarga qo\'shing</string>
-    </resources>
+    <string name="unarchive_table">Jadvalni arxivdan chiqarish</string>
+    <string name="archive_table">Arxiv jadvali</string>
+</resources>
