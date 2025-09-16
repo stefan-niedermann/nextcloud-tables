@@ -156,6 +156,7 @@
     <string name="add_option">Variant qo\'shish</string>
     <string name="delete_option">O\'chirish opsiyasi</string>
     <string name="experimental_feature_column_reordering">Ustunlarni qayta tartiblash eksperimental xususiyat bo\'lib, ushbu jadval ustunlarining boshqa konfiguratsiyalariga ham kutilmagan nojo\'ya ta\'sir ko\'rsatishi mumkin.</string>
+    <string name="experimental_feature_column_manage">Ustunlarni tahrirlash - bu ma\'lumotlar yo\'qolishiga olib kelishi mumkin bo\'lgan kutilmagan nojo\'ya ta\'sirlarga ega bo\'lishi mumkin bo\'lgan eksperimental xususiyatdir.</string>
     <string name="column_type_is_required">Ustun turi talab qilinadi</string>
     <string name="unsupported_column_type"> %1$s .turidagi ustunlarni tahrirlash hali qo‘llab-quvvatlanmaydi.</string>
     <string name="unsaved_changes">Saqlanmagan o\'zgarishlar</string>
@@ -174,6 +175,7 @@
     <string name="usergroup_groups">Groups</string>
     <string name="usergroup_teams">Jamoalar</string>
     <string name="select_multiple_items">Bir nechta elementni tanlang</string>
+    <string name="show_user_status">Foydalanuvchi holatini ko\'rsatish</string>
     <string name="remove_table_from_favorites">Sevimlilardan olib tashlang</string>
     <string name="add_table_to_favorites">Sevimlilarga qo\'shing</string>
     <string name="unarchive_table">Jadvalni arxivdan chiqarish</string>
