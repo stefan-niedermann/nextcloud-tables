@@ -143,6 +143,7 @@
     <string name="add_column">Tilføj kolonne</string>
     <string name="navigation_favorites">Favoritter</string>
     <string name="navigation_tables">Tabeller</string>
+    <string name="navigation_applications">ApplikationerApplikationer</string>
     <string name="navigation_archived">Arkiveret</string>
     <string name="could_not_display_column_editor">%1$s kunne ikke vises.</string>
     <string name="choose_table_from_the_sidebar">Vælg tabel fra sidebjælken</string>
@@ -155,6 +156,7 @@
     <string name="add_option">Tilføj valg</string>
     <string name="delete_option">Slet valg</string>
     <string name="experimental_feature_column_reordering">Sortering af kolonner er en eksperimentel funktion som kan have uønskede effekter på andre konfigurationer for kolonnerne i denne tabel.</string>
+    <string name="experimental_feature_column_manage">Redigering af kolonner er en eksperimentel funktion, som kan have utilsigtede effekter, som kan resultere i datatab.</string>
     <string name="column_type_is_required">Kolonnetype er krævet</string>
     <string name="unsupported_column_type">Redigering af kolonner af typen %1$s er endnu ikke understøttet.</string>
     <string name="unsaved_changes">Ikke gemte ændringer</string>
@@ -168,8 +170,14 @@
     <string name="simple_loading">Indlæser…</string>
     <string name="allowed_types">Tilladte typer</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">Ryd standard</string>
+    <string name="usergroup_users">Brugere</string>
     <string name="usergroup_groups">Grupper</string>
     <string name="usergroup_teams">Teams</string>
+    <string name="select_multiple_items">Vælg multiple elementer</string>
+    <string name="show_user_status">Vis brugerstatus</string>
     <string name="remove_table_from_favorites">Fjern fra favoritter</string>
     <string name="add_table_to_favorites">Tilføj til favoritter</string>
-    </resources>
+    <string name="unarchive_table">Pak tabel ud</string>
+    <string name="archive_table">Arkiver tabel</string>
+</resources>
