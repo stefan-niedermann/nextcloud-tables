@@ -20,6 +20,7 @@
     <string name="simple_min_value">Ελάχιστο</string>
     <string name="simple_max_value">Μέγιστο</string>
     <string name="simple_decimals">Δεκαδικά ψηφία</string>
+    <string name="simple_prefix">Πρόθεμα</string>
     <string name="simple_suffix">Επίθεμα</string>
     <string name="simple_label">Ετικέτα</string>
 
