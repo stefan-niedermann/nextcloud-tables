@@ -115,6 +115,8 @@
     <string name="usergroup_users">Χρήστες</string>
     <string name="usergroup_groups">Ομάδες</string>
     <string name="usergroup_teams">Ομάδες</string>
+    <string name="select_multiple_items">Επιλογή πολλαπλών στοιχείων</string>
+    <string name="show_user_status">Εμφάνιση κατάστασης χρήστη</string>
     <string name="remove_table_from_favorites">Αφαίρεση από τα αγαπημένα</string>
     <string name="add_table_to_favorites">Προσθήκη στα αγαπημένα</string>
     <string name="unarchive_table">Αποαρχειοθέτηση πίνακα</string>
