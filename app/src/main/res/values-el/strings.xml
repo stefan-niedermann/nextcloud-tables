@@ -87,6 +87,7 @@
     <string name="error_dialog_capabilities_not_parsable">Δεν ήταν δυνατός ο έλεγχος των δυνατοτήτων του διακομιστή σας. Βεβαιωθείτε ότι ο διακομιστής σας λειτουργεί σωστά και οι εφαρμογές έχουν πρόσβαση στο Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Δεν ήταν δυνατή η μεταφόρτωση ενός συνημμένου. Προσπαθήστε να το διαμοιράσετε με άλλο τρόπο και ενημερώστε μας σχετικά με το σφάλμα.</string>
     <string name="error_dialog_certificate">Φαίνεται ότι κάτι δεν πάει καλά με το πιστοποιητικό του διακομιστή. Ελέγξτε όλους τους λογαριασμούς στην εφαρμογή Nextcloud για περισσότερες πληροφορίες.</string>
+    <string name="error_dialog_unknown_error">Η εφαρμογή Nextcloud δεν φαίνεται να είναι προσβάσιμη. Ελέγξτε τη σύνδεσή σας στο διαδίκτυο και αν μπορείτε να συνδεθείτε στην εφαρμογή μέσω του προγράμματος περιήγησης.</string>
     <string name="error_action_open_app_info">Πληροφορίες εφαρμογής</string>
     <string name="error_action_open_nextcloud_app">Άνοιγμα εφαρμογής Nextcloud</string>
     <string name="error_action_open_network">Ρυθμίσεις δικτύου</string>
