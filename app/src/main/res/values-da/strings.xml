@@ -8,7 +8,7 @@
     <string name="simple_exception">Undtagelse</string>
     <string name="simple_save">Gem</string>
     <string name="simple_close">Luk</string>
-    <string name="simple_copy">Kopier</string>
+    <string name="simple_copy">Kopiér</string>
     <string name="simple_delete">Slet</string>
     <string name="simple_settings">Indstillinger</string>
     <string name="simple_about">Om</string>
@@ -31,9 +31,9 @@
     <string name="add_table">Tilføj tabel</string>
     <string name="add_row">Tilføj række</string>
     <string name="duplicate_row">Dupliker række</string>
-    <string name="edit_row">Rediger række</string>
+    <string name="edit_row">Redigér række</string>
     <string name="manage_columns">Administrer kolonner</string>
-    <string name="edit_column">Rediger kolonne</string>
+    <string name="edit_column">Redigér kolonne</string>
     <string name="delete_column">Slet kolonne</string>
     <string name="preferences">Indstillinger</string>
     <string name="import_account">Importér konto</string>
@@ -42,8 +42,8 @@
     <string name="app_name_short">Tabeller</string>
     <string name="manage_accounts">Administrer konti</string>
     <string name="add_account">Tilføj konto</string>
-    <string name="edit_table">Rediger tabel</string>
-    <string name="edit_item">Rediger %1$s</string>
+    <string name="edit_table">Redigér tabel</string>
+    <string name="edit_item">Redigér %1$s</string>
     <string name="share_table">Del tabel</string>
     <string name="not_implemented">Denne funktion er endnu ikke implementeret</string>
     <string name="delete_table">Slet tabel</string>
@@ -156,7 +156,7 @@
     <string name="add_option">Tilføj valg</string>
     <string name="delete_option">Slet valg</string>
     <string name="experimental_feature_column_reordering">Sortering af kolonner er en eksperimentel funktion som kan have uønskede effekter på andre konfigurationer for kolonnerne i denne tabel.</string>
-    <string name="experimental_feature_column_manage">Redigering af kolonner er en eksperimentel funktion, som kan have utilsigtede effekter, som kan resultere i datatab.</string>
+    <string name="experimental_feature_column_manage">Redigering af kolonner er en eksperimentel funktion, som kan have utilsigtede konsekvenser, som kan resultere i datatab.</string>
     <string name="column_type_is_required">Kolonnetype er krævet</string>
     <string name="unsupported_column_type">Redigering af kolonner af typen %1$s er endnu ikke understøttet.</string>
     <string name="unsaved_changes">Ikke gemte ændringer</string>
