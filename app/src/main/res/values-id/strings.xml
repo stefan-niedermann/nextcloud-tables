@@ -69,9 +69,11 @@
     <string name="error_dialog_capabilities_not_parsable">Kami tidak dapat memperoleh kemampuan server Anda. Pastikan server Anda berjalan dengan baik dan aplikasi klien lain dapat mengakses Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Lampiran tidak dapat diunggah. Silakan coba untuk membagikannya dengan cara lain dan beritahu kami tentang bug ini.</string>
     <string name="error_dialog_certificate">Sepertinya ada yang salah dengan sertifikat server. Silakan periksa semua akun di aplikasi Nextcloud untuk informasi lebih lanjut.</string>
+    <string name="error_dialog_unknown_error">Instance Nextcloud Anda tampaknya tidak dapat diakses. Silakan periksa koneksi internet Anda dan pastikan Anda dapat terhubung ke instance Anda melalui browser.</string>
     <string name="error_action_open_app_info">Buka Info Aplikasi</string>
     <string name="error_action_open_nextcloud_app">Buka aplikasi Nextcloud</string>
     <string name="error_action_open_network">Pengaturan jaringan</string>
+    <string name="error_action_server_logs">Log server</string>
     <string name="error_action_open_in_browser">Buka di peramban</string>
     <string name="error_action_install">Pasang</string>
     <string name="error_action_report_issue">Laporan</string>
