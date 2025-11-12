@@ -18,12 +18,19 @@
     <string name="simple_mandatory">必填项</string>
     <string name="simple_description">描述</string>
     <string name="simple_type">类型</string>
+    <string name="simple_subtype">子类型</string>
+    <string name="simple_default_value">默认值</string>
+    <string name="simple_max_length">最大长度</string>
+    <string name="simple_min_value">最小</string>
     <string name="simple_max_value">最大值</string>
+    <string name="simple_prefix">前缀</string>
+    <string name="simple_suffix">后缀</string>
     <string name="simple_label">标签</string>
 
     <string name="add_table">添加表格</string>
     <string name="add_row">添加列</string>
     <string name="edit_row">编辑列</string>
+    <string name="manage_columns">管理列</string>
     <string name="edit_column">编辑列</string>
     <string name="delete_column">删除列</string>
     <string name="preferences">设置偏好</string>
@@ -35,11 +42,16 @@
     <string name="add_account">添加账号</string>
     <string name="edit_table">编辑表</string>
     <string name="edit_item">编辑 %1$s</string>
+    <string name="share_table">共享表</string>
+    <string name="not_implemented">此功能尚未实施</string>
     <string name="delete_table">删除表格</string>
     <string name="hint_error_appeared">发生了一个错误</string>
 
     <string name="delete_item">删除 %1$s</string>
     <string name="delete_item_message">这将永久删除 %1$s。</string>
+    <string name="delete_row">删除行</string>
+    <string name="delete_row_message">这将永久删除此行。</string>
+
     <string name="about">关于</string>
     <string name="about_version_title">版本</string>
     <string name="about_version">您正使用 %1$s</string>
