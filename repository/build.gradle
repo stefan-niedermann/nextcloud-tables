@@ -30,7 +30,7 @@ android {
 }
 
 ext {
-    version_room = '2.8.3'
+    version_room = '2.8.4'
 }
 
 dependencies {
