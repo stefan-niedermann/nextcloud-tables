@@ -157,6 +157,7 @@
     <string name="simple_url">آدرس</string>
     <string name="usergroup_users">کاربران</string>
     <string name="usergroup_groups">گروه ها</string>
+    <string name="usergroup_teams">تیم‌ها</string>
     <string name="remove_table_from_favorites">حذف از برگزیده‌ها</string>
     <string name="add_table_to_favorites">افزودن به برگزیده‌ها</string>
     </resources>
