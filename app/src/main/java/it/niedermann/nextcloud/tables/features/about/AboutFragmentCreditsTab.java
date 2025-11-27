@@ -67,7 +67,7 @@ public class AboutFragmentCreditsTab extends Fragment {
     private static class ServerVersionsAdapter extends RecyclerView.Adapter<ServerVersionsViewHolder> {
 
         @NonNull
-        private final List<Pair<String, TablesVersion>> data = new ArrayList<>(1);
+        private final List<Pair<String, TablesVersion>> accountVersions = new ArrayList<>(1);
 
         @NonNull
         @Override
@@ -78,23 +78,23 @@ public class AboutFragmentCreditsTab extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ServerVersionsViewHolder holder, int position) {
-            if (position >= data.size()) {
+            if (position >= accountVersions.size()) {
                 holder.bindPending();
             } else {
-                holder.bind(data.get(position));
+                holder.bind(accountVersions.get(position));
             }
         }
 
         @Override
         public int getItemCount() {
-            return data.size();
+            return accountVersions.size();
         }
 
         public void setData(@Nullable Collection<Pair<String, TablesVersion>> data) {
-            this.data.clear();
+            this.accountVersions.clear();
 
             if (data != null) {
-                this.data.addAll(data);
+                this.accountVersions.addAll(data);
             }
 
             this.notifyDataSetChanged();
