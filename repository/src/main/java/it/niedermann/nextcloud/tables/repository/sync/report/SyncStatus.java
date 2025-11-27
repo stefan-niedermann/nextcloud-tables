@@ -12,6 +12,7 @@ import java.util.Optional;
 import it.niedermann.nextcloud.tables.database.entity.Account;
 import it.niedermann.nextcloud.tables.database.entity.Table;
 
+import it.niedermann.nextcloud.tables.util.TableFormatter;
 public class SyncStatus {
 
     @NonNull
@@ -119,7 +120,7 @@ public class SyncStatus {
     public Collection<String> getTablesInProgress() {
         return tablesInProgress
                 .stream()
-                .map(Table::getTitleWithEmoji)
+                .map(TableFormatter::getTitleWithEmoji)
                 .toList();
     }
 

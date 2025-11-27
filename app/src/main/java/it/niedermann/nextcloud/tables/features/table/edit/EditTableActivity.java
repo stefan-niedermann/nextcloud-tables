@@ -27,6 +27,7 @@ import it.niedermann.nextcloud.tables.databinding.ActivityEditTableBinding;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
 import it.niedermann.nextcloud.tables.ui.emojipicker.EmojiPickerBottomSheet;
+import it.niedermann.nextcloud.tables.util.TableFormatter;
 
 public class EditTableActivity extends AppCompatActivity implements EmojiPickerBottomSheet.EmojiPickerListener {
 
@@ -94,7 +95,7 @@ public class EditTableActivity extends AppCompatActivity implements EmojiPickerB
 
         binding.toolbar.setTitle(table == null
                 ? getString(R.string.add_table)
-                : getString(R.string.edit_item, table.getTitleWithEmoji())
+                : getString(R.string.edit_item, TableFormatter.getTitleWithEmoji(table))
         );
     }
 

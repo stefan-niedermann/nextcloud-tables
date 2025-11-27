@@ -10,9 +10,10 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 
 import java.time.Instant;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+
+import it.niedermann.nextcloud.tables.util.TableFormatter;
 
 @Entity(
         inheritSuperIndices = true,
@@ -106,11 +107,6 @@ public class Table extends AbstractRemoteEntity {
         this.isShared = table.isShared();
         this.onSharePermission = new OnSharePermission(table.getOnSharePermission());
         this.currentRow = table.getCurrentRow();
-    }
-
-    @NonNull
-    public String getTitleWithEmoji() {
-        return String.format(Locale.getDefault(), "%s %s", getEmoji(), getTitle()).trim();
     }
 
     public boolean hasReadPermission() {
@@ -255,7 +251,7 @@ public class Table extends AbstractRemoteEntity {
     @Override
     @NonNull
     public String toString() {
-        return getTitleWithEmoji();
+        return TableFormatter.getTitleWithEmoji(this);
     }
 
     @Override
