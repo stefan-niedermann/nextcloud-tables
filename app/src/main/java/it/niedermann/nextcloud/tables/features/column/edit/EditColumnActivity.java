@@ -34,6 +34,7 @@ import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditView;
 import it.niedermann.nextcloud.tables.features.column.edit.types.ColumnEditViewFactory;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionDialogFragment;
 import it.niedermann.nextcloud.tables.features.exception.ExceptionHandler;
+import it.niedermann.nextcloud.tables.util.TableFormatter;
 
 public class EditColumnActivity extends AppCompatActivity {
 
@@ -94,7 +95,7 @@ public class EditColumnActivity extends AppCompatActivity {
             return WindowInsetsCompat.CONSUMED;
         });
 
-        binding.toolbar.setSubtitle(table.getTitleWithEmoji());
+        binding.toolbar.setSubtitle(TableFormatter.getTitleWithEmoji(table));
 
         if (fullColumn == null) {
             binding.toolbar.setTitle(R.string.add_column);
