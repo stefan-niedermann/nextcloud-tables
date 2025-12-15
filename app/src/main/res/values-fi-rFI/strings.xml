@@ -148,12 +148,20 @@
     <string name="add_option">Lisää valinta</string>
     <string name="delete_option">Poista valinta</string>
     <string name="experimental_feature_column_reordering">Sarakkeiden uudelleenjärjestäminen on kokeellinen ominaisuus, jolla voi olla odottamattomia vaikutuksia taulukon muihin sarakkeisiin.</string>
+    <string name="column_type_is_required">Sarakkeen tyyppi on pakollinen</string>
     <string name="unsupported_column_type">Tyypin %1$s sarakkeiden muokkaamista ei vielä tueta.</string>
     <string name="unsaved_changes">Tallentamattomia muutoksia</string>
+    <string name="unsaved_changes_details">Havaittiin tallentamattomia muutoksia. Haluatko hylätä vai tallentaa muutokset?</string>
     <string name="simple_discard">Hylkää</string>
+    <string name="search_hint">Liitä linkki tai kirjoita etsiäksesi</string>
+    <string name="usergroup_hint">Kirjoita etsiäksesi</string>
+
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Ladataan…</string>
     <string name="allowed_types">Sallitut tyypit</string>
     <string name="simple_url">URL-osoite</string>
+    <string name="usergroup_users">Käyttäjät</string>
     <string name="usergroup_groups">Ryhmät</string>
     <string name="usergroup_teams">Tiimit</string>
     <string name="select_multiple_items">Valitse useampia kohteita</string>
