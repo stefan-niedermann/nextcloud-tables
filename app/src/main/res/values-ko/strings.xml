@@ -11,6 +11,7 @@
     <string name="simple_copy">복사</string>
     <string name="simple_delete">삭제</string>
     <string name="simple_settings">설정</string>
+    <string name="simple_about">정보</string>
     <string name="simple_appearance">외형</string>
     <string name="simple_mandatory">필수</string>
     <string name="simple_description">설명</string>
@@ -39,6 +40,7 @@
     <string name="hint_error_appeared">오류가 나타남</string>
 
     <string name="delete_item">%1$s 삭제</string>
+    <string name="about">정보</string>
     <string name="about_version_title">버전</string>
     <string name="about_version"> 현재 %1$s사용 중</string>
     <string name="about_maintainer_title">관리자</string>
