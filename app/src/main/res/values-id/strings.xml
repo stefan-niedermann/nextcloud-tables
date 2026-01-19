@@ -3,6 +3,7 @@
     <string name="navigation_drawer_close">Tutup laci navigasi</string>
     <string name="action_settings">Setelan</string>
 
+    <string name="simple_title">Judul</string>
     <string name="simple_exception">Pengecualian</string>
     <string name="simple_save">Simpan</string>
     <string name="simple_close">Tutup</string>
@@ -14,6 +15,8 @@
     <string name="simple_description">Deskrisi</string>
     <string name="simple_type">tipe</string>
     <string name="simple_max_value">Maksimum</string>
+    <string name="simple_label">Label</string>
+
     <string name="preferences">Preferensi</string>
     <string name="choose_account">Pilih akun</string>
     <string name="app_logo">Logo aplikasi</string>
@@ -82,8 +85,11 @@
 
     <string name="navigation_favorites">Disukai</string>
     <string name="navigation_tables">Tabel</string>
+    <string name="navigation_archived">Diarsipkan</string>
     <string name="last_background_sync">Sinkronisasi latar belakang terakhir:</string>
     <string name="simple_disabled">nonaktifkan</string>
+    <string name="add_option">Tambahkan opsi</string>
+    <string name="delete_option">Hapus opsi</string>
     <string name="unsaved_changes">Perubahan belum disimpan</string>
     <string name="simple_discard">Abaikan</string>
     <string name="simple_loading">Memuat…</string>
