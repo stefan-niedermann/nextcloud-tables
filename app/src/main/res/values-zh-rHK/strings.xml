@@ -32,9 +32,9 @@
     <string name="add_row">添加一列</string>
     <string name="duplicate_row">重複列</string>
     <string name="edit_row">編輯列</string>
-    <string name="manage_columns">管理縱列</string>
-    <string name="edit_column">編輯縱列</string>
-    <string name="delete_column">刪除縱列</string>
+    <string name="manage_columns">管理直欄</string>
+    <string name="edit_column">編輯直欄</string>
+    <string name="delete_column">刪除直欄</string>
     <string name="preferences">設定</string>
     <string name="import_account">匯入帳戶</string>
     <string name="choose_account">選擇帳戶</string>
@@ -140,7 +140,7 @@
     <string name="missing_permission_manage">缺少管理權限</string>
 
     <string name="order_weight">順序權重</string>
-    <string name="add_column">添加縱列</string>
+    <string name="add_column">添加直欄</string>
     <string name="navigation_favorites">最愛</string>
     <string name="navigation_tables">數據庫表</string>
     <string name="navigation_applications">應用程式</string>
@@ -157,7 +157,7 @@
     <string name="delete_option">刪除選項</string>
     <string name="experimental_feature_column_reordering">對列重新排序是一項實驗性功能，可能也會對該表的列的其他配置產生意想不到的副作用。</string>
     <string name="experimental_feature_column_manage">編輯欄位是實驗性的功能，可能會產生意想不到的副作用，導致資料遺失。</string>
-    <string name="column_type_is_required">縱列類型為必填項</string>
+    <string name="column_type_is_required">直欄類型為必填項</string>
     <string name="unsupported_column_type">尚不支援編輯 %1$s 類型的欄位</string>
     <string name="unsaved_changes">未儲存變更</string>
     <string name="unsaved_changes_details">檢測到未保存的更新。您想放棄還是保存這些更新？</string>
