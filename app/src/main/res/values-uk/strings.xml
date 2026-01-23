@@ -78,7 +78,7 @@
     <string name="about_credits_tab_title">Подяки</string>
     <string name="about_contribution_tab_title">Внесок</string>
     <string name="about_license_tab_title">Ліцензія</string>
-    <string name="about_server_app_version_text">Версія застосунку серверу:</string>
+    <string name="about_server_app_version_text">Версія застосунку сервера:</string>
 
     <string name="error_dialog_title">От халепа!</string>
     <string name="error_dialog_tip_token_mismatch_retry">Спробуйте примусово закрити застосунок та наново запустити. Можливо, встановлено неправильне з\'єднання із застосунком Nextcloud.</string>
@@ -100,12 +100,12 @@
     <string name="error_dialog_we_need_info">Нам потрібна наступна технічна інформація, щоб допомогти вам:</string>
     <string name="error_dialog_redirect">Сервер повернув код стану HTTP 302. Це означає, що у вашій хмарі не встановлено застосунок Таблиці або ви маєте недійсні налаштування. Також це може бути спричинено власними налаштуваннями у файлі .htaccess або в налаштуваннях застосунку  Nextcloud, таких як OID Client.</string>
     <string name="error_dialog_forbidden">У вас недостатні дозволи. Перевірте таблиці, якими поділилися з вами та які було нещодавно змінено.</string>
-    <string name="error_dialog_version_not_parsable">Неможливо визначити версію застосунку \"Таблиці\", встановленого на стороні серверу. Перевірте, чи його встановлено та увімкнено.</string>
+    <string name="error_dialog_version_not_parsable">Неможливо визначити версію застосунку \"Таблиці\", встановленого на стороні сервера. Перевірте, чи його встановлено та увімкнено.</string>
     <string name="error_dialog_account_might_not_be_authorized">Ймовірно, що ваш обліковий запис у застосунку Nextcloud більше не авторизовано.</string>
     <string name="error_dialog_user_not_found_in_database">Дані поточного користувача не збігаються з даними користувача у нашій базі даних. Якщо ви використовуєте LDAP у вашому примірнику Nextcloud, ваш застосунок Nextcloud міг зберегти застарілий ідентифікатор користувача.</string>
     <string name="error_dialog_capabilities_not_parsable">Не вдалося отримати дані про ваш сервер. Будь ласка, пересвідчиться, що сервер коректно працює та інші клієнтські застосунки мають доступ до хмари Nextcloud.</string>
     <string name="error_dialog_attachment_upload_failed">Неможливо долучити вкладення. Спробуйте поділитися ним в інший спосіб, а також повідомте нам про цю ваду.</string>
-    <string name="error_dialog_certificate">Ймовірно виникли проблеми з сертифікатом серверу. Перевірте всі облікові записи у застосунку Nextcloud для отримання додаткової інформації.</string>
+    <string name="error_dialog_certificate">Ймовірно виникли проблеми з сертифікатом сервера. Перевірте всі облікові записи у застосунку Nextcloud для отримання додаткової інформації.</string>
     <string name="error_dialog_tip_disable_battery_optimizations">Будь ласка, вимкніть всі оптимізації живлення батареї для застосунків Nextcloud та Таблиці Nextcloud.</string>
     <string name="error_dialog_unknown_error">Схоже, що ваша хмара Nextcloud не доступна. Будь ласка, перевірте з\'єднання з мережею, а також можливість встановити з\'єднання через бравзер.</string>
     <string name="error_dialog_min_version">Для роботи застосунку Таблиці Nextcloud потрібний астосунок Nextcloud версії 3.18 або пізнішої.</string>

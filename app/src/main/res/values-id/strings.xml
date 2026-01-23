@@ -98,4 +98,5 @@
     <string name="usergroup_groups">Grup</string>
     <string name="usergroup_teams">Tim</string>
     <string name="remove_table_from_favorites">Hapus dari favorit</string>
+    <string name="add_table_to_favorites">Tambahkan ke favorit</string>
     </resources>
