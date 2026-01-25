@@ -22,10 +22,13 @@
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>
     <string name="simple_decimals">Decimali</string>
+    <string name="simple_prefix">Prefisso</string>
+    <string name="simple_suffix">Suffisso</string>
     <string name="simple_label">Etichetta</string>
 
     <string name="add_table">Aggiungi tabella</string>
     <string name="add_row">Aggiungi riga</string>
+    <string name="duplicate_row">Duplica riga</string>
     <string name="edit_row">Modifica riga</string>
     <string name="manage_columns">Gestisci colonne</string>
     <string name="edit_column">Modifica colonna</string>
@@ -138,6 +141,7 @@
     <string name="add_column">Aggiungi colonna</string>
     <string name="navigation_favorites">Preferiti</string>
     <string name="navigation_tables">Tabelle</string>
+    <string name="navigation_applications">Applicazioni</string>
     <string name="navigation_archived">Archiviati</string>
     <string name="could_not_display_column_editor">%1$s non può essere visualizzato.</string>
     <string name="choose_table_from_the_sidebar">Scegli la tabella dalla barra laterale</string>
@@ -152,7 +156,9 @@
     <string name="unsaved_changes">Modifiche non salvate</string>
     <string name="simple_discard">Scarta</string>
     <string name="simple_loading">Caricamento…</string>
+    <string name="allowed_types">Tipi consentiti</string>
     <string name="simple_url">URL</string>
+    <string name="usergroup_users">Utenti</string>
     <string name="usergroup_groups">Gruppi</string>
     <string name="usergroup_teams">Team</string>
     <string name="remove_table_from_favorites">Rimuovi dai preferiti</string>
