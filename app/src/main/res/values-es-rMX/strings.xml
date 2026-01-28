@@ -85,6 +85,7 @@
     <string name="navigation_favorites">Favoritos</string>
     <string name="last_background_sync">Última sincronización en segundo plano:</string>
     <string name="simple_disabled">deshabilitado</string>
+    <string name="add_option">Añade una opción</string>
     <string name="unsaved_changes">Cambios no guardados</string>
     <string name="simple_discard">Descartar</string>
     <string name="simple_loading">Cargando...</string>
