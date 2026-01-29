@@ -104,7 +104,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.core:core-splashscreen:1.2.0'
     implementation "androidx.emoji2:emoji2:$version_emoji"
     implementation "androidx.emoji2:emoji2-views:$version_emoji"
     implementation 'androidx.preference:preference:1.2.1'
