@@ -102,4 +102,5 @@
     <string name="usergroup_users">Korisnici</string>
     <string name="usergroup_groups">Grupe</string>
     <string name="usergroup_teams">Timovi</string>
+    <string name="remove_table_from_favorites">Ukloni iz omiljenih</string>
     </resources>
