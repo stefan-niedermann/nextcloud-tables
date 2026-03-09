@@ -161,6 +161,7 @@
     <string name="usergroup_users">Utenti</string>
     <string name="usergroup_groups">Gruppi</string>
     <string name="usergroup_teams">Team</string>
+    <string name="select_multiple_items">Seleziona più elementi</string>
     <string name="remove_table_from_favorites">Rimuovi dai preferiti</string>
     <string name="add_table_to_favorites">Aggiungi ai preferiti</string>
     </resources>
