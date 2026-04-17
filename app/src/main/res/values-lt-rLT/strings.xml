@@ -1,26 +1,37 @@
 <resources>
-    <string name="navigation_drawer_open">Atidaryti naršymo stalčių</string>
-    <string name="navigation_drawer_close">Uždaryti naršymo stalčių</string>
+    <string name="app_name">Nextcloud Lentelės</string>
+    <string name="navigation_drawer_open">Atverti šoninį meniu</string>
+    <string name="navigation_drawer_close">Užverti šoninį meniu</string>
     <string name="action_settings">Nustatymai</string>
 
     <string name="simple_title">Pavadinimas</string>
     <string name="simple_exception">Išimtis</string>
     <string name="simple_save">Įrašyti</string>
     <string name="simple_close">Užverti</string>
-    <string name="simple_copy">Kopija</string>
+    <string name="simple_copy">Kopijuoti</string>
     <string name="simple_delete">Ištrinti</string>
     <string name="simple_settings">Nustatymai</string>
     <string name="simple_about">Apie</string>
+    <string name="simple_synchronization">Sinchronizavimas</string>
     <string name="simple_appearance">Išvaizda</string>
+    <string name="simple_emoji">Emodži</string>
     <string name="simple_mandatory">Privalomas</string>
     <string name="simple_description">Aprašas</string>
     <string name="simple_type">Tipas</string>
+    <string name="simple_subtype">Pogrupis</string>
+    <string name="simple_default_value">Numatytoji reikšmė</string>
+    <string name="simple_max_length">Maksimalus ilgis</string>
+    <string name="simple_min_value">Min</string>
+    <string name="simple_max_value">Max</string>
+    <string name="simple_decimals">Dešimtainiai skaičiai</string>
+    <string name="simple_prefix">Priešvardis</string>
+    <string name="simple_suffix">Povardis</string>
     <string name="simple_label">Etiketė</string>
 
     <string name="add_table">Pridėti lentelę</string>
     <string name="add_row">Pridėti eilutę</string>
     <string name="duplicate_row">Dubliuoti eilutę</string>
-    <string name="edit_row">Taisyti eilutę</string>
+    <string name="edit_row">Redaguoti eilutę</string>
     <string name="manage_columns">Tvarkyti stulpelius</string>
     <string name="edit_column">Taisyti stulpelį</string>
     <string name="delete_column">Ištrinti stulpelį</string>
@@ -31,14 +42,18 @@
     <string name="app_name_short">Lentelės</string>
     <string name="manage_accounts">Tvarkyti paskyras</string>
     <string name="add_account">Pridėti paskyrą</string>
-    <string name="edit_table">Taisyti lentelę</string>
-    <string name="edit_item">Taisyti %1$s</string>
+    <string name="edit_table">Redaguoti lentelę</string>
+    <string name="edit_item">Redaguoti %1$s</string>
     <string name="share_table">Bendrinti lentelę</string>
+    <string name="not_implemented">Ši funkcija dar nėra įgyvendinta</string>
     <string name="delete_table">Ištrinti lentelę</string>
     <string name="hint_error_appeared">Atsirado klaida</string>
 
     <string name="delete_item">Ištrinti %1$s</string>
+    <string name="delete_item_message">Tai bus visam laikui ištrinta %1$s.</string>
     <string name="delete_row">Ištrinti eilutę</string>
+    <string name="delete_row_message">Tai visam laikui ištrins šią eilutę.</string>
+
     <string name="about">Apie</string>
     <string name="about_version_title">Versija</string>
     <string name="about_version">Šiuo metu naudojate %1$s</string>
@@ -66,27 +81,35 @@
     <string name="about_server_app_version_text">Serverio programėlės versija:</string>
 
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programą ir vėl paleiskite ją iš naujo. Galbūt buvo nepavyko užmegžti ryšį su „Nextcloud“ programa.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programėlę ir paleisti ją iš naujo. Galbūt susidūrėte su ryšio su „Nextcloud“ programėle sutrikimu.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programėlių – Nextcloud ir Nextcloud Lentelės – saugyklą, kad ją išspręstumėte.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Duomenų bazės atnaujinimas nepavyko. Praneškite apie problemą ir išvalykite saugyklą, kad galėtumėte įprastai naudoti programą.</string>
-    <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programos nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
+    <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programėlės nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
     <string name="error_dialog_tip_offline_no_internet">Panašu, kad bandėte paleisti sinchronizavimą be interneto ryšio.</string>
     <string name="error_dialog_tip_offline_connection_refused">Ryšys buvo atmestas, patikrinkite, ar jūsų serveris pasiekiamas per žiniatinklio naršyklę.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Ryšio laikas baigėsi, patikrinkite, ar esate prisijungę prie interneto. Tai taip pat gali nutikti, kai jūsų serveris yra užimtas.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jei įjungėte nustatymą „Sinchronizuoti tik prisijungus prie „Wi-Fi““, sinchronizuoti galėsite tik tada, kai būsite prisijungę prie „Wi-Fi“ tinklo.</string>
-    <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programos sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programų saugyklas.</string>
-    <string name="error_dialog_timeout_instance">Jūsų serveris yra nepasiekiamas. Įsitikinkite, kad Jūsų programa veikia tinkamai.</string>
+    <string name="error_dialog_tip_files_force_stop">Atrodo, kad kažkas negerai su jūsų Nextcloud programėle. Pabandykite priverstinai sustabdyti abi – Nextcloud ir Nextcloud Lentelės – programėles.</string>
+    <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programėlės sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programėlių saugyklas.</string>
+    <string name="error_dialog_timeout_instance">Per nurodytą laiką iš jūsų serverio nebuvo atsakymo. Įsitikinkite, kad jūsų elementas veikia tinkamai.</string>
     <string name="error_dialog_timeout_toggle">Patikrinkite savo interneto ryšį. Kartais gali padėti išjungti ir vėl įjungti mobilųjį duomenų perdavimą arba „Wi-Fi“.</string>
-    <string name="error_dialog_check_server_logs">Kyla problemų dėl „Nextcloud“ programos nustatymų. Peržiūrėkite serverio sisteminio žurnalo įrašus.</string>
-    <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ programa šiuo metu aptarnavimo režime.</string>
-    <string name="error_dialog_insufficient_storage">„Nextcloud“ programa nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
+    <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite pasiekti Lentelės programėlę per žiniatinklio sąsają.</string>
+    <string name="error_dialog_check_server_logs">Kyla problemų dėl jūsų „Nextcloud“ nustatymų. Peržiūrėkite serverio žurnalo įrašus.</string>
+    <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ elementas šiuo metu aptarnavimo režime.</string>
+    <string name="error_dialog_insufficient_storage">„Nextcloud“ elementas nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
+    <string name="error_dialog_redirect">Jūsų serveris pateikė HTTP 302 būsenos kodą, o tai reiškia, kad serveryje neįdiegėte programėlės Lentelės arba kažkas sukonfigūruota netinkamai. Tai gali būti dėl pasirinktinių pakeitimų .htaccess faile arba Nextcloud programėlių, tokių kaip OID klientas.</string>
+    <string name="error_dialog_forbidden">Jūsų teisės yra nepakankamos. Patikrinkite lenteles, prie kurių turite prieigą ir kurios buvo neseniai pakeistos.</string>
+    <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios programėlės Lentelės versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
     <string name="error_dialog_account_might_not_be_authorized">Jūsų „Nextcloud“ programėlės paskyra gali būti nebeautorizuota.</string>
     <string name="error_dialog_user_not_found_in_database">Dabartinis vartotojas neatitinka duomenų bazėje esančio vartotojo. Jei savo „Nextcloud“ elemente naudojate LDAP, jūsų „Nextcloud“ programėlė galėjo išsaugoti seną vartotojo ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepavyko gauti jūsų serverio parametrų. Patikrinkite, ar jūsų serveris veikia tinkamai ir ar kitos kliento programėlės gali prisijungti prie „Nextcloud“.</string>
     <string name="error_dialog_attachment_upload_failed">Nepavyko įkelti priedo. Prašome pabandyti jį perduoti kitu būdu ir pranešti mums apie šią klaidą.</string>
     <string name="error_dialog_certificate">Atrodo, kad su serverio sertifikatu kažkas ne taip. Daugiau informacijos rasite patikrinę visas paskyras „Nextcloud“ programėlėje.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Prašome išjungti visas Nextcloud ir programėlės Lentelės baterijos taupymo funkcijas.</string>
     <string name="error_dialog_unknown_error">Atrodo, kad jūsų „Nextcloud“ elementas yra nepasiekiamas. Patikrinkite interneto ryšį ir ar galite prisijungti prie savo „Nextcloud“ elemento per naršyklę.</string>
-    <string name="error_action_open_app_info">Atidaryti programos informaciją</string>
+    <string name="error_dialog_min_version">Lentelės programėlei Android sistemoje reikalinga Nextcloud programėlė Android sistemoje, kurios versija turi būti ne žemesnė kaip 3.18.</string>
+    <string name="error_action_open_app_info">Atidaryti programėlės informaciją</string>
     <string name="error_action_open_nextcloud_app">Atidaryti „Nextcloud“ programėlę</string>
     <string name="error_action_open_network">Tinklo nustatymai</string>
     <string name="error_action_server_logs">Serverio žurnalai</string>
@@ -96,23 +119,65 @@
     <string name="error_action_update_files_app">Atnaujinti</string>
     <string name="error_action_open_battery_settings">Akumuliatoriaus nustatymai</string>
 
+    <string name="welcome_text">Sveiki atvykę į Nextcloud Lentelės</string>
+    <string name="importing_account">Importuojama paskyra %1$s</string>
+    <string name="account_already_imported">Paskyra jau importuota</string>
+    <string name="import_state_import_account">Importuojama paskyra</string>
+    <string name="import_state_import_tables">Įkeliamos lentelės. Tai gali užtrukti keletą minučių.</string>
+    <string name="not_yet_synchronized">Dar nesinchronizuota</string>
+
     <string name="validation_number_not_parsable">Atrodo, kad reikšmė nėra skaitmuo</string>
+    <string name="validation_number_range">Reikšmė turi būti tarp %1$s ir %2$s</string>
+    <string name="validation_number_min">Vertė turi būti ne mažesnė kaip %1$s</string>
+    <string name="validation_number_max">Vertė turi būti ne didesnė kaip %1$s</string>
+    <string name="validation_mandatory">Tai privalomas laukas</string>
+    <string name="validation_time_missing">Reikia nurodyti „DateTime“ lauko reikšmę.</string>
+
+    <string name="missing_permission_read">Trūksta skaitymo teisių</string>
+    <string name="missing_permission_create">Trūksta leidimo kurti</string>
+    <string name="missing_permission_update">Trūksta leidimo atnaujinti</string>
+    <string name="missing_permission_delete">Trūksta teisės ištrinti</string>
+    <string name="missing_permission_manage">Trūksta tvarkymo teisių</string>
+
+    <string name="order_weight">Užsakymo svoris</string>
     <string name="add_column">Pridėti stulpelį</string>
     <string name="navigation_favorites">Mėgstami</string>
     <string name="navigation_tables">Lentelės</string>
+    <string name="navigation_applications">Programėlės</string>
     <string name="navigation_archived">Archyvuota</string>
+    <string name="could_not_display_column_editor">%1$s negalėjo būti rodomas</string>
+    <string name="choose_table_from_the_sidebar">Šoninėje juostoje pasirinkite lentelę</string>
     <string name="last_background_sync">Paskutinis foninis sinchronizavimas:</string>
     <string name="simple_disabled">išjungta</string>
+    <string name="manage_columns_subtitle">Nuvilkite, kad pertvarkytumėte</string>
+    <string name="text_allowed_pattern">Leidžiamas modelis</string>
+    <string name="use_now_as_default">Naudoti dabar kaip numatytąjį</string>
+    <string name="use_today_as_default">Naudoti šiandien kaip numatytąjį</string>
     <string name="add_option">Pridėti variantą</string>
     <string name="delete_option">Ištrinti variantą</string>
+    <string name="experimental_feature_column_reordering">Stulpelių pertvarkymas yra eksperimentinė funkcija, kuri gali turėti nenumatytų šalutinių poveikių ir kitoms šios lentelės stulpelių konfigūracijoms.</string>
+    <string name="experimental_feature_column_manage">Stulpelių redagavimas yra eksperimentinė funkcija, galinti turėti nenumatytų šalutinių poveikių, dėl kurių gali būti prarasti duomenys.</string>
+    <string name="column_type_is_required">Būtinas stulpelio tipas</string>
+    <string name="unsupported_column_type">%1$s tipo stulpelių redagavimas dar nepalaikomas.</string>
     <string name="unsaved_changes">Neįrašyti pakeitimai</string>
+    <string name="unsaved_changes_details">Aptikta neišsaugotų pakeitimų. Ar norite juos atmesti, ar išsaugoti?</string>
     <string name="simple_discard">Atmesti</string>
+    <string name="search_hint">Įklijuokite nuorodą arba įveskite, kad ieškotumėte</string>
+    <string name="usergroup_hint">Irašykite norėdami ieškoti</string>
+
     <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
     <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">Įkeliama…</string>
+    <string name="allowed_types">Leidžiami tipai</string>
     <string name="simple_url">URL</string>
-    <string name="usergroup_users">Naudotojai</string>
+    <string name="clear_default">Išvalyti numatytuosius nustatymus</string>
+    <string name="usergroup_users">Vartotojai</string>
     <string name="usergroup_groups">Grupės</string>
     <string name="usergroup_teams">Komandos</string>
+    <string name="select_multiple_items">Pasirinkite kelis elementus</string>
+    <string name="show_user_status">Rodyti vartotojo būseną</string>
     <string name="remove_table_from_favorites">Šalinti iš svarbiausių</string>
-    </resources>
+    <string name="add_table_to_favorites">Pridėti į mėgstamus</string>
+    <string name="unarchive_table">Išarchyvuoti lentelę</string>
+    <string name="archive_table">Archyvuoti lentelę</string>
+</resources>
