@@ -46,6 +46,9 @@ import it.niedermann.nextcloud.tables.features.table.edit.EditTableActivity;
 import it.niedermann.nextcloud.tables.shared.FeatureToggle;
 import it.niedermann.nextcloud.tables.util.AvatarUtil;
 import it.niedermann.nextcloud.tables.util.EmojiDrawable;
+import it.niedermann.nextcloud.tables.util.TableFormatter;
+
+import it.niedermann.nextcloud.tables.util.TableFormatter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         binding.fab.setVisibility(hasCreatePermission ? View.VISIBLE : View.GONE);
         binding.toolbar.setHint(table == null
                 ? getString(R.string.choose_table_from_the_sidebar)
-                : table.getTitleWithEmoji());
+                : TableFormatter.getTitleWithEmoji(table));
     }
 
     private void updateSidebarMenu(@Nullable MainViewModel.TablesPerAccount tables) {

@@ -19,7 +19,7 @@ public abstract class AbstractRepository {
     protected final Context context;
     protected final TablesDatabase db;
     protected final ExecutorService workExecutor;
-    private final SyncScheduler treeSyncAdapter;
+    protected final SyncScheduler treeSyncAdapter;
 
     protected AbstractRepository(@NonNull Context context) {
         this(context, new SyncScheduler.Factory(context));
@@ -31,17 +31,6 @@ public abstract class AbstractRepository {
         this.db = TablesDatabase.getInstance(this.context);
         this.treeSyncAdapter = syncSchedulerFactory.create();
         this.workExecutor = SharedExecutors.getCPUExecutor();
-    }
-
-    /// @noinspection UnusedReturnValue
-    protected CompletableFuture<Void> schedulePush(@NonNull Account account) {
-        return this.schedulePush(account, null);
-    }
-
-    /// @noinspection SameParameterValue
-    protected CompletableFuture<Void> schedulePush(@NonNull Account account,
-                                                   @Nullable SyncStatusReporter reporter) {
-        return this.treeSyncAdapter.scheduleSynchronization(account, SyncScheduler.Scope.PUSH_ONLY, reporter);
     }
 
     protected CompletableFuture<Void> scheduleSynchronization(@NonNull Account account) {
