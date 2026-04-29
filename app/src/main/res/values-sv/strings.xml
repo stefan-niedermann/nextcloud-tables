@@ -60,7 +60,7 @@
     <string name="about_maintainer_title">Underhållare</string>
     <string name="about_developers_title">Utvecklare</string>
     <string name="about_translators_title">Översättare</string>
-    <string name="about_translators_transifex">Nextcloud community på %1$s</string>
+    <string name="about_translators_transifex">Nextcloud-gemenskapen på %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Källkod</string>
     <string name="about_source">Detta projekt finns på GitHub: %1$s</string>
@@ -73,7 +73,7 @@
     <string name="about_app_license_button">Visa licens</string>
     <string name="about_icons_disclaimer_title">Ikoner</string>
     <string name="about_icons_disclaimer_app_icon">För originalikonen, se %1$s.</string>
-    <string name="about_icons_disclaimer_mdi_icons">Alla ytterligare ikoner som används i appen är %1$s från Google Inc. och licensierade under Apache 2.0-licensen.</string>
+    <string name="about_icons_disclaimer_mdi_icons">Alla övriga ikoner som används i appen är %1$s och är skapade av Google Inc. och licensierade under Apache 2.0-licensen.</string>
     <string name="about_icons_disclaimer_mdi">Ikoner i Material Design</string>
     <string name="about_credits_tab_title">Tack</string>
     <string name="about_contribution_tab_title">Bidrag</string>
@@ -139,7 +139,7 @@
     <string name="missing_permission_delete">Saknar behörighet att radera</string>
     <string name="missing_permission_manage">Saknar behörighet att hantera</string>
 
-    <string name="order_weight">Beställningsvikt</string>
+    <string name="order_weight">Sorteringsvikt</string>
     <string name="add_column">Lägg till kolumn</string>
     <string name="navigation_favorites">Favoriter</string>
     <string name="navigation_tables">Tabeller</string>
