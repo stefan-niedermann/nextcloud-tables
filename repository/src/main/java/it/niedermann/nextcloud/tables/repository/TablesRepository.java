@@ -13,6 +13,7 @@ import android.util.Range;
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
@@ -46,6 +47,8 @@ import it.niedermann.nextcloud.tables.database.model.FullTable;
 import it.niedermann.nextcloud.tables.database.model.LinkValueWithProviderId;
 import it.niedermann.nextcloud.tables.remote.tablesV2.model.EPermissionV2Dto;
 import it.niedermann.nextcloud.tables.repository.exception.InsufficientPermissionException;
+import it.niedermann.nextcloud.tables.repository.sync.SyncScheduler;
+import it.niedermann.nextcloud.tables.repository.sync.report.SyncStatusReporter;
 import it.niedermann.nextcloud.tables.repository.util.ColumnReorderUtil;
 
 @WorkerThread
@@ -58,6 +61,17 @@ public class TablesRepository extends AbstractRepository {
     public TablesRepository(@NonNull Context context) {
         super(context);
         this.columnReorderUtil = new ColumnReorderUtil();
+    }
+
+    /// @noinspection UnusedReturnValue
+    protected CompletableFuture<Void> schedulePush(@NonNull Account account) {
+        return this.schedulePush(account, null);
+    }
+
+    /// @noinspection SameParameterValue
+    protected CompletableFuture<Void> schedulePush(@NonNull Account account,
+                                                   @Nullable SyncStatusReporter reporter) {
+        return this.treeSyncAdapter.scheduleSynchronization(account, SyncScheduler.Scope.PUSH_ONLY, reporter);
     }
 
     @MainThread

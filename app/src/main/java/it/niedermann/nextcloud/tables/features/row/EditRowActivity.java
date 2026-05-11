@@ -49,6 +49,7 @@ import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditView;
 import it.niedermann.nextcloud.tables.features.row.editor.type.DataEditViewFactory;
 import it.niedermann.nextcloud.tables.repository.defaults.DataTypeDefaultServiceRegistry;
 import it.niedermann.nextcloud.tables.repository.defaults.DefaultValueSupplier;
+import it.niedermann.nextcloud.tables.util.TableFormatter;
 
 public class EditRowActivity extends AppCompatActivity {
 
@@ -76,7 +77,9 @@ public class EditRowActivity extends AppCompatActivity {
 
         final var intent = getIntent();
 
-        if (intent == null || !intent.hasExtra(KEY_ACCOUNT) || !intent.hasExtra(KEY_TABLE)) {
+        final boolean missingRequiredExtras = intent == null || !intent.hasExtra(KEY_ACCOUNT) || !intent.hasExtra(KEY_TABLE);
+
+        if (missingRequiredExtras) {
             throw new IllegalArgumentException(KEY_ACCOUNT + " and " + KEY_TABLE + " must be provided.");
         }
 
@@ -107,24 +110,7 @@ public class EditRowActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar, (v, windowInsets) -> {
-            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            mlp.leftMargin = insets.left;
-            mlp.rightMargin = insets.right;
-            v.setLayoutParams(mlp);
-            return WindowInsetsCompat.CONSUMED;
-        });
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView, (v, windowInsets) -> {
-            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-            mlp.leftMargin = insets.left;
-            mlp.bottomMargin = insets.bottom;
-            mlp.rightMargin = insets.right;
-            v.setLayoutParams(mlp);
-            return WindowInsetsCompat.CONSUMED;
-        });
+        setupWindowInsets();
 
         if (this.duplicate) {
             binding.toolbar.setTitle(R.string.duplicate_row);
@@ -133,7 +119,7 @@ public class EditRowActivity extends AppCompatActivity {
         } else {
             binding.toolbar.setTitle(R.string.edit_row);
         }
-        binding.toolbar.setSubtitle(table.getTitleWithEmoji());
+        binding.toolbar.setSubtitle(TableFormatter.getTitleWithEmoji(table));
 
         if (this.row != null) {
             final var callback = new OnBackPressedCallback(true) {
@@ -219,6 +205,27 @@ public class EditRowActivity extends AppCompatActivity {
                     }
                 }, ContextCompat.getMainExecutor(this));
         ;
+    }
+
+    private void setupWindowInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar, (v, windowInsets) -> {
+            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.leftMargin = insets.left;
+            mlp.rightMargin = insets.right;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.scrollView, (v, windowInsets) -> {
+            final var insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            final var mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.leftMargin = insets.left;
+            mlp.bottomMargin = insets.bottom;
+            mlp.rightMargin = insets.right;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
     }
 
     private boolean savePromptRequired() {
