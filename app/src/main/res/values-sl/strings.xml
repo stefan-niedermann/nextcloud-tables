@@ -135,6 +135,7 @@
     <string name="add_column">Dodaj stolpec</string>
     <string name="navigation_favorites">Priljubljeno</string>
     <string name="navigation_tables">Razpredelnice</string>
+    <string name="navigation_applications">Programi</string>
     <string name="navigation_archived">Arhivirano</string>
     <string name="choose_table_from_the_sidebar">Izberite razpredelnico iz bočnega okna</string>
     <string name="last_background_sync">Zadnje usklajevanje:</string>
