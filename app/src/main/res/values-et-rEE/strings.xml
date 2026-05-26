@@ -2,7 +2,7 @@
     <string name="app_name">Nextcloudi Tabelid</string>
     <string name="navigation_drawer_open">Ava menüü</string>
     <string name="navigation_drawer_close">Sulge menüü</string>
-    <string name="action_settings">Seaded</string>
+    <string name="action_settings">Seadistused</string>
 
     <string name="simple_title">Pealkiri</string>
     <string name="simple_exception">Erand</string>
