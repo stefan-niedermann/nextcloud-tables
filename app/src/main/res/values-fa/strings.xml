@@ -139,6 +139,7 @@
     <string name="add_column">ستون را اضافه کنید</string>
     <string name="navigation_favorites">مورد علاقه‌ها</string>
     <string name="navigation_tables">جدول‌ها</string>
+    <string name="navigation_applications">برنامه‌ها</string>
     <string name="navigation_archived">Archived</string>
     <string name="could_not_display_column_editor">%1$s could not be displayed.</string>
     <string name="choose_table_from_the_sidebar">Choose table from the sidebar</string>
