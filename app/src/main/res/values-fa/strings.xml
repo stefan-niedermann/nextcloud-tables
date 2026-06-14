@@ -159,6 +159,10 @@
     <string name="usergroup_users">کاربران</string>
     <string name="usergroup_groups">گروه ها</string>
     <string name="usergroup_teams">تیم‌ها</string>
+    <string name="select_multiple_items">انتخاب چند مورد</string>
+    <string name="show_user_status">نمایش وضعیت کاربر</string>
     <string name="remove_table_from_favorites">حذف از برگزیده‌ها</string>
     <string name="add_table_to_favorites">افزودن به برگزیده‌ها</string>
-    </resources>
+    <string name="unarchive_table">خروج از بایگانی جدول</string>
+    <string name="archive_table">بایگانی جدول</string>
+</resources>
