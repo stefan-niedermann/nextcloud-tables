@@ -94,7 +94,7 @@
     <string name="error_dialog_timeout_instance">Per nurodytą laiką iš jūsų serverio nebuvo atsakymo. Įsitikinkite, kad jūsų elementas veikia tinkamai.</string>
     <string name="error_dialog_timeout_toggle">Patikrinkite savo interneto ryšį. Kartais gali padėti išjungti ir vėl įjungti mobilųjį duomenų perdavimą arba „Wi-Fi“.</string>
     <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite pasiekti Lentelės programėlę per žiniatinklio sąsają.</string>
-    <string name="error_dialog_check_server_logs">Kyla problemų dėl jūsų „Nextcloud“ nustatymų. Peržiūrėkite serverio žurnalo įrašus.</string>
+    <string name="error_dialog_check_server_logs">Kyla problemų dėl jūsų „Nextcloud“ sąrankos. Peržiūrėkite serverio žurnalo įrašus.</string>
     <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ elementas šiuo metu aptarnavimo režime.</string>
     <string name="error_dialog_insufficient_storage">„Nextcloud“ elementas nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
