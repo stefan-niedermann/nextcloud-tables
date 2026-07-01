@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud Tabelas</string>
     <string name="navigation_drawer_open">Abrir menu de navegação</string>
     <string name="navigation_drawer_close">Fechar menu de navegação</string>
     <string name="action_settings">Definições</string>
@@ -16,14 +17,19 @@
     <string name="simple_mandatory">Obrigatório</string>
     <string name="simple_description">Descrição</string>
     <string name="simple_type">Tipo</string>
+    <string name="simple_subtype">Subtipo</string>
+    <string name="simple_default_value">Valor padrão</string>
     <string name="simple_max_length">Comprimento máximo</string>
+    <string name="simple_min_value">Mín</string>
     <string name="simple_max_value">Máx.</string>
     <string name="simple_decimals">Decimais</string>
     <string name="simple_suffix">Suffixo</string>
     <string name="simple_label">Legenda</string>
 
+    <string name="add_table">Adicionar tabela</string>
     <string name="duplicate_row">Duplicar linha</string>
     <string name="edit_row">Editar linha</string>
+    <string name="edit_column">Editar coluna</string>
     <string name="delete_column">Eliminar coluna</string>
     <string name="preferences">Preferências</string>
     <string name="import_account">Importar conta</string>
@@ -32,11 +38,17 @@
     <string name="app_name_short">Tabelas</string>
     <string name="manage_accounts">Gerir contas</string>
     <string name="add_account">Adicionar conta</string>
+    <string name="edit_table">Editar tabela</string>
+    <string name="edit_item">Editar %1$s</string>
+    <string name="share_table">Compartilhar tabela</string>
     <string name="not_implemented">Este recurso ainda não foi implementado</string>
     <string name="delete_table">Excluir tabela</string>
     <string name="hint_error_appeared">Apareceu um erro</string>
 
+    <string name="delete_item">Excluir %1$s</string>
     <string name="delete_row">Excluir linha</string>
+    <string name="delete_row_message">Isso excluirá permanentemente esta linha.</string>
+
     <string name="about">Sobre</string>
     <string name="about_version_title">Versão</string>
     <string name="about_version">Atualmente, está a usar a versão %1$s</string>
@@ -69,6 +81,7 @@
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar armazenamento</string>
     <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
     <string name="error_dialog_tip_offline_connection_timeout">O tempo limite de conexão foi atingido, verifique se você está conectado à Internet. Isso também pode ocorrer quando o servidor estiver ocupado.</string>
+    <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas por Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece estar errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o aplicativo Nextcloud Tabelas.</string>
     <string name="error_dialog_tip_files_delete_storage">Se a interrupção forçada não ajudar, você pode tentar limpar o armazenamento de ambos os aplicativos.</string>
     <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
@@ -78,6 +91,7 @@
     <string name="error_dialog_we_need_info">Precisamos das seguintes informações técnicas para ajudar você:</string>
     <string name="error_dialog_redirect">Seu servidor respondeu com um código de status HTTP 302, o que implica que você não instalou o aplicativo Tabelas em seu servidor ou algo está configurado incorretamente. Isso pode ser causado por substituições personalizadas em um arquivo .htaccess ou por aplicativos Nextcloud como o OID Client.</string>
     <string name="error_dialog_forbidden">Você não tem permissões suficientes. Por favor, verifique as tabelas que são compartilhadas com você e que foram alteradas recentemente.</string>
+    <string name="error_dialog_version_not_parsable">Não foi possível determinar a versão do aplicativo Tabelas do lado do servidor. Certifique-se de que está instalado e ativado.</string>
     <string name="error_dialog_account_might_not_be_authorized">A conta do seu aplicativo Nextcloud pode não estar mais autorizada.</string>
     <string name="error_dialog_user_not_found_in_database">O usuário atual não corresponde ao usuário que temos em nosso banco de dados. Se você estiver usando LDAP na sua instância do Nextcloud, seu aplicativo Nextcloud pode ter armazenado um ID do usuário antigo.</string>
     <string name="error_dialog_capabilities_not_parsable">Não foi possível buscar as capacidades do seu servidor. Verifique se o servidor está funcionando bem e se outros aplicativos clientes podem acessar o Nextcloud.</string>
@@ -87,6 +101,7 @@
     <string name="error_dialog_min_version">O aplicativo Tabelas para Android requer que o aplicativo Nextcloud para Android seja pelo menos a versão 3.18.</string>
     <string name="error_action_open_app_info">Abra as informações do Aplicativo</string>
     <string name="error_action_open_network">Configurações da rede</string>
+    <string name="error_action_server_logs">Logs do servidor</string>
     <string name="error_action_open_in_browser">Abrir no navegador</string>
     <string name="error_action_install">Instalar</string>
     <string name="error_action_report_issue">Relatório</string>
@@ -95,11 +110,14 @@
 
     <string name="account_already_imported">A conta já foi importada</string>
     <string name="import_state_import_account">Importando conta</string>
+    <string name="import_state_import_tables">Importando tabelas. Isso pode levar vários minutos.</string>
     <string name="validation_number_range">O valor deve estar entre %1$s e %2$s</string>
     <string name="validation_number_min">O valor deve ser pelo menos %1$s</string>
+    <string name="validation_number_max">O valor deve ser no máximo %1$s</string>
     <string name="validation_time_missing">A hora deve ser fornecida para um campo DateTime (data e hora).</string>
 
     <string name="missing_permission_read">Permissão de leitura ausente</string>
+    <string name="missing_permission_delete">Permissão de exclusão ausente</string>
     <string name="missing_permission_manage">Permissão de gerenciamento ausente</string>
 
     <string name="order_weight">Ponderação de ordem</string>
@@ -111,16 +129,22 @@
     <string name="choose_table_from_the_sidebar">Escolha uma tabela na barra lateral</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
     <string name="simple_disabled">desativado</string>
+    <string name="text_allowed_pattern">Padrão permitido</string>
     <string name="use_now_as_default">Usar agora como padrão</string>
     <string name="add_option">Adicionar opção</string>
+    <string name="delete_option">Excluir opção</string>
     <string name="experimental_feature_column_reordering">A reordenação de colunas é um recurso experimental que também pode ter efeitos colaterais indesejados em outras configurações das colunas desta tabela.</string>
+    <string name="experimental_feature_column_manage">A edição de colunas é um recurso experimental que pode ter efeitos colaterais não indesejados que podem resultar em perda de dados.</string>
     <string name="column_type_is_required">O tipo de coluna é obrigatório</string>
     <string name="unsaved_changes">Modificações não guardadas</string>
     <string name="simple_discard">Descartar</string>
     <string name="search_hint">Cole link ou digite para pesquisar</string>
     <string name="usergroup_hint">Digite para pesquisar</string>
 
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">A carregar…</string>
+    <string name="allowed_types">Tipos permitidos</string>
     <string name="simple_url">URL</string>
     <string name="clear_default">Limpar padrão</string>
     <string name="usergroup_users">Utilizadores</string>
@@ -129,5 +153,6 @@
     <string name="select_multiple_items">Selecione vários itens</string>
     <string name="remove_table_from_favorites">Remover dos favoritos</string>
     <string name="add_table_to_favorites">Adicionar aos favoritos</string>
+    <string name="unarchive_table">Desarquivar tabela</string>
     <string name="archive_table">Arquivar tabela</string>
 </resources>
