@@ -14,6 +14,7 @@
     <string name="simple_about">Sobre</string>
     <string name="simple_synchronization">Sincronização</string>
     <string name="simple_appearance">Aspeto</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_mandatory">Obrigatório</string>
     <string name="simple_description">Descrição</string>
     <string name="simple_type">Tipo</string>
@@ -23,6 +24,7 @@
     <string name="simple_min_value">Mín</string>
     <string name="simple_max_value">Máx.</string>
     <string name="simple_decimals">Decimais</string>
+    <string name="simple_prefix">Prefixo</string>
     <string name="simple_suffix">Suffixo</string>
     <string name="simple_label">Legenda</string>
 
@@ -30,6 +32,7 @@
     <string name="add_row">Adicionar linha</string>
     <string name="duplicate_row">Duplicar linha</string>
     <string name="edit_row">Editar linha</string>
+    <string name="manage_columns">Gerenciar colunas</string>
     <string name="edit_column">Editar coluna</string>
     <string name="delete_column">Eliminar coluna</string>
     <string name="preferences">Preferências</string>
@@ -47,6 +50,7 @@
     <string name="hint_error_appeared">Apareceu um erro</string>
 
     <string name="delete_item">Excluir %1$s</string>
+    <string name="delete_item_message">Isso excluirá permanentemente %1$s.</string>
     <string name="delete_row">Excluir linha</string>
     <string name="delete_row_message">Isso excluirá permanentemente esta linha.</string>
 
@@ -104,6 +108,7 @@
     <string name="error_dialog_unknown_error">Sua instância Nextcloud parece estar inacessível. Verifique sua conexão com a Internet e se você consegue se conectar à sua instância pelo navegador.</string>
     <string name="error_dialog_min_version">O aplicativo Tabelas para Android requer que o aplicativo Nextcloud para Android seja pelo menos a versão 3.18.</string>
     <string name="error_action_open_app_info">Abra as informações do Aplicativo</string>
+    <string name="error_action_open_nextcloud_app">Abrir o aplicativo Nextcloud</string>
     <string name="error_action_open_network">Configurações da rede</string>
     <string name="error_action_server_logs">Logs do servidor</string>
     <string name="error_action_open_in_browser">Abrir no navegador</string>
@@ -112,10 +117,12 @@
     <string name="error_action_update_files_app">Atualizar</string>
     <string name="error_action_open_battery_settings">Configurações da bateria</string>
 
+    <string name="welcome_text">Bem-vindo ao Nextcloud Tabelas</string>
     <string name="importing_account">Importando conta %1$s</string>
     <string name="account_already_imported">A conta já foi importada</string>
     <string name="import_state_import_account">Importando conta</string>
     <string name="import_state_import_tables">Importando tabelas. Isso pode levar vários minutos.</string>
+    <string name="validation_number_not_parsable">O valor parece não ser um número</string>
     <string name="validation_number_range">O valor deve estar entre %1$s e %2$s</string>
     <string name="validation_number_min">O valor deve ser pelo menos %1$s</string>
     <string name="validation_number_max">O valor deve ser no máximo %1$s</string>
@@ -123,6 +130,7 @@
     <string name="validation_time_missing">A hora deve ser fornecida para um campo DateTime (data e hora).</string>
 
     <string name="missing_permission_read">Permissão de leitura ausente</string>
+    <string name="missing_permission_update">Permissão de atualização ausente</string>
     <string name="missing_permission_delete">Permissão de exclusão ausente</string>
     <string name="missing_permission_manage">Permissão de gerenciamento ausente</string>
 
@@ -132,6 +140,7 @@
     <string name="navigation_tables">Tabelas</string>
     <string name="navigation_applications">Aplicativos</string>
     <string name="navigation_archived">Arquivadas</string>
+    <string name="could_not_display_column_editor">%1$s não pôde ser exibido.</string>
     <string name="choose_table_from_the_sidebar">Escolha uma tabela na barra lateral</string>
     <string name="last_background_sync">Última sincronização em segundo plano:</string>
     <string name="simple_disabled">desativado</string>
@@ -159,6 +168,7 @@
     <string name="usergroup_groups">Grupos</string>
     <string name="usergroup_teams">Grupos</string>
     <string name="select_multiple_items">Selecione vários itens</string>
+    <string name="show_user_status">Mostrar status do usuário</string>
     <string name="remove_table_from_favorites">Remover dos favoritos</string>
     <string name="add_table_to_favorites">Adicionar aos favoritos</string>
     <string name="unarchive_table">Desarquivar tabela</string>
