@@ -86,12 +86,14 @@
     <string name="error_dialog_tip_database_upgrade_failed">A atualização do banco de dados falhou. Relate o problema e limpe o armazenamento para usar o aplicativo normalmente.</string>
     <string name="error_dialog_tip_clear_storage">Você pode limpar o armazenamento abrindo as informações do aplicativo e selecionando Armazenamento → Limpar armazenamento</string>
     <string name="error_dialog_tip_offline_no_internet">Parece que você tentou iniciar uma sincronização sem uma conexão com a internet.</string>
+    <string name="error_dialog_tip_offline_connection_refused">A conexão foi recusada, verifique se o servidor pode ser acessado pelo navegador web.</string>
     <string name="error_dialog_tip_offline_connection_timeout">O tempo limite de conexão foi atingido, verifique se você está conectado à Internet. Isso também pode ocorrer quando o servidor estiver ocupado.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Se você habilitou a configuração \"Sincronizar apenas por Wi-Fi\", você só poderá sincronizar quando estiver conectado a um Wi-Fi.</string>
     <string name="error_dialog_tip_files_force_stop">Algo parece estar errado com seu aplicativo Nextcloud. Tente forçar a parada de ambos, o aplicativo Nextcloud e o aplicativo Nextcloud Tabelas.</string>
     <string name="error_dialog_tip_files_delete_storage">Se a interrupção forçada não ajudar, você pode tentar limpar o armazenamento de ambos os aplicativos.</string>
     <string name="error_dialog_timeout_instance">Não houve resposta do seu servidor no tempo especificado. Verifique se sua instância está funcionando bem.</string>
     <string name="error_dialog_timeout_toggle">Verifique sua conexão de rede. Às vezes, ativar e desativar os dados móveis ou o Wi-Fi novamente pode ajudar.</string>
+    <string name="error_dialog_check_server">A resposta do seu servidor não foi correta. Por favor, verifique se você pode acessar o aplicativo Tabelas via interface web.</string>
     <string name="error_dialog_check_server_logs">Há um problema com sua configuração do Nextcloud. Por favor, dê uma olhada nos arquivos de log do servidor.</string>
     <string name="error_dialog_check_maintenance">Verifique se sua instância do Nextcloud não está no modo de manutenção.</string>
     <string name="error_dialog_insufficient_storage">Sua instância do Nextcloud não tem mais espaço livre. Exclua alguns arquivos para sincronizar suas alterações locais com a nuvem.</string>
@@ -122,6 +124,8 @@
     <string name="account_already_imported">A conta já foi importada</string>
     <string name="import_state_import_account">Importando conta</string>
     <string name="import_state_import_tables">Importando tabelas. Isso pode levar vários minutos.</string>
+    <string name="not_yet_synchronized">Ainda não sincronizado</string>
+
     <string name="validation_number_not_parsable">O valor parece não ser um número</string>
     <string name="validation_number_range">O valor deve estar entre %1$s e %2$s</string>
     <string name="validation_number_min">O valor deve ser pelo menos %1$s</string>
@@ -130,6 +134,7 @@
     <string name="validation_time_missing">A hora deve ser fornecida para um campo DateTime (data e hora).</string>
 
     <string name="missing_permission_read">Permissão de leitura ausente</string>
+    <string name="missing_permission_create">Permissão de criação ausente</string>
     <string name="missing_permission_update">Permissão de atualização ausente</string>
     <string name="missing_permission_delete">Permissão de exclusão ausente</string>
     <string name="missing_permission_manage">Permissão de gerenciamento ausente</string>
@@ -152,6 +157,7 @@
     <string name="experimental_feature_column_reordering">A reordenação de colunas é um recurso experimental que também pode ter efeitos colaterais indesejados em outras configurações das colunas desta tabela.</string>
     <string name="experimental_feature_column_manage">A edição de colunas é um recurso experimental que pode ter efeitos colaterais não indesejados que podem resultar em perda de dados.</string>
     <string name="column_type_is_required">O tipo de coluna é obrigatório</string>
+    <string name="unsupported_column_type">Editando colunas do tipo %1$s ainda não é suportado.</string>
     <string name="unsaved_changes">Modificações não guardadas</string>
     <string name="unsaved_changes_details">Foram detectadas alterações não salvas. Deseja descartá-las ou salvá-las?</string>
     <string name="simple_discard">Descartar</string>
