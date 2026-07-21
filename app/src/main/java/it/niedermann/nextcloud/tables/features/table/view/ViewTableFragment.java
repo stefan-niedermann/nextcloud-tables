@@ -58,6 +58,7 @@ public class ViewTableFragment extends Fragment {
         viewTableViewModel = new ViewModelProvider(this).get(ViewTableViewModel.class);
         adapter = new TableViewAdapter(cellViewHolderFactory);
         binding.tableView.setAdapter(adapter);
+        binding.tableView.setHasFixedWidth(false);
         binding.tableView.getCellRecyclerView().addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
