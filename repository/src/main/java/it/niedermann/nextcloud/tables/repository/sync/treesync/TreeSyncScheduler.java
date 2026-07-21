@@ -124,7 +124,7 @@ public class TreeSyncScheduler implements SyncScheduler {
                     logger.info("Scheduled sync to the end of the currently scheduled push only sync.");
 
                     // We can not simply replace the scheduled sync as some clients may rely on the execution and wait for it to get finished.
-                    // Therefore we attach a full sync to the end of the scheduled sync and use this as new scheduled sync.
+                    // Therefor we attach a full sync to the end of the scheduled sync and use this as new scheduled sync.
                     // The scheduled sync cycle then includes the former scheduled sync and the new full sync.
 
                     scheduledSyncs.put(accountId, new SyncTask(requireNonNull(scheduledSyncs.get(accountId)).future

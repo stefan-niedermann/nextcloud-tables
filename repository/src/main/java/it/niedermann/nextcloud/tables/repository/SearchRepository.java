@@ -105,9 +105,9 @@ public class SearchRepository extends AbstractRepository {
 
                     return Optional.ofNullable(response)
                             .map(Response::body)
-                            .map(ocsResponse -> ocsResponse.ocs)
-                            .filter(ocs -> ocs.meta.statusCode == HttpURLConnection.HTTP_OK)
-                            .map(ocs -> ocs.data)
+                            .map(ocsResponse -> ocsResponse.ocs())
+                            .filter(ocs -> ocs.meta().statusCode() == HttpURLConnection.HTTP_OK)
+                            .map(ocs -> ocs.data())
                             .orElseGet(Collections::emptyList);
 
                 }, workExecutor);
@@ -258,7 +258,7 @@ public class SearchRepository extends AbstractRepository {
                             throw new NullPointerException("Response body was null");
                         }
 
-                        return body.ocs.data;
+                        return body.ocs().data();
                     }
 
                     throw new CompletionException(new NextcloudHttpRequestFailedException(context, response.code(), Optional

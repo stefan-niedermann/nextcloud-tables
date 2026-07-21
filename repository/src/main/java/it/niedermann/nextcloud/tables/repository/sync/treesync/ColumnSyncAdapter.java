@@ -146,13 +146,13 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
 
             final var body = response.body();
 
-            if (body == null || body.ocs == null || body.ocs.data == null) {
+            if (body == null || body.ocs() == null || body.ocs().data() == null) {
                 throwError(new NullPointerException("Pushing changes for column " + entity + " was successful, but response body was empty"));
             }
 
             assert body != null;
 
-            entity.getColumn().setRemoteId(body.ocs.data.remoteId());
+            entity.getColumn().setRemoteId(body.ocs().data().remoteId());
             entity.getColumn().setStatus(DBStatus.VOID);
 
             return runAsync(() -> {
@@ -216,11 +216,11 @@ class ColumnSyncAdapter extends AbstractSyncAdapter<Table> {
                     case 200 -> {
                         final var responseBody = response.body();
 
-                        if (responseBody == null || responseBody.ocs == null || responseBody.ocs.data == null) {
+                        if (responseBody == null || responseBody.ocs() == null || responseBody.ocs().data() == null) {
                             throw new RuntimeException("Response body is null");
                         }
 
-                        final var columnDtos = responseBody.ocs.data;
+                        final var columnDtos = responseBody.ocs().data();
                         final var columnRemoteIds = columnDtos.stream()
                                 .map(RemoteDto::remoteId)
                                 .map(Objects::requireNonNull)

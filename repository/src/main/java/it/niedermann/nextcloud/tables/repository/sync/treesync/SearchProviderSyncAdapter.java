@@ -49,7 +49,7 @@ class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
                         }
 
                         assert body != null;
-                        switch (body.ocs.meta.statusCode) {
+                        switch (body.ocs().meta().statusCode()) {
                             case 500 ->
                                     throwError(new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR));
                             case 503 ->
@@ -58,7 +58,7 @@ class SearchProviderSyncAdapter extends AbstractPullOnlySyncAdapter {
                             }
                         }
 
-                        yield searchProviderMapper.toEntityList(body.ocs.data);
+                        yield searchProviderMapper.toEntityList(body.ocs().data());
                     }
                     default -> {
                         final var exception = serverErrorHandler.responseToException(response, "Could not fetch " + SearchProvider.class.getSimpleName() + " for " + entity.getAccountName(), true);

@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'it.niedermann.nextcloud.tables'
-    compileSdk 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId "it.niedermann.nextcloud.tables"
         minSdk 26
-        targetSdk 35
+        targetSdk 37
         versionCode 2002005
         versionName "2.2.5"
 
@@ -41,7 +41,10 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles {
+                getDefaultProguardFile("proguard-android-optimize.txt")
+                "proguard-rules.pro"
+            }
         }
         debug {
             enableUnitTestCoverage true
@@ -104,14 +107,14 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.core:core-splashscreen:1.2.0'
     implementation "androidx.emoji2:emoji2:$version_emoji"
     implementation "androidx.emoji2:emoji2-views:$version_emoji"
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'androidx.work:work-runtime:2.11.1'
-    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
+    implementation 'androidx.work:work-runtime:2.11.2'
+    implementation 'com.google.android.material:material:1.14.0'
 
     // Testing
     testImplementation 'androidx.test:core:1.7.0'

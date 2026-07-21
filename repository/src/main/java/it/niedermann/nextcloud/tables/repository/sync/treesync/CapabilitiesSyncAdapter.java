@@ -51,7 +51,7 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
                         }
 
                         assert body != null;
-                        switch (body.ocs.meta.statusCode) {
+                        switch (body.ocs().meta().statusCode()) {
                             case 500 ->
                                     throwError(new ServerNotAvailableException(ServerNotAvailableException.Reason.SERVER_ERROR));
                             case 503 ->
@@ -60,12 +60,12 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
                             }
                         }
 
-                        final var nextcloudVersion = NextcloudVersion.of(versionMapper.toEntity(body.ocs.data.version()));
+                        final var nextcloudVersion = NextcloudVersion.of(versionMapper.toEntity(body.ocs().data().version()));
                         if (!nextcloudVersion.isSupported()) {
                             throwError(new ServerNotAvailableException(ServerNotAvailableException.Reason.TABLES_NOT_SUPPORTED));
                         }
 
-                        final var tablesNode = body.ocs.data.capabilities().tables();
+                        final var tablesNode = body.ocs().data().capabilities().tables();
                         if (tablesNode == null) {
                             throwError(new ServerNotAvailableException(ServerNotAvailableException.Reason.NOT_INSTALLED));
                         }
@@ -83,7 +83,7 @@ class CapabilitiesSyncAdapter extends AbstractPullOnlySyncAdapter {
                         entity.setTablesVersion(tablesVersion);
                         entity.setNextcloudVersion(nextcloudVersion);
                         entity.setCapabilitiesETag(response.headers().get(HEADER_ETAG));
-                        entity.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs.data.capabilities().theming().color)));
+                        entity.setColor(Color.parseColor(ColorUtil.formatColorToParsableHexString(body.ocs().data().capabilities().theming().color())));
                         yield Optional.of(entity);
                     }
                     default -> {

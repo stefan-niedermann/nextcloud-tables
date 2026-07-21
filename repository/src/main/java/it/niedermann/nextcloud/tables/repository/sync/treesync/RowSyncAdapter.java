@@ -90,11 +90,11 @@ class RowSyncAdapter extends AbstractSyncAdapter<Table> {
                                                 fullRow.getRow().setStatus(DBStatus.VOID);
                                                 final var body = response.body();
 
-                                                if (body == null || body.ocs == null || body.ocs.data == null) {
+                                                if (body == null || body.ocs() == null || body.ocs().data() == null) {
                                                     throw new NullPointerException("Pushing changes for row with local ID " + fullRow.getRow().getId() + " was successfully, but response body was empty");
                                                 }
 
-                                                fullRow.getRow().setRemoteId(body.ocs.data.remoteId());
+                                                fullRow.getRow().setRemoteId(body.ocs().data().remoteId());
                                                 return runAsync(() -> db.getRowDao().update(fullRow.getRow()), db.getSyncWriteExecutor());
 
                                             } else {

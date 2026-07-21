@@ -126,13 +126,13 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
 
             final var body = response.body();
 
-            if (body == null || body.ocs == null || body.ocs.data == null) {
+            if (body == null || body.ocs() == null || body.ocs().data() == null) {
                 throwError(new NullPointerException("Pushing changes for table " + entity + " was successful, but response body was empty"));
             }
 
             assert body != null;
 
-            entity.setRemoteId(body.ocs.data.remoteId());
+            entity.setRemoteId(body.ocs().data().remoteId());
             entity.setStatus(DBStatus.VOID);
 
             return runAsync(() -> db.getTableDao().update(entity), db.getSyncWriteExecutor());
@@ -269,12 +269,12 @@ class TableSyncAdapter extends AbstractSyncAdapter<Account> {
                     switch (response.code()) {
                         case 200 -> {
                             final var responseBody = response.body();
-                            if (responseBody == null || responseBody.ocs == null || responseBody.ocs.data == null) {
+                            if (responseBody == null || responseBody.ocs() == null || responseBody.ocs().data() == null) {
                                 throw new RuntimeException("Response body is null");
                             }
 
-                            Optional.ofNullable(reporter).ifPresent(r -> r.report(state -> state.withTableTotalCount(responseBody.ocs.data.size())));
-                            fetchedTables = responseBody.ocs.data
+                            Optional.ofNullable(reporter).ifPresent(r -> r.report(state -> state.withTableTotalCount(responseBody.ocs().data().size())));
+                            fetchedTables = responseBody.ocs().data()
                                     .stream()
                                     .map(tableMapper::toEntity)
                                     .peek(table -> {

@@ -30,7 +30,7 @@ class UserSyncAdapter extends AbstractPullOnlySyncAdapter {
                             throw new RuntimeException("Response body is null");
                         }
 
-                        account.setDisplayName(body.ocs.data.displayName);
+                        account.setDisplayName(body.ocs().data().displayName());
                         yield account;
                     }
                     default -> {
