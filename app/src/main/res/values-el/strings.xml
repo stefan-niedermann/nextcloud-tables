@@ -24,6 +24,8 @@
     <string name="simple_suffix">Επίθεμα</string>
     <string name="simple_label">Ετικέτα</string>
 
+    <string name="add_row">Προσθήκη γραμμής</string>
+    <string name="duplicate_row">Διπλασιασμός γραμμής</string>
     <string name="edit_row">Επεξεργασία γραμμής</string>
     <string name="edit_column">Επεξεργασία στήλης</string>
     <string name="delete_column">Διαγραφή στήλης</string>
