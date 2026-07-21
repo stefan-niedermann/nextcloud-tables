@@ -33,6 +33,7 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
     protected SelectionOption checkedSelectionOption;
     @NonNull
     private final Map<Long, RadioButton> selectionOptionIdAndRadioButtons;
+    private boolean settingData = false;
 
     public SelectionEditor(@NonNull Context context) {
         super(context, EditSelectionBinding.inflate(LayoutInflater.from(context)));
@@ -62,7 +63,9 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
             radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     checkedSelectionOption = selectionOption;
-                    onValueChanged();
+                    if(!settingData) {
+                        onValueChanged();
+                    }
                 }
             });
 
@@ -92,6 +95,8 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
     public void setFullData(@NonNull FullData fullData) {
         super.setFullData(fullData);
 
+        settingData = true;
+
         Optional.ofNullable(this.checkedSelectionOption)
                 .map(SelectionOption::getId)
                 .map(selectionOptionIdAndRadioButtons::get)
@@ -106,6 +111,8 @@ public class SelectionEditor extends DataEditView<EditSelectionBinding> {
                 .map(SelectionOption::getId)
                 .map(selectionOptionIdAndRadioButtons::get)
                 .ifPresent(radio -> radio.setChecked(true));
+
+        settingData = false;
     }
 
     @Override
