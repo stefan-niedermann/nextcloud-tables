@@ -34,7 +34,7 @@ import retrofit2.http.Query;
 @SuppressWarnings("unused")
 public interface TablesV1API {
 
-    int DEFAULT_API_LIMIT_ROWS = 1_000;
+    int DEFAULT_API_LIMIT_ROWS = 500;
 
     /// Though not available as a SearchProvider, this is a valid `providerId` that can be used in `text/link` columns
     String TEXT_LINK_PROVIDER_ID_URL = "url";
