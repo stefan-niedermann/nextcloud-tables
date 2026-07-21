@@ -1,0 +1,4 @@
+- [x] Add `lastTableId` field to `ViewTableFragment`
+- [x] Update `applyUiState` in `ViewTableFragment` to capture scroll offsets
+- [x] Implement conditional scroll restoration in `applyUiState`
+- [x] Verify build

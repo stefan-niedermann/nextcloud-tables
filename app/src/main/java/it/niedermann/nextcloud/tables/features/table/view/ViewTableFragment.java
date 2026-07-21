@@ -44,6 +44,8 @@ public class ViewTableFragment extends Fragment {
     private ViewTableViewModel viewTableViewModel;
     private TableViewAdapter adapter;
 
+    private Long lastTableId = null;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -74,22 +76,38 @@ public class ViewTableFragment extends Fragment {
     }
 
     private void applyUiState(@NonNull ViewTableViewModel.UiState state) {
-        binding.tableView.getScrollHandler().scrollToRowPosition(0);
-        binding.tableView.getScrollHandler().scrollToColumnPosition(0);
-
         final var fullTable = state.currentFullTable();
 
         if (fullTable == null) {
             logger.info(() -> "Current table: " + null);
             adapter.setAllItems(state.account(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), 0);
             binding.tableView.setTableViewListener(null);
+            lastTableId = null;
             return;
         }
 
         logger.info(() -> "Current table: " + fullTable.getTable());
 
-        final var rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
-        final var columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
+        final int rowPosition;
+        final int rowOffset;
+        final int columnPosition;
+        final int columnOffset;
+
+        if (lastTableId != null && lastTableId == fullTable.getTable().getId()) {
+            rowPosition = binding.tableView.getCellLayoutManager().findFirstVisibleItemPosition();
+            final var firstRowView = binding.tableView.getCellLayoutManager().getChildAt(0);
+            rowOffset = (firstRowView != null) ? firstRowView.getTop() : 0;
+
+            columnPosition = binding.tableView.getColumnHeaderLayoutManager().findFirstVisibleItemPosition();
+            final var firstColumnView = binding.tableView.getColumnHeaderLayoutManager().getChildAt(0);
+            columnOffset = (firstColumnView != null) ? firstColumnView.getLeft() : 0;
+        } else {
+            rowPosition = 0;
+            rowOffset = 0;
+            columnPosition = 0;
+            columnOffset = 0;
+            lastTableId = fullTable.getTable().getId();
+        }
 
         // Workaround for https://github.com/stefan-niedermann/nextcloud-tables/issues/16
         if (fullTable.getRows().isEmpty()) {
@@ -98,9 +116,8 @@ public class ViewTableFragment extends Fragment {
             adapter.setAllItems(state.account(), fullTable.getColumns(), fullTable.getRows(), state.dataGrid(), fullTable.getRowCount());
         }
 
-        binding.tableView.getCellLayoutManager().scrollToPosition(rowPosition);
-        binding.tableView.getRowHeaderLayoutManager().scrollToPosition(rowPosition);
-        binding.tableView.getColumnHeaderLayoutManager().scrollToPosition(columnPosition);
+        binding.tableView.getScrollHandler().scrollToRowPosition(rowPosition, rowOffset);
+        binding.tableView.getScrollHandler().scrollToColumnPosition(columnPosition, columnOffset);
 
         binding.tableView.setTableViewListener(new DefaultTableViewListener() {
             @Override
