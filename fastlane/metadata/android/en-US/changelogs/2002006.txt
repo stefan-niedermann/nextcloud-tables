@@ -1,0 +1,5 @@
+fix(scroll): Fix misaligned columns when scrolling horizontally
+fix(scroll): Show last row of table
+fix(editor): Do not show save prompt guard when nothing changed
+chore: Update dependencies
+chore: Update translations
