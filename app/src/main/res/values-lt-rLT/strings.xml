@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Nextcloud Lentelės</string>
+    <string name="app_name">„Nextcloud Lentelės“</string>
     <string name="navigation_drawer_open">Atverti šoninį meniu</string>
     <string name="navigation_drawer_close">Užverti šoninį meniu</string>
     <string name="action_settings">Nustatymai</string>
@@ -60,7 +60,7 @@
     <string name="about_maintainer_title">Prižiūrėtojas</string>
     <string name="about_developers_title">Plėtotojai</string>
     <string name="about_translators_title">Vertėjai</string>
-    <string name="about_translators_transifex">Nextcloud bendruomenė, esanti %1$s</string>
+    <string name="about_translators_transifex">„Nextcloud“ bendruomenė, esanti %1$s</string>
     <string name="about_translators_transifex_label">Transifex</string>
     <string name="about_source_title">Pradinis kodas</string>
     <string name="about_source">Šis projektas talpinamas „GitHub“: %1$s</string>
@@ -82,33 +82,33 @@
 
     <string name="error_dialog_title">O, ne - Kas dabar? 🙁</string>
     <string name="error_dialog_tip_token_mismatch_retry">Pabandykite priverstinai uždaryti programėlę ir paleisti ją iš naujo. Galbūt susidūrėte su ryšio su „Nextcloud“ programėle sutrikimu.</string>
-    <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programėlių – Nextcloud ir Nextcloud Lentelės – saugyklą, kad ją išspręstumėte.</string>
+    <string name="error_dialog_tip_clear_storage_might_help">Jei problema išlieka, pabandykite išvalyti abiejų programėlių – „Nextcloud“ ir „Nextcloud Lentelės“ – saugyklą, kad ją išspręstumėte.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Duomenų bazės atnaujinimas nepavyko. Praneškite apie problemą ir išvalykite saugyklą, kad galėtumėte įprastai naudoti programą.</string>
     <string name="error_dialog_tip_clear_storage">Saugyklą galite išvalyti atidarę programėlės nustatymus ir pasirinkdami Saugykla → Išvalyti saugyklą.</string>
     <string name="error_dialog_tip_offline_no_internet">Panašu, kad bandėte paleisti sinchronizavimą be interneto ryšio.</string>
     <string name="error_dialog_tip_offline_connection_refused">Ryšys buvo atmestas, patikrinkite, ar jūsų serveris pasiekiamas per žiniatinklio naršyklę.</string>
     <string name="error_dialog_tip_offline_connection_timeout">Ryšio laikas baigėsi, patikrinkite, ar esate prisijungę prie interneto. Tai taip pat gali nutikti, kai jūsų serveris yra užimtas.</string>
     <string name="error_dialog_tip_sync_only_on_wifi">Jei įjungėte nustatymą „Sinchronizuoti tik prisijungus prie „Wi-Fi““, sinchronizuoti galėsite tik tada, kai būsite prisijungę prie „Wi-Fi“ tinklo.</string>
-    <string name="error_dialog_tip_files_force_stop">Atrodo, kad kažkas negerai su jūsų Nextcloud programėle. Pabandykite priverstinai sustabdyti abi – Nextcloud ir Nextcloud Lentelės – programėles.</string>
+    <string name="error_dialog_tip_files_force_stop">Atrodo, kad kažkas negerai su jūsų „Nextcloud“ programėle. Pabandykite priverstinai sustabdyti abi – „Nextcloud“ ir „Nextcloud Lentelės“ – programėles.</string>
     <string name="error_dialog_tip_files_delete_storage">Jei priverstinis programėlės sustabdymas nepadėjo, galite pabandyti išvalyti abiejų programėlių saugyklas.</string>
     <string name="error_dialog_timeout_instance">Per nurodytą laiką iš jūsų serverio nebuvo atsakymo. Įsitikinkite, kad jūsų elementas veikia tinkamai.</string>
     <string name="error_dialog_timeout_toggle">Patikrinkite savo interneto ryšį. Kartais gali padėti išjungti ir vėl įjungti mobilųjį duomenų perdavimą arba „Wi-Fi“.</string>
-    <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite pasiekti Lentelės programėlę per žiniatinklio sąsają.</string>
+    <string name="error_dialog_check_server">Jūsų serverio atsakymas buvo neteisingas. Patikrinkite, ar galite pasiekti „Lentelės“ programėlę per žiniatinklio sąsają.</string>
     <string name="error_dialog_check_server_logs">Kyla problemų dėl jūsų „Nextcloud“ sąrankos. Peržiūrėkite serverio žurnalo įrašus.</string>
     <string name="error_dialog_check_maintenance">Patikrinkite, ar jūsų „Nextcloud“ elementas šiuo metu aptarnavimo režime.</string>
     <string name="error_dialog_insufficient_storage">„Nextcloud“ elementas nebeturi laisvos vietos saugykloje. Prašome, ištrinkite nereikalingus failus, kad lokalūs pakeitimai būtų sinchronizuoti su debesimi.</string>
     <string name="error_dialog_we_need_info">Norint jums padėti, mums reikia techninės informacijos:</string>
-    <string name="error_dialog_redirect">Jūsų serveris pateikė HTTP 302 būsenos kodą, o tai reiškia, kad serveryje neįdiegėte programėlės Lentelės arba kažkas sukonfigūruota netinkamai. Tai gali būti dėl pasirinktinių pakeitimų .htaccess faile arba Nextcloud programėlių, tokių kaip OID klientas.</string>
+    <string name="error_dialog_redirect">Jūsų serveris pateikė HTTP 302 būsenos kodą, o tai reiškia, kad serveryje neįdiegėte programėlės „Lentelės“ arba kažkas sukonfigūruota netinkamai. Tai gali būti dėl pasirinktinių pakeitimų .htaccess faile arba „Nextcloud“ programėlių, tokių kaip OID klientas.</string>
     <string name="error_dialog_forbidden">Jūsų teisės yra nepakankamos. Patikrinkite lenteles, prie kurių turite prieigą ir kurios buvo neseniai pakeistos.</string>
-    <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios programėlės Lentelės versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
+    <string name="error_dialog_version_not_parsable">Nepavyko nustatyti serverio pusėje veikiančios programėlės „Lentelės“ versijos. Patikrinkite, ar ji yra įdiegta ir įjungta.</string>
     <string name="error_dialog_account_might_not_be_authorized">Jūsų „Nextcloud“ programėlės paskyra gali būti nebeautorizuota.</string>
     <string name="error_dialog_user_not_found_in_database">Dabartinis vartotojas neatitinka duomenų bazėje esančio vartotojo. Jei savo „Nextcloud“ elemente naudojate LDAP, jūsų „Nextcloud“ programėlė galėjo išsaugoti seną vartotojo ID.</string>
     <string name="error_dialog_capabilities_not_parsable">Nepavyko gauti jūsų serverio parametrų. Patikrinkite, ar jūsų serveris veikia tinkamai ir ar kitos kliento programėlės gali prisijungti prie „Nextcloud“.</string>
     <string name="error_dialog_attachment_upload_failed">Nepavyko įkelti priedo. Prašome pabandyti jį perduoti kitu būdu ir pranešti mums apie šią klaidą.</string>
     <string name="error_dialog_certificate">Atrodo, kad su serverio sertifikatu kažkas ne taip. Daugiau informacijos rasite patikrinę visas paskyras „Nextcloud“ programėlėje.</string>
-    <string name="error_dialog_tip_disable_battery_optimizations">Prašome išjungti visas Nextcloud ir programėlės Lentelės baterijos taupymo funkcijas.</string>
+    <string name="error_dialog_tip_disable_battery_optimizations">Prašome išjungti visas „Nextcloud“ ir programėlės „Lentelės“ baterijos taupymo funkcijas.</string>
     <string name="error_dialog_unknown_error">Atrodo, kad jūsų „Nextcloud“ elementas yra nepasiekiamas. Patikrinkite interneto ryšį ir ar galite prisijungti prie savo „Nextcloud“ elemento per naršyklę.</string>
-    <string name="error_dialog_min_version">Lentelės programėlei Android sistemoje reikalinga Nextcloud programėlė Android sistemoje, kurios versija turi būti ne žemesnė kaip 3.18.</string>
+    <string name="error_dialog_min_version">„Lentelės“ programėlei „Android“ sistemoje reikalinga „Nextcloud“ programėlė „Android“ sistemoje, kurios versija turi būti ne žemesnė kaip 3.18.</string>
     <string name="error_action_open_app_info">Atidaryti programėlės informaciją</string>
     <string name="error_action_open_nextcloud_app">Atidaryti „Nextcloud“ programėlę</string>
     <string name="error_action_open_network">Tinklo nustatymai</string>
@@ -119,7 +119,7 @@
     <string name="error_action_update_files_app">Atnaujinti</string>
     <string name="error_action_open_battery_settings">Akumuliatoriaus nustatymai</string>
 
-    <string name="welcome_text">Sveiki atvykę į Nextcloud Lentelės</string>
+    <string name="welcome_text">Sveiki atvykę į „Nextcloud Lentelės“</string>
     <string name="importing_account">Importuojama paskyra %1$s</string>
     <string name="account_already_imported">Paskyra jau importuota</string>
     <string name="import_state_import_account">Importuojama paskyra</string>
