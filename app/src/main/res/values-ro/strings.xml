@@ -86,6 +86,7 @@
 
     <string name="navigation_favorites">Favorite</string>
     <string name="navigation_tables">Tabele</string>
+    <string name="navigation_applications">Aplicații</string>
     <string name="last_background_sync">Ultima sincronizare de fundal:</string>
     <string name="simple_disabled">dezactivat</string>
     <string name="unsaved_changes">Modificări nesalvate</string>
