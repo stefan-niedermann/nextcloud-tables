@@ -88,6 +88,7 @@
     <string name="add_column">Bæta við dálki</string>
     <string name="navigation_favorites">Eftirlæti</string>
     <string name="navigation_tables">Töflur</string>
+    <string name="navigation_applications">Forrit</string>
     <string name="last_background_sync">Síðasta samstilling í bakgrunni:</string>
     <string name="simple_disabled">óvirkt</string>
     <string name="add_option">Bæta við valkosti</string>
