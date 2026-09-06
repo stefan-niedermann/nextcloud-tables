@@ -3,6 +3,7 @@
     <string name="navigation_drawer_close">Loka leiðsagnarsleða</string>
     <string name="action_settings">Stillingar</string>
 
+    <string name="simple_title">Titill</string>
     <string name="simple_exception">Frávik</string>
     <string name="simple_save">Vista</string>
     <string name="simple_close">Loka</string>
