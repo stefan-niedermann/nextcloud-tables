@@ -12,8 +12,10 @@
     <string name="simple_settings">Setelan</string>
     <string name="simple_about">Tentang</string>
     <string name="simple_appearance">Tampilan</string>
+    <string name="simple_emoji">Emoji</string>
     <string name="simple_description">Deskrisi</string>
     <string name="simple_type">tipe</string>
+    <string name="simple_min_value">Menit</string>
     <string name="simple_max_value">Maksimum</string>
     <string name="simple_label">Label</string>
 
@@ -85,6 +87,7 @@
 
     <string name="navigation_favorites">Disukai</string>
     <string name="navigation_tables">Tabel</string>
+    <string name="navigation_applications">Aplikasi</string>
     <string name="navigation_archived">Diarsipkan</string>
     <string name="last_background_sync">Sinkronisasi latar belakang terakhir:</string>
     <string name="simple_disabled">nonaktifkan</string>
