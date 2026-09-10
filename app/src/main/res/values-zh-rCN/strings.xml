@@ -23,12 +23,14 @@
     <string name="simple_max_length">最大长度</string>
     <string name="simple_min_value">最小</string>
     <string name="simple_max_value">最大值</string>
+    <string name="simple_decimals">小数</string>
     <string name="simple_prefix">前缀</string>
     <string name="simple_suffix">后缀</string>
     <string name="simple_label">标签</string>
 
     <string name="add_table">添加表格</string>
     <string name="add_row">添加列</string>
+    <string name="duplicate_row">复制列</string>
     <string name="edit_row">编辑列</string>
     <string name="manage_columns">管理列</string>
     <string name="edit_column">编辑列</string>
@@ -114,22 +116,35 @@
     <string name="import_state_import_tables">正在导入表格。这可能需要几分钟。</string>
     <string name="not_yet_synchronized">尚未同步</string>
 
+    <string name="validation_mandatory">这是必填字段</string>
     <string name="missing_permission_read">缺少读取权限</string>
+    <string name="order_weight">排序权重</string>
     <string name="add_column">添加列</string>
     <string name="navigation_favorites">收藏</string>
     <string name="navigation_tables">表格</string>
     <string name="navigation_applications">应用程序</string>
     <string name="navigation_archived">已存档</string>
+    <string name="could_not_display_column_editor">%1$s 无法显示。</string>
     <string name="last_background_sync">上次后台同步时间：</string>
     <string name="simple_disabled">已禁用</string>
+    <string name="use_today_as_default">使用当天为默认值</string>
     <string name="add_option">添加选项</string>
     <string name="delete_option">删除选项</string>
     <string name="unsaved_changes">未保存的更改</string>
     <string name="simple_discard">丢弃</string>
+    <string name="usergroup_hint">输入以查找</string>
+
+    <!-- TRANSLATORS Format a link with a title to be displayed readonly, for example: "Nextcloud (https://example.com)" -->
+    <string name="format_text_link">%1$s (%2$s)</string>
     <string name="simple_loading">正在加载 ...</string>
+    <string name="allowed_types">允许的类型</string>
     <string name="simple_url">URL</string>
+    <string name="clear_default">清除默认</string>
+    <string name="usergroup_users">用户</string>
     <string name="usergroup_groups">用户组</string>
     <string name="usergroup_teams">团队</string>
+    <string name="select_multiple_items">选择多项</string>
+    <string name="show_user_status">显示用户状态</string>
     <string name="remove_table_from_favorites">从收藏中移除</string>
     <string name="add_table_to_favorites">添加到收藏</string>
     <string name="unarchive_table">接触封存数据表</string>
