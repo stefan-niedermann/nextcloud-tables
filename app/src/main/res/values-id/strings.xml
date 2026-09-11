@@ -15,8 +15,12 @@
     <string name="simple_emoji">Emoji</string>
     <string name="simple_description">Deskrisi</string>
     <string name="simple_type">tipe</string>
+    <string name="simple_default_value">Nilai default</string>
     <string name="simple_min_value">Menit</string>
     <string name="simple_max_value">Maksimum</string>
+    <string name="simple_decimals">Jumlah desimal</string>
+    <string name="simple_prefix">Awalan</string>
+    <string name="simple_suffix">Akhiran</string>
     <string name="simple_label">Label</string>
 
     <string name="preferences">Preferensi</string>
@@ -24,6 +28,7 @@
     <string name="app_logo">Logo aplikasi</string>
     <string name="app_name_short">Tabel</string>
     <string name="manage_accounts">Kelola akun</string>
+    <string name="add_account">Tambahkan akun</string>
     <string name="edit_item">Sunting %1$s</string>
     <string name="hint_error_appeared">Sebuah kesalahan muncul</string>
 
