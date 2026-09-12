@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Nextcloud Tables</string>
     <string name="navigation_drawer_open">Buka laci navigasi</string>
     <string name="navigation_drawer_close">Tutup laci navigasi</string>
     <string name="action_settings">Setelan</string>
@@ -13,6 +14,7 @@
     <string name="simple_about">Tentang</string>
     <string name="simple_appearance">Tampilan</string>
     <string name="simple_emoji">Emoji</string>
+    <string name="simple_mandatory">Wajib diisi</string>
     <string name="simple_description">Deskrisi</string>
     <string name="simple_type">tipe</string>
     <string name="simple_default_value">Nilai default</string>
@@ -23,6 +25,11 @@
     <string name="simple_suffix">Akhiran</string>
     <string name="simple_label">Label</string>
 
+    <string name="add_row">Tambahkan baris</string>
+    <string name="duplicate_row">Duplikat baris</string>
+    <string name="edit_row">Edit baris</string>
+    <string name="edit_column">Edit kolom</string>
+    <string name="delete_column">Hapus kolom</string>
     <string name="preferences">Preferensi</string>
     <string name="choose_account">Pilih akun</string>
     <string name="app_logo">Logo aplikasi</string>
@@ -30,9 +37,11 @@
     <string name="manage_accounts">Kelola akun</string>
     <string name="add_account">Tambahkan akun</string>
     <string name="edit_item">Sunting %1$s</string>
+    <string name="delete_table">Hapus tabel</string>
     <string name="hint_error_appeared">Sebuah kesalahan muncul</string>
 
     <string name="delete_item">Hapus %1$s</string>
+    <string name="delete_row">Hapus baris</string>
     <string name="about">Tentang</string>
     <string name="about_version_title">Versi</string>
     <string name="about_version">Anda sedang menggunakan %1$s</string>
@@ -90,6 +99,7 @@
     <string name="error_action_update_files_app">Perbarui</string>
     <string name="error_action_open_battery_settings">Pengaturan baterai</string>
 
+    <string name="add_column">Tambahkan kolom</string>
     <string name="navigation_favorites">Disukai</string>
     <string name="navigation_tables">Tabel</string>
     <string name="navigation_applications">Aplikasi</string>
@@ -101,10 +111,15 @@
     <string name="unsaved_changes">Perubahan belum disimpan</string>
     <string name="simple_discard">Abaikan</string>
     <string name="simple_loading">Memuat…</string>
+    <string name="allowed_types">Tipe yang diizinkan</string>
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Pengguna</string>
     <string name="usergroup_groups">Grup</string>
     <string name="usergroup_teams">Tim</string>
+    <string name="select_multiple_items">Pilih beberapa item</string>
+    <string name="show_user_status">Tampilkan status pengguna</string>
     <string name="remove_table_from_favorites">Hapus dari favorit</string>
     <string name="add_table_to_favorites">Tambahkan ke favorit</string>
-    </resources>
+    <string name="unarchive_table">Batalkan pengarsipan tabel</string>
+    <string name="archive_table">Arsipkan tabel</string>
+</resources>
