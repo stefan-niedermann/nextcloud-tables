@@ -81,7 +81,7 @@
     <string name="about_server_app_version_text">Verzia aplikácie na serveri:</string>
 
     <string name="error_dialog_title">Ale nie - Čo teraz? 🙁</string>
-    <string name="error_dialog_tip_token_mismatch_retry">Skúste vyinútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k chybnému pripojeniu k aplikácii Nextcloud.</string>
+    <string name="error_dialog_tip_token_mismatch_retry">Skúste vynútiť zatvorenie aplikácie a znova ju reštartovať. Možno došlo k nesprávnemu pripojeniu k aplikácii Nextcloud.</string>
     <string name="error_dialog_tip_clear_storage_might_help">Ak problém pretrváva, skúste vyčistiť úložisko oboch aplikácií: Nextcloud a Nextcloud Tabuľky.</string>
     <string name="error_dialog_tip_database_upgrade_failed">Aktualizácia databázy zlyhala. Nahláste problém a vymažte ukladací priestor, aby ste aplikáciu mohli normálne používať.</string>
     <string name="error_dialog_tip_clear_storage">Úložisko môžete vyčistiť otvorením informácii o aplikácii a výberom Úložisko → Vyčistiť úložisko.</string>
