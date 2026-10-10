@@ -161,7 +161,7 @@
     <string name="unsupported_column_type">La modification des colonnes de type %1$s n\'est pas encore prise en charge.</string>
     <string name="unsaved_changes">Modifications non enregistrées</string>
     <string name="unsaved_changes_details">Des modifications non enregistrées ont été détectées. Voulez-vous les rejeter ou les enregistrer ?</string>
-    <string name="simple_discard">ignorer</string>
+    <string name="simple_discard">Ignorer</string>
     <string name="search_hint">Coller un lien ou taper pour rechercher</string>
     <string name="usergroup_hint">Taper pour rechercher</string>
 
