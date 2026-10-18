@@ -95,5 +95,6 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Utilizatori</string>
     <string name="usergroup_groups">Grupuri</string>
+    <string name="remove_table_from_favorites">Elimină din favorite</string>
     <string name="add_table_to_favorites">Adaugă la favorite</string>
     </resources>
