@@ -27,7 +27,7 @@
     <string name="edit_item">Breyta %1$s</string>
     <string name="hint_error_appeared">Villa kom upp</string>
 
-    <string name="delete_item">Eyða \'%s\'?</string>
+    <string name="delete_item">Eyða \'%1$s\'?</string>
     <string name="about">Um</string>
     <string name="about_version_title">Útgáfa</string>
     <string name="about_version">Þú ert núna að nota %1$s</string>
