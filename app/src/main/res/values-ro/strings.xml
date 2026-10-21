@@ -23,6 +23,7 @@
     <string name="app_logo">Logo-ul aplicației </string>
     <string name="app_name_short">Tabele</string>
     <string name="manage_accounts">Administrează conturi</string>
+    <string name="add_account">Adaugă un cont</string>
     <string name="edit_item">Editează %1$s</string>
     <string name="hint_error_appeared">A apărut o eroare</string>
 
@@ -95,6 +96,7 @@
     <string name="simple_url">URL</string>
     <string name="usergroup_users">Utilizatori</string>
     <string name="usergroup_groups">Grupuri</string>
+    <string name="usergroup_teams">Echipe</string>
     <string name="remove_table_from_favorites">Elimină din favorite</string>
     <string name="add_table_to_favorites">Adaugă la favorite</string>
     </resources>
