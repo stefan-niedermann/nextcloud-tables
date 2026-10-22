@@ -19,6 +19,7 @@
     <string name="simple_label">Etichetă</string>
 
     <string name="preferences">Preferințe</string>
+    <string name="import_account">Importă contul</string>
     <string name="choose_account">Alege contul</string>
     <string name="app_logo">Logo-ul aplicației </string>
     <string name="app_name_short">Tabele</string>
@@ -88,8 +89,10 @@
     <string name="navigation_favorites">Favorite</string>
     <string name="navigation_tables">Tabele</string>
     <string name="navigation_applications">Aplicații</string>
+    <string name="navigation_archived">Arhivate</string>
     <string name="last_background_sync">Ultima sincronizare de fundal:</string>
     <string name="simple_disabled">dezactivat</string>
+    <string name="add_option">Adaugă o opțiune</string>
     <string name="unsaved_changes">Modificări nesalvate</string>
     <string name="simple_discard">Anulează</string>
     <string name="simple_loading">Se încarcă...</string>
