@@ -15,6 +15,7 @@
     <string name="simple_mandatory">Obavezno</string>
     <string name="simple_description">Opis</string>
     <string name="simple_type">Vrsta</string>
+    <string name="simple_default_value">Zadana vrijednost</string>
     <string name="simple_max_value">Maks.</string>
     <string name="simple_label">Oznaka</string>
 

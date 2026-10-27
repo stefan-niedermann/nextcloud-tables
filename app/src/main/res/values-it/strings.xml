@@ -18,6 +18,7 @@
     <string name="simple_mandatory">Obbligatorio</string>
     <string name="simple_description">Descrizione</string>
     <string name="simple_type">Tipo</string>
+    <string name="simple_default_value">Valore predefinito</string>
     <string name="simple_max_length">Lunghezza massima</string>
     <string name="simple_min_value">Min</string>
     <string name="simple_max_value">Max</string>

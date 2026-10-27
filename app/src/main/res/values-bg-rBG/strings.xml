@@ -95,6 +95,7 @@
     <string name="error_action_open_battery_settings">Настройки на батерията</string>
 
     <string name="order_weight">Ред за тегло</string>
+    <string name="add_column">Добавяне на колона</string>
     <string name="navigation_favorites">Любими</string>
     <string name="navigation_tables">Таблици</string>
     <string name="navigation_archived">Архивирано</string>
