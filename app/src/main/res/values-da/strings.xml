@@ -157,7 +157,7 @@
     <string name="delete_option">Slet valg</string>
     <string name="experimental_feature_column_reordering">Ændring af kolonnernes rækkefølge er en eksperimentel funktion, som også kan have utilsigtede bivirkninger for andre indstillinger af kolonnerne i denne tabel.</string>
     <string name="experimental_feature_column_manage">Redigering af kolonner er en eksperimentel funktion, som kan have utilsigtede konsekvenser, som kan resultere i datatab.</string>
-    <string name="column_type_is_required">Kolonnetypen er påkrævet</string>
+    <string name="column_type_is_required">Kolonnetypen er obligatorisk</string>
     <string name="unsupported_column_type">Redigering af kolonner af typen %1$s er endnu ikke understøttet.</string>
     <string name="unsaved_changes">Ikke-gemte ændringer</string>
     <string name="unsaved_changes_details">Der er fundet ikke-gemte ændringer. Vil du kassere eller gemme dem?</string>
